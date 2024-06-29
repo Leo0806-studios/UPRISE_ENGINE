@@ -1,0 +1,183 @@
+#pragma once
+#include "vector"
+#include "glad.h"
+#include "glfw3.h"
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+#include <string>
+#include <fstream>
+#include <sstream>
+#include <iostream>
+using namespace std;
+
+namespace PAIN {
+
+
+	struct Vertex {
+		
+		glm::vec3 Position;
+		glm::vec3 Normal;
+		glm::vec2 TexCoords;
+	};
+	struct Texture {
+		unsigned int id;
+		string type;
+	};
+    class Shader
+    {
+    public:
+        unsigned int ID;
+        // constructor generates the shader on the fly
+        // ------------------------------------------------------------------------
+        Shader(const char* vertexPath, const char* fragmentPath)
+        {
+            // 1. retrieve the vertex/fragment source code from filePath
+            std::string vertexCode;
+            std::string fragmentCode;
+            std::ifstream vShaderFile;
+            std::ifstream fShaderFile;
+            // ensure ifstream objects can throw exceptions:
+            vShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+            fShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+            try
+            {
+                // open files
+                vShaderFile.open(vertexPath);
+                fShaderFile.open(fragmentPath);
+                std::stringstream vShaderStream, fShaderStream;
+                // read file's buffer contents into streams
+                vShaderStream << vShaderFile.rdbuf();
+                fShaderStream << fShaderFile.rdbuf();
+                // close file handlers
+                vShaderFile.close();
+                fShaderFile.close();
+                // convert stream into string
+                vertexCode = vShaderStream.str();
+                fragmentCode = fShaderStream.str();
+            }
+            catch (std::ifstream::failure& e)
+            {
+                std::cout << "ERROR::SHADER::FILE_NOT_SUCCESSFULLY_READ: " << e.what() << std::endl;
+            }
+            const char* vShaderCode = vertexCode.c_str();
+            const char* fShaderCode = fragmentCode.c_str();
+            // 2. compile shaders
+            unsigned int vertex, fragment;
+            // vertex shader
+            vertex = glCreateShader(GL_VERTEX_SHADER);
+            glShaderSource(vertex, 1, &vShaderCode, NULL);
+            glCompileShader(vertex);
+            checkCompileErrors(vertex, "VERTEX");
+            // fragment Shader
+            fragment = glCreateShader(GL_FRAGMENT_SHADER);
+            glShaderSource(fragment, 1, &fShaderCode, NULL);
+            glCompileShader(fragment);
+            checkCompileErrors(fragment, "FRAGMENT");
+            // shader Program
+            ID = glCreateProgram();
+            glAttachShader(ID, vertex);
+            glAttachShader(ID, fragment);
+            glLinkProgram(ID);
+            checkCompileErrors(ID, "PROGRAM");
+            // delete the shaders as they're linked into our program now and no longer necessary
+            glDeleteShader(vertex);
+            glDeleteShader(fragment);
+        }
+        // activate the shader
+        // ------------------------------------------------------------------------
+        void use()
+        {
+            glUseProgram(ID);
+        }
+        // utility uniform functions
+        // ------------------------------------------------------------------------
+        void setBool(const std::string& name, bool value) const
+        {
+            glUniform1i(glGetUniformLocation(ID, name.c_str()), (int)value);
+        }
+        // ------------------------------------------------------------------------
+        void setInt(const std::string& name, int value) const
+        {
+            glUniform1i(glGetUniformLocation(ID, name.c_str()), value);
+        }
+        // ------------------------------------------------------------------------
+        void setFloat(const std::string& name, float value) const
+        {
+            glUniform1f(glGetUniformLocation(ID, name.c_str()), value);
+        }
+
+    private:
+        // utility function for checking shader compilation/linking errors.
+        // ------------------------------------------------------------------------
+        void checkCompileErrors(unsigned int shader, std::string type)
+        {
+            int success;
+            char infoLog[1024];
+            if (type != "PROGRAM")
+            {
+                glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
+                if (!success)
+                {
+                    glGetShaderInfoLog(shader, 1024, NULL, infoLog);
+                    std::cout << "ERROR::SHADER_COMPILATION_ERROR of type: " << type << "\n" << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
+                }
+            }
+            else
+            {
+                glGetProgramiv(shader, GL_LINK_STATUS, &success);
+                if (!success)
+                {
+                    glGetProgramInfoLog(shader, 1024, NULL, infoLog);
+                    std::cout << "ERROR::PROGRAM_LINKING_ERROR of type: " << type << "\n" << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
+                }
+            }
+        }
+    };
+	
+	class Mesh {
+	public:
+		// mesh data
+		vector<Vertex> vertices;
+		vector<unsigned int> indices;
+		vector<Texture> textures;
+        Mesh(vector<Vertex> vertices, vector<unsigned int> indices,
+            vector<Texture> textures)
+        {
+            this->vertices = vertices;
+            this->indices = indices;
+            this->textures = textures;
+            setupMesh();
+        }
+		void Draw(Shader& shader);
+	private:
+		// render data
+		unsigned int VAO, VBO, EBO;
+        void setupMesh()
+        {
+            glGenVertexArrays(1, &VAO);
+            glGenBuffers(1, &VBO);
+            glGenBuffers(1, &EBO);
+            glBindVertexArray(VAO);
+            glBindBuffer(GL_ARRAY_BUFFER, VBO);
+            glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex),
+                &vertices[0], GL_STATIC_DRAW);
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+            glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() *
+                sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
+            // vertex positions
+            glEnableVertexAttribArray(0);
+            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
+                (void*)0);
+            // vertex normals
+            glEnableVertexAttribArray(1);
+            glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
+                (void*)offsetof(Vertex, Normal));
+            // vertex texture coords
+            glEnableVertexAttribArray(2);
+            glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex),
+                (void*)offsetof(Vertex, TexCoords));
+            glBindVertexArray(0);
+        };
+	};
+}
