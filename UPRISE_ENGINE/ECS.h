@@ -1,7 +1,7 @@
 #pragma once
-#include "GAMEOBJECT.cpp"
-#include "TRANSFORM.cpp"
-
+#include "GAMEOBJECT.h"
+#include "TRANSFORM.h"
+#include "MESH.h"
 
 namespace ECS {
 

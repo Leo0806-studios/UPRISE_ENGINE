@@ -1,6 +1,5 @@
 #pragma once
-#include "pch.h"
-namespace DATATYPESTEST {
+namespace DATATYPES {
 
 
 	struct TS_P_Vector3 {
@@ -8,6 +7,12 @@ namespace DATATYPESTEST {
 	public:float y;
 	public:float z;
 	public:float pad;
+	public :
+		  TS_P_Vector3() : x(0), y(0), z(0) ,pad(0){}
+		  TS_P_Vector3(float x, float y, float z) : x(x), y(y), z(z),pad(0) {}
+		  TS_P_Vector3(const TS_P_Vector3& other) = default;
+		  TS_P_Vector3& operator=(const TS_P_Vector3& other) = default;
+
 
 
 		  float magnitude() {
