@@ -5,12 +5,16 @@
 
 namespace CORE {
 
-	Object::Object() {
 
-	}
-	Object::~Object() {
 
+	Object::Object()
+	{
 	}
+
+	Object::~Object()
+	{
+	}
+
 
 
 }

@@ -31,13 +31,13 @@
 
 using namespace Microsoft::WRL;
 using namespace std;
-#include <d3d12.h>
+//#include <d3d12.h>
 
-#include <dxgi1_6.h>
+//#include <dxgi1_6.h>
 
-#include <d3dcompiler.h>
+//#include <d3dcompiler.h>
 
-#include <DirectXMath.h>
+//#include <DirectXMath.h>
 #include "vector"
 
 
@@ -61,3 +61,5 @@ using namespace std;
 #include "CORE.h"
 #include "DATATYPES.h"
 #include "ECS.h"
+
+#include "MESSAGES.h"
