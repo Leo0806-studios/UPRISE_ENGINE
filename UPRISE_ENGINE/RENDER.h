@@ -1,6 +1,9 @@
 #pragma once
-#include "RenderSetup.cpp"
+#include "RENDERSETUP.h"
 
 namespace PAIN {
+	class Render {
 
+
+	};
 }

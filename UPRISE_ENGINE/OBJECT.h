@@ -9,8 +9,13 @@ namespace CORE {
 	class Object {
 
 	public :
-
-
+		Object() {};
+		virtual ~Object() {
+		
+		};
+		void DestroyObj(Object* obj) {
+			free(obj);
+		}
   };
 
 

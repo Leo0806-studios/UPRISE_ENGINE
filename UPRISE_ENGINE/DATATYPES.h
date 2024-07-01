@@ -4,6 +4,7 @@
 
 #include "MSG_MESSAGE.h"
 #include "_MESH.h"
+#include "STARTUP_CONFIG.h"
 
 namespace DATATYpeS {
 

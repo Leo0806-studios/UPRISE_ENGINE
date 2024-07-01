@@ -16,7 +16,10 @@
 #include "TS_P_VECTOR3.h"
 #include "GAMEOBJECT.h"
 #include "RENDER_OBJECT_SPAWNING.h"
+#include "MESSAGES.h"
+#include "CORE.h"
 
+MESSAGES::Message_Bus* Messagebus;
 GameObject TestObj;
 std::vector<DATATYPES::TS_P_Vector3> VERTS;
 bool spawned = false;
@@ -54,6 +57,9 @@ const char* fragmentShaderSource = "#version 330 core\n"
 
 int main()
 {
+CORE::SYSTEMS Z;
+	Z=CORE::Startup::Start_Systems() ;
+	//std::cout << Messagebus->Exists;
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -295,6 +301,8 @@ glm::vec3(1.5f, 2.0f, -2.5f),
 glm::vec3(1.5f, 0.2f, -1.5f),
 glm::vec3(-1.3f, 1.0f, -1.5f)
 	};
+	const  char* pth = "C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\\GAMEDATA\\backpack.obj";
+	PAIN::Model modell = PAIN::Model(pth);
 	bool hasrun = false;
 	while (!glfwWindowShouldClose(window))
 	{
@@ -341,6 +349,7 @@ glm::vec3(-1.3f, 1.0f, -1.5f)
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 			glDrawArrays(GL_TRIANGLES, 0, 36);
 		}
+		modell.Draw(shader);
 
 		
 		//for (unsigned int i = 0; i < 10; i++)
@@ -365,6 +374,7 @@ glm::vec3(-1.3f, 1.0f, -1.5f)
 		glfwPollEvents();
 	}
 	glfwTerminate();
+	
 	return 0;
 	// int i = 0;
   //   while (i < 10000000000) { i++; i--; i++; i--; i++; }
