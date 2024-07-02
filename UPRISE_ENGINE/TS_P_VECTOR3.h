@@ -12,8 +12,14 @@ namespace DATATYPES {
 		  TS_P_Vector3(float x, float y, float z) : x(x), y(y), z(z),pad(0) {}
 		  TS_P_Vector3(const TS_P_Vector3& other) = default;
 		  TS_P_Vector3& operator=(const TS_P_Vector3& other) = default;
-
-
+		  operator __m128()const {
+			  __m128 tmp = _mm_set_ps(x, y, z, 0);
+			  return tmp;
+		   }
+		  operator glm::vec3()const {
+			  auto a = glm::vec3(x, y, z);
+				  return a;
+		  }
 
 		  float magnitude() {
 

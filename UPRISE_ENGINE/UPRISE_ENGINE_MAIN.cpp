@@ -18,11 +18,15 @@
 #include "RENDER_OBJECT_SPAWNING.h"
 #include "MESSAGES.h"
 #include "CORE.h"
-
+#include "INPUT.h"
+#include "memory"
+#include "TEST.h"
 MESSAGES::Message_Bus* Messagebus;
-GameObject TestObj;
+ENTITYS::GameObject TestObj;
 std::vector<DATATYPES::TS_P_Vector3> VERTS;
 bool spawned = false;
+GLFWwindow* CORE::Input::winow = nullptr;
+
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
@@ -30,9 +34,40 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 }
 void processInput(GLFWwindow* window)
 {
+	if (CORE::Input::GetKey(A)) {
+		std::cout << "pressed A";
+	}
 	if (glfwGetKey(window, GLFW_KEY_O) == GLFW_PRESS) {
 		TestObj = TestObj.Create(DATATYPES::TS_P_Vector3(0, 0, 0));
-		TestObj.Mesh.SetMesh(DATATYPES::Mesh(VERTS));
+		//TestObj.Mesh.SetMesh(DATATYPES::Mesh(VERTS));
+		const  char* pth = "C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\\GAMEDATA\\backpack.obj";
+
+		TestObj.Mesh = COMPONENTS::_Mesh(pth);
+		auto a = COMPONENTS::Camera();
+		//CORE::Component* comp = &a;
+	a.FOV = 80085;
+	//TestObj.AddComponent(a);
+	//auto rr = std::make_shared<CORE::Component>(comp);
+	
+	//auto aaaa = rr.get();
+	void* test = &a;
+
+
+	auto ppp = Test();
+	void* msc = &ppp;
+	TestObj.AddComponent(msc);
+	TestObj.AddComponent(test);
+		//using element_type = remove_extent_t<_Ty>;
+
+		//const auto _Ptr = dynamic_cast<typename shared_ptr<COMPONENTS::Camera>::element_type*>(_Other.get());
+		//auto componentPtr = TestObj.Conponents[0];
+		//auto Pp = std::static_pointer_cast<COMPONENTS::Camera>(TestObj.Conponents[0]);
+		//std::shared_ptr<COMPONENTS::Camera> Pp = std::dynamic_pointer_cast< COMPONENTS::Camera>(TestObj.Conponents[0]);//std::dynamic_pointer_cast<COMPONENTS::Camera>(TestObj.Conponents[0]);
+
+	COMPONENTS::Camera* cam =(COMPONENTS::Camera*) TestObj.Conponents[0];
+
+	COMPONENTS::Camera ooo = *TestObj.GetComponent(COMPONENTS::Camera());
+	auto erererere = *cam;
 		std::cout << "pressed O";
 		spawned = true;
 	}
@@ -57,8 +92,9 @@ const char* fragmentShaderSource = "#version 330 core\n"
 
 int main()
 {
-CORE::SYSTEMS Z;
-	Z=CORE::Startup::Start_Systems() ;
+CORE::SYSTEMS z;
+	z=CORE::Startup::Start_Systems() ;
+	
 	//std::cout << Messagebus->Exists;
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -66,6 +102,7 @@ CORE::SYSTEMS Z;
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	//auto a = CORE::Object();
 	GLFWwindow* window = glfwCreateWindow(800, 600, "UPRISE", NULL, NULL);
+	CORE::Input::winow = window;
 	if (window == NULL) {
 		std::cout << "Womp Womp";
 		glfwTerminate();
@@ -316,12 +353,12 @@ glm::vec3(-1.3f, 1.0f, -1.5f)
 
 
 		if (spawned == true&&hasrun==false) {
-			a.SpawnHandler(TestObj.Mesh.mesh.Vertecies, &shader, &VBO, &VAO, &EBO,&texture1,&texture2);
+			//a.SpawnHandler(TestObj.Mesh.mesh.Vertecies, &shader, &VBO, &VAO, &EBO,&texture1,&texture2);
 			hasrun = true;
 		}
 		if (spawned == true) {
-			glBindTexture(GL_TEXTURE_2D, texture1);
-			glBindTexture(GL_TEXTURE_2D, texture2);
+			//glBindTexture(GL_TEXTURE_2D, texture1);
+		//	glBindTexture(GL_TEXTURE_2D, texture2);
 
 		}
 		ff = ff + 0.01f;
@@ -334,7 +371,7 @@ glm::vec3(-1.3f, 1.0f, -1.5f)
 		model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f),
 			glm::vec3(0.5f, 1.0f, 0.0f));
 		//model = glm::rotate(model, glm::radians(ff), glm::vec3(1.0f, 0.0f, 0.0f));
-		view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+		view = glm::translate(view, glm::vec3(0.0f, 0.0f, -10.0f));
 		projection = glm::perspective(glm::radians(45.0f), (float)800 / (float)600, 0.1f, 100.0f);
 		// retrieve the matrix uniform locations
 		unsigned int modelLoc = glGetUniformLocation(shader.ID, "model");
@@ -345,11 +382,13 @@ glm::vec3(-1.3f, 1.0f, -1.5f)
 		shader.setMat4("projection", projection);
 		//shader.setm
 		if (spawned==true) {
-			glBindVertexArray(VAO);
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-			glDrawArrays(GL_TRIANGLES, 0, 36);
+		//	glBindVertexArray(VAO);
+			//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+			//glDrawArrays(GL_TRIANGLES, 0, 36);
+
+			TestObj.Mesh.Model.Draw(shader);
 		}
-		modell.Draw(shader);
+		//modell.Draw(shader);
 
 		
 		//for (unsigned int i = 0; i < 10; i++)
