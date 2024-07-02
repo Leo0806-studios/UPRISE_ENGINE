@@ -14,9 +14,9 @@ namespace MESSAGES {
 	public:
 
 		bool Exists = false;
-		vector <DATATYPES::Mesage> messages;
-		 vector <DATATYPES::slow_Message> slow_Messages;
-		 vector <DATATYPES::Urgent_Message> Urgent_Messages;
+		static vector <DATATYPES::Mesage> messages;
+		static vector <DATATYPES::slow_Message> slow_Messages;
+		static vector <DATATYPES::Urgent_Message> Urgent_Messages;
 
 
 
