@@ -1,11 +1,12 @@
 #pragma once
-#include "CPUFEATURES.h"
+//#include "CPUFEATURES.h"
+
 #include "DATATYPES.h"
 #include "MESSAGES.h"
 #include "PHYSICS.h"
 #include "RENDER.h"
 #include "sysinfoapi.h"
-#include "thread"
+//#include "thread"
 namespace CORE {
 	struct SYSTEMS {
 	public:
@@ -31,9 +32,9 @@ namespace CORE {
 			}
 
 			DATATYPES::Startup_Config Config;
-			Config.CPU_Cores = std::thread::hardware_concurrency();
-			Config.Supports_AVX = CORE::InstructionSet::AVX;
-			Config.Supports_AVX2 = CORE::InstructionSet::AVX2;
+			//Config.CPU_Cores = std::thread::hardware_concurrency();
+			//Config.Supports_AVX = CORE::InstructionSet::AVX;
+			//Config.Supports_AVX2 = CORE::InstructionSet::AVX2;
 			PULONGLONG ram;
 			GetPhysicallyInstalledSystemMemory(ram);
 			Config.RAMbytes = *ram;

@@ -1,14 +1,21 @@
 #pragma once
-#include "CORE.h"
+#include "BEHAVIOUR.h"
 #include "memory"
-namespace COMPONENTS {
 
-	class Camera: public CORE::Component {
+
+	class Camera: public CORE::Behaviour {
 	public:
 		float FOV;
+		static UUID UUID;
+		int wo=0;
 
+		void Update()override {
 
+			std::cout << "test" << wo << "\n";
+		}
+
+		void Awake()override {}
+		void Start()override {}
 
 
 	};
-}

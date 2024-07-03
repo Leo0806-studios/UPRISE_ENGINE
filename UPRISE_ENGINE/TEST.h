@@ -1,5 +1,6 @@
 #pragma once
 #include "BEHAVIOUR.h"
+#include "INPUT.h"
 class Test :public CORE::Behaviour {
 
 public:
@@ -7,14 +8,24 @@ public:
 
 		
 	}
+	static UUID UUID;
+	int wo = 4;
 	Test() {
-		auto a = this;
+		
+		//std::shared_ptr<Behaviour> a = std::make_shared<Test>();
+		//behaviours.push_back(a);
 
-		objectss.push_back(std::make_shared<CORE::Behaviour>(this));
-		types.push_back(Test);
+		//objectss.push_back(std::make_shared<CORE::Behaviour>(this));
+		//tester.push_back(this);
+		//types.push_back(Test);
 	}
 	 void Update()override {
+		 if (CORE::Input::GetKey(W)) {
+			 std::cout << "test" << wo << "\n";
 
-		std::cout << "test";
+
+		 }
 	}
+	 void Awake()override{}
+	 void Start()override{}
 };

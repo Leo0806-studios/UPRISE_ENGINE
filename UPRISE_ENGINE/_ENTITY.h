@@ -1,11 +1,10 @@
 #pragma once
-#include "ECS.h"
 namespace ENTITY {
 
 
 
-	class Entity : ECS::ECS {
+	//class Entity : ECS::ECS {
 
 
-	};
+	//};
 }

@@ -1,17 +1,17 @@
 #pragma once
-
-
-#include "DATATYPES.h"
-#include "glad.h"
-#include "glfw3.h"
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-#include "random"
+#include "GLINCLUDES.h"
+//#include "glad.h"
 #include "RENDER_DATATYPES.h"
-#include "stb_image.h"
+#include "DATATYPES.h"
 #include "filesystem"
+//#include "glfw3.h"
+#include "random"
+
+#include "stb_image.h"
 #include "vector"
+//#include <glm/glm.hpp>
+//#include <glm/gtc/matrix_transform.hpp>
+//#include <glm/gtc/type_ptr.hpp>
 namespace PAIN {
 
 

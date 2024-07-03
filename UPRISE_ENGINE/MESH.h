@@ -1,8 +1,7 @@
 #pragma once
+#include "_MESH.h"
 #include "CORE.h"
 #include "DATATYPES.h"
-#include "_COMPONENT.h"
-#include "_MESH.h"
 #include "RENDER.h"
 
 

@@ -1,15 +1,19 @@
 #pragma once
+#include "BEHAVIOUR.h"
 #include "COMPONENT.h"
-#include "filesystem"
+#include "INPUT.h"
 #include "OBJECT.h"
+#include "pch.h"
 #include "SCENE.h"
 #include "STARTUP.h"
-#include "string"
 //#include "TS_P_VECTOR3.h"
 namespace CORE {
+	
 
 
 	class Core {
+		 
+		
 
 	};
 

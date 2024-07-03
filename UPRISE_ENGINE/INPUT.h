@@ -1,5 +1,6 @@
 #pragma once
-#include <glfw3.h>
+//#include "GLINCLUDES.h"
+#include "glfw3.h"
 #define A GLFW_KEY_A
 #define B GLFW_KEY_B
 #define C GLFW_KEY_C

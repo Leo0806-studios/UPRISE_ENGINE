@@ -1,11 +1,11 @@
 #pragma once
 
-#include <iostream>
-#include <vector>
-#include <bitset>
 #include <array>
-#include <string>
+#include <bitset>
 #include <intrin.h>
+#include <iostream>
+#include <string>
+#include <vector>
 namespace CORE {
 
     class InstructionSet

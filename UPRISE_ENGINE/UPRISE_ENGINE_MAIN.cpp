@@ -1,14 +1,16 @@
 // UPRISE_ENGINE.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
+#include "GLINCLUDES.h"
 
-//#include "pch.h"
-#include "Helpers.h"
 #include "glad.h"
 #include "glfw3.h"
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
+//#include "pch.h"
+#include "Helpers.h"
+
+//#include <glm/glm.hpp>
+//#include <glm/gtc/matrix_transform.hpp>
+//#include <glm/gtc/type_ptr.hpp>
 #include "random"
 #include "RENDER_DATATYPES.h"
 #include "stb_image.h"
@@ -21,11 +23,23 @@
 #include "INPUT.h"
 #include "memory"
 #include "TEST.h"
+#include "BEHAVIOUR.h"
+#include "MESH.h"
+
+
+
+
+
+
+
 MESSAGES::Message_Bus* Messagebus;
 ENTITYS::GameObject TestObj;
 std::vector<DATATYPES::TS_P_Vector3> VERTS;
 bool spawned = false;
 GLFWwindow* CORE::Input::winow = nullptr;
+std::vector<std::shared_ptr<CORE::Behaviour>> CORE::Behaviour::behaviours;
+std::vector<std::shared_ptr<CORE::Behaviour>> CORE::Behaviour::AWAKES;
+std::vector<std::shared_ptr<CORE::Behaviour>> CORE::Behaviour::Starts;
 
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
@@ -43,20 +57,21 @@ void processInput(GLFWwindow* window)
 		const  char* pth = "C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\\GAMEDATA\\backpack.obj";
 
 		TestObj.Mesh = COMPONENTS::_Mesh(pth);
-		auto a = COMPONENTS::Camera();
+		auto a = Camera();
 		//CORE::Component* comp = &a;
-	a.FOV = 80085;
-	//TestObj.AddComponent(a);
-	//auto rr = std::make_shared<CORE::Component>(comp);
+		a.FOV = 80085;
+		//TestObj.AddComponent(a);
+		//auto rr = std::make_shared<CORE::Component>(comp);
 	
-	//auto aaaa = rr.get();
-	void* test = &a;
+		//auto aaaa = rr.get();
+		void* test = &a;
 
 
-	auto ppp = Test();
-	void* msc = &ppp;
-	TestObj.AddComponent(msc);
-	TestObj.AddComponent(test);
+		auto ppp = Test();
+		void* msc = &ppp;
+		
+		TestObj.AddComponent(Test(), msc);
+		TestObj.AddComponent(Camera(), test);
 		//using element_type = remove_extent_t<_Ty>;
 
 		//const auto _Ptr = dynamic_cast<typename shared_ptr<COMPONENTS::Camera>::element_type*>(_Other.get());
@@ -64,11 +79,14 @@ void processInput(GLFWwindow* window)
 		//auto Pp = std::static_pointer_cast<COMPONENTS::Camera>(TestObj.Conponents[0]);
 		//std::shared_ptr<COMPONENTS::Camera> Pp = std::dynamic_pointer_cast< COMPONENTS::Camera>(TestObj.Conponents[0]);//std::dynamic_pointer_cast<COMPONENTS::Camera>(TestObj.Conponents[0]);
 
-	COMPONENTS::Camera* cam =(COMPONENTS::Camera*) TestObj.Conponents[0];
+		Camera* cam =(Camera*) TestObj.Components[0];
 
-	COMPONENTS::Camera ooo = *TestObj.GetComponent(COMPONENTS::Camera());
-	auto erererere = *cam;
+		Camera ooo = *TestObj.GetComponent(Camera());
+		auto erererere = *cam;
 		std::cout << "pressed O";
+
+		//auto base =CORE::Behaviour();
+		CORE::Behaviour::updateAll();
 		spawned = true;
 	}
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
@@ -94,7 +112,6 @@ int main()
 {
 CORE::SYSTEMS z;
 	z=CORE::Startup::Start_Systems() ;
-	
 	//std::cout << Messagebus->Exists;
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -407,6 +424,7 @@ glm::vec3(-1.3f, 1.0f, -1.5f)
 		//glDrawArrays(GL_TRIANGLES, 0, 6);
 		//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 		
+		CORE::Behaviour::updateAll();
 
 
 		glfwSwapBuffers(window);

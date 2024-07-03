@@ -1,14 +1,16 @@
 #pragma once
+#include "GLINCLUDES.h"
+//#define GLFW_INCLUDE_NONE
+//#include"glad.h"
 
-
-
-#include "glad.h"
-#include "glfw3.h"
+#include "pch.h"
+//#include "glfw3.h"
+//#include <glm/glm.hpp>
+//#include <glm/gtc/matrix_transform.hpp>
+//#include <glm/gtc/type_ptr.hpp>
 #include "stb_image.h"
 #include "vector"
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
+
 //#include "assimp/ai_assert.h"
 #include <string>
 #include <fstream>
