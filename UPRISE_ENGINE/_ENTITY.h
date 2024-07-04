@@ -1,4 +1,7 @@
 #pragma once
+#ifndef __ENTITY_
+#define __ENTITY_
+
 namespace ENTITY {
 
 
@@ -8,3 +11,5 @@ namespace ENTITY {
 
 	//};
 }
+
+#endif // !1

@@ -1,4 +1,8 @@
 #pragma once
+#ifndef _RENDER_CAMERA_
+
+#define _RENDER_CAMERA_
+
 namespace PAIN {
 
 	class Render_Camera {
@@ -10,3 +14,5 @@ namespace PAIN {
 
 
  }
+
+#endif // !_RENDER_CAMERA_

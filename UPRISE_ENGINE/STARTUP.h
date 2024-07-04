@@ -1,4 +1,7 @@
 #pragma once
+#ifndef _STARTUP_
+#define _STARTUP_
+
 //#include "CPUFEATURES.h"
 
 #include "DATATYPES.h"
@@ -59,3 +62,5 @@ namespace CORE {
 
 	};
 }
+
+#endif // !_STARTUP_

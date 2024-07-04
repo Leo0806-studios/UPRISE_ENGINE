@@ -1,4 +1,7 @@
 #pragma once
+#ifndef _TEST_
+#define _TEST_
+
 #include "BEHAVIOUR.h"
 #include "INPUT.h"
 class Test :public CORE::Behaviour {
@@ -29,3 +32,5 @@ public:
 	 void Awake()override{}
 	 void Start()override{}
 };
+
+#endif // !_TEST_

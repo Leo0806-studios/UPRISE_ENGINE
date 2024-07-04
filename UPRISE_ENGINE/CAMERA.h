@@ -1,4 +1,8 @@
 #pragma once
+#ifndef _CAMERA_
+
+#define _CAMERA_
+
 #include "BEHAVIOUR.h"
 #include "memory"
 
@@ -19,3 +23,4 @@
 
 
 	};
+#endif // !_CAMERA_

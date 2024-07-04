@@ -1,5 +1,7 @@
 #pragma once
 
+#ifndef _ECS_
+#define _ECS_
 
 namespace ECS {
 
@@ -8,3 +10,4 @@ namespace ECS {
 
 	};
 }
+#endif // !_ECS_

@@ -1,4 +1,6 @@
 #pragma once
+#ifndef _CPUFEATURES_
+#define _CPUFEATURES_
 
 #include <array>
 #include <bitset>
@@ -188,3 +190,5 @@ namespace CORE {
         };
     };
 }
+
+#endif // !_CPUFEATURES_

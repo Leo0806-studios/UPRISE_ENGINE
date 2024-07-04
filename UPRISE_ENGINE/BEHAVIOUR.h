@@ -1,4 +1,6 @@
 #pragma once
+#ifndef _BEHAVIOUR_
+#define _BEHAVIOUR_
 
 //#include "CORE.h"
 #include "ECS.h"
@@ -53,4 +55,5 @@ namespace CORE {
 		}
 		
 	};
+#endif // !_BEHAVIOUR_
 }

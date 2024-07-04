@@ -1,4 +1,7 @@
 #pragma once
+#ifndef _INPUT_
+#define _INPUT_
+
 //#include "GLINCLUDES.h"
 #include "glfw3.h"
 #define A GLFW_KEY_A
@@ -62,3 +65,5 @@ namespace CORE {
 
 	};
 }
+
+#endif // !_INPUT_

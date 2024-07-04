@@ -1,6 +1,11 @@
 
 //#include "glad.h"
 //#include "glad.h"
+#ifndef _PCH_
+
+
+
+#define _PCH_
 #include "iostream"
 
 #define WIN32_LEAN_AND_MEAN
@@ -41,3 +46,4 @@ using namespace std;
 //#include "ECS.h"
 //
 //#include "MESSAGES.h"
+#endif // _PCH_

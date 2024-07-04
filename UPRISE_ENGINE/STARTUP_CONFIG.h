@@ -1,4 +1,7 @@
 #pragma once
+#ifndef _STARTUP_CONFIG_
+#define _STARTUP_CONFIG_
+
 namespace DATATYPES {
 
 	struct Startup_Config {
@@ -22,3 +25,5 @@ namespace DATATYPES {
 
 
 }
+
+#endif // !_STARTUP_CONFIG_

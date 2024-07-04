@@ -1,4 +1,7 @@
 #pragma once
+#ifndef _MESH_
+#define _MESH_
+
 #include "_MESH.h"
 #include "CORE.h"
 #include "DATATYPES.h"
@@ -30,4 +33,7 @@ namespace COMPONENTS {
 
 
 }
+
+#endif // !_MESH_
+
 

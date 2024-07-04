@@ -1,4 +1,7 @@
 #pragma once
+#ifndef _MSG_MESSAGE_
+
+#define _MSG_MESSAGE_
 
 #include "string"
 
@@ -40,3 +43,5 @@ namespace DATATYPES {
 
 	};
 }
+
+#endif // !_MSG_MESSAGE_

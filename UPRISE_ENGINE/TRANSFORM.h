@@ -1,4 +1,7 @@
 #pragma once
+#ifndef _TRANSFORM_
+#define _TRANSFORM_
+
 //#include "CORE.h"
 //#include "DATATYPES.h"
 ///#include "TS_P_VECTOR3.h"
@@ -16,3 +19,4 @@ namespace COMPONENTS {
 	};
 }
 
+#endif // !_TRANSFORM_

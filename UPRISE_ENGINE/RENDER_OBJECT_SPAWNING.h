@@ -1,4 +1,8 @@
 #pragma once
+#ifndef _RENDER_OBJECT_SPAWNING_
+
+#define _RENDER_OBJECT_SPAWNING_
+
 #include "GLINCLUDES.h"
 //#include "glad.h"
 #include "RENDER_DATATYPES.h"
@@ -119,3 +123,4 @@ public:void SpawnHandler(std::vector<DATATYPES::TS_P_Vector3> VERTECIES,PAIN::Sh
 		
 	};
 }
+#endif // !_RENDER_OBJECT_SPAWNING_

@@ -1,4 +1,7 @@
 #pragma once
+#ifndef _RENDERER_
+#define _RENDERER_
+
 #include "RENDERSETUP.h"
 #include "RENDER_DATATYPES.h"
 
@@ -8,3 +11,5 @@ namespace PAIN {
 
 	};
 }
+
+#endif // !_RENDERER_

@@ -1,4 +1,6 @@
 #pragma once
+#ifndef _MESSAGE_BUS_
+#define _MESSAGE_BUS_
 
 #include "vector"
 #include "DATATYPES.h"
@@ -22,3 +24,5 @@ namespace MESSAGES {
 
 	};
 }
+
+#endif // !_MESSAGE_BUS_

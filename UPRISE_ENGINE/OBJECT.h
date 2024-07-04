@@ -1,4 +1,6 @@
 #pragma once
+#ifndef _OBJECT_
+#define _OBJECT_
 
 #include "COMPONENT.h"
 //#include "CORE.h"
@@ -20,3 +22,5 @@ namespace CORE {
 
 
 }
+
+#endif // !_OBJECT_

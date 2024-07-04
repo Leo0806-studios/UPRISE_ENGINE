@@ -1,4 +1,6 @@
-#pragma once
+
+#ifndef _RENDER_DATATYPES_
+#define _RENDER_DATATYPES_
 #include "GLINCLUDES.h"
 //#define GLFW_INCLUDE_NONE
 //#include"glad.h"
@@ -20,6 +22,7 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 using namespace std;
+
 
 namespace PAIN {
 
@@ -433,4 +436,6 @@ namespace PAIN {
 			return textureID;
 		}
 	};
+
 }
+#endif // _RENDER_DATATYPES_

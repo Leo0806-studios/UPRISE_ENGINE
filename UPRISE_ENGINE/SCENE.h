@@ -1,4 +1,7 @@
 #pragma once
+#ifndef _SCENE_
+#define _SCENE_
+
 namespace CORE {
 
 
@@ -15,3 +18,4 @@ namespace CORE {
 
 	};
 }
+#endif // !_SCENE_

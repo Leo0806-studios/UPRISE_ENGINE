@@ -1,4 +1,7 @@
 #pragma once
+#ifndef __MESH_
+
+#define __MESH_
 
 
 //#include "TS_P_VECTOR3.h"
@@ -26,3 +29,5 @@ namespace DATATYPES {
 	
 	};
 }
+
+#endif // !__MESH_

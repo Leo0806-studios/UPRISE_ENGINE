@@ -1,4 +1,8 @@
 #pragma once
+#ifndef _TS_P_VECTOR3_
+
+#define _TS_P_VECTOR3_
+
 #include "glm/vec3.hpp"
 namespace DATATYPES {
 
@@ -83,3 +87,6 @@ namespace DATATYPES {
 
 	};
 }
+
+
+#endif // !_TS_P_VECTOR3_

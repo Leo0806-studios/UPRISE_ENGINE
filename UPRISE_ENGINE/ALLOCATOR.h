@@ -1,4 +1,6 @@
 #pragma once
+#ifndef _ALLOCATOR_
+#define _ALLOCATOR_
 
 
 namespace ALLOCATOR {
@@ -12,3 +14,5 @@ namespace ALLOCATOR {
 		virtual ~Allocator() {};
 	};
 }
+
+#endif // !_ALLOCATOR_

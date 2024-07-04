@@ -1,4 +1,8 @@
 #pragma once
+#ifndef _CORE_
+#define _CORE_
+
+
 #include "BEHAVIOUR.h"
 #include "COMPONENT.h"
 #include "INPUT.h"
@@ -41,3 +45,5 @@ namespace CORE {
 
 	};
 }
+
+#endif // !_CORE_

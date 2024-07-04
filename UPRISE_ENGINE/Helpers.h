@@ -1,10 +1,11 @@
-#pragma once
 #include "pch.h"
 // From DXSampleHelper.h 
 
 // Source: https://github.com/Microsoft/DirectX-Graphics-Samples
+#ifndef _HELPERS_
 
 
+#define _HELPERS_
 inline void ThrowIfFailed(HRESULT hr)
 
 {
@@ -40,3 +41,5 @@ struct EqualTo
         return lhs.get() == rhs.get();
     }
 };
+
+#endif // !_HELPERS_

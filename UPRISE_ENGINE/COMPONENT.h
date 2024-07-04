@@ -1,4 +1,7 @@
 #pragma once
+#ifndef _COMPONENT_
+#define _COMPONENT_
+
 namespace CORE {
 
 	class Component {
@@ -10,3 +13,4 @@ namespace CORE {
 	};
 
 }
+#endif // !_COMPONENT_

@@ -1,4 +1,8 @@
 #pragma once
+
+#ifndef _GAMEOBJECT_
+#define _GAMEOBJECT_
+
 #include "_COMPONENT.h"
 #include "CORE.h"
 #include "DATATYPES.h"
@@ -75,3 +79,4 @@ namespace ENTITYS {
 
 	};
 }
+#endif // !_GAMEOBJECT_
