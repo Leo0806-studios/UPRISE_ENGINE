@@ -2,10 +2,9 @@
 #ifndef __MESH_
 
 #define __MESH_
-
-
-//#include "TS_P_VECTOR3.h"
-//using namespace  DATATYPES;
+#include "pch.h"
+#include "TS_P_VECTOR3.h"
+using namespace  DATATYPES;
 namespace DATATYPES {
 
 
@@ -15,7 +14,7 @@ namespace DATATYPES {
 	public:
 		std::vector<DATATYPES::TS_P_Vector3> Vertecies;
 		  Mesh() = default;
-		  Mesh(const std::vector < DATATYPES:: TS_P_Vector3 > & vertecies) : Vertecies(vertecies) {}
+		  Mesh(const std::vector < DATATYPES:: TS_P_Vector3 > & vertecies);
 
 		  // If needed, declare and define the copy constructor and assignment operator explicitly
 		  Mesh(const Mesh& other) = default;

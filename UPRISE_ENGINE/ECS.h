@@ -2,6 +2,10 @@
 
 #ifndef _ECS_
 #define _ECS_
+#include "_ENTITY.h"
+
+#include "_COMPONENT.h"
+
 
 namespace ECS {
 

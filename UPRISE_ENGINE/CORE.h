@@ -1,19 +1,25 @@
-#pragma once
 #ifndef _CORE_
 #define _CORE_
+#include "pch.h"
 
+#include "INPUT.h"
+#include "SCENE.h"
+#include "CPUFEATURES.h"
+#include "STARTUP.h"
+#include "COMPONENT.h"
+#include "OBJECT.h"
 
 #include "BEHAVIOUR.h"
-#include "COMPONENT.h"
-#include "INPUT.h"
-#include "OBJECT.h"
-#include "pch.h"
-#include "SCENE.h"
-#include "STARTUP.h"
 //#include "TS_P_VECTOR3.h"
+
 namespace CORE {
 	
-
+	class Behaviour;
+	class Object;
+	class Input;
+	class Component;
+	class Scene;
+	class Startup;
 
 	class Core {
 		 
@@ -29,18 +35,11 @@ namespace CORE {
 
 	public:
 
-		std::string ApplicationPath() {
-
-			if (Application_Path.data() == NULL) {
-
-
-				Application_Path = std::filesystem::current_path().string();
-			}
-		}
+		std::string ApplicationPath();
 	};
 
 
-	static class Applicytion {
+	 class Applicytion {
 
 
 	};

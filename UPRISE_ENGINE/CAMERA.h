@@ -2,24 +2,16 @@
 #ifndef _CAMERA_
 
 #define _CAMERA_
+#include "pch.h"
+#include "COMPONENT.h"
+//#include "CORE.h"
 
-#include "BEHAVIOUR.h"
-#include "memory"
 
-
-	class Camera: public CORE::Behaviour {
+	class Camera: public CORE::Component {
 	public:
 		float FOV;
-		static UUID UUID;
-		int wo=0;
 
-		void Update()override {
 
-			std::cout << "test" << wo << "\n";
-		}
-
-		void Awake()override {}
-		void Start()override {}
 
 
 	};

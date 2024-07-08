@@ -1,13 +1,7 @@
-#pragma once
 #ifndef _CPUFEATURES_
 #define _CPUFEATURES_
 
-#include <array>
-#include <bitset>
-#include <intrin.h>
-#include <iostream>
-#include <string>
-#include <vector>
+#include "pch.h"
 namespace CORE {
 
     class InstructionSet

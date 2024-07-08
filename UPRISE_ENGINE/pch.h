@@ -6,8 +6,8 @@
 
 
 #define _PCH_
-#include "iostream"
-
+#include "tracy/Tracy.hpp"
+#include "tracy/TracyC.h"
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 #include <shellapi.h> // For CommandLineToArgvW
@@ -38,12 +38,62 @@ using namespace std;
 #include "memory"
 #include "filesystem"
 #include <iostream>
+#include <array>
+#include <bitset>
+#include <intrin.h>
+#include "sysinfoapi.h"
+#include "stb_image.h"
+#include <fstream>
+#include <sstream>
 
+#ifndef _assimp_
+#define _assimp_
 
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
+
+#endif // !_assimp_
 //#include "RENDER.h"
 //#include "CORE.h"
 //#include "DATATYPES.h"
 //#include "ECS.h"
 //
 //#include "MESSAGES.h"
+
+inline void ThrowIfFailed(HRESULT hr)
+
+{
+
+
+    if (FAILED(hr))
+
+
+    {
+
+
+        throw std::exception();
+
+
+    }
+
+}
+
+using TypeInfoRef = std::reference_wrapper<const std::type_info>;
+
+struct Hasher
+{
+    std::size_t operator()(TypeInfoRef code) const
+    {
+        return code.get().hash_code();
+    }
+};
+
+struct EqualTo
+{
+    bool operator()(TypeInfoRef lhs, TypeInfoRef rhs) const
+    {
+        return lhs.get() == rhs.get();
+    }
+};
 #endif // _PCH_

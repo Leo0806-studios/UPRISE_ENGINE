@@ -1,4 +1,3 @@
-#pragma once
 #ifndef _COMPONENT_
 #define _COMPONENT_
 

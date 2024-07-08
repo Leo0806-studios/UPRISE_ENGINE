@@ -2,44 +2,49 @@
 //
 
 #include "GLINCLUDES.h"
-
-#include "glad.h"
-#include "glfw3.h"
+#include "pch.h"
+//#include "glad.h"
+//#include "glfw3.h"
 //#include "pch.h"
-#include "Helpers.h"
+//#include "Helpers.h"
+#include "CORE.h"
+#include "DATATYPES.h"
 
 //#include <glm/glm.hpp>
 //#include <glm/gtc/matrix_transform.hpp>
 //#include <glm/gtc/type_ptr.hpp>
-#include "random"
-#include "RENDER_DATATYPES.h"
-#include "stb_image.h"
-#include "filesystem"
-#include "TS_P_VECTOR3.h"
-#include "GAMEOBJECT.h"
-#include "RENDER_OBJECT_SPAWNING.h"
+#include "ECS.h"
+#include "RENDER.h"
+//#include "RENDER_DATATYPES.h"
+//#include "RENDER_OBJECT_SPAWNING.h"
 #include "MESSAGES.h"
-#include "CORE.h"
-#include "INPUT.h"
-#include "memory"
+//#include "CORE.h"
+//#include "INPUT.h"
+//#include "memory"
 #include "TEST.h"
-#include "BEHAVIOUR.h"
-#include "MESH.h"
+#include "RENDER_MATERIAL.h"
+//#include "BEHAVIOUR.h"
+//#include "MESH.h"
 
 
 
-
+class Behaviour;
+class Object;
+class Input;
+class Component;
+class Scene;
+class Startup;
 
 
 
 MESSAGES::Message_Bus* Messagebus;
-ENTITYS::GameObject TestObj;
+GameObject TestObj;
 std::vector<DATATYPES::TS_P_Vector3> VERTS;
 bool spawned = false;
-GLFWwindow* CORE::Input::winow = nullptr;
 std::vector<std::shared_ptr<CORE::Behaviour>> CORE::Behaviour::behaviours;
 std::vector<std::shared_ptr<CORE::Behaviour>> CORE::Behaviour::AWAKES;
 std::vector<std::shared_ptr<CORE::Behaviour>> CORE::Behaviour::Starts;
+PAIN::Shader shader;
 
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
@@ -52,11 +57,22 @@ void processInput(GLFWwindow* window)
 		std::cout << "pressed A";
 	}
 	if (glfwGetKey(window, GLFW_KEY_O) == GLFW_PRESS) {
-		TestObj = TestObj.Create(DATATYPES::TS_P_Vector3(0, 0, 0));
-		//TestObj.Mesh.SetMesh(DATATYPES::Mesh(VERTS));
-		const  char* pth = "C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\\GAMEDATA\\backpack.obj";
+		const  char* pth = "C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\GAMEDATA\\quit.glb";
+		auto mod = COMPONENTS::_Mesh(pth);
+		PAIN::Material mat = PAIN::Material(&shader);
+		mat.ID = 0;
+		PAIN::Render::mats.push_back(mat);
+		TestObj = GameObject::Create(DATATYPES::TS_P_Vector3(0, 0, 0), &mod,mat.ID);
+		if (mat.ID < PAIN::Render::mats.size() || PAIN::Render::mats.size() == 0) {
+			PAIN::Render::mats[mat.ID].objects.push_back(&TestObj);
 
-		TestObj.Mesh = COMPONENTS::_Mesh(pth);
+		}
+		//TestObj.Mesh.SetMesh(DATATYPES::Mesh(VERTS));
+		
+
+		//void* mmm= &COMPONENTS::_Mesh(pth);
+	//	TestObj.MesH = mmm;
+		TestObj.name = (char*)"TEST OBJECT";
 		auto a = Camera();
 		//CORE::Component* comp = &a;
 		a.FOV = 80085;
@@ -64,14 +80,18 @@ void processInput(GLFWwindow* window)
 		//auto rr = std::make_shared<CORE::Component>(comp);
 	
 		//auto aaaa = rr.get();
+		
 		void* test = &a;
 
 
 		auto ppp = Test();
+		ppp.gameobject = &TestObj;
+		ppp.oobj = &TestObj;
 		void* msc = &ppp;
 		
-		TestObj.AddComponent(Test(), msc);
-		TestObj.AddComponent(Camera(), test);
+		//TestObj.AddComponent(Test(), msc);
+		TestObj.AddComponent(Test());
+		//TestObj.AddComponent(Camera(), test);
 		//using element_type = remove_extent_t<_Ty>;
 
 		//const auto _Ptr = dynamic_cast<typename shared_ptr<COMPONENTS::Camera>::element_type*>(_Other.get());
@@ -79,10 +99,13 @@ void processInput(GLFWwindow* window)
 		//auto Pp = std::static_pointer_cast<COMPONENTS::Camera>(TestObj.Conponents[0]);
 		//std::shared_ptr<COMPONENTS::Camera> Pp = std::dynamic_pointer_cast< COMPONENTS::Camera>(TestObj.Conponents[0]);//std::dynamic_pointer_cast<COMPONENTS::Camera>(TestObj.Conponents[0]);
 
-		Camera* cam =(Camera*) TestObj.Components[0];
+		//Camera* cam =(Camera*) TestObj.Components[0];
 
-		Camera ooo = *TestObj.GetComponent(Camera());
-		auto erererere = *cam;
+		//Camera ooo = *TestObj.GetComponent(Camera());
+		//auto erererere = *cam;
+		//Test tt = *TestObj.GetComponent(Test());
+	//tt.gameobject =&TestObj;
+		//tt.oobj = &TestObj;
 		std::cout << "pressed O";
 
 		//auto base =CORE::Behaviour();
@@ -107,7 +130,6 @@ const char* fragmentShaderSource = "#version 330 core\n"
 "{\n"
 "   FragColor = vec4(pos.x*pos.x+0.1f, pos.y*pos.x+0.1f, pos.z*pos.x+0.1f, 0);\n"
 "}\n\0";
-
 int main()
 {
 CORE::SYSTEMS z;
@@ -176,8 +198,7 @@ CORE::SYSTEMS z;
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragmentShader);
 
-
-	PAIN::Shader shader("C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\x64\\Debug\\6.1.coordinate_systems.vs", "C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\x64\\Debug\\6.1.coordinate_systems.fs");
+	shader = PAIN::Shader("C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\x64\\Debug\\6.1.coordinate_systems.vs", "C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\x64\\Debug\\6.1.coordinate_systems.fs");
 
 	// ------------------------------------------------------------------
 	//float vertices[] = {
@@ -339,7 +360,6 @@ CORE::SYSTEMS z;
 //	shader.use();
 //	shader.setInt("texture1", 0);
 //	shader.setInt("texture2", 1);
-	auto a = PAIN::Spawning();
 	//glm::mat4 proj = glm::perspective(glm::radians(45.0f), (float)800 /
 	//	(float)600, 0.1f, 100.0f);
 	float ff = 0;
@@ -355,9 +375,10 @@ glm::vec3(1.5f, 2.0f, -2.5f),
 glm::vec3(1.5f, 0.2f, -1.5f),
 glm::vec3(-1.3f, 1.0f, -1.5f)
 	};
-	const  char* pth = "C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\\GAMEDATA\\backpack.obj";
+	const  char* pth = "C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\GAMEDATA\\backpack.obj";
 	PAIN::Model modell = PAIN::Model(pth);
 	bool hasrun = false;
+	double lasttime = glfwGetTime();
 	while (!glfwWindowShouldClose(window))
 	{
 		processInput(window);
@@ -378,32 +399,39 @@ glm::vec3(-1.3f, 1.0f, -1.5f)
 		//	glBindTexture(GL_TEXTURE_2D, texture2);
 
 		}
-		ff = ff + 0.01f;
-		/*glUseProgram(shaderProgram);*/
-		shader.use();
-		// create transformations
-		glm::mat4 model = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
-		glm::mat4 view = glm::mat4(1.0f);
-		glm::mat4 projection = glm::mat4(1.0f);
-		model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f),
-			glm::vec3(0.5f, 1.0f, 0.0f));
-		//model = glm::rotate(model, glm::radians(ff), glm::vec3(1.0f, 0.0f, 0.0f));
-		view = glm::translate(view, glm::vec3(0.0f, 0.0f, -10.0f));
-		projection = glm::perspective(glm::radians(45.0f), (float)800 / (float)600, 0.1f, 100.0f);
-		// retrieve the matrix uniform locations
-		unsigned int modelLoc = glGetUniformLocation(shader.ID, "model");
-		unsigned int viewLoc = glGetUniformLocation(shader.ID, "view");
-		// pass them to the shaders (3 different ways)
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, &view[0][0]);
-		shader.setMat4("projection", projection);
-		//shader.setm
+		//ff = ff + 0.01f;
+		///*glUseProgram(shaderProgram);*/
+		//shader.use();
+		//// create transformations
+		//glm::mat4 model = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
+		//glm::mat4 view = glm::mat4(1.0f);
+		//glm::mat4 projection = glm::mat4(1.0f);
+		//model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f),
+		//	glm::vec3(0.5f, 1.0f, 0.0f));
+		////model = glm::rotate(model, glm::radians(ff), glm::vec3(1.0f, 0.0f, 0.0f));
+		//view = glm::translate(view, glm::vec3(0.0f, 0.0f, -10.0f));
+		//
+		//projection = glm::perspective(glm::radians(45.0f), (float)800 / (float)600, 0.1f, 100.0f);
+		//// retrieve the matrix uniform locations
+		//unsigned int modelLoc = glGetUniformLocation(shader.ID, "model");
+		//unsigned int viewLoc = glGetUniformLocation(shader.ID, "view");
+		//// pass them to the shaders (3 different ways)
+		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		//glUniformMatrix4fv(viewLoc, 1, GL_FALSE, &view[0][0]);
+		//shader.setMat4("projection", projection);
+		////shader.setm
 		if (spawned==true) {
 		//	glBindVertexArray(VAO);
 			//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 			//glDrawArrays(GL_TRIANGLES, 0, 36);
+			//_Mesh* mm =(_Mesh*) TestObj.MesH;
+			//COMPONENTS::_Mesh* ms = (COMPONENTS::_Mesh*)TestObj.MesH;
+			//ms->Model.Draw(shader);
+			//auto aa = std::dynamic_pointer_cast<COMPONENTS::_Mesh>(TestObj.MesH);
+			//aa.get()->Model.Draw(shader);
+			PAIN::Render::DrawAll();
 
-			TestObj.Mesh.Model.Draw(shader);
+			
 		}
 		//modell.Draw(shader);
 
@@ -428,7 +456,12 @@ glm::vec3(-1.3f, 1.0f, -1.5f)
 
 
 		glfwSwapBuffers(window);
+		FrameMark;
 		glfwPollEvents();
+		while (glfwGetTime() < lasttime + 1.0 / 60) {
+			// TODO: Put the thread to sleep, yield, or simply do nothing
+		}
+		lasttime += 1.0 / 60;
 	}
 	glfwTerminate();
 	

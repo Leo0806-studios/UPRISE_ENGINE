@@ -1,9 +1,7 @@
-#pragma once
 #ifndef _INPUT_
 #define _INPUT_
 
-//#include "GLINCLUDES.h"
-#include "glfw3.h"
+#include "GLINCLUDES.h"
 #define A GLFW_KEY_A
 #define B GLFW_KEY_B
 #define C GLFW_KEY_C
@@ -40,26 +38,24 @@
 #define nine GLFW_KEY_9
 #define eight GLFW_KEY_8 
 #define zero GLFW_KEY_0
-#define crt GLFW_KEY_LEFT_CONTROL   
-#define alt GLFW_KEY_LEFT_ALT   
-#define shift GLFW_KEY_LEFT_SHIFT   
+#define Lcrt GLFW_KEY_LEFT_CONTROL   
+#define Lalt GLFW_KEY_LEFT_ALT   
+#define Lshift GLFW_KEY_LEFT_SHIFT   
+#define Space GLFW_KEY_SPACE
+#
 namespace CORE {
 
 	static class Input {
 
 
-	public :static	GLFWwindow* winow;
-
 	public :
-		Input() {};
-		Input(GLFWwindow* Window) { winow = Window; }
+		static	GLFWwindow* winow;
+
+		Input();
+		Input(GLFWwindow* Window);
 
 
-		static int GetKey(int key) {
-
-
-			return glfwGetKey(winow, key);
-		}
+		static int GetKey(int key);
 
 
 

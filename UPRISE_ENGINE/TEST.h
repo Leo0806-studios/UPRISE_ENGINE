@@ -4,28 +4,50 @@
 
 #include "BEHAVIOUR.h"
 #include "INPUT.h"
+#include "_COMPONENT.h"
+//class Behaviour;
 class Test :public CORE::Behaviour {
 
 public:
-	int ID() {
+	Test() {}
 
-		
+	int ID() {
 	}
 	static UUID UUID;
+	GameObject* oobj=nullptr;
 	int wo = 4;
-	Test() {
-		
-		//std::shared_ptr<Behaviour> a = std::make_shared<Test>();
-		//behaviours.push_back(a);
 
-		//objectss.push_back(std::make_shared<CORE::Behaviour>(this));
-		//tester.push_back(this);
-		//types.push_back(Test);
-	}
 	 void Update()override {
-		 if (CORE::Input::GetKey(W)) {
-			 std::cout << "test" << wo << "\n";
+		 ZoneScoped;
+		 ZoneText("test update",100);
 
+		 if (CORE::Input::GetKey(W)) {
+			 //std::cout << "test" << wo << "\n";
+			 //auto aut = oobj;
+			 //std::cout << "name of object is: " << gameobject->name<<"\n";
+
+			 std::dynamic_pointer_cast<Transform>(transf).get()->Position.z = std::dynamic_pointer_cast<Transform>(transf).get()->Position.z +1;
+
+		 }
+		 if (CORE::Input::GetKey(S)) {
+
+				 std::dynamic_pointer_cast<Transform>(transf).get()->Position.z = std::dynamic_pointer_cast<Transform>(transf).get()->Position.z - 1;
+		 }
+		 if (CORE::Input::GetKey(A)) {
+
+			 std::dynamic_pointer_cast<Transform>(transf).get()->Position.x =std::dynamic_pointer_cast<Transform>(transf).get()->Position.x - 1;
+
+		 }
+		 if (CORE::Input::GetKey(D)) {
+			 std::dynamic_pointer_cast<Transform>(transf).get()->Position.x = std::dynamic_pointer_cast<Transform>(transf).get()->Position.x + 1;
+
+		 }
+		 if (CORE::Input::GetKey(Space)) {
+			 std::dynamic_pointer_cast<Transform>(transf).get()->Position.y = std::dynamic_pointer_cast<Transform>(transf).get()->Position.y + 1;
+
+		 }
+		 if (CORE::Input::GetKey(Lshift)) {
+			 std::dynamic_pointer_cast<Transform>(transf).get()->Position.y = std::dynamic_pointer_cast<Transform>(transf).get()->Position.y - 1;
 
 		 }
 	}

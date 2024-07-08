@@ -11,4 +11,14 @@ namespace CORE {
 
 
 
+	 Object::Object() {}
+
+	 Object::~Object() {
+
+	}
+
+	 void Object::DestroyObj(Object* obj) {
+		free(obj);
+	}
+
 }

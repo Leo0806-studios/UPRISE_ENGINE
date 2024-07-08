@@ -1,17 +1,14 @@
 #pragma once
 #ifndef _MESSAGE_BUS_
 #define _MESSAGE_BUS_
-
-#include "vector"
+#include "pch.h"
 #include "DATATYPES.h"
-//using namespace DATATYPES;
-#include "MSG_MESSAGE.h"
 using namespace std;
 
 namespace MESSAGES {
 
 
-	static class Message_Bus {
+	 class Message_Bus {
 
 	public:
 
