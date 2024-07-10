@@ -35,6 +35,15 @@ using namespace DATATYPES;
 	return  _mm_cvtss_f32(_mm_sqrt_ps(_mm_hadd_ps(_mm_hadd_ps(_mm_mul_ps(val, val), _mm_setzero_ps()), _mm_setzero_ps())));
 }
 
+ TS_P_Vector3 DATATYPES::TS_P_Vector3::Normalized()
+ {	
+	 float mag = magnitude();
+	 //__m128 val = _mm_set_ps(x, y, z, pad);
+	 TS_P_Vector3 tmp;
+	  tmp=DATATYPES::TS_P_Vector3(x,y,z)/mag;
+	 return tmp;
+ }
+
  float DATATYPES::TS_P_Vector3::point(TS_P_Vector3 a) {
 	__m128 val = _mm_set_ps(x, y, z, pad);
 	__m128 val1 = _mm_set_ps(a.x, a.y, a.z, a.pad);
@@ -45,7 +54,7 @@ using namespace DATATYPES;
  TS_P_Vector3 DATATYPES::TS_P_Vector3::operator/(const float b) {
 
 	TS_P_Vector3 _tmp;
-	__m128 val = _mm_set_ps(x, y, z, pad);
+	__m128 val = _mm_setr_ps(x, y, z, pad);
 
 	_mm_store_ps(&_tmp.x, _mm_div_ps(val, _mm_set_ps1(b)));
 	return _tmp;
@@ -81,10 +90,22 @@ using namespace DATATYPES;
 }
 
  TS_P_Vector3 DATATYPES::TS_P_Vector3::operator-(const TS_P_Vector3 b) {
-	__m128 val = _mm_set_ps(x, y, z, pad);
-	__m128 val1 = _mm_set_ps(b.x, b.y, b.z, b.pad);
+	__m128 val = _mm_setr_ps(x, y, z, pad);
+
+	__m128 val1 = _mm_setr_ps(b.x, b.y, b.z, b.pad);
 	TS_P_Vector3 _tmp;
 	_mm_store_ps(&_tmp.x, _mm_sub_ps(val, val1));
 	return _tmp;
 
 }
+
+ TS_P_Vector3 DATATYPES::TS_P_Vector3::operator+(const TS_P_Vector3 b)
+ {
+	 TS_P_Vector3 tmp;
+	 __m128 this3 = _mm_setr_ps(x, y, z, pad);
+	 __m128 be = _mm_setr_ps(b.x, b.y, b.z, b.pad);
+	 _mm_store_ps(&tmp.x, _mm_add_ps(this3, be));
+	 return tmp;
+ }
+
+

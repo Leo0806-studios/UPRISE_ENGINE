@@ -45,6 +45,12 @@ using namespace std;
 #include "stb_image.h"
 #include <fstream>
 #include <sstream>
+#include "functional"
+#include "mutex"
+#include <xmmintrin.h>
+#include <emmintrin.h>
+#include <cmath>
+
 
 #ifndef _assimp_
 #define _assimp_
@@ -52,6 +58,7 @@ using namespace std;
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
+
 
 #endif // !_assimp_
 //#include "RENDER.h"

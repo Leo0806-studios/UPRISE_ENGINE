@@ -3,13 +3,25 @@
 #define _THREADING_
 
 #include "pch.h"
-#include "functional"
-#include "mutex"
+
 //#include "thread"
 namespace CORE {
 	
+	class Thread;
+	class Thread_Manager {
 
-	class Thread_Manager;
+	public:
+		static std::vector<Thread*> Threads;
+		Thread_Manager();
+
+		static Thread CreateThread(std::function<void()> f);
+
+		template<class _Fn, class ..._Args>
+		static Thread CreateThreadWithArgs(_Fn&& _Fx, _Args&&... _Ax) {
+			Thread tmp(_Fx, _Ax);
+
+		}
+	};
 	class Thread {
 	private:
 		std::thread thread;
@@ -17,13 +29,20 @@ namespace CORE {
 
 
 	public:
-
+		Thread(std::function<void()> f) : func(f) {};
 		template<class _Fn, class ..._Args>
 
 		Thread(_Fn&& _Fx, _Args&&... _Ax) {
 			func = std::bind(std::forward<_Fn>(_Fx), std::forward<_Args>(_Ax)...);
 			Thread_Manager::Threads.push_back(this);
 		}
+		//template<class _Fn, class ..._Args>
+
+		//Thread(_Fn&& _Fx ) {
+
+		//	func = _Fn;
+		//	Thread_Manager::Threads.push_back(this);
+		//}
 
 		void Schedule() {
 
@@ -35,12 +54,7 @@ namespace CORE {
 	};
 
 
-	class Thread_Manager {
 
-	public:
-		static std::vector<Thread*> Threads;
-		 Thread_Manager();
-	};
 
 
 	class Threading_Interface {

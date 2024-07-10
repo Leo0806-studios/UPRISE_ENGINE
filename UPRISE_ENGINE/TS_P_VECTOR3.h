@@ -24,6 +24,7 @@ namespace DATATYPES {
 		  operator glm::vec3()const;
 
 		  float magnitude();
+		  TS_P_Vector3 Normalized();
 
 		  float point(TS_P_Vector3 a);
 
@@ -32,6 +33,7 @@ namespace DATATYPES {
 		  TS_P_Vector3 operator *(const float b);
 		  TS_P_Vector3 operator*(const TS_P_Vector3 b);
 		  TS_P_Vector3 operator -(const TS_P_Vector3 b);
+		  TS_P_Vector3 operator+(const TS_P_Vector3 b);
 
 
 

@@ -14,7 +14,6 @@ namespace CORE {
 	public:
 		MESSAGES::Message_Bus* Bus;
 		PAIN::Render* Render;
-		PHYSICS::Physics* Physics;
 
 
 	};

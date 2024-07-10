@@ -29,6 +29,7 @@ namespace CORE {
 		static std::vector<std::shared_ptr<Behaviour>> behaviours;
 		static std::vector<std::shared_ptr<Behaviour>> AWAKES;
 		static std::vector<std::shared_ptr<Behaviour>> Starts;
+		static std::vector<std::shared_ptr<Behaviour>> Parallel_Updates;
 		UUID uuID;
 		int id;
 	//	static std::vector<Behaviour*> tester;
@@ -43,6 +44,7 @@ namespace CORE {
 		static void updateAll();
 		static void updateAllAWAKE();
 		static void updateAllSTART();
+		static void updateallParallel();
 		
 	};
 }

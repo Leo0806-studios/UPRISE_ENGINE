@@ -10,6 +10,7 @@
 #include "OBJECT.h"
 
 #include "BEHAVIOUR.h"
+#include "THREADING.h"
 //#include "TS_P_VECTOR3.h"
 
 namespace CORE {

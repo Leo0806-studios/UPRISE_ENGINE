@@ -7,6 +7,7 @@
 #include "MSG_MESSAGE.h"
 #include "_MESH.h"
 #include "STARTUP_CONFIG.h"
+#include "TS_P_QUATERION.h"
 
 namespace DATATYpeS {
 

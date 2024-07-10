@@ -17,10 +17,19 @@
 		GameObject* oobj = nullptr;
 
 		DATATYPES::TS_P_Vector3 Position;
-		DATATYPES::TS_P_Vector3 Rotation;;
+		DATATYPES::Quaternion rotation;
+		DATATYPES::TS_P_Vector3 forward;
+		DATATYPES::TS_P_Vector3 up;
+		DATATYPES::TS_P_Vector3 right;
+		void SetRotation(DATATYPES::TS_P_Vector3 vec);
+		void SetRotation(DATATYPES::Quaternion quat);
+		//DATATYPES::TS_P_Vector3 Rotation;;
 		void Update()override;
 		void Awake()override;
 		void Start()override;
+		void UpdateDirections();
+
+
 
 
 	};

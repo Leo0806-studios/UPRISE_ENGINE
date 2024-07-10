@@ -23,6 +23,7 @@
 //#include "memory"
 #include "TEST.h"
 #include "RENDER_MATERIAL.h"
+#include "PHYSICS.h"
 //#include "BEHAVIOUR.h"
 //#include "MESH.h"
 
@@ -41,9 +42,7 @@ MESSAGES::Message_Bus* Messagebus;
 GameObject TestObj;
 std::vector<DATATYPES::TS_P_Vector3> VERTS;
 bool spawned = false;
-std::vector<std::shared_ptr<CORE::Behaviour>> CORE::Behaviour::behaviours;
-std::vector<std::shared_ptr<CORE::Behaviour>> CORE::Behaviour::AWAKES;
-std::vector<std::shared_ptr<CORE::Behaviour>> CORE::Behaviour::Starts;
+
 PAIN::Shader shader;
 
 
@@ -62,7 +61,7 @@ void processInput(GLFWwindow* window)
 		PAIN::Material mat = PAIN::Material(&shader);
 		mat.ID = 0;
 		PAIN::Render::mats.push_back(mat);
-		TestObj = GameObject::Create(DATATYPES::TS_P_Vector3(0, 0, 0), &mod,mat.ID);
+		TestObj = GameObject::Create(DATATYPES::TS_P_Vector3(0, 0,-10), &mod,mat.ID);
 		if (mat.ID < PAIN::Render::mats.size() || PAIN::Render::mats.size() == 0) {
 			PAIN::Render::mats[mat.ID].objects.push_back(&TestObj);
 
@@ -132,6 +131,7 @@ const char* fragmentShaderSource = "#version 330 core\n"
 "}\n\0";
 int main()
 {
+
 CORE::SYSTEMS z;
 	z=CORE::Startup::Start_Systems() ;
 	//std::cout << Messagebus->Exists;
@@ -420,6 +420,13 @@ glm::vec3(-1.3f, 1.0f, -1.5f)
 		//glUniformMatrix4fv(viewLoc, 1, GL_FALSE, &view[0][0]);
 		//shader.setMat4("projection", projection);
 		////shader.setm
+		const float radius = 10.0f;
+		float camX = sin(glfwGetTime()) * radius;
+		float camZ = cos(glfwGetTime()) * radius;
+		glm::mat4 view;
+		view = glm::lookAt(glm::vec3(camX, 0.0, camZ), glm::vec3(0.0, 0.0, 0.0),
+			glm::vec3(0.0, 1.0, 0.0));
+		shader.setMat4("view", view);
 		if (spawned==true) {
 		//	glBindVertexArray(VAO);
 			//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
@@ -452,7 +459,10 @@ glm::vec3(-1.3f, 1.0f, -1.5f)
 		//glDrawArrays(GL_TRIANGLES, 0, 6);
 		//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 		
+		CORE::Behaviour::updateAllAWAKE();
+		CORE::Behaviour::updateAllSTART();
 		CORE::Behaviour::updateAll();
+		PHYSICS::Physics::UpdateAllPhysics();
 
 
 		glfwSwapBuffers(window);

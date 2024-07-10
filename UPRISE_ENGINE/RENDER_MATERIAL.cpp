@@ -13,9 +13,15 @@ inline void PAIN::Material::Draw() {
 			glm::mat4 model = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
 			glm::mat4 view = glm::mat4(1.0f);
 			glm::mat4 projection = glm::mat4(1.0f);
-			model = glm::rotate(model, glm::radians(-55.0f)* (float)glfwGetTime(), glm::vec3(1.0f, 0.0f, 0.0f));
-			DATATYPES::TS_P_Vector3 pos = std::dynamic_pointer_cast<Transform>(objects[i]->behaviours[1]).get()->Position;
 			auto poss = std::dynamic_pointer_cast<Transform>(objects[i]->behaviours[1]);
+			auto rott = poss.get();
+			auto rot = rott->rotation;
+			//std::cout << "x" << rot.ToRotationVector().x << "y" << rot.ToRotationVector().y << "Z" << rot.ToRotationVector().z << "\n";
+			model = rot.ToMat4();
+			//model = glm::rotate(,1.0f,glm::vec3(0,0,0))
+			//model = glm::rotate(model, rot.w, glm::vec3(rot.x,rot.y,rot.z));
+			//model = glm::rotate(model, glm::radians(-55.0f)* (float)glfwGetTime(), glm::vec3(1.0f, 1.0f, 0.0f));
+			DATATYPES::TS_P_Vector3 pos = std::dynamic_pointer_cast<Transform>(objects[i]->behaviours[1]).get()->Position;
 			auto ooo=poss.get();
 			pos = ooo->Position;
 			view = glm::translate(view, (glm::vec3)pos );

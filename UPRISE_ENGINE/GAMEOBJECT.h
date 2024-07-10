@@ -51,6 +51,8 @@ namespace CORE {
 
 
 			CORE::Behaviour::behaviours.push_back(a);
+			CORE::Behaviour::AWAKES.push_back(a);
+			CORE::Behaviour::Starts.push_back(a);
 			behaviours.push_back(a);
 			return std::dynamic_pointer_cast<_Ty>(a).get();
 		}
@@ -75,6 +77,8 @@ namespace CORE {
 
 
 			CORE::Behaviour::behaviours.push_back(a);
+			CORE::Behaviour::AWAKES.push_back(a);
+			CORE::Behaviour::Starts.push_back(a);
 			behaviours.push_back(a);
 
 			Components.push_back(component);

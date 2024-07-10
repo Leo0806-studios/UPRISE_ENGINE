@@ -9,13 +9,14 @@ GameObject GameObject::Create(DATATYPES::TS_P_Vector3 pos, void* mesh,int materi
 
 	GameObject tmp;
 	Transform transf = Transform();
+	transf.Position = pos;
 	void* tra = &transf;
 	tmp.msh = mesh;
 	tmp.AddComponent(COMPONENTS::_Mesh(), mesh);
 	//auto a = tmp.GetComponent(COMPONENTS::_Mesh());
 	tmp.MesH = std::make_shared<COMPONENTS::_Mesh>(*(COMPONENTS::_Mesh*)tmp.Components[0]);
 	tmp.AddComponent(Transform(), tra);
-
+	std::dynamic_pointer_cast<Transform>(tmp.behaviours[1]).get()->UpdateDirections();
 	return tmp;
 
 }
