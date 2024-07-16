@@ -1,16 +1,17 @@
 #pragma once
 #ifndef _OBJECT_
 #define _OBJECT_
-
+#include "pch.h"
 class Component;
 namespace CORE {
 
 	class Object {
 
 	public :
-		Object();;
+		Object();
 		virtual ~Object();;
 		void DestroyObj(Object* obj);
+		UUID uuid;
   };
 
 

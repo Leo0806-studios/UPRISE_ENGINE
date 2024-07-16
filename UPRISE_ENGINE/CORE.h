@@ -3,7 +3,6 @@
 #include "pch.h"
 
 #include "INPUT.h"
-#include "SCENE.h"
 #include "CPUFEATURES.h"
 #include "STARTUP.h"
 #include "COMPONENT.h"

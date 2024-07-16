@@ -8,6 +8,7 @@
 #include "_MESH.h"
 #include "STARTUP_CONFIG.h"
 #include "TS_P_QUATERION.h"
+#include "TS_P_VECOTR2.h"
 
 namespace DATATYpeS {
 

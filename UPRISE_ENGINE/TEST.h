@@ -81,7 +81,7 @@ public:
 	}
 	 void Awake()override{
 	 
-		 std::cout << "name of object is: " << gameobject->name << "\n";
+		// std::cout << "name of object is: " << gameobject->name << "\n";
 	 
 	 }
 	 void Start()override{}

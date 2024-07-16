@@ -8,16 +8,19 @@
 #include "pch.h"
 #include "PHYSICS.h"
 #include "RENDER.h"
+#include "CONFIGLOADER.h"
+
 //#include "thread"
 namespace CORE {
 	struct SYSTEMS {
 	public:
+		static GLFWwindow* windw;
 		MESSAGES::Message_Bus* Bus;
-		PAIN::Render* Render;
+		bool Render;
 
 
 	};
-	static class Startup {
+	 class Startup {
 
 	private:
 

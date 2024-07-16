@@ -13,7 +13,7 @@ namespace CORE {
 
 }
 
-	class GameObject :CORE::Object {
+	class GameObject :public CORE::Object {
 	public:
 		bool Enabled = true;
 		//Transform trans;
@@ -25,6 +25,7 @@ namespace CORE {
 		std::vector<UUID> uuids;
 		GameObject() {};
 		static GameObject Create(DATATYPES::TS_P_Vector3 pos, void* mesh,int materialID);
+		static GameObject CreateCamera(DATATYPES::TS_P_Vector3 pos);
 
 
 		void AddComponent(void* component);
@@ -101,6 +102,21 @@ namespace CORE {
 
 			}
 		}
+		template <class _Ty, class... _Types>
+		_Ty* GetComponentDynamic(_Ty arg) {
+
+
+			for (int i = 0; i < Components.size(); i++) {
+				if (arg.UUID == uuids[i]) {
+
+					std::cout << "found";
+					return std::dynamic_pointer_cast<_Ty>(behaviours[i]).get();
+				}
+
+
+			}
+		}
+
 
 
 	};

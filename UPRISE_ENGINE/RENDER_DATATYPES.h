@@ -1,7 +1,6 @@
 
 #ifndef _RENDER_DATATYPES_
 #define _RENDER_DATATYPES_
-#define TRACY_ENABLE
 #include "GLINCLUDES.h"
 #include "DATATYPES.h"
 
@@ -36,8 +35,7 @@ namespace PAIN {
 	struct Vertex {
 		DATATYPES::TS_P_Vector3 Position;
 		DATATYPES::TS_P_Vector3 Normal;
-		//glm::vec3 Position;
-		//glm::vec3 Normal;
+
 		glm::vec2 TexCoords;
 	};
 	struct Texture {
@@ -84,10 +82,11 @@ namespace PAIN {
 		Model();;
 		Model(const char* path);
 		void Draw(Shader& shader);
+		vector<Mesh> meshes;
+
 	private:
 		vector<Texture> textures_loaded;
 		// model data
-		vector<Mesh> meshes;
 		string directory;
 		void loadModel(string path);
 		void processNode(aiNode* node, const aiScene* scene);

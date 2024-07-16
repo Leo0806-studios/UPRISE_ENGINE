@@ -1,39 +1,39 @@
 #include "GLINCLUDES.h"
 #include "RENDER_MATERIAL.h"
 #include "DATATYPES.h"
+#include "TERRAIN_DATA.h"
  PAIN::Material::Material(Shader* shade) { shader = shade; }
  std::vector<PAIN::Material> PAIN::Render::mats;
+ PAIN::Render_Camera* PAIN::Render::RenderCam;
+ std::shared_ptr<CORE::Behaviour> PAIN::Render::CAM;
+ std::vector<std::shared_ptr<PAIN::TerrainModel>> PAIN::Render::terrains;
 
-inline void PAIN::Material::Draw() {
+inline void PAIN::Material::DrawObj() {
 	shader->use();
 	int i = objects.size() - 1;
 	for (; i >= 0; i--) {
 
 		if (objects[i]->Enabled >= 1) {
-			glm::mat4 model = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
-			glm::mat4 view = glm::mat4(1.0f);
-			glm::mat4 projection = glm::mat4(1.0f);
+
+
 			auto poss = std::dynamic_pointer_cast<Transform>(objects[i]->behaviours[1]);
+
+			
+			glm::mat4 projection = glm::perspective(glm::radians(std::dynamic_pointer_cast<Camera>(CAM).get()->camera.FOV), (float)1600 / (float)900, 0.1f, 500.0f);
 			auto rott = poss.get();
 			auto rot = rott->rotation;
-			//std::cout << "x" << rot.ToRotationVector().x << "y" << rot.ToRotationVector().y << "Z" << rot.ToRotationVector().z << "\n";
-			model = rot.ToMat4();
-			//model = glm::rotate(,1.0f,glm::vec3(0,0,0))
-			//model = glm::rotate(model, rot.w, glm::vec3(rot.x,rot.y,rot.z));
-			//model = glm::rotate(model, glm::radians(-55.0f)* (float)glfwGetTime(), glm::vec3(1.0f, 1.0f, 0.0f));
-			DATATYPES::TS_P_Vector3 pos = std::dynamic_pointer_cast<Transform>(objects[i]->behaviours[1]).get()->Position;
+			glm::mat4 view = std::dynamic_pointer_cast<Camera>(CAM).get()->camera.GetViewMatrix();
+			glm::mat4 rotation = rot.ToMat4();
+			glm::mat4 model = glm::mat4(1.0f);
+			DATATYPES::TS_P_Vector3 pos = std::dynamic_pointer_cast<Transform>(objects[i].get()->behaviours[1]).get()->Position;
 			auto ooo=poss.get();
 			pos = ooo->Position;
-			view = glm::translate(view, (glm::vec3)pos );
-			projection = glm::perspective(glm::radians(45.0f), (float)800 / (float)600, 0.1f, 100.0f);
-			// retrieve the matrix uniform locations
-			unsigned int modelLoc = glGetUniformLocation(shader->ID, "model");
-			unsigned int viewLoc = glGetUniformLocation(shader->ID, "view");
-			// pass them to the shaders (3 different ways)
-			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-			glUniformMatrix4fv(viewLoc, 1, GL_FALSE, &view[0][0]);
+			model = glm::translate(model, (glm::vec3)pos );
 			shader->setMat4("projection", projection);
-			//GameObject* e = objects[i];
+			shader->setMat4("view", view);
+			shader->setMat4("model", model);
+			shader->setMat4("Rotation", rotation);
+
 			auto aa = std::dynamic_pointer_cast<COMPONENTS::_Mesh>(objects[i]->MesH);
 			aa.get()->Model.Draw(*shader);
 			//auto meesh = (COMPONENTS::_Mesh*)objects[i]->msh;
@@ -48,6 +48,79 @@ inline void PAIN::Material::Draw() {
 	for (; i >= 0; i--) {
 
 
-		mats[i].Draw();
+		mats[i].DrawObj();
+	}
+	int s = terrains.size()-1;
+	for (; s >= 0; s--) {
+		terrains[s].get()->DrawObj();
 	}
 }
+
+  void PAIN::Render::Init()
+  {
+  }
+
+  PAIN::TerrainModel::TerrainModel()
+  {
+  }
+
+  PAIN::TerrainModel::TerrainModel(void* data,int width, int depth, float maxHeight, Shader* shade)
+  {
+	  shader = shade;
+	  Terraindata = data;
+	  
+	  meshes.push_back(generateTerrainMesh(width, depth, maxHeight));
+  }
+
+  void PAIN::TerrainModel::DrawObj()
+  {
+	  auto poss = std::dynamic_pointer_cast<Transform>(object->behaviours[1]);
+
+	  glm::mat4 projection = glm::perspective(glm::radians(std::dynamic_pointer_cast<Camera>(CAM).get()->camera.FOV), (float)1600 / (float)900, 0.1f, 500.0f);
+	  glm::mat4 view = std::dynamic_pointer_cast<Camera>(CAM).get()->camera.GetViewMatrix();
+	  glm::mat4 rotation = poss.get()->rotation.ToMat4();
+	  glm::mat4 model = glm::mat4(1.0f);
+	  model = glm::translate(model, (glm::vec3)poss.get()->Position);
+	  shader->setMat4("projection", projection);
+	  shader->setMat4("view", view);
+	  shader->setMat4("model", model);
+	  shader->setMat4("Rotation", rotation);
+	  std::dynamic_pointer_cast<Terrain_Data>(object.get()->behaviours[0]).get()->model.Draw(*shader);
+
+
+  }
+
+  PAIN::Mesh PAIN::TerrainModel::generateTerrainMesh(int width, int depth, float maxHeight)
+  {
+	  auto data = (Terrain_Data*)Terraindata;
+	  std::vector<Vertex> vertices;
+	  std::vector<unsigned int> indices;
+	  Vertex vertex;
+	  for (int z = 0; z < depth; z++) {
+
+		  for (int x = 0; x < width; x++) {
+			  vertex.Position = DATATYPES::TS_P_Vector3(x, data->GetHeight(x, z), z);
+			  vertex.Normal = DATATYPES::TS_P_Vector3(0, 1, 0);
+			  vertex.TexCoords = glm::vec2((float)x / data->width, (float)z / data->depth);
+			  vertices.push_back(vertex);
+		  }
+
+	  }
+	  for (int z = 0; z < data->depth - 1; ++z) {
+		  for (int x = 0; x < data->width - 1; ++x) {
+			  int topLeft = z * data->width + x;
+			  int topRight = topLeft + 1;
+			  int bottomLeft = (z + 1) * data->width + x;
+			  int bottomRight = bottomLeft + 1;
+
+			  indices.push_back(topLeft);
+			  indices.push_back(bottomLeft);
+			  indices.push_back(topRight);
+
+			  indices.push_back(topRight);
+			  indices.push_back(bottomLeft);
+			  indices.push_back(bottomRight);
+		  }
+	  }
+	  return Mesh(vertices, indices, std::vector<Texture>());
+  }

@@ -2,12 +2,14 @@
 #include "CORE.h"
 #include "GAMEOBJECT.h"
 #include "_COMPONENT.h"
-
+#include "CAMERA.h"
 #include "RENDER_MATERIAL.h"
+#include "Empty.h"
 
 GameObject GameObject::Create(DATATYPES::TS_P_Vector3 pos, void* mesh,int materialID) {
 
 	GameObject tmp;
+	UuidCreate(&tmp.uuid);
 	Transform transf = Transform();
 	transf.Position = pos;
 	void* tra = &transf;
@@ -19,6 +21,23 @@ GameObject GameObject::Create(DATATYPES::TS_P_Vector3 pos, void* mesh,int materi
 	std::dynamic_pointer_cast<Transform>(tmp.behaviours[1]).get()->UpdateDirections();
 	return tmp;
 
+}
+GameObject GameObject::CreateCamera(DATATYPES::TS_P_Vector3 pos)
+{
+
+	GameObject tmp;
+	UuidCreate(&tmp.uuid);
+	Transform transf = Transform();
+	transf.Position = pos;
+	void* tra = &transf;
+	auto a = Camera(1);
+	Empty empt = Empty();
+	tmp.AddComponent(Empty(),&empt);
+	tmp.AddComponent(Transform(), tra);
+
+	tmp.AddComponent(Camera(1));
+	std::dynamic_pointer_cast<Transform>(tmp.behaviours[1]).get()->UpdateDirections();
+	return tmp;
 }
 void GameObject::AddComponent(void* component) {
 

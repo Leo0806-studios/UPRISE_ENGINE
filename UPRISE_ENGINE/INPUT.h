@@ -2,6 +2,7 @@
 #define _INPUT_
 
 #include "GLINCLUDES.h"
+#include "DATATYPES.h"
 #define A GLFW_KEY_A
 #define B GLFW_KEY_B
 #define C GLFW_KEY_C
@@ -45,17 +46,27 @@
 #
 namespace CORE {
 
-	static class Input {
+	 class Input {
+		
+
+		
 
 
 	public :
+		enum MouseMode {
+			MouseLocked,
+			MouseFree
+		};
 		static	GLFWwindow* winow;
 
 		Input();
 		Input(GLFWwindow* Window);
 
-
+		static TS_P_Vector2 MousePosition;
 		static int GetKey(int key);
+		static MouseMode SetMouseMode(MouseMode mode);
+		static void mouse_callback(GLFWwindow* window, double xpos, double ypos);
+		static void Init(GLFWwindow* Window);
 
 
 

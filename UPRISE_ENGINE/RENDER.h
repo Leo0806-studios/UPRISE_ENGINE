@@ -25,7 +25,6 @@ namespace PAIN {
 #include "RENDER_OBJECT_SPAWNING.h"
 
 
-#include "RENDERSETUP.h"
 #include "RENDER_DATATYPES.h"
 #include "RENDER_SHADER_UTILLS.h"
 #endif // !_RENDERER_

@@ -63,8 +63,8 @@ using namespace DATATYPES;
 
  TS_P_Vector3 DATATYPES::TS_P_Vector3::operator/(const TS_P_Vector3 b) {
 	TS_P_Vector3 _tmp;
-	__m128 val = _mm_set_ps(x, y, z, pad);
-	__m128 val1 = _mm_set_ps(b.x, b.y, b.z, b.pad);
+	__m128 val = _mm_setr_ps(x, y, z, pad);
+	__m128 val1 = _mm_setr_ps(b.x, b.y, b.z, b.pad);
 
 	_mm_store_ps(&_tmp.x, _mm_div_ps(val, val1));
 	return _tmp;
@@ -73,7 +73,7 @@ using namespace DATATYPES;
  TS_P_Vector3 DATATYPES::TS_P_Vector3::operator*(const float b) {
 
 	TS_P_Vector3 _tmp;
-	__m128 val = _mm_set_ps(x, y, z, pad);
+	__m128 val = _mm_setr_ps(x, y, z, pad);
 
 	_mm_store_ps(&_tmp.x, _mm_mul_ps(val, _mm_set_ps1(b)));
 	return _tmp;
@@ -82,8 +82,8 @@ using namespace DATATYPES;
 
  TS_P_Vector3 DATATYPES::TS_P_Vector3::operator*(const TS_P_Vector3 b) {
 	TS_P_Vector3 _tmp;
-	__m128 val = _mm_set_ps(x, y, z, pad);
-	__m128 val1 = _mm_set_ps(b.x, b.y, b.z, b.pad);
+	__m128 val = _mm_setr_ps(x, y, z, pad);
+	__m128 val1 = _mm_setr_ps(b.x, b.y, b.z, b.pad);
 
 	_mm_store_ps(&_tmp.x, _mm_mul_ps(val, val1));
 	return _tmp;

@@ -18,7 +18,7 @@ namespace DATATYPES {
 		/// accepts 0 opengl,1vulkan,2 dx11 and 2 dx12
 		/// </summary>
 		unsigned short RenderMode;
-		
+		Startup_Config();
 
 
 	};

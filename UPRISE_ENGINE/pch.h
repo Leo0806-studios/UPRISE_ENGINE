@@ -2,7 +2,7 @@
 //#include "glad.h"
 //#include "glad.h"
 #ifndef _PCH_
-
+//C : \Users\leo08\source\repos\Neuer Ordner(2)\NativeLibrary\bin\release\net8.0\win - x64\publish
 
 
 #define _PCH_
@@ -10,6 +10,9 @@
 #include "tracy/TracyC.h"
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
+#define symLoad GetProcAddress 
+
+
 #include <shellapi.h> // For CommandLineToArgvW
 #if defined(min)
 #undef min
@@ -34,7 +37,6 @@ using namespace std;
 #include <cassert>
 #include <chrono>
 #include "string"
-#include "vector"
 #include "memory"
 #include "filesystem"
 #include <iostream>
@@ -103,4 +105,13 @@ struct EqualTo
         return lhs.get() == rhs.get();
     }
 };
+template<class _Ty,class _Arg>
+_Ty CallCSharpFunction(const WCHAR* patrh,char* functionName,_Arg argument) {
+    const WCHAR* addrs = L"C:\\Users\\leo08\\source\\repos\\Neuer Ordner(2)\\NativeLibrary\\bin\\release\\net8.0\\win - x64\\publish";
+    HINSTANCE handle = LoadLibrary(patrh);
+    typedef _Ty((*externFuction)(_Arg));
+    externFuction Function = (externFuction)symLoad(handle, functionName);
+    _Ty result = Function(argument);
+    return result;
+}
 #endif // _PCH_

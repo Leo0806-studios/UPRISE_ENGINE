@@ -3,11 +3,13 @@
 #include "MESSAGES.h"
 #include "pch.h"
 #include "PHYSICS.h"
-#include "RENDER.h"
-
+#include "CPUFEATURES.h"
+#include "RENDERSETUP.h"
+#include "DEBUG_LOGGER.h"
 
 bool CORE::Startup::StartupComplete;
 DATATYPES::Startup_Config CORE::Startup::STARTUP_CONFIG;
+GLFWwindow* CORE::SYSTEMS::windw;
 
 DATATYPES::Startup_Config CORE::Startup::Configure_Startup() {
 
@@ -15,27 +17,48 @@ DATATYPES::Startup_Config CORE::Startup::Configure_Startup() {
 
 
 	}
+	MEMORYSTATUSEX statex;
+	statex.dwLength = sizeof(statex);
+
+	GlobalMemoryStatusEx(&statex);
 
 	DATATYPES::Startup_Config Config;
-	//Config.CPU_Cores = std::thread::hardware_concurrency();
-	//Config.Supports_AVX = CORE::InstructionSet::AVX;
-	//Config.Supports_AVX2 = CORE::InstructionSet::AVX2;
-	PULONGLONG ram=0;
-	GetPhysicallyInstalledSystemMemory(ram);
-	Config.RAMbytes = *ram;
+	Log << "getting Hardware supports...";
+	Config.CPU_Cores = std::thread::hardware_concurrency();
+	Log<<"	- CPU Threads: " << Config.CPU_Cores;
+	Config.Supports_AVX = CORE::InstructionSet::AVX;
+	Log<<"	- AVX support :" << Config.Supports_AVX;
+	Config.Supports_AVX2 = CORE::InstructionSet::AVX2;
+	Log<<"	- AVX2 support :" << Config.Supports_AVX2;
+	PULONGLONG* ram=0;
+	//GetPhysicallyInstalledSystemMemory(*ram);
+	Config.RAMbytes = statex.ullTotalPhys;;
+	Log<<"	- innstalled Ram :" << Config.RAMbytes;
+	Log<<"	- Setting Rennder to OpenGL (0)";
 	Config.RenderMode = 0;
 	STARTUP_CONFIG = Config;
-
+	Log<<"	- Connfig finished";
+	Log<<"	- returnning...";
 	return Config;
 }
 void CORE::Startup::Init_Startup(DATATYPES::Startup_Config config) {
+	Log << "Init Startup...";
 
 }
 CORE::SYSTEMS CORE::Startup::Start_Systems() {
+	//const ZoneNamedN(startup, "Startup", true);
+	Log << "startig Systems...";
 	SYSTEMS sys;
+	Log << "	- Starting Message Bus";
 	MESSAGES::Message_Bus bus = MESSAGES::Message_Bus();
 	bus.Exists = true;
-	sys.Bus = &bus;
-
+	sys.Bus = &bus; 
+	Log << "	- Message Bus started.";
+	Log << "	- Startig Render";
+	PAIN::RenderStup::Setup(1920, 1080, "UPRISE");
+	Log << "	- Started Render";
+	sys.windw = PAIN::RenderStup::Windowvar;
+	Log << "	- Init Input System";
+	CORE::Input::Init(PAIN::RenderStup::Windowvar);
 	return sys;
 }

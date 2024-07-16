@@ -3,21 +3,27 @@
 #define _RENDER_MATERIAL_
 #include "pch.h"
 #include "RENDER_SHADER_UTILLS.h"
+#include "RENDER_CAMERA.h"
 #include "ECS.h" 
 namespace PAIN {
+
+	class TerrainModel;
 	class Render {
 
 
 
 	public:
 		static std::vector<PAIN::Material> mats;
-		std::vector< GameObject* > objects;
+		static std::vector<std::shared_ptr<PAIN::TerrainModel>> terrains;
+		std::vector< std::shared_ptr<GameObject> > objects;
 		std::vector< std::shared_ptr<CORE::Object> > ptrobjects;
 		std::vector< void* > voidobjects;
-
-		virtual void Draw() = 0;
+		static PAIN::Render_Camera* RenderCam;
+		static std::shared_ptr<CORE::Behaviour> CAM;
+		virtual void DrawObj() = 0;
 
 		static void DrawAll();
+		static void Init();
 
 	};
 
@@ -26,7 +32,18 @@ namespace PAIN {
 		int ID;
 		Shader* shader;
 		Material(Shader* shade);;
-		void Draw()override;
+		void DrawObj()override;
+	};
+	class TerrainModel : public PAIN::Model, PAIN::Render {
+	public:
+		void* Terraindata;
+		TerrainModel();
+		TerrainModel(void* data,int width, int depth, float maxHeight,Shader* shade);
+		Shader* shader;
+		std::shared_ptr<GameObject> object;
+		void DrawObj()override;
+		Mesh generateTerrainMesh(int width, int depth, float maxHeight);
+		 
 	};
 }
 
