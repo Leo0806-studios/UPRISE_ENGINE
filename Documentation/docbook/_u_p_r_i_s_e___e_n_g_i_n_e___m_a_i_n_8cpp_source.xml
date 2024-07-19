@@ -1,0 +1,159 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source" xml:lang="en-US">
+<title>UPRISE_ENGINE_MAIN.cpp</title>
+<indexterm><primary>UPRISE_ENGINE/UPRISE_ENGINE_MAIN.cpp</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered"><anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00001"/>00001 <emphasis role="comment">//&#32;UPRISE_ENGINE.cpp&#32;:&#32;This&#32;file&#32;contains&#32;the&#32;&apos;main&apos;&#32;function.&#32;Program&#32;execution&#32;begins&#32;and&#32;ends&#32;there.</emphasis>
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00002"/>00002 <emphasis role="comment">//</emphasis>
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00003"/>00003 <emphasis role="preprocessor">#import&#32;&quot;ManagedUtills.tlb&quot;</emphasis>&#32;named_guids
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00004"/>00004 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__d_e_b_u_g___l_o_g_g_e_r_8h">DEBUG_LOGGER.h</link>&quot;</emphasis>
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00005"/>00005 
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00006"/>00006 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__g_l_i_n_c_l_u_d_e_s_8h">GLINCLUDES.h</link>&quot;</emphasis>
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00007"/>00007 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_pch_8h">pch.h</link>&quot;</emphasis>
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00008"/>00008 <emphasis role="comment">//#include&#32;&quot;glad.h&quot;</emphasis>
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00009"/>00009 <emphasis role="comment">//#include&#32;&quot;glfw3.h&quot;</emphasis>
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00010"/>00010 <emphasis role="comment">//#include&#32;&quot;pch.h&quot;</emphasis>
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00011"/>00011 <emphasis role="comment">//#include&#32;&quot;Helpers.h&quot;</emphasis>
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00012"/>00012 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__c_o_r_e_8h">CORE.h</link>&quot;</emphasis>
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00013"/>00013 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__d_a_t_a_t_y_p_e_s_8h">DATATYPES.h</link>&quot;</emphasis>
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00014"/>00014 
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00015"/>00015 <emphasis role="comment">//#include&#32;&lt;glm/glm.hpp&gt;</emphasis>
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00016"/>00016 <emphasis role="comment">//#include&#32;&lt;glm/gtc/matrix_transform.hpp&gt;</emphasis>
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00017"/>00017 <emphasis role="comment">//#include&#32;&lt;glm/gtc/type_ptr.hpp&gt;</emphasis>
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00018"/>00018 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__e_c_s_8h">ECS.h</link>&quot;</emphasis>
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00019"/>00019 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__r_e_n_d_e_r_8h">RENDER.h</link>&quot;</emphasis>
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00020"/>00020 <emphasis role="comment">//#include&#32;&quot;RENDER_DATATYPES.h&quot;</emphasis>
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00021"/>00021 <emphasis role="comment">//#include&#32;&quot;RENDER_OBJECT_SPAWNING.h&quot;</emphasis>
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00022"/>00022 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__m_e_s_s_a_g_e_s_8h">MESSAGES.h</link>&quot;</emphasis>
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00023"/>00023 <emphasis role="comment">//#include&#32;&quot;CORE.h&quot;</emphasis>
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00024"/>00024 <emphasis role="comment">//#include&#32;&quot;INPUT.h&quot;</emphasis>
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00025"/>00025 <emphasis role="comment">//#include&#32;&quot;memory&quot;</emphasis>
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00026"/>00026 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__t_e_s_t_8h">TEST.h</link>&quot;</emphasis>
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00027"/>00027 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__r_e_n_d_e_r___m_a_t_e_r_i_a_l_8h">RENDER_MATERIAL.h</link>&quot;</emphasis>
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00028"/>00028 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__p_h_y_s_i_c_s_8h">PHYSICS.h</link>&quot;</emphasis>
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00029"/>00029 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__r_e_n_d_e_r_s_e_t_u_p_8h">RENDERSETUP.h</link>&quot;</emphasis>
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00030"/>00030 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__s_c_e_n_e_8h">SCENE.h</link>&quot;</emphasis>
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00031"/>00031 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__t_e_r_r_a_i_n___d_a_t_a_8h">TERRAIN_DATA.h</link>&quot;</emphasis>
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00032"/>00032 <emphasis role="comment">//#include&#32;&quot;BEHAVIOUR.h&quot;</emphasis>
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00033"/>00033 <emphasis role="comment">//#include&#32;&quot;MESH.h&quot;</emphasis>
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00034"/>00034 
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00035"/>00035 
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00036"/>00036 
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00037"/>00037 <emphasis role="keyword">class&#32;</emphasis>Behaviour;
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00038"/>00038 <emphasis role="keyword">class&#32;</emphasis>Object;
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00039"/>00039 <emphasis role="keyword">class&#32;</emphasis>Input;
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00040"/>00040 <emphasis role="keyword">class&#32;</emphasis>Component;
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00041"/>00041 <emphasis role="keyword">class&#32;</emphasis>Scene;
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00042"/>00042 <emphasis role="keyword">class&#32;</emphasis>Startup;
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00043"/>00043 
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00044"/>00044 
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00045"/>00045 
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00046"/><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1a00508e396936f7e131a712ea6124c64d">00046</link> <link linkend="_class_m_e_s_s_a_g_e_s_1_1_message___bus">MESSAGES::Message_Bus</link>*&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1a00508e396936f7e131a712ea6124c64d">Messagebus</link>;
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00047"/>00047 
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00048"/><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1a7be64ffc341705134007e3955e4deef7">00048</link> std::vector&lt;DATATYPES::TS_P_Vector3&gt;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1a7be64ffc341705134007e3955e4deef7">VERTS</link>;
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00049"/><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1ab3aeea8903eb004bd9d06d4ed7b951fa">00049</link> <emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1ab3aeea8903eb004bd9d06d4ed7b951fa">spawned</link>&#32;=&#32;<emphasis role="keyword">false</emphasis>;
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00050"/>00050 
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00051"/><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1a29a7c755b0fc44ddcfb583df15a155c7">00051</link> <link linkend="_class_p_a_i_n_1_1_shader">PAIN::Shader</link>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1a29a7c755b0fc44ddcfb583df15a155c7">shader</link>;
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00052"/>00052 
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00053"/><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1adf648d4c1327ae21223a8ff0f55f0212">00053</link> <link linkend="_class_c_o_r_e_1_1_scene">CORE::Scene</link>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1adf648d4c1327ae21223a8ff0f55f0212">scene</link>;
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00054"/>00054 <emphasis role="comment">//void&#32;framebuffer_size_callback(GLFWwindow*&#32;window,&#32;int&#32;width,&#32;int&#32;height)</emphasis>
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00055"/>00055 <emphasis role="comment">//{</emphasis>
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00056"/>00056 <emphasis role="comment">//&#32;&#32;glViewport(0,&#32;0,&#32;width,&#32;height);</emphasis>
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00057"/>00057 <emphasis role="comment">//}</emphasis>
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00058"/><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1a2d03c6f2666863543429a06ef642fe6a">00058</link> <emphasis role="keywordtype">void</emphasis>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1a2d03c6f2666863543429a06ef642fe6a">processInput</link>(GLFWwindow*&#32;window)
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00059"/>00059 {
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00060"/>00060 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(<link linkend="_class_c_o_r_e_1_1_input_1a2bca014d552f599a9d894074e355b6af">CORE::Input::GetKey</link>(<link linkend="__i_n_p_u_t_8h_1a955f504eccf76b4eb2489c0adab03121">A</link>))&#32;{
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00061"/>00061 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;pressed&#32;A&quot;</emphasis>;
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00062"/>00062 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00063"/>00063 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(glfwGetKey(window,&#32;GLFW_KEY_O)&#32;==&#32;GLFW_PRESS)&#32;{
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00064"/>00064 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_game_object">GameObject</link>&#32;TestObj;
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00065"/>00065 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;&#32;<emphasis role="keywordtype">char</emphasis>*&#32;pth&#32;=&#32;<emphasis role="stringliteral">&quot;C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\GAMEDATA\\quit.glb&quot;</emphasis>;
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00066"/>00066 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;mod&#32;=&#32;<link linkend="_class_c_o_m_p_o_n_e_n_t_s_1_1___mesh">COMPONENTS::_Mesh</link>(pth);
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00067"/>00067 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_p_a_i_n_1_1_material">PAIN::Material</link>&#32;mat&#32;=&#32;<link linkend="_class_p_a_i_n_1_1_material">PAIN::Material</link>(&amp;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1a29a7c755b0fc44ddcfb583df15a155c7">shader</link>);
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00068"/>00068 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;mat.<link linkend="_class_p_a_i_n_1_1_material_1ae8c0a8b4748918d51637c467db2a1541">ID</link>&#32;=&#32;0;
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00069"/>00069 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_p_a_i_n_1_1_render_1a84347a41643ef3f2d789da1734dbd82b">PAIN::Render::mats</link>.push_back(mat);
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00070"/>00070 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;TestObj&#32;=&#32;<link linkend="_class_game_object_1a8047b6d401d5c3a968c79d9722f487cb">GameObject::Create</link>(<link linkend="_struct_d_a_t_a_t_y_p_e_s_1_1_t_s___p___vector3">DATATYPES::TS_P_Vector3</link>(0,&#32;0,&#32;0),&#32;&amp;mod,&#32;mat.<link linkend="_class_p_a_i_n_1_1_material_1ae8c0a8b4748918d51637c467db2a1541">ID</link>);
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00071"/>00071 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(mat.<link linkend="_class_p_a_i_n_1_1_material_1ae8c0a8b4748918d51637c467db2a1541">ID</link>&#32;&lt;&#32;<link linkend="_class_p_a_i_n_1_1_render_1a84347a41643ef3f2d789da1734dbd82b">PAIN::Render::mats</link>.size()&#32;||&#32;<link linkend="_class_p_a_i_n_1_1_render_1a84347a41643ef3f2d789da1734dbd82b">PAIN::Render::mats</link>.size()&#32;==&#32;0)&#32;{
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00072"/>00072 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_p_a_i_n_1_1_render_1a84347a41643ef3f2d789da1734dbd82b">PAIN::Render::mats</link>[mat.<link linkend="_class_p_a_i_n_1_1_material_1ae8c0a8b4748918d51637c467db2a1541">ID</link>].objects.push_back(std::make_shared&lt;GameObject&gt;(TestObj));
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00073"/>00073 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00074"/>00074 
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00075"/>00075 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;TestObj.<link linkend="_class_game_object_1af542b33c8de269343e22c5629e6b66c0">name</link>&#32;=&#32;(<emphasis role="keywordtype">char</emphasis>*)<emphasis role="stringliteral">&quot;TEST&#32;OBJECT&quot;</emphasis>;
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00076"/>00076 
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00077"/>00077 
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00078"/>00078 
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00079"/>00079 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;ppp&#32;=&#32;<link linkend="_class_test">Test</link>();
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00080"/>00080 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ppp.gameobject&#32;=&#32;&amp;TestObj;
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00081"/>00081 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ppp.oobj&#32;=&#32;&amp;TestObj;
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00082"/>00082 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>*&#32;msc&#32;=&#32;&amp;ppp;
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00083"/>00083 
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00084"/>00084 
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00085"/>00085 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;TestObj.<link linkend="_class_game_object_1a6cb1562756aac08750d4b30f46ef7619">AddComponent</link>(<link linkend="_class_test">Test</link>());
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00086"/>00086 
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00087"/>00087 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;pressed&#32;O&quot;</emphasis>;
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00088"/>00088 
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00089"/>00089 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//auto&#32;base&#32;=CORE::Behaviour();</emphasis>
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00090"/>00090 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;ppppppp&#32;=&#32;std::make_shared&lt;GameObject&gt;(TestObj);
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00091"/>00091 
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00092"/>00092 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1adf648d4c1327ae21223a8ff0f55f0212">scene</link>.<link linkend="_class_c_o_r_e_1_1_scene_1a19a0b0169029f4acbc2e7e3c10af57c6">ObjectsInScene</link>.push_back(std::make_shared&lt;GameObject&gt;(TestObj));
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00093"/>00093 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_c_o_r_e_1_1_behaviour_1a65fff8cc911dcda58303dd3160b187cd">CORE::Behaviour::updateAll</link>();
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00094"/>00094 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1ab3aeea8903eb004bd9d06d4ed7b951fa">spawned</link>&#32;=&#32;<emphasis role="keyword">true</emphasis>;
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00095"/>00095 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00096"/>00096 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(glfwGetKey(window,&#32;GLFW_KEY_ESCAPE)&#32;==&#32;GLFW_PRESS)
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00097"/>00097 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;glfwSetWindowShouldClose(window,&#32;<emphasis role="keyword">true</emphasis>);
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00098"/>00098 }
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00099"/>00099 
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00100"/><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1ae66f6b31b5ad750f1fe042a706a4e3d4">00100</link> <emphasis role="keywordtype">int</emphasis>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1ae66f6b31b5ad750f1fe042a706a4e3d4">main</link>()
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00101"/>00101 {
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00102"/>00102 &#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;a&#32;=<link linkend="_class_c_o_r_e_1_1_filehandler_1ad508504e48ba89a02e6da3a4daa4dc88">CORE::Filehandler::ApplicationPath</link>();
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00103"/>00103 &#32;&#32;&#32;&#32;<link linkend="__d_e_b_u_g___l_o_g_g_e_r_8h_1a7ec724fc36f207e8eee4924496b688fb">Log</link>&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;Startup....&quot;</emphasis>;
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00104"/>00104 
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00105"/>00105 
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00106"/>00106 &#32;&#32;&#32;&#32;<link linkend="_struct_c_o_r_e_1_1_s_y_s_t_e_m_s">CORE::SYSTEMS</link>&#32;z;
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00107"/>00107 &#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;startcfg&#32;=&#32;<link linkend="_class_c_o_r_e_1_1_startup_1ab7f834ff4a0f885240cee580a4385cfe">CORE::Startup::Configure_Startup</link>();
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00108"/>00108 &#32;&#32;&#32;&#32;<link linkend="_class_c_o_r_e_1_1_startup_1a721fd7b397c1df386eeeb305ee463108">CORE::Startup::Init_Startup</link>(startcfg);
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00109"/>00109 &#32;&#32;&#32;&#32;z&#32;=&#32;<link linkend="_class_c_o_r_e_1_1_startup_1a9aad8c5e50eac4a4e69c9b8b4390fb4f">CORE::Startup::Start_Systems</link>();
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00110"/>00110 &#32;&#32;&#32;&#32;std::dynamic_pointer_cast&lt;Camera&gt;(<link linkend="_class_p_a_i_n_1_1_render_1aa75a60252b5a62d78e889a2ec26fbf53">PAIN::Render::CAM</link>).get()-&gt;FOV&#32;=&#32;45;
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00111"/>00111 &#32;&#32;&#32;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1adf648d4c1327ae21223a8ff0f55f0212">scene</link>&#32;=&#32;<link linkend="_class_c_o_r_e_1_1_scene_1af350350b974475583d074c70742ef3b4">CORE::Scene::Create</link>();
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00112"/>00112 &#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;aaa&#32;=&#32;<link linkend="_class_c_o_r_e_1_1_filehandler_1ad508504e48ba89a02e6da3a4daa4dc88">CORE::Filehandler::ApplicationPath</link>()&#32;+&#32;<emphasis role="stringliteral">&quot;\\GAMEDATA&quot;</emphasis>;
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00113"/>00113 &#32;&#32;&#32;&#32;<link linkend="_class_c_o_r_e_1_1_config_loader_1acb043248abba61aa685e1c9d9a14070b">CORE::ConfigLoader::LoadModels</link>(std::filesystem::path(aaa));
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00114"/>00114 &#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;Hello&#32;World!\n&quot;</emphasis>;
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00115"/>00115 &#32;&#32;&#32;&#32;
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00116"/>00116 
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00117"/>00117 
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00118"/>00118 &#32;&#32;&#32;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1a29a7c755b0fc44ddcfb583df15a155c7">shader</link>&#32;=&#32;<link linkend="_class_p_a_i_n_1_1_shader">PAIN::Shader</link>(<emphasis role="stringliteral">&quot;C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\x64\\Debug\\6.1.coordinate_systems.vs&quot;</emphasis>,&#32;<emphasis role="stringliteral">&quot;C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\x64\\Debug\\6.1.coordinate_systems.fs&quot;</emphasis>);
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00119"/>00119 &#32;&#32;&#32;&#32;<emphasis role="comment">//auto&#32;a&#32;=&#32;Terrain_Data::Create(&quot;C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\GAMEDATA\\UPRISE\\ASSETS\\Map1.png&quot;,&#32;512,&#32;512,&#32;100,&#32;&amp;shader);</emphasis>
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00120"/>00120 &#32;&#32;&#32;&#32;<emphasis role="comment">//PAIN::Render::terrains.push_back(std::make_shared&lt;PAIN::TerrainModel&gt;(a.get()-&gt;model));</emphasis>
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00121"/>00121 
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00122"/>00122 &#32;&#32;&#32;&#32;<emphasis role="comment">//auto&#32;aerwe&#32;=&#32;CORE::ConfigLoader::LoadCOnfigFile(&quot;C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\x64\\Debug\\GAMEDATA\\UPRISE\\CONFIG\\BUILDINGS\\TEST.CFG&quot;);</emphasis>
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00123"/>00123 
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00124"/>00124 
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00125"/>00125 
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00126"/>00126 
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00127"/>00127 
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00128"/>00128 
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00129"/>00129 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;lasttime&#32;=&#32;glfwGetTime();
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00130"/>00130 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">while</emphasis>&#32;(!glfwWindowShouldClose(z.<link linkend="_struct_c_o_r_e_1_1_s_y_s_t_e_m_s_1a407ce50ef650786800bdca2fd07641bd">windw</link>))
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00131"/>00131 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00132"/>00132 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1a2d03c6f2666863543429a06ef642fe6a">processInput</link>(z.<link linkend="_struct_c_o_r_e_1_1_s_y_s_t_e_m_s_1a407ce50ef650786800bdca2fd07641bd">windw</link>);
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00133"/>00133 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;glClearColor(0.2f,&#32;0.3f,&#32;0.3f,&#32;1.0f);
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00134"/>00134 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;glClear(GL_COLOR_BUFFER_BIT&#32;|&#32;GL_DEPTH_BUFFER_BIT);
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00135"/>00135 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_c_o_r_e_1_1_behaviour_1a85133603d79e5167f365ca16fd65375f">CORE::Behaviour::updateAllAWAKE</link>();
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00136"/>00136 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_c_o_r_e_1_1_behaviour_1a322f202c7a65cf572f69555ec46836d4">CORE::Behaviour::updateAllSTART</link>();
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00137"/>00137 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_c_o_r_e_1_1_behaviour_1a65fff8cc911dcda58303dd3160b187cd">CORE::Behaviour::updateAll</link>();
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00138"/>00138 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_p_h_y_s_i_c_s_1_1_physics_1a36869748a68551608a42de1046ff6fa5">PHYSICS::Physics::UpdateAllPhysics</link>();
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00139"/>00139 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1ab3aeea8903eb004bd9d06d4ed7b951fa">spawned</link>&#32;==&#32;<emphasis role="keyword">true</emphasis>)&#32;{
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00140"/>00140 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_p_a_i_n_1_1_render_1aaf5e66f43020771d64f5e392143195e0">PAIN::Render::DrawAll</link>();
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00141"/>00141 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00142"/>00142 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;glfwSwapBuffers(z.<link linkend="_struct_c_o_r_e_1_1_s_y_s_t_e_m_s_1a407ce50ef650786800bdca2fd07641bd">windw</link>);
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00143"/>00143 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;FrameMark;
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00144"/>00144 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;glfwPollEvents();
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00145"/>00145 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">while</emphasis>&#32;(glfwGetTime()&#32;&lt;&#32;lasttime&#32;+&#32;1.0&#32;/&#32;60)&#32;{
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00146"/>00146 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;TODO:&#32;Put&#32;the&#32;thread&#32;to&#32;sleep,&#32;yield,&#32;or&#32;simply&#32;do&#32;nothing</emphasis>
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00147"/>00147 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00148"/>00148 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;lasttime&#32;+=&#32;1.0&#32;/&#32;60;
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00149"/>00149 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00150"/>00150 &#32;&#32;&#32;&#32;glfwTerminate();
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00151"/>00151 
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00152"/>00152 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;0;
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00153"/>00153 
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00154"/>00154 }
+</programlisting></section>

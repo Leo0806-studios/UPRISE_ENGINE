@@ -1,0 +1,133 @@
+\doxysection{RENDER\+\_\+\+MATERIAL.\+cpp}
+\hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source}{}\label{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source}\index{UPRISE\_ENGINE/RENDER\_MATERIAL.cpp@{UPRISE\_ENGINE/RENDER\_MATERIAL.cpp}}
+\mbox{\hyperlink{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00001}00001\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_g_l_i_n_c_l_u_d_e_s_8h}{GLINCLUDES.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00002}00002\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8h}{RENDER\_MATERIAL.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00003}00003\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_d_a_t_a_t_y_p_e_s_8h}{DATATYPES.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00004}00004\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_t_e_r_r_a_i_n___d_a_t_a_8h}{TERRAIN\_DATA.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00005}\mbox{\hyperlink{class_p_a_i_n_1_1_material_a6b8d61ec2197780024b96ae2675c3680}{00005}}\ \ \mbox{\hyperlink{class_p_a_i_n_1_1_material_a6b8d61ec2197780024b96ae2675c3680}{PAIN::Material::Material}}(\mbox{\hyperlink{class_p_a_i_n_1_1_shader}{Shader}}*\ shade)\ \{\ \mbox{\hyperlink{class_p_a_i_n_1_1_material_a6347cc80081c890b9f46426f97ee60ef}{shader}}\ =\ shade;\ \}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00006}00006\ \ std::vector<PAIN::Material>\ \mbox{\hyperlink{class_p_a_i_n_1_1_render_a84347a41643ef3f2d789da1734dbd82b}{PAIN::Render::mats}};}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00007}00007\ \ \mbox{\hyperlink{class_p_a_i_n_1_1_render___camera}{PAIN::Render\_Camera}}*\ \mbox{\hyperlink{class_p_a_i_n_1_1_render_aa8941b0822d07c1f693c1cdde5a9b6d7}{PAIN::Render::RenderCam}};}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00008}00008\ \ std::shared\_ptr<CORE::Behaviour>\ \mbox{\hyperlink{class_p_a_i_n_1_1_render_aa75a60252b5a62d78e889a2ec26fbf53}{PAIN::Render::CAM}};}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00009}00009\ \ std::vector<std::shared\_ptr<PAIN::TerrainModel>>\ \mbox{\hyperlink{class_p_a_i_n_1_1_render_a4cdc3a2454c7719c5ebf83e066994a5c}{PAIN::Render::terrains}};}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00010}00010\ \ std::unordered\_map<std::string,\ std::shared\_ptr<PAIN::Model>>\ \mbox{\hyperlink{class_p_a_i_n_1_1_render_ab7d797b16bb1c0e8dd5f1b90e2381e70}{PAIN::Render::Modeldict}};}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00011}00011\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00012}\mbox{\hyperlink{class_p_a_i_n_1_1_material_ad2a40419959a3171a9e24a0fe676d694}{00012}}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_p_a_i_n_1_1_material_ad2a40419959a3171a9e24a0fe676d694}{PAIN::Material::DrawObj}}()\ \{}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00013}00013\ \ \ \ \ \mbox{\hyperlink{_u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_a29a7c755b0fc44ddcfb583df15a155c7}{shader}}-\/>\mbox{\hyperlink{class_p_a_i_n_1_1_shader_a5da34848439dd56f902530ebbeece48b}{use}}();}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00014}00014\ \ \ \ \ \textcolor{keywordtype}{int}\ i\ =\ objects.size()\ -\/\ 1;}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00015}00015\ \ \ \ \ \textcolor{keywordflow}{for}\ (;\ i\ >=\ 0;\ i-\/-\/)\ \{}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00017}00017\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (objects[i]-\/>Enabled\ >=\ 1)\ \{}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00019}00019\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00020}00020\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ poss\ =\ std::dynamic\_pointer\_cast<Transform>(objects[i]-\/>behaviours[1]);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ glm::mat4\ projection\ =\ glm::perspective(glm::radians(std::dynamic\_pointer\_cast<Camera>(CAM).get()-\/>camera.FOV),\ (\textcolor{keywordtype}{float})1600\ /\ (\textcolor{keywordtype}{float})900,\ 0.1f,\ 500.0f);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ rott\ =\ poss.get();}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00025}00025\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ rot\ =\ rott-\/>rotation;}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ glm::mat4\ view\ =\ std::dynamic\_pointer\_cast<Camera>(CAM).get()-\/>camera.GetViewMatrix();}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ glm::mat4\ rotation\ =\ rot.ToMat4();}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ glm::mat4\ model\ =\ glm::mat4(1.0f);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{struct_d_a_t_a_t_y_p_e_s_1_1_t_s___p___vector3}{DATATYPES::TS\_P\_Vector3}}\ pos\ =\ std::dynamic\_pointer\_cast<Transform>(objects[i].get()-\/>behaviours[1]).get()-\/>Position;}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ ooo=poss.get();}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ pos\ =\ ooo-\/>Position;}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00032}00032\ \ \ \ \ \ \ \ \ \ \ \ \ model\ =\ glm::translate(model,\ (glm::vec3)pos\ );}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_a29a7c755b0fc44ddcfb583df15a155c7}{shader}}-\/>\mbox{\hyperlink{class_p_a_i_n_1_1_shader_a640f7e98e5bf71f2ef4ed4b70db046e3}{setMat4}}(\textcolor{stringliteral}{"{}projection"{}},\ projection);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_a29a7c755b0fc44ddcfb583df15a155c7}{shader}}-\/>\mbox{\hyperlink{class_p_a_i_n_1_1_shader_a640f7e98e5bf71f2ef4ed4b70db046e3}{setMat4}}(\textcolor{stringliteral}{"{}view"{}},\ view);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_a29a7c755b0fc44ddcfb583df15a155c7}{shader}}-\/>\mbox{\hyperlink{class_p_a_i_n_1_1_shader_a640f7e98e5bf71f2ef4ed4b70db046e3}{setMat4}}(\textcolor{stringliteral}{"{}model"{}},\ model);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{_u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_a29a7c755b0fc44ddcfb583df15a155c7}{shader}}-\/>\mbox{\hyperlink{class_p_a_i_n_1_1_shader_a640f7e98e5bf71f2ef4ed4b70db046e3}{setMat4}}(\textcolor{stringliteral}{"{}Rotation"{}},\ rotation);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00037}00037\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ aa\ =\ std::dynamic\_pointer\_cast<COMPONENTS::\_Mesh>(objects[i]-\/>MesH);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ aa.get()-\/>Model.get()-\/>Draw(*\mbox{\hyperlink{_u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_a29a7c755b0fc44ddcfb583df15a155c7}{shader}});}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//auto\ meesh\ =\ (COMPONENTS::\_Mesh*)objects[i]-\/>msh;}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//meesh-\/>Model.Draw(*shader);}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//objects[i]-\/>MesH.Model.Draw(*shader);}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00043}00043\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00044}00044\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00045}00045\ \}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00046}00046\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00047}\mbox{\hyperlink{class_p_a_i_n_1_1_render_aaf5e66f43020771d64f5e392143195e0}{00047}}\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_p_a_i_n_1_1_render_aaf5e66f43020771d64f5e392143195e0}{PAIN::Render::DrawAll}}()\ \{}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00048}00048\ \ \ \ \ \textcolor{keywordtype}{int}\ i\ =\ mats.size()\ -\/\ 1;}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00049}00049\ \ \ \ \ \textcolor{keywordflow}{for}\ (;\ i\ >=\ 0;\ i-\/-\/)\ \{}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00050}00050\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00052}00052\ \ \ \ \ \ \ \ \ mats[i].DrawObj();}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00053}00053\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00054}00054\ \ \ \ \ \textcolor{keywordtype}{int}\ s\ =\ terrains.size()-\/1;}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00055}00055\ \ \ \ \ \textcolor{keywordflow}{for}\ (;\ s\ >=\ 0;\ s-\/-\/)\ \{}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00056}00056\ \ \ \ \ \ \ \ \ terrains[s].get()-\/>DrawObj();}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00057}00057\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00058}00058\ \}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00059}00059\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00060}\mbox{\hyperlink{class_p_a_i_n_1_1_render_af1aa342f50597f6149526dd86c307443}{00060}}\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_p_a_i_n_1_1_render_af1aa342f50597f6149526dd86c307443}{PAIN::Render::Init}}()}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00061}00061\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00062}00062\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00063}00063\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00064}\mbox{\hyperlink{class_p_a_i_n_1_1_terrain_model_a922dd3ce730ad5816c8816a6eea5df92}{00064}}\ \ \ \mbox{\hyperlink{class_p_a_i_n_1_1_terrain_model_a922dd3ce730ad5816c8816a6eea5df92}{PAIN::TerrainModel::TerrainModel}}()}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00065}00065\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00066}00066\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00067}00067\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00068}\mbox{\hyperlink{class_p_a_i_n_1_1_terrain_model_a466107e1b8b27b3659e09cd903d3b5f3}{00068}}\ \ \ \mbox{\hyperlink{class_p_a_i_n_1_1_terrain_model_a922dd3ce730ad5816c8816a6eea5df92}{PAIN::TerrainModel::TerrainModel}}(\textcolor{keywordtype}{void}*\ data,\textcolor{keywordtype}{int}\ width,\ \textcolor{keywordtype}{int}\ depth,\ \textcolor{keywordtype}{float}\ maxHeight,\ \mbox{\hyperlink{class_p_a_i_n_1_1_shader}{Shader}}*\ shade)}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00069}00069\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00070}00070\ \ \ \ \ \ \ \mbox{\hyperlink{_u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_a29a7c755b0fc44ddcfb583df15a155c7}{shader}}\ =\ shade;}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00071}00071\ \ \ \ \ \ \ Terraindata\ =\ data;}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00072}00072\ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00073}00073\ \ \ \ \ \ \ meshes.push\_back(generateTerrainMesh(width,\ depth,\ maxHeight));}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00074}00074\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00075}00075\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00076}\mbox{\hyperlink{class_p_a_i_n_1_1_terrain_model_a14303e5d0be4b6c1643e69164e5c69eb}{00076}}\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_p_a_i_n_1_1_terrain_model_a14303e5d0be4b6c1643e69164e5c69eb}{PAIN::TerrainModel::DrawObj}}()}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00077}00077\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00078}00078\ \ \ \ \ \ \ \textcolor{keyword}{auto}\ poss\ =\ std::dynamic\_pointer\_cast<Transform>(object-\/>behaviours[1]);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00079}00079\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00080}00080\ \ \ \ \ \ \ glm::mat4\ projection\ =\ glm::perspective(glm::radians(std::dynamic\_pointer\_cast<Camera>(CAM).get()-\/>camera.FOV),\ (\textcolor{keywordtype}{float})1600\ /\ (\textcolor{keywordtype}{float})900,\ 0.1f,\ 500.0f);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00081}00081\ \ \ \ \ \ \ glm::mat4\ view\ =\ std::dynamic\_pointer\_cast<Camera>(CAM).get()-\/>camera.GetViewMatrix();}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00082}00082\ \ \ \ \ \ \ glm::mat4\ rotation\ =\ poss.get()-\/>rotation.ToMat4();}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00083}00083\ \ \ \ \ \ \ glm::mat4\ model\ =\ glm::mat4(1.0f);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00084}00084\ \ \ \ \ \ \ model\ =\ glm::translate(model,\ (glm::vec3)poss.get()-\/>Position);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00085}00085\ \ \ \ \ \ \ \mbox{\hyperlink{_u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_a29a7c755b0fc44ddcfb583df15a155c7}{shader}}-\/>\mbox{\hyperlink{class_p_a_i_n_1_1_shader_a640f7e98e5bf71f2ef4ed4b70db046e3}{setMat4}}(\textcolor{stringliteral}{"{}projection"{}},\ projection);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00086}00086\ \ \ \ \ \ \ \mbox{\hyperlink{_u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_a29a7c755b0fc44ddcfb583df15a155c7}{shader}}-\/>\mbox{\hyperlink{class_p_a_i_n_1_1_shader_a640f7e98e5bf71f2ef4ed4b70db046e3}{setMat4}}(\textcolor{stringliteral}{"{}view"{}},\ view);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00087}00087\ \ \ \ \ \ \ \mbox{\hyperlink{_u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_a29a7c755b0fc44ddcfb583df15a155c7}{shader}}-\/>\mbox{\hyperlink{class_p_a_i_n_1_1_shader_a640f7e98e5bf71f2ef4ed4b70db046e3}{setMat4}}(\textcolor{stringliteral}{"{}model"{}},\ model);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00088}00088\ \ \ \ \ \ \ \mbox{\hyperlink{_u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_a29a7c755b0fc44ddcfb583df15a155c7}{shader}}-\/>\mbox{\hyperlink{class_p_a_i_n_1_1_shader_a640f7e98e5bf71f2ef4ed4b70db046e3}{setMat4}}(\textcolor{stringliteral}{"{}Rotation"{}},\ rotation);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00089}00089\ \ \ \ \ \ \ std::dynamic\_pointer\_cast<Terrain\_Data>(\textcolor{keywordtype}{object}.get()-\/>behaviours[0]).get()-\/>model.Draw(*\mbox{\hyperlink{_u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_a29a7c755b0fc44ddcfb583df15a155c7}{shader}});}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00090}00090\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00091}00091\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00092}00092\ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00093}00093\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00094}\mbox{\hyperlink{class_p_a_i_n_1_1_terrain_model_a3615969bf06b786845df8bd91e396e30}{00094}}\ \ \ \mbox{\hyperlink{class_p_a_i_n_1_1_mesh}{PAIN::Mesh}}\ \mbox{\hyperlink{class_p_a_i_n_1_1_terrain_model_a3615969bf06b786845df8bd91e396e30}{PAIN::TerrainModel::generateTerrainMesh}}(\textcolor{keywordtype}{int}\ width,\ \textcolor{keywordtype}{int}\ depth,\ \textcolor{keywordtype}{float}\ maxHeight)}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00095}00095\ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00096}00096\ \ \ \ \ \ \ \textcolor{keyword}{auto}\ data\ =\ (\mbox{\hyperlink{class_terrain___data}{Terrain\_Data}}*)Terraindata;}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00097}00097\ \ \ \ \ \ \ std::vector<Vertex>\ vertices;}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00098}00098\ \ \ \ \ \ \ std::vector<unsigned\ int>\ indices;}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00099}00099\ \ \ \ \ \ \ \mbox{\hyperlink{struct_p_a_i_n_1_1_vertex}{Vertex}}\ vertex;}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00100}00100\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ z\ =\ 0;\ z\ <\ depth;\ z++)\ \{}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00101}00101\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00102}00102\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ x\ =\ 0;\ x\ <\ width;\ x++)\ \{}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00103}00103\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vertex.\mbox{\hyperlink{struct_p_a_i_n_1_1_vertex_a4c8465c5174cc02573b0c2c73d2f0553}{Position}}\ =\ \mbox{\hyperlink{struct_d_a_t_a_t_y_p_e_s_1_1_t_s___p___vector3}{DATATYPES::TS\_P\_Vector3}}(x,\ data-\/>GetHeight(x,\ z),\ z);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00104}00104\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vertex.\mbox{\hyperlink{struct_p_a_i_n_1_1_vertex_afffb286059dbc1ca264cdb155c553e0a}{Normal}}\ =\ \mbox{\hyperlink{struct_d_a_t_a_t_y_p_e_s_1_1_t_s___p___vector3}{DATATYPES::TS\_P\_Vector3}}(0,\ 1,\ 0);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00105}00105\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vertex.\mbox{\hyperlink{struct_p_a_i_n_1_1_vertex_a32bf98bc006b085cb0f036b34f95bad2}{TexCoords}}\ =\ glm::vec2((\textcolor{keywordtype}{float})x\ /\ data-\/>width,\ (\textcolor{keywordtype}{float})z\ /\ data-\/>depth);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00106}00106\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ vertices.push\_back(vertex);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00107}00107\ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00108}00108\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00109}00109\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00110}00110\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ z\ =\ 0;\ z\ <\ data-\/>depth\ -\/\ 1;\ ++z)\ \{}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00111}00111\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ x\ =\ 0;\ x\ <\ data-\/>width\ -\/\ 1;\ ++x)\ \{}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00112}00112\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ topLeft\ =\ z\ *\ data-\/>width\ +\ x;}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00113}00113\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ topRight\ =\ topLeft\ +\ 1;}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00114}00114\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ bottomLeft\ =\ (z\ +\ 1)\ *\ data-\/>width\ +\ x;}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00115}00115\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ bottomRight\ =\ bottomLeft\ +\ 1;}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00116}00116\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00117}00117\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ indices.push\_back(topLeft);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00118}00118\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ indices.push\_back(bottomLeft);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00119}00119\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ indices.push\_back(topRight);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00120}00120\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00121}00121\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ indices.push\_back(topRight);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00122}00122\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ indices.push\_back(bottomLeft);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00123}00123\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ indices.push\_back(bottomRight);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00124}00124\ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00125}00125\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00126}00126\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{class_p_a_i_n_1_1_mesh}{Mesh}}(vertices,\ indices,\ std::vector<Texture>());}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_l00127}00127\ \ \ \}}
+
+\end{DoxyCode}

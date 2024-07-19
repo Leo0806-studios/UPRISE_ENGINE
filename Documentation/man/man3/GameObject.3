@@ -1,0 +1,190 @@
+.TH "GameObject" 3 "Version 0.0.0.1" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+GameObject
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fR#include <GAMEOBJECT\&.h>\fP
+.PP
+Inherits \fBCORE::Object\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBGameObject\fP ()"
+.br
+.ti -1c
+.RI "void \fBAddComponent\fP (void *component)"
+.br
+.ti -1c
+.RI "template<class _Ty , class\&.\&.\&. _Types> _Ty * \fBAddComponent\fP (_Ty arg)"
+.br
+.ti -1c
+.RI "template<class _Ty , class\&.\&.\&. _Types> void \fBAddComponent\fP (_Ty arg, void *component)"
+.br
+.ti -1c
+.RI "template<class _Ty , class\&.\&.\&. _Types> _Ty * \fBGetComponent\fP (_Ty arg)"
+.br
+.ti -1c
+.RI "template<class _Ty , class\&.\&.\&. _Types> _Ty * \fBGetComponentDynamic\fP (_Ty arg)"
+.br
+.in -1c
+
+Public Member Functions inherited from \fBCORE::Object\fP
+.in +1c
+.ti -1c
+.RI "\fBObject\fP ()"
+.br
+.ti -1c
+.RI "virtual \fB~Object\fP ()"
+.br
+.ti -1c
+.RI "void \fBDestroyObj\fP (\fBObject\fP *obj)"
+.br
+.in -1c
+.SS "Static Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "static \fBGameObject\fP \fBCreate\fP (\fBDATATYPES::TS_P_Vector3\fP pos, void *mesh, int materialID)"
+.br
+.ti -1c
+.RI "static \fBGameObject\fP \fBCreate\fP (\fBDATATYPES::TS_P_Vector3\fP pos, std::shared_ptr< \fBCOMPONENTS::_Mesh\fP > mesh, int materialID)"
+.br
+.ti -1c
+.RI "static \fBGameObject\fP \fBCreateEmpty\fP (\fBDATATYPES::TS_P_Vector3\fP pos)"
+.br
+.ti -1c
+.RI "static \fBGameObject\fP \fBCreateCamera\fP (\fBDATATYPES::TS_P_Vector3\fP pos)"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "bool \fBEnabled\fP = true"
+.br
+.ti -1c
+.RI "std::shared_ptr< \fBCOMPONENTS::_Mesh\fP > \fBMESH\fP"
+.br
+.ti -1c
+.RI "std::shared_ptr< \fBTransform\fP > \fBTrAnSfOrM\fP"
+.br
+.ti -1c
+.RI "std::shared_ptr< \fBCORE::Behaviour\fP > \fBMesH\fP"
+.br
+.ti -1c
+.RI "void * \fBmsh\fP"
+.br
+.ti -1c
+.RI "std::string \fBname\fP"
+.br
+.ti -1c
+.RI "std::vector< void * > \fBComponents\fP"
+.br
+.ti -1c
+.RI "std::vector< std::shared_ptr< \fBCORE::Behaviour\fP > > \fBbehaviours\fP"
+.br
+.ti -1c
+.RI "std::vector< UUID > \fBuuids\fP"
+.br
+.in -1c
+
+Public Attributes inherited from \fBCORE::Object\fP
+.in +1c
+.ti -1c
+.RI "UUID \fBuuid\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Definition at line \fB21\fP of file \fBGAMEOBJECT\&.h\fP\&.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "GameObject::GameObject ()\fR [inline]\fP"
+
+.PP
+Definition at line \fB33\fP of file \fBGAMEOBJECT\&.h\fP\&.
+.SH "Member Function Documentation"
+.PP 
+.SS "template<class _Ty , class\&.\&.\&. _Types> _Ty * GameObject::AddComponent (_Ty arg)\fR [inline]\fP"
+
+.PP
+Definition at line \fB43\fP of file \fBGAMEOBJECT\&.h\fP\&.
+.SS "template<class _Ty , class\&.\&.\&. _Types> void GameObject::AddComponent (_Ty arg, void * component)\fR [inline]\fP"
+
+.PP
+Definition at line \fB74\fP of file \fBGAMEOBJECT\&.h\fP\&.
+.SS "void GameObject::AddComponent (void * component)"
+
+.PP
+Definition at line \fB76\fP of file \fBGAMEOBJECT\&.cpp\fP\&.
+.SS "\fBGameObject\fP GameObject::Create (\fBDATATYPES::TS_P_Vector3\fP pos, std::shared_ptr< \fBCOMPONENTS::_Mesh\fP > mesh, int materialID)\fR [static]\fP"
+
+.PP
+Definition at line \fB28\fP of file \fBGAMEOBJECT\&.cpp\fP\&.
+.SS "\fBGameObject\fP GameObject::Create (\fBDATATYPES::TS_P_Vector3\fP pos, void * mesh, int materialID)\fR [static]\fP"
+
+.PP
+Definition at line \fB10\fP of file \fBGAMEOBJECT\&.cpp\fP\&.
+.SS "\fBGameObject\fP GameObject::CreateCamera (\fBDATATYPES::TS_P_Vector3\fP pos)\fR [static]\fP"
+
+.PP
+Definition at line \fB59\fP of file \fBGAMEOBJECT\&.cpp\fP\&.
+.SS "\fBGameObject\fP GameObject::CreateEmpty (\fBDATATYPES::TS_P_Vector3\fP pos)\fR [static]\fP"
+
+.PP
+Definition at line \fB44\fP of file \fBGAMEOBJECT\&.cpp\fP\&.
+.SS "template<class _Ty , class\&.\&.\&. _Types> _Ty * GameObject::GetComponent (_Ty arg)\fR [inline]\fP"
+
+.PP
+Definition at line \fB103\fP of file \fBGAMEOBJECT\&.h\fP\&.
+.SS "template<class _Ty , class\&.\&.\&. _Types> _Ty * GameObject::GetComponentDynamic (_Ty arg)\fR [inline]\fP"
+
+.PP
+Definition at line \fB117\fP of file \fBGAMEOBJECT\&.h\fP\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "std::vector<std::shared_ptr<\fBCORE::Behaviour\fP> > GameObject::behaviours"
+
+.PP
+Definition at line \fB31\fP of file \fBGAMEOBJECT\&.h\fP\&.
+.SS "std::vector<void*> GameObject::Components"
+
+.PP
+Definition at line \fB30\fP of file \fBGAMEOBJECT\&.h\fP\&.
+.SS "bool GameObject::Enabled = true"
+
+.PP
+Definition at line \fB23\fP of file \fBGAMEOBJECT\&.h\fP\&.
+.SS "std::shared_ptr<\fBCOMPONENTS::_Mesh\fP> GameObject::MESH"
+
+.PP
+Definition at line \fB25\fP of file \fBGAMEOBJECT\&.h\fP\&.
+.SS "std::shared_ptr<\fBCORE::Behaviour\fP> GameObject::MesH"
+
+.PP
+Definition at line \fB27\fP of file \fBGAMEOBJECT\&.h\fP\&.
+.SS "void* GameObject::msh"
+
+.PP
+Definition at line \fB28\fP of file \fBGAMEOBJECT\&.h\fP\&.
+.SS "std::string GameObject::name"
+
+.PP
+Definition at line \fB29\fP of file \fBGAMEOBJECT\&.h\fP\&.
+.SS "std::shared_ptr<\fBTransform\fP> GameObject::TrAnSfOrM"
+
+.PP
+Definition at line \fB26\fP of file \fBGAMEOBJECT\&.h\fP\&.
+.SS "std::vector<UUID> GameObject::uuids"
+
+.PP
+Definition at line \fB32\fP of file \fBGAMEOBJECT\&.h\fP\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

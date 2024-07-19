@@ -1,0 +1,31 @@
+\doxysection{PHYSICS\+\_\+\+MANAGER.\+cpp}
+\hypertarget{_p_h_y_s_i_c_s___m_a_n_a_g_e_r_8cpp_source}{}\label{_p_h_y_s_i_c_s___m_a_n_a_g_e_r_8cpp_source}\index{UPRISE\_ENGINE/PHYSICS\_MANAGER.cpp@{UPRISE\_ENGINE/PHYSICS\_MANAGER.cpp}}
+\mbox{\hyperlink{_p_h_y_s_i_c_s___m_a_n_a_g_e_r_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_p_h_y_s_i_c_s___m_a_n_a_g_e_r_8cpp_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{_p_h_y_s_i_c_s___m_a_n_a_g_e_r_8cpp_source_l00002}00002\ }
+\DoxyCodeLine{\Hypertarget{_p_h_y_s_i_c_s___m_a_n_a_g_e_r_8cpp_source_l00003}00003\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_p_h_y_s_i_c_s___m_a_n_a_g_e_r_8h}{PHYSICS\_MANAGER.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_p_h_y_s_i_c_s___m_a_n_a_g_e_r_8cpp_source_l00004}00004\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_p_h_y_s_i_c_s___o_b_j_e_c_t_8h}{PHYSICS\_OBJECT.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_p_h_y_s_i_c_s___m_a_n_a_g_e_r_8cpp_source_l00005}00005\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_t_h_r_e_a_d_i_n_g_8h}{THREADING.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_p_h_y_s_i_c_s___m_a_n_a_g_e_r_8cpp_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{_p_h_y_s_i_c_s___m_a_n_a_g_e_r_8cpp_source_l00007}00007\ std::vector\ <\ std::shared\_ptr<PHYSICS::Physics>>\ \mbox{\hyperlink{class_p_h_y_s_i_c_s_1_1_physics_a81c440ad35439919c2b592788c69e87a}{PHYSICS::Physics::physicsobjects}};}
+\DoxyCodeLine{\Hypertarget{_p_h_y_s_i_c_s___m_a_n_a_g_e_r_8cpp_source_l00008}\mbox{\hyperlink{class_p_h_y_s_i_c_s_1_1_physics_a36869748a68551608a42de1046ff6fa5}{00008}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_p_h_y_s_i_c_s_1_1_physics_a36869748a68551608a42de1046ff6fa5}{PHYSICS::Physics::UpdateAllPhysics}}()}
+\DoxyCodeLine{\Hypertarget{_p_h_y_s_i_c_s___m_a_n_a_g_e_r_8cpp_source_l00009}00009\ \{}
+\DoxyCodeLine{\Hypertarget{_p_h_y_s_i_c_s___m_a_n_a_g_e_r_8cpp_source_l00010}00010\ \ \ \ \ std::vector<int>\ posses;}
+\DoxyCodeLine{\Hypertarget{_p_h_y_s_i_c_s___m_a_n_a_g_e_r_8cpp_source_l00011}00011\ \ \ \ \ posses.reserve(\mbox{\hyperlink{class_p_h_y_s_i_c_s_1_1_physics_a81c440ad35439919c2b592788c69e87a}{physicsobjects}}.size());}
+\DoxyCodeLine{\Hypertarget{_p_h_y_s_i_c_s___m_a_n_a_g_e_r_8cpp_source_l00012}00012\ \ \ \ \ \textcolor{keywordtype}{int}\ i\ =\ \mbox{\hyperlink{class_p_h_y_s_i_c_s_1_1_physics_a81c440ad35439919c2b592788c69e87a}{physicsobjects}}.size()-\/1;}
+\DoxyCodeLine{\Hypertarget{_p_h_y_s_i_c_s___m_a_n_a_g_e_r_8cpp_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{_p_h_y_s_i_c_s___m_a_n_a_g_e_r_8cpp_source_l00014}00014\ \ \ \ \ \textcolor{keywordflow}{for}\ (;\ i\ >=\ 0;\ i-\/-\/)\ \{}
+\DoxyCodeLine{\Hypertarget{_p_h_y_s_i_c_s___m_a_n_a_g_e_r_8cpp_source_l00015}00015\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ a\ =\ \mbox{\hyperlink{class_p_h_y_s_i_c_s_1_1_physics_a81c440ad35439919c2b592788c69e87a}{physicsobjects}}[i];}
+\DoxyCodeLine{\Hypertarget{_p_h_y_s_i_c_s___m_a_n_a_g_e_r_8cpp_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{_p_h_y_s_i_c_s___m_a_n_a_g_e_r_8cpp_source_l00017}00017\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ aa\ =\ \mbox{\hyperlink{class_c_o_r_e_1_1_thread___manager_ae2b96ee0744f873ad8038c426507eb47}{CORE::Thread\_Manager::CreateThread}}([a]()\ \{\ a-\/>UpdatePhysics();\ \});}
+\DoxyCodeLine{\Hypertarget{_p_h_y_s_i_c_s___m_a_n_a_g_e_r_8cpp_source_l00018}00018\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_c_o_r_e_1_1_thread___manager_a5ef1a3b600ea01858495d6034b8cb7f1}{CORE::Thread\_Manager::Threads}}.push\_back(\&aa);}
+\DoxyCodeLine{\Hypertarget{_p_h_y_s_i_c_s___m_a_n_a_g_e_r_8cpp_source_l00019}00019\ \ \ \ \ \ \ \ \ \textcolor{comment}{//auto\ o\ =std::function<void>(a-\/>UpdatePhysics())\ ;}}
+\DoxyCodeLine{\Hypertarget{_p_h_y_s_i_c_s___m_a_n_a_g_e_r_8cpp_source_l00020}00020\ \ \ \ \ \ \ \ \ \textcolor{comment}{//CORE::Thread\ thread([a]()\ \{\ a-\/>UpdatePhysics();\ \});}}
+\DoxyCodeLine{\Hypertarget{_p_h_y_s_i_c_s___m_a_n_a_g_e_r_8cpp_source_l00021}00021\ \ \ \ \ \ \ \ \ \textcolor{comment}{//CORE::Thread\ thread\ ([a]()\ \{\ a-\/>UpdatePhysics();\ \});}}
+\DoxyCodeLine{\Hypertarget{_p_h_y_s_i_c_s___m_a_n_a_g_e_r_8cpp_source_l00022}00022\ \ \ \ \ \ \ \ \ \textcolor{comment}{//a-\/>UpdatePhysics();}}
+\DoxyCodeLine{\Hypertarget{_p_h_y_s_i_c_s___m_a_n_a_g_e_r_8cpp_source_l00023}00023\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_p_h_y_s_i_c_s___m_a_n_a_g_e_r_8cpp_source_l00024}00024\ }
+\DoxyCodeLine{\Hypertarget{_p_h_y_s_i_c_s___m_a_n_a_g_e_r_8cpp_source_l00025}00025\ \}}
+
+\end{DoxyCode}

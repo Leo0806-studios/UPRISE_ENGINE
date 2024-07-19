@@ -1,0 +1,146 @@
+\doxysection{GAMEOBJECT.\+cpp}
+\hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source}{}\label{_g_a_m_e_o_b_j_e_c_t_8cpp_source}\index{UPRISE\_ENGINE/GAMEOBJECT.cpp@{UPRISE\_ENGINE/GAMEOBJECT.cpp}}
+\mbox{\hyperlink{_g_a_m_e_o_b_j_e_c_t_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00001}00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00002}00002\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_c_o_r_e_8h}{CORE.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00003}00003\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_g_a_m_e_o_b_j_e_c_t_8h}{GAMEOBJECT.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00004}00004\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{___c_o_m_p_o_n_e_n_t_8h}{\_COMPONENT.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00005}00005\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_c_a_m_e_r_a_8h}{CAMERA.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00006}00006\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8h}{RENDER\_MATERIAL.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00007}00007\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_empty_8h}{Empty.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00008}00008\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_m_e_s_h_8h}{MESH.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00009}00009\ }
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00010}\mbox{\hyperlink{class_game_object_a8047b6d401d5c3a968c79d9722f487cb}{00010}}\ \mbox{\hyperlink{class_game_object}{GameObject}}\ \mbox{\hyperlink{class_game_object_a8047b6d401d5c3a968c79d9722f487cb}{GameObject::Create}}(\mbox{\hyperlink{struct_d_a_t_a_t_y_p_e_s_1_1_t_s___p___vector3}{DATATYPES::TS\_P\_Vector3}}\ pos,\ \textcolor{keywordtype}{void}*\ mesh,\textcolor{keywordtype}{int}\ materialID)\ \{}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00011}00011\ }
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00012}00012\ \ \ \ \ \mbox{\hyperlink{class_game_object}{GameObject}}\ tmp;}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00013}00013\ \ \ \ \ UuidCreate(\&tmp.\mbox{\hyperlink{class_c_o_r_e_1_1_object_aa786e707915fcc7188eed83372308069}{uuid}});}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00014}00014\ \ \ \ \ \mbox{\hyperlink{class_transform}{Transform}}\ transf\ =\ \mbox{\hyperlink{class_transform}{Transform}}();}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00015}00015\ \ \ \ \ transf.\mbox{\hyperlink{class_transform_a2ab2f58a50b111570a0f09e2f7305185}{Position}}\ =\ pos;}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00016}00016\ \ \ \ \ \textcolor{keywordtype}{void}*\ tra\ =\ \&transf;}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00017}00017\ \ \ \ \ tmp.\mbox{\hyperlink{class_game_object_aa7e350d11c0f06480a88ab410d929313}{msh}}\ =\ mesh;}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00018}00018\ \ \ \ \ tmp.\mbox{\hyperlink{class_game_object_a6cb1562756aac08750d4b30f46ef7619}{AddComponent}}(\mbox{\hyperlink{class_c_o_m_p_o_n_e_n_t_s_1_1___mesh}{COMPONENTS::\_Mesh}}(),\ mesh);}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00019}00019\ \ \ \ \ \textcolor{comment}{//auto\ a\ =\ tmp.GetComponent(COMPONENTS::\_Mesh());}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00020}00020\ \ \ \ \ tmp.\mbox{\hyperlink{class_game_object_af1c7d552891462646861142db7397fb0}{MesH}}\ =\ std::make\_shared<COMPONENTS::\_Mesh>(*(\mbox{\hyperlink{class_c_o_m_p_o_n_e_n_t_s_1_1___mesh}{COMPONENTS::\_Mesh}}*)tmp.\mbox{\hyperlink{class_game_object_a7c45a38dad9359074bb4b814d0a435c6}{Components}}[0]);}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00021}00021\ \ \ \ \ tmp.\mbox{\hyperlink{class_game_object_a6cb1562756aac08750d4b30f46ef7619}{AddComponent}}(\mbox{\hyperlink{class_transform}{Transform}}(),\ tra);}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00022}00022\ \ \ \ \ tmp.\mbox{\hyperlink{class_game_object_ab9d78dc76afc8b9109802b856f6d0048}{TrAnSfOrM}}\ =\ std::dynamic\_pointer\_cast<Transform>(tmp.\mbox{\hyperlink{class_game_object_ac905417baef1933aee70fc7539f717b3}{behaviours}}[1]);}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00024}00024\ \ \ \ \ std::dynamic\_pointer\_cast<Transform>(tmp.\mbox{\hyperlink{class_game_object_ac905417baef1933aee70fc7539f717b3}{behaviours}}[1]).get()-\/>UpdateDirections();}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00025}00025\ \ \ \ \ \textcolor{keywordflow}{return}\ tmp;}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00026}00026\ }
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00027}00027\ \}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00028}\mbox{\hyperlink{class_game_object_a7fea4f59ee8312362c6a15e0164655fd}{00028}}\ \mbox{\hyperlink{class_game_object}{GameObject}}\ \mbox{\hyperlink{class_game_object_a8047b6d401d5c3a968c79d9722f487cb}{GameObject::Create}}(\mbox{\hyperlink{struct_d_a_t_a_t_y_p_e_s_1_1_t_s___p___vector3}{DATATYPES::TS\_P\_Vector3}}\ pos,\ std::shared\_ptr<COMPONENTS::\_Mesh>\ mesh,\ \textcolor{keywordtype}{int}\ materialID)\ \{}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00030}00030\ \ \ \ \ \mbox{\hyperlink{class_game_object}{GameObject}}\ tmp;}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00031}00031\ \ \ \ \ UuidCreate(\&tmp.\mbox{\hyperlink{class_c_o_r_e_1_1_object_aa786e707915fcc7188eed83372308069}{uuid}});}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00032}00032\ \ \ \ \ \mbox{\hyperlink{class_transform}{Transform}}\ transf\ =\ \mbox{\hyperlink{class_transform}{Transform}}();}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00033}00033\ \ \ \ \ transf.\mbox{\hyperlink{class_transform_a2ab2f58a50b111570a0f09e2f7305185}{Position}}\ =\ pos;}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00034}00034\ \ \ \ \ \textcolor{keywordtype}{void}*\ tra\ =\ \&transf;}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00035}00035\ \ \ \ \ tmp.\mbox{\hyperlink{class_game_object_ac7d5415e4fee880676ffcc01e78f2b3a}{MESH}}\ =\ mesh;}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00036}00036\ \ \ \ \ \textcolor{comment}{//tmp.AddComponent(COMPONENTS::\_Mesh(),\ mesh);}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00037}00037\ \ \ \ \ \textcolor{comment}{//auto\ a\ =\ tmp.GetComponent(COMPONENTS::\_Mesh());}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00038}00038\ \ \ \ \ \textcolor{comment}{//tmp.MesH\ =\ std::make\_shared<COMPONENTS::\_Mesh>(*(COMPONENTS::\_Mesh*)tmp.Components[0]);}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00039}00039\ \ \ \ \ tmp.\mbox{\hyperlink{class_game_object_a6cb1562756aac08750d4b30f46ef7619}{AddComponent}}(\mbox{\hyperlink{class_transform}{Transform}}(),\ tra);}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00040}00040\ \ \ \ \ std::dynamic\_pointer\_cast<Transform>(tmp.\mbox{\hyperlink{class_game_object_ac905417baef1933aee70fc7539f717b3}{behaviours}}[1]).get()-\/>UpdateDirections();}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00041}00041\ \ \ \ \ \textcolor{keywordflow}{return}\ tmp;}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00042}00042\ }
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00043}00043\ \}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00044}\mbox{\hyperlink{class_game_object_abab0df05346744a928e71b990d8692eb}{00044}}\ \mbox{\hyperlink{class_game_object}{GameObject}}\ \mbox{\hyperlink{class_game_object_abab0df05346744a928e71b990d8692eb}{GameObject::CreateEmpty}}(\mbox{\hyperlink{struct_d_a_t_a_t_y_p_e_s_1_1_t_s___p___vector3}{DATATYPES::TS\_P\_Vector3}}\ pos)}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00045}00045\ \{}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00046}00046\ \ \ \ \ \mbox{\hyperlink{class_game_object}{GameObject}}\ tmp;}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00047}00047\ \ \ \ \ UuidCreate(\&tmp.\mbox{\hyperlink{class_c_o_r_e_1_1_object_aa786e707915fcc7188eed83372308069}{uuid}});}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00048}00048\ \ \ \ \ \mbox{\hyperlink{class_transform}{Transform}}\ transf\ =\ \mbox{\hyperlink{class_transform}{Transform}}();}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00049}00049\ \ \ \ \ transf.\mbox{\hyperlink{class_transform_a2ab2f58a50b111570a0f09e2f7305185}{Position}}\ =\ pos;}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00050}00050\ \ \ \ \ \textcolor{keywordtype}{void}*\ tra\ =\ \&transf;}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00051}00051\ \ \ \ \ \mbox{\hyperlink{class_empty}{Empty}}\ empt\ =\ \mbox{\hyperlink{class_empty}{Empty}}();}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00052}00052\ \ \ \ \ tmp.\mbox{\hyperlink{class_game_object_a6cb1562756aac08750d4b30f46ef7619}{AddComponent}}(\mbox{\hyperlink{class_empty}{Empty}}(),\ \&empt);}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00053}00053\ \ \ \ \ tmp.\mbox{\hyperlink{class_game_object_a6cb1562756aac08750d4b30f46ef7619}{AddComponent}}(\mbox{\hyperlink{class_transform}{Transform}}(),\ tra);}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00054}00054\ \ \ \ \ tmp.\mbox{\hyperlink{class_game_object_ab9d78dc76afc8b9109802b856f6d0048}{TrAnSfOrM}}\ =\ std::dynamic\_pointer\_cast<Transform>(tmp.\mbox{\hyperlink{class_game_object_ac905417baef1933aee70fc7539f717b3}{behaviours}}[1]);}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00055}00055\ \ \ \ \ std::dynamic\_pointer\_cast<Transform>(tmp.\mbox{\hyperlink{class_game_object_ac905417baef1933aee70fc7539f717b3}{behaviours}}[1]).get()-\/>UpdateDirections();}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00056}00056\ }
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00057}00057\ \ \ \ \ \textcolor{keywordflow}{return}\ tmp;}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00058}00058\ \}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00059}\mbox{\hyperlink{class_game_object_a40a066e6d52e66022dce626fa5a31220}{00059}}\ \mbox{\hyperlink{class_game_object}{GameObject}}\ \mbox{\hyperlink{class_game_object_a40a066e6d52e66022dce626fa5a31220}{GameObject::CreateCamera}}(\mbox{\hyperlink{struct_d_a_t_a_t_y_p_e_s_1_1_t_s___p___vector3}{DATATYPES::TS\_P\_Vector3}}\ pos)}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00060}00060\ \{}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00061}00061\ }
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00062}00062\ \ \ \ \ \mbox{\hyperlink{class_game_object}{GameObject}}\ tmp;}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00063}00063\ \ \ \ \ UuidCreate(\&tmp.\mbox{\hyperlink{class_c_o_r_e_1_1_object_aa786e707915fcc7188eed83372308069}{uuid}});}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00064}00064\ \ \ \ \ \mbox{\hyperlink{class_transform}{Transform}}\ transf\ =\ \mbox{\hyperlink{class_transform}{Transform}}();}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00065}00065\ \ \ \ \ transf.\mbox{\hyperlink{class_transform_a2ab2f58a50b111570a0f09e2f7305185}{Position}}\ =\ pos;}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00066}00066\ \ \ \ \ \textcolor{keywordtype}{void}*\ tra\ =\ \&transf;}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00067}00067\ \ \ \ \ \textcolor{keyword}{auto}\ a\ =\ \mbox{\hyperlink{class_camera}{Camera}}(1);}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00068}00068\ \ \ \ \ \mbox{\hyperlink{class_empty}{Empty}}\ empt\ =\ \mbox{\hyperlink{class_empty}{Empty}}();}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00069}00069\ \ \ \ \ tmp.\mbox{\hyperlink{class_game_object_a6cb1562756aac08750d4b30f46ef7619}{AddComponent}}(\mbox{\hyperlink{class_empty}{Empty}}(),\&empt);}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00070}00070\ \ \ \ \ tmp.\mbox{\hyperlink{class_game_object_a6cb1562756aac08750d4b30f46ef7619}{AddComponent}}(\mbox{\hyperlink{class_transform}{Transform}}(),\ tra);}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00071}00071\ }
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00072}00072\ \ \ \ \ tmp.\mbox{\hyperlink{class_game_object_a6cb1562756aac08750d4b30f46ef7619}{AddComponent}}(\mbox{\hyperlink{class_camera}{Camera}}(1));}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00073}00073\ \ \ \ \ std::dynamic\_pointer\_cast<Transform>(tmp.\mbox{\hyperlink{class_game_object_ac905417baef1933aee70fc7539f717b3}{behaviours}}[1]).get()-\/>UpdateDirections();}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00074}00074\ \ \ \ \ \textcolor{keywordflow}{return}\ tmp;}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00075}00075\ \}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00076}\mbox{\hyperlink{class_game_object_a6cb1562756aac08750d4b30f46ef7619}{00076}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_game_object_a6cb1562756aac08750d4b30f46ef7619}{GameObject::AddComponent}}(\textcolor{keywordtype}{void}*\ component)\ \{}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00077}00077\ }
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00078}00078\ \ \ \ \ \mbox{\hyperlink{class_game_object_a7c45a38dad9359074bb4b814d0a435c6}{Components}}.push\_back(component);}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00079}00079\ }
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00080}00080\ \}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00081}00081\ \textcolor{comment}{//template\ <class\ \_Ty,\ class...\ \_Types>}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00082}00082\ }
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00083}00083\ \textcolor{comment}{//void\ GameObject::AddComponent(\_Ty\ arg,\ void*\ component)\ \{}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00084}00084\ \textcolor{comment}{//\ \ if\ (arg.UUID\ ==\ GUID\_NULL)\ \{}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00085}00085\ \textcolor{comment}{//\ \ \ \ \ \ UUID\ uuid;}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00086}00086\ \textcolor{comment}{//\ \ \ \ \ \ UuidCreate(\&uuid);}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00087}00087\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00088}00088\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00089}00089\ \textcolor{comment}{//\ \ \ \ \ \ arg.UUID\ =\ uuid;}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00090}00090\ \textcolor{comment}{//\ \ \ \ \ \ arg.uuID\ =\ arg.UUID;}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00091}00091\ \textcolor{comment}{//\ \ \}}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00092}00092\ \textcolor{comment}{//\ \ uuids.push\_back(arg.UUID);}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00093}00093\ \textcolor{comment}{//\ \ auto\ aa\ =\ (\_Ty*)component;}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00094}00094\ \textcolor{comment}{//\ \ //aa-\/>gameobject\ =\ this;}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00095}00095\ \textcolor{comment}{//\ \ std::shared\_ptr<CORE::Behaviour>\ a\ =\ std::make\_shared<\_Ty>(*aa);}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00096}00096\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00097}00097\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00098}00098\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00099}00099\ \textcolor{comment}{//\ \ CORE::Behaviour::behaviours.push\_back(a);}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00100}00100\ \textcolor{comment}{//\ \ behaviours.push\_back(a);}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00101}00101\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00102}00102\ \textcolor{comment}{//\ \ Components.push\_back(component);}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00103}00103\ \textcolor{comment}{//\}}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00104}00104\ }
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00105}00105\ \textcolor{comment}{//template<class\ \_Ty,\ class\ ...\_Types>}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00106}00106\ \textcolor{comment}{//void\ GameObject::AddComponent(\_Ty\ arg,\ std::shared\_ptr<CORE::Behaviour>\ component,void*\ voidcomp)}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00107}00107\ \textcolor{comment}{//\{}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00108}00108\ \textcolor{comment}{//\ \ if\ (arg.UUID\ ==\ GUID\_NULL)\ \{}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00109}00109\ \textcolor{comment}{//\ \ \ \ \ \ UUID\ uuid;}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00110}00110\ \textcolor{comment}{//\ \ \ \ \ \ UuidCreate(\&uuid);}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00111}00111\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00112}00112\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00113}00113\ \textcolor{comment}{//\ \ \ \ \ \ arg.UUID\ =\ uuid;}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00114}00114\ \textcolor{comment}{//\ \ \ \ \ \ arg.uuID\ =\ arg.UUID;}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00115}00115\ \textcolor{comment}{//\ \ \}}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00116}00116\ \textcolor{comment}{//\ \ uuids.push\_back(arg.UUID);}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00117}00117\ \textcolor{comment}{//\ \ CORE::Behaviour::behaviours.push\_back(a);}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00118}00118\ \textcolor{comment}{//\ \ behaviours.push\_back(a);}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00119}00119\ \textcolor{comment}{//\ \ Components.push\_back(component);}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00120}00120\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00121}00121\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00122}00122\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00123}00123\ \textcolor{comment}{//\}}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00124}00124\ }
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00125}00125\ \textcolor{comment}{//template\ <class\ \_Ty,\ class...\ \_Types>}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00126}00126\ \textcolor{comment}{//\_Ty*\ GameObject::GetComponent(\_Ty\ arg)\ \{}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00127}00127\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00128}00128\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00129}00129\ \textcolor{comment}{//\ \ for\ (int\ i\ =\ 0;\ i\ <\ Components.size();\ i++)\ \{}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00130}00130\ \textcolor{comment}{//\ \ \ \ \ \ if\ (arg.UUID\ ==\ uuids[i])\ \{}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00131}00131\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00132}00132\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ std::cout\ <<\ "{}found"{};}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00133}00133\ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ \ return\ (\_Ty*)Components[i];}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00134}00134\ \textcolor{comment}{//\ \ \ \ \ \ \}}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00135}00135\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00136}00136\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00137}00137\ \textcolor{comment}{//\ \ \}}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00138}00138\ \textcolor{comment}{//\}}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00139}00139\ }
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8cpp_source_l00140}00140\ }
+
+\end{DoxyCode}

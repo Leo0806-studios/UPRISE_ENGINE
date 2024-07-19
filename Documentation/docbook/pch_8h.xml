@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_pch_8h" xml:lang="en-US">
+<title>UPRISE_ENGINE/pch.h File Reference</title>
+<indexterm><primary>UPRISE_ENGINE/pch.h</primary></indexterm>
+<programlisting linenumbering="unnumbered">#include &quot;tracy/Tracy.hpp&quot;<?linebreak?>#include &quot;tracy/TracyC.h&quot;<?linebreak?>#include &lt;Windows.h&gt;<?linebreak?>#include &lt;shellapi.h&gt;<?linebreak?>#include &lt;wrl.h&gt;<?linebreak?>#include &quot;vector&quot;<?linebreak?>#include &lt;immintrin.h&gt;<?linebreak?>#include &lt;algorithm&gt;<?linebreak?>#include &quot;numeric&quot;<?linebreak?>#include &lt;cassert&gt;<?linebreak?>#include &lt;chrono&gt;<?linebreak?>#include &quot;string&quot;<?linebreak?>#include &quot;memory&quot;<?linebreak?>#include &quot;filesystem&quot;<?linebreak?>#include &lt;iostream&gt;<?linebreak?>#include &lt;array&gt;<?linebreak?>#include &lt;bitset&gt;<?linebreak?>#include &lt;intrin.h&gt;<?linebreak?>#include &quot;sysinfoapi.h&quot;<?linebreak?>#include &quot;stb_image.h&quot;<?linebreak?>#include &lt;fstream&gt;<?linebreak?>#include &lt;sstream&gt;<?linebreak?>#include &quot;functional&quot;<?linebreak?>#include &quot;mutex&quot;<?linebreak?>#include &lt;xmmintrin.h&gt;<?linebreak?>#include &lt;emmintrin.h&gt;<?linebreak?>#include &lt;cmath&gt;<?linebreak?>#include &quot;nlohmann/json.hpp&quot;<?linebreak?>#include &lt;assimp/Importer.hpp&gt;<?linebreak?>#include &lt;assimp/scene.h&gt;<?linebreak?>#include &lt;assimp/postprocess.h&gt;<?linebreak?></programlisting><simplesect>
+    <title>Classes    </title>
+        <itemizedlist>
+            <listitem><para>struct <link linkend="_struct_hasher">Hasher</link></para>
+</listitem>
+            <listitem><para>struct <link linkend="_struct_equal_to">EqualTo</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Macros    </title>
+        <itemizedlist>
+            <listitem><para>#define <link linkend="_pch_8h_1ac7bef5d85e3dcd73eef56ad39ffc84a9">WIN32_LEAN_AND_MEAN</link></para>
+</listitem>
+            <listitem><para>#define <link linkend="_pch_8h_1ae7a3f3f4fbd49f8662eadab376e798d3">symLoad</link>&#160;&#160;&#160;GetProcAddress</para>
+</listitem>
+            <listitem><para>#define <link linkend="_pch_8h_1a122ac95728441e1ce0fc50a736b8c642">_assimp_</link></para>
+</listitem>
+            <listitem><para>#define <link linkend="_pch_8h_1a286617efa596c797eeb725c2df3e3554">GameObject_</link>&#160;&#160;&#160;std::shared_ptr&lt;<link linkend="_class_game_object">GameObject</link>&gt;</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Typedefs    </title>
+        <itemizedlist>
+            <listitem><para>using <link linkend="_pch_8h_1aafbce534bf596b3806e9d3356ef3d38e">TypeInfoRef</link> = std::reference_wrapper&lt;const std::type_info&gt;</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Functions    </title>
+        <itemizedlist>
+            <listitem><para>void <link linkend="_pch_8h_1aec54dbc68fc3c5a426bd408e7c378aa9">ThrowIfFailed</link> (HRESULT hr)</para>
+</listitem>
+            <listitem><para>template&lt;class _Ty , class _Arg &gt; </para><para>_Ty <link linkend="_pch_8h_1af5fd0c47907558e030cdc0e97fb25211">CallCSharpFunction</link> (const WCHAR *patrh, char *functionName, _Arg argument)</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Macro Definition Documentation</title>
+<anchor xml:id="_pch_8h_1a122ac95728441e1ce0fc50a736b8c642"/><section>
+    <title>_assimp_</title>
+<indexterm><primary>_assimp_</primary><secondary>pch.h</secondary></indexterm>
+<indexterm><primary>pch.h</primary><secondary>_assimp_</secondary></indexterm>
+<para><computeroutput>#define _assimp_</computeroutput></para><para>
+Definition at line <link linkend="_pch_8h_source_1l00058">58</link> of file <link linkend="_pch_8h_source">pch.h</link>.</para>
+</section>
+<anchor xml:id="_pch_8h_1a286617efa596c797eeb725c2df3e3554"/><section>
+    <title>GameObject_</title>
+<indexterm><primary>GameObject_</primary><secondary>pch.h</secondary></indexterm>
+<indexterm><primary>pch.h</primary><secondary>GameObject_</secondary></indexterm>
+<para><computeroutput>#define GameObject_&#160;&#160;&#160;std::shared_ptr&lt;<link linkend="_class_game_object">GameObject</link>&gt;</computeroutput></para><para>
+Definition at line <link linkend="_pch_8h_source_1l00117">117</link> of file <link linkend="_pch_8h_source">pch.h</link>.</para>
+</section>
+<anchor xml:id="_pch_8h_1ae7a3f3f4fbd49f8662eadab376e798d3"/><section>
+    <title>symLoad</title>
+<indexterm><primary>symLoad</primary><secondary>pch.h</secondary></indexterm>
+<indexterm><primary>pch.h</primary><secondary>symLoad</secondary></indexterm>
+<para><computeroutput>#define symLoad&#160;&#160;&#160;GetProcAddress</computeroutput></para><para>
+Definition at line <link linkend="_pch_8h_source_1l00013">13</link> of file <link linkend="_pch_8h_source">pch.h</link>.</para>
+</section>
+<anchor xml:id="_pch_8h_1ac7bef5d85e3dcd73eef56ad39ffc84a9"/><section>
+    <title>WIN32_LEAN_AND_MEAN</title>
+<indexterm><primary>WIN32_LEAN_AND_MEAN</primary><secondary>pch.h</secondary></indexterm>
+<indexterm><primary>pch.h</primary><secondary>WIN32_LEAN_AND_MEAN</secondary></indexterm>
+<para><computeroutput>#define WIN32_LEAN_AND_MEAN</computeroutput></para><para>
+Definition at line <link linkend="_pch_8h_source_1l00011">11</link> of file <link linkend="_pch_8h_source">pch.h</link>.</para>
+</section>
+</section>
+<section>
+<title>Typedef Documentation</title>
+<anchor xml:id="_pch_8h_1aafbce534bf596b3806e9d3356ef3d38e"/><section>
+    <title>TypeInfoRef</title>
+<indexterm><primary>TypeInfoRef</primary><secondary>pch.h</secondary></indexterm>
+<indexterm><primary>pch.h</primary><secondary>TypeInfoRef</secondary></indexterm>
+<para><computeroutput>using <link linkend="__helpers_8h_1aafbce534bf596b3806e9d3356ef3d38e">TypeInfoRef</link> = std::reference_wrapper&lt;const std::type_info&gt;</computeroutput></para><para>
+Definition at line <link linkend="_pch_8h_source_1l00091">91</link> of file <link linkend="_pch_8h_source">pch.h</link>.</para>
+</section>
+</section>
+<section>
+<title>Function Documentation</title>
+<anchor xml:id="_pch_8h_1af5fd0c47907558e030cdc0e97fb25211"/><section>
+    <title>CallCSharpFunction()</title>
+<indexterm><primary>CallCSharpFunction</primary><secondary>pch.h</secondary></indexterm>
+<indexterm><primary>pch.h</primary><secondary>CallCSharpFunction</secondary></indexterm>
+<computeroutput>template&lt;class _Ty , class _Arg &gt; </computeroutput><para><computeroutput>_Ty CallCSharpFunction (const WCHAR * patrh, char * functionName, _Arg argument)</computeroutput></para><para>
+Definition at line <link linkend="_pch_8h_source_1l00109">109</link> of file <link linkend="_pch_8h_source">pch.h</link>.</para>
+</section>
+<anchor xml:id="_pch_8h_1aec54dbc68fc3c5a426bd408e7c378aa9"/><section>
+    <title>ThrowIfFailed()</title>
+<indexterm><primary>ThrowIfFailed</primary><secondary>pch.h</secondary></indexterm>
+<indexterm><primary>pch.h</primary><secondary>ThrowIfFailed</secondary></indexterm>
+<para><computeroutput>void ThrowIfFailed (HRESULT hr)<computeroutput>[inline]</computeroutput></computeroutput></para><para>
+Definition at line <link linkend="_pch_8h_source_1l00073">73</link> of file <link linkend="_pch_8h_source">pch.h</link>.</para>
+</section>
+</section>
+</section>

@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source" xml:lang="en-US">
+<title>TERRAIN_DATA.cpp</title>
+<indexterm><primary>UPRISE_ENGINE/TERRAIN_DATA.cpp</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered"><anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00001"/>00001 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__t_e_r_r_a_i_n___d_a_t_a_8h">TERRAIN_DATA.h</link>&quot;</emphasis>
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00002"/>00002 <emphasis role="preprocessor">#import&#32;&quot;ManagedUtills.tlb&quot;</emphasis>&#32;named_guids
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00003"/>00003 
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00004"/>00004 <emphasis role="comment">//#include&#32;&quot;ManagedUtills.tlh&quot;</emphasis>
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00005"/><link linkend="_class_terrain___data_1a0889e6c1de329e4a44143e0bc5eb773a">00005</link> <link linkend="_class_terrain___data_1a0889e6c1de329e4a44143e0bc5eb773a">Terrain_Data::Terrain_Data</link>()
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00006"/>00006 {
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00007"/>00007 }
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00008"/><link linkend="__t_e_r_r_a_i_n___d_a_t_a_8cpp_1a6f6dd530fb9b623dc184e76f41ff99c4">00008</link> <emphasis role="keywordtype">void</emphasis>&#32;<link linkend="__t_e_r_r_a_i_n___d_a_t_a_8cpp_1a6f6dd530fb9b623dc184e76f41ff99c4">ssharp_methcall</link>()&#32;{
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00009"/>00009 
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00010"/>00010 &#32;&#32;&#32;&#32;HRESULT&#32;hr&#32;=&#32;CoInitialize(NULL);
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00011"/>00011 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(FAILED(hr))&#32;{
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00012"/>00012 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::cerr&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;Failed&#32;to&#32;initialize&#32;COM&#32;library&quot;</emphasis>&#32;&lt;&lt;&#32;std::endl;
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00013"/>00013 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00014"/>00014 
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00015"/>00015 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00016"/>00016 &#32;&#32;&#32;&#32;ManagedUtills::IHeightmapProccesorPtr&#32;pHeightmapProc;
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00017"/>00017 &#32;&#32;&#32;&#32;hr&#32;=&#32;pHeightmapProc.CreateInstance(__uuidof(ManagedUtills::IHeightmapProccesor));
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00018"/>00018 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(FAILED(hr))&#32;{
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00019"/>00019 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::cerr&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;Failed&#32;to&#32;create&#32;instance&#32;of&#32;HeightmapProccesor:&#32;0x&quot;</emphasis>&#32;&lt;&lt;&#32;std::hex&#32;&lt;&lt;&#32;hr&#32;&lt;&lt;&#32;std::endl;
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00020"/>00020 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00021"/>00021 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00022"/>00022 
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00023"/>00023 
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00024"/>00024 
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00025"/>00025 
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00026"/>00026 }
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00027"/>00027 
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00028"/><link linkend="_class_terrain___data_1af9b7c4b871d63db4e7b3ec6cfd28c51d">00028</link> <emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_class_terrain___data_1af9b7c4b871d63db4e7b3ec6cfd28c51d">Terrain_Data::LoadHeightmap</link>(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;filename)
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00029"/>00029 {
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00030"/>00030 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;imgWidth,&#32;imgHeight,&#32;nrChannels;
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00031"/>00031 &#32;&#32;&#32;&#32;<emphasis role="comment">//unsigned&#32;char*&#32;data&#32;=&#32;stbi_load(filename.c_str(),&#32;&amp;imgWidth,&#32;&amp;imgHeight,&#32;&amp;nrChannels,&#32;0);</emphasis>
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00032"/>00032 &#32;&#32;&#32;<emphasis role="comment">//&#32;auto&#32;oooo&#32;=&#32;CallCSharpFunction(filename.c_str());</emphasis>
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00033"/>00033 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;WCHAR*&#32;addrs&#32;=&#32;<link linkend="__i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link><emphasis role="stringliteral">&quot;C:\\Users\\leo08\\source\\repos\\Neuer&#32;Ordner&#32;(2)\\NativeLibrary\\bin\\release\\net8.0-windows\\win-x64\\native\\NativeLibrary.dll&quot;</emphasis>;
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00034"/>00034 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">float</emphasis>*&#32;owow&#32;=&#32;<link linkend="_pch_8h_1af5fd0c47907558e030cdc0e97fb25211">CallCSharpFunction&lt;float*,const char*&gt;</link>(addrs,(<emphasis role="keywordtype">char</emphasis>*)<emphasis role="stringliteral">&quot;Heightmap&quot;</emphasis>,filename);
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00035"/>00035 &#32;&#32;&#32;&#32;std::vector&lt;float&gt;&#32;heightValues(owow,&#32;owow&#32;+&#32;(512&#32;*&#32;512));
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00036"/>00036 &#32;&#32;&#32;&#32;<emphasis role="comment">//if&#32;(!data)&#32;{</emphasis>
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00037"/>00037 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;&#32;&#32;std::cerr&#32;&lt;&lt;&#32;&quot;Failed&#32;to&#32;load&#32;heightmap:&#32;&quot;&#32;&lt;&lt;&#32;filename&#32;&lt;&lt;&#32;std::endl;</emphasis>
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00038"/>00038 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;&#32;&#32;return&#32;false;</emphasis>
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00039"/>00039 &#32;&#32;&#32;&#32;<emphasis role="comment">//}</emphasis>
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00040"/>00040 
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00041"/>00041 &#32;&#32;&#32;&#32;<emphasis role="comment">//width&#32;=&#32;imgWidth;</emphasis>
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00042"/>00042 &#32;&#32;&#32;&#32;<emphasis role="comment">//depth&#32;=&#32;imgHeight;</emphasis>
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00043"/>00043 &#32;&#32;&#32;&#32;<link linkend="_class_terrain___data_1a0e87dba596a9fa91aa82ee8d43aef76a">heightMap</link>.resize(512,&#32;std::vector&lt;float&gt;(512));
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00044"/>00044 
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00045"/>00045 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(<emphasis role="keywordtype">int</emphasis>&#32;z&#32;=&#32;0;&#32;z&#32;&lt;&#32;512;&#32;++z)&#32;{
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00046"/>00046 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(<emphasis role="keywordtype">int</emphasis>&#32;x&#32;=&#32;0;&#32;x&#32;&lt;&#32;512;&#32;++x)&#32;{
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00047"/>00047 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">float</emphasis>&#32;height&#32;=&#32;heightValues[z&#32;*&#32;512&#32;+&#32;x]&#32;*&#32;<link linkend="_class_terrain___data_1a3690411bf00dcb8a64c410bd15e713b1">maxHeight</link>;
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00048"/>00048 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(heightValues[z&#32;*&#32;512&#32;+&#32;x]&#32;&gt;&#32;0)&#32;{
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00049"/>00049 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">float</emphasis>&#32;t&#32;=&#32;heightValues[z&#32;*&#32;512&#32;+&#32;x];
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00050"/>00050 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;island\n&quot;</emphasis>;
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00051"/>00051 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00052"/>00052 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_terrain___data_1a5c5f9c16424014fae1426c7857b70749">SetHeight</link>(x,&#32;z,&#32;height);
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00053"/>00053 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00054"/>00054 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00055"/>00055 
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00056"/>00056 &#32;&#32;&#32;&#32;<emphasis role="comment">//stbi_image_free(data);</emphasis>
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00057"/>00057 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">true</emphasis>;
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00058"/>00058 }
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00059"/>00059 
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00060"/><link linkend="_class_terrain___data_1adc5eaadba4a4701ab7b0b3a642e0e819">00060</link> std::shared_ptr&lt;Terrain_Data&gt;&#32;<link linkend="_class_terrain___data_1adc5eaadba4a4701ab7b0b3a642e0e819">Terrain_Data::Create</link>(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;path,<emphasis role="keywordtype">int</emphasis>&#32;w,<emphasis role="keywordtype">int</emphasis>&#32;d,<emphasis role="keywordtype">int</emphasis>&#32;mh,<link linkend="_class_p_a_i_n_1_1_shader">PAIN::Shader</link>*&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1a29a7c755b0fc44ddcfb583df15a155c7">shader</link>)
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00061"/>00061 {
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00062"/>00062 &#32;&#32;&#32;&#32;<link linkend="_class_terrain___data">Terrain_Data</link>&#32;tmp;
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00063"/>00063 &#32;&#32;&#32;&#32;tmp.<link linkend="_class_terrain___data_1a3690411bf00dcb8a64c410bd15e713b1">maxHeight</link>&#32;=&#32;mh;
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00064"/>00064 &#32;&#32;&#32;&#32;tmp.<link linkend="_class_terrain___data_1a899a2b42d620d2bb5329fee9b6ec1a7d">depth</link>&#32;=&#32;d;
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00065"/>00065 &#32;&#32;&#32;&#32;tmp.<link linkend="_class_terrain___data_1ab96931d2856d33866adc6d7cabbddab6">width</link>&#32;=&#32;w;
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00066"/>00066 &#32;&#32;&#32;&#32;tmp.<link linkend="_class_terrain___data_1af9b7c4b871d63db4e7b3ec6cfd28c51d">LoadHeightmap</link>(path);
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00067"/>00067 &#32;&#32;&#32;&#32;tmp.<link linkend="_class_terrain___data_1a4db4528622fff57e6da04e116769c20f">model</link>&#32;=&#32;<link linkend="_class_p_a_i_n_1_1_terrain_model">PAIN::TerrainModel</link>(&amp;tmp,&#32;w,&#32;d,&#32;mh,<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1a29a7c755b0fc44ddcfb583df15a155c7">shader</link>);
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00068"/>00068 &#32;&#32;&#32;&#32;
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00069"/>00069 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;std::make_shared&lt;Terrain_Data&gt;(tmp);
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00070"/>00070 }
+<anchor xml:id="__t_e_r_r_a_i_n___d_a_t_a_8cpp_source_1l00071"/>00071 
+</programlisting></section>

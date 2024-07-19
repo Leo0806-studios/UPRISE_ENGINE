@@ -1,0 +1,338 @@
+\doxysection{RENDER\+\_\+\+SHADER\+\_\+\+UTILLS.\+cpp}
+\hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source}{}\label{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source}\index{UPRISE\_ENGINE/RENDER\_SHADER\_UTILLS.cpp@{UPRISE\_ENGINE/RENDER\_SHADER\_UTILLS.cpp}}
+\mbox{\hyperlink{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00001}00001\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00002}00002\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{pch_8h}{pch.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00003}00003\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8h}{RENDER\_SHADER\_UTILLS.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00004}00004\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00005}00005\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_p_a_i_n}{PAIN}}\ \{}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00008}00008\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00009}\mbox{\hyperlink{class_p_a_i_n_1_1_shader_adecffbdcb31afbeba6307c88cea50a7d}{00009}}\ \ \ \ \ \ \mbox{\hyperlink{class_p_a_i_n_1_1_shader_a63ef865e88f2ebe285913baa3fd110fb}{Shader::Shader}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ vertexPath,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ fragmentPath)}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00010}00010\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00011}00011\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 1.\ retrieve\ the\ vertex/fragment\ source\ code\ from\ filePath}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00012}00012\ \ \ \ \ \ \ \ \ std::string\ vertexCode;}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00013}00013\ \ \ \ \ \ \ \ \ std::string\ fragmentCode;}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00014}00014\ \ \ \ \ \ \ \ \ std::ifstream\ vShaderFile;}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00015}00015\ \ \ \ \ \ \ \ \ std::ifstream\ fShaderFile;}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00016}00016\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ ensure\ ifstream\ objects\ can\ throw\ exceptions:}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00017}00017\ \ \ \ \ \ \ \ \ vShaderFile.exceptions(std::ifstream::failbit\ |\ std::ifstream::badbit);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00018}00018\ \ \ \ \ \ \ \ \ fShaderFile.exceptions(std::ifstream::failbit\ |\ std::ifstream::badbit);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00019}00019\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00020}00020\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00021}00021\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ open\ files}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00022}00022\ \ \ \ \ \ \ \ \ \ \ \ \ vShaderFile.open(vertexPath);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00023}00023\ \ \ \ \ \ \ \ \ \ \ \ \ fShaderFile.open(fragmentPath);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ std::stringstream\ vShaderStream,\ fShaderStream;}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00025}00025\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ read\ file's\ buffer\ contents\ into\ streams}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00026}00026\ \ \ \ \ \ \ \ \ \ \ \ \ vShaderStream\ <<\ vShaderFile.rdbuf();}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ fShaderStream\ <<\ fShaderFile.rdbuf();}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ close\ file\ handlers}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ vShaderFile.close();}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ fShaderFile.close();}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ convert\ stream\ into\ string}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00032}00032\ \ \ \ \ \ \ \ \ \ \ \ \ vertexCode\ =\ vShaderStream.str();}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ fragmentCode\ =\ fShaderStream.str();}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00034}00034\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00035}00035\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{catch}\ (std::ifstream::failure\&\ e)}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00036}00036\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}ERROR::SHADER::FILE\_NOT\_SUCCESSFULLY\_READ:\ "{}}\ <<\ e.what()\ <<\ std::endl;}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00038}00038\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00039}00039\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ vShaderCode\ =\ vertexCode.c\_str();}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00040}00040\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ fShaderCode\ =\ fragmentCode.c\_str();}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00041}00041\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ 2.\ compile\ shaders}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00042}00042\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ vertex,\ fragment;}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00043}00043\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ vertex\ shader}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00044}00044\ \ \ \ \ \ \ \ \ vertex\ =\ glCreateShader(GL\_VERTEX\_SHADER);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00045}00045\ \ \ \ \ \ \ \ \ glShaderSource(vertex,\ 1,\ \&vShaderCode,\ NULL);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00046}00046\ \ \ \ \ \ \ \ \ glCompileShader(vertex);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00047}00047\ \ \ \ \ \ \ \ \ checkCompileErrors(vertex,\ \textcolor{stringliteral}{"{}VERTEX"{}});}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00048}00048\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ fragment\ Shader}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00049}00049\ \ \ \ \ \ \ \ \ fragment\ =\ glCreateShader(GL\_FRAGMENT\_SHADER);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00050}00050\ \ \ \ \ \ \ \ \ glShaderSource(fragment,\ 1,\ \&fShaderCode,\ NULL);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00051}00051\ \ \ \ \ \ \ \ \ glCompileShader(fragment);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00052}00052\ \ \ \ \ \ \ \ \ checkCompileErrors(fragment,\ \textcolor{stringliteral}{"{}FRAGMENT"{}});}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00053}00053\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ shader\ Program}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00054}00054\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_p_a_i_n_1_1_shader_ab9d67ad2cd520db646abf25527710a80}{ID}}\ =\ glCreateProgram();}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00055}00055\ \ \ \ \ \ \ \ \ glAttachShader(\mbox{\hyperlink{class_p_a_i_n_1_1_shader_ab9d67ad2cd520db646abf25527710a80}{ID}},\ vertex);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00056}00056\ \ \ \ \ \ \ \ \ glAttachShader(\mbox{\hyperlink{class_p_a_i_n_1_1_shader_ab9d67ad2cd520db646abf25527710a80}{ID}},\ fragment);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00057}00057\ \ \ \ \ \ \ \ \ glLinkProgram(\mbox{\hyperlink{class_p_a_i_n_1_1_shader_ab9d67ad2cd520db646abf25527710a80}{ID}});}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00058}00058\ \ \ \ \ \ \ \ \ checkCompileErrors(\mbox{\hyperlink{class_p_a_i_n_1_1_shader_ab9d67ad2cd520db646abf25527710a80}{ID}},\ \textcolor{stringliteral}{"{}PROGRAM"{}});}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00059}00059\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ delete\ the\ shaders\ as\ they're\ linked\ into\ our\ program\ now\ and\ no\ longer\ necessary}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00060}00060\ \ \ \ \ \ \ \ \ glDeleteShader(vertex);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00061}00061\ \ \ \ \ \ \ \ \ glDeleteShader(fragment);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00062}00062\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00063}00063\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00064}00064\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00065}\mbox{\hyperlink{class_p_a_i_n_1_1_shader_a63ef865e88f2ebe285913baa3fd110fb}{00065}}\ \ \ \ \ \ \mbox{\hyperlink{class_p_a_i_n_1_1_shader_a63ef865e88f2ebe285913baa3fd110fb}{Shader::Shader}}()}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00066}00066\ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00067}00067\ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00068}00068\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00069}00069\ \ \ \ \ \textcolor{comment}{//\ activate\ the\ shader}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00070}00070\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00071}00071\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00072}\mbox{\hyperlink{class_p_a_i_n_1_1_shader_a5da34848439dd56f902530ebbeece48b}{00072}}\ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_p_a_i_n_1_1_shader_a5da34848439dd56f902530ebbeece48b}{Shader::use}}()\textcolor{keyword}{\ const}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00073}00073\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00074}00074\ \ \ \ \ \ \ \ \ glUseProgram(\mbox{\hyperlink{class_p_a_i_n_1_1_shader_ab9d67ad2cd520db646abf25527710a80}{ID}});}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00075}00075\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00076}00076\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00077}00077\ \ \ \ \ \textcolor{comment}{//\ utility\ uniform\ functions}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00078}00078\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00079}00079\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00080}\mbox{\hyperlink{class_p_a_i_n_1_1_shader_a2b3c4352ad56b04f42ba1d56a4b413c8}{00080}}\ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_p_a_i_n_1_1_shader_a2b3c4352ad56b04f42ba1d56a4b413c8}{Shader::setBool}}(\textcolor{keyword}{const}\ std::string\&\ name,\ \textcolor{keywordtype}{bool}\ value)\textcolor{keyword}{\ const}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00081}00081\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00082}00082\ \ \ \ \ \ \ \ \ glUniform1i(glGetUniformLocation(\mbox{\hyperlink{class_p_a_i_n_1_1_shader_ab9d67ad2cd520db646abf25527710a80}{ID}},\ name.c\_str()),\ (\textcolor{keywordtype}{int})value);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00083}00083\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00084}00084\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00085}00085\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00086}00086\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00087}\mbox{\hyperlink{class_p_a_i_n_1_1_shader_a2fd76d7c12df5dfffd05a987c1ec4865}{00087}}\ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_p_a_i_n_1_1_shader_a2fd76d7c12df5dfffd05a987c1ec4865}{Shader::setInt}}(\textcolor{keyword}{const}\ std::string\&\ name,\ \textcolor{keywordtype}{int}\ value)\textcolor{keyword}{\ const}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00088}00088\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00089}00089\ \ \ \ \ \ \ \ \ glUniform1i(glGetUniformLocation(\mbox{\hyperlink{class_p_a_i_n_1_1_shader_ab9d67ad2cd520db646abf25527710a80}{ID}},\ name.c\_str()),\ value);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00090}00090\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00091}00091\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00092}00092\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00093}00093\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00094}\mbox{\hyperlink{class_p_a_i_n_1_1_shader_ac0d35aa18e0f6f2aa2662f098b6a3f4a}{00094}}\ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_p_a_i_n_1_1_shader_ac0d35aa18e0f6f2aa2662f098b6a3f4a}{Shader::setFloat}}(\textcolor{keyword}{const}\ std::string\&\ name,\ \textcolor{keywordtype}{float}\ value)\textcolor{keyword}{\ const}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00095}00095\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00096}00096\ \ \ \ \ \ \ \ \ glUniform1f(glGetUniformLocation(\mbox{\hyperlink{class_p_a_i_n_1_1_shader_ab9d67ad2cd520db646abf25527710a80}{ID}},\ name.c\_str()),\ value);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00097}00097\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00098}00098\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00099}00099\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00100}00100\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00101}\mbox{\hyperlink{class_p_a_i_n_1_1_shader_a3589bfba2c8a7ae8c01f6fb80d8a94d1}{00101}}\ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_p_a_i_n_1_1_shader_a3589bfba2c8a7ae8c01f6fb80d8a94d1}{Shader::setVec2}}(\textcolor{keyword}{const}\ std::string\&\ name,\ \textcolor{keyword}{const}\ glm::vec2\&\ value)\textcolor{keyword}{\ const}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00102}00102\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00103}00103\ \ \ \ \ \ \ \ \ glUniform2fv(glGetUniformLocation(\mbox{\hyperlink{class_p_a_i_n_1_1_shader_ab9d67ad2cd520db646abf25527710a80}{ID}},\ name.c\_str()),\ 1,\ \&value[0]);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00104}00104\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00105}00105\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00106}\mbox{\hyperlink{class_p_a_i_n_1_1_shader_af291609a616e14ee429a724fc1535aba}{00106}}\ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_p_a_i_n_1_1_shader_a3589bfba2c8a7ae8c01f6fb80d8a94d1}{Shader::setVec2}}(\textcolor{keyword}{const}\ std::string\&\ name,\ \textcolor{keywordtype}{float}\ x,\ \textcolor{keywordtype}{float}\ y)\textcolor{keyword}{\ const}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00107}00107\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00108}00108\ \ \ \ \ \ \ \ \ glUniform2f(glGetUniformLocation(\mbox{\hyperlink{class_p_a_i_n_1_1_shader_ab9d67ad2cd520db646abf25527710a80}{ID}},\ name.c\_str()),\ x,\ y);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00109}00109\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00110}00110\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00111}00111\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00112}00112\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00113}\mbox{\hyperlink{class_p_a_i_n_1_1_shader_a85b89111234812749d75b9dfb9961708}{00113}}\ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_p_a_i_n_1_1_shader_a85b89111234812749d75b9dfb9961708}{Shader::setVec3}}(\textcolor{keyword}{const}\ std::string\&\ name,\ \textcolor{keyword}{const}\ glm::vec3\&\ value)\textcolor{keyword}{\ const}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00114}00114\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00115}00115\ \ \ \ \ \ \ \ \ glUniform3fv(glGetUniformLocation(\mbox{\hyperlink{class_p_a_i_n_1_1_shader_ab9d67ad2cd520db646abf25527710a80}{ID}},\ name.c\_str()),\ 1,\ \&value[0]);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00116}00116\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00117}00117\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00118}\mbox{\hyperlink{class_p_a_i_n_1_1_shader_aa7a034af5c5833b8be8762d4fdb4bb82}{00118}}\ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_p_a_i_n_1_1_shader_a85b89111234812749d75b9dfb9961708}{Shader::setVec3}}(\textcolor{keyword}{const}\ std::string\&\ name,\ \textcolor{keywordtype}{float}\ x,\ \textcolor{keywordtype}{float}\ y,\ \textcolor{keywordtype}{float}\ z)\textcolor{keyword}{\ const}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00119}00119\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00120}00120\ \ \ \ \ \ \ \ \ glUniform3f(glGetUniformLocation(\mbox{\hyperlink{class_p_a_i_n_1_1_shader_ab9d67ad2cd520db646abf25527710a80}{ID}},\ name.c\_str()),\ x,\ y,\ z);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00121}00121\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00122}00122\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00123}00123\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00124}00124\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00125}\mbox{\hyperlink{class_p_a_i_n_1_1_shader_ae9089f155ffb6a3bfbb95d889216e65c}{00125}}\ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_p_a_i_n_1_1_shader_ae9089f155ffb6a3bfbb95d889216e65c}{Shader::setVec4}}(\textcolor{keyword}{const}\ std::string\&\ name,\ \textcolor{keyword}{const}\ glm::vec4\&\ value)\textcolor{keyword}{\ const}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00126}00126\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00127}00127\ \ \ \ \ \ \ \ \ glUniform4fv(glGetUniformLocation(\mbox{\hyperlink{class_p_a_i_n_1_1_shader_ab9d67ad2cd520db646abf25527710a80}{ID}},\ name.c\_str()),\ 1,\ \&value[0]);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00128}00128\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00129}00129\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00130}\mbox{\hyperlink{class_p_a_i_n_1_1_shader_ac36b72e34ed1b27dd81ab99a68109358}{00130}}\ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_p_a_i_n_1_1_shader_ae9089f155ffb6a3bfbb95d889216e65c}{Shader::setVec4}}(\textcolor{keyword}{const}\ std::string\&\ name,\ \textcolor{keywordtype}{float}\ x,\ \textcolor{keywordtype}{float}\ y,\ \textcolor{keywordtype}{float}\ z,\ \textcolor{keywordtype}{float}\ w)\textcolor{keyword}{\ const}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00131}00131\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00132}00132\ \ \ \ \ \ \ \ \ glUniform4f(glGetUniformLocation(\mbox{\hyperlink{class_p_a_i_n_1_1_shader_ab9d67ad2cd520db646abf25527710a80}{ID}},\ name.c\_str()),\ x,\ y,\ z,\ w);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00133}00133\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00134}00134\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00135}00135\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00136}00136\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00137}\mbox{\hyperlink{class_p_a_i_n_1_1_shader_aa96c34272d4feedec97376016102f5ee}{00137}}\ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_p_a_i_n_1_1_shader_aa96c34272d4feedec97376016102f5ee}{Shader::setMat2}}(\textcolor{keyword}{const}\ std::string\&\ name,\ \textcolor{keyword}{const}\ glm::mat2\&\ mat)\textcolor{keyword}{\ const}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00138}00138\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00139}00139\ \ \ \ \ \ \ \ \ glUniformMatrix2fv(glGetUniformLocation(\mbox{\hyperlink{class_p_a_i_n_1_1_shader_ab9d67ad2cd520db646abf25527710a80}{ID}},\ name.c\_str()),\ 1,\ GL\_FALSE,\ \&mat[0][0]);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00140}00140\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00141}00141\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00142}00142\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00143}00143\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00144}\mbox{\hyperlink{class_p_a_i_n_1_1_shader_a5afa68f0ac7667c2e6b68713f2ad3ae8}{00144}}\ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_p_a_i_n_1_1_shader_a5afa68f0ac7667c2e6b68713f2ad3ae8}{Shader::setMat3}}(\textcolor{keyword}{const}\ std::string\&\ name,\ \textcolor{keyword}{const}\ glm::mat3\&\ mat)\textcolor{keyword}{\ const}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00145}00145\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00146}00146\ \ \ \ \ \ \ \ \ glUniformMatrix3fv(glGetUniformLocation(\mbox{\hyperlink{class_p_a_i_n_1_1_shader_ab9d67ad2cd520db646abf25527710a80}{ID}},\ name.c\_str()),\ 1,\ GL\_FALSE,\ \&mat[0][0]);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00147}00147\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00148}00148\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00149}00149\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00150}00150\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00151}\mbox{\hyperlink{class_p_a_i_n_1_1_shader_a640f7e98e5bf71f2ef4ed4b70db046e3}{00151}}\ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_p_a_i_n_1_1_shader_a640f7e98e5bf71f2ef4ed4b70db046e3}{Shader::setMat4}}(\textcolor{keyword}{const}\ std::string\&\ name,\ \textcolor{keyword}{const}\ glm::mat4\&\ mat)\textcolor{keyword}{\ const}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00152}00152\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00153}00153\ \ \ \ \ \ \ \ \ glUniformMatrix4fv(glGetUniformLocation(\mbox{\hyperlink{class_p_a_i_n_1_1_shader_ab9d67ad2cd520db646abf25527710a80}{ID}},\ name.c\_str()),\ 1,\ GL\_FALSE,\ \&mat[0][0]);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00154}00154\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00155}00155\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00156}00156\ \ \ \ \ \textcolor{comment}{//\ utility\ function\ for\ checking\ shader\ compilation/linking\ errors.}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00157}00157\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00158}00158\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00159}00159\ \ \ \ \ \ \textcolor{keywordtype}{void}\ Shader::checkCompileErrors(GLuint\ \mbox{\hyperlink{_u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_a29a7c755b0fc44ddcfb583df15a155c7}{shader}},\ std::string\ type)}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00160}00160\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00161}00161\ \ \ \ \ \ \ \ \ GLint\ success;}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00162}00162\ \ \ \ \ \ \ \ \ GLchar\ infoLog[1024];}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00163}00163\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (type\ !=\ \textcolor{stringliteral}{"{}PROGRAM"{}})}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00164}00164\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00165}00165\ \ \ \ \ \ \ \ \ \ \ \ \ glGetShaderiv(\mbox{\hyperlink{_u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_a29a7c755b0fc44ddcfb583df15a155c7}{shader}},\ GL\_COMPILE\_STATUS,\ \&success);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00166}00166\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!success)}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00167}00167\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00168}00168\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ glGetShaderInfoLog(\mbox{\hyperlink{_u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_a29a7c755b0fc44ddcfb583df15a155c7}{shader}},\ 1024,\ NULL,\ infoLog);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00169}00169\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}ERROR::SHADER\_COMPILATION\_ERROR\ of\ type:\ "{}}\ <<\ type\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}}\ <<\ infoLog\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n\ -\/-\/\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ -\/-\/\ "{}}\ <<\ std::endl;}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00170}00170\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00171}00171\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00172}00172\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00173}00173\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00174}00174\ \ \ \ \ \ \ \ \ \ \ \ \ glGetProgramiv(\mbox{\hyperlink{_u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_a29a7c755b0fc44ddcfb583df15a155c7}{shader}},\ GL\_LINK\_STATUS,\ \&success);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00175}00175\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!success)}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00176}00176\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00177}00177\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ glGetProgramInfoLog(\mbox{\hyperlink{_u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_a29a7c755b0fc44ddcfb583df15a155c7}{shader}},\ 1024,\ NULL,\ infoLog);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00178}00178\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}ERROR::PROGRAM\_LINKING\_ERROR\ of\ type:\ "{}}\ <<\ type\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}}\ <<\ infoLog\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n\ -\/-\/\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ -\/-\/\ "{}}\ <<\ std::endl;}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00179}00179\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00180}00180\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00181}00181\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00182}00182\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00183}00183\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00184}00184\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00185}00185\ \ \ \ \ \ \textcolor{keywordtype}{void}\ ShaderU::checkCompileErrors(GLuint\ \mbox{\hyperlink{_u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_a29a7c755b0fc44ddcfb583df15a155c7}{shader}},\ std::string\ type)}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00186}00186\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00187}00187\ \ \ \ \ \ \ \ \ GLint\ success;}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00188}00188\ \ \ \ \ \ \ \ \ GLchar\ infoLog[1024];}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00189}00189\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (type\ !=\ \textcolor{stringliteral}{"{}PROGRAM"{}})}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00190}00190\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00191}00191\ \ \ \ \ \ \ \ \ \ \ \ \ glGetShaderiv(\mbox{\hyperlink{_u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_a29a7c755b0fc44ddcfb583df15a155c7}{shader}},\ GL\_COMPILE\_STATUS,\ \&success);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00192}00192\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!success)}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00193}00193\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00194}00194\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ glGetShaderInfoLog(\mbox{\hyperlink{_u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_a29a7c755b0fc44ddcfb583df15a155c7}{shader}},\ 1024,\ NULL,\ infoLog);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00195}00195\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}ERROR::SHADER\_COMPILATION\_ERROR\ of\ type:\ "{}}\ <<\ type\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}}\ <<\ infoLog\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n\ -\/-\/\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ -\/-\/\ "{}}\ <<\ std::endl;}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00196}00196\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00197}00197\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00198}00198\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00199}00199\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00200}00200\ \ \ \ \ \ \ \ \ \ \ \ \ glGetProgramiv(\mbox{\hyperlink{_u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_a29a7c755b0fc44ddcfb583df15a155c7}{shader}},\ GL\_LINK\_STATUS,\ \&success);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00201}00201\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!success)}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00202}00202\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00203}00203\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ glGetProgramInfoLog(\mbox{\hyperlink{_u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_a29a7c755b0fc44ddcfb583df15a155c7}{shader}},\ 1024,\ NULL,\ infoLog);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00204}00204\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}ERROR::PROGRAM\_LINKING\_ERROR\ of\ type:\ "{}}\ <<\ type\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}}\ <<\ infoLog\ <<\ \textcolor{stringliteral}{"{}\(\backslash\)n\ -\/-\/\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\ -\/-\/\ "{}}\ <<\ std::endl;}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00205}00205\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00206}00206\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00207}00207\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00208}00208\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00209}\mbox{\hyperlink{class_p_a_i_n_1_1_shader_u_a29218b32cebedd130fffea7a24f48483}{00209}}\ \ \ \ \ \ \mbox{\hyperlink{class_p_a_i_n_1_1_shader_u_a29218b32cebedd130fffea7a24f48483}{ShaderU::ShaderU}}(\textcolor{keywordtype}{char}*\ vertexPath,\ \textcolor{keywordtype}{char}*\ fragmentPath)\ \{}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00210}00210\ \ \ \ \ \ \ \ \ std::string\ vertexCode;}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00211}00211\ \ \ \ \ \ \ \ \ std::string\ fragmentCode;}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00212}00212\ \ \ \ \ \ \ \ \ std::ifstream\ vShaderFile;}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00213}00213\ \ \ \ \ \ \ \ \ std::ifstream\ fShaderFile;}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00214}00214\ \ \ \ \ \ \ \ \ vShaderFile.open(vertexPath);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00215}00215\ \ \ \ \ \ \ \ \ fShaderFile.open(fragmentPath);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00216}00216\ \ \ \ \ \ \ \ \ std::stringstream\ vShaderStream,\ fShaderStream;}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00217}00217\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00218}00218\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (vShaderFile.good()\ \&\&\ fShaderFile.good())\ \{}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00219}00219\ \ \ \ \ \ \ \ \ \ \ \ \ vShaderStream\ <<\ vShaderFile.rdbuf();}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00220}00220\ \ \ \ \ \ \ \ \ \ \ \ \ fShaderStream\ <<\ fShaderFile.rdbuf();}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00221}00221\ \ \ \ \ \ \ \ \ \ \ \ \ vShaderFile.close();}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00222}00222\ \ \ \ \ \ \ \ \ \ \ \ \ fShaderFile.close();}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00223}00223\ \ \ \ \ \ \ \ \ \ \ \ \ vertexCode\ =\ vShaderStream.str();}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00224}00224\ \ \ \ \ \ \ \ \ \ \ \ \ fragmentCode\ =\ fShaderStream.str();}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00225}00225\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ vShaderCode\ =\ vertexCode.c\_str();}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00226}00226\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ fShaderCode\ =\ fragmentCode.c\_str();}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00227}00227\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_p_a_i_n_1_1_shader_u_a1fbc337c85779b73d15404f699da4253}{textcount}}\ =\ fShaderCode[2];}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00228}00228\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ vertex,\ fragment;}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00229}00229\ \ \ \ \ \ \ \ \ \ \ \ \ vertex\ =\ glCreateShader(GL\_VERTEX\_SHADER);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00230}00230\ \ \ \ \ \ \ \ \ \ \ \ \ glShaderSource(vertex,\ 1,\ \&vShaderCode,\ NULL);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00231}00231\ \ \ \ \ \ \ \ \ \ \ \ \ glCompileShader(vertex);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00232}00232\ \ \ \ \ \ \ \ \ \ \ \ \ checkCompileErrors(vertex,\ \textcolor{stringliteral}{"{}VERTEX"{}});}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00233}00233\ \ \ \ \ \ \ \ \ \ \ \ \ fragment\ =\ glCreateShader(GL\_FRAGMENT\_SHADER);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00234}00234\ \ \ \ \ \ \ \ \ \ \ \ \ glShaderSource(fragment,\ 1,\ \&fShaderCode,\ NULL);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00235}00235\ \ \ \ \ \ \ \ \ \ \ \ \ glCompileShader(fragment);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00236}00236\ \ \ \ \ \ \ \ \ \ \ \ \ checkCompileErrors(fragment,\ \textcolor{stringliteral}{"{}FRAGMENT"{}});}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00237}00237\ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{class_p_a_i_n_1_1_shader_u_a3d7c97271ef813bd72f0fddf16be49a4}{ID}}\ =\ glCreateProgram();}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00238}00238\ \ \ \ \ \ \ \ \ \ \ \ \ glAttachShader(\mbox{\hyperlink{class_p_a_i_n_1_1_shader_u_a3d7c97271ef813bd72f0fddf16be49a4}{ID}},\ vertex);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00239}00239\ \ \ \ \ \ \ \ \ \ \ \ \ glAttachShader(\mbox{\hyperlink{class_p_a_i_n_1_1_shader_u_a3d7c97271ef813bd72f0fddf16be49a4}{ID}},\ fragment);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00240}00240\ \ \ \ \ \ \ \ \ \ \ \ \ glLinkProgram(\mbox{\hyperlink{class_p_a_i_n_1_1_shader_u_a3d7c97271ef813bd72f0fddf16be49a4}{ID}});}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00241}00241\ \ \ \ \ \ \ \ \ \ \ \ \ checkCompileErrors(\mbox{\hyperlink{class_p_a_i_n_1_1_shader_u_a3d7c97271ef813bd72f0fddf16be49a4}{ID}},\ \textcolor{stringliteral}{"{}PROGRAM"{}});}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00242}00242\ \ \ \ \ \ \ \ \ \ \ \ \ glDeleteShader(vertex);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00243}00243\ \ \ \ \ \ \ \ \ \ \ \ \ glDeleteShader(fragment);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00244}00244\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00245}00245\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00246}00246\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00247}00247\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00248}00248\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00249}\mbox{\hyperlink{class_p_a_i_n_1_1_shader_u_a0d48ec022be15369b8a219319921f1cb}{00249}}\ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_p_a_i_n_1_1_shader_u_a0d48ec022be15369b8a219319921f1cb}{ShaderU::use}}()\textcolor{keyword}{\ const}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00250}00250\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00251}00251\ \ \ \ \ \ \ \ \ glUseProgram(\mbox{\hyperlink{class_p_a_i_n_1_1_shader_u_a3d7c97271ef813bd72f0fddf16be49a4}{ID}});}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00252}00252\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00253}00253\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00254}00254\ \ \ \ \ \textcolor{comment}{//\ utility\ uniform\ functions}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00255}00255\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00256}00256\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00257}\mbox{\hyperlink{class_p_a_i_n_1_1_shader_u_acbe8a1f368d2d21b04204fd7c38b0a70}{00257}}\ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_p_a_i_n_1_1_shader_u_acbe8a1f368d2d21b04204fd7c38b0a70}{ShaderU::setBool}}(\textcolor{keyword}{const}\ std::string\&\ name,\ \textcolor{keywordtype}{bool}\ value)\textcolor{keyword}{\ const}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00258}00258\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00259}00259\ \ \ \ \ \ \ \ \ glUniform1i(glGetUniformLocation(\mbox{\hyperlink{class_p_a_i_n_1_1_shader_u_a3d7c97271ef813bd72f0fddf16be49a4}{ID}},\ name.c\_str()),\ (\textcolor{keywordtype}{int})value);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00260}00260\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00261}00261\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00262}00262\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00263}00263\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00264}\mbox{\hyperlink{class_p_a_i_n_1_1_shader_u_a369956022f94f6e0f169c9a7e57a20a1}{00264}}\ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_p_a_i_n_1_1_shader_u_a369956022f94f6e0f169c9a7e57a20a1}{ShaderU::setInt}}(\textcolor{keyword}{const}\ std::string\&\ name,\ \textcolor{keywordtype}{int}\ value)\textcolor{keyword}{\ const}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00265}00265\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00266}00266\ \ \ \ \ \ \ \ \ glUniform1i(glGetUniformLocation(\mbox{\hyperlink{class_p_a_i_n_1_1_shader_u_a3d7c97271ef813bd72f0fddf16be49a4}{ID}},\ name.c\_str()),\ value);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00267}00267\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00268}00268\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00269}00269\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00270}00270\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00271}\mbox{\hyperlink{class_p_a_i_n_1_1_shader_u_a583b6e1cd7df1300e1d80ecf71eee410}{00271}}\ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_p_a_i_n_1_1_shader_u_a583b6e1cd7df1300e1d80ecf71eee410}{ShaderU::setFloat}}(\textcolor{keyword}{const}\ std::string\&\ name,\ \textcolor{keywordtype}{float}\ value)\textcolor{keyword}{\ const}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00272}00272\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00273}00273\ \ \ \ \ \ \ \ \ glUniform1f(glGetUniformLocation(\mbox{\hyperlink{class_p_a_i_n_1_1_shader_u_a3d7c97271ef813bd72f0fddf16be49a4}{ID}},\ name.c\_str()),\ value);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00274}00274\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00275}00275\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00276}00276\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00277}00277\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00278}\mbox{\hyperlink{class_p_a_i_n_1_1_shader_u_acf9e49aed4d910f8b19f8b0407f5674e}{00278}}\ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_p_a_i_n_1_1_shader_u_acf9e49aed4d910f8b19f8b0407f5674e}{ShaderU::setVec2}}(\textcolor{keyword}{const}\ std::string\&\ name,\ \textcolor{keyword}{const}\ glm::vec2\&\ value)\textcolor{keyword}{\ const}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00279}00279\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00280}00280\ \ \ \ \ \ \ \ \ glUniform2fv(glGetUniformLocation(\mbox{\hyperlink{class_p_a_i_n_1_1_shader_u_a3d7c97271ef813bd72f0fddf16be49a4}{ID}},\ name.c\_str()),\ 1,\ \&value[0]);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00281}00281\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00282}00282\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00283}\mbox{\hyperlink{class_p_a_i_n_1_1_shader_u_ad497f604679fcc0a8645e5169d971598}{00283}}\ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_p_a_i_n_1_1_shader_u_acf9e49aed4d910f8b19f8b0407f5674e}{ShaderU::setVec2}}(\textcolor{keyword}{const}\ std::string\&\ name,\ \textcolor{keywordtype}{float}\ x,\ \textcolor{keywordtype}{float}\ y)\textcolor{keyword}{\ const}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00284}00284\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00285}00285\ \ \ \ \ \ \ \ \ glUniform2f(glGetUniformLocation(\mbox{\hyperlink{class_p_a_i_n_1_1_shader_u_a3d7c97271ef813bd72f0fddf16be49a4}{ID}},\ name.c\_str()),\ x,\ y);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00286}00286\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00287}00287\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00288}00288\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00289}00289\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00290}\mbox{\hyperlink{class_p_a_i_n_1_1_shader_u_a6600da5ab598bfa1ca34fa6caa84ad7f}{00290}}\ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_p_a_i_n_1_1_shader_u_a6600da5ab598bfa1ca34fa6caa84ad7f}{ShaderU::setVec3}}(\textcolor{keyword}{const}\ std::string\&\ name,\ \textcolor{keyword}{const}\ glm::vec3\&\ value)\textcolor{keyword}{\ const}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00291}00291\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00292}00292\ \ \ \ \ \ \ \ \ glUniform3fv(glGetUniformLocation(\mbox{\hyperlink{class_p_a_i_n_1_1_shader_u_a3d7c97271ef813bd72f0fddf16be49a4}{ID}},\ name.c\_str()),\ 1,\ \&value[0]);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00293}00293\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00294}00294\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00295}\mbox{\hyperlink{class_p_a_i_n_1_1_shader_u_a0f2a71c4b806d629271cc0d962ea99cb}{00295}}\ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_p_a_i_n_1_1_shader_u_a6600da5ab598bfa1ca34fa6caa84ad7f}{ShaderU::setVec3}}(\textcolor{keyword}{const}\ std::string\&\ name,\ \textcolor{keywordtype}{float}\ x,\ \textcolor{keywordtype}{float}\ y,\ \textcolor{keywordtype}{float}\ z)\textcolor{keyword}{\ const}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00296}00296\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00297}00297\ \ \ \ \ \ \ \ \ glUniform3f(glGetUniformLocation(\mbox{\hyperlink{class_p_a_i_n_1_1_shader_u_a3d7c97271ef813bd72f0fddf16be49a4}{ID}},\ name.c\_str()),\ x,\ y,\ z);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00298}00298\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00299}00299\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00300}00300\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00301}00301\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00302}\mbox{\hyperlink{class_p_a_i_n_1_1_shader_u_a9d33d7291f024b8309384bd811468a96}{00302}}\ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_p_a_i_n_1_1_shader_u_a9d33d7291f024b8309384bd811468a96}{ShaderU::setVec4}}(\textcolor{keyword}{const}\ std::string\&\ name,\ \textcolor{keyword}{const}\ glm::vec4\&\ value)\textcolor{keyword}{\ const}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00303}00303\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00304}00304\ \ \ \ \ \ \ \ \ glUniform4fv(glGetUniformLocation(\mbox{\hyperlink{class_p_a_i_n_1_1_shader_u_a3d7c97271ef813bd72f0fddf16be49a4}{ID}},\ name.c\_str()),\ 1,\ \&value[0]);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00305}00305\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00306}00306\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00307}\mbox{\hyperlink{class_p_a_i_n_1_1_shader_u_abcb56925e32ee582805beaec48eea74f}{00307}}\ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_p_a_i_n_1_1_shader_u_a9d33d7291f024b8309384bd811468a96}{ShaderU::setVec4}}(\textcolor{keyword}{const}\ std::string\&\ name,\ \textcolor{keywordtype}{float}\ x,\ \textcolor{keywordtype}{float}\ y,\ \textcolor{keywordtype}{float}\ z,\ \textcolor{keywordtype}{float}\ w)\textcolor{keyword}{\ const}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00308}00308\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00309}00309\ \ \ \ \ \ \ \ \ glUniform4f(glGetUniformLocation(\mbox{\hyperlink{class_p_a_i_n_1_1_shader_u_a3d7c97271ef813bd72f0fddf16be49a4}{ID}},\ name.c\_str()),\ x,\ y,\ z,\ w);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00310}00310\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00311}00311\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00312}00312\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00313}00313\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00314}\mbox{\hyperlink{class_p_a_i_n_1_1_shader_u_ad5c1fe7238f33da5d13d24d90125c8b2}{00314}}\ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_p_a_i_n_1_1_shader_u_ad5c1fe7238f33da5d13d24d90125c8b2}{ShaderU::setMat2}}(\textcolor{keyword}{const}\ std::string\&\ name,\ \textcolor{keyword}{const}\ glm::mat2\&\ mat)\textcolor{keyword}{\ const}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00315}00315\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00316}00316\ \ \ \ \ \ \ \ \ glUniformMatrix2fv(glGetUniformLocation(\mbox{\hyperlink{class_p_a_i_n_1_1_shader_u_a3d7c97271ef813bd72f0fddf16be49a4}{ID}},\ name.c\_str()),\ 1,\ GL\_FALSE,\ \&mat[0][0]);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00317}00317\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00318}00318\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00319}00319\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00320}00320\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00321}\mbox{\hyperlink{class_p_a_i_n_1_1_shader_u_a9482d461f1ae22bf6e7b2b20c13df9b2}{00321}}\ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_p_a_i_n_1_1_shader_u_a9482d461f1ae22bf6e7b2b20c13df9b2}{ShaderU::setMat3}}(\textcolor{keyword}{const}\ std::string\&\ name,\ \textcolor{keyword}{const}\ glm::mat3\&\ mat)\textcolor{keyword}{\ const}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00322}00322\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00323}00323\ \ \ \ \ \ \ \ \ glUniformMatrix3fv(glGetUniformLocation(\mbox{\hyperlink{class_p_a_i_n_1_1_shader_u_a3d7c97271ef813bd72f0fddf16be49a4}{ID}},\ name.c\_str()),\ 1,\ GL\_FALSE,\ \&mat[0][0]);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00324}00324\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00325}00325\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00326}00326\ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00327}00327\ }
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00328}\mbox{\hyperlink{class_p_a_i_n_1_1_shader_u_af2314a65c08a163b658c877b7b9844e4}{00328}}\ \ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_p_a_i_n_1_1_shader_u_af2314a65c08a163b658c877b7b9844e4}{ShaderU::setMat4}}(\textcolor{keyword}{const}\ std::string\&\ name,\ \textcolor{keyword}{const}\ glm::mat4\&\ mat)\textcolor{keyword}{\ const}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00329}00329\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00330}00330\ \ \ \ \ \ \ \ \ glUniformMatrix4fv(glGetUniformLocation(\mbox{\hyperlink{class_p_a_i_n_1_1_shader_u_a3d7c97271ef813bd72f0fddf16be49a4}{ID}},\ name.c\_str()),\ 1,\ GL\_FALSE,\ \&mat[0][0]);}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00331}00331\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8cpp_source_l00332}00332\ \}}
+
+\end{DoxyCode}
