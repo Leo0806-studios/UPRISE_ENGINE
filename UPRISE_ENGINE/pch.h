@@ -52,7 +52,7 @@ using namespace std;
 #include <xmmintrin.h>
 #include <emmintrin.h>
 #include <cmath>
-
+#include "nlohmann/json.hpp"
 
 #ifndef _assimp_
 #define _assimp_
@@ -114,4 +114,5 @@ _Ty CallCSharpFunction(const WCHAR* patrh,char* functionName,_Arg argument) {
     _Ty result = Function(argument);
     return result;
 }
+#define GameObject_ std::shared_ptr<GameObject>
 #endif // _PCH_

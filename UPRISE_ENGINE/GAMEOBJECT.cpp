@@ -5,6 +5,7 @@
 #include "CAMERA.h"
 #include "RENDER_MATERIAL.h"
 #include "Empty.h"
+#include "MESH.h"
 
 GameObject GameObject::Create(DATATYPES::TS_P_Vector3 pos, void* mesh,int materialID) {
 
@@ -18,9 +19,42 @@ GameObject GameObject::Create(DATATYPES::TS_P_Vector3 pos, void* mesh,int materi
 	//auto a = tmp.GetComponent(COMPONENTS::_Mesh());
 	tmp.MesH = std::make_shared<COMPONENTS::_Mesh>(*(COMPONENTS::_Mesh*)tmp.Components[0]);
 	tmp.AddComponent(Transform(), tra);
+	tmp.TrAnSfOrM = std::dynamic_pointer_cast<Transform>(tmp.behaviours[1]);
+
 	std::dynamic_pointer_cast<Transform>(tmp.behaviours[1]).get()->UpdateDirections();
 	return tmp;
 
+}
+GameObject GameObject::Create(DATATYPES::TS_P_Vector3 pos, std::shared_ptr<COMPONENTS::_Mesh> mesh, int materialID) {
+
+	GameObject tmp;
+	UuidCreate(&tmp.uuid);
+	Transform transf = Transform();
+	transf.Position = pos;
+	void* tra = &transf;
+	tmp.MESH = mesh;
+	//tmp.AddComponent(COMPONENTS::_Mesh(), mesh);
+	//auto a = tmp.GetComponent(COMPONENTS::_Mesh());
+	//tmp.MesH = std::make_shared<COMPONENTS::_Mesh>(*(COMPONENTS::_Mesh*)tmp.Components[0]);
+	tmp.AddComponent(Transform(), tra);
+	std::dynamic_pointer_cast<Transform>(tmp.behaviours[1]).get()->UpdateDirections();
+	return tmp;
+
+}
+GameObject GameObject::CreateEmpty(DATATYPES::TS_P_Vector3 pos)
+{
+	GameObject tmp;
+	UuidCreate(&tmp.uuid);
+	Transform transf = Transform();
+	transf.Position = pos;
+	void* tra = &transf;
+	Empty empt = Empty();
+	tmp.AddComponent(Empty(), &empt);
+	tmp.AddComponent(Transform(), tra);
+	tmp.TrAnSfOrM = std::dynamic_pointer_cast<Transform>(tmp.behaviours[1]);
+	std::dynamic_pointer_cast<Transform>(tmp.behaviours[1]).get()->UpdateDirections();
+
+	return tmp;
 }
 GameObject GameObject::CreateCamera(DATATYPES::TS_P_Vector3 pos)
 {

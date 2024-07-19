@@ -7,13 +7,13 @@ CORE::Scene::Scene()
 CORE::Scene::~Scene()
 {
 }
-
+CORE::Scene CORE::Scene::activeScene;
 GameObject* CORE::Scene::FindObjectByName(const char* name)
 {
-	int leengt = ObjectsInSScene.size();
+	int leengt = ObjectsInScene.size();
 	for (int i = 0; i < leengt; i++) {
-		if (ObjectsInSScene[i]->name == name) {
-			return ObjectsInSScene[i].get();
+		if (ObjectsInScene[i]->name == name) {
+			return ObjectsInScene[i].get();
 		}
 	}
 	return NULL;
@@ -21,10 +21,10 @@ GameObject* CORE::Scene::FindObjectByName(const char* name)
 
 GameObject* CORE::Scene::FindObjectByUUID(UUID uuid)
 {
-	int leengt = ObjectsInSScene.size();
+	int leengt = ObjectsInScene.size();
 	for (int i = 0; i < leengt; i++) {
-		if (ObjectsInSScene[i]->uuid == uuid) {
-			return ObjectsInSScene[i].get();
+		if (ObjectsInScene[i]->uuid == uuid) {
+			return ObjectsInScene[i].get();
 		}
 	}
 	return NULL;

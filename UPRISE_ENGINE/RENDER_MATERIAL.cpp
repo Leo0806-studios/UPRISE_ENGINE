@@ -7,6 +7,7 @@
  PAIN::Render_Camera* PAIN::Render::RenderCam;
  std::shared_ptr<CORE::Behaviour> PAIN::Render::CAM;
  std::vector<std::shared_ptr<PAIN::TerrainModel>> PAIN::Render::terrains;
+ std::unordered_map<std::string, std::shared_ptr<PAIN::Model>> PAIN::Render::Modeldict;
 
 inline void PAIN::Material::DrawObj() {
 	shader->use();
@@ -35,7 +36,7 @@ inline void PAIN::Material::DrawObj() {
 			shader->setMat4("Rotation", rotation);
 
 			auto aa = std::dynamic_pointer_cast<COMPONENTS::_Mesh>(objects[i]->MesH);
-			aa.get()->Model.Draw(*shader);
+			aa.get()->Model.get()->Draw(*shader);
 			//auto meesh = (COMPONENTS::_Mesh*)objects[i]->msh;
 			//meesh->Model.Draw(*shader);
 			//objects[i]->MesH.Model.Draw(*shader);

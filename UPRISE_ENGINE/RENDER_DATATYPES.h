@@ -79,8 +79,8 @@ namespace PAIN {
 	class Model
 	{
 	public:
-		Model();;
-		Model(const char* path);
+		Model();
+		Model(std::string path);
 		void Draw(Shader& shader);
 		vector<Mesh> meshes;
 

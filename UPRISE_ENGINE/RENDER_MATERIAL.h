@@ -13,6 +13,7 @@ namespace PAIN {
 
 
 	public:
+		static std::unordered_map<std::string, std::shared_ptr<PAIN::Model>> Modeldict;
 		static std::vector<PAIN::Material> mats;
 		static std::vector<std::shared_ptr<PAIN::TerrainModel>> terrains;
 		std::vector< std::shared_ptr<GameObject> > objects;

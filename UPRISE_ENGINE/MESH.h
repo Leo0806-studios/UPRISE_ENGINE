@@ -13,13 +13,13 @@ namespace COMPONENTS {
 	public: 
 		static UUID UUID;
 		GameObject* oobj = nullptr;
-		  PAIN::Model Model;
+		std::shared_ptr<PAIN::Model> Model;
 		  _Mesh();
 		  _Mesh(const char* pth);
-		  _Mesh(PAIN::Model model);
+		  _Mesh(std::shared_ptr<PAIN::Model> model);
 
 
-		  void SetModel(PAIN::Model m);
+		  void SetModel(std::shared_ptr<PAIN::Model> m);
 		  void Update()override;
 		  void Awake()override;
 		  void Start()override;

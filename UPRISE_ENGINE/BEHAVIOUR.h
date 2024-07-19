@@ -14,8 +14,9 @@
 class GameObject;
 namespace COMPONENTS {
 	class _Mesh;
-	class Transform;
 }
+class Transform;
+
 namespace CORE {
 	
 
@@ -23,6 +24,7 @@ namespace CORE {
 
 	public:
 		GameObject* gameobject;
+		std::shared_ptr<Transform> TRANSFORM;
 		std::shared_ptr<CORE::Behaviour> transf;
 
 		static std::vector<std::shared_ptr<CORE::Behaviour>> objectss;

@@ -6,14 +6,14 @@
 
 	 PAIN::Model mod = PAIN::Model(pth);
 	 
-	 Model = mod;
+	 Model =std::make_shared<PAIN::Model>( mod);
 }
 
- COMPONENTS::_Mesh::_Mesh(PAIN::Model model) { Model = model; }
+ COMPONENTS::_Mesh::_Mesh(std::shared_ptr<PAIN::Model> model) { Model = model; }
  GUID COMPONENTS::_Mesh::UUID = GUID_NULL;
 
 
- void COMPONENTS::_Mesh::SetModel(PAIN::Model m) {
+ void COMPONENTS::_Mesh::SetModel(std::shared_ptr<PAIN::Model> m) {
 	Model = m;
 }
 

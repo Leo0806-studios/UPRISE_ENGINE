@@ -23,7 +23,7 @@ public:
 	int wo = 4;
 
 	 void Update()override {
-		 auto pos = std::dynamic_pointer_cast<Transform>(transf).get();
+		 auto pos = TRANSFORM;
 		 ZoneNamedN(testupdate, "Test", true);
 		 if (CORE::Input::GetKey(W)) {
 			 //std::cout << "test" << wo << "\n";

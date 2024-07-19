@@ -87,7 +87,9 @@ void processInput(GLFWwindow* window)
 		std::cout << "pressed O";
 
 		//auto base =CORE::Behaviour();
-		scene.ObjectsInSScene.push_back(std::make_shared<GameObject>(TestObj));
+		auto ppppppp = std::make_shared<GameObject>(TestObj);
+
+		scene.ObjectsInScene.push_back(std::make_shared<GameObject>(TestObj));
 		CORE::Behaviour::updateAll();
 		spawned = true;
 	}
@@ -97,6 +99,7 @@ void processInput(GLFWwindow* window)
 
 int main()
 {
+	auto a =CORE::Filehandler::ApplicationPath();
 	Log << "Startup....";
 
 
@@ -106,16 +109,17 @@ int main()
 	z = CORE::Startup::Start_Systems();
 	std::dynamic_pointer_cast<Camera>(PAIN::Render::CAM).get()->FOV = 45;
 	scene = CORE::Scene::Create();
-
+	auto aaa = CORE::Filehandler::ApplicationPath() + "\\GAMEDATA";
+	CORE::ConfigLoader::LoadModels(std::filesystem::path(aaa));
 	std::cout << "Hello World!\n";
-
+	
 
 
 	shader = PAIN::Shader("C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\x64\\Debug\\6.1.coordinate_systems.vs", "C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\x64\\Debug\\6.1.coordinate_systems.fs");
 	//auto a = Terrain_Data::Create("C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\GAMEDATA\\UPRISE\\ASSETS\\Map1.png", 512, 512, 100, &shader);
 	//PAIN::Render::terrains.push_back(std::make_shared<PAIN::TerrainModel>(a.get()->model));
 
-
+	//auto aerwe = CORE::ConfigLoader::LoadCOnfigFile("C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\x64\\Debug\\GAMEDATA\\UPRISE\\CONFIG\\BUILDINGS\\TEST.CFG");
 
 
 

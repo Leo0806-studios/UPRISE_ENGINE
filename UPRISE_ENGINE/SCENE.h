@@ -13,8 +13,8 @@ namespace CORE {
 
 	public:
 		//std::vector<std::shared_ptr < CORE::Object>> ObjectsInSScene;
-		std::vector<std::shared_ptr<GameObject>> ObjectsInSScene;
-
+		std::vector<std::shared_ptr<GameObject>> ObjectsInScene;
+		static Scene activeScene;
 		Scene() ;
 		virtual ~Scene() ;
 		GameObject* FindObjectByName(const char* name);

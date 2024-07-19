@@ -31,11 +31,12 @@ namespace CORE {
 	class Filehandler {
 
 	private:
-		std::string Application_Path;
+		static std::string Application_Path;
+		static bool yes;
 
 	public:
 
-		std::string ApplicationPath();
+		static std::string ApplicationPath();
 	};
 
 

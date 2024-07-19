@@ -102,7 +102,7 @@ namespace PAIN {
 
 	 Model::Model() {}
 
-	 Model::Model(const char* path)
+	 Model::Model(std::string path)
 	{
 
 		loadModel(path);
