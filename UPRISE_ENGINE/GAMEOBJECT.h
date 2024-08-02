@@ -70,6 +70,11 @@ class Transform;
 
 
 		//void AddComponent(void* component);
+#ifdef DEBUG_Engine
+		std::shared_ptr<CORE::Behaviour> AddComponent(std::shared_ptr<CORE::Behaviour> component) {
+
+		}
+#endif // DEBUG_Engine
 
 		template <class _Ty, class... _Types>
 		_Ty* AddComponent(_Ty arg) {

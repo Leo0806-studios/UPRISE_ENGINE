@@ -160,6 +160,11 @@ void processInput(GLFWwindow* window)
 /// <returns></returns>
 int main()
 {
+	auto erer = fact::creators["Test"]();
+	auto ooooooooooo = erer.get();
+	void* awewe = malloc(sizeof(*erer.get()));
+	auto ooooo = memcpy(awewe,erer.get(),sizeof(*erer.get()));
+	CORE::Behaviour* bev = (CORE::Behaviour*)ooooo;
 	//auto ewt = tt();
 	//auto owowo = TTT();
 	//

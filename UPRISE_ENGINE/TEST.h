@@ -98,5 +98,8 @@ public:
 };
 //static Registrar<Test> test("Test");
 //template<typename Te>::Test();
+#ifndef _REGISTER_TEST_
+#define _REGISTER_TEST_
 static   Register<Test> teste(Test(), "Test");
+#endif
 #endif // !_TEST_

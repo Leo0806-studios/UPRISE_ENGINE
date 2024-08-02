@@ -37,7 +37,7 @@ namespace CORE {
 	//	static std::vector<Behaviour*> tester;
 		//template <class _Ty, class... _Types>
 		//static std::vector<_Ty> types;
-		Behaviour();;
+		Behaviour();
 		Behaviour(GameObject* oobj, std::shared_ptr<CORE::Behaviour> trans);
 
 		virtual void Update() {};
@@ -56,11 +56,19 @@ public:
 	//static std::vector < std::shared_ptr<Register> lisst;
 	
 	explicit Register(_T arg, const std::string className) {
+		if (arg.UUID == GUID_NULL) {
+			UUID uuid;
+			UuidCreate(&uuid);
 
-		std::shared_ptr<CORE::Behaviour> aa = std::make_shared<_T>();
-		fact::inst.push_back(aa);
-		//fact::anys.push_back(arg);
-		fact::creators[className] = []()->std::shared_ptr<CORE::Behaviour> {std::shared_ptr<CORE::Behaviour> a = std::make_shared<_T>(); return a; };
+
+			arg.UUID = uuid;
+			arg.uuID = arg.UUID;
+			std::shared_ptr<CORE::Behaviour> aa = std::make_shared<_T>();
+			fact::inst.push_back(aa);
+			//fact::anys.push_back(arg);
+			fact::creators[className] = []()->std::shared_ptr<CORE::Behaviour> {std::shared_ptr<CORE::Behaviour> a = std::make_shared<_T>(); return a; };
+		}
+
 	}
 };
 #endif // !_BEHAVIOUR_

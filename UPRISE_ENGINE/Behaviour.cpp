@@ -9,7 +9,7 @@
 std::vector<std::shared_ptr<CORE::Behaviour>> CORE::Behaviour::behaviours;
 std::vector<std::shared_ptr<CORE::Behaviour>> CORE::Behaviour::AWAKES;
 std::vector<std::shared_ptr<CORE::Behaviour>> CORE::Behaviour::Starts;
- CORE::Behaviour::Behaviour() {}
+CORE::Behaviour::Behaviour() {  }
 
  CORE::Behaviour::Behaviour(GameObject* oobj, std::shared_ptr<CORE::Behaviour> trans)
  {
