@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "PARRALEL_UPDATE.h"
 
 void Parallel_Update::Awake()

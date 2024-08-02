@@ -3,7 +3,9 @@
 
 #include "pch.h"
 namespace CORE {
-
+    /// <summary>
+    /// contains cpu secs
+    /// </summary>
     class InstructionSet
     {
         // forward declarations

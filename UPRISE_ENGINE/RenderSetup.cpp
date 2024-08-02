@@ -6,6 +6,7 @@
 #include "RENDER_MATERIAL.h"
 #include "GAMEOBJECT.h"
 #include "DEBUG_LOGGER.h"
+#include "CAMERA.h"
 // The number of swap chain back buffers.
 namespace Renderer {
 	
@@ -56,9 +57,10 @@ void PAIN::RenderStup::Setup(int w, int h, const char* Title)
 	 Log << "		- Creating Viewport";
 	 glViewport(0, 0, w, h);
 	 Log << "		- Creating Camera";
-	Render_cam = GameObject::CreateCamera(TS_P_Vector3(0,0,0));
+	Render_cam = GameObject::CreateCamera(TS_P_Vector3(0,0,0),Quaternion(1,0,0,0));
+	Render_cam.name = "CAMERA";
 	//CORE::Behaviour::updateAll();
-	PAIN::Render::CAM = Render_cam.behaviours[2];
+	PAIN::Render::CAM = std::dynamic_pointer_cast<Camera>(Render_cam.behaviours[1]);
 	PAIN::Render::RenderCam = &Render_cam.GetComponentDynamic(Camera())->camera;
 	//PAIN::Render::RenderCam;
 

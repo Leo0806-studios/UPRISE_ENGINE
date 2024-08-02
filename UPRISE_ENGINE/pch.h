@@ -6,6 +6,8 @@
 
 
 #define _PCH_
+#define DEBUG_Engine
+
 #include "tracy/Tracy.hpp"
 #include "tracy/TracyC.h"
 #define WIN32_LEAN_AND_MEAN
@@ -63,6 +65,11 @@ using namespace std;
 
 
 #endif // !_assimp_
+#include "imgui.h"
+#include "imgui_impl_glfw.h"
+#include "imgui_impl_opengl3.h"
+#include "imgui_stdlib.h"
+//#include "imgui_impl_opengl3_loader.h"
 //#include "RENDER.h"
 //#include "CORE.h"
 //#include "DATATYPES.h"
@@ -115,4 +122,82 @@ _Ty CallCSharpFunction(const WCHAR* patrh,char* functionName,_Arg argument) {
     return result;
 }
 #define GameObject_ std::shared_ptr<GameObject>
+#define Component_ std::shared_ptr<CORE::Behaviour>
+#define VEC(X) std::vector<X>
+#ifdef DEBUG_Engine
+#define TrPr(V,N)   TracyCZoneN(V, N, true); 
+#define TrPrE(V) TracyCZoneEnd(V);
+
+
+//#define ScPr(name) scopedProfiler profiler(   name );  
+#else
+#define ScPr;
+#define TrPr(V,N)    ;
+#define TrPrE(V) ;
+#endif //DEBUG_Engine
+#ifndef globlist
+#define globlist
+namespace CORE {
+    class Behaviour;
+}
+class fact {
+public:
+    static VEC(std::shared_ptr<CORE::Behaviour>) inst;
+    static VEC(std::any) anys;
+    //static std::function<std::unique_ptr<Behaviour>()> CreatorFunc;
+    using  CreatorFunc = std::function<std::shared_ptr<CORE::Behaviour>()>;
+
+
+    static std::map<std::string, CreatorFunc> creators;
+};
+
+#endif // !globlist
+
+
+//class BaseFactory {
+//public:
+//    using CreatorFunc = std::function<std::unique_ptr<Behaviour>()>;
+//
+//    // Singleton instance accessor
+//    static BaseFactory& getInstance() {
+//        static BaseFactory instance;
+//        return instance;
+//    }
+//
+//    // Registers a class creation function with a class name
+//    void registerClass(const std::string& className, CreatorFunc creator) {
+//        creators[className] = creator;
+//    }
+//
+//    // Creates an instance of a registered class by its name
+//    std::unique_ptr<Behaviour> create(const std::string& className) {
+//        auto it = creators.find(className);
+//        if (it != creators.end()) {
+//            return it->second();
+//        }
+//        return nullptr;
+//    }
+//
+//    // Creates instances of all registered classes
+//    std::vector<std::unique_ptr<Behaviour>> createAll() {
+//        std::vector<std::unique_ptr<Behaviour>> instances;
+//        for (const auto& pair : creators) {
+//            instances.push_back(pair.second());
+//        }
+//        return instances;
+//    }
+//
+//private:
+//    std::map<std::string, CreatorFunc> creators;  // Map from class name to creation function
+//};
+//
+//template <typename T>
+//class Registrar {
+//public:
+//    explicit Registrar(const std::string& className) {
+//        BaseFactory::getInstance().registerClass(className, []() -> std::unique_ptr<Behaviour> {
+//            return std::make_unique<T>();
+//            });
+//    }
+//};
 #endif // _PCH_

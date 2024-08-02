@@ -30,8 +30,10 @@ namespace CORE {
 		static DATATYPES::Startup_Config STARTUP_CONFIG;
 		static bool StartupComplete;
 		static DATATYPES::Startup_Config Configure_Startup();
+		static void StartEditor(GLFWwindow* window);
 		static void Init_Startup(DATATYPES::Startup_Config config);
 		static SYSTEMS  Start_Systems();
+		static ImGuiIO* io;
 
 		static void Start_Game();
 

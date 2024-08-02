@@ -40,9 +40,9 @@ namespace CORE {
 		Behaviour();;
 		Behaviour(GameObject* oobj, std::shared_ptr<CORE::Behaviour> trans);
 
-		virtual void Update() = 0;
-		virtual void Awake() = 0;
-		virtual void Start() = 0;
+		virtual void Update() {};
+		virtual void Awake() {};
+		virtual void Start() {};
 		static void updateAll();
 		static void updateAllAWAKE();
 		static void updateAllSTART();
@@ -50,4 +50,17 @@ namespace CORE {
 		
 	};
 }
+template<typename _T>
+class Register {
+public:
+	//static std::vector < std::shared_ptr<Register> lisst;
+	
+	explicit Register(_T arg, const std::string className) {
+
+		std::shared_ptr<CORE::Behaviour> aa = std::make_shared<_T>();
+		fact::inst.push_back(aa);
+		//fact::anys.push_back(arg);
+		fact::creators[className] = []()->std::shared_ptr<CORE::Behaviour> {std::shared_ptr<CORE::Behaviour> a = std::make_shared<_T>(); return a; };
+	}
+};
 #endif // !_BEHAVIOUR_

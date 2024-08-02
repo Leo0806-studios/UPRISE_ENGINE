@@ -13,20 +13,14 @@ namespace PAIN {
 
 	class Render_Camera {
 	private:
-		Transform* transf;
+
 	public :
 		float FOV;
-		void setTransf(std::shared_ptr<CORE::Behaviour> transform) {
-			transf = std::dynamic_pointer_cast<Transform>(transform).get();
-		}
-		Transform* GetTransf() {
-			return transf;
-		}
 
-		//__declspec(property(get = GetTransf, put = setTransf) )Transform* transform;
-		Transform* transform;
+
+		std::shared_ptr<Transform> transf;
 		Render_Camera();
-		static Render_Camera Create();
+		static Render_Camera Create(std::shared_ptr<Transform> tr);
 
 		glm::mat4 GetViewMatrix();
 		//{

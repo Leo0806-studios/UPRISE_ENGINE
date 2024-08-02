@@ -72,6 +72,14 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>C:\Users\leo08\source\repos\UPRISE_ENGINE\adhed;$(IncludePath)</IncludePath>
+    <OutDir>..\UPRISE</OutDir>
+    <CopyLocalProjectReference>true</CopyLocalProjectReference>
+    <CopyLocalDebugSymbols>true</CopyLocalDebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>..\UPRISE</OutDir>
+    <CopyLocalProjectReference>true</CopyLocalProjectReference>
+    <CopyLocalDebugSymbols>true</CopyLocalDebugSymbols>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -107,8 +115,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);TRACY_ENABLE</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\leo08\source\repos\UPRISE_ENGINE\adhed;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <AdditionalIncludeDirectories>C:\Users\leo08\source\repos\UPRISE_ENGINE\adhed;C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_ENGINE;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <OpenMPSupport>true</OpenMPSupport>
@@ -128,8 +136,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);TRACY_ENABLE</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\leo08\source\repos\UPRISE_ENGINE\adhed;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <AdditionalIncludeDirectories>C:\Users\leo08\source\repos\UPRISE_ENGINE\adhed;C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_ENGINE;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
@@ -143,13 +151,48 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\adhed\glad.c" />
+    <ClCompile Include="..\adhed\glad.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="ALLOCATOR.cpp" />
     <ClCompile Include="CONFIGFILE.cpp" />
     <ClCompile Include="CONFIGLOADER.cpp" />
     <ClCompile Include="DEBUG_LOGGER.cpp" />
     <ClCompile Include="Empty.cpp" />
     <ClCompile Include="FILELOADER.cpp" />
+    <ClCompile Include="imgui.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="imgui_demo.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="imgui_draw.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="imgui_impl_glfw.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="imgui_impl_opengl3.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="imgui_stdlib.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="imgui_tables.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="imgui_widgets.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="MESH.cpp" />
     <ClCompile Include="PARRALEL_UPDATE.cpp" />
     <ClCompile Include="pch.cpp" />
@@ -160,6 +203,8 @@
     <ClCompile Include="CPUFEATURES.cpp" />
     <ClCompile Include="INPUT.cpp" />
     <ClCompile Include="PHYSICS_MANAGER.cpp" />
+    <ClCompile Include="PHYSICS_OBJECT.cpp" />
+    <ClCompile Include="RAYCAST.cpp" />
     <ClCompile Include="RENDER_CAMERA.cpp" />
     <ClCompile Include="RENDER_MATERIAL.cpp" />
     <ClCompile Include="RENDER_SHADER_UTILLS.cpp" />
@@ -176,7 +221,10 @@
     <ClCompile Include="COMPONENTS.cpp" />
     <ClCompile Include="RENDER_DATATYPES.cpp" />
     <ClCompile Include="THREADING.cpp" />
-    <ClCompile Include="TracyClient.cpp" />
+    <ClCompile Include="TracyClient.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="TRANSFORM.cpp" />
     <ClCompile Include="TS_P_QUATERION.cpp" />
     <ClCompile Include="TS_P_VECOTR2.cpp" />
@@ -190,13 +238,16 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BUTTON.h" />
     <ClInclude Include="CONFIGFILE.h" />
     <ClInclude Include="CONFIGLOADER.h" />
     <ClInclude Include="CONFIG_FILE.h" />
     <ClInclude Include="CORE.h" />
     <ClInclude Include="DATATYPES.h" />
+    <ClInclude Include="DEMOGRAFICCLASS.h" />
     <ClInclude Include="ECS.h" />
     <ClInclude Include="Empty.h" />
+    <ClInclude Include="EVENT.h" />
     <ClInclude Include="FILELOADER.h" />
     <ClInclude Include="GAMEOBJECT.h" />
     <ClInclude Include="ALLOCATOR.h" />
@@ -205,8 +256,15 @@
     <ClInclude Include="BEHAVIOUR.h" />
     <ClInclude Include="GLINCLUDES.h" />
     <ClInclude Include="DEBUG_LOGGER.h" />
+    <ClInclude Include="IMMAGE.h" />
+    <ClInclude Include="RAY.h" />
+    <ClInclude Include="RAYCAST.h" />
+    <ClInclude Include="REFLECTION.h" />
+    <ClInclude Include="RESSOURCE.h" />
+    <ClInclude Include="TAG_LAYERS.h" />
     <ClInclude Include="TERRAIN.h" />
     <ClInclude Include="TERRAIN_DATA.h" />
+    <ClInclude Include="TEXT_FIELD.h" />
     <ClInclude Include="TS_P_QUATERION.h" />
     <ClInclude Include="PHYSICS_MANAGER.h" />
     <ClInclude Include="PHYSICS_OBJECT.h" />
@@ -222,6 +280,7 @@
     <ClInclude Include="RENDER_OBJECT_SPAWNING.h" />
     <ClInclude Include="THREADING.h" />
     <ClInclude Include="TS_P_VECOTR2.h" />
+    <ClInclude Include="UI_TRANSFORM.h" />
     <ClInclude Include="_MESH.h" />
     <ClInclude Include="MESH.h" />
     <ClInclude Include="PHYSICS.h" />
@@ -239,6 +298,7 @@
     <ClInclude Include="RENDER.h" />
     <ClInclude Include="Helpers.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="_PHYSICSOBJEC.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

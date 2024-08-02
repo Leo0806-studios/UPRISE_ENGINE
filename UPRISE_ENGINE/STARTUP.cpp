@@ -10,8 +10,10 @@
 bool CORE::Startup::StartupComplete;
 DATATYPES::Startup_Config CORE::Startup::STARTUP_CONFIG;
 GLFWwindow* CORE::SYSTEMS::windw;
+ImGuiIO* CORE::Startup::io;
 
 DATATYPES::Startup_Config CORE::Startup::Configure_Startup() {
+	TracyCZoneN(ctx, "Configure Startup", true);
 
 	if (StartupComplete == true) {
 
@@ -39,14 +41,36 @@ DATATYPES::Startup_Config CORE::Startup::Configure_Startup() {
 	STARTUP_CONFIG = Config;
 	Log<<"	- Connfig finished";
 	Log<<"	- returnning...";
+	TracyCZoneEnd(ctx);
+
 	return Config;
 }
+void CORE::Startup::StartEditor(GLFWwindow* Window)
+{
+	TracyCZoneN(ctx, "Startup Editor", true);
+
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	 io = &ImGui::GetIO();
+	io->ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+	io->ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+	ImGui_ImplGlfw_InitForOpenGL(Window, true);
+	ImGui_ImplOpenGL3_Init();
+	TracyCZoneEnd(ctx);
+
+}
 void CORE::Startup::Init_Startup(DATATYPES::Startup_Config config) {
+	TracyCZoneN(ctx, __FUNCTION__, true);
+
 	Log << "Init Startup...";
+	TracyCZoneEnd(ctx);
+
 
 }
 CORE::SYSTEMS CORE::Startup::Start_Systems() {
 	//const ZoneNamedN(startup, "Startup", true);
+	TracyCZoneN(ctx, "startig Systems", true);
+
 	Log << "startig Systems...";
 	SYSTEMS sys;
 	Log << "	- Starting Message Bus";
@@ -60,5 +84,6 @@ CORE::SYSTEMS CORE::Startup::Start_Systems() {
 	sys.windw = PAIN::RenderStup::Windowvar;
 	Log << "	- Init Input System";
 	CORE::Input::Init(PAIN::RenderStup::Windowvar);
+	TracyCZoneEnd(ctx);
 	return sys;
 }

@@ -18,6 +18,7 @@
 
 		DATATYPES::TS_P_Vector3 Position;
 		DATATYPES::Quaternion rotation;
+		DATATYPES::TS_P_Vector3 Vec3Rotation;
 		DATATYPES::TS_P_Vector3 forward;
 		DATATYPES::TS_P_Vector3 up;
 		DATATYPES::TS_P_Vector3 right;
@@ -33,5 +34,8 @@
 
 
 	};
+	//static Registrar<Transform> transform("Transform");
+
+#define ADDROTATION(X,Y,Z) TRANSFORM->SetRotation(DATATYPES::TS_P_Vector3(pos->Vec3Rotation.x+(X), pos->Vec3Rotation.y+(Y), pos->Vec3Rotation.z +(Z)));
 
 #endif // !_TRANSFORM_

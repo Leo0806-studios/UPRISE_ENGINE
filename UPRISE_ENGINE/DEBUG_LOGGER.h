@@ -31,7 +31,11 @@ namespace Debug {
 		static void LogError(Error error);
 		static void LogError(ErrorCode errorCode);
 		static void LogWarning();
-
+		template<typename ... Args>
+		static void log(const std::string& format, Args ... args) {
+			std::string message = string_format(format, args...);
+			log(message);
+		}
 	};
 	class LogStream {
 	public:

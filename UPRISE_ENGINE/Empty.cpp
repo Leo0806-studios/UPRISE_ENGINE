@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "Empty.h"
 GUID Empty::UUID = GUID_NULL;
 

@@ -17,7 +17,7 @@ public:
 	DATATYPES::TS_P_Vector3 rrot = DATATYPES::TS_P_Vector3(0, 0, 0);
 	static UUID UUID;
 
-	Camera(int placeholder);
+	Camera(std::shared_ptr<Transform> tr);
 	Camera();
 	void setfov(float Fow) 
 	{
@@ -37,4 +37,5 @@ void Update()override;
 void Start()override;
 
 	};
+//static Registrar<Camera> camera("Camera");
 #endif // !_CAMERA_

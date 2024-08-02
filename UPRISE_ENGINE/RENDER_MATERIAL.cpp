@@ -1,13 +1,20 @@
+#include "pch.h"
 #include "GLINCLUDES.h"
 #include "RENDER_MATERIAL.h"
 #include "DATATYPES.h"
 #include "TERRAIN_DATA.h"
+#include "CAMERA.h"
  PAIN::Material::Material(Shader* shade) { shader = shade; }
+ PAIN::Material::Material(Shader shade)
+ {
+	 Shader_ = shade;
+ }
  std::vector<PAIN::Material> PAIN::Render::mats;
  PAIN::Render_Camera* PAIN::Render::RenderCam;
- std::shared_ptr<CORE::Behaviour> PAIN::Render::CAM;
+ std::shared_ptr<Camera> PAIN::Render::CAM;
  std::vector<std::shared_ptr<PAIN::TerrainModel>> PAIN::Render::terrains;
  std::unordered_map<std::string, std::shared_ptr<PAIN::Model>> PAIN::Render::Modeldict;
+ std::unordered_map<std::string, int> PAIN::Render::MaterialIdLinkDict;
 
 inline void PAIN::Material::DrawObj() {
 	shader->use();
@@ -17,26 +24,27 @@ inline void PAIN::Material::DrawObj() {
 		if (objects[i]->Enabled >= 1) {
 
 
-			auto poss = std::dynamic_pointer_cast<Transform>(objects[i]->behaviours[1]);
+			//auto poss = std::dynamic_pointer_cast<Transform>(objects[i]->behaviours[1]);
 
 			
-			glm::mat4 projection = glm::perspective(glm::radians(std::dynamic_pointer_cast<Camera>(CAM).get()->camera.FOV), (float)1600 / (float)900, 0.1f, 500.0f);
-			auto rott = poss.get();
-			auto rot = rott->rotation;
-			glm::mat4 view = std::dynamic_pointer_cast<Camera>(CAM).get()->camera.GetViewMatrix();
-			glm::mat4 rotation = rot.ToMat4();
+			glm::mat4 projection = glm::perspective(glm::radians(CAM->camera.FOV), (float)1600 / (float)900, 0.1f, 500.0f);
+			//auto rott = poss.get();
+			//auto rot = rott->rotation;
+			glm::mat4 view = CAM->camera.GetViewMatrix();
+			glm::mat4 rotation = objects[i]->TrAnSfOrM->rotation.ToMat4();
 			glm::mat4 model = glm::mat4(1.0f);
 			DATATYPES::TS_P_Vector3 pos = std::dynamic_pointer_cast<Transform>(objects[i].get()->behaviours[1]).get()->Position;
-			auto ooo=poss.get();
-			pos = ooo->Position;
-			model = glm::translate(model, (glm::vec3)pos );
+			//auto ooo = objects[i]->TrAnSfOrM->Position;
+			//pos = ooo->Position;
+			model = glm::translate(model, (glm::vec3)objects[i]->TrAnSfOrM->Position);
 			shader->setMat4("projection", projection);
 			shader->setMat4("view", view);
 			shader->setMat4("model", model);
 			shader->setMat4("Rotation", rotation);
 
-			auto aa = std::dynamic_pointer_cast<COMPONENTS::_Mesh>(objects[i]->MesH);
-			aa.get()->Model.get()->Draw(*shader);
+			//auto aa = std::dynamic_pointer_cast<COMPONENTS::_Mesh>(objects[i]->MesH);
+			objects[i]->MESH->Model->Draw(*shader);
+			//aa.get()->Model.get()->Draw(*shader);
 			//auto meesh = (COMPONENTS::_Mesh*)objects[i]->msh;
 			//meesh->Model.Draw(*shader);
 			//objects[i]->MesH.Model.Draw(*shader);

@@ -18,7 +18,6 @@ namespace PAIN {
 
 	 void Mesh::Draw(Shader& shader)
 	{
-
 		unsigned int diffuseNr = 1;
 		unsigned int specularNr = 1;
 		for (unsigned int i = 0; i < textures.size(); i++)
@@ -43,7 +42,6 @@ namespace PAIN {
 
 	 void Mesh::Draw(ShaderU& shader)
 	{
-
 		unsigned int diffuseNr = 1;
 		unsigned int specularNr = 1;
 		for (unsigned int i = 0; i < textures.size(); i++)
@@ -68,7 +66,6 @@ namespace PAIN {
 
 	 void Mesh::setupMesh()
 	{
-
 		glGenVertexArrays(1, &VAO);
 		glGenBuffers(1, &VBO);
 		glGenBuffers(1, &EBO);
@@ -104,8 +101,10 @@ namespace PAIN {
 
 	 Model::Model(std::string path)
 	{
+		TrPr(ctxt, __func__)
 
 		loadModel(path);
+		TrPrE(ctxt);
 	}
 
 	 void Model::Draw(Shader& shader)
@@ -116,7 +115,7 @@ namespace PAIN {
 
 	 void Model::loadModel(string path)
 	{
-		TracyCZoneN(ctx, "loading", true);
+		TracyCZoneN(ctux, "loading", true);
 		Assimp::Importer import;
 
 		const aiScene * scene = import.ReadFile(path, aiProcess_Triangulate |
@@ -125,16 +124,19 @@ namespace PAIN {
 			!scene->mRootNode)
 		{
 			cout << "ERROR::ASSIMP::" << import.GetErrorString() << endl;
+			TracyCZoneEnd(ctux);
+
 			return;
 		}
-		directory = path.substr(0, path.find_last_of('/'));
-		TracyCZoneEnd(ctx);
+		directory = path.substr(0, path.find_last_of('\\'));
 		processNode(scene->mRootNode, scene);
+		TracyCZoneEnd(ctux);
+
 	}
 
 	 void Model::processNode(aiNode* node, const aiScene* scene)
 	{
-
+		//TrPr(ctx, __func__)
 		// process all the node’s meshes (if any)
 		for (unsigned int i = 0; i < node->mNumMeshes; i++)
 		{
@@ -146,10 +148,12 @@ namespace PAIN {
 		{
 			processNode(node->mChildren[i], scene);
 		}
+		//TrPrE(ctx);
 	}
 
 	 Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
 	{
+		//TrPr(ctx, __func__)
 		//ZoneNamed(procces_mesh, true);
 		vector<Vertex> vertices;
 		vertices.reserve(mesh->mNumVertices);
@@ -221,12 +225,13 @@ namespace PAIN {
 					specularMaps.end());
 			}
 		}
+		//TrPrE(ctx);
 		return Mesh(vertices, indices, textures);
 	}
 
 	 vector<Texture> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type, string typeName)
 	{
-
+		//TrPr(ctx, __func__)
 		vector<Texture> textures;
 		for (unsigned int i = 0; i < mat->GetTextureCount(type); i++)
 		{
@@ -253,14 +258,15 @@ namespace PAIN {
 				textures_loaded.push_back(texture); // add to loaded textures
 			}
 		}
+		//TrPrE(ctx);
 		return textures;
 	}
 
 	 unsigned int Model::TextureFromFile(const char* path, const string& directory, bool gamma)
 	{
-
+		//TrPr(ctx, __func__)
 		string filename = string(path);
-		filename = directory + '/' + filename;
+		filename = directory + '\\' + filename;
 
 		unsigned int textureID;
 		glGenTextures(1, &textureID);
@@ -293,7 +299,7 @@ namespace PAIN {
 			std::cout << "Texture failed to load at path: " << path << std::endl;
 			stbi_image_free(data);
 		}
-
+		//TrPrE(ctx);
 		return textureID;
 	}
 

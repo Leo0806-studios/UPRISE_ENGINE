@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "TERRAIN_DATA.h"
 #import "ManagedUtills.tlb" named_guids
 

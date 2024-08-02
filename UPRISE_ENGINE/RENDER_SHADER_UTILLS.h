@@ -3,6 +3,7 @@
 #include "GLINCLUDES.h"
 
 #include "pch.h"
+#include "CONFIGFILE.h"
 
 #define _RENDER_SHADER_UTILLS_
 namespace PAIN {
@@ -61,6 +62,8 @@ namespace PAIN {
 		// constructor generates the shader on the fly
 		// ------------------------------------------------------------------------
 		Shader(const char* vertexPath, const char* fragmentPath);
+		Shader(std::shared_ptr<VertexShader> vertexshader, std::shared_ptr<FragmentShader> frgmentshader);
+		Shader(VertexShader vertexshader,FragmentShader frgmentshader,GeometryShader geometryshader);
 		Shader();
 		// activate the shader
 		// ------------------------------------------------------------------------

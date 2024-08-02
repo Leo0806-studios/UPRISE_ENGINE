@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "FILELOADER.h"
 
 CORE::FileLoader::FileLoader(Directory* directory)

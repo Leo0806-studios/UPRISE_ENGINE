@@ -1,4 +1,5 @@
 #pragma once
+#include "pch.h"
 #include "CORE.h"
 #include "GAMEOBJECT.h"
 #include "_COMPONENT.h"
@@ -6,8 +7,10 @@
 #include "RENDER_MATERIAL.h"
 #include "Empty.h"
 #include "MESH.h"
+#include "SCENE.h"
 
-GameObject GameObject::Create(DATATYPES::TS_P_Vector3 pos, void* mesh,int materialID) {
+::shared_ptr<GameObject> GameObject::Create(DATATYPES::TS_P_Vector3 pos, void* mesh,int materialID) {
+	TracyCZoneN(ctx, "Creating GameObject", true);
 
 	GameObject tmp;
 	UuidCreate(&tmp.uuid);
@@ -17,28 +20,42 @@ GameObject GameObject::Create(DATATYPES::TS_P_Vector3 pos, void* mesh,int materi
 	tmp.msh = mesh;
 	tmp.AddComponent(COMPONENTS::_Mesh(), mesh);
 	//auto a = tmp.GetComponent(COMPONENTS::_Mesh());
-	tmp.MesH = std::make_shared<COMPONENTS::_Mesh>(*(COMPONENTS::_Mesh*)tmp.Components[0]);
+	tmp.MESH = std::make_shared<COMPONENTS::_Mesh>(*(COMPONENTS::_Mesh*)tmp.Components[0]);
+	//tmp.MESH = tmp.MesH;
 	tmp.AddComponent(Transform(), tra);
 	tmp.TrAnSfOrM = std::dynamic_pointer_cast<Transform>(tmp.behaviours[1]);
-
+	auto a = std::make_shared<GameObject>(tmp);
+	CORE::Scene::activeScene.ObjectsInScene.push_back(a);
 	std::dynamic_pointer_cast<Transform>(tmp.behaviours[1]).get()->UpdateDirections();
-	return tmp;
+	TracyCZoneEnd(ctx);
+
+	return a;
 
 }
-GameObject GameObject::Create(DATATYPES::TS_P_Vector3 pos, std::shared_ptr<COMPONENTS::_Mesh> mesh, int materialID) {
+/// <summary>
+/// Creates new GameObject 
+/// </summary>
+/// <param name="pos"></param>
+/// <param name="mesh"></param>
+/// <param name="materialID"></param>
+/// <returns> "shared_ptr GameObject"</returns>
+shared_ptr<GameObject> GameObject::Create(DATATYPES::TS_P_Vector3 pos, Quaternion rot,std::shared_ptr<COMPONENTS::_Mesh> mesh, int materialID) {
+	TracyCZoneN(ctx, "Creating GameObject", true);
 
 	GameObject tmp;
 	UuidCreate(&tmp.uuid);
 	Transform transf = Transform();
 	transf.Position = pos;
-	void* tra = &transf;
+	transf.rotation = rot;
+	tmp.TrAnSfOrM = std::make_shared<Transform>(transf);
 	tmp.MESH = mesh;
-	//tmp.AddComponent(COMPONENTS::_Mesh(), mesh);
-	//auto a = tmp.GetComponent(COMPONENTS::_Mesh());
-	//tmp.MesH = std::make_shared<COMPONENTS::_Mesh>(*(COMPONENTS::_Mesh*)tmp.Components[0]);
-	tmp.AddComponent(Transform(), tra);
-	std::dynamic_pointer_cast<Transform>(tmp.behaviours[1]).get()->UpdateDirections();
-	return tmp;
+	tmp.TrAnSfOrM->UpdateDirections();
+	auto a = std::make_shared<GameObject>(tmp);
+	PAIN::Render::mats[materialID].objects.push_back(a);
+	CORE::Scene::activeScene.ObjectsInScene.push_back(a);
+	TracyCZoneEnd(ctx);
+
+	return a;
 
 }
 GameObject GameObject::CreateEmpty(DATATYPES::TS_P_Vector3 pos)
@@ -56,28 +73,31 @@ GameObject GameObject::CreateEmpty(DATATYPES::TS_P_Vector3 pos)
 
 	return tmp;
 }
-GameObject GameObject::CreateCamera(DATATYPES::TS_P_Vector3 pos)
+GameObject GameObject::CreateCamera(DATATYPES::TS_P_Vector3 pos, Quaternion rot)
 {
+	TracyCZoneN(ctx, "Creating Camera", true);
 
 	GameObject tmp;
 	UuidCreate(&tmp.uuid);
 	Transform transf = Transform();
 	transf.Position = pos;
-	void* tra = &transf;
-	auto a = Camera(1);
-	Empty empt = Empty();
-	tmp.AddComponent(Empty(),&empt);
-	tmp.AddComponent(Transform(), tra);
+	transf.rotation = rot;
+	tmp.TrAnSfOrM = std::make_shared<Transform>(transf);
+	//Empty empt = Empty();
+	tmp.AddComponent(Empty());
+	
 
-	tmp.AddComponent(Camera(1));
-	std::dynamic_pointer_cast<Transform>(tmp.behaviours[1]).get()->UpdateDirections();
+	tmp.AddComponent(Camera(tmp.TrAnSfOrM));
+	tmp.TrAnSfOrM->UpdateDirections();
+	TracyCZoneEnd(ctx);
+
 	return tmp;
 }
-void GameObject::AddComponent(void* component) {
-
-	Components.push_back(component);
-
-}
+//void GameObject::AddComponent(void* component) {
+//
+//	Components.push_back(component);
+//
+//}
 //template <class _Ty, class... _Types>
 
 //void GameObject::AddComponent(_Ty arg, void* component) {

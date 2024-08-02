@@ -1,20 +1,28 @@
+#include "pch.h"
 #include "CAMERA.h"
 GUID Camera::UUID = GUID_NULL;
 
-Camera::Camera(int placeholder)
+Camera::Camera(std::shared_ptr<Transform> tr)
 {
-	camera = PAIN::Render_Camera::Create();
+	TrPr(ctx, __func__)
+	//TRANSFORM->UpdateDirections();
+	camera = PAIN::Render_Camera::Create(tr);
+	TrPrE(ctx);
+
 }
-Camera::Camera(){}
+Camera::Camera(){TrPr(ctx, __func__)  TrPrE(ctx);
+}
 
 void Camera::Awake()
 {
-	camera.transform = std::dynamic_pointer_cast<Transform>(transf).get() ;
-
+	TrPr(ctx, __func__)
+	//camera.transform = std::dynamic_pointer_cast<Transform>(transf).get() ;
+		TrPrE(ctx);
 }
 
 void Camera::Update()
 {
+	TrPr(ctx, __func__)
 	auto pos = std::dynamic_pointer_cast<Transform>(transf).get();
 	//ZoneNamedN(testupdate, "Test", true);
 	if (CORE::Input::GetKey(I)) {
@@ -62,6 +70,7 @@ void Camera::Update()
 
 	}
 	std::cout << "X" << CORE::Input::MousePosition.x << " Y" << CORE::Input::MousePosition.y << "\n";
+
 	//if (CORE::Input::GetKey(Space)) {
 	//	pos->Position = pos->Position + pos->up.Normalized();
 
@@ -92,9 +101,12 @@ void Camera::Update()
 	//if (CORE::Input::GetKey(T)) {
 	//	rrot.y = rrot.y - 0.1;
 	//}
-	std::dynamic_pointer_cast<Transform>(transf).get()->SetRotation(rrot);
+	//std::dynamic_pointer_cast<Transform>(transf).get()->SetRotation(rrot);
+	TrPrE(ctx);
 }
 
 void Camera::Start()
 {
+	TrPr(ctx, __func__)
+		TrPrE(ctx);
 }

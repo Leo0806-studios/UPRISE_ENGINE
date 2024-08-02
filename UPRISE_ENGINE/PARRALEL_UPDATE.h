@@ -3,7 +3,6 @@
 #define _PARALLEL_UPDATE_
 
 #include "CORE.h"
-
 namespace CORE {
 
 	class Behaviour;

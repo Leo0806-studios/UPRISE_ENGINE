@@ -6,6 +6,8 @@
 #include "pch.h"
 #include "CORE.h"
 #include "DATATYPES.h"
+#include "TS_P_QUATERION.h"
+#include "TAG_LAYERS.h"
 
 //#include "_COMPONENT.h"
 namespace CORE {
@@ -19,28 +21,60 @@ class Transform;
 
 
 	class GameObject :public CORE::Object {
+	private :
 	public:
 		bool Enabled = true;
-		//Transform trans;
 		std::shared_ptr<COMPONENTS::_Mesh> MESH;
 		std::shared_ptr<Transform> TrAnSfOrM;
 		std::shared_ptr<CORE::Behaviour> MesH;
+		Tag tag;
+		Layer layer;
 		void* msh;
+		const bool isNull;
 		std::string name;
 		std::vector<void*> Components;
 		std::vector<std::shared_ptr<CORE::Behaviour>> behaviours;
 		std::vector<UUID> uuids;
-		GameObject() {};
-		static GameObject Create(DATATYPES::TS_P_Vector3 pos, void* mesh,int materialID);
-		static GameObject Create(DATATYPES::TS_P_Vector3 pos, std::shared_ptr<COMPONENTS::_Mesh> mesh,int materialID);
+		GameObject():isNull(false) {};
+		GameObject(int null) :isNull(true) {};
+		GameObject(const GameObject& other)
+			: Enabled(other.Enabled),
+			MESH(other.MESH),
+			TrAnSfOrM(other.TrAnSfOrM),
+			MesH(other.MesH),
+			msh(other.msh),
+			isNull(other.isNull),
+			name(other.name),
+			Components(other.Components),
+			behaviours(other.behaviours),
+			uuids(other.uuids) {}
+
+		GameObject& operator=(const GameObject& other) {
+			if (this == &other) return *this; // self-assignment guard
+			Enabled = other.Enabled;
+			MESH = other.MESH;
+			TrAnSfOrM = other.TrAnSfOrM;
+			MesH = other.MesH;
+			msh = other.msh;
+			name = other.name;
+			Components = other.Components;
+			behaviours = other.behaviours;
+			uuids = other.uuids;
+			return *this;
+		}
+
+		static std::shared_ptr<GameObject> Create(DATATYPES::TS_P_Vector3 pos, void* mesh,int materialID);
+		static shared_ptr<GameObject> Create(DATATYPES::TS_P_Vector3 pos,Quaternion rot, std::shared_ptr<COMPONENTS::_Mesh> mesh,int materialID);
 		static GameObject CreateEmpty(DATATYPES::TS_P_Vector3 pos);
-		static GameObject CreateCamera(DATATYPES::TS_P_Vector3 pos);
+		static GameObject CreateCamera(DATATYPES::TS_P_Vector3 pos, Quaternion rot);
 
 
-		void AddComponent(void* component);
+		//void AddComponent(void* component);
 
 		template <class _Ty, class... _Types>
 		_Ty* AddComponent(_Ty arg) {
+			TracyCZoneN(ctxx, "Adding Component", true);
+
 			if (arg.UUID == GUID_NULL) {
 				UUID uuid;
 				UuidCreate(&uuid);
@@ -51,9 +85,9 @@ class Transform;
 			}
 			uuids.push_back(arg.UUID);
 
-			auto aaa = _Ty();
+			auto aaa = arg;
 			aaa.gameobject = this;
-			aaa.transf = behaviours[1];
+			//aaa.transf = behaviours[1];
 			aaa.TRANSFORM = TrAnSfOrM;
 			//aa->gameobject = this;
 			// 
@@ -65,6 +99,8 @@ class Transform;
 			CORE::Behaviour::AWAKES.push_back(a);
 			CORE::Behaviour::Starts.push_back(a);
 			behaviours.push_back(a);
+			TracyCZoneEnd(ctxx);
+
 			return std::dynamic_pointer_cast<_Ty>(a).get();
 		}
 
@@ -72,6 +108,8 @@ class Transform;
 		template <class _Ty, class... _Types>
 
 		void AddComponent(_Ty arg, void* component) {
+			TracyCZoneN(ctxx, "Adding Component", true);
+
 			if (arg.UUID == GUID_NULL) {
 				UUID uuid;
 				UuidCreate(&uuid);
@@ -94,6 +132,8 @@ class Transform;
 			behaviours.push_back(a);
 
 			Components.push_back(component);
+			TracyCZoneEnd(ctxx);
+
 		}
 		//template <class _Ty, class... _Types>
 
@@ -101,31 +141,41 @@ class Transform;
 
 		template <class _Ty, class... _Types>
 		_Ty* GetComponent(_Ty arg) {
+			TracyCZoneN(ctxx, "Getting  Component", true);
 
 
 			for (int i = 0; i < Components.size(); i++) {
 				if (arg.UUID == uuids[i]) {
 
 					std::cout << "found";
+					TracyCZoneEnd(ctxx);
+
 					return (_Ty*)Components[i];
 				}
 
 
 			}
+			TracyCZoneEnd(ctxx);
+
 		}
 		template <class _Ty, class... _Types>
 		_Ty* GetComponentDynamic(_Ty arg) {
+			TracyCZoneN(ctxx, "Getting  Component", true);
 
 
 			for (int i = 0; i < Components.size(); i++) {
 				if (arg.UUID == uuids[i]) {
 
 					std::cout << "found";
+					TracyCZoneEnd(ctxx);
+
 					return std::dynamic_pointer_cast<_Ty>(behaviours[i]).get();
 				}
 
 
 			}
+			TracyCZoneEnd(ctxx);
+
 		}
 
 

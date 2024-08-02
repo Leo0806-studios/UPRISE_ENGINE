@@ -27,6 +27,7 @@ namespace COMPONENTS {
 
 
 }
+//static Registrar<COMPONENTS::_Mesh> _Mesh("_Mesh");
 
 #endif // !_MESH_
 
