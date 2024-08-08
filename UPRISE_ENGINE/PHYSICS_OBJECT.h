@@ -2,11 +2,10 @@
 #ifndef _PHYSICS_OBJECT_
 #define _PHYSICS_OBJECT_
 
-#include "CORE.h"
 //#include "PARRALEL_UPDATE.h"
 
 //#include "PHYSICS_MANAGER.h"
-#include "TS_P_VECTOR3.h"
+#include "Header/DATATYPES/D_TS_P_VECTOR3.h"
 
 
 namespace PHYSICS {
@@ -15,8 +14,9 @@ namespace PHYSICS {
 }
  struct  TS_P_Collider_box
 {
+	 using TS_P_Vector3 = DATATYPES::TS_P_Vector3;
 	bool isTrigger;
-	TS_P_Vector3 Origin;
+	DATATYPES::TS_P_Vector3 Origin;
 	TS_P_Vector3 bounds;
 	TS_P_Vector3 a;
 	TS_P_Vector3 b;

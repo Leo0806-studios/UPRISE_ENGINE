@@ -2,11 +2,11 @@
 #include "pch.h"
 
 #include "PHYSICS_MANAGER.h"
-#include "THREADING.h"
+#include "Header/CORE/C_THREADING.h"
 #include "TRANSFORM.h"
 #include "PHYSICS_OBJECT.h"
 #include "_PHYSICSOBJEC.h"
-
+#include "GAMEOBJECT.h"
 std::vector < std::shared_ptr<PHYSICS::Physics>> PHYSICS::Physics::physicsobjects;
 void PHYSICS::Physics::UpdateAllPhysics()
 {

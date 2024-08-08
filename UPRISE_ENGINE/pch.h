@@ -71,8 +71,8 @@ using namespace std;
 #include "imgui_stdlib.h"
 //#include "imgui_impl_opengl3_loader.h"
 //#include "RENDER.h"
-//#include "CORE.h"
-//#include "DATATYPES.h"
+//#include "Header/CORE/CORE.h"
+//#include "Header/DATATYPES/D_DATATYPES.h"
 //#include "ECS.h"
 //
 //#include "MESSAGES.h"

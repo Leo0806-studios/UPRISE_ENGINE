@@ -9,21 +9,21 @@ Debug::Error::Error(ErrorCode)
 void Debug::Logger::log(std::string  message)
 {
 	TrPr(ctx,"Log String")
-	White
+	//White
 		std::cout << message << "\n";
 	TrPrE(ctx)
 }
 
 void Debug::Logger::log(char* message)
 {
-	White
+	//White
 		std::cout << message;
 }
 void Debug::Logger::log(const char* message)
 {
 	TrPr(ctx, "Log Char")
 
-	White
+//	White
 		std::cout << message<<"\n";
 	TrPrE(ctx);
 }
@@ -31,18 +31,18 @@ void Debug::Logger::log(const char* message)
 void Debug::Logger::LogExeption(const std::exception exception)
 {
 	TrPr(ctx,"Log Exception")
-	RedException
+	//RedException
 		std::cout << exception.what() << "\n";
-	White
+	//White
 		TrPrE(ctx);
 }
 
 void Debug::Logger::LogError(Error error)
 {
 	TrPr(ctx, "Log Error")
-		Red
+	//	Red
 
-		White
+	//	White
 		TrPrE(ctx);
 }
 
@@ -50,9 +50,9 @@ void Debug::Logger::LogError(ErrorCode errorCode)
 {
 	TrPr(ctx, "Log Error")
 
-	Red
+//	Red
 		std::cout << errorCode << "\n";
-		White
+	//	White
 			TrPrE(ctx);
 
 }
@@ -60,8 +60,8 @@ void Debug::Logger::LogError(ErrorCode errorCode)
 void Debug::Logger::LogWarning()
 {
 	TrPr(ctx,"Log Warn")
-	Yellow
+//	Yellow
 
-		White
+//		White
 		TrPrE(ctx)
 }

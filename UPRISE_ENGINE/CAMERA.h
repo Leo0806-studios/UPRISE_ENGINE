@@ -2,10 +2,11 @@
 #ifndef _CAMERA_
 
 #define _CAMERA_
-#include "BEHAVIOUR.h"
+#include "Header/CORE/C_BEHAVIOUR.h"
 #include "pch.h"
 #include "RENDER_CAMERA.h"
-//#include "CORE.h"
+#include "DEBUG_LOGGER.h"
+//#include "Header/CORE/CORE.h"
 
 
 class Camera : public CORE::Behaviour {
@@ -13,6 +14,12 @@ private:
 	float fov;
 
 public:
+	I_WINDOW(
+		/*//ImGui::SliderInt("FOV", &FOV, 0, 90);*/
+	ImGui::SliderFloat("FOV Direct", &camera.FOV,0,90);
+	)
+	COPY(Camera, Log << "DONT";throw(std::exception()))
+	DEEP_COPY(Camera, Log << "DONT";throw(std::exception()))
 	DATATYPES::Quaternion quat;
 	DATATYPES::TS_P_Vector3 rrot = DATATYPES::TS_P_Vector3(0, 0, 0);
 	static UUID UUID;

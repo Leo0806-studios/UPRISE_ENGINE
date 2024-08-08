@@ -120,6 +120,9 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <OpenMPSupport>true</OpenMPSupport>
+      <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
+      <MinimalRebuild>false</MinimalRebuild>
+      <AssemblerOutput>All</AssemblerOutput>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -155,12 +158,25 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="ALLOCATOR.cpp" />
-    <ClCompile Include="CONFIGFILE.cpp" />
-    <ClCompile Include="CONFIGLOADER.cpp" />
-    <ClCompile Include="DEBUG_LOGGER.cpp" />
-    <ClCompile Include="Empty.cpp" />
-    <ClCompile Include="FILELOADER.cpp" />
+    <ClCompile Include="src\ALLOCATOR\ALLOCATOR.cpp">
+      <MinimalRebuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</MinimalRebuild>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\DATATYPES\D_CONFIGFILE.cpp">
+      <MinimalRebuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</MinimalRebuild>
+    </ClCompile>
+    <ClCompile Include="src\CORE\C_CONFIGLOADER.cpp">
+      <MinimalRebuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</MinimalRebuild>
+    </ClCompile>
+    <ClCompile Include="DEBUG_LOGGER.cpp">
+      <MinimalRebuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</MinimalRebuild>
+    </ClCompile>
+    <ClCompile Include="Empty.cpp">
+      <MinimalRebuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</MinimalRebuild>
+    </ClCompile>
+    <ClCompile Include="src\CORE\C_FILELOADER.cpp">
+      <MinimalRebuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</MinimalRebuild>
+    </ClCompile>
     <ClCompile Include="imgui.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
@@ -193,44 +209,89 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="MESH.cpp" />
-    <ClCompile Include="PARRALEL_UPDATE.cpp" />
+    <ClCompile Include="MESH.cpp">
+      <MinimalRebuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</MinimalRebuild>
+    </ClCompile>
+    <ClCompile Include="PARRALEL_UPDATE.cpp">
+      <MinimalRebuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</MinimalRebuild>
+    </ClCompile>
     <ClCompile Include="pch.cpp" />
-    <ClCompile Include="MESSAGE_BUS.cpp" />
-    <ClCompile Include="CAMERA.cpp" />
-    <ClCompile Include="BEHAVIOUR.cpp" />
-    <ClCompile Include="CORE.cpp" />
-    <ClCompile Include="CPUFEATURES.cpp" />
-    <ClCompile Include="INPUT.cpp" />
+    <ClCompile Include="MESSAGE_BUS.cpp">
+      <MinimalRebuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</MinimalRebuild>
+    </ClCompile>
+    <ClCompile Include="CAMERA.cpp">
+      <MinimalRebuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</MinimalRebuild>
+    </ClCompile>
+    <ClCompile Include="src\CORE\C_BEHAVIOUR.cpp">
+      <MinimalRebuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</MinimalRebuild>
+    </ClCompile>
+    <ClCompile Include="src\CORE\CORE.cpp">
+      <MinimalRebuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</MinimalRebuild>
+    </ClCompile>
+    <ClCompile Include="src\CORE\C_CPUFEATURES.cpp">
+      <MinimalRebuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</MinimalRebuild>
+    </ClCompile>
+    <ClCompile Include="src\CORE\C_INPUT.cpp">
+      <MinimalRebuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</MinimalRebuild>
+    </ClCompile>
     <ClCompile Include="PHYSICS_MANAGER.cpp" />
     <ClCompile Include="PHYSICS_OBJECT.cpp" />
     <ClCompile Include="RAYCAST.cpp" />
     <ClCompile Include="RENDER_CAMERA.cpp" />
     <ClCompile Include="RENDER_MATERIAL.cpp" />
     <ClCompile Include="RENDER_SHADER_UTILLS.cpp" />
-    <ClCompile Include="SCENE.cpp" />
-    <ClCompile Include="STARTUP.cpp" />
-    <ClCompile Include="STARTUP_CONFIG.cpp" />
+    <ClCompile Include="src\CORE\C_SCENE.cpp">
+      <MinimalRebuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</MinimalRebuild>
+    </ClCompile>
+    <ClCompile Include="src\CORE\C_STARTUP.cpp">
+      <MinimalRebuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</MinimalRebuild>
+    </ClCompile>
+    <ClCompile Include="STARTUP_CONFIG.cpp">
+      <MinimalRebuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</MinimalRebuild>
+    </ClCompile>
+    <ClCompile Include="Teleport.cpp">
+      <MinimalRebuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</MinimalRebuild>
+    </ClCompile>
     <ClCompile Include="TERRAIN.cpp" />
-    <ClCompile Include="TERRAIN_DATA.cpp" />
+    <ClCompile Include="src\DATATYPES\D_TERRAIN_DATA.cpp">
+      <MinimalRebuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</MinimalRebuild>
+    </ClCompile>
     <ClCompile Include="TEST.cpp" />
     <ClCompile Include="sth.cpp" />
     <ClCompile Include="RenderSetup.cpp" />
-    <ClCompile Include="OBJECT.cpp" />
-    <ClCompile Include="GAMEOBJECT.cpp" />
-    <ClCompile Include="COMPONENTS.cpp" />
+    <ClCompile Include="src\CORE\C_OBJECT.cpp">
+      <MinimalRebuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</MinimalRebuild>
+    </ClCompile>
+    <ClCompile Include="GAMEOBJECT.cpp">
+      <MinimalRebuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</MinimalRebuild>
+    </ClCompile>
+    <ClCompile Include="src\CORE\C_COMPONENTS.cpp">
+      <MinimalRebuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</MinimalRebuild>
+    </ClCompile>
     <ClCompile Include="RENDER_DATATYPES.cpp" />
-    <ClCompile Include="THREADING.cpp" />
+    <ClCompile Include="src\CORE\C_THREADING.cpp">
+      <MinimalRebuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</MinimalRebuild>
+    </ClCompile>
     <ClCompile Include="TracyClient.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="TRANSFORM.cpp" />
-    <ClCompile Include="TS_P_QUATERION.cpp" />
-    <ClCompile Include="TS_P_VECOTR2.cpp" />
-    <ClCompile Include="TS_P_VECTOR3.cpp" />
-    <ClCompile Include="UPRISE_ENGINE_MAIN.cpp" />
-    <ClCompile Include="_MESH.cpp" />
+    <ClCompile Include="src\DATATYPES\D_TS_P_QUATERION.cpp">
+      <MinimalRebuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</MinimalRebuild>
+    </ClCompile>
+    <ClCompile Include="src\DATATYPES\D_TS_P_VECOTR2.cpp">
+      <MinimalRebuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</MinimalRebuild>
+    </ClCompile>
+    <ClCompile Include="src\DATATYPES\D_TS_P_VECTOR3.cpp">
+      <MinimalRebuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</MinimalRebuild>
+    </ClCompile>
+    <ClCompile Include="UPRISE_ENGINE_MAIN.cpp">
+      <MinimalRebuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</MinimalRebuild>
+    </ClCompile>
+    <ClCompile Include="src\DATATYPES\D_MESH.cpp">
+      <MinimalRebuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</MinimalRebuild>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
@@ -238,62 +299,65 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BUTTON.h" />
-    <ClInclude Include="CONFIGFILE.h" />
-    <ClInclude Include="CONFIGLOADER.h" />
-    <ClInclude Include="CONFIG_FILE.h" />
-    <ClInclude Include="CORE.h" />
-    <ClInclude Include="DATATYPES.h" />
-    <ClInclude Include="DEMOGRAFICCLASS.h" />
+    <ClInclude Include="EDITOR.h" />
+    <ClInclude Include="E_C_U_BUTTON.h" />
+    <ClInclude Include="Header\DATATYPES\D_CONFIGFILE.h" />
+    <ClInclude Include="Header\CORE\C_CONFIGLOADER.h" />
+    <ClInclude Include="Header\DATATYPES\D_CONFIG_FILE.h" />
+    <ClInclude Include="Header\CORE\CORE.h" />
+    <ClInclude Include="Header\DATATYPES\D_DATATYPES.h" />
+    <ClInclude Include="Header\DATATYPES\D_DEMOGRAFICCLASS.h" />
     <ClInclude Include="ECS.h" />
     <ClInclude Include="Empty.h" />
-    <ClInclude Include="EVENT.h" />
-    <ClInclude Include="FILELOADER.h" />
+    <ClInclude Include="Header\DATATYPES\D_EVENT.h" />
+    <ClInclude Include="Header\CORE\C_FILELOADER.h" />
     <ClInclude Include="GAMEOBJECT.h" />
-    <ClInclude Include="ALLOCATOR.h" />
-    <ClInclude Include="CPUFEATURES.h" />
+    <ClInclude Include="Header\ALLOCATOR\ALLOCATOR.h" />
+    <ClInclude Include="Header\CORE\C_CPUFEATURES.h" />
     <ClInclude Include="CAMERA.h" />
-    <ClInclude Include="BEHAVIOUR.h" />
+    <ClInclude Include="Header\CORE\C_BEHAVIOUR.h" />
     <ClInclude Include="GLINCLUDES.h" />
     <ClInclude Include="DEBUG_LOGGER.h" />
-    <ClInclude Include="IMMAGE.h" />
-    <ClInclude Include="RAY.h" />
+    <ClInclude Include="E_C_U_IMMAGE.h" />
+    <ClInclude Include="Header\DATATYPES\D_RAY.h" />
     <ClInclude Include="RAYCAST.h" />
-    <ClInclude Include="REFLECTION.h" />
-    <ClInclude Include="RESSOURCE.h" />
-    <ClInclude Include="TAG_LAYERS.h" />
+    <ClInclude Include="Header\CORE\C_REFLECTION.h" />
+    <ClInclude Include="Header\DATATYPES\D_RESSOURCE.h" />
+    <ClInclude Include="SCRIPT_COLLECT.h" />
+    <ClInclude Include="Header\DATATYPES\D_TAG_LAYERS.h" />
+    <ClInclude Include="Teleport.h" />
     <ClInclude Include="TERRAIN.h" />
-    <ClInclude Include="TERRAIN_DATA.h" />
-    <ClInclude Include="TEXT_FIELD.h" />
-    <ClInclude Include="TS_P_QUATERION.h" />
+    <ClInclude Include="Header\DATATYPES\D_TERRAIN_DATA.h" />
+    <ClInclude Include="E_C_U_TEXT_FIELD.h" />
+    <ClInclude Include="Header\DATATYPES\D_TS_P_QUATERION.h" />
     <ClInclude Include="PHYSICS_MANAGER.h" />
     <ClInclude Include="PHYSICS_OBJECT.h" />
     <ClInclude Include="PARRALEL_UPDATE.h" />
     <ClInclude Include="RENDER_MATERIAL.h" />
     <ClInclude Include="TEST.h" />
     <ClInclude Include="RENDER_CAMERA.h" />
-    <ClInclude Include="INPUT.h" />
-    <ClInclude Include="STARTUP_CONFIG.h" />
-    <ClInclude Include="STARTUP.h" />
-    <ClInclude Include="SCENE.h" />
+    <ClInclude Include="Header\CORE\C_INPUT.h" />
+    <ClInclude Include="Header\DATATYPES\D_STARTUP_CONFIG.h" />
+    <ClInclude Include="Header\CORE\C_STARTUP.h" />
+    <ClInclude Include="Header\CORE\C_SCENE.h" />
     <ClInclude Include="RENDER_SHADER_UTILLS.h" />
     <ClInclude Include="RENDER_OBJECT_SPAWNING.h" />
-    <ClInclude Include="THREADING.h" />
-    <ClInclude Include="TS_P_VECOTR2.h" />
-    <ClInclude Include="UI_TRANSFORM.h" />
-    <ClInclude Include="_MESH.h" />
+    <ClInclude Include="Header\CORE\C_THREADING.h" />
+    <ClInclude Include="Header\DATATYPES\D_TS_P_VECOTR2.h" />
+    <ClInclude Include="E_C_U_UI_TRANSFORM.h" />
+    <ClInclude Include="Header\DATATYPES\D_MESH.h" />
     <ClInclude Include="MESH.h" />
     <ClInclude Include="PHYSICS.h" />
-    <ClInclude Include="MSG_MESSAGE.h" />
+    <ClInclude Include="Header\DATATYPES\D_MSG_MESSAGE.h" />
     <ClInclude Include="MMESSAGE_BUS.h" />
     <ClInclude Include="MESSAGES.h" />
     <ClInclude Include="RENDER_DATATYPES.h" />
     <ClInclude Include="RENDERSETUP.h" />
     <ClInclude Include="_ENTITY.h" />
     <ClInclude Include="_COMPONENT.h" />
-    <ClInclude Include="COMPONENT.h" />
-    <ClInclude Include="OBJECT.h" />
-    <ClInclude Include="TS_P_VECTOR3.h" />
+    <ClInclude Include="Header\CORE\C_COMPONENT.h" />
+    <ClInclude Include="Header\CORE\C_OBJECT.h" />
+    <ClInclude Include="Header\DATATYPES\D_TS_P_VECTOR3.h" />
     <ClInclude Include="TRANSFORM.h" />
     <ClInclude Include="RENDER.h" />
     <ClInclude Include="Helpers.h" />

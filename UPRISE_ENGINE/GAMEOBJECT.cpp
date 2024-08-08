@@ -1,13 +1,13 @@
 #pragma once
 #include "pch.h"
-#include "CORE.h"
+#include "Header/CORE/CORE.h"
 #include "GAMEOBJECT.h"
 #include "_COMPONENT.h"
 #include "CAMERA.h"
 #include "RENDER_MATERIAL.h"
 #include "Empty.h"
 #include "MESH.h"
-#include "SCENE.h"
+#include "Header/CORE/C_SCENE.h"
 
 ::shared_ptr<GameObject> GameObject::Create(DATATYPES::TS_P_Vector3 pos, void* mesh,int materialID) {
 	TracyCZoneN(ctx, "Creating GameObject", true);
@@ -91,6 +91,27 @@ GameObject GameObject::CreateCamera(DATATYPES::TS_P_Vector3 pos, Quaternion rot)
 	tmp.TrAnSfOrM->UpdateDirections();
 	TracyCZoneEnd(ctx);
 
+	return tmp;
+}
+ std::shared_ptr<CORE::Behaviour> GameObject::AddComponent(std::shared_ptr<CORE::Behaviour> component, std::string name) {
+
+	auto tmp = component->Copy();
+	if (tmp->uuID == GUID_NULL) {
+		UUID uuid;
+		UuidCreate(&uuid);
+
+
+		//tmp->UUID = uuid;
+		tmp->uuID = uuid;
+	}
+	tmp->gameobject = this;
+	tmp->TRANSFORM = this->TrAnSfOrM;
+	tmp->compname = name;
+	uuids.push_back(tmp->uuID);
+	CORE::Behaviour::behaviours.push_back(tmp);
+	CORE::Behaviour::AWAKES.push_back(tmp);
+	CORE::Behaviour::Starts.push_back(tmp);
+	behaviours.push_back(tmp);
 	return tmp;
 }
 //void GameObject::AddComponent(void* component) {

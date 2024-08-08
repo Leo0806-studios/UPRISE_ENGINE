@@ -4,10 +4,10 @@
 #define _GAMEOBJECT_
 
 #include "pch.h"
-#include "CORE.h"
-#include "DATATYPES.h"
-#include "TS_P_QUATERION.h"
-#include "TAG_LAYERS.h"
+#include "Header/CORE/CORE.h"
+#include "Header/DATATYPES/D_DATATYPES.h"
+#include "Header/DATATYPES/D_TS_P_QUATERION.h"
+#include "Header/DATATYPES/D_TAG_LAYERS.h"
 
 //#include "_COMPONENT.h"
 namespace CORE {
@@ -71,9 +71,7 @@ class Transform;
 
 		//void AddComponent(void* component);
 #ifdef DEBUG_Engine
-		std::shared_ptr<CORE::Behaviour> AddComponent(std::shared_ptr<CORE::Behaviour> component) {
-
-		}
+		std::shared_ptr<CORE::Behaviour> AddComponent(std::shared_ptr<CORE::Behaviour> component,std::string name);
 #endif // DEBUG_Engine
 
 		template <class _Ty, class... _Types>
@@ -94,6 +92,8 @@ class Transform;
 			aaa.gameobject = this;
 			//aaa.transf = behaviours[1];
 			aaa.TRANSFORM = TrAnSfOrM;
+			//using name = decltype(_Ty);
+				aaa.compname = typeid(_Ty).name();
 			//aa->gameobject = this;
 			// 
 			std::shared_ptr<CORE::Behaviour> a = std::make_shared<_Ty>(aaa);
@@ -126,6 +126,9 @@ class Transform;
 			uuids.push_back(arg.UUID);
 			auto aa = (_Ty*)component;
 			aa->gameobject = this;
+			//using name = decltype(_Ty);
+			 std::string nm= typeid(_Ty).name();
+			 aa->compname = nm;
 			//aa->gameobject = this;
 			std::shared_ptr<CORE::Behaviour> a = std::make_shared<_Ty>(*aa);
 

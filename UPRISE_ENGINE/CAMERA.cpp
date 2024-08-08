@@ -23,7 +23,7 @@ void Camera::Awake()
 void Camera::Update()
 {
 	TrPr(ctx, __func__)
-	auto pos = std::dynamic_pointer_cast<Transform>(transf).get();
+		auto pos = TRANSFORM;//std::dynamic_pointer_cast<Transform>(transf).get();
 	//ZoneNamedN(testupdate, "Test", true);
 	if (CORE::Input::GetKey(I)) {
 		//std::cout << "test" << wo << "\n";
@@ -69,7 +69,7 @@ void Camera::Update()
 		rrot.x = rrot.x - 0.05;
 
 	}
-	std::cout << "X" << CORE::Input::MousePosition.x << " Y" << CORE::Input::MousePosition.y << "\n";
+//	std::cout << "X" << CORE::Input::MousePosition.x << " Y" << CORE::Input::MousePosition.y << "\n";
 
 	//if (CORE::Input::GetKey(Space)) {
 	//	pos->Position = pos->Position + pos->up.Normalized();

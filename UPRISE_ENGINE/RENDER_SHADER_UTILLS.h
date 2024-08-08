@@ -3,7 +3,7 @@
 #include "GLINCLUDES.h"
 
 #include "pch.h"
-#include "CONFIGFILE.h"
+#include "Header/DATATYPES/D_CONFIGFILE.h"
 
 #define _RENDER_SHADER_UTILLS_
 namespace PAIN {

@@ -2,7 +2,7 @@
 //
 //#pragma comment(linker, "/manifestdependency:\"name='Dll' version='1.0.0.0' type='win32'\"")
 
-#import "ManagedUtills.tlb" named_guids
+//#import "ManagedUtills.tlb" named_guids
 #include "DEBUG_LOGGER.h"
 
 #include "GLINCLUDES.h"
@@ -11,8 +11,8 @@
 //#include "glfw3.h"
 //#include "pch.h"
 //#include "Helpers.h"
-#include "CORE.h"
-#include "DATATYPES.h"
+#include "Header/CORE/CORE.h"
+#include "Header/DATATYPES/D_DATATYPES.h"
 
 //#include <glm/glm.hpp>
 //#include <glm/gtc/matrix_transform.hpp>
@@ -22,20 +22,20 @@
 //#include "RENDER_DATATYPES.h"
 //#include "RENDER_OBJECT_SPAWNING.h"
 #include "MESSAGES.h"
-//#include "CORE.h"
+//#include "Header/CORE/CORE.h"
 //#include "INPUT.h"
 //#include "memory"
 #include "TEST.h"
 #include "RENDER_MATERIAL.h"
 #include "PHYSICS.h"
 #include "RENDERSETUP.h"
-#include "SCENE.h"
-#include "TERRAIN_DATA.h"
+#include "Header/CORE/C_SCENE.h"
+#include "Header/DATATYPES/D_TERRAIN_DATA.h"
 #include <typeindex>
 #define _INCLUDE_TYPE_
 #define _INCLUDE_REFLECTION_
-#include "REFLECTION.h"
-//#include "BEHAVIOUR.h"
+#include "Header/CORE/C_REFLECTION.h"
+//#include "Header/CORE/C_BEHAVIOUR.h"
 //#include "MESH.h"
 
 
@@ -137,22 +137,22 @@ void processInput(GLFWwindow* window)
 }
 
 
-//class t {
-//public:
-//	 t() {}
-//	 virtual  void test() {}
-//
-//};
-//class tt :public t {
-//	void test() override {
-//		Log << "DERIVED TT";
-//	}
-//};
-//class TTT :public t{
-//	void test() override {
-//		Log << "DERIVED TTT";
-//	}
-//};
+class t {
+public:
+	 t() {}
+	 virtual  void test() {}
+
+};
+class tt :public t {
+	void test() override {
+		Log << "DERIVED TT";
+	}
+};
+class TTT :public t{
+	void test() override {
+		Log << "DERIVED TTT";
+	}
+};
 
 /// <summary>
 /// Main Function
@@ -160,6 +160,15 @@ void processInput(GLFWwindow* window)
 /// <returns></returns>
 int main()
 {
+
+
+	const WCHAR* addrs = L"C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\UPRISE\\ENGINE\\UPRISE_GAME.dll";
+	HINSTANCE handle = LoadLibrary(addrs);
+	typedef void((*externFuction)());
+	externFuction Function = (externFuction)symLoad(handle, "MAIN");
+	Function();
+
+
 	auto erer = fact::creators["Test"]();
 	auto ooooooooooo = erer.get();
 	void* awewe = malloc(sizeof(*erer.get()));
@@ -308,6 +317,10 @@ int main()
 					tmp = SelectedObj->TrAnSfOrM->rotation.ToRotationVector();
 				}
 				ImGui::SeparatorText("Components");
+				for (auto& cmp : SelectedObj->behaviours) {
+					ImGui::Text(cmp->compname.c_str());
+					cmp->EditorWindow();
+				}
 				ImGui::SeparatorText("Add components");
 				static bool open;
 				if (ImGui::Button("Add Component")) {
@@ -324,11 +337,11 @@ int main()
 							//tt te;
 							//auto tert = std::make_shared<t>(te);
 							// using t =decltype(tert->test());
-							 //std::any aaa = Test();
-							 
+							// std::any aaa = Test();
+							// std::string nm = typeid(t).name();
 
 							//auto a = fact::anys[0].type().name();
-							//SelectedObj->AddComponent(a.second());
+							SelectedObj->AddComponent(a.second(),a.first);
 						}
 
 					}

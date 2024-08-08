@@ -2,7 +2,7 @@
 #ifndef _RENDER_DATATYPES_
 #define _RENDER_DATATYPES_
 #include "GLINCLUDES.h"
-#include "DATATYPES.h"
+#include "Header/DATATYPES/D_DATATYPES.h"
 
 
 #include "pch.h"
@@ -83,6 +83,7 @@ namespace PAIN {
 		Model(std::string path);
 		void Draw(Shader& shader);
 		vector<Mesh> meshes;
+		static std::shared_ptr<Model> Empty() { return std::make_shared< Model>(); }
 
 	private:
 		vector<Texture> textures_loaded;
@@ -93,7 +94,7 @@ namespace PAIN {
 		Mesh processMesh(aiMesh* mesh, const aiScene* scene);
 		vector<Texture> loadMaterialTextures(aiMaterial* mat, aiTextureType type,
 			string typeName);
-
+		
 		unsigned int TextureFromFile(const char* path, const string& directory, bool gamma);
 	};
 

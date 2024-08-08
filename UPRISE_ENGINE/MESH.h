@@ -2,7 +2,7 @@
 #ifndef _MESH_
 #define _MESH_
 
-#include "CORE.h"
+#include "Header/CORE/CORE.h"
 #include "RENDER_DATATYPES.h"
 
 
@@ -11,6 +11,11 @@ namespace COMPONENTS {
 
 
 	public: 
+		I_WINDOW(
+			ImGui::Text("Model");
+		)
+		COPY(_Mesh, a->Model = PAIN::Model::Empty(););
+		DEEP_COPY(_Mesh, a->Model = this->Model;,)
 		static UUID UUID;
 		GameObject* oobj = nullptr;
 		std::shared_ptr<PAIN::Model> Model;

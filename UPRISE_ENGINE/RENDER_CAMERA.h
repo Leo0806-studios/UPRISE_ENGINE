@@ -3,7 +3,6 @@
 
 #define _RENDER_CAMERA_
 #include "pch.h"
-#include "CORE.h"
 #include "TRANSFORM.h"
 namespace PAIN {
 	class Shader;

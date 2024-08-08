@@ -1,8 +1,8 @@
 #include "pch.h"
 #include "GLINCLUDES.h"
 #include "RENDER_MATERIAL.h"
-#include "DATATYPES.h"
-#include "TERRAIN_DATA.h"
+#include "Header/DATATYPES/D_DATATYPES.h"
+#include "Header/DATATYPES/D_TERRAIN_DATA.h"
 #include "CAMERA.h"
  PAIN::Material::Material(Shader* shade) { shader = shade; }
  PAIN::Material::Material(Shader shade)
@@ -33,10 +33,10 @@ inline void PAIN::Material::DrawObj() {
 			glm::mat4 view = CAM->camera.GetViewMatrix();
 			glm::mat4 rotation = objects[i]->TrAnSfOrM->rotation.ToMat4();
 			glm::mat4 model = glm::mat4(1.0f);
-			DATATYPES::TS_P_Vector3 pos = std::dynamic_pointer_cast<Transform>(objects[i].get()->behaviours[1]).get()->Position;
+			//DATATYPES::TS_P_Vector3 pos = std::dynamic_pointer_cast<Transform>(objects[i].get()->behaviours[1]).get()->Position;
 			//auto ooo = objects[i]->TrAnSfOrM->Position;
 			//pos = ooo->Position;
-			model = glm::translate(model, (glm::vec3)objects[i]->TrAnSfOrM->Position);
+			model = glm::translate(model, glm::vec3(objects[i]->TrAnSfOrM->Position));
 			shader->setMat4("projection", projection);
 			shader->setMat4("view", view);
 			shader->setMat4("model", model);

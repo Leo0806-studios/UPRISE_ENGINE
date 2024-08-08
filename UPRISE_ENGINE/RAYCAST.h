@@ -1,8 +1,8 @@
 #pragma once
 #ifndef _RAYCAST_
 #define _RAYCAST_
-#include "RAY.h"
-#include "TAG_LAYERS.h"
+#include "Header/DATATYPES/D_RAY.h"
+#include "Header/DATATYPES/D_TAG_LAYERS.h"
 namespace PHYSICS {
 
 	void RayCast(Ray ray);

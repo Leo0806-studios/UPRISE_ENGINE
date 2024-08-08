@@ -2,17 +2,25 @@
 #ifndef _TRANSFORM_
 #define _TRANSFORM_
 
-#include "CORE.h"
+#include "Header/CORE/CORE.h"
 
-///#include "TS_P_VECTOR3.h"
+///#include "Header/DATATYPES/D_TS_P_VECTOR3.h"
 //using namespace DATATYPESTEST;
-#include "DATATYPES.h"
+#include "Header/DATATYPES/D_DATATYPES.h"
+#include "DEBUG_LOGGER.h"
 
 
 
 
 	class Transform : public CORE::Behaviour {
 	public:
+		I_WINDOW(
+			ImGui::InputFloat3("Rotation", &this->Vec3Rotation.x);
+		this->SetRotation(this -> Vec3Rotation);
+		ImGui::InputFloat3("Position", &this->Position.x);
+		)
+		COPY(Transform, Log << "DONT!"; throw(std::exception());)
+			DEEP_COPY(Transform, Log << "DONT!"; throw(std::exception());,)
 		static UUID UUID;
 		GameObject* oobj = nullptr;
 
