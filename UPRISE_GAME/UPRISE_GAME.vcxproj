@@ -113,14 +113,25 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;UPRISEGAME_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_GAME\scripts;C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_GAME\Header\RENDER;C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_GAME\Header\RENDER\RENDER_DATATYPES;C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_GAME\Header\MESSAGES;C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_GAME\Header\PHYSICS;C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_GAME\Header\EDITOR;C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_GAME\Header\ECS;C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_GAME\Header\ECS\ENTITYS;C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_GAME\Header\ECS\COMPONENTS;C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_GAME\Header\DEBUG;C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_GAME\Header\DATATYPES;C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_GAME\Header\CORE;C:\Users\leo08\source\repos\UPRISE_ENGINE\adhed;C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_GAME;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
+      <AdditionalLibraryDirectories>C:\Users\leo08\source\repos\UPRISE_ENGINE\adhed;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp-vc143-mt.lib;glfw3.lib;glfw3_mt.lib;glfw3dll.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <CustomBuildStep>
+      <Command>
+      </Command>
+    </CustomBuildStep>
+    <PreBuildEvent>
+      <Command>python $(SolutionDir)RegisterScripts.py $(ProjectDir)scripts</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -130,8 +141,11 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;UPRISEGAME_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <AdditionalIncludeDirectories>C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_GAME\scripts;C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_GAME\Header\RENDER;C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_GAME\Header\RENDER\RENDER_DATATYPES;C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_GAME\Header\MESSAGES;C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_GAME\Header\PHYSICS;C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_GAME\Header\EDITOR;C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_GAME\Header\ECS;C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_GAME\Header\ECS\ENTITYS;C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_GAME\Header\ECS\COMPONENTS;C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_GAME\Header\DEBUG;C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_GAME\Header\DATATYPES;C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_GAME\Header\CORE;C:\Users\leo08\source\repos\UPRISE_ENGINE\adhed;C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_GAME;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -139,20 +153,137 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
+      <AdditionalLibraryDirectories>C:\Users\leo08\source\repos\UPRISE_ENGINE\adhed;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp-vc143-mt.lib;glfw3.lib;glfw3_mt.lib;glfw3dll.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <CustomBuildStep>
+      <Command>
+      </Command>
+    </CustomBuildStep>
+    <PreBuildEvent>
+      <Command>python $(SolutionDir)RegisterScripts.py $(ProjectDir)scripts</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="framework.h" />
+    <ClInclude Include="Header\CORE\CORE.h" />
+    <ClInclude Include="Header\CORE\C_BEHAVIOUR.h" />
+    <ClInclude Include="Header\CORE\C_COMPONENT.h" />
+    <ClInclude Include="Header\CORE\C_CONFIGLOADER.h" />
+    <ClInclude Include="Header\CORE\C_CPUFEATURES.h" />
+    <ClInclude Include="Header\CORE\C_FILELOADER.h" />
+    <ClInclude Include="Header\CORE\C_INPUT.h" />
+    <ClInclude Include="Header\CORE\C_OBJECT.h" />
+    <ClInclude Include="Header\CORE\C_REFLECTION.h" />
+    <ClInclude Include="Header\CORE\C_SCENE.h" />
+    <ClInclude Include="Header\CORE\C_STARTUP.h" />
+    <ClInclude Include="Header\CORE\C_THREADING.h" />
+    <ClInclude Include="Header\DATATYPES\D_CONFIGFILE.h" />
+    <ClInclude Include="Header\DATATYPES\D_CONFIG_FILE.h" />
+    <ClInclude Include="Header\DATATYPES\D_DATATYPES.h" />
+    <ClInclude Include="Header\DATATYPES\D_DEMOGRAFICCLASS.h" />
+    <ClInclude Include="Header\DATATYPES\D_EVENT.h" />
+    <ClInclude Include="Header\DATATYPES\D_MESH.h" />
+    <ClInclude Include="Header\DATATYPES\D_MSG_MESSAGE.h" />
+    <ClInclude Include="Header\DATATYPES\D_RAY.h" />
+    <ClInclude Include="Header\DATATYPES\D_RESSOURCE.h" />
+    <ClInclude Include="Header\DATATYPES\D_STARTUP_CONFIG.h" />
+    <ClInclude Include="Header\DATATYPES\D_TAG_LAYERS.h" />
+    <ClInclude Include="Header\DATATYPES\D_TERRAIN_DATA.h" />
+    <ClInclude Include="Header\DATATYPES\D_TS_P_QUATERION.h" />
+    <ClInclude Include="Header\DATATYPES\D_TS_P_VECOTR2.h" />
+    <ClInclude Include="Header\DATATYPES\D_TS_P_VECTOR3.h" />
+    <ClInclude Include="Header\DEBUG\DEBUG_LOGGER.h" />
+    <ClInclude Include="DLL-ENGINE-LINK.h" />
+    <ClInclude Include="Header\ECS\COMPONENTS\CAMERA.h" />
+    <ClInclude Include="Header\ECS\COMPONENTS\MESH.h" />
+    <ClInclude Include="Header\ECS\COMPONENTS\TERRAIN.h" />
+    <ClInclude Include="Header\ECS\COMPONENTS\TRANSFORM.h" />
+    <ClInclude Include="Header\ECS\COMPONENTS\UI\E_C_U_BUTTON.h" />
+    <ClInclude Include="Header\ECS\COMPONENTS\UI\E_C_U_IMMAGE.h" />
+    <ClInclude Include="Header\ECS\COMPONENTS\UI\E_C_U_TEXT_FIELD.h" />
+    <ClInclude Include="Header\ECS\COMPONENTS\UI\E_C_U_UI_TRANSFORM.h" />
+    <ClInclude Include="Header\ECS\COMPONENTS\UI\_PHYSICSOBJEC.h" />
+    <ClInclude Include="Header\ECS\COMPONENTS\_COMPONENT.h" />
+    <ClInclude Include="Header\ECS\ECS.h" />
+    <ClInclude Include="Header\ECS\ENTITYS\GAMEOBJECT.h" />
+    <ClInclude Include="Header\ECS\ENTITYS\_ENTITY.h" />
+    <ClInclude Include="Header\EDITOR\EDITOR.h" />
+    <ClInclude Include="GLINCLUDES.h" />
+    <ClInclude Include="Header\MESSAGES\MESSAGES.h" />
+    <ClInclude Include="Header\MESSAGES\MMESSAGE_BUS.h" />
+    <ClInclude Include="Header\PHYSICS\PHYSICS_OBJECT.h" />
+    <ClInclude Include="Header\PHYSICS\PHYSICS.h" />
+    <ClInclude Include="Header\PHYSICS\PHYSICS_MANAGER.h" />
+    <ClInclude Include="Header\PHYSICS\RAYCAST.h" />
+    <ClInclude Include="Header\RENDER\RENDER.h" />
+    <ClInclude Include="Header\RENDER\RENDERSETUP.h" />
+    <ClInclude Include="Header\RENDER\RENDER_CAMERA.h" />
+    <ClInclude Include="Header\RENDER\RENDER_DATATYPES\RENDER_DATATYPES.h" />
+    <ClInclude Include="Header\RENDER\RENDER_MATERIAL.h" />
+    <ClInclude Include="Header\RENDER\RENDER_OBJECT_SPAWNING.h" />
+    <ClInclude Include="Header\RENDER\RENDER_SHADER_UTILLS.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="scripts\Empty.h" />
+    <ClInclude Include="scripts\Teleport.h" />
+    <ClInclude Include="scripts\test.h" />
+    <ClInclude Include="scripts\TEST_.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="DLL-ENGINE-LINK.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="pch.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\CORE\CORE.cpp" />
+    <ClCompile Include="src\CORE\C_BEHAVIOUR.cpp" />
+    <ClCompile Include="src\CORE\C_COMPONENTS.cpp" />
+    <ClCompile Include="src\CORE\C_CONFIGLOADER.cpp" />
+    <ClCompile Include="src\CORE\C_CPUFEATURES.cpp" />
+    <ClCompile Include="src\CORE\C_FILELOADER.cpp" />
+    <ClCompile Include="src\CORE\C_INPUT.cpp" />
+    <ClCompile Include="src\CORE\C_OBJECT.cpp" />
+    <ClCompile Include="src\CORE\C_SCENE.cpp" />
+    <ClCompile Include="src\CORE\C_STARTUP.cpp" />
+    <ClCompile Include="src\CORE\C_THREADING.cpp" />
+    <ClCompile Include="src\DATATYPES\D_CONFIGFILE.cpp" />
+    <ClCompile Include="src\DATATYPES\D_MESH.cpp" />
+    <ClCompile Include="src\DATATYPES\D_TERRAIN_DATA.cpp" />
+    <ClCompile Include="src\DATATYPES\D_TS_P_QUATERION.cpp" />
+    <ClCompile Include="src\DATATYPES\D_TS_P_VECOTR2.cpp" />
+    <ClCompile Include="src\DATATYPES\D_TS_P_VECTOR3.cpp" />
+    <ClCompile Include="src\DATATYPES\STARTUP_CONFIG.cpp" />
+    <ClCompile Include="src\DEBUG\DEBUG_LOGGER.cpp" />
+    <ClCompile Include="src\ECS\COMPONENTS\TERRAIN.cpp" />
+    <ClCompile Include="src\ECS\COMPONENTS\TRANSFORM.cpp" />
+    <ClCompile Include="src\ECS\COMPONENTS\MESH.cpp" />
+    <ClCompile Include="src\ECS\ENTITYS\GAMEOBJECT.cpp" />
+    <ClCompile Include="src\glad.c" />
+    <ClCompile Include="src\IMGUI\imgui.cpp" />
+    <ClCompile Include="src\IMGUI\imgui_demo.cpp" />
+    <ClCompile Include="src\IMGUI\imgui_draw.cpp" />
+    <ClCompile Include="src\IMGUI\imgui_impl_glfw.cpp" />
+    <ClCompile Include="src\IMGUI\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="src\IMGUI\imgui_stdlib.cpp" />
+    <ClCompile Include="src\IMGUI\imgui_tables.cpp" />
+    <ClCompile Include="src\IMGUI\imgui_widgets.cpp" />
+    <ClCompile Include="src\MESSAGES\MESSAGE_BUS.cpp" />
+    <ClCompile Include="src\PHYSICS\PHYSICS_MANAGER.cpp" />
+    <ClCompile Include="src\PHYSICS\PHYSICS_OBJECT.cpp" />
+    <ClCompile Include="src\PHYSICS\RAYCAST.cpp" />
+    <ClCompile Include="src\RENDER\RenderSetup.cpp" />
+    <ClCompile Include="src\RENDER\RENDER_CAMERA.cpp" />
+    <ClCompile Include="src\RENDER\RENDER_DATATYPES.cpp" />
+    <ClCompile Include="src\RENDER\RENDER_MATERIAL.cpp" />
+    <ClCompile Include="src\RENDER\RENDER_SHADER_UTILLS.cpp" />
+    <ClCompile Include="src\RENDER\sth.cpp" />
+    <ClCompile Include="src\SCRIPTS\CAMERA.cpp" />
+    <ClCompile Include="src\SCRIPTS\Empty.cpp" />
+    <ClCompile Include="src\SCRIPTS\TEST.cpp" />
+    <ClCompile Include="src\TracyClient.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

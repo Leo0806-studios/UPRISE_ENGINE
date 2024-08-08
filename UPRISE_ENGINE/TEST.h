@@ -41,6 +41,6 @@ public:
 //template<typename Te>::Test();
 #ifndef _REGISTER_TEST_
 #define _REGISTER_TEST_
-static   Register<Test> teste(Test(), "Test");
+static   Register <Test> tst(Test(), "Test");
 #endif
 #endif // !_TEST_

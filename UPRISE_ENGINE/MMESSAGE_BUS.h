@@ -16,6 +16,7 @@ namespace MESSAGES {
 		static vector <DATATYPES::Mesage> messages;
 		static vector <DATATYPES::slow_Message> slow_Messages;
 		static vector <DATATYPES::Urgent_Message> Urgent_Messages;
+		
 
 
 

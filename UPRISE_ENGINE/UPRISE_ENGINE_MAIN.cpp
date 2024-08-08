@@ -35,10 +35,11 @@
 #define _INCLUDE_TYPE_
 #define _INCLUDE_REFLECTION_
 #include "Header/CORE/C_REFLECTION.h"
+#include "DLL-ENGINE-LINK.h"
 //#include "Header/CORE/C_BEHAVIOUR.h"
 //#include "MESH.h"
 
-
+std::shared_ptr<DATALINK> DATA;
 bool GameRunning;
 class Behaviour;
 class Object;
@@ -153,41 +154,51 @@ class TTT :public t{
 		Log << "DERIVED TTT";
 	}
 };
+class   test {
+public :
+	int i;
 
+	static void Print(test* in){
+
+	}
+	virtual void prnt() {
+
+	}
+};
+class e : public test {
+public:
+	void prnt()override {
+		std::cout << "hello from derived. i is " << i;
+	}
+};
+const WCHAR* addrs = L"C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\UPRISE\\ENGINE\\UPRISE_GAME_LOADED.dll";
+HINSTANCE handle = NULL;
+typedef test*(*create)();
+typedef void(*print)(test* i);
+typedef void(*externFuction)();
+typedef std::shared_ptr<DATALINK>(*GetDatabase)();
+typedef void(*SetDatabase)(std::shared_ptr<DATALINK>);
+
+test* inst = NULL;
+
+create CREATE;
+print PRINT;
+externFuction Function;
+SetDatabase Set;
+GetDatabase Get;
 /// <summary>
 /// Main Function
 /// </summary>
 /// <returns></returns>
 int main()
 {
+	std::remove("C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\UPRISE\\ENGINE\\UPRISE_GAME_LOADED.dll");
+
+	
 
 
-	const WCHAR* addrs = L"C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\UPRISE\\ENGINE\\UPRISE_GAME.dll";
-	HINSTANCE handle = LoadLibrary(addrs);
-	typedef void((*externFuction)());
-	externFuction Function = (externFuction)symLoad(handle, "MAIN");
-	Function();
 
 
-	auto erer = fact::creators["Test"]();
-	auto ooooooooooo = erer.get();
-	void* awewe = malloc(sizeof(*erer.get()));
-	auto ooooo = memcpy(awewe,erer.get(),sizeof(*erer.get()));
-	CORE::Behaviour* bev = (CORE::Behaviour*)ooooo;
-	//auto ewt = tt();
-	//auto owowo = TTT();
-	//
-	//std::shared_ptr<t> w = std::make_shared<tt>();
-	//std::shared_ptr<t> ewq = std::make_shared<TTT>();
-	//ewq->test();
-	//w->test();
-	//auto instances = BaseFactory::getInstance().createAll();
-	int i = fact::creators.size();
-	//((auto wewe= fact::creators["Test"]();
-	int ia = fact::inst.size();
-	//for (auto& aa : fact::creators) {
-	//	GlobalCompList[aa.first] = aa.second();
-	//}
 	auto a =CORE::Filehandler::ApplicationPath();
 	Log << "Startup....";
 
@@ -211,27 +222,13 @@ int main()
 	//CORE::ConfigLoader::LoadConfigFiles(std::filesystem::path(aaa));
 	//CORE::ConfigLoader::LoadMaterials(std::filesystem::path(aaa));
 	std::cout << "Hello World!\n";
-	
 
-
-	//auto a = Terrain_Data::Create("C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\GAMEDATA\\UPRISE\\ASSETS\\Map1.png", 512, 512, 100, &shader);
-	//PAIN::Render::terrains.push_back(std::make_shared<PAIN::TerrainModel>(a.get()->model));
-
-	//auto aerwe = CORE::ConfigLoader::LoadCOnfigFile("C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\x64\\Debug\\GAMEDATA\\UPRISE\\CONFIG\\BUILDINGS\\TEST.CFG");
-
-	//CORE::Type<Test,Test> erererereret;
-	//auto aaaa = erererereret._Ptr;
-	//CORE::Type<CORE::Behaviour, CORE::Behaviour> trA ( erererereret);
-	//auto aaaaaw = trA._Ptr;
-
-
-	//using twe = decltype(trA.get());
-
-
-	//auto owo = CORE::Type(Test);
 	DATATYPES::TS_P_Vector3 tmp = DATATYPES::TS_P_Vector3(0, 0, 0);
 
 	double lasttime = glfwGetTime();
+	DATA = std::make_shared<DATALINK>();
+	DATA->ACTIVE_SCENE = &CORE::Scene::activeScene;
+	DATA->window = PAIN::RenderStup::Windowvar;
 	while (!glfwWindowShouldClose(z.windw))
 	{
 		processInput(z.windw);
@@ -259,7 +256,28 @@ int main()
 			PAIN::Render::DrawAll();
 		}
 
+		if (CORE::Input::GetKey(B)) {
 
+			Function();
+			PRINT(inst);
+			test ttErerewr;
+			memcpy(&ttErerewr, inst, sizeof(test));
+			int* tp = (int*)inst;
+			Log << *tp << "  " << tp << "\n";
+			tp = (int*)inst+1;
+			Log << *tp << "  " << tp << "\n";;
+			tp = (int*)inst+2;
+			Log <<*tp  <<"  "<<tp << "\n";
+			//Log << *((int*)((long*)inst + 8)) << "  " << ((int*)inst + 8) << "\n";
+			tp = (int*)inst+3;
+			Log << *tp << "  " << tp << "\n";
+			tp = (int*)inst+4;
+			Log << *tp << "  " << tp << "\n";
+			tp = &((test*)inst)->i;
+			Log << *tp << "  " << tp << "\n";
+			DATA->ACTIVE_SCENE = &CORE::Scene::activeScene;
+			DATA->window = PAIN::RenderStup::Windowvar;
+		}
 
 		if (spawned == true) {
 			ImGui::Begin("Editor");
@@ -360,12 +378,38 @@ int main()
 			// Show Toolbar
 			ImGui::Begin("Toolbar");
 			if (ImGui::Button("Play")) {
+				std::rename("C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\UPRISE\\ENGINE\\UPRISE_GAME.dll", "C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\UPRISE\\ENGINE\\UPRISE_GAME_LOADED.dll");
+
+				handle = LoadLibrary(addrs);
+
+				 Function = (externFuction)GetProcAddress(handle, "INITIALIZE");
+			
+				 CREATE = (create)GetProcAddress(handle, "_CREATE");
+				 PRINT = (print)GetProcAddress(handle, "_PRINT");
+				 Get = (GetDatabase)GetProcAddress(handle, "GetDatabase");
+				 Set = (SetDatabase)GetProcAddress(handle, "SetDatabase");
+				Function();
+				auto get = *CREATE();
+				if (DATA) {
+					Set(DATA);
+				}
+				inst = &get;
+				Log << "instance mam adr is " << inst << "\n";
+
 				// Toggle play mode
 			}
 			if (ImGui::Button("Pause")) {
 				// Toggle pause mode
 			}
 			if (ImGui::Button("Stop")) {
+				DATA = Get();
+				FreeLibrary(handle);
+				handle = NULL;
+				Function = NULL;
+				CREATE = NULL;
+				PRINT = NULL;
+				std::remove("C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\UPRISE\\ENGINE\\UPRISE_GAME_LOADED.dll");
+
 				// Stop simulation
 			}
 			ImGui::End();
@@ -389,7 +433,7 @@ int main()
 	ImGui_ImplGlfw_Shutdown();
 	ImGui::DestroyContext();
 	glfwTerminate();
-
+	std::remove("C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\UPRISE\\ENGINE\\UPRISE_GAME_LOADED.dll");
 	return 0;
 
 }
