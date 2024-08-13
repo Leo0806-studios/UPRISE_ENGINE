@@ -2,11 +2,11 @@
 #ifndef _TRANSFORM_
 #define _TRANSFORM_
 
-#include "Header/CORE/CORE.h"
+#include "HeaderE/CORE/CORE.h"
 
-///#include "Header/DATATYPES/D_TS_P_VECTOR3.h"
+///#include "HeaderE/DATATYPES/D_TS_P_VECTOR3.h"
 //using namespace DATATYPESTEST;
-#include "Header/DATATYPES/D_DATATYPES.h"
+#include "HeaderE/DATATYPES/D_DATATYPES.h"
 #include "DEBUG_LOGGER.h"
 
 

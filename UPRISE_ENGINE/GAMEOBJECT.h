@@ -4,10 +4,10 @@
 #define _GAMEOBJECT_
 
 #include "pch.h"
-#include "Header/CORE/CORE.h"
-#include "Header/DATATYPES/D_DATATYPES.h"
-#include "Header/DATATYPES/D_TS_P_QUATERION.h"
-#include "Header/DATATYPES/D_TAG_LAYERS.h"
+#include "HeaderE/CORE/CORE.h"
+#include "HeaderE/DATATYPES/D_DATATYPES.h"
+#include "HeaderE/DATATYPES/D_TS_P_QUATERION.h"
+#include "HeaderE/DATATYPES/D_TAG_LAYERS.h"
 
 //#include "_COMPONENT.h"
 namespace CORE {
@@ -31,12 +31,13 @@ class Transform;
 		Layer layer;
 		void* msh;
 		const bool isNull;
+		bool isRemoved;
 		std::string name;
 		std::vector<void*> Components;
 		std::vector<std::shared_ptr<CORE::Behaviour>> behaviours;
 		std::vector<UUID> uuids;
-		GameObject():isNull(false) {};
-		GameObject(int null) :isNull(true) {};
+		GameObject() :isNull(false), isRemoved(false) {};
+		GameObject(int null) :isNull(true), isRemoved(true) {};
 		GameObject(const GameObject& other)
 			: Enabled(other.Enabled),
 			MESH(other.MESH),
@@ -47,7 +48,9 @@ class Transform;
 			name(other.name),
 			Components(other.Components),
 			behaviours(other.behaviours),
-			uuids(other.uuids) {}
+			uuids(other.uuids),
+			isRemoved(false)
+		{}
 
 		GameObject& operator=(const GameObject& other) {
 			if (this == &other) return *this; // self-assignment guard

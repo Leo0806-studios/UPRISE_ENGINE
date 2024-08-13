@@ -1,8 +1,8 @@
 #include "pch.h"
 #include "GLINCLUDES.h"
 #include "RENDER_MATERIAL.h"
-#include "Header/DATATYPES/D_DATATYPES.h"
-#include "Header/DATATYPES/D_TERRAIN_DATA.h"
+#include "HeaderE/DATATYPES/D_DATATYPES.h"
+#include "HeaderE/DATATYPES/D_TERRAIN_DATA.h"
 #include "CAMERA.h"
  PAIN::Material::Material(Shader* shade) { shader = shade; }
  PAIN::Material::Material(Shader shade)
@@ -15,13 +15,14 @@
  std::vector<std::shared_ptr<PAIN::TerrainModel>> PAIN::Render::terrains;
  std::unordered_map<std::string, std::shared_ptr<PAIN::Model>> PAIN::Render::Modeldict;
  std::unordered_map<std::string, int> PAIN::Render::MaterialIdLinkDict;
+ bool PAIN::Render::Check_Removed = false;
 
 inline void PAIN::Material::DrawObj() {
 	shader->use();
-	int i = objects.size() - 1;
+	int i = Object_ModelSubstitute.size() - 1;
 	for (; i >= 0; i--) {
 
-		if (objects[i]->Enabled >= 1) {
+		if (*Object_ModelSubstitute[i]->_enabled >= 1) {
 
 
 			//auto poss = std::dynamic_pointer_cast<Transform>(objects[i]->behaviours[1]);
@@ -31,24 +32,33 @@ inline void PAIN::Material::DrawObj() {
 			//auto rott = poss.get();
 			//auto rot = rott->rotation;
 			glm::mat4 view = CAM->camera.GetViewMatrix();
-			glm::mat4 rotation = objects[i]->TrAnSfOrM->rotation.ToMat4();
+			glm::mat4 rotation = Object_ModelSubstitute[i]->_Transform->rotation.ToMat4();
 			glm::mat4 model = glm::mat4(1.0f);
 			//DATATYPES::TS_P_Vector3 pos = std::dynamic_pointer_cast<Transform>(objects[i].get()->behaviours[1]).get()->Position;
 			//auto ooo = objects[i]->TrAnSfOrM->Position;
 			//pos = ooo->Position;
-			model = glm::translate(model, glm::vec3(objects[i]->TrAnSfOrM->Position));
+			model = glm::translate(model, glm::vec3(Object_ModelSubstitute[i]->_Transform->Position));
 			shader->setMat4("projection", projection);
 			shader->setMat4("view", view);
 			shader->setMat4("model", model);
 			shader->setMat4("Rotation", rotation);
 
 			//auto aa = std::dynamic_pointer_cast<COMPONENTS::_Mesh>(objects[i]->MesH);
-			objects[i]->MESH->Model->Draw(*shader);
+			//objects[i]->MESH->Model->Draw(*shader);
+			Object_ModelSubstitute[i]->_Model->Draw(*shader);
 			//aa.get()->Model.get()->Draw(*shader);
 			//auto meesh = (COMPONENTS::_Mesh*)objects[i]->msh;
 			//meesh->Model.Draw(*shader);
 			//objects[i]->MesH.Model.Draw(*shader);
 		}
+		//else {
+		//	//if //(*Object_ModelSubstitute[i]->_removed == true) {
+		//	//	Object_ModelSubstitute[i]->~MiniModel();
+		//		Object_ModelSubstitute[i].reset();
+		//		Object_ModelSubstitute[i] = NULL;
+		//		Object_ModelSubstitute.erase(Object_ModelSubstitute.begin() + i);
+		//	}
+		//}
 	}
 }
 
@@ -63,6 +73,7 @@ inline void PAIN::Material::DrawObj() {
 	for (; s >= 0; s--) {
 		terrains[s].get()->DrawObj();
 	}
+	Check_Removed = false;
 }
 
   void PAIN::Render::Init()

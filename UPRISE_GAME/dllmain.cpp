@@ -1,7 +1,19 @@
 // dllmain.cpp : Defines the entry point for the DLL application.
+
+#include "GLINCLUDES.h"
 #include "pch.h"
 #include "Header/DEBUG/DEBUG_LOGGER.h"
 #include "DLL-ENGINE-LINK.h"
+#include "scripts/TEST_.h"
+#include "Header/RENDER/RENDERSETUP.h"
+#include "Header/RENDER/RENDER_MATERIAL.h"
+#include "Header/CORE/C_CONFIGLOADER.h"
+#include "Header/ECS/ENTITYS/GAMEOBJECT.h"
+//#include "Header/CORE/C_SCENE.h	"
+#include "C_SCENE.h"
+//#include "scripts/Teleport.h"
+#include "scripts/Empty.h"
+  ;
 BOOL APIENTRY DllMain(HMODULE hModule,
 	DWORD  ul_reason_for_call,
 	LPVOID lpReserved
@@ -18,6 +30,9 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 	}
 	return TRUE;
 }
+
+
+void bb();
 extern "C" {
 	 class  __declspec(dllexport)   test  {
 	public:
@@ -44,16 +59,82 @@ extern "C" {
 	};
 	
 }
+PAIN::Shader* shader;
+int i = 10;
+bool shadergood = false;
+void bb() {
+	GameObject_ TestObj;
+	//const  char* pth = "C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\GAMEDATA\\untitled.glb";
+	//auto mod = COMPONENTS::_Mesh(pth);
+
+	TestObj = GameObject::Create(DATATYPES::TS_P_Vector3(0, 0, 0), DATATYPES::Quaternion(1, 0, 0, 0),std::make_shared<COMPONENTS::_Mesh>( COMPONENTS::_Mesh(PAIN::Render::Modeldict["untitled.glb"])),0);
+	//if (mat.ID < PAIN::Render::mats->size() || PAIN::Render::mats->size() == 0) {
+	//	DATA->AddTORender(PAIN::MiniModel(TestObj->MESH->Model, TestObj->TrAnSfOrM), 0);
+	//	;
+
+	//}
+	std::string s = "TESTOBJaweadsadawe";
+	s.push_back(i + 48);
+	TestObj->name = s;
+	i++;
+	auto ppp = Test();
+	ppp.gameobject = TestObj.get();
+	ppp.oobj = TestObj.get();
+	void* msc = &ppp;
+
+
+	TestObj->AddComponent(Test());
+
+	std::cout << "pressed O";
+
+
+	//CORE::Scene::activeScene->ObjectsInScene.push_back(TestObj);
+	CORE::Behaviour::updateAll();
+	//spawned = true;
+}
+
 
 extern "C" {
 	
-	std::shared_ptr<DATALINK> DATA;
+	//std::shared_ptr<DATALINK> DATA;
 	__declspec(dllexport)void _PRINT(test* in) {
-		test::Print(in);
+		//test::Print(in);
+		bb();
+
+		//std::cout << (*(*IMPORTANT::DATA).MATS_LINK)[0].Object_ModelSubstitute.size();
 	}
-		   __declspec(dllexport)void INITIALIZE() {
-			    DATA = std::make_shared<DATALINK>();
+		   __declspec(dllexport)void INITIALIZE(DATALINK* DATA) {
+			   if (shadergood == false) {
+				   //glfwMakeContextCurrent(DATA->window);
+				   //if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+					  // std::cout << "womp womp";;
+					  // exit(-1);
+				   //}
+
+				   shader = DATA->CreateSHADER("C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\x64\\Debug\\6.1.coordinate_systems.vs", "C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\x64\\Debug\\6.1.coordinate_systems.fs");
+				   DATA->CreateMaterial( shader);
+
+				   
+				   shadergood = true;
+			   }
+			   for (auto& a : tetsss) {
+				   DATA->creators_LINK->operator[](a()->compname) = a;
+			   }
+			   
+			    //DATA = std::make_shared<DATALINK>();
 		}
+
+		   __declspec(dllexport)void STOP() {
+			   int i = CORE::Scene::activeScene->ObjectsInScene.size() - 1;
+			   for (; i >= 0; i--) {
+				   if (CORE::Scene::activeScene->ObjectsInScene[i]->IsCamera == false) {
+					   GameObject::Delete(CORE::Scene::activeScene->ObjectsInScene[i]);
+
+				   }
+			   }
+			   CORE::Scene::activeScene->ObjectsInScene.clear();
+
+		   }
 		   __declspec(dllexport)test* _CREATE() {
 			   auto a = new test();
 			   std::cout << "mem adr of this " << a << " alingof i " << (((int)&(a->i)) - (int)(a)) << "i is " << a->i << "mem addr of i " << &(a->i) << "\n";
@@ -65,16 +146,62 @@ extern "C" {
 
 }
 extern "C" {
-	__declspec(dllexport) std::shared_ptr<DATALINK> GetDatabase()
+	__declspec(dllexport) DATALINK* GetDatabase()
 	{
-		return DATA;
+
+		IMPORTANT::DATA->CAM =PAIN::Render::CAM;
+		IMPORTANT::DATA->RenderCam =PAIN::Render::RenderCam;
+		//DATA->VOID_OBJECTS_LINK =&PAIN::Render::voidobjects;
+		//DATA->PTR_OBJECTS_LINK =&PAIN::Render::ptrobjects;
+		//DATA->OBJECT_LINK =&PAIN::Render::objects;
+		IMPORTANT::DATA->TERRAIN_LINK =&PAIN::Render::terrains;
+		//DATA->MATS_LINK =PAIN::Render::mats;
+		IMPORTANT::DATA->M_DICT_LINK =&PAIN::Render::Modeldict;
+		IMPORTANT::DATA->M_ID_LINK =&PAIN::Render::MaterialIdLinkDict;
+
+		return IMPORTANT::DATA;
 	}
-	__declspec(dllexport) void SetDatabase(std::shared_ptr<DATALINK> in) {
-		DATA = in;
+	__declspec(dllexport) void SetDatabase(DATALINK* in) {
+		IMPORTANT::DATA = in;
+		PAIN::Render::CAM = in->CAM;
+		PAIN::Render::RenderCam = in->RenderCam;
+		PAIN::RenderStup::Windowvar = in->window;
+		CORE::Scene::activeScene = in->ACTIVE_SCENE;
+		CORE::Scene::Backups_SCENE = in->Backups_SCENE;
+		//PAIN::Render::voidobjects = *in->VOID_OBJECTS_LINK;
+		//PAIN::Render::ptrobjects = *in->PTR_OBJECTS_LINK;
+		//PAIN::Render::objects = *in->OBJECT_LINK;
+		if(in->TERRAIN_LINK  )PAIN::Render::terrains = *in->TERRAIN_LINK;
+		if(in->MATS_LINK)PAIN::Render::mats = in->MATS_LINK;
+		if(in->M_DICT_LINK)PAIN::Render::Modeldict = *in->M_DICT_LINK;
+		if(in->M_ID_LINK)PAIN::Render::MaterialIdLinkDict = *in->M_ID_LINK;
+		if(in->ConfigDatabase_LINK)CORE::ConfigLoader::ConfigDatabase = *in->ConfigDatabase_LINK;
+		factT::creators = IMPORTANT::DATA->creators_LINK;
+		CORE::Input::Init(in->window);
+		//factT::inst = IMPORTANT::DATA->inst_LINK;
+		//AddTORender = in->AddTORender;
 	}
 
 }
 extern "C" {
+	__declspec(dllexport) void BEHAVIOUR_UPDATE() {
+		CORE::Behaviour::updateAll();
 
+	}
+	__declspec(dllexport) void BEHAVIOUR_UPDATE_AWAKE() {
+		CORE::Behaviour::updateAllAWAKE();
+
+	}
+	__declspec(dllexport) void BEHAVIOUR_UPDATE_START() {
+		CORE::Behaviour::updateAllSTART();
+
+	}
+	__declspec(dllexport) void PHYSICS_UPDATE() {
+		PHYSICS::Physics::UpdateAllPhysics();
+
+	}
+	__declspec(dllexport) void DRAW_EDITOR() {
+
+	}
 }
 

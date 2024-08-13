@@ -120,8 +120,8 @@ ConfigFile::ConfigFile(std::string name, std::string modelpath, std::vector<std:
 
   FragmentShader::FragmentShader(std::string name, std::string modelpath, std::vector<std::string> texturepath, ConfigType configType, nlohmann::json data) 
 	  : ConfigFile(name, modelpath, texturepath, configType, data) {
-	  string shadercode="";
-	  for (string s : data["shaderCode"]) {
+	 std::string  shadercode="";
+	  for (std::string s : data["shaderCode"]) {
 		  shadercode = shadercode + s+"\n";
 	  }
 	  ShaderCode = shadercode;
@@ -130,8 +130,8 @@ ConfigFile::ConfigFile(std::string name, std::string modelpath, std::vector<std:
 
   GeometryShader::GeometryShader(std::string name, std::string modelpath, std::vector<std::string> texturepath, ConfigType configType, nlohmann::json data)
 	  : ConfigFile(name, modelpath, texturepath, configType, data) {
-	  string shadercode = "";
-	  for (string s : data["shaderCode"]) {
+	  std::string shadercode = "";
+	  for (std::string s : data["shaderCode"]) {
 		  shadercode = shadercode + s;
 	  }
 	  ShaderCode = shadercode;
@@ -139,7 +139,7 @@ ConfigFile::ConfigFile(std::string name, std::string modelpath, std::vector<std:
 
   Material::Material(std::string name, std::string modelpath, std::vector<std::string> texturepath, ConfigType configType, nlohmann::json data) 
 	  : ConfigFile(name, modelpath, texturepath, configType, data) {
-	  string s = data["ShaderCount"];
+	  std::string s = data["ShaderCount"];
 	  ShaderCount = s.data()[0]-48;
 	  VertexShader = data["VertexShader"];
 	  FragmentShader = data["FragmentShader"];
@@ -149,8 +149,8 @@ ConfigFile::ConfigFile(std::string name, std::string modelpath, std::vector<std:
 
   VertexShader::VertexShader(std::string name, std::string modelpath, std::vector<std::string> texturepath, ConfigType configType, nlohmann::json data) 
 	  : ConfigFile(name, modelpath, texturepath, configType, data) {
-	  string shadercode = "";
-	  for (string s : data["shaderCode"]) {
+	  std::string shadercode = "";
+	  for (std::string s : data["shaderCode"]) {
 		  shadercode = shadercode + s+"\n";
 	  }
 	  ShaderCode = shadercode;
@@ -159,8 +159,8 @@ ConfigFile::ConfigFile(std::string name, std::string modelpath, std::vector<std:
 
   ComputeShader::ComputeShader(std::string name, std::string modelpath, std::vector<std::string> texturepath, ConfigType configType, nlohmann::json data)
 	  : ConfigFile(name, modelpath, texturepath, configType, data) {
-	  string shadercode = "";
-	  for (string s : data["shaderCode"]) {
+	  std::string shadercode = "";
+	  for (std::string s : data["shaderCode"]) {
 		  shadercode = shadercode + s;
 	  }
 	  ShaderCode = shadercode;

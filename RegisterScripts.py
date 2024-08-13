@@ -10,6 +10,13 @@ class_pattern = re.compile(r'class\s+(\w+)\s*:\s*public\s+CORE::Behaviour')
 # This pattern checks if the registration code already exists
 register_pattern = re.compile(r'static\s+Register<\w+>\s+\w+\(\w+\(\),\s*"\w+"\);')
 
+
+def generate_guard_name(file_path):
+    # Generate the guard name based on the filename (uppercase with underscores)
+    filename = os.path.splitext(os.path.basename(file_path))[0]
+    guard_name = f'_{filename.upper()}_REGISTER_'
+    return guard_name
+
 def process_file(file_path):
     with open(file_path, 'r') as file:
         lines = file.readlines()
@@ -34,7 +41,15 @@ def process_file(file_path):
             registration_lines.append(registration_code)
 
     # Append the registration lines at the end of the file
-    new_lines.extend(registration_lines)
+    if registration_lines:
+        guard_name = generate_guard_name(file_path)
+        registration_block = [
+            f'#ifndef {guard_name}\n',
+            f'#define {guard_name}\n',
+            *registration_lines,
+            f'#endif // {guard_name}\n'
+        ]
+        new_lines.extend(registration_block)
 
     # Write the modified content back to the file
     with open(file_path, 'w') as file:

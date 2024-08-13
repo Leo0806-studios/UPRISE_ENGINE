@@ -2,15 +2,15 @@
 #define _CORE_
 #include "pch.h"
 
-#include "Header/CORE/C_INPUT.h"
-#include "Header/CORE/C_CPUFEATURES.h"
-#include "Header/CORE/C_STARTUP.h"
-#include "Header/CORE/C_COMPONENT.h"
-#include "Header/CORE/C_OBJECT.h"
+#include "HeaderE/CORE/C_INPUT.h"
+#include "HeaderE/CORE/C_CPUFEATURES.h"
+#include "HeaderE/CORE/C_STARTUP.h"
+#include "HeaderE/CORE/C_COMPONENT.h"
+#include "HeaderE/CORE/C_OBJECT.h"
 
-#include "Header/CORE/C_BEHAVIOUR.h"
+#include "HeaderE/CORE/C_BEHAVIOUR.h"
 #include "C_THREADING.h"
-//#include "Header/DATATYPES/D_TS_P_VECTOR3.h"
+//#include "HeaderE/DATATYPES/D_TS_P_VECTOR3.h"
 
 namespace CORE {
 	

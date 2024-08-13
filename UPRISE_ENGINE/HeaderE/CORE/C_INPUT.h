@@ -2,7 +2,7 @@
 #define _INPUT_
 
 #include "GLINCLUDES.h"
-#include "Header/DATATYPES/D_TS_P_VECOTR2.h"
+#include "HeaderE/DATATYPES/D_TS_P_VECOTR2.h"
 #define A GLFW_KEY_A
 #define B GLFW_KEY_B
 #define C GLFW_KEY_C

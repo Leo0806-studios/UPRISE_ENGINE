@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "Header/CORE/C_SCENE.h"
+#include "HeaderE/CORE/C_SCENE.h"
 #include "GAMEOBJECT.h"
 CORE::Scene::Scene()
 {
@@ -8,7 +8,10 @@ CORE::Scene::Scene()
 CORE::Scene::~Scene()
 {
 }
-CORE::Scene CORE::Scene::activeScene;
+CORE::Scene CORE::Scene::activeScene_obj;
+CORE::Scene CORE::Scene::Backups_SCENE_obj;
+std::shared_ptr<CORE::Scene> CORE::Scene::activeScene=std::make_shared<CORE::Scene>(CORE::Scene::activeScene_obj);
+std::shared_ptr<CORE::Scene> CORE::Scene::Backups_SCENE=std::make_shared<CORE::Scene>(CORE::Scene::Backups_SCENE_obj);
 GameObject* CORE::Scene::FindObjectByName(const char* name)
 {
 	TrPr(ctx, __func__)

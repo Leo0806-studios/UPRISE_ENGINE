@@ -3,7 +3,7 @@
 #define _QUATERIONS_
 
 #include "pch.h"
-#include "Header/DATATYPES/D_TS_P_VECTOR3.h"
+#include "HeaderE/DATATYPES/D_TS_P_VECTOR3.h"
 namespace DATATYPES {
 	struct Quaternion {
 	public:

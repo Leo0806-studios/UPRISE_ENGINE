@@ -1,5 +1,5 @@
 #pragma once
-#include "Header/CORE/C_BEHAVIOUR.h"
+#include "HeaderE/CORE/C_BEHAVIOUR.h"
 PHYSICS::Physics_Object;
 class _PhysicsObject :public CORE::Behaviour {
 public:

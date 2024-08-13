@@ -9,7 +9,7 @@ PAIN::Material::Material(Shader shade)
 {
 	Shader_ = shade;
 }
-std::vector<PAIN::Material> PAIN::Render::mats;
+std::shared_ptr<std::vector<PAIN::Material>> PAIN::Render::mats;
 PAIN::Render_Camera* PAIN::Render::RenderCam;
 std::shared_ptr<Camera> PAIN::Render::CAM;
 std::vector<std::shared_ptr<PAIN::TerrainModel>> PAIN::Render::terrains;
@@ -53,11 +53,11 @@ inline void PAIN::Material::DrawObj() {
 }
 
 void PAIN::Render::DrawAll() {
-	int i = mats.size() - 1;
+	int i = mats->size() - 1;
 	for (; i >= 0; i--) {
 
 
-		mats[i].DrawObj();
+		(*mats)[i].DrawObj();
 	}
 	int s = terrains.size() - 1;
 	for (; s >= 0; s--) {

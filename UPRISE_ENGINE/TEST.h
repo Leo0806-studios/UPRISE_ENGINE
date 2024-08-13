@@ -2,10 +2,10 @@
 #ifndef _TEST_
 #define _TEST_
 
-#include "Header/CORE/C_BEHAVIOUR.h"
-#include "Header/CORE/C_INPUT.h"
+#include "HeaderE/CORE/C_BEHAVIOUR.h"
+#include "HeaderE/CORE/C_INPUT.h"
 #include "_COMPONENT.h"
-#include "Header/DATATYPES/D_DATATYPES.h"
+#include "HeaderE/DATATYPES/D_DATATYPES.h"
 //class Behaviour;
 class Test :public CORE::Behaviour {
 
@@ -41,6 +41,6 @@ public:
 //template<typename Te>::Test();
 #ifndef _REGISTER_TEST_
 #define _REGISTER_TEST_
-static   Register <Test> tst(Test(), "Test");
+//static   Register <Test> tst(Test(), "Test");
 #endif
 #endif // !_TEST_

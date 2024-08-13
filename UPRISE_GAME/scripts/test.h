@@ -21,5 +21,8 @@ class tstwe : public CORE::Behaviour {
 
 
 
+#ifndef _TEST_REGISTER_
+#define _TEST_REGISTER_
 static Register<tst> tst_Register(tst(), "tst");
 static Register<tstwe> tstwe_Register(tstwe(), "tstwe");
+#endif // _TEST_REGISTER_

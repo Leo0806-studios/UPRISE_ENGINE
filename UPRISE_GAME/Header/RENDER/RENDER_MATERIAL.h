@@ -9,7 +9,23 @@
 //class Camera :public CORE::Behaviour;
 
 namespace PAIN {
-
+	class MiniModel {
+	public:
+		MiniModel() = default;
+		MiniModel(std::shared_ptr < PAIN::Model> Model, std::shared_ptr<Transform> transf, std::shared_ptr<bool> enabled, std::shared_ptr<bool> removed) {
+			_Model = Model; _Transform = transf; _enabled = enabled, _removed = removed;
+		}
+		~MiniModel() {
+			_Model = NULL;
+			_Transform = NULL;
+			_enabled = NULL;
+			_removed = NULL;
+		}
+		std::shared_ptr < PAIN::Model> _Model;
+		std::shared_ptr<Transform> _Transform;
+		std::shared_ptr<bool> _enabled;
+		std::shared_ptr<bool> _removed;
+	};
 	class TerrainModel;
 
 	class Render {
@@ -19,9 +35,11 @@ namespace PAIN {
 	public:
 		static std::unordered_map<std::string, int> MaterialIdLinkDict;
 		static std::unordered_map<std::string, std::shared_ptr<PAIN::Model>> Modeldict;
-		static std::vector<PAIN::Material> mats;
+		static std::shared_ptr<std::vector<PAIN::Material>> mats;
 		static std::vector<std::shared_ptr<PAIN::TerrainModel>> terrains;
 		std::vector< std::shared_ptr<GameObject> > objects;
+		VEC(MiniModel) Object_ModelSubstitute;
+
 		std::vector< std::shared_ptr<CORE::Object> > ptrobjects;
 		std::vector< void* > voidobjects;
 		static PAIN::Render_Camera* RenderCam;

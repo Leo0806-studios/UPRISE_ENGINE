@@ -2,8 +2,8 @@
 #ifndef _TERRAIN_
 #define _TERRAIN_
 #include "pch.h"
-#include "Header/CORE/C_BEHAVIOUR.h"
-#include "Header/DATATYPES/D_TERRAIN_DATA.h"
+#include "HeaderE/CORE/C_BEHAVIOUR.h"
+#include "HeaderE/DATATYPES/D_TERRAIN_DATA.h"
 class Terrain : public CORE::Behaviour {
 public :
 	COPY(Terrain, Data = Terrain_Data(););

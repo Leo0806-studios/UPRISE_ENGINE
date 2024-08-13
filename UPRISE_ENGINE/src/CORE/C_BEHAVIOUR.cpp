@@ -1,5 +1,5 @@
 #include "C:/Users/leo08/source/repos/UPRISE_ENGINE/UPRISE_ENGINE/pch.h"
-#include "Header/CORE/C_BEHAVIOUR.h"
+#include "HeaderE/CORE/C_BEHAVIOUR.h"
 
 
 //	static std::vector<Behaviour*> tester;

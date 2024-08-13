@@ -32,6 +32,9 @@ public:
 	}
 	void Start()override {}
 };
-static   Register<Teleport> tp(Teleport(), "Teleport");
 
 #endif // !1
+#ifndef _TELEPORT_REGISTER_
+#define _TELEPORT_REGISTER_
+static Register<Teleport> Teleport_Register(Teleport(), "Teleport");
+#endif // _TELEPORT_REGISTER_

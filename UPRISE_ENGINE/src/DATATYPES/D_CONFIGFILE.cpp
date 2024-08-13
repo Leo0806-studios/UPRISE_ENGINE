@@ -1,6 +1,6 @@
 #include "pch.h"
 
-#include "Header/DATATYPES/D_CONFIGFILE.h"
+#include "HeaderE/DATATYPES/D_CONFIGFILE.h"
 
 ConfigFile::ConfigFile(std::string name, std::string modelpath, std::vector<std::string> texturepath, ConfigType configType, nlohmann::json data)
 {

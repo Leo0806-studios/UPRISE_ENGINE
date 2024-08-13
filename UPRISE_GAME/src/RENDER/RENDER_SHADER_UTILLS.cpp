@@ -1,6 +1,7 @@
 
 #include "pch.h"
 #include "RENDER_SHADER_UTILLS.h"
+//#include "RENDERSETUP.h"
 
 namespace PAIN {
 
@@ -8,6 +9,8 @@ namespace PAIN {
 
 	Shader::Shader(const char* vertexPath, const char* fragmentPath)
 	{
+		//glfwMakeContextCurrent(PAIN::RenderStup::Windowvar);
+
 		// 1. retrieve the vertex/fragment source code from filePath
 		std::string vertexCode;
 		std::string fragmentCode;
@@ -59,7 +62,7 @@ namespace PAIN {
 		// delete the shaders as they're linked into our program now and no longer necessary
 		glDeleteShader(vertex);
 		glDeleteShader(fragment);
-
+		//glfwMakeContextCurrent(NULL);
 	}
 
 	Shader::Shader(std::shared_ptr<VertexShader> vertexshader, std::shared_ptr<FragmentShader> frgmentshader)

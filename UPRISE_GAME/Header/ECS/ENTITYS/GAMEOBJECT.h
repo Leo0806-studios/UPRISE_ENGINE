@@ -24,6 +24,7 @@ class GameObject :public CORE::Object {
 private:
 public:
 	bool Enabled = true;
+	bool IsCamera = false;
 	std::shared_ptr<COMPONENTS::_Mesh> MESH;
 	std::shared_ptr<Transform> TrAnSfOrM;
 	std::shared_ptr<CORE::Behaviour> MesH;
@@ -31,12 +32,13 @@ public:
 	Layer layer;
 	void* msh;
 	const bool isNull;
+	bool isRemoved;
 	std::string name;
 	std::vector<void*> Components;
 	std::vector<std::shared_ptr<CORE::Behaviour>> behaviours;
 	std::vector<UUID> uuids;
-	GameObject() :isNull(false) {};
-	GameObject(int null) :isNull(true) {};
+	GameObject() :isNull(false), isRemoved(false) {};
+	GameObject(int null) :isNull(true), isRemoved(true){};
 	GameObject(const GameObject& other)
 		: Enabled(other.Enabled),
 		MESH(other.MESH),
@@ -47,7 +49,9 @@ public:
 		name(other.name),
 		Components(other.Components),
 		behaviours(other.behaviours),
-		uuids(other.uuids) {}
+		uuids(other.uuids),
+		isRemoved(false)
+	{}
 
 	GameObject& operator=(const GameObject& other) {
 		if (this == &other) return *this; // self-assignment guard
@@ -60,6 +64,7 @@ public:
 		Components = other.Components;
 		behaviours = other.behaviours;
 		uuids = other.uuids;
+		
 		return *this;
 	}
 
@@ -67,6 +72,10 @@ public:
 	static shared_ptr<GameObject> Create(DATATYPES::TS_P_Vector3 pos, Quaternion rot, std::shared_ptr<COMPONENTS::_Mesh> mesh, int materialID);
 	static GameObject CreateEmpty(DATATYPES::TS_P_Vector3 pos);
 	static GameObject CreateCamera(DATATYPES::TS_P_Vector3 pos, Quaternion rot);
+	static bool Delete(std::shared_ptr<GameObject> Object);
+	static bool Delete(GameObject& Object);
+	static bool Delete(GameObject* Object);
+	static bool RemoveComponent(std::shared_ptr<CORE::Behaviour> Component);
 
 
 	//void AddComponent(void* component);

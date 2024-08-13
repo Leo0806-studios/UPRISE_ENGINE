@@ -4,7 +4,9 @@
 
 #include "Header/CORE/CORE.h"
 #include "RENDER_DATATYPES.h"
-
+namespace PAIN {
+	class MiniModel;
+}
 
 namespace COMPONENTS {
 	class _Mesh : public CORE::Behaviour {
@@ -17,8 +19,10 @@ namespace COMPONENTS {
 			COPY(_Mesh, a->Model = PAIN::Model::Empty(););
 		DEEP_COPY(_Mesh, a->Model = this->Model; , )
 			static UUID UUID;
+		int Material_ID;
 		GameObject* oobj = nullptr;
 		std::shared_ptr<PAIN::Model> Model;
+		std::shared_ptr<PAIN::MiniModel> MMLnik;
 		_Mesh();
 		_Mesh(const char* pth);
 		_Mesh(std::shared_ptr<PAIN::Model> model);

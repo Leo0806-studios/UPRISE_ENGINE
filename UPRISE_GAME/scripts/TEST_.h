@@ -32,16 +32,19 @@ public:
 		void Update()override;
 	void Awake()override {
 
-		// std::cout << "name of object is: " << gameobject->name << "\n";
+		 std::cout << "name of object is: " << "\n";
 
 	}
 	void Start()override {}
 };
 //static Registrar<Test> test("Test");
 //template<typename Te>::Test();
-#ifndef _REGISTER_TEST_
-#define _REGISTER_TEST_
-static   Register <Test> tst(Test(), "Test");
-#endif
+
+
 #endif // !_TEST_
+
+
+#ifndef _TEST__REGISTER_
+#define _TEST__REGISTER_
 static Register<Test> Test_Register(Test(), "Test");
+#endif // _TEST__REGISTER_

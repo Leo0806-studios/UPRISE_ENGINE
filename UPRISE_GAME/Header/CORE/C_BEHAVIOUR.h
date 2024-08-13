@@ -38,10 +38,13 @@ namespace CORE {
 		static std::vector<std::shared_ptr<Behaviour>> Parallel_Updates;
 		UUID uuID;
 		int id;
+		bool ToBeRemoved;
+		bool enabled;
 	//	static std::vector<Behaviour*> tester;
 		//template <class _Ty, class... _Types>
 		//static std::vector<_Ty> types;
 		Behaviour();
+		Behaviour(int remove);
 		Behaviour(GameObject* oobj, std::shared_ptr<CORE::Behaviour> trans);
 		virtual std::shared_ptr<CORE::Behaviour> Copy() = 0;
 		virtual std::shared_ptr<CORE::Behaviour> DeepCopy() = 0;
@@ -53,13 +56,31 @@ namespace CORE {
 		static void updateAllAWAKE();
 		static void updateAllSTART();
 		static void updateallParallel();
+
 		
 	};
 }
+using  CreatorFunc = std::function<std::shared_ptr<CORE::Behaviour>()>;
+static VEC(CreatorFunc) tetsss;
+
+using  CreatorFunc = std::function<std::shared_ptr<CORE::Behaviour>()>;
+class factT {
+public:
+	//static VEC(std::shared_ptr<CORE::Behaviour>)* inst;
+	static VEC(std::any) anys;
+	//static std::function<std::unique_ptr<Behaviour>()> CreatorFunc;
+	using  CreatorFunc = std::function<std::shared_ptr<CORE::Behaviour>()>;
+
+
+	static std::shared_ptr<std::map<std::string, CreatorFunc>> creators;
+	static std::map<std::string, CreatorFunc> creatorS;
+
+};
 template<typename _T>
 class Register {
 public:
-	//static std::vector < std::shared_ptr<Register> lisst;
+
+	
 	
 	explicit Register(_T arg, const std::string className) {
 		if (arg.UUID == GUID_NULL) {
@@ -70,12 +91,17 @@ public:
 			arg.UUID = uuid;
 			arg.uuID = arg.UUID;
 			std::shared_ptr<CORE::Behaviour> aa = std::make_shared<_T>();
-			fact::inst.push_back(aa);
-			//fact::anys.push_back(arg);
-			fact::creators[className] = []()->std::shared_ptr<CORE::Behaviour> {std::shared_ptr<CORE::Behaviour> a = std::make_shared<_T>(); return a; };
+			tetsss.push_back([]()->std::shared_ptr<CORE::Behaviour> {std::shared_ptr<CORE::Behaviour> a = std::make_shared<_T>(); return a; });
+			//factT::creatorS[className] = []()->std::shared_ptr<CORE::Behaviour> {std::shared_ptr<CORE::Behaviour> a = std::make_shared<_T>(); return a; };
+			//fact::inst->push_back(aa);
+			
+			//auto aq = []()->std::shared_ptr<CORE::Behaviour> {std::shared_ptr<CORE::Behaviour> a = std::make_shared<_T>(); return a; }
+			//(*fact::creators)[className] = aq;
 		}
 
 	}
+
+
 };
 #define COPY(x,Member_Copy) std::shared_ptr<CORE::Behaviour> Copy() override{auto a = std::make_shared<x>();Member_Copy;std::shared_ptr<CORE::Behaviour> ret=a;return ret;};
 #define DEEP_COPY(x,Member_Copy,y) std::shared_ptr<CORE::Behaviour> DeepCopy() override{auto a = std::make_shared<x>();Member_Copy;std::shared_ptr<CORE::Behaviour> ret=a;return ret;};

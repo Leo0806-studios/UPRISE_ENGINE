@@ -243,7 +243,6 @@ namespace PAIN {
 	}
 
 
-
 	 void ShaderU::checkCompileErrors(GLuint shader, std::string type)
 	{
 		GLint success;

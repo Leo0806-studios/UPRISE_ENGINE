@@ -1,7 +1,7 @@
 #pragma once
 #include "pch.h"
-#include "Header/CORE/C_BEHAVIOUR.h"
-#include "Header/CORE/C_INPUT.h"
+#include "HeaderE/CORE/C_BEHAVIOUR.h"
+#include "HeaderE/CORE/C_INPUT.h"
 #include "TRANSFORM.h"
 #ifndef _TELEPORT_
 #define _TELEPORT_

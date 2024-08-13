@@ -133,11 +133,11 @@ void CORE::ConfigLoader::LoadMaterials(const std::filesystem::path path)
         if (a->ShaderCount == 2) {
             auto oo= CORE::ConfigLoader::ConfigDatabase[ConfigFile::ConfigType::VertexShader][a->VertexShader];
             auto aa= CORE::ConfigLoader::ConfigDatabase[ConfigFile::ConfigType::VertexShader][a->FragmentShader];
-            PAIN::Render::mats.push_back(ShaderFromCFGFile(CORE::ConfigLoader::ConfigDatabase[ConfigFile::ConfigType::VertexShader][a->VertexShader], CORE::ConfigLoader::ConfigDatabase[ConfigFile::ConfigType::FragmentShader][a->FragmentShader]));
+            PAIN::Render::mats->push_back(ShaderFromCFGFile(CORE::ConfigLoader::ConfigDatabase[ConfigFile::ConfigType::VertexShader][a->VertexShader], CORE::ConfigLoader::ConfigDatabase[ConfigFile::ConfigType::FragmentShader][a->FragmentShader]));
 
         }
         else if (a->ShaderCount == 3) {
-            PAIN::Render::mats.push_back(ShaderFromCFGFile(CORE::ConfigLoader::ConfigDatabase[ConfigFile::ConfigType::VertexShader][a->VertexShader], CORE::ConfigLoader::ConfigDatabase[ConfigFile::ConfigType::FragmentShader][a->FragmentShader], CORE::ConfigLoader::ConfigDatabase[ConfigFile::ConfigType::GeometryShader][a->GeometryShader]));
+            PAIN::Render::mats->push_back(ShaderFromCFGFile(CORE::ConfigLoader::ConfigDatabase[ConfigFile::ConfigType::VertexShader][a->VertexShader], CORE::ConfigLoader::ConfigDatabase[ConfigFile::ConfigType::FragmentShader][a->FragmentShader], CORE::ConfigLoader::ConfigDatabase[ConfigFile::ConfigType::GeometryShader][a->GeometryShader]));
 
 
         }

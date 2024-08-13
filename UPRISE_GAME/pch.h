@@ -27,7 +27,7 @@
 #endif
 #include <wrl.h>
 using namespace Microsoft::WRL;
-using namespace std;
+//using namespace std;
 
 #include "vector"
 
@@ -39,8 +39,22 @@ using namespace std;
 #include <cassert>
 #include <chrono>
 #include "string"
+
+
+
+
+//#include "Header/CORE/CUSTOM_STD.h"
 #include "memory"
+
+
+
+
+
 #include "filesystem"
+
+
+
+
 #include <iostream>
 #include <array>
 #include <bitset>
@@ -140,16 +154,6 @@ _Ty CallCSharpFunction(const WCHAR* patrh, char* functionName, _Arg argument) {
 namespace CORE {
     class Behaviour;
 }
-class fact {
-public:
-    static VEC(std::shared_ptr<CORE::Behaviour>) inst;
-    static VEC(std::any) anys;
-    //static std::function<std::unique_ptr<Behaviour>()> CreatorFunc;
-    using  CreatorFunc = std::function<std::shared_ptr<CORE::Behaviour>()>;
-
-
-    static std::map<std::string, CreatorFunc> creators;
-};
 
 #endif // !globlist
 
@@ -200,4 +204,23 @@ public:
 //            });
 //    }
 //};
+//namespace PAIN{
+//    class Model;
+//}
+//class Quaternion;
+//namespace DATATYPES {
+//    class TS_P_Vector3;
+//}
+
+
+
+
+
+//void(*AddTORender)(PAIN::MiniModel mm, int id);
+class DATALINK;
+
+class IMPORTANT {
+public:
+    static DATALINK* DATA;
+};
 #endif // _PCH_

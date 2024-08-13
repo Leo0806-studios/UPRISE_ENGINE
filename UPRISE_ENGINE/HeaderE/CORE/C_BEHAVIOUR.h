@@ -1,9 +1,9 @@
 #ifndef _BEHAVIOUR_
 #define _BEHAVIOUR_
 #include "pch.h"
-//#include "Header/CORE/CORE.h"
+//#include "HeaderE/CORE/CORE.h"
 //#include "ECS.h"
-//#include "Header/DATATYPES/D_TS_P_VECTOR3.h"
+//#include "HeaderE/DATATYPES/D_TS_P_VECTOR3.h"
 
 //#include "GAMEOBJECT.h"
 //# include "Helpers.h"
@@ -56,6 +56,7 @@ namespace CORE {
 		
 	};
 }
+
 template<typename _T>
 class Register {
 public:

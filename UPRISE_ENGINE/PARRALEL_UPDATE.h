@@ -2,7 +2,8 @@
 #ifndef _PARALLEL_UPDATE_
 #define _PARALLEL_UPDATE_
 
-#include "Header/CORE/CORE.h"
+#include "HeaderE/CORE/CORE.h"
+#include "HeaderE/CORE/C_BEHAVIOUR.h"
 #include "DEBUG_LOGGER.h"
 namespace CORE {
 

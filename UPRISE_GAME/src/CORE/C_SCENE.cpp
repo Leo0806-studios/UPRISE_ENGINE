@@ -8,7 +8,8 @@ CORE::Scene::Scene()
 CORE::Scene::~Scene()
 {
 }
-CORE::Scene CORE::Scene::activeScene;
+std::shared_ptr<CORE::Scene> CORE::Scene::activeScene;
+std::shared_ptr<CORE::Scene> CORE::Scene::Backups_SCENE;
 GameObject* CORE::Scene::FindObjectByName(const char* name)
 {
 	TrPr(ctx, __func__)

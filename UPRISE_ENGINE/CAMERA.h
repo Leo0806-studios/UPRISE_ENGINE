@@ -2,11 +2,11 @@
 #ifndef _CAMERA_
 
 #define _CAMERA_
-#include "Header/CORE/C_BEHAVIOUR.h"
+#include "HeaderE/CORE/C_BEHAVIOUR.h"
 #include "pch.h"
 #include "RENDER_CAMERA.h"
 #include "DEBUG_LOGGER.h"
-//#include "Header/CORE/CORE.h"
+//#include "HeaderE/CORE/CORE.h"
 
 
 class Camera : public CORE::Behaviour {

@@ -1,5 +1,5 @@
 #include "pch.h"
-#include <Header/CORE/C_THREADING.h>
+#include <HeaderE/CORE/C_THREADING.h>
 
 CORE::Thread_Manager::Thread_Manager()
 {

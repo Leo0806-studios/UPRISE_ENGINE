@@ -8,6 +8,8 @@
 #include "Empty.h"
 #include "MESH.h"
 #include "Header/CORE/C_SCENE.h"
+#include "DLL-ENGINE-LINK.h"
+//#include "CUSTOM_STD.h"
 
 ::shared_ptr<GameObject> GameObject::Create(DATATYPES::TS_P_Vector3 pos, void* mesh, int materialID) {
 	TracyCZoneN(ctx, "Creating GameObject", true);
@@ -21,11 +23,13 @@
 	tmp.AddComponent(COMPONENTS::_Mesh(), mesh);
 	//auto a = tmp.GetComponent(COMPONENTS::_Mesh());
 	tmp.MESH = std::make_shared<COMPONENTS::_Mesh>(*(COMPONENTS::_Mesh*)tmp.Components[0]);
+	tmp.MESH->Material_ID = materialID;
+
 	//tmp.MESH = tmp.MesH;
 	tmp.AddComponent(Transform(), tra);
 	tmp.TrAnSfOrM = std::dynamic_pointer_cast<Transform>(tmp.behaviours[1]);
 	auto a = std::make_shared<GameObject>(tmp);
-	CORE::Scene::activeScene.ObjectsInScene.push_back(a);
+	CORE::Scene::activeScene->ObjectsInScene.push_back(a);
 	std::dynamic_pointer_cast<Transform>(tmp.behaviours[1]).get()->UpdateDirections();
 	TracyCZoneEnd(ctx);
 
@@ -49,10 +53,14 @@ shared_ptr<GameObject> GameObject::Create(DATATYPES::TS_P_Vector3 pos, Quaternio
 	transf.rotation = rot;
 	tmp.TrAnSfOrM = std::make_shared<Transform>(transf);
 	tmp.MESH = mesh;
+	tmp.MESH->Material_ID = materialID;
 	tmp.TrAnSfOrM->UpdateDirections();
+	tmp.MESH->MMLnik = std::make_shared<PAIN::MiniModel>(PAIN::MiniModel(tmp.MESH->Model, tmp.TrAnSfOrM, std::make_shared<bool>(tmp.Enabled), std::make_shared<bool>(tmp.isRemoved)));
 	auto a = std::make_shared<GameObject>(tmp);
-	PAIN::Render::mats[materialID].objects.push_back(a);
-	CORE::Scene::activeScene.ObjectsInScene.push_back(a);
+	//auto enb = std::make_shared<bool>(a->Enabled);
+	
+	IMPORTANT::DATA->AddTORender((tmp.MESH->MMLnik), materialID);
+	CORE::Scene::activeScene->ObjectsInScene.push_back(a);
 	TracyCZoneEnd(ctx);
 
 	return a;
@@ -78,6 +86,7 @@ GameObject GameObject::CreateCamera(DATATYPES::TS_P_Vector3 pos, Quaternion rot)
 	TracyCZoneN(ctx, "Creating Camera", true);
 
 	GameObject tmp;
+	tmp.IsCamera = true;
 	UuidCreate(&tmp.uuid);
 	Transform transf = Transform();
 	transf.Position = pos;
@@ -92,6 +101,61 @@ GameObject GameObject::CreateCamera(DATATYPES::TS_P_Vector3 pos, Quaternion rot)
 	TracyCZoneEnd(ctx);
 
 	return tmp;
+}
+bool GameObject::Delete(std::shared_ptr<GameObject> Object)
+{
+	if (std::find(CORE::Scene::Backups_SCENE->ObjectsInScene.begin(), CORE::Scene::Backups_SCENE->ObjectsInScene.end(), Object) != CORE::Scene::Backups_SCENE->ObjectsInScene.end()){
+		int cnt = Object->behaviours.size() - 1;
+		IMPORTANT::DATA->RemoveFromRender(Object->MESH->MMLnik, Object->MESH->Material_ID);
+
+		for (; cnt >= 0; cnt--) {
+			RemoveComponent(Object->behaviours[cnt]);
+		}
+		*Object->MESH->MMLnik->_removed = true;
+		//GameObject* Replacer = new GameObject(1);
+		Object->isRemoved = true;
+		auto a = Object.get();
+		//delete a;
+		Object.DESTROY();
+		 Object.setPTR(nullptr);
+		//auto a = std::make_shared<GameObject>(Replacer);
+		//==//=;
+
+		//Replacer->isRemoved = true;
+		//auto aa = Object.get();
+		//*aa = *Replacer;
+	}
+
+
+	return true;
+}
+bool GameObject::Delete(GameObject& Object)
+{
+	GameObject Replacer(1);
+	Object.isRemoved = true;
+	//IMPORTANT::DATA->RemoveFromRender();
+	//auto a = std::make_shared<GameObject>(Replacer);
+	Object = Replacer;
+	return false;
+}
+bool GameObject::Delete(GameObject* Object)
+{
+	GameObject Replacer(1);
+	Object->isRemoved = true;
+	//IMPORTANT::DATA->RemoveFromRender();
+	//auto a = std::make_shared<GameObject>(Replacer);
+	Object = &Replacer;
+
+	return false;
+}
+bool GameObject::RemoveComponent(std::shared_ptr<CORE::Behaviour> Component)
+{
+
+	Empty replacer;
+	replacer.ToBeRemoved = true;
+	std::shared_ptr<CORE::Behaviour> a = std::make_shared<Empty>(replacer);
+	Component.swap(a);
+	return false;
 }
 std::shared_ptr<CORE::Behaviour> GameObject::AddComponent(std::shared_ptr<CORE::Behaviour> component, std::string name) {
 

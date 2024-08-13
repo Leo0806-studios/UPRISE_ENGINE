@@ -1,6 +1,6 @@
 #pragma once
 #include "pch.h"
-#include "Header/CORE/C_OBJECT.h"
+#include "HeaderE/CORE/C_OBJECT.h"
 
 
 namespace CORE {

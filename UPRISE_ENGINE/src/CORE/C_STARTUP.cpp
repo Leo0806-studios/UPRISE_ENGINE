@@ -1,9 +1,9 @@
-#include "Header/CORE/C_STARTUP.h"
-#include "Header/DATATYPES/D_DATATYPES.h"
+#include "HeaderE/CORE/C_STARTUP.h"
+#include "HeaderE/DATATYPES/D_DATATYPES.h"
 #include "MESSAGES.h"
 #include "pch.h"
 #include "PHYSICS.h"
-#include "Header/CORE/C_CPUFEATURES.h"
+#include "HeaderE/CORE/C_CPUFEATURES.h"
 #include "RENDERSETUP.h"
 #include "DEBUG_LOGGER.h"
 

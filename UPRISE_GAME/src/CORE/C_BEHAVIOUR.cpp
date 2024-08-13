@@ -9,7 +9,8 @@
 std::vector<std::shared_ptr<CORE::Behaviour>> CORE::Behaviour::behaviours;
 std::vector<std::shared_ptr<CORE::Behaviour>> CORE::Behaviour::AWAKES;
 std::vector<std::shared_ptr<CORE::Behaviour>> CORE::Behaviour::Starts;
-CORE::Behaviour::Behaviour() {  }
+CORE::Behaviour::Behaviour():ToBeRemoved(false) {  }
+CORE::Behaviour::Behaviour(int remove):ToBeRemoved(true) {  }
 
  CORE::Behaviour::Behaviour(GameObject* oobj, std::shared_ptr<CORE::Behaviour> trans)
  {
@@ -23,9 +24,15 @@ CORE::Behaviour::Behaviour() {  }
 	//std::cout << behaviours.size() << "\n";
 	 TrPr(ctx, __func__)
 		 //Log << "test HotReload";
+		 int i = behaviours.size() - 1;
+	 for (; i >= 0; i--) {
+		if (behaviours[i]->ToBeRemoved == false) {
+			behaviours[i]->Update();
 
-	for (auto& behaviour : behaviours) {
-		behaviour->Update();
+		}
+		else {
+			behaviours.erase(behaviours.begin() + i);
+		}
 
 	}
 	TrPrE(ctx);
@@ -53,3 +60,8 @@ CORE::Behaviour::Behaviour() {  }
 	}
 	TrPrE(ctx);
 }
+
+ using  CreatorFunc = std::function<std::shared_ptr<CORE::Behaviour>()>;
+ std::shared_ptr<std::map<std::string, CreatorFunc>> factT::creators;
+ std::map<std::string, CreatorFunc> factT::creatorS;
+ //using  CreatorFunc = std::function<std::shared_ptr<CORE::Behaviour>()>;

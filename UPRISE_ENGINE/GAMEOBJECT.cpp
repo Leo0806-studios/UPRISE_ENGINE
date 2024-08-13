@@ -1,13 +1,13 @@
 #pragma once
 #include "pch.h"
-#include "Header/CORE/CORE.h"
+#include "HeaderE/CORE/CORE.h"
 #include "GAMEOBJECT.h"
 #include "_COMPONENT.h"
 #include "CAMERA.h"
 #include "RENDER_MATERIAL.h"
 #include "Empty.h"
 #include "MESH.h"
-#include "Header/CORE/C_SCENE.h"
+#include "HeaderE/CORE/C_SCENE.h"
 
 ::shared_ptr<GameObject> GameObject::Create(DATATYPES::TS_P_Vector3 pos, void* mesh,int materialID) {
 	TracyCZoneN(ctx, "Creating GameObject", true);
@@ -24,8 +24,13 @@
 	//tmp.MESH = tmp.MesH;
 	tmp.AddComponent(Transform(), tra);
 	tmp.TrAnSfOrM = std::dynamic_pointer_cast<Transform>(tmp.behaviours[1]);
+	tmp.MESH->MMLnik = std::make_shared<PAIN::MiniModel>(PAIN::MiniModel(tmp.MESH->Model, tmp.TrAnSfOrM, std::make_shared<bool>(tmp.Enabled), std::make_shared<bool>(tmp.isRemoved)));
+
 	auto a = std::make_shared<GameObject>(tmp);
-	CORE::Scene::activeScene.ObjectsInScene.push_back(a);
+	if (materialID < PAIN::Render::mats.size() || PAIN::Render::mats.size() == 0) {
+		PAIN::Render::mats[materialID].Object_ModelSubstitute.push_back(tmp.MESH->MMLnik);
+	}
+	CORE::Scene::activeScene->ObjectsInScene.push_back(a);
 	std::dynamic_pointer_cast<Transform>(tmp.behaviours[1]).get()->UpdateDirections();
 	TracyCZoneEnd(ctx);
 
@@ -50,9 +55,15 @@ shared_ptr<GameObject> GameObject::Create(DATATYPES::TS_P_Vector3 pos, Quaternio
 	tmp.TrAnSfOrM = std::make_shared<Transform>(transf);
 	tmp.MESH = mesh;
 	tmp.TrAnSfOrM->UpdateDirections();
+	tmp.MESH->MMLnik = std::make_shared<PAIN::MiniModel>(PAIN::MiniModel(tmp.MESH->Model, tmp.TrAnSfOrM, std::make_shared<bool>(tmp.Enabled), std::make_shared<bool>(tmp.isRemoved)));
+
 	auto a = std::make_shared<GameObject>(tmp);
 	PAIN::Render::mats[materialID].objects.push_back(a);
-	CORE::Scene::activeScene.ObjectsInScene.push_back(a);
+	if (materialID < PAIN::Render::mats.size() || PAIN::Render::mats.size() == 0) {
+		PAIN::Render::mats[materialID].Object_ModelSubstitute.push_back(tmp.MESH->MMLnik);
+
+	}
+	CORE::Scene::activeScene->ObjectsInScene.push_back(a);
 	TracyCZoneEnd(ctx);
 
 	return a;

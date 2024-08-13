@@ -15,4 +15,7 @@ public:
 };
 #endif // !_EMPTY_
 
+#ifndef _EMPTY_REGISTER_
+#define _EMPTY_REGISTER_
 static Register<Empty> Empty_Register(Empty(), "Empty");
+#endif // _EMPTY_REGISTER_

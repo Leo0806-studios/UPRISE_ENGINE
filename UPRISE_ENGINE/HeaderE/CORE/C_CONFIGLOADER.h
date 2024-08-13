@@ -2,7 +2,7 @@
 #ifndef _CONFIGLOADER_
 #define _CONFIGLOADER_
 #include "pch.h"
-#include "Header/DATATYPES/D_CONFIGFILE.h"
+#include "HeaderE/DATATYPES/D_CONFIGFILE.h"
 class ConfigFile;
 namespace PAIN {
 	class Shader;

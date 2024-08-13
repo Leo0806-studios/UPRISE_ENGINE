@@ -2,8 +2,8 @@
 #ifndef _STARTUP_
 #define _STARTUP_
 
-//#include "Header/CORE/CPUFEATURES.h"
-#include "Header/DATATYPES/D_STARTUP_CONFIG.h"
+//#include "HeaderE/CORE/CPUFEATURES.h"
+#include "HeaderE/DATATYPES/D_STARTUP_CONFIG.h"
 #include "MESSAGES.h"
 #include "pch.h"
 #include "PHYSICS.h"

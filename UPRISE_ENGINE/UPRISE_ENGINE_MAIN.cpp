@@ -11,8 +11,8 @@
 //#include "glfw3.h"
 //#include "pch.h"
 //#include "Helpers.h"
-#include "Header/CORE/CORE.h"
-#include "Header/DATATYPES/D_DATATYPES.h"
+#include "HeaderE/CORE/CORE.h"
+#include "HeaderE/DATATYPES/D_DATATYPES.h"
 
 //#include <glm/glm.hpp>
 //#include <glm/gtc/matrix_transform.hpp>
@@ -22,24 +22,32 @@
 //#include "RENDER_DATATYPES.h"
 //#include "RENDER_OBJECT_SPAWNING.h"
 #include "MESSAGES.h"
-//#include "Header/CORE/CORE.h"
+//#include "HeaderE/CORE/CORE.h"
 //#include "INPUT.h"
 //#include "memory"
 #include "TEST.h"
 #include "RENDER_MATERIAL.h"
 #include "PHYSICS.h"
 #include "RENDERSETUP.h"
-#include "Header/CORE/C_SCENE.h"
-#include "Header/DATATYPES/D_TERRAIN_DATA.h"
+#include "HeaderE/CORE/C_SCENE.h"
+#include "HeaderE/DATATYPES/D_TERRAIN_DATA.h"
 #include <typeindex>
 #define _INCLUDE_TYPE_
 #define _INCLUDE_REFLECTION_
-#include "Header/CORE/C_REFLECTION.h"
+#include "HeaderE/CORE/C_REFLECTION.h"
 #include "DLL-ENGINE-LINK.h"
-//#include "Header/CORE/C_BEHAVIOUR.h"
+#include <HeaderE/CORE/C_CONFIGLOADER.h>
+#include "new"
+//#include "C_SMART_POINTER.h"
+//#include "HeaderE/CORE/C_BEHAVIOUR.h"
 //#include "MESH.h"
-
-std::shared_ptr<DATALINK> DATA;
+enum GameMode {
+	Paused,
+	Play,
+	Stoped
+};
+#define FUNC(x,y,z)(x)GetProcAddress(y,z);
+DATALINK* DATA;
 bool GameRunning;
 class Behaviour;
 class Object;
@@ -65,9 +73,11 @@ CORE::Scene scene;
 //	glViewport(0, 0, width, height);
 //}
 
+
+GameMode mode;
 void bb() {
 	GameObject_ TestObj;
-	const  char* pth = "C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\GAMEDATA\\untitled.gltf";
+	const  char* pth = "C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\GAMEDATA\\untitled.glb";
 	auto mod = COMPONENTS::_Mesh(pth);
 	PAIN::Material mat = PAIN::Material(&shader);
 	mat.ID = 0;
@@ -140,12 +150,14 @@ void processInput(GLFWwindow* window)
 
 class t {
 public:
+	int i;
 	 t() {}
 	 virtual  void test() {}
 
 };
 class tt :public t {
 	void test() override {
+		i = 5;
 		Log << "DERIVED TT";
 	}
 };
@@ -175,9 +187,15 @@ const WCHAR* addrs = L"C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\UPRISE\\E
 HINSTANCE handle = NULL;
 typedef test*(*create)();
 typedef void(*print)(test* i);
-typedef void(*externFuction)();
-typedef std::shared_ptr<DATALINK>(*GetDatabase)();
-typedef void(*SetDatabase)(std::shared_ptr<DATALINK>);
+typedef void(*externFuction)(DATALINK* DATA);
+typedef DATALINK*(*GetDatabase)();
+typedef void(*SetDatabase)(DATALINK*);
+typedef void(*BEHAVIOUR_UPDATE)();
+typedef void(*BEHAVIOUR_UPDATE_AWAKE)();
+typedef void(*BEHAVIOUR_UPDATE_START)();
+typedef void(*PHYSICS_UPDATE)();
+typedef void(*DRAW_EDITOR)();
+typedef void(*STOP)();
 
 test* inst = NULL;
 
@@ -186,12 +204,65 @@ print PRINT;
 externFuction Function;
 SetDatabase Set;
 GetDatabase Get;
+BEHAVIOUR_UPDATE B_Up;
+BEHAVIOUR_UPDATE_AWAKE B_Up_A;
+BEHAVIOUR_UPDATE_START B_Up_S;
+PHYSICS_UPDATE P_Up;
+DRAW_EDITOR D_E;
+STOP Stop;
+
+PAIN::Shader* CreateSHADER(const char* vertexPath, const char* fragmentPath) {
+
+	PAIN::Shader* ret = new PAIN::Shader(vertexPath, fragmentPath);
+	return ret;
+}
+void AddTORender(std::shared_ptr<PAIN::MiniModel> mm, int id) {
+	PAIN::Render::mats[id].Object_ModelSubstitute.push_back(mm);
+}
+bool RemoveFromRender(std::shared_ptr<PAIN::MiniModel>& mm,int Material_ID) {
+	auto index = std::find(PAIN::Render::mats[Material_ID].Object_ModelSubstitute.begin(), PAIN::Render::mats[Material_ID].Object_ModelSubstitute.end(), mm);
+	PAIN::Render::mats[Material_ID].Object_ModelSubstitute.erase(index);
+	PAIN::Render::Check_Removed = true;
+	return true;
+}
+bool CreateMaterial(PAIN::Shader*  shader) {
+	PAIN::Material mat = PAIN::Material(shader);
+	mat.ID = 0;
+	PAIN::Render::mats.push_back(mat);
+	return true;
+}
 /// <summary>
 /// Main Function
 /// </summary>
 /// <returns></returns>
 int main()
 {
+//	std::shared_ptr<tt> tptr = std::make_shared<tt>();
+	//std::shared_ptr<t> tpter = tptr;
+//	tt* chk;
+//	{
+//		auto tster = UTILLS::Make_Shared<tt>();
+////		auto roererw = tster.GT();
+//		//chk = tster.Pointer;
+//		{
+//			UTILLS::Shared_ptr<t> testst = tster;
+//			{
+//				auto ererwrwerw = testst;
+//				Log << ererwrwerw.ref_block->ref_cout;
+//				Log << tster.ref_block->ref_cout;
+//
+//			}
+//			testst->test();
+//			Log << tster.ref_block->ref_cout;
+//
+//		}
+//		Log << tster.ref_block->ref_cout;
+//	}
+	//Log << chk->i;
+	///Log << chk->i;
+	DATA = new DATALINK();
+
+	mode = GameMode::Stoped;
 	std::remove("C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\UPRISE\\ENGINE\\UPRISE_GAME_LOADED.dll");
 
 	
@@ -209,7 +280,9 @@ int main()
 	z = CORE::Startup::Start_Systems();
 	std::dynamic_pointer_cast<Camera>(PAIN::Render::CAM).get()->FOV = 45;
 	scene = CORE::Scene::Create();
-	CORE::Scene::activeScene.ObjectsInScene.push_back(std::make_shared<GameObject>(PAIN::RenderStup::Render_cam));
+	CORE::Scene::activeScene.setPTR(&CORE::Scene::activeScene_obj);
+	CORE::Scene::Backups_SCENE.setPTR(&CORE::Scene::Backups_SCENE_obj);
+	CORE::Scene::activeScene->ObjectsInScene.push_back(std::make_shared<GameObject>(PAIN::RenderStup::Render_cam));
 #ifdef DEBUG_Engine
 	CORE::Startup::StartEditor(z.windw);
 
@@ -218,7 +291,7 @@ int main()
 	auto aaa = CORE::Filehandler::ApplicationPath() + "\\GAMEDATA";
 	shader = PAIN::Shader("C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\x64\\Debug\\6.1.coordinate_systems.vs", "C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\x64\\Debug\\6.1.coordinate_systems.fs");
 
-	//CORE::ConfigLoader::LoadModels(std::filesystem::path(aaa));
+	CORE::ConfigLoader::LoadModels(std::filesystem::path(aaa));
 	//CORE::ConfigLoader::LoadConfigFiles(std::filesystem::path(aaa));
 	//CORE::ConfigLoader::LoadMaterials(std::filesystem::path(aaa));
 	std::cout << "Hello World!\n";
@@ -226,11 +299,32 @@ int main()
 	DATATYPES::TS_P_Vector3 tmp = DATATYPES::TS_P_Vector3(0, 0, 0);
 
 	double lasttime = glfwGetTime();
-	DATA = std::make_shared<DATALINK>();
-	DATA->ACTIVE_SCENE = &CORE::Scene::activeScene;
+	DATA->CAM = PAIN::Render::CAM;
+	DATA->RenderCam = PAIN::Render::RenderCam;
+	//DATA->VOID_OBJECTS_LINK =&PAIN::Render::voidobjects;
+	//DATA->PTR_OBJECTS_LINK =&PAIN::Render::ptrobjects;
+	//DATA->OBJECT_LINK =&PAIN::Render::objects;
+	DATA->TERRAIN_LINK = &PAIN::Render::terrains;
+	DATA->MATS_LINK = std::make_shared<std::vector<PAIN::Material>>(PAIN::Render::mats);
+	DATA->M_DICT_LINK = &PAIN::Render::Modeldict;
+	DATA->M_ID_LINK = &PAIN::Render::MaterialIdLinkDict;
+	DATA->ACTIVE_SCENE = CORE::Scene::activeScene;
 	DATA->window = PAIN::RenderStup::Windowvar;
+	DATA->CreateSHADER = CreateSHADER;
+	DATA->AddTORender = AddTORender;
+	DATA->ConfigDatabase_LINK = &CORE::ConfigLoader::ConfigDatabase;
+	DATA->RemoveFromRender = RemoveFromRender;
+	DATA->CreateMaterial = CreateMaterial;
+	using  CreatorFunc = std::function<std::shared_ptr<CORE::Behaviour>()>;
+
+	DATA->creators_LINK = std::make_shared<std::map<std::string, CreatorFunc>>(fact::creators);
+	
+	DATA->inst_LINK = &fact::inst;
+	DATA->III = (int*)& fact::inst;
+	DATA->GetKey = CORE::Input::GetKey;
 	while (!glfwWindowShouldClose(z.windw))
 	{
+		
 		processInput(z.windw);
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -244,9 +338,16 @@ int main()
 
 			ImGui::Text("This is some useful text.");
 			if (ImGui::Button("Click Me")) {
-				bb(); // Call the function when the button is clicked
+				//bb(); // Call the function when the button is clicked
+				spawned = true;
+
 			}
 			ImGui::End();
+		}
+		if (mode == GameMode::Play) {
+			B_Up();
+			B_Up_A();
+			B_Up_S();
 		}
 		CORE::Behaviour::updateAllAWAKE();
 		CORE::Behaviour::updateAllSTART();
@@ -258,7 +359,7 @@ int main()
 
 		if (CORE::Input::GetKey(B)) {
 
-			Function();
+			//Function();
 			PRINT(inst);
 			test ttErerewr;
 			memcpy(&ttErerewr, inst, sizeof(test));
@@ -275,8 +376,7 @@ int main()
 			Log << *tp << "  " << tp << "\n";
 			tp = &((test*)inst)->i;
 			Log << *tp << "  " << tp << "\n";
-			DATA->ACTIVE_SCENE = &CORE::Scene::activeScene;
-			DATA->window = PAIN::RenderStup::Windowvar;
+
 		}
 
 		if (spawned == true) {
@@ -284,13 +384,12 @@ int main()
 
 			// Show Scene View
 			ImGui::Text("Scene View");
-			// Example: Replace with your scene rendering function
-			//ImGui::Image((ImTextureID)your_scene_texture_id, ImVec2(500, 500));
+
 
 			// Show Hierarchy Window
 			ImGui::Begin("Hierarchy");
 
-			for (const auto& obj : scene.activeScene.ObjectsInScene) {
+			for (const auto& obj : scene.activeScene->ObjectsInScene) {
 				bool isSelected = false; //= (SelectedObj->uuid == &obj->uuid);
 
 				// Highlight the selected item
@@ -368,12 +467,6 @@ int main()
 				ImGui::End();
 			}
 
-			// Show Project Window
-			//ImGui::Begin("Project");
-			//for (const auto& asset : assets) {
-			//	ImGui::Text(asset.c_str());
-			//}
-			//ImGui::End();
 
 			// Show Toolbar
 			ImGui::Begin("Toolbar");
@@ -381,14 +474,22 @@ int main()
 				std::rename("C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\UPRISE\\ENGINE\\UPRISE_GAME.dll", "C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\UPRISE\\ENGINE\\UPRISE_GAME_LOADED.dll");
 
 				handle = LoadLibrary(addrs);
-
+				mode = GameMode::Play;
 				 Function = (externFuction)GetProcAddress(handle, "INITIALIZE");
 			
 				 CREATE = (create)GetProcAddress(handle, "_CREATE");
 				 PRINT = (print)GetProcAddress(handle, "_PRINT");
 				 Get = (GetDatabase)GetProcAddress(handle, "GetDatabase");
 				 Set = (SetDatabase)GetProcAddress(handle, "SetDatabase");
-				Function();
+				  B_Up=(BEHAVIOUR_UPDATE)GetProcAddress(handle,"BEHAVIOUR_UPDATE");
+				  B_Up_A = FUNC(BEHAVIOUR_UPDATE_AWAKE, handle, "BEHAVIOUR_UPDATE_AWAKE");
+				  B_Up_S=FUNC(BEHAVIOUR_UPDATE_START,handle,"BEHAVIOUR_UPDATE_START")
+				  P_Up=FUNC(PHYSICS_UPDATE,handle,"PHYSICS_UPDATE");
+				  D_E=FUNC(DRAW_EDITOR,handle,"DRAW_EDITOR");
+				  Stop = FUNC(STOP, handle, "STOP");
+				Function(DATA);
+				CORE::Scene::Backups_SCENE_obj = CORE::Scene::activeScene_obj;
+				DATA->Backups_SCENE = CORE::Scene::activeScene;
 				auto get = *CREATE();
 				if (DATA) {
 					Set(DATA);
@@ -398,17 +499,21 @@ int main()
 
 				// Toggle play mode
 			}
+			
 			if (ImGui::Button("Pause")) {
 				// Toggle pause mode
 			}
 			if (ImGui::Button("Stop")) {
+				Stop();
+				CORE::Scene::activeScene_obj = CORE::Scene::Backups_SCENE_obj;
+				mode = GameMode::Stoped;
 				DATA = Get();
 				FreeLibrary(handle);
 				handle = NULL;
 				Function = NULL;
 				CREATE = NULL;
 				PRINT = NULL;
-				std::remove("C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\UPRISE\\ENGINE\\UPRISE_GAME_LOADED.dll");
+				std::rename("C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\UPRISE\\ENGINE\\UPRISE_GAME_LOADED.dll", "C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\UPRISE\\ENGINE\\UPRISE_GAME.dll");
 
 				// Stop simulation
 			}

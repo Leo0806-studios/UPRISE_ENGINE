@@ -1,6 +1,10 @@
 #pragma once
 #include "Header/CORE/C_BEHAVIOUR.h"
-PHYSICS::Physics_Object;
+#include "Header/PHYSICS/PHYSICS_MANAGER.h"
+namespace PHYSICS {
+	
+	class Physics_Object;
+}
 class _PhysicsObject :public CORE::Behaviour {
 public:
 	COPY(_PhysicsObject, a->object = PHYSICS::Physics_Object();)

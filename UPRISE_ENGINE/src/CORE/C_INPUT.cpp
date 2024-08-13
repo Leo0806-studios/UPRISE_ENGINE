@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "Header/CORE/C_INPUT.h"
+#include "HeaderE/CORE/C_INPUT.h"
 
 
 GLFWwindow* CORE::Input::winow;
