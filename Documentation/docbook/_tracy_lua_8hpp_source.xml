@@ -1,0 +1,436 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="__tracy_lua_8hpp_source" xml:lang="en-US">
+<title>TracyLua.hpp</title>
+<indexterm><primary>adhed/tracy/TracyLua.hpp</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 <emphasis role="preprocessor">#ifndef&#32;__TRACYLUA_HPP__</emphasis>
+2 <emphasis role="preprocessor">#define&#32;__TRACYLUA_HPP__</emphasis>
+3 
+4 <emphasis role="comment">//&#32;Include&#32;this&#32;file&#32;after&#32;you&#32;include&#32;lua&#32;headers.</emphasis>
+5 
+6 <emphasis role="preprocessor">#ifndef&#32;TRACY_ENABLE</emphasis>
+7 
+8 <emphasis role="preprocessor">#include&#32;&lt;string.h&gt;</emphasis>
+9 
+10 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespacetracy">tracy</link>
+11 {
+12 
+13 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespacedetail">detail</link>
+14 {
+15 <emphasis role="keyword">static</emphasis>&#32;<emphasis role="keyword">inline</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;noop(&#32;lua_State*&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>&#32;)&#32;{&#32;<emphasis role="keywordflow">return</emphasis>&#32;0;&#32;}
+16 }
+17 
+18 <emphasis role="keyword">static</emphasis>&#32;<emphasis role="keyword">inline</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;LuaRegister(&#32;lua_State*&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>&#32;)
+19 {
+20 &#32;&#32;&#32;&#32;lua_newtable(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>&#32;);
+21 &#32;&#32;&#32;&#32;lua_pushcfunction(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>,&#32;detail::noop&#32;);
+22 &#32;&#32;&#32;&#32;lua_setfield(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>,&#32;-2,&#32;<emphasis role="stringliteral">&quot;ZoneBegin&quot;</emphasis>&#32;);
+23 &#32;&#32;&#32;&#32;lua_pushcfunction(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>,&#32;detail::noop&#32;);
+24 &#32;&#32;&#32;&#32;lua_setfield(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>,&#32;-2,&#32;<emphasis role="stringliteral">&quot;ZoneBeginN&quot;</emphasis>&#32;);
+25 &#32;&#32;&#32;&#32;lua_pushcfunction(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>,&#32;detail::noop&#32;);
+26 &#32;&#32;&#32;&#32;lua_setfield(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>,&#32;-2,&#32;<emphasis role="stringliteral">&quot;ZoneBeginS&quot;</emphasis>&#32;);
+27 &#32;&#32;&#32;&#32;lua_pushcfunction(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>,&#32;detail::noop&#32;);
+28 &#32;&#32;&#32;&#32;lua_setfield(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>,&#32;-2,&#32;<emphasis role="stringliteral">&quot;ZoneBeginNS&quot;</emphasis>&#32;);
+29 &#32;&#32;&#32;&#32;lua_pushcfunction(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>,&#32;detail::noop&#32;);
+30 &#32;&#32;&#32;&#32;lua_setfield(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>,&#32;-2,&#32;<emphasis role="stringliteral">&quot;ZoneEnd&quot;</emphasis>&#32;);
+31 &#32;&#32;&#32;&#32;lua_pushcfunction(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>,&#32;detail::noop&#32;);
+32 &#32;&#32;&#32;&#32;lua_setfield(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>,&#32;-2,&#32;<emphasis role="stringliteral">&quot;ZoneText&quot;</emphasis>&#32;);
+33 &#32;&#32;&#32;&#32;lua_pushcfunction(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>,&#32;detail::noop&#32;);
+34 &#32;&#32;&#32;&#32;lua_setfield(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>,&#32;-2,&#32;<emphasis role="stringliteral">&quot;ZoneName&quot;</emphasis>&#32;);
+35 &#32;&#32;&#32;&#32;lua_pushcfunction(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>,&#32;detail::noop&#32;);
+36 &#32;&#32;&#32;&#32;lua_setfield(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>,&#32;-2,&#32;<emphasis role="stringliteral">&quot;Message&quot;</emphasis>&#32;);
+37 &#32;&#32;&#32;&#32;lua_setglobal(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>,&#32;<emphasis role="stringliteral">&quot;tracy&quot;</emphasis>&#32;);
+38 }
+39 
+40 <emphasis role="keyword">static</emphasis>&#32;<emphasis role="keyword">inline</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;FindEnd(&#32;<emphasis role="keywordtype">char</emphasis>*&#32;ptr&#32;)
+41 {
+42 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;cnt&#32;=&#32;1;
+43 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">while</emphasis>(&#32;cnt&#32;!=&#32;0&#32;)
+44 &#32;&#32;&#32;&#32;{
+45 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;*ptr&#32;==&#32;<emphasis role="charliteral">&apos;(&apos;</emphasis>&#32;)&#32;cnt++;
+46 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>&#32;<emphasis role="keywordflow">if</emphasis>(&#32;*ptr&#32;==&#32;<emphasis role="charliteral">&apos;)&apos;</emphasis>&#32;)&#32;cnt--;
+47 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ptr++;
+48 &#32;&#32;&#32;&#32;}
+49 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;ptr;
+50 }
+51 
+52 <emphasis role="keyword">static</emphasis>&#32;<emphasis role="keyword">inline</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;LuaRemove(&#32;<emphasis role="keywordtype">char</emphasis>*&#32;script&#32;)
+53 {
+54 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">while</emphasis>(&#32;*script&#32;)
+55 &#32;&#32;&#32;&#32;{
+56 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;strncmp(&#32;script,&#32;<emphasis role="stringliteral">&quot;tracy.&quot;</emphasis>,&#32;6&#32;)&#32;==&#32;0&#32;)
+57 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+58 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;strncmp(&#32;script&#32;+&#32;6,&#32;<emphasis role="stringliteral">&quot;Zone&quot;</emphasis>,&#32;4&#32;)&#32;==&#32;0&#32;)
+59 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+60 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;strncmp(&#32;script&#32;+&#32;10,&#32;<emphasis role="stringliteral">&quot;End()&quot;</emphasis>,&#32;5&#32;)&#32;==&#32;0&#32;)
+61 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+62 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memset(&#32;script,&#32;<emphasis role="charliteral">&apos;&#32;&apos;</emphasis>,&#32;15&#32;);
+63 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;script&#32;+=&#32;15;
+64 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+65 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>&#32;<emphasis role="keywordflow">if</emphasis>(&#32;strncmp(&#32;script&#32;+&#32;10,&#32;<emphasis role="stringliteral">&quot;Begin()&quot;</emphasis>,&#32;7&#32;)&#32;==&#32;0&#32;)
+66 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+67 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memset(&#32;script,&#32;<emphasis role="charliteral">&apos;&#32;&apos;</emphasis>,&#32;17&#32;);
+68 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;script&#32;+=&#32;17;
+69 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+70 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>&#32;<emphasis role="keywordflow">if</emphasis>(&#32;strncmp(&#32;script&#32;+&#32;10,&#32;<emphasis role="stringliteral">&quot;Text(&quot;</emphasis>,&#32;5&#32;)&#32;==&#32;0&#32;)
+71 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+72 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;<link linkend="_glad_8h_1a432111147038972f06e049e18a837002">end</link>&#32;=&#32;FindEnd(&#32;script&#32;+&#32;15&#32;);
+73 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memset(&#32;script,&#32;<emphasis role="charliteral">&apos;&#32;&apos;</emphasis>,&#32;<link linkend="_glad_8h_1a432111147038972f06e049e18a837002">end</link>&#32;-&#32;script&#32;);
+74 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;script&#32;=&#32;<link linkend="_glad_8h_1a432111147038972f06e049e18a837002">end</link>;
+75 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+76 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>&#32;<emphasis role="keywordflow">if</emphasis>(&#32;strncmp(&#32;script&#32;+&#32;10,&#32;<emphasis role="stringliteral">&quot;Name(&quot;</emphasis>,&#32;5&#32;)&#32;==&#32;0&#32;)
+77 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+78 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;<link linkend="_glad_8h_1a432111147038972f06e049e18a837002">end</link>&#32;=&#32;FindEnd(&#32;script&#32;+&#32;15&#32;);
+79 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memset(&#32;script,&#32;<emphasis role="charliteral">&apos;&#32;&apos;</emphasis>,&#32;<link linkend="_glad_8h_1a432111147038972f06e049e18a837002">end</link>&#32;-&#32;script&#32;);
+80 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;script&#32;=&#32;<link linkend="_glad_8h_1a432111147038972f06e049e18a837002">end</link>;
+81 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+82 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>&#32;<emphasis role="keywordflow">if</emphasis>(&#32;strncmp(&#32;script&#32;+&#32;10,&#32;<emphasis role="stringliteral">&quot;BeginN(&quot;</emphasis>,&#32;7&#32;)&#32;==&#32;0&#32;)
+83 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+84 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;<link linkend="_glad_8h_1a432111147038972f06e049e18a837002">end</link>&#32;=&#32;FindEnd(&#32;script&#32;+&#32;17&#32;);
+85 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memset(&#32;script,&#32;<emphasis role="charliteral">&apos;&#32;&apos;</emphasis>,&#32;<link linkend="_glad_8h_1a432111147038972f06e049e18a837002">end</link>&#32;-&#32;script&#32;);
+86 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;script&#32;=&#32;<link linkend="_glad_8h_1a432111147038972f06e049e18a837002">end</link>;
+87 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+88 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>&#32;<emphasis role="keywordflow">if</emphasis>(&#32;strncmp(&#32;script&#32;+&#32;10,&#32;<emphasis role="stringliteral">&quot;BeginS(&quot;</emphasis>,&#32;7&#32;)&#32;==&#32;0&#32;)
+89 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+90 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;<link linkend="_glad_8h_1a432111147038972f06e049e18a837002">end</link>&#32;=&#32;FindEnd(&#32;script&#32;+&#32;17&#32;);
+91 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memset(&#32;script,&#32;<emphasis role="charliteral">&apos;&#32;&apos;</emphasis>,&#32;<link linkend="_glad_8h_1a432111147038972f06e049e18a837002">end</link>&#32;-&#32;script&#32;);
+92 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;script&#32;=&#32;<link linkend="_glad_8h_1a432111147038972f06e049e18a837002">end</link>;
+93 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+94 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>&#32;<emphasis role="keywordflow">if</emphasis>(&#32;strncmp(&#32;script&#32;+&#32;10,&#32;<emphasis role="stringliteral">&quot;BeginNS(&quot;</emphasis>,&#32;8&#32;)&#32;==&#32;0&#32;)
+95 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+96 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;<link linkend="_glad_8h_1a432111147038972f06e049e18a837002">end</link>&#32;=&#32;FindEnd(&#32;script&#32;+&#32;18&#32;);
+97 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memset(&#32;script,&#32;<emphasis role="charliteral">&apos;&#32;&apos;</emphasis>,&#32;<link linkend="_glad_8h_1a432111147038972f06e049e18a837002">end</link>&#32;-&#32;script&#32;);
+98 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;script&#32;=&#32;<link linkend="_glad_8h_1a432111147038972f06e049e18a837002">end</link>;
+99 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+100 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+101 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+102 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;script&#32;+=&#32;10;
+103 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+104 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+105 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>&#32;<emphasis role="keywordflow">if</emphasis>(&#32;strncmp(&#32;script&#32;+&#32;6,&#32;<emphasis role="stringliteral">&quot;Message(&quot;</emphasis>,&#32;8&#32;)&#32;==&#32;0&#32;)
+106 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+107 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;<link linkend="_glad_8h_1a432111147038972f06e049e18a837002">end</link>&#32;=&#32;FindEnd(&#32;script&#32;+&#32;14&#32;);
+108 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memset(&#32;script,&#32;<emphasis role="charliteral">&apos;&#32;&apos;</emphasis>,&#32;<link linkend="_glad_8h_1a432111147038972f06e049e18a837002">end</link>&#32;-&#32;script&#32;);
+109 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;script&#32;=&#32;<link linkend="_glad_8h_1a432111147038972f06e049e18a837002">end</link>;
+110 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+111 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+112 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+113 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;script&#32;+=&#32;6;
+114 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+115 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+116 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+117 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+118 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;script++;
+119 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+120 &#32;&#32;&#32;&#32;}
+121 }
+122 
+123 }
+124 
+125 <emphasis role="preprocessor">#else</emphasis>
+126 
+127 <emphasis role="preprocessor">#include&#32;&lt;assert.h&gt;</emphasis>
+128 <emphasis role="preprocessor">#include&#32;&lt;limits&gt;</emphasis>
+129 
+130 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__tracy_color_8hpp">../common/TracyColor.hpp</link>&quot;</emphasis>
+131 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__tracy_align_8hpp">../common/TracyAlign.hpp</link>&quot;</emphasis>
+132 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__tracy_force_inline_8hpp">../common/TracyForceInline.hpp</link>&quot;</emphasis>
+133 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__tracy_system_8hpp">../common/TracySystem.hpp</link>&quot;</emphasis>
+134 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__tracy_profiler_8hpp">../client/TracyProfiler.hpp</link>&quot;</emphasis>
+135 
+136 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespacetracy">tracy</link>
+137 {
+138 
+139 <emphasis role="preprocessor">#ifdef&#32;TRACY_ON_DEMAND</emphasis>
+140 <link linkend="__tracy_api_8h_1a5669cbc1d88076c41f72827fde0a4a57">TRACY_API</link>&#32;LuaZoneState&amp;&#32;GetLuaZoneState();
+141 <emphasis role="preprocessor">#endif</emphasis>
+142 
+143 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespacedetail">detail</link>
+144 {
+145 
+146 <emphasis role="preprocessor">#ifdef&#32;TRACY_HAS_CALLSTACK</emphasis>
+147 <emphasis role="keyword">static</emphasis>&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;SendLuaCallstack(&#32;lua_State*&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>,&#32;uint32_t&#32;<link linkend="_glad_8h_1a2aa5ce5567a58e4da543ce468fb1711a">depth</link>&#32;)
+148 {
+149 &#32;&#32;&#32;&#32;<link linkend="_tracy__lz4_8cpp_1acdcc5aaebf3f273c1762f24a6ece2e5e">assert</link>(&#32;<link linkend="_glad_8h_1a2aa5ce5567a58e4da543ce468fb1711a">depth</link>&#32;&lt;=&#32;64&#32;);
+150 &#32;&#32;&#32;&#32;lua_Debug&#32;dbg[64];
+151 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a18ae3ab36a07e388833b568cfdfa90c8">func</link>[64];
+152 &#32;&#32;&#32;&#32;uint32_t&#32;fsz[64];
+153 &#32;&#32;&#32;&#32;uint32_t&#32;ssz[64];
+154 
+155 &#32;&#32;&#32;&#32;uint8_t&#32;cnt;
+156 &#32;&#32;&#32;&#32;uint16_t&#32;spaceNeeded&#32;=&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;cnt&#32;);
+157 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>(&#32;cnt=0;&#32;cnt&lt;<link linkend="_glad_8h_1a2aa5ce5567a58e4da543ce468fb1711a">depth</link>;&#32;cnt++&#32;)
+158 &#32;&#32;&#32;&#32;{
+159 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;lua_getstack(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>,&#32;cnt+1,&#32;dbg+cnt&#32;)&#32;==&#32;0&#32;)&#32;<emphasis role="keywordflow">break</emphasis>;
+160 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;lua_getinfo(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>,&#32;<emphasis role="stringliteral">&quot;Snl&quot;</emphasis>,&#32;dbg+cnt&#32;);
+161 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a18ae3ab36a07e388833b568cfdfa90c8">func</link>[cnt]&#32;=&#32;dbg[cnt].name&#32;?&#32;dbg[cnt].name&#32;:&#32;dbg[cnt].short_src;
+162 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fsz[cnt]&#32;=&#32;uint32_t(&#32;strlen(&#32;<link linkend="_glad_8h_1a18ae3ab36a07e388833b568cfdfa90c8">func</link>[cnt]&#32;)&#32;);
+163 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ssz[cnt]&#32;=&#32;uint32_t(&#32;strlen(&#32;dbg[cnt].<link linkend="_glad_8h_1a6ffd2192cbc75d017665e95207ee36a7">source</link>&#32;)&#32;);
+164 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;spaceNeeded&#32;+=&#32;fsz[cnt]&#32;+&#32;ssz[cnt];
+165 &#32;&#32;&#32;&#32;}
+166 &#32;&#32;&#32;&#32;spaceNeeded&#32;+=&#32;cnt&#32;*&#32;(&#32;4&#32;+&#32;2&#32;+&#32;2&#32;);&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;source&#32;line,&#32;function&#32;string&#32;length,&#32;source&#32;string&#32;length</emphasis>
+167 
+168 &#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;ptr&#32;=&#32;(<emphasis role="keywordtype">char</emphasis>*)tracy_malloc(&#32;spaceNeeded&#32;+&#32;2&#32;);
+169 &#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;<link linkend="_glad_8h_1a85e59cd56e10d0a7f49ab199f277d486">dst</link>&#32;=&#32;ptr;
+170 &#32;&#32;&#32;&#32;memcpy(&#32;<link linkend="_glad_8h_1a85e59cd56e10d0a7f49ab199f277d486">dst</link>,&#32;&amp;spaceNeeded,&#32;2&#32;);&#32;<link linkend="_glad_8h_1a85e59cd56e10d0a7f49ab199f277d486">dst</link>&#32;+=&#32;2;
+171 &#32;&#32;&#32;&#32;memcpy(&#32;<link linkend="_glad_8h_1a85e59cd56e10d0a7f49ab199f277d486">dst</link>,&#32;&amp;cnt,&#32;1&#32;);&#32;<link linkend="_glad_8h_1a85e59cd56e10d0a7f49ab199f277d486">dst</link>++;
+172 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>(&#32;uint8_t&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>=0;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&lt;cnt;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>++&#32;)
+173 &#32;&#32;&#32;&#32;{
+174 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;uint32_t&#32;line&#32;=&#32;dbg[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>].currentline;
+175 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memcpy(&#32;<link linkend="_glad_8h_1a85e59cd56e10d0a7f49ab199f277d486">dst</link>,&#32;&amp;line,&#32;4&#32;);&#32;<link linkend="_glad_8h_1a85e59cd56e10d0a7f49ab199f277d486">dst</link>&#32;+=&#32;4;
+176 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_tracy__lz4_8cpp_1acdcc5aaebf3f273c1762f24a6ece2e5e">assert</link>(&#32;fsz[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>]&#32;&lt;=&#32;(std::numeric_limits&lt;uint16_t&gt;::max)()&#32;);
+177 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memcpy(&#32;<link linkend="_glad_8h_1a85e59cd56e10d0a7f49ab199f277d486">dst</link>,&#32;fsz+<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>,&#32;2&#32;);&#32;<link linkend="_glad_8h_1a85e59cd56e10d0a7f49ab199f277d486">dst</link>&#32;+=&#32;2;
+178 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memcpy(&#32;<link linkend="_glad_8h_1a85e59cd56e10d0a7f49ab199f277d486">dst</link>,&#32;<link linkend="_glad_8h_1a18ae3ab36a07e388833b568cfdfa90c8">func</link>[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>],&#32;fsz[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>]&#32;);&#32;<link linkend="_glad_8h_1a85e59cd56e10d0a7f49ab199f277d486">dst</link>&#32;+=&#32;fsz[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>];
+179 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_tracy__lz4_8cpp_1acdcc5aaebf3f273c1762f24a6ece2e5e">assert</link>(&#32;ssz[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>]&#32;&lt;=&#32;(std::numeric_limits&lt;uint16_t&gt;::max)()&#32;);
+180 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memcpy(&#32;<link linkend="_glad_8h_1a85e59cd56e10d0a7f49ab199f277d486">dst</link>,&#32;ssz+<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>,&#32;2&#32;);&#32;<link linkend="_glad_8h_1a85e59cd56e10d0a7f49ab199f277d486">dst</link>&#32;+=&#32;2;
+181 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memcpy(&#32;<link linkend="_glad_8h_1a85e59cd56e10d0a7f49ab199f277d486">dst</link>,&#32;dbg[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>].<link linkend="_glad_8h_1a6ffd2192cbc75d017665e95207ee36a7">source</link>,&#32;ssz[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>]&#32;),&#32;<link linkend="_glad_8h_1a85e59cd56e10d0a7f49ab199f277d486">dst</link>&#32;+=&#32;ssz[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>];
+182 &#32;&#32;&#32;&#32;}
+183 &#32;&#32;&#32;&#32;<link linkend="_tracy__lz4_8cpp_1acdcc5aaebf3f273c1762f24a6ece2e5e">assert</link>(&#32;<link linkend="_glad_8h_1a85e59cd56e10d0a7f49ab199f277d486">dst</link>&#32;-&#32;ptr&#32;==&#32;spaceNeeded&#32;+&#32;2&#32;);
+184 
+185 &#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1aaebd56b9697b0eb0a64f7b1321b4a91a">TracyQueuePrepare</link>(&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330a75ec9475cb327222d246cbef939887c7">QueueType::CallstackAlloc</link>&#32;);
+186 &#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;callstackAllocFat.ptr,&#32;(uint64_t)ptr&#32;);
+187 &#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;callstackAllocFat.nativePtr,&#32;(uint64_t)<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330a30650823a23b39a1a2f2c35d9b726127">Callstack</link>(&#32;<link linkend="_glad_8h_1a2aa5ce5567a58e4da543ce468fb1711a">depth</link>&#32;)&#32;);
+188 &#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1a3708ec4f27eebb4c64534f1b9fe52bf7">TracyQueueCommit</link>(&#32;callstackAllocFatThread&#32;);
+189 }
+190 
+191 <emphasis role="keyword">static</emphasis>&#32;<emphasis role="keyword">inline</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;LuaZoneBeginS(&#32;lua_State*&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>&#32;)
+192 {
+193 <emphasis role="preprocessor">#ifdef&#32;TRACY_ON_DEMAND</emphasis>
+194 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;zoneCnt&#32;=&#32;GetLuaZoneState().counter++;
+195 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;zoneCnt&#32;!=&#32;0&#32;&amp;&amp;&#32;!GetLuaZoneState().active&#32;)&#32;<emphasis role="keywordflow">return</emphasis>&#32;0;
+196 &#32;&#32;&#32;&#32;GetLuaZoneState().active&#32;=&#32;<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>().<link linkend="_classtracy_1_1_profiler_1acb507bd527cb7319101507cf5b6c0017">IsConnected</link>();
+197 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!GetLuaZoneState().active&#32;)&#32;<emphasis role="keywordflow">return</emphasis>&#32;0;
+198 <emphasis role="preprocessor">#endif</emphasis>
+199 
+200 <emphasis role="preprocessor">#ifdef&#32;TRACY_CALLSTACK</emphasis>
+201 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;uint32_t&#32;<link linkend="_glad_8h_1a2aa5ce5567a58e4da543ce468fb1711a">depth</link>&#32;=&#32;TRACY_CALLSTACK;
+202 <emphasis role="preprocessor">#else</emphasis>
+203 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;<link linkend="_glad_8h_1a2aa5ce5567a58e4da543ce468fb1711a">depth</link>&#32;=&#32;uint32_t(&#32;lua_tointeger(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>,&#32;1&#32;)&#32;);
+204 <emphasis role="preprocessor">#endif</emphasis>
+205 &#32;&#32;&#32;&#32;SendLuaCallstack(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>,&#32;<link linkend="_glad_8h_1a2aa5ce5567a58e4da543ce468fb1711a">depth</link>&#32;);
+206 
+207 &#32;&#32;&#32;&#32;lua_Debug&#32;dbg;
+208 &#32;&#32;&#32;&#32;lua_getstack(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>,&#32;1,&#32;&amp;dbg&#32;);
+209 &#32;&#32;&#32;&#32;lua_getinfo(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>,&#32;<emphasis role="stringliteral">&quot;Snl&quot;</emphasis>,&#32;&amp;dbg&#32;);
+210 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;srcloc&#32;=&#32;<link linkend="_classtracy_1_1_profiler_1ab869025334b66dbe8ad63dc0beffbc2c">Profiler::AllocSourceLocation</link>(&#32;dbg.currentline,&#32;dbg.source,&#32;dbg.name&#32;?&#32;dbg.name&#32;:&#32;dbg.short_src&#32;);
+211 
+212 &#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1aaebd56b9697b0eb0a64f7b1321b4a91a">TracyQueuePrepare</link>(&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330a0f322a22b017e0f5c4cc15f48179397d">QueueType::ZoneBeginAllocSrcLocCallstack</link>&#32;);
+213 &#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;zoneBegin.time,&#32;<link linkend="_classtracy_1_1_profiler_1a4131d199df7f0faeb8b2ddc860cade4e">Profiler::GetTime</link>()&#32;);
+214 &#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;zoneBegin.srcloc,&#32;srcloc&#32;);
+215 &#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1a3708ec4f27eebb4c64534f1b9fe52bf7">TracyQueueCommit</link>(&#32;zoneBeginThread&#32;);
+216 
+217 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;0;
+218 }
+219 
+220 <emphasis role="keyword">static</emphasis>&#32;<emphasis role="keyword">inline</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;LuaZoneBeginNS(&#32;lua_State*&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>&#32;)
+221 {
+222 <emphasis role="preprocessor">#ifdef&#32;TRACY_ON_DEMAND</emphasis>
+223 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;zoneCnt&#32;=&#32;GetLuaZoneState().counter++;
+224 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;zoneCnt&#32;!=&#32;0&#32;&amp;&amp;&#32;!GetLuaZoneState().active&#32;)&#32;<emphasis role="keywordflow">return</emphasis>&#32;0;
+225 &#32;&#32;&#32;&#32;GetLuaZoneState().active&#32;=&#32;<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>().<link linkend="_classtracy_1_1_profiler_1acb507bd527cb7319101507cf5b6c0017">IsConnected</link>();
+226 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!GetLuaZoneState().active&#32;)&#32;<emphasis role="keywordflow">return</emphasis>&#32;0;
+227 <emphasis role="preprocessor">#endif</emphasis>
+228 
+229 <emphasis role="preprocessor">#ifdef&#32;TRACY_CALLSTACK</emphasis>
+230 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;uint32_t&#32;<link linkend="_glad_8h_1a2aa5ce5567a58e4da543ce468fb1711a">depth</link>&#32;=&#32;TRACY_CALLSTACK;
+231 <emphasis role="preprocessor">#else</emphasis>
+232 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;<link linkend="_glad_8h_1a2aa5ce5567a58e4da543ce468fb1711a">depth</link>&#32;=&#32;uint32_t(&#32;lua_tointeger(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>,&#32;2&#32;)&#32;);
+233 <emphasis role="preprocessor">#endif</emphasis>
+234 &#32;&#32;&#32;&#32;SendLuaCallstack(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>,&#32;<link linkend="_glad_8h_1a2aa5ce5567a58e4da543ce468fb1711a">depth</link>&#32;);
+235 
+236 &#32;&#32;&#32;&#32;lua_Debug&#32;dbg;
+237 &#32;&#32;&#32;&#32;lua_getstack(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>,&#32;1,&#32;&amp;dbg&#32;);
+238 &#32;&#32;&#32;&#32;lua_getinfo(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>,&#32;<emphasis role="stringliteral">&quot;Snl&quot;</emphasis>,&#32;&amp;dbg&#32;);
+239 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;nsz;
+240 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>&#32;=&#32;lua_tolstring(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>,&#32;1,&#32;&amp;nsz&#32;);
+241 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;srcloc&#32;=&#32;<link linkend="_classtracy_1_1_profiler_1ab869025334b66dbe8ad63dc0beffbc2c">Profiler::AllocSourceLocation</link>(&#32;dbg.currentline,&#32;dbg.source,&#32;dbg.name&#32;?&#32;dbg.name&#32;:&#32;dbg.short_src,&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>,&#32;nsz&#32;);
+242 
+243 &#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1aaebd56b9697b0eb0a64f7b1321b4a91a">TracyQueuePrepare</link>(&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330a0f322a22b017e0f5c4cc15f48179397d">QueueType::ZoneBeginAllocSrcLocCallstack</link>&#32;);
+244 &#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;zoneBegin.time,&#32;<link linkend="_classtracy_1_1_profiler_1a4131d199df7f0faeb8b2ddc860cade4e">Profiler::GetTime</link>()&#32;);
+245 &#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;zoneBegin.srcloc,&#32;srcloc&#32;);
+246 &#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1a3708ec4f27eebb4c64534f1b9fe52bf7">TracyQueueCommit</link>(&#32;zoneBeginThread&#32;);
+247 
+248 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;0;
+249 }
+250 <emphasis role="preprocessor">#endif</emphasis>
+251 
+252 <emphasis role="keyword">static</emphasis>&#32;<emphasis role="keyword">inline</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;LuaZoneBegin(&#32;lua_State*&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>&#32;)
+253 {
+254 <emphasis role="preprocessor">#if&#32;defined&#32;TRACY_HAS_CALLSTACK&#32;&amp;&amp;&#32;defined&#32;TRACY_CALLSTACK</emphasis>
+255 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;LuaZoneBeginS(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>&#32;);
+256 <emphasis role="preprocessor">#else</emphasis>
+257 <emphasis role="preprocessor">#ifdef&#32;TRACY_ON_DEMAND</emphasis>
+258 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;zoneCnt&#32;=&#32;GetLuaZoneState().counter++;
+259 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;zoneCnt&#32;!=&#32;0&#32;&amp;&amp;&#32;!GetLuaZoneState().active&#32;)&#32;<emphasis role="keywordflow">return</emphasis>&#32;0;
+260 &#32;&#32;&#32;&#32;GetLuaZoneState().active&#32;=&#32;<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>().<link linkend="_classtracy_1_1_profiler_1acb507bd527cb7319101507cf5b6c0017">IsConnected</link>();
+261 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!GetLuaZoneState().active&#32;)&#32;<emphasis role="keywordflow">return</emphasis>&#32;0;
+262 <emphasis role="preprocessor">#endif</emphasis>
+263 
+264 &#32;&#32;&#32;&#32;lua_Debug&#32;dbg;
+265 &#32;&#32;&#32;&#32;lua_getstack(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>,&#32;1,&#32;&amp;dbg&#32;);
+266 &#32;&#32;&#32;&#32;lua_getinfo(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>,&#32;<emphasis role="stringliteral">&quot;Snl&quot;</emphasis>,&#32;&amp;dbg&#32;);
+267 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;srcloc&#32;=&#32;<link linkend="_classtracy_1_1_profiler_1ab869025334b66dbe8ad63dc0beffbc2c">Profiler::AllocSourceLocation</link>(&#32;dbg.currentline,&#32;dbg.source,&#32;dbg.name&#32;?&#32;dbg.name&#32;:&#32;dbg.short_src&#32;);
+268 
+269 &#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1aaebd56b9697b0eb0a64f7b1321b4a91a">TracyQueuePrepare</link>(&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330a9a402ab3e6d174cf7b509f2322534d3e">QueueType::ZoneBeginAllocSrcLoc</link>&#32;);
+270 &#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;zoneBegin.time,&#32;<link linkend="_classtracy_1_1_profiler_1a4131d199df7f0faeb8b2ddc860cade4e">Profiler::GetTime</link>()&#32;);
+271 &#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;zoneBegin.srcloc,&#32;srcloc&#32;);
+272 &#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1a3708ec4f27eebb4c64534f1b9fe52bf7">TracyQueueCommit</link>(&#32;zoneBeginThread&#32;);
+273 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;0;
+274 <emphasis role="preprocessor">#endif</emphasis>
+275 }
+276 
+277 <emphasis role="keyword">static</emphasis>&#32;<emphasis role="keyword">inline</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;LuaZoneBeginN(&#32;lua_State*&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>&#32;)
+278 {
+279 <emphasis role="preprocessor">#if&#32;defined&#32;TRACY_HAS_CALLSTACK&#32;&amp;&amp;&#32;defined&#32;TRACY_CALLSTACK</emphasis>
+280 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;LuaZoneBeginNS(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>&#32;);
+281 <emphasis role="preprocessor">#else</emphasis>
+282 <emphasis role="preprocessor">#ifdef&#32;TRACY_ON_DEMAND</emphasis>
+283 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;zoneCnt&#32;=&#32;GetLuaZoneState().counter++;
+284 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;zoneCnt&#32;!=&#32;0&#32;&amp;&amp;&#32;!GetLuaZoneState().active&#32;)&#32;<emphasis role="keywordflow">return</emphasis>&#32;0;
+285 &#32;&#32;&#32;&#32;GetLuaZoneState().active&#32;=&#32;<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>().<link linkend="_classtracy_1_1_profiler_1acb507bd527cb7319101507cf5b6c0017">IsConnected</link>();
+286 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!GetLuaZoneState().active&#32;)&#32;<emphasis role="keywordflow">return</emphasis>&#32;0;
+287 <emphasis role="preprocessor">#endif</emphasis>
+288 
+289 &#32;&#32;&#32;&#32;lua_Debug&#32;dbg;
+290 &#32;&#32;&#32;&#32;lua_getstack(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>,&#32;1,&#32;&amp;dbg&#32;);
+291 &#32;&#32;&#32;&#32;lua_getinfo(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>,&#32;<emphasis role="stringliteral">&quot;Snl&quot;</emphasis>,&#32;&amp;dbg&#32;);
+292 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;nsz;
+293 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>&#32;=&#32;lua_tolstring(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>,&#32;1,&#32;&amp;nsz&#32;);
+294 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;srcloc&#32;=&#32;<link linkend="_classtracy_1_1_profiler_1ab869025334b66dbe8ad63dc0beffbc2c">Profiler::AllocSourceLocation</link>(&#32;dbg.currentline,&#32;dbg.source,&#32;dbg.name&#32;?&#32;dbg.name&#32;:&#32;dbg.short_src,&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>,&#32;nsz&#32;);
+295 
+296 &#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1aaebd56b9697b0eb0a64f7b1321b4a91a">TracyQueuePrepare</link>(&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330a9a402ab3e6d174cf7b509f2322534d3e">QueueType::ZoneBeginAllocSrcLoc</link>&#32;);
+297 &#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;zoneBegin.time,&#32;<link linkend="_classtracy_1_1_profiler_1a4131d199df7f0faeb8b2ddc860cade4e">Profiler::GetTime</link>()&#32;);
+298 &#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;zoneBegin.srcloc,&#32;srcloc&#32;);
+299 &#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1a3708ec4f27eebb4c64534f1b9fe52bf7">TracyQueueCommit</link>(&#32;zoneBeginThread&#32;);
+300 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;0;
+301 <emphasis role="preprocessor">#endif</emphasis>
+302 }
+303 
+304 <emphasis role="keyword">static</emphasis>&#32;<emphasis role="keyword">inline</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;LuaZoneEnd(&#32;lua_State*&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>&#32;)
+305 {
+306 <emphasis role="preprocessor">#ifdef&#32;TRACY_ON_DEMAND</emphasis>
+307 &#32;&#32;&#32;&#32;<link linkend="_tracy__lz4_8cpp_1acdcc5aaebf3f273c1762f24a6ece2e5e">assert</link>(&#32;GetLuaZoneState().counter&#32;!=&#32;0&#32;);
+308 &#32;&#32;&#32;&#32;GetLuaZoneState().counter--;
+309 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!GetLuaZoneState().active&#32;)&#32;<emphasis role="keywordflow">return</emphasis>&#32;0;
+310 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>().IsConnected()&#32;)
+311 &#32;&#32;&#32;&#32;{
+312 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;GetLuaZoneState().active&#32;=&#32;<emphasis role="keyword">false</emphasis>;
+313 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;0;
+314 &#32;&#32;&#32;&#32;}
+315 <emphasis role="preprocessor">#endif</emphasis>
+316 
+317 &#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1aaebd56b9697b0eb0a64f7b1321b4a91a">TracyQueuePrepare</link>(&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330a37e09fce3ba0ec79b49f8d35781b4e4c">QueueType::ZoneEnd</link>&#32;);
+318 &#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;zoneEnd.time,&#32;<link linkend="_classtracy_1_1_profiler_1a4131d199df7f0faeb8b2ddc860cade4e">Profiler::GetTime</link>()&#32;);
+319 &#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1a3708ec4f27eebb4c64534f1b9fe52bf7">TracyQueueCommit</link>(&#32;zoneEndThread&#32;);
+320 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;0;
+321 }
+322 
+323 <emphasis role="keyword">static</emphasis>&#32;<emphasis role="keyword">inline</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;LuaZoneText(&#32;lua_State*&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>&#32;)
+324 {
+325 <emphasis role="preprocessor">#ifdef&#32;TRACY_ON_DEMAND</emphasis>
+326 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!GetLuaZoneState().active&#32;)&#32;<emphasis role="keywordflow">return</emphasis>&#32;0;
+327 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>().IsConnected()&#32;)
+328 &#32;&#32;&#32;&#32;{
+329 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;GetLuaZoneState().active&#32;=&#32;<emphasis role="keyword">false</emphasis>;
+330 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;0;
+331 &#32;&#32;&#32;&#32;}
+332 <emphasis role="preprocessor">#endif</emphasis>
+333 
+334 &#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;txt&#32;=&#32;lua_tostring(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>,&#32;1&#32;);
+335 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>&#32;=&#32;strlen(&#32;txt&#32;);
+336 &#32;&#32;&#32;&#32;<link linkend="_tracy__lz4_8cpp_1acdcc5aaebf3f273c1762f24a6ece2e5e">assert</link>(&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>&#32;&lt;&#32;(std::numeric_limits&lt;uint16_t&gt;::max)()&#32;);
+337 
+338 &#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;ptr&#32;=&#32;(<emphasis role="keywordtype">char</emphasis>*)tracy_malloc(&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>&#32;);
+339 &#32;&#32;&#32;&#32;memcpy(&#32;ptr,&#32;txt,&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>&#32;);
+340 
+341 &#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1aaebd56b9697b0eb0a64f7b1321b4a91a">TracyQueuePrepare</link>(&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330a22c564fdc790808a950347a0ea830012">QueueType::ZoneText</link>&#32;);
+342 &#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;zoneTextFat.text,&#32;(uint64_t)ptr&#32;);
+343 &#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;zoneTextFat.size,&#32;(uint16_t)<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>&#32;);
+344 &#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1a3708ec4f27eebb4c64534f1b9fe52bf7">TracyQueueCommit</link>(&#32;zoneTextFatThread&#32;);
+345 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;0;
+346 }
+347 
+348 <emphasis role="keyword">static</emphasis>&#32;<emphasis role="keyword">inline</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;LuaZoneName(&#32;lua_State*&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>&#32;)
+349 {
+350 <emphasis role="preprocessor">#ifdef&#32;TRACY_ON_DEMAND</emphasis>
+351 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!GetLuaZoneState().active&#32;)&#32;<emphasis role="keywordflow">return</emphasis>&#32;0;
+352 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>().IsConnected()&#32;)
+353 &#32;&#32;&#32;&#32;{
+354 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;GetLuaZoneState().active&#32;=&#32;<emphasis role="keyword">false</emphasis>;
+355 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;0;
+356 &#32;&#32;&#32;&#32;}
+357 <emphasis role="preprocessor">#endif</emphasis>
+358 
+359 &#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;txt&#32;=&#32;lua_tostring(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>,&#32;1&#32;);
+360 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>&#32;=&#32;strlen(&#32;txt&#32;);
+361 &#32;&#32;&#32;&#32;<link linkend="_tracy__lz4_8cpp_1acdcc5aaebf3f273c1762f24a6ece2e5e">assert</link>(&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>&#32;&lt;&#32;(std::numeric_limits&lt;uint16_t&gt;::max)()&#32;);
+362 
+363 &#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;ptr&#32;=&#32;(<emphasis role="keywordtype">char</emphasis>*)tracy_malloc(&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>&#32;);
+364 &#32;&#32;&#32;&#32;memcpy(&#32;ptr,&#32;txt,&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>&#32;);
+365 
+366 &#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1aaebd56b9697b0eb0a64f7b1321b4a91a">TracyQueuePrepare</link>(&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330a2f020633cc2b083df022009d51e9159b">QueueType::ZoneName</link>&#32;);
+367 &#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;zoneTextFat.text,&#32;(uint64_t)ptr&#32;);
+368 &#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;zoneTextFat.size,&#32;(uint16_t)<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>&#32;);
+369 &#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1a3708ec4f27eebb4c64534f1b9fe52bf7">TracyQueueCommit</link>(&#32;zoneTextFatThread&#32;);
+370 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;0;
+371 }
+372 
+373 <emphasis role="keyword">static</emphasis>&#32;<emphasis role="keyword">inline</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;LuaMessage(&#32;lua_State*&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>&#32;)
+374 {
+375 <emphasis role="preprocessor">#ifdef&#32;TRACY_ON_DEMAND</emphasis>
+376 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>().IsConnected()&#32;)&#32;<emphasis role="keywordflow">return</emphasis>&#32;0;
+377 <emphasis role="preprocessor">#endif</emphasis>
+378 
+379 &#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;txt&#32;=&#32;lua_tostring(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>,&#32;1&#32;);
+380 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>&#32;=&#32;strlen(&#32;txt&#32;);
+381 &#32;&#32;&#32;&#32;<link linkend="_tracy__lz4_8cpp_1acdcc5aaebf3f273c1762f24a6ece2e5e">assert</link>(&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>&#32;&lt;&#32;(std::numeric_limits&lt;uint16_t&gt;::max)()&#32;);
+382 
+383 &#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;ptr&#32;=&#32;(<emphasis role="keywordtype">char</emphasis>*)tracy_malloc(&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>&#32;);
+384 &#32;&#32;&#32;&#32;memcpy(&#32;ptr,&#32;txt,&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>&#32;);
+385 
+386 &#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1aaebd56b9697b0eb0a64f7b1321b4a91a">TracyQueuePrepare</link>(&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330a4c2a8fe7eaf24721cc7a9f0175115bd4">QueueType::Message</link>&#32;);
+387 &#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;messageFat.time,&#32;<link linkend="_classtracy_1_1_profiler_1a4131d199df7f0faeb8b2ddc860cade4e">Profiler::GetTime</link>()&#32;);
+388 &#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;messageFat.text,&#32;(uint64_t)ptr&#32;);
+389 &#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;messageFat.size,&#32;(uint16_t)<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>&#32;);
+390 &#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1a3708ec4f27eebb4c64534f1b9fe52bf7">TracyQueueCommit</link>(&#32;messageFatThread&#32;);
+391 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;0;
+392 }
+393 
+394 }
+395 
+396 <emphasis role="keyword">static</emphasis>&#32;<emphasis role="keyword">inline</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;LuaRegister(&#32;lua_State*&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>&#32;)
+397 {
+398 &#32;&#32;&#32;&#32;lua_newtable(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>&#32;);
+399 &#32;&#32;&#32;&#32;lua_pushcfunction(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>,&#32;detail::LuaZoneBegin&#32;);
+400 &#32;&#32;&#32;&#32;lua_setfield(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>,&#32;-2,&#32;<emphasis role="stringliteral">&quot;ZoneBegin&quot;</emphasis>&#32;);
+401 &#32;&#32;&#32;&#32;lua_pushcfunction(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>,&#32;detail::LuaZoneBeginN&#32;);
+402 &#32;&#32;&#32;&#32;lua_setfield(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>,&#32;-2,&#32;<emphasis role="stringliteral">&quot;ZoneBeginN&quot;</emphasis>&#32;);
+403 <emphasis role="preprocessor">#ifdef&#32;TRACY_HAS_CALLSTACK</emphasis>
+404 &#32;&#32;&#32;&#32;lua_pushcfunction(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>,&#32;detail::LuaZoneBeginS&#32;);
+405 &#32;&#32;&#32;&#32;lua_setfield(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>,&#32;-2,&#32;<emphasis role="stringliteral">&quot;ZoneBeginS&quot;</emphasis>&#32;);
+406 &#32;&#32;&#32;&#32;lua_pushcfunction(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>,&#32;detail::LuaZoneBeginNS&#32;);
+407 &#32;&#32;&#32;&#32;lua_setfield(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>,&#32;-2,&#32;<emphasis role="stringliteral">&quot;ZoneBeginNS&quot;</emphasis>&#32;);
+408 <emphasis role="preprocessor">#else</emphasis>
+409 &#32;&#32;&#32;&#32;lua_pushcfunction(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>,&#32;detail::LuaZoneBegin&#32;);
+410 &#32;&#32;&#32;&#32;lua_setfield(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>,&#32;-2,&#32;<emphasis role="stringliteral">&quot;ZoneBeginS&quot;</emphasis>&#32;);
+411 &#32;&#32;&#32;&#32;lua_pushcfunction(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>,&#32;detail::LuaZoneBeginN&#32;);
+412 &#32;&#32;&#32;&#32;lua_setfield(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>,&#32;-2,&#32;<emphasis role="stringliteral">&quot;ZoneBeginNS&quot;</emphasis>&#32;);
+413 <emphasis role="preprocessor">#endif</emphasis>
+414 &#32;&#32;&#32;&#32;lua_pushcfunction(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>,&#32;detail::LuaZoneEnd&#32;);
+415 &#32;&#32;&#32;&#32;lua_setfield(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>,&#32;-2,&#32;<emphasis role="stringliteral">&quot;ZoneEnd&quot;</emphasis>&#32;);
+416 &#32;&#32;&#32;&#32;lua_pushcfunction(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>,&#32;detail::LuaZoneText&#32;);
+417 &#32;&#32;&#32;&#32;lua_setfield(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>,&#32;-2,&#32;<emphasis role="stringliteral">&quot;ZoneText&quot;</emphasis>&#32;);
+418 &#32;&#32;&#32;&#32;lua_pushcfunction(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>,&#32;detail::LuaZoneName&#32;);
+419 &#32;&#32;&#32;&#32;lua_setfield(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>,&#32;-2,&#32;<emphasis role="stringliteral">&quot;ZoneName&quot;</emphasis>&#32;);
+420 &#32;&#32;&#32;&#32;lua_pushcfunction(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>,&#32;detail::LuaMessage&#32;);
+421 &#32;&#32;&#32;&#32;lua_setfield(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>,&#32;-2,&#32;<emphasis role="stringliteral">&quot;Message&quot;</emphasis>&#32;);
+422 &#32;&#32;&#32;&#32;lua_setglobal(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>,&#32;<emphasis role="stringliteral">&quot;tracy&quot;</emphasis>&#32;);
+423 }
+424 
+425 <emphasis role="keyword">static</emphasis>&#32;<emphasis role="keyword">inline</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;LuaRemove(&#32;<emphasis role="keywordtype">char</emphasis>*&#32;script&#32;)&#32;{}
+426 
+427 }
+428 
+429 <emphasis role="preprocessor">#endif</emphasis>
+430 
+431 <emphasis role="preprocessor">#endif</emphasis>
+</programlisting></section>

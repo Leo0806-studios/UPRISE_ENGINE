@@ -1,0 +1,383 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_main_8cpp_source" xml:lang="en-US">
+<title>main.cpp</title>
+<indexterm><primary>BLINK/source/main.cpp</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered"><anchor xml:id="_main_8cpp_source_1l00001"/>00001 
+<anchor xml:id="_main_8cpp_source_1l00006"/>00006 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_blink_8hpp">blink.hpp</link>&quot;</emphasis>
+<anchor xml:id="_main_8cpp_source_1l00007"/>00007 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_scoped__handle_8hpp">scoped_handle.hpp</link>&quot;</emphasis>
+<anchor xml:id="_main_8cpp_source_1l00008"/>00008 <emphasis role="preprocessor">#include&#32;&lt;iostream&gt;</emphasis>
+<anchor xml:id="_main_8cpp_source_1l00009"/>00009 <emphasis role="preprocessor">#include&#32;&lt;Windows.h&gt;</emphasis>
+<anchor xml:id="_main_8cpp_source_1l00010"/>00010 <emphasis role="preprocessor">#include&#32;&lt;Psapi.h&gt;</emphasis>
+<anchor xml:id="_main_8cpp_source_1l00011"/>00011 <emphasis role="preprocessor">#include&#32;&lt;PathCch.h&gt;</emphasis>
+<anchor xml:id="_main_8cpp_source_1l00012"/>00012 <emphasis role="preprocessor">#include&#32;&lt;TlHelp32.h&gt;</emphasis>&#32;<emphasis role="comment">//&#32;GetProcessByName</emphasis>
+<anchor xml:id="_main_8cpp_source_1l00013"/>00013 
+<anchor xml:id="_main_8cpp_source_1l00014"/>00014 <emphasis role="preprocessor">#pragma&#32;region&#32;CRT&#32;sections</emphasis>
+<anchor xml:id="_main_8cpp_source_1l00015"/>00015 <emphasis role="comment">//&#32;This&#32;exists&#32;to&#32;imitate&#32;the&#32;behavior&#32;of&#32;the&#32;CRT&#32;initialization&#32;code</emphasis>
+<anchor xml:id="_main_8cpp_source_1l00016"/>00016 <emphasis role="preprocessor">#pragma&#32;section(&quot;.CRT$XIA&quot;,&#32;long,&#32;read)</emphasis>
+<anchor xml:id="_main_8cpp_source_1l00017"/>00017 <emphasis role="preprocessor">#pragma&#32;section(&quot;.CRT$XIZ&quot;,&#32;long,&#32;read)</emphasis>
+<anchor xml:id="_main_8cpp_source_1l00018"/>00018 <emphasis role="preprocessor">#pragma&#32;section(&quot;.CRT$XCA&quot;,&#32;long,&#32;read)</emphasis>
+<anchor xml:id="_main_8cpp_source_1l00019"/>00019 <emphasis role="preprocessor">#pragma&#32;section(&quot;.CRT$XCZ&quot;,&#32;long,&#32;read)</emphasis>
+<anchor xml:id="_main_8cpp_source_1l00020"/>00020 <emphasis role="preprocessor">#pragma&#32;comment(linker,&#32;&quot;/merge:.CRT=.rdata&quot;)</emphasis>
+<anchor xml:id="_main_8cpp_source_1l00021"/><link linkend="_main_8cpp_1ab64925edde9e894b44a5a32df7c5cf96">00021</link> <emphasis role="keyword">typedef</emphasis>&#32;<link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link>(__cdecl&#32;*<link linkend="_main_8cpp_1ab64925edde9e894b44a5a32df7c5cf96">_PVFV</link>)();
+<anchor xml:id="_main_8cpp_source_1l00022"/><link linkend="_main_8cpp_1ac9c59c375045745993123bc68f44f575">00022</link> <link linkend="_main_8cpp_1ac9c59c375045745993123bc68f44f575">__declspec</link>(allocate(<emphasis role="stringliteral">&quot;.CRT$XIA&quot;</emphasis>))&#32;<link linkend="_main_8cpp_1ab64925edde9e894b44a5a32df7c5cf96">_PVFV</link>&#32;__xi_a[]&#32;=&#32;{&#32;<emphasis role="keyword">nullptr</emphasis>&#32;};
+<anchor xml:id="_main_8cpp_source_1l00023"/><link linkend="_main_8cpp_1a69f6c326295f0a3019621cec72b09fcb">00023</link> <link linkend="_main_8cpp_1ac9c59c375045745993123bc68f44f575">__declspec</link>(allocate(<emphasis role="stringliteral">&quot;.CRT$XIZ&quot;</emphasis>))&#32;<link linkend="_main_8cpp_1ab64925edde9e894b44a5a32df7c5cf96">_PVFV</link>&#32;__xi_z[]&#32;=&#32;{&#32;<emphasis role="keyword">nullptr</emphasis>&#32;};
+<anchor xml:id="_main_8cpp_source_1l00024"/><link linkend="_main_8cpp_1a856d24cb54f7383c1e9fde3206a69b97">00024</link> <link linkend="_main_8cpp_1ac9c59c375045745993123bc68f44f575">__declspec</link>(allocate(<emphasis role="stringliteral">&quot;.CRT$XCA&quot;</emphasis>))&#32;<link linkend="_main_8cpp_1ab64925edde9e894b44a5a32df7c5cf96">_PVFV</link>&#32;__xc_a[]&#32;=&#32;{&#32;<emphasis role="keyword">nullptr</emphasis>&#32;};
+<anchor xml:id="_main_8cpp_source_1l00025"/><link linkend="_main_8cpp_1adf089bdabc2949644fe45e6aac5d137d">00025</link> <link linkend="_main_8cpp_1ac9c59c375045745993123bc68f44f575">__declspec</link>(allocate(<emphasis role="stringliteral">&quot;.CRT$XCZ&quot;</emphasis>))&#32;<link linkend="_main_8cpp_1ab64925edde9e894b44a5a32df7c5cf96">_PVFV</link>&#32;__xc_z[]&#32;=&#32;{&#32;<emphasis role="keyword">nullptr</emphasis>&#32;};
+<anchor xml:id="_main_8cpp_source_1l00026"/><link linkend="_main_8cpp_1a7451a805e7cd802ab3c56f64de9ab777">00026</link> <emphasis role="keyword">extern</emphasis>&#32;<emphasis role="stringliteral">&quot;C&quot;</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_main_8cpp_1a7451a805e7cd802ab3c56f64de9ab777">_initterm</link>(<link linkend="_main_8cpp_1ab64925edde9e894b44a5a32df7c5cf96">_PVFV</link>&#32;*beg,&#32;<link linkend="_main_8cpp_1ab64925edde9e894b44a5a32df7c5cf96">_PVFV</link>&#32;*<link linkend="_glad_8h_1a432111147038972f06e049e18a837002">end</link>);
+<anchor xml:id="_main_8cpp_source_1l00027"/>00027 <emphasis role="preprocessor">#pragma&#32;endregion</emphasis>
+<anchor xml:id="_main_8cpp_source_1l00028"/>00028 
+<anchor xml:id="_main_8cpp_source_1l00029"/><link linkend="_main_8cpp_1a11bf986a9c0c9e39d34cf5448d182225">00029</link> HANDLE&#32;<link linkend="_main_8cpp_1a11bf986a9c0c9e39d34cf5448d182225">console</link>&#32;=&#32;INVALID_HANDLE_VALUE;
+<anchor xml:id="_main_8cpp_source_1l00030"/><link linkend="_main_8cpp_1aa7f2932178ffbb23b562c243e954781b">00030</link> <emphasis role="keywordtype">char</emphasis>&#32;<link linkend="_main_8cpp_1aa7f2932178ffbb23b562c243e954781b">blink_pipe_name</link>[MAX_PATH];
+<anchor xml:id="_main_8cpp_source_1l00031"/><link linkend="_main_8cpp_1a18a9d2eccb53bce4577c52ed00a91a99">00031</link> <emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_main_8cpp_1a18a9d2eccb53bce4577c52ed00a91a99">compile_source</link>&#32;=&#32;<emphasis role="keyword">true</emphasis>;
+<anchor xml:id="_main_8cpp_source_1l00032"/><link linkend="_main_8cpp_1af9dfa6de83bea64807035d22cac71936">00032</link> <emphasis role="preprocessor">#define&#32;MAX_ENVIRONMENT_LENGTH&#32;32767&#32;</emphasis><emphasis role="comment">//&#32;max&#32;for&#32;Windows</emphasis>
+<anchor xml:id="_main_8cpp_source_1l00033"/><link linkend="_main_8cpp_1a692fb833873345702ac688b5512e82af">00033</link> <emphasis role="keywordtype">wchar_t</emphasis>&#32;<link linkend="_main_8cpp_1a692fb833873345702ac688b5512e82af">blink_environment</link>[<link linkend="_main_8cpp_1af9dfa6de83bea64807035d22cac71936">MAX_ENVIRONMENT_LENGTH</link>];
+<anchor xml:id="_main_8cpp_source_1l00034"/><link linkend="_main_8cpp_1ae90a5c1bd598addb02054786fe396649">00034</link> <emphasis role="keywordtype">wchar_t</emphasis>&#32;<link linkend="_main_8cpp_1ae90a5c1bd598addb02054786fe396649">blink_working_directory</link>[MAX_PATH];
+<anchor xml:id="_main_8cpp_source_1l00035"/>00035 
+<anchor xml:id="_main_8cpp_source_1l00036"/><link linkend="_blink_8hpp_1a0b26f264c531f496eaac6e348951733f">00036</link> <emphasis role="keywordtype">void</emphasis>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1a89315b1740e2302b6829f4c6c2e05e63">print</link>(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*message,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1a011fc24f10426c01349e94a4edd4b0d5">length</link>)
+<anchor xml:id="_main_8cpp_source_1l00037"/>00037 {
+<anchor xml:id="_main_8cpp_source_1l00038"/>00038 &#32;&#32;&#32;&#32;DWORD&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>&#32;=&#32;<emphasis role="keyword">static_cast&lt;</emphasis>DWORD<emphasis role="keyword">&gt;</emphasis>(<link linkend="_glad_8h_1a011fc24f10426c01349e94a4edd4b0d5">length</link>);
+<anchor xml:id="_main_8cpp_source_1l00039"/>00039 &#32;&#32;&#32;&#32;WriteFile(<link linkend="_main_8cpp_1a11bf986a9c0c9e39d34cf5448d182225">console</link>,&#32;message,&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>,&#32;&amp;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>,&#32;<emphasis role="keyword">nullptr</emphasis>);
+<anchor xml:id="_main_8cpp_source_1l00040"/>00040 }
+<anchor xml:id="_main_8cpp_source_1l00041"/>00041 
+<anchor xml:id="_main_8cpp_source_1l00042"/>00042 <emphasis role="keyword">static</emphasis>&#32;DWORD&#32;GetProcessByName(PCSTR&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>)
+<anchor xml:id="_main_8cpp_source_1l00043"/>00043 {
+<anchor xml:id="_main_8cpp_source_1l00044"/>00044 &#32;&#32;&#32;&#32;WCHAR&#32;wide_name[MAX_PATH]&#32;=&#32;{};
+<anchor xml:id="_main_8cpp_source_1l00045"/>00045 &#32;&#32;&#32;&#32;mbstowcs_s(NULL,&#32;wide_name,&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>,&#32;MAX_PATH);
+<anchor xml:id="_main_8cpp_source_1l00046"/>00046 
+<anchor xml:id="_main_8cpp_source_1l00047"/>00047 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_structscoped__handle">scoped_handle</link>&#32;snapshot&#32;=&#32;CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS,&#32;0);
+<anchor xml:id="_main_8cpp_source_1l00048"/>00048 
+<anchor xml:id="_main_8cpp_source_1l00049"/>00049 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Walk&#32;through&#32;all&#32;processes&#32;and&#32;search&#32;for&#32;the&#32;name</emphasis>
+<anchor xml:id="_main_8cpp_source_1l00050"/>00050 &#32;&#32;&#32;&#32;PROCESSENTRY32W&#32;process&#32;=&#32;{&#32;<emphasis role="keyword">sizeof</emphasis>(process)&#32;};
+<anchor xml:id="_main_8cpp_source_1l00051"/>00051 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(BOOL&#32;next&#32;=&#32;Process32FirstW(snapshot,&#32;&amp;process);&#32;next;&#32;next&#32;=&#32;Process32NextW(snapshot,&#32;&amp;process))
+<anchor xml:id="_main_8cpp_source_1l00052"/>00052 &#32;&#32;&#32;&#32;{
+<anchor xml:id="_main_8cpp_source_1l00053"/>00053 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(wcscmp(process.szExeFile,&#32;wide_name)&#32;==&#32;0)
+<anchor xml:id="_main_8cpp_source_1l00054"/>00054 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="_main_8cpp_source_1l00055"/>00055 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;process.th32ProcessID;
+<anchor xml:id="_main_8cpp_source_1l00056"/>00056 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="_main_8cpp_source_1l00057"/>00057 &#32;&#32;&#32;&#32;}
+<anchor xml:id="_main_8cpp_source_1l00058"/>00058 
+<anchor xml:id="_main_8cpp_source_1l00059"/>00059 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;0;
+<anchor xml:id="_main_8cpp_source_1l00060"/>00060 }
+<anchor xml:id="_main_8cpp_source_1l00061"/>00061 
+<anchor xml:id="_main_8cpp_source_1l00062"/><link linkend="_main_8cpp_1aafd0a00086afbbe0799620a1eb8be660">00062</link> DWORD&#32;CALLBACK&#32;<link linkend="_main_8cpp_1aafd0a00086afbbe0799620a1eb8be660">remote_main</link>(<link linkend="_tracy__lz4_8cpp_1a4ae1dab0fb4b072a66584546209e7d58">BYTE</link>&#32;*image_base)
+<anchor xml:id="_main_8cpp_source_1l00063"/>00063 {
+<anchor xml:id="_main_8cpp_source_1l00064"/>00064 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;#pragma&#32;region&#32;Initialize&#32;module&#32;image</emphasis>
+<anchor xml:id="_main_8cpp_source_1l00065"/>00065 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;headers&#32;=&#32;<emphasis role="keyword">reinterpret_cast&lt;</emphasis><emphasis role="keyword">const&#32;</emphasis>IMAGE_NT_HEADERS&#32;*<emphasis role="keyword">&gt;</emphasis>(image_base&#32;+&#32;<emphasis role="keyword">reinterpret_cast&lt;</emphasis><emphasis role="keyword">const&#32;</emphasis>IMAGE_DOS_HEADER&#32;*<emphasis role="keyword">&gt;</emphasis>(image_base)-&gt;e_lfanew);
+<anchor xml:id="_main_8cpp_source_1l00066"/>00066 
+<anchor xml:id="_main_8cpp_source_1l00067"/>00067 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Apply&#32;base&#32;relocations</emphasis>
+<anchor xml:id="_main_8cpp_source_1l00068"/>00068 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;relocation_delta&#32;=&#32;image_base&#32;-&#32;<emphasis role="keyword">reinterpret_cast&lt;</emphasis><emphasis role="keyword">const&#32;</emphasis><link linkend="_tracy__lz4_8cpp_1a4ae1dab0fb4b072a66584546209e7d58">BYTE</link>&#32;*<emphasis role="keyword">&gt;</emphasis>(headers-&gt;OptionalHeader.ImageBase);
+<anchor xml:id="_main_8cpp_source_1l00069"/>00069 
+<anchor xml:id="_main_8cpp_source_1l00070"/>00070 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(relocation_delta&#32;!=&#32;0)&#32;<emphasis role="comment">//&#32;No&#32;need&#32;to&#32;relocate&#32;anything&#32;if&#32;the&#32;delta&#32;is&#32;zero</emphasis>
+<anchor xml:id="_main_8cpp_source_1l00071"/>00071 &#32;&#32;&#32;&#32;{
+<anchor xml:id="_main_8cpp_source_1l00072"/>00072 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;relocation&#32;=&#32;<emphasis role="keyword">reinterpret_cast&lt;</emphasis><emphasis role="keyword">const&#32;</emphasis>IMAGE_BASE_RELOCATION&#32;*<emphasis role="keyword">&gt;</emphasis>(image_base&#32;+&#32;headers-&gt;OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_BASERELOC].VirtualAddress);
+<anchor xml:id="_main_8cpp_source_1l00073"/>00073 
+<anchor xml:id="_main_8cpp_source_1l00074"/>00074 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">while</emphasis>&#32;(relocation-&gt;VirtualAddress&#32;!=&#32;0)
+<anchor xml:id="_main_8cpp_source_1l00075"/>00075 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="_main_8cpp_source_1l00076"/>00076 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;field_count&#32;=&#32;(relocation-&gt;SizeOfBlock&#32;-&#32;<emphasis role="keyword">sizeof</emphasis>(IMAGE_BASE_RELOCATION))&#32;/&#32;<emphasis role="keyword">sizeof</emphasis>(WORD);
+<anchor xml:id="_main_8cpp_source_1l00077"/>00077 
+<anchor xml:id="_main_8cpp_source_1l00078"/>00078 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(<emphasis role="keywordtype">size_t</emphasis>&#32;k&#32;=&#32;0;&#32;k&#32;&lt;&#32;field_count;&#32;k++)
+<anchor xml:id="_main_8cpp_source_1l00079"/>00079 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="_main_8cpp_source_1l00080"/>00080 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;WORD&#32;field&#32;=&#32;<emphasis role="keyword">reinterpret_cast&lt;</emphasis><emphasis role="keyword">const&#32;</emphasis>WORD&#32;*<emphasis role="keyword">&gt;</emphasis>(relocation&#32;+&#32;1)[k];
+<anchor xml:id="_main_8cpp_source_1l00081"/>00081 
+<anchor xml:id="_main_8cpp_source_1l00082"/>00082 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">switch</emphasis>&#32;(field&#32;&gt;&gt;&#32;12)
+<anchor xml:id="_main_8cpp_source_1l00083"/>00083 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="_main_8cpp_source_1l00084"/>00084 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">case</emphasis>&#32;IMAGE_REL_BASED_ABSOLUTE:
+<anchor xml:id="_main_8cpp_source_1l00085"/>00085 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">break</emphasis>;&#32;<emphasis role="comment">//&#32;This&#32;one&#32;does&#32;not&#32;do&#32;anything&#32;and&#32;exists&#32;only&#32;for&#32;table&#32;alignment,&#32;so&#32;ignore&#32;it</emphasis>
+<anchor xml:id="_main_8cpp_source_1l00086"/>00086 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">case</emphasis>&#32;IMAGE_REL_BASED_HIGHLOW:
+<anchor xml:id="_main_8cpp_source_1l00087"/>00087 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*<emphasis role="keyword">reinterpret_cast&lt;</emphasis>UINT32&#32;*<emphasis role="keyword">&gt;</emphasis>(image_base&#32;+&#32;relocation-&gt;VirtualAddress&#32;+&#32;(field&#32;&amp;&#32;0xFFF))&#32;+=&#32;<emphasis role="keyword">static_cast&lt;</emphasis>INT32<emphasis role="keyword">&gt;</emphasis>(relocation_delta);
+<anchor xml:id="_main_8cpp_source_1l00088"/>00088 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">break</emphasis>;
+<anchor xml:id="_main_8cpp_source_1l00089"/>00089 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">case</emphasis>&#32;IMAGE_REL_BASED_DIR64:
+<anchor xml:id="_main_8cpp_source_1l00090"/>00090 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*<emphasis role="keyword">reinterpret_cast&lt;</emphasis>UINT64&#32;*<emphasis role="keyword">&gt;</emphasis>(image_base&#32;+&#32;relocation-&gt;VirtualAddress&#32;+&#32;(field&#32;&amp;&#32;0xFFF))&#32;+=&#32;<emphasis role="keyword">static_cast&lt;</emphasis>INT64<emphasis role="keyword">&gt;</emphasis>(relocation_delta);
+<anchor xml:id="_main_8cpp_source_1l00091"/>00091 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">break</emphasis>;
+<anchor xml:id="_main_8cpp_source_1l00092"/>00092 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">default</emphasis>:
+<anchor xml:id="_main_8cpp_source_1l00093"/>00093 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;ERROR_IMAGE_AT_DIFFERENT_BASE;&#32;<emphasis role="comment">//&#32;Exit&#32;when&#32;encountering&#32;an&#32;unknown&#32;relocation&#32;type</emphasis>
+<anchor xml:id="_main_8cpp_source_1l00094"/>00094 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="_main_8cpp_source_1l00095"/>00095 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="_main_8cpp_source_1l00096"/>00096 
+<anchor xml:id="_main_8cpp_source_1l00097"/>00097 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;relocation&#32;=&#32;<emphasis role="keyword">reinterpret_cast&lt;</emphasis><emphasis role="keyword">const&#32;</emphasis>IMAGE_BASE_RELOCATION&#32;*<emphasis role="keyword">&gt;</emphasis>(<emphasis role="keyword">reinterpret_cast&lt;</emphasis><emphasis role="keyword">const&#32;</emphasis><link linkend="_tracy__lz4_8cpp_1a4ae1dab0fb4b072a66584546209e7d58">BYTE</link>&#32;*<emphasis role="keyword">&gt;</emphasis>(relocation)&#32;+&#32;relocation-&gt;SizeOfBlock);
+<anchor xml:id="_main_8cpp_source_1l00098"/>00098 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="_main_8cpp_source_1l00099"/>00099 &#32;&#32;&#32;&#32;}
+<anchor xml:id="_main_8cpp_source_1l00100"/>00100 
+<anchor xml:id="_main_8cpp_source_1l00101"/>00101 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Update&#32;import&#32;address&#32;table&#32;(IAT)</emphasis>
+<anchor xml:id="_main_8cpp_source_1l00102"/>00102 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;import_directory_entries&#32;=&#32;<emphasis role="keyword">reinterpret_cast&lt;</emphasis><emphasis role="keyword">const&#32;</emphasis>IMAGE_IMPORT_DESCRIPTOR&#32;*<emphasis role="keyword">&gt;</emphasis>(image_base&#32;+&#32;headers-&gt;OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_IMPORT].VirtualAddress);
+<anchor xml:id="_main_8cpp_source_1l00103"/>00103 
+<anchor xml:id="_main_8cpp_source_1l00104"/>00104 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;=&#32;0;&#32;import_directory_entries[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>].FirstThunk&#32;!=&#32;0;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>++)
+<anchor xml:id="_main_8cpp_source_1l00105"/>00105 &#32;&#32;&#32;&#32;{
+<anchor xml:id="_main_8cpp_source_1l00106"/>00106 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>&#32;=&#32;<emphasis role="keyword">reinterpret_cast&lt;</emphasis><emphasis role="keyword">const&#32;</emphasis><emphasis role="keywordtype">char</emphasis>&#32;*<emphasis role="keyword">&gt;</emphasis>(image_base&#32;+&#32;import_directory_entries[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>].Name);
+<anchor xml:id="_main_8cpp_source_1l00107"/>00107 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;import_name_table&#32;=&#32;<emphasis role="keyword">reinterpret_cast&lt;</emphasis><emphasis role="keyword">const&#32;</emphasis>IMAGE_THUNK_DATA&#32;*<emphasis role="keyword">&gt;</emphasis>(image_base&#32;+&#32;import_directory_entries[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>].Characteristics);
+<anchor xml:id="_main_8cpp_source_1l00108"/>00108 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;import_address_table&#32;=&#32;<emphasis role="keyword">reinterpret_cast&lt;</emphasis>IMAGE_THUNK_DATA&#32;*<emphasis role="keyword">&gt;</emphasis>(image_base&#32;+&#32;import_directory_entries[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>].FirstThunk);
+<anchor xml:id="_main_8cpp_source_1l00109"/>00109 
+<anchor xml:id="_main_8cpp_source_1l00110"/>00110 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;It&#32;is&#32;safe&#32;to&#32;call&#32;&apos;LoadLibrary&apos;&#32;here&#32;because&#32;the&#32;IAT&#32;entry&#32;for&#32;it&#32;was&#32;copied&#32;from&#32;the&#32;parent&#32;process&#32;and&#32;KERNEL32.dll&#32;is&#32;always&#32;loaded&#32;at&#32;the&#32;same&#32;address</emphasis>
+<anchor xml:id="_main_8cpp_source_1l00111"/>00111 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;HMODULE&#32;module&#32;=&#32;LoadLibraryA(<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>);
+<anchor xml:id="_main_8cpp_source_1l00112"/>00112 
+<anchor xml:id="_main_8cpp_source_1l00113"/>00113 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(module&#32;==&#32;<emphasis role="keyword">nullptr</emphasis>)
+<anchor xml:id="_main_8cpp_source_1l00114"/>00114 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">continue</emphasis>;
+<anchor xml:id="_main_8cpp_source_1l00115"/>00115 
+<anchor xml:id="_main_8cpp_source_1l00116"/>00116 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(<emphasis role="keywordtype">size_t</emphasis>&#32;k&#32;=&#32;0;&#32;import_name_table[k].u1.AddressOfData&#32;!=&#32;0;&#32;k++)
+<anchor xml:id="_main_8cpp_source_1l00117"/>00117 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="_main_8cpp_source_1l00118"/>00118 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(IMAGE_SNAP_BY_ORDINAL(import_name_table[k].u1.Ordinal))
+<anchor xml:id="_main_8cpp_source_1l00119"/>00119 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="_main_8cpp_source_1l00120"/>00120 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Import&#32;by&#32;ordinal</emphasis>
+<anchor xml:id="_main_8cpp_source_1l00121"/>00121 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;<emphasis role="keyword">import</emphasis>&#32;=&#32;IMAGE_ORDINAL(import_name_table[k].u1.Ordinal);
+<anchor xml:id="_main_8cpp_source_1l00122"/>00122 
+<anchor xml:id="_main_8cpp_source_1l00123"/>00123 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;import_address_table[k].u1.AddressOfData&#32;=&#32;<emphasis role="keyword">reinterpret_cast&lt;</emphasis>DWORD_PTR<emphasis role="keyword">&gt;</emphasis>(GetProcAddress(module,&#32;<emphasis role="keyword">reinterpret_cast&lt;</emphasis>LPCSTR<emphasis role="keyword">&gt;</emphasis>(<emphasis role="keyword">import</emphasis>)));
+<anchor xml:id="_main_8cpp_source_1l00124"/>00124 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="_main_8cpp_source_1l00125"/>00125 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+<anchor xml:id="_main_8cpp_source_1l00126"/>00126 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="_main_8cpp_source_1l00127"/>00127 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Import&#32;by&#32;function&#32;name</emphasis>
+<anchor xml:id="_main_8cpp_source_1l00128"/>00128 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;<emphasis role="keyword">import</emphasis>&#32;=&#32;reinterpret_cast&lt;const&#32;IMAGE_IMPORT_BY_NAME&#32;*&gt;(image_base&#32;+&#32;import_name_table[k].u1.AddressOfData);
+<anchor xml:id="_main_8cpp_source_1l00129"/>00129 
+<anchor xml:id="_main_8cpp_source_1l00130"/>00130 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;import_address_table[k].u1.AddressOfData&#32;=&#32;<emphasis role="keyword">reinterpret_cast&lt;</emphasis>DWORD_PTR<emphasis role="keyword">&gt;</emphasis>(GetProcAddress(module,&#32;import-&gt;Name));
+<anchor xml:id="_main_8cpp_source_1l00131"/>00131 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="_main_8cpp_source_1l00132"/>00132 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="_main_8cpp_source_1l00133"/>00133 &#32;&#32;&#32;&#32;}
+<anchor xml:id="_main_8cpp_source_1l00134"/>00134 
+<anchor xml:id="_main_8cpp_source_1l00135"/>00135 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Call&#32;global&#32;C/C++&#32;constructors</emphasis>
+<anchor xml:id="_main_8cpp_source_1l00136"/>00136 &#32;&#32;&#32;&#32;<link linkend="_main_8cpp_1a7451a805e7cd802ab3c56f64de9ab777">_initterm</link>(__xi_a,&#32;__xi_z);
+<anchor xml:id="_main_8cpp_source_1l00137"/>00137 &#32;&#32;&#32;&#32;<link linkend="_main_8cpp_1a7451a805e7cd802ab3c56f64de9ab777">_initterm</link>(__xc_a,&#32;__xc_z);
+<anchor xml:id="_main_8cpp_source_1l00138"/>00138 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;#pragma&#32;endregion</emphasis>
+<anchor xml:id="_main_8cpp_source_1l00139"/>00139 
+<anchor xml:id="_main_8cpp_source_1l00140"/>00140 &#32;&#32;&#32;&#32;<link linkend="_structscoped__handle">scoped_handle</link>&#32;blink_handle&#32;=&#32;CreateFileA(<link linkend="_main_8cpp_1aa7f2932178ffbb23b562c243e954781b">blink_pipe_name</link>,&#32;GENERIC_READ&#32;|&#32;GENERIC_WRITE,&#32;0,&#32;NULL,&#32;OPEN_ALWAYS,&#32;FILE_FLAG_WRITE_THROUGH,&#32;NULL);
+<anchor xml:id="_main_8cpp_source_1l00141"/>00141 
+<anchor xml:id="_main_8cpp_source_1l00142"/>00142 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Run&#32;main&#32;loop</emphasis>
+<anchor xml:id="_main_8cpp_source_1l00143"/>00143 &#32;&#32;&#32;&#32;<link linkend="_classblink_1_1application">blink::application</link>().<link linkend="_classblink_1_1application_1a51c00cb31218e6880fef837a45e2db4a">run</link>(blink_handle,&#32;<link linkend="_main_8cpp_1a692fb833873345702ac688b5512e82af">blink_environment</link>,&#32;<link linkend="_main_8cpp_1ae90a5c1bd598addb02054786fe396649">blink_working_directory</link>,&#32;<link linkend="_main_8cpp_1a18a9d2eccb53bce4577c52ed00a91a99">compile_source</link>);
+<anchor xml:id="_main_8cpp_source_1l00144"/>00144 
+<anchor xml:id="_main_8cpp_source_1l00145"/>00145 &#32;&#32;&#32;&#32;CloseHandle(<link linkend="_main_8cpp_1a11bf986a9c0c9e39d34cf5448d182225">console</link>);
+<anchor xml:id="_main_8cpp_source_1l00146"/>00146 
+<anchor xml:id="_main_8cpp_source_1l00147"/>00147 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;0;
+<anchor xml:id="_main_8cpp_source_1l00148"/>00148 }
+<anchor xml:id="_main_8cpp_source_1l00149"/>00149 
+<anchor xml:id="_main_8cpp_source_1l00150"/><link linkend="_main_8cpp_1a0ddf1224851353fc92bfbff6f499fa97">00150</link> <emphasis role="keywordtype">int</emphasis>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1ae66f6b31b5ad750f1fe042a706a4e3d4">main</link>(<emphasis role="keywordtype">int</emphasis>&#32;argc,&#32;<emphasis role="keywordtype">char</emphasis>&#32;*argv[])
+<anchor xml:id="_main_8cpp_source_1l00151"/>00151 {
+<anchor xml:id="_main_8cpp_source_1l00152"/>00152 &#32;&#32;&#32;&#32;DWORD&#32;pid&#32;=&#32;0;
+<anchor xml:id="_main_8cpp_source_1l00153"/>00153 
+<anchor xml:id="_main_8cpp_source_1l00154"/>00154 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(argc&#32;&gt;&#32;1)
+<anchor xml:id="_main_8cpp_source_1l00155"/>00155 &#32;&#32;&#32;&#32;{
+<anchor xml:id="_main_8cpp_source_1l00156"/>00156 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;=&#32;1;
+<anchor xml:id="_main_8cpp_source_1l00157"/>00157 
+<anchor xml:id="_main_8cpp_source_1l00158"/>00158 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;&lt;&#32;argc;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>++)
+<anchor xml:id="_main_8cpp_source_1l00159"/>00159 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="_main_8cpp_source_1l00160"/>00160 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(std::strcmp(argv[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>],&#32;<emphasis role="stringliteral">&quot;-h&quot;</emphasis>)&#32;==&#32;0&#32;||&#32;std::strcmp(argv[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>],&#32;<emphasis role="stringliteral">&quot;--help&quot;</emphasis>)&#32;==&#32;0)
+<anchor xml:id="_main_8cpp_source_1l00161"/>00161 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="_main_8cpp_source_1l00162"/>00162 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;usage:&#32;&quot;</emphasis>&#32;&lt;&lt;&#32;argv[0]&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&#32;[options]&#32;&lt;...&gt;&quot;</emphasis>&#32;&lt;&lt;&#32;std::endl;
+<anchor xml:id="_main_8cpp_source_1l00163"/>00163 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&#32;&#32;&lt;...&gt;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;PID&#32;or&#32;name&#32;of&#32;running&#32;process,&#32;or&#32;command-line&#32;of&#32;target&#32;application&#32;to&#32;launch&quot;</emphasis>&#32;&lt;&lt;&#32;std::endl;
+<anchor xml:id="_main_8cpp_source_1l00164"/>00164 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&#32;&#32;-h/--help&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Show&#32;this&#32;help&#32;message&quot;</emphasis>&#32;&lt;&lt;&#32;std::endl;
+<anchor xml:id="_main_8cpp_source_1l00165"/>00165 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&#32;&#32;--no-compile&#32;&#32;&#32;&#32;&#32;&#32;&#32;Watch&#32;for&#32;changes&#32;to&#32;object&#32;files&#32;and&#32;link&#32;them&#32;directly,&#32;rather&#32;than&#32;source&#32;files&#32;and&#32;compiling&#32;them&#32;first&quot;</emphasis>&#32;&lt;&lt;&#32;std::endl;
+<anchor xml:id="_main_8cpp_source_1l00166"/>00166 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;0;
+<anchor xml:id="_main_8cpp_source_1l00167"/>00167 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="_main_8cpp_source_1l00168"/>00168 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(std::strcmp(argv[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>],&#32;<emphasis role="stringliteral">&quot;--no-compile&quot;</emphasis>)&#32;==&#32;0)
+<anchor xml:id="_main_8cpp_source_1l00169"/>00169 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="_main_8cpp_source_1l00170"/>00170 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_main_8cpp_1a18a9d2eccb53bce4577c52ed00a91a99">compile_source</link>&#32;=&#32;<emphasis role="keyword">false</emphasis>;
+<anchor xml:id="_main_8cpp_source_1l00171"/>00171 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">continue</emphasis>;
+<anchor xml:id="_main_8cpp_source_1l00172"/>00172 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="_main_8cpp_source_1l00173"/>00173 
+<anchor xml:id="_main_8cpp_source_1l00174"/>00174 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Argument&#32;is&#32;not&#32;an&#32;option,&#32;so&#32;assume&#32;this&#32;starts&#32;the&#32;remaining&#32;command-line</emphasis>
+<anchor xml:id="_main_8cpp_source_1l00175"/>00175 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">break</emphasis>;
+<anchor xml:id="_main_8cpp_source_1l00176"/>00176 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="_main_8cpp_source_1l00177"/>00177 
+<anchor xml:id="_main_8cpp_source_1l00178"/>00178 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Attach&#32;to&#32;running&#32;process&#32;by&#32;PID</emphasis>
+<anchor xml:id="_main_8cpp_source_1l00179"/>00179 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;pid&#32;=&#32;std::strtoul(argv[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>],&#32;<emphasis role="keyword">nullptr</emphasis>,&#32;0);
+<anchor xml:id="_main_8cpp_source_1l00180"/>00180 
+<anchor xml:id="_main_8cpp_source_1l00181"/>00181 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(pid&#32;==&#32;0)
+<anchor xml:id="_main_8cpp_source_1l00182"/>00182 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="_main_8cpp_source_1l00183"/>00183 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Try&#32;to&#32;look&#32;up&#32;PID&#32;of&#32;running&#32;process&#32;by&#32;name</emphasis>
+<anchor xml:id="_main_8cpp_source_1l00184"/>00184 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;pid&#32;=&#32;GetProcessByName(argv[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>]);
+<anchor xml:id="_main_8cpp_source_1l00185"/>00185 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="_main_8cpp_source_1l00186"/>00186 
+<anchor xml:id="_main_8cpp_source_1l00187"/>00187 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(pid&#32;==&#32;0)
+<anchor xml:id="_main_8cpp_source_1l00188"/>00188 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="_main_8cpp_source_1l00189"/>00189 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Launch&#32;target&#32;application&#32;with&#32;remaining&#32;command-line&#32;and&#32;determine&#32;PID</emphasis>
+<anchor xml:id="_main_8cpp_source_1l00190"/>00190 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;STARTUPINFOA&#32;startup_info&#32;=&#32;{&#32;<emphasis role="keyword">sizeof</emphasis>(startup_info)&#32;};
+<anchor xml:id="_main_8cpp_source_1l00191"/>00191 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;PROCESS_INFORMATION&#32;process_info&#32;=&#32;{};
+<anchor xml:id="_main_8cpp_source_1l00192"/>00192 
+<anchor xml:id="_main_8cpp_source_1l00193"/>00193 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::string&#32;command_line;
+<anchor xml:id="_main_8cpp_source_1l00194"/>00194 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;&lt;&#32;argc;&#32;++<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>,&#32;command_line&#32;+=&#32;<emphasis role="charliteral">&apos;&#32;&apos;</emphasis>)
+<anchor xml:id="_main_8cpp_source_1l00195"/>00195 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;command_line&#32;+=&#32;argv[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>];
+<anchor xml:id="_main_8cpp_source_1l00196"/>00196 
+<anchor xml:id="_main_8cpp_source_1l00197"/>00197 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(!CreateProcessA(<emphasis role="keyword">nullptr</emphasis>,&#32;command_line.data(),&#32;<emphasis role="keyword">nullptr</emphasis>,&#32;<emphasis role="keyword">nullptr</emphasis>,&#32;FALSE,&#32;CREATE_NEW_CONSOLE,&#32;<emphasis role="keyword">nullptr</emphasis>,&#32;<emphasis role="keyword">nullptr</emphasis>,&#32;&amp;startup_info,&#32;&amp;process_info))
+<anchor xml:id="_main_8cpp_source_1l00198"/>00198 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="_main_8cpp_source_1l00199"/>00199 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;Failed&#32;to&#32;start&#32;target&#32;application&#32;process!&quot;</emphasis>&#32;&lt;&lt;&#32;std::endl;
+<anchor xml:id="_main_8cpp_source_1l00200"/>00200 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;GetLastError();
+<anchor xml:id="_main_8cpp_source_1l00201"/>00201 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="_main_8cpp_source_1l00202"/>00202 
+<anchor xml:id="_main_8cpp_source_1l00203"/>00203 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;pid&#32;=&#32;process_info.dwProcessId;
+<anchor xml:id="_main_8cpp_source_1l00204"/>00204 
+<anchor xml:id="_main_8cpp_source_1l00205"/>00205 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;CloseHandle(process_info.hThread);
+<anchor xml:id="_main_8cpp_source_1l00206"/>00206 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;CloseHandle(process_info.hProcess);
+<anchor xml:id="_main_8cpp_source_1l00207"/>00207 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="_main_8cpp_source_1l00208"/>00208 &#32;&#32;&#32;&#32;}
+<anchor xml:id="_main_8cpp_source_1l00209"/>00209 
+<anchor xml:id="_main_8cpp_source_1l00210"/>00210 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(pid&#32;==&#32;0)
+<anchor xml:id="_main_8cpp_source_1l00211"/>00211 &#32;&#32;&#32;&#32;{
+<anchor xml:id="_main_8cpp_source_1l00212"/>00212 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;Enter&#32;PID&#32;of&#32;target&#32;application:&#32;&quot;</emphasis>;
+<anchor xml:id="_main_8cpp_source_1l00213"/>00213 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::cin&#32;&gt;&gt;&#32;pid;
+<anchor xml:id="_main_8cpp_source_1l00214"/>00214 &#32;&#32;&#32;&#32;}
+<anchor xml:id="_main_8cpp_source_1l00215"/>00215 
+<anchor xml:id="_main_8cpp_source_1l00216"/>00216 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Open&#32;target&#32;application&#32;process</emphasis>
+<anchor xml:id="_main_8cpp_source_1l00217"/>00217 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;HANDLE&#32;local_process&#32;=&#32;GetCurrentProcess();
+<anchor xml:id="_main_8cpp_source_1l00218"/>00218 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_structscoped__handle">scoped_handle</link>&#32;remote_process&#32;=&#32;OpenProcess(PROCESS_CREATE_THREAD&#32;|&#32;PROCESS_VM_OPERATION&#32;|&#32;PROCESS_VM_READ&#32;|&#32;PROCESS_VM_WRITE&#32;|&#32;PROCESS_DUP_HANDLE&#32;|&#32;PROCESS_QUERY_INFORMATION,&#32;FALSE,&#32;pid);
+<anchor xml:id="_main_8cpp_source_1l00219"/>00219 
+<anchor xml:id="_main_8cpp_source_1l00220"/>00220 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(remote_process&#32;==&#32;<emphasis role="keyword">nullptr</emphasis>)
+<anchor xml:id="_main_8cpp_source_1l00221"/>00221 &#32;&#32;&#32;&#32;{
+<anchor xml:id="_main_8cpp_source_1l00222"/>00222 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;Failed&#32;to&#32;open&#32;target&#32;application&#32;process!&quot;</emphasis>&#32;&lt;&lt;&#32;std::endl;
+<anchor xml:id="_main_8cpp_source_1l00223"/>00223 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;GetLastError();
+<anchor xml:id="_main_8cpp_source_1l00224"/>00224 &#32;&#32;&#32;&#32;}
+<anchor xml:id="_main_8cpp_source_1l00225"/>00225 
+<anchor xml:id="_main_8cpp_source_1l00226"/>00226 &#32;&#32;&#32;&#32;BOOL&#32;local_is_wow64&#32;=&#32;FALSE,&#32;remote_is_wow64&#32;=&#32;FALSE;
+<anchor xml:id="_main_8cpp_source_1l00227"/>00227 &#32;&#32;&#32;&#32;IsWow64Process(local_process,&#32;&amp;local_is_wow64);
+<anchor xml:id="_main_8cpp_source_1l00228"/>00228 &#32;&#32;&#32;&#32;IsWow64Process(remote_process,&#32;&amp;remote_is_wow64);
+<anchor xml:id="_main_8cpp_source_1l00229"/>00229 
+<anchor xml:id="_main_8cpp_source_1l00230"/>00230 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(local_is_wow64&#32;!=&#32;remote_is_wow64)
+<anchor xml:id="_main_8cpp_source_1l00231"/>00231 &#32;&#32;&#32;&#32;{
+<anchor xml:id="_main_8cpp_source_1l00232"/>00232 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;Machine&#32;architecture&#32;mismatch&#32;between&#32;target&#32;application&#32;and&#32;this&#32;application!&quot;</emphasis>&#32;&lt;&lt;&#32;std::endl;
+<anchor xml:id="_main_8cpp_source_1l00233"/>00233 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;ERROR_IMAGE_MACHINE_TYPE_MISMATCH;
+<anchor xml:id="_main_8cpp_source_1l00234"/>00234 &#32;&#32;&#32;&#32;}
+<anchor xml:id="_main_8cpp_source_1l00235"/>00235 
+<anchor xml:id="_main_8cpp_source_1l00236"/>00236 &#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;Launching&#32;in&#32;target&#32;application&#32;...&quot;</emphasis>&#32;&lt;&lt;&#32;std::endl;
+<anchor xml:id="_main_8cpp_source_1l00237"/>00237 
+<anchor xml:id="_main_8cpp_source_1l00238"/>00238 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Create&#32;a&#32;pipe&#32;for&#32;communication&#32;between&#32;this&#32;process&#32;and&#32;the&#32;target&#32;application</emphasis>
+<anchor xml:id="_main_8cpp_source_1l00239"/>00239 &#32;&#32;&#32;&#32;<link linkend="_structscoped__handle">scoped_handle</link>&#32;local_pipe;
+<anchor xml:id="_main_8cpp_source_1l00240"/>00240 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(!CreatePipe(&amp;local_pipe,&#32;&amp;<link linkend="_main_8cpp_1a11bf986a9c0c9e39d34cf5448d182225">console</link>,&#32;<emphasis role="keyword">nullptr</emphasis>,&#32;512)&#32;||&#32;!DuplicateHandle(local_process,&#32;<link linkend="_main_8cpp_1a11bf986a9c0c9e39d34cf5448d182225">console</link>,&#32;remote_process,&#32;&amp;<link linkend="_main_8cpp_1a11bf986a9c0c9e39d34cf5448d182225">console</link>,&#32;0,&#32;FALSE,&#32;DUPLICATE_CLOSE_SOURCE&#32;|&#32;DUPLICATE_SAME_ACCESS))
+<anchor xml:id="_main_8cpp_source_1l00241"/>00241 &#32;&#32;&#32;&#32;{
+<anchor xml:id="_main_8cpp_source_1l00242"/>00242 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;Failed&#32;to&#32;create&#32;new&#32;communication&#32;pipe!&quot;</emphasis>&#32;&lt;&lt;&#32;std::endl;
+<anchor xml:id="_main_8cpp_source_1l00243"/>00243 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;GetLastError();
+<anchor xml:id="_main_8cpp_source_1l00244"/>00244 &#32;&#32;&#32;&#32;}
+<anchor xml:id="_main_8cpp_source_1l00245"/>00245 
+<anchor xml:id="_main_8cpp_source_1l00246"/>00246 &#32;&#32;&#32;&#32;MODULEINFO&#32;module_info;
+<anchor xml:id="_main_8cpp_source_1l00247"/>00247 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(!GetModuleInformation(GetCurrentProcess(),&#32;GetModuleHandle(<emphasis role="keyword">nullptr</emphasis>),&#32;&amp;module_info,&#32;<emphasis role="keyword">sizeof</emphasis>(module_info)))
+<anchor xml:id="_main_8cpp_source_1l00248"/>00248 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;GetLastError();
+<anchor xml:id="_main_8cpp_source_1l00249"/>00249 
+<anchor xml:id="_main_8cpp_source_1l00250"/>00250 <emphasis role="preprocessor">#ifdef&#32;_DEBUG&#32;</emphasis><emphasis role="comment">//&#32;Use&#32;&apos;LoadLibrary&apos;&#32;to&#32;create&#32;image&#32;in&#32;target&#32;application&#32;so&#32;that&#32;debug&#32;information&#32;is&#32;loaded</emphasis>
+<anchor xml:id="_main_8cpp_source_1l00251"/>00251 &#32;&#32;&#32;&#32;WCHAR&#32;load_path[MAX_PATH];
+<anchor xml:id="_main_8cpp_source_1l00252"/>00252 &#32;&#32;&#32;&#32;WCHAR&#32;load_path_canonicalized[MAX_PATH];
+<anchor xml:id="_main_8cpp_source_1l00253"/>00253 &#32;&#32;&#32;&#32;GetModuleFileNameW(<emphasis role="keyword">nullptr</emphasis>,&#32;load_path,&#32;MAX_PATH);
+<anchor xml:id="_main_8cpp_source_1l00254"/>00254 &#32;&#32;&#32;&#32;PathCchCanonicalize(load_path_canonicalized,&#32;MAX_PATH,&#32;load_path);
+<anchor xml:id="_main_8cpp_source_1l00255"/>00255 
+<anchor xml:id="_main_8cpp_source_1l00256"/>00256 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;load_param&#32;=&#32;VirtualAllocEx(remote_process,&#32;<emphasis role="keyword">nullptr</emphasis>,&#32;MAX_PATH,&#32;MEM_COMMIT&#32;|&#32;MEM_RESERVE,&#32;PAGE_READWRITE);
+<anchor xml:id="_main_8cpp_source_1l00257"/>00257 
+<anchor xml:id="_main_8cpp_source_1l00258"/>00258 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Write&#32;&apos;LoadLibrary&apos;&#32;call&#32;argument&#32;to&#32;target&#32;application</emphasis>
+<anchor xml:id="_main_8cpp_source_1l00259"/>00259 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(load_param&#32;==&#32;<emphasis role="keyword">nullptr</emphasis>&#32;||&#32;!WriteProcessMemory(remote_process,&#32;load_param,&#32;load_path,&#32;MAX_PATH,&#32;<emphasis role="keyword">nullptr</emphasis>))
+<anchor xml:id="_main_8cpp_source_1l00260"/>00260 &#32;&#32;&#32;&#32;{
+<anchor xml:id="_main_8cpp_source_1l00261"/>00261 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;Failed&#32;to&#32;allocate&#32;and&#32;write&#32;&apos;LoadLibrary&apos;&#32;argument&#32;in&#32;target&#32;application!&quot;</emphasis>&#32;&lt;&lt;&#32;std::endl;
+<anchor xml:id="_main_8cpp_source_1l00262"/>00262 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;GetLastError();
+<anchor xml:id="_main_8cpp_source_1l00263"/>00263 &#32;&#32;&#32;&#32;}
+<anchor xml:id="_main_8cpp_source_1l00264"/>00264 
+<anchor xml:id="_main_8cpp_source_1l00265"/>00265 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Execute&#32;&apos;LoadLibrary&apos;&#32;in&#32;target&#32;application</emphasis>
+<anchor xml:id="_main_8cpp_source_1l00266"/>00266 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_structscoped__handle">scoped_handle</link>&#32;load_thread&#32;=&#32;CreateRemoteThread(remote_process,&#32;<emphasis role="keyword">nullptr</emphasis>,&#32;0,&#32;<emphasis role="keyword">reinterpret_cast&lt;</emphasis>LPTHREAD_START_ROUTINE<emphasis role="keyword">&gt;</emphasis>(&amp;LoadLibraryW),&#32;load_param,&#32;0,&#32;<emphasis role="keyword">nullptr</emphasis>);
+<anchor xml:id="_main_8cpp_source_1l00267"/>00267 
+<anchor xml:id="_main_8cpp_source_1l00268"/>00268 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(load_thread&#32;==&#32;<emphasis role="keyword">nullptr</emphasis>)
+<anchor xml:id="_main_8cpp_source_1l00269"/>00269 &#32;&#32;&#32;&#32;{
+<anchor xml:id="_main_8cpp_source_1l00270"/>00270 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;Failed&#32;to&#32;execute&#32;&apos;LoadLibrary&apos;&#32;in&#32;target&#32;application!&quot;</emphasis>&#32;&lt;&lt;&#32;std::endl;
+<anchor xml:id="_main_8cpp_source_1l00271"/>00271 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;GetLastError();
+<anchor xml:id="_main_8cpp_source_1l00272"/>00272 &#32;&#32;&#32;&#32;}
+<anchor xml:id="_main_8cpp_source_1l00273"/>00273 
+<anchor xml:id="_main_8cpp_source_1l00274"/>00274 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Wait&#32;for&#32;loading&#32;to&#32;finish&#32;and&#32;clean&#32;up&#32;parameter&#32;memory&#32;afterwards</emphasis>
+<anchor xml:id="_main_8cpp_source_1l00275"/>00275 &#32;&#32;&#32;&#32;WaitForSingleObject(load_thread,&#32;INFINITE);
+<anchor xml:id="_main_8cpp_source_1l00276"/>00276 &#32;&#32;&#32;&#32;VirtualFreeEx(remote_process,&#32;load_param,&#32;0,&#32;MEM_RELEASE);
+<anchor xml:id="_main_8cpp_source_1l00277"/>00277 
+<anchor xml:id="_main_8cpp_source_1l00278"/>00278 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Find&#32;address&#32;of&#32;the&#32;now&#32;loaded&#32;module&#32;in&#32;the&#32;target&#32;application&#32;process</emphasis>
+<anchor xml:id="_main_8cpp_source_1l00279"/>00279 &#32;&#32;&#32;&#32;DWORD&#32;modules_size&#32;=&#32;0;
+<anchor xml:id="_main_8cpp_source_1l00280"/>00280 &#32;&#32;&#32;&#32;EnumProcessModulesEx(remote_process,&#32;<emphasis role="keyword">nullptr</emphasis>,&#32;0,&#32;&amp;modules_size,&#32;LIST_MODULES_ALL);
+<anchor xml:id="_main_8cpp_source_1l00281"/>00281 &#32;&#32;&#32;&#32;std::vector&lt;HMODULE&gt;&#32;modules(modules_size&#32;/&#32;<emphasis role="keyword">sizeof</emphasis>(HMODULE));
+<anchor xml:id="_main_8cpp_source_1l00282"/>00282 &#32;&#32;&#32;&#32;EnumProcessModulesEx(remote_process,&#32;modules.data(),&#32;modules_size,&#32;&amp;modules_size,&#32;LIST_MODULES_ALL);
+<anchor xml:id="_main_8cpp_source_1l00283"/>00283 
+<anchor xml:id="_main_8cpp_source_1l00284"/>00284 &#32;&#32;&#32;&#32;<link linkend="_tracy__lz4_8cpp_1a4ae1dab0fb4b072a66584546209e7d58">BYTE</link>&#32;*remote_baseaddress&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>;
+<anchor xml:id="_main_8cpp_source_1l00285"/>00285 
+<anchor xml:id="_main_8cpp_source_1l00286"/>00286 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(HMODULE&#32;module&#32;:&#32;modules)
+<anchor xml:id="_main_8cpp_source_1l00287"/>00287 &#32;&#32;&#32;&#32;{
+<anchor xml:id="_main_8cpp_source_1l00288"/>00288 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;WCHAR&#32;module_path[MAX_PATH];
+<anchor xml:id="_main_8cpp_source_1l00289"/>00289 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;WCHAR&#32;module_path_canonicalized[MAX_PATH];
+<anchor xml:id="_main_8cpp_source_1l00290"/>00290 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;GetModuleFileNameExW(remote_process,&#32;module,&#32;module_path,&#32;MAX_PATH);
+<anchor xml:id="_main_8cpp_source_1l00291"/>00291 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;PathCchCanonicalize(module_path_canonicalized,&#32;MAX_PATH,&#32;module_path);
+<anchor xml:id="_main_8cpp_source_1l00292"/>00292 
+<anchor xml:id="_main_8cpp_source_1l00293"/>00293 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(lstrcmpW(module_path_canonicalized,&#32;load_path_canonicalized)&#32;==&#32;0)
+<anchor xml:id="_main_8cpp_source_1l00294"/>00294 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="_main_8cpp_source_1l00295"/>00295 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;remote_baseaddress&#32;=&#32;<emphasis role="keyword">reinterpret_cast&lt;</emphasis><link linkend="_tracy__lz4_8cpp_1a4ae1dab0fb4b072a66584546209e7d58">BYTE</link>&#32;*<emphasis role="keyword">&gt;</emphasis>(module);
+<anchor xml:id="_main_8cpp_source_1l00296"/>00296 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">break</emphasis>;
+<anchor xml:id="_main_8cpp_source_1l00297"/>00297 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="_main_8cpp_source_1l00298"/>00298 &#32;&#32;&#32;&#32;}
+<anchor xml:id="_main_8cpp_source_1l00299"/>00299 
+<anchor xml:id="_main_8cpp_source_1l00300"/>00300 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Make&#32;the&#32;entire&#32;image&#32;writable&#32;so&#32;the&#32;copy&#32;operation&#32;below&#32;can&#32;succeed</emphasis>
+<anchor xml:id="_main_8cpp_source_1l00301"/>00301 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(remote_baseaddress&#32;!=&#32;<emphasis role="keyword">nullptr</emphasis>)
+<anchor xml:id="_main_8cpp_source_1l00302"/>00302 &#32;&#32;&#32;&#32;{
+<anchor xml:id="_main_8cpp_source_1l00303"/>00303 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;VirtualProtectEx(remote_process,&#32;remote_baseaddress,&#32;module_info.SizeOfImage,&#32;PAGE_EXECUTE_READWRITE,&#32;&amp;modules_size);
+<anchor xml:id="_main_8cpp_source_1l00304"/>00304 &#32;&#32;&#32;&#32;}
+<anchor xml:id="_main_8cpp_source_1l00305"/>00305 <emphasis role="preprocessor">#else</emphasis>
+<anchor xml:id="_main_8cpp_source_1l00306"/>00306 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;remote_baseaddress&#32;=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="_tracy__lz4_8cpp_1a4ae1dab0fb4b072a66584546209e7d58">BYTE</link>&#32;*<emphasis role="keyword">&gt;</emphasis>(VirtualAllocEx(remote_process,&#32;<emphasis role="keyword">nullptr</emphasis>,&#32;module_info.SizeOfImage,&#32;MEM_COMMIT&#32;|&#32;MEM_RESERVE,&#32;PAGE_EXECUTE_READWRITE));
+<anchor xml:id="_main_8cpp_source_1l00307"/>00307 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="_main_8cpp_source_1l00308"/>00308 
+<anchor xml:id="_main_8cpp_source_1l00309"/>00309 &#32;&#32;&#32;&#32;_snprintf_s(<link linkend="_main_8cpp_1aa7f2932178ffbb23b562c243e954781b">blink_pipe_name</link>,&#32;<emphasis role="keyword">sizeof</emphasis>(<link linkend="_main_8cpp_1aa7f2932178ffbb23b562c243e954781b">blink_pipe_name</link>),&#32;<emphasis role="stringliteral">&quot;\\\\.\\pipe\\blink-%d&quot;</emphasis>,&#32;GetCurrentProcessId());
+<anchor xml:id="_main_8cpp_source_1l00310"/>00310 <emphasis role="preprocessor">#define&#32;NAMED_PIPE_SIZE&#32;1024</emphasis>
+<anchor xml:id="_main_8cpp_source_1l00311"/>00311 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;use&#32;duplex&#32;named&#32;pipe,&#32;so&#32;remote&#32;thread&#32;can&#32;quit&#32;and&#32;free&#32;up&#32;memory,&#32;when&#32;blink.exe&#32;quits</emphasis>
+<anchor xml:id="_main_8cpp_source_1l00312"/>00312 &#32;&#32;&#32;&#32;<link linkend="_structscoped__handle">scoped_handle</link>&#32;blink_pipe_handle&#32;=&#32;CreateNamedPipeA(
+<anchor xml:id="_main_8cpp_source_1l00313"/>00313 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">reinterpret_cast&lt;</emphasis>LPCSTR<emphasis role="keyword">&gt;</emphasis>(<link linkend="_main_8cpp_1aa7f2932178ffbb23b562c243e954781b">blink_pipe_name</link>),
+<anchor xml:id="_main_8cpp_source_1l00314"/>00314 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;PIPE_ACCESS_DUPLEX
+<anchor xml:id="_main_8cpp_source_1l00315"/>00315 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;|&#32;FILE_FLAG_WRITE_THROUGH,
+<anchor xml:id="_main_8cpp_source_1l00316"/>00316 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;PIPE_TYPE_BYTE&#32;|&#32;PIPE_WAIT,
+<anchor xml:id="_main_8cpp_source_1l00317"/>00317 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;1,&#32;<link linkend="_main_8cpp_1a9a6576a75ac365f402b7b02329182641">NAMED_PIPE_SIZE</link>,&#32;<link linkend="_main_8cpp_1a9a6576a75ac365f402b7b02329182641">NAMED_PIPE_SIZE</link>,
+<anchor xml:id="_main_8cpp_source_1l00318"/>00318 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;10000,&#32;NULL);
+<anchor xml:id="_main_8cpp_source_1l00319"/>00319 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(!blink_pipe_handle)
+<anchor xml:id="_main_8cpp_source_1l00320"/>00320 &#32;&#32;&#32;&#32;{
+<anchor xml:id="_main_8cpp_source_1l00321"/>00321 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;Failed&#32;to&#32;create&#32;blink&#32;pipe!&quot;</emphasis>&#32;&lt;&lt;&#32;std::endl;
+<anchor xml:id="_main_8cpp_source_1l00322"/>00322 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;GetLastError();
+<anchor xml:id="_main_8cpp_source_1l00323"/>00323 &#32;&#32;&#32;&#32;}
+<anchor xml:id="_main_8cpp_source_1l00324"/>00324 
+<anchor xml:id="_main_8cpp_source_1l00325"/>00325 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Get&#32;blink.exe&apos;s&#32;environment,&#32;so&#32;we&#32;can&#32;use&#32;it&#32;for&#32;compiles&#32;in&#32;the&#32;remote&#32;thread.</emphasis>
+<anchor xml:id="_main_8cpp_source_1l00326"/>00326 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;LPWCH&#32;environment&#32;=&#32;GetEnvironmentStringsW();
+<anchor xml:id="_main_8cpp_source_1l00327"/>00327 &#32;&#32;&#32;&#32;LPWCH&#32;environment_end&#32;=&#32;environment;
+<anchor xml:id="_main_8cpp_source_1l00328"/>00328 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(;&#32;*environment_end&#32;!=&#32;<emphasis role="charliteral">&apos;\0&apos;</emphasis>;&#32;environment_end&#32;+=&#32;wcslen(environment_end)&#32;+&#32;1)
+<anchor xml:id="_main_8cpp_source_1l00329"/>00329 &#32;&#32;&#32;&#32;{
+<anchor xml:id="_main_8cpp_source_1l00330"/>00330 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;continue&#32;until&#32;we&#32;find&#32;the&#32;double&#32;null&#32;end</emphasis>
+<anchor xml:id="_main_8cpp_source_1l00331"/>00331 &#32;&#32;&#32;&#32;}
+<anchor xml:id="_main_8cpp_source_1l00332"/>00332 &#32;&#32;&#32;&#32;environment_end&#32;+=&#32;1;&#32;<emphasis role="comment">//&#32;get&#32;position&#32;after&#32;the&#32;double&#32;null&#32;end</emphasis>
+<anchor xml:id="_main_8cpp_source_1l00333"/>00333 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;environment_length&#32;=&#32;environment_end&#32;-&#32;environment;
+<anchor xml:id="_main_8cpp_source_1l00334"/>00334 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(environment_length&#32;&gt;&#32;<link linkend="_main_8cpp_1af9dfa6de83bea64807035d22cac71936">MAX_ENVIRONMENT_LENGTH</link>)
+<anchor xml:id="_main_8cpp_source_1l00335"/>00335 &#32;&#32;&#32;&#32;{
+<anchor xml:id="_main_8cpp_source_1l00336"/>00336 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;Environment&#32;string&#32;exceeded&#32;max&#32;length!&quot;</emphasis>&#32;&lt;&lt;&#32;std::endl;
+<anchor xml:id="_main_8cpp_source_1l00337"/>00337 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;ERROR_NOT_ENOUGH_MEMORY;
+<anchor xml:id="_main_8cpp_source_1l00338"/>00338 &#32;&#32;&#32;&#32;}
+<anchor xml:id="_main_8cpp_source_1l00339"/>00339 &#32;&#32;&#32;&#32;memcpy(<link linkend="_main_8cpp_1a692fb833873345702ac688b5512e82af">blink_environment</link>,&#32;environment,&#32;environment_length&#32;*&#32;<emphasis role="keyword">sizeof</emphasis>(<emphasis role="keywordtype">wchar_t</emphasis>));
+<anchor xml:id="_main_8cpp_source_1l00340"/>00340 &#32;&#32;&#32;&#32;FreeEnvironmentStringsW(environment);
+<anchor xml:id="_main_8cpp_source_1l00341"/>00341 
+<anchor xml:id="_main_8cpp_source_1l00342"/>00342 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Get&#32;blink.exe&apos;s&#32;working&#32;directory,&#32;so&#32;we&#32;can&#32;use&#32;it&#32;for&#32;compiles&#32;in&#32;the&#32;remote&#32;thread.</emphasis>
+<anchor xml:id="_main_8cpp_source_1l00343"/>00343 &#32;&#32;&#32;&#32;wcscpy_s(<link linkend="_main_8cpp_1ae90a5c1bd598addb02054786fe396649">blink_working_directory</link>,&#32;std::filesystem::current_path().c_str());
+<anchor xml:id="_main_8cpp_source_1l00344"/>00344 
+<anchor xml:id="_main_8cpp_source_1l00345"/>00345 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Copy&#32;current&#32;module&#32;image&#32;to&#32;target&#32;application&#32;(including&#32;the&#32;IAT&#32;and&#32;value&#32;of&#32;the&#32;global&#32;variables)</emphasis>
+<anchor xml:id="_main_8cpp_source_1l00346"/>00346 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(remote_baseaddress&#32;==&#32;<emphasis role="keyword">nullptr</emphasis>&#32;||&#32;!WriteProcessMemory(remote_process,&#32;remote_baseaddress,&#32;module_info.lpBaseOfDll,&#32;module_info.SizeOfImage,&#32;<emphasis role="keyword">nullptr</emphasis>))
+<anchor xml:id="_main_8cpp_source_1l00347"/>00347 &#32;&#32;&#32;&#32;{
+<anchor xml:id="_main_8cpp_source_1l00348"/>00348 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;Failed&#32;to&#32;allocate&#32;and&#32;write&#32;image&#32;in&#32;target&#32;application!&quot;</emphasis>&#32;&lt;&lt;&#32;std::endl;
+<anchor xml:id="_main_8cpp_source_1l00349"/>00349 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;GetLastError();
+<anchor xml:id="_main_8cpp_source_1l00350"/>00350 &#32;&#32;&#32;&#32;}
+<anchor xml:id="_main_8cpp_source_1l00351"/>00351 
+<anchor xml:id="_main_8cpp_source_1l00352"/>00352 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Launch&#32;module&#32;main&#32;entry&#32;point&#32;in&#32;target&#32;application</emphasis>
+<anchor xml:id="_main_8cpp_source_1l00353"/>00353 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;remote_entrypoint&#32;=&#32;remote_baseaddress&#32;+&#32;(<emphasis role="keyword">reinterpret_cast&lt;</emphasis><link linkend="_tracy__lz4_8cpp_1a4ae1dab0fb4b072a66584546209e7d58">BYTE</link>&#32;*<emphasis role="keyword">&gt;</emphasis>(&amp;<link linkend="_main_8cpp_1aafd0a00086afbbe0799620a1eb8be660">remote_main</link>)&#32;-&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="_tracy__lz4_8cpp_1a4ae1dab0fb4b072a66584546209e7d58">BYTE</link>&#32;*<emphasis role="keyword">&gt;</emphasis>(module_info.lpBaseOfDll));
+<anchor xml:id="_main_8cpp_source_1l00354"/>00354 &#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&#32;&#32;Entry&#32;point&#32;was&#32;written&#32;to&#32;address&#32;&quot;</emphasis>&#32;&lt;&lt;&#32;<emphasis role="keyword">static_cast&lt;</emphasis><emphasis role="keyword">const&#32;</emphasis><emphasis role="keywordtype">void</emphasis>&#32;*<emphasis role="keyword">&gt;</emphasis>(remote_baseaddress)&#32;&lt;&lt;&#32;std::endl;
+<anchor xml:id="_main_8cpp_source_1l00355"/>00355 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_structscoped__handle">scoped_handle</link>&#32;remote_thread&#32;=&#32;CreateRemoteThread(remote_process,&#32;<emphasis role="keyword">nullptr</emphasis>,&#32;0,&#32;<emphasis role="keyword">reinterpret_cast&lt;</emphasis>LPTHREAD_START_ROUTINE<emphasis role="keyword">&gt;</emphasis>(remote_entrypoint),&#32;remote_baseaddress,&#32;0,&#32;<emphasis role="keyword">nullptr</emphasis>);
+<anchor xml:id="_main_8cpp_source_1l00356"/>00356 
+<anchor xml:id="_main_8cpp_source_1l00357"/>00357 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(remote_thread&#32;==&#32;<emphasis role="keyword">nullptr</emphasis>)
+<anchor xml:id="_main_8cpp_source_1l00358"/>00358 &#32;&#32;&#32;&#32;{
+<anchor xml:id="_main_8cpp_source_1l00359"/>00359 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;Failed&#32;to&#32;launch&#32;remote&#32;thread&#32;in&#32;target&#32;application!&quot;</emphasis>&#32;&lt;&lt;&#32;std::endl;
+<anchor xml:id="_main_8cpp_source_1l00360"/>00360 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;GetLastError();
+<anchor xml:id="_main_8cpp_source_1l00361"/>00361 &#32;&#32;&#32;&#32;}
+<anchor xml:id="_main_8cpp_source_1l00362"/>00362 
+<anchor xml:id="_main_8cpp_source_1l00363"/>00363 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Run&#32;main&#32;loop&#32;and&#32;pass&#32;on&#32;incoming&#32;messages&#32;to&#32;console</emphasis>
+<anchor xml:id="_main_8cpp_source_1l00364"/>00364 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">while</emphasis>&#32;(WaitForSingleObject(remote_thread,&#32;0))
+<anchor xml:id="_main_8cpp_source_1l00365"/>00365 &#32;&#32;&#32;&#32;{
+<anchor xml:id="_main_8cpp_source_1l00366"/>00366 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">char</emphasis>&#32;message[512]&#32;=&#32;<emphasis role="stringliteral">&quot;&quot;</emphasis>;
+<anchor xml:id="_main_8cpp_source_1l00367"/>00367 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;DWORD&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>&#32;=&#32;ARRAYSIZE(message);
+<anchor xml:id="_main_8cpp_source_1l00368"/>00368 
+<anchor xml:id="_main_8cpp_source_1l00369"/>00369 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(!ReadFile(local_pipe,&#32;message,&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>,&#32;&amp;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>,&#32;<emphasis role="keyword">nullptr</emphasis>)&#32;||&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>&#32;==&#32;0)
+<anchor xml:id="_main_8cpp_source_1l00370"/>00370 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">continue</emphasis>;
+<anchor xml:id="_main_8cpp_source_1l00371"/>00371 
+<anchor xml:id="_main_8cpp_source_1l00372"/>00372 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;WriteFile(GetStdHandle(STD_OUTPUT_HANDLE),&#32;message,&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>,&#32;&amp;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>,&#32;<emphasis role="keyword">nullptr</emphasis>);
+<anchor xml:id="_main_8cpp_source_1l00373"/>00373 &#32;&#32;&#32;&#32;}
+<anchor xml:id="_main_8cpp_source_1l00374"/>00374 
+<anchor xml:id="_main_8cpp_source_1l00375"/>00375 &#32;&#32;&#32;&#32;DWORD&#32;exitcode&#32;=&#32;0,&#32;remote_exitcode&#32;=&#32;0;
+<anchor xml:id="_main_8cpp_source_1l00376"/>00376 &#32;&#32;&#32;&#32;GetExitCodeThread(remote_thread,&#32;&amp;exitcode);
+<anchor xml:id="_main_8cpp_source_1l00377"/>00377 &#32;&#32;&#32;&#32;GetExitCodeProcess(remote_process,&#32;&amp;remote_exitcode);
+<anchor xml:id="_main_8cpp_source_1l00378"/>00378 
+<anchor xml:id="_main_8cpp_source_1l00379"/>00379 &#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;The&#32;target&#32;application&#32;has&#32;exited&#32;with&#32;code&#32;&quot;</emphasis>&#32;&lt;&lt;&#32;remote_exitcode&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;.&quot;</emphasis>&#32;&lt;&lt;&#32;std::endl;
+<anchor xml:id="_main_8cpp_source_1l00380"/>00380 
+<anchor xml:id="_main_8cpp_source_1l00381"/>00381 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">static_cast&lt;</emphasis><emphasis role="keywordtype">int</emphasis><emphasis role="keyword">&gt;</emphasis>(exitcode);
+<anchor xml:id="_main_8cpp_source_1l00382"/>00382 }
+</programlisting></section>

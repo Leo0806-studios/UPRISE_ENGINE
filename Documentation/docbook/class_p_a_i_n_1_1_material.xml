@@ -16,18 +16,26 @@
 <simplesect>
     <title>Public Member Functions    </title>
         <itemizedlist>
-            <listitem><para><link linkend="_class_p_a_i_n_1_1_material_1a6b8d61ec2197780024b96ae2675c3680">Material</link> (<link linkend="_class_p_a_i_n_1_1_shader">Shader</link> *shade)</para>
+            <listitem><para><link linkend="_class_p_a_i_n_1_1_material_1a2f6509dbbead36f3db370733b877f224">Material</link> (<link linkend="_class_p_a_i_n_1_1_shader">Shader</link> *shade)</para>
 </listitem>
-            <listitem><para>void <link linkend="_class_p_a_i_n_1_1_material_1ad2a40419959a3171a9e24a0fe676d694">DrawObj</link> () override</para>
+            <listitem><para><link linkend="_class_p_a_i_n_1_1_material_1afe93eeb2b255cdecd9a55a59eb7a240b">Material</link> (<link linkend="_class_p_a_i_n_1_1_shader">Shader</link> shade)</para>
+</listitem>
+            <listitem><para>void <link linkend="_class_p_a_i_n_1_1_material_1ad04a24cf9ca3e24ac92ea716fee77445">DrawObj</link> () override</para>
 </listitem>
         </itemizedlist>
 </simplesect>
+Public Member Functions inherited from <link linkend="_class_p_a_i_n_1_1_render">PAIN::Render</link>        <itemizedlist>
+            <listitem><para><link linkend="_class_p_a_i_n_1_1_render_1a584ea08f41a307efe60a112409fafe73">VEC</link> (std::shared_ptr&lt; <link linkend="_class_p_a_i_n_1_1_mini_model">MiniModel</link> &gt;) Object_ModelSubstitute</para>
+</listitem>
+        </itemizedlist>
 <simplesect>
     <title>Public Attributes    </title>
         <itemizedlist>
             <listitem><para>int <link linkend="_class_p_a_i_n_1_1_material_1ae8c0a8b4748918d51637c467db2a1541">ID</link></para>
 </listitem>
             <listitem><para><link linkend="_class_p_a_i_n_1_1_shader">Shader</link> * <link linkend="_class_p_a_i_n_1_1_material_1a6347cc80081c890b9f46426f97ee60ef">shader</link></para>
+</listitem>
+            <listitem><para><link linkend="_class_p_a_i_n_1_1_shader">Shader</link> <link linkend="_class_p_a_i_n_1_1_material_1a2498f2dea30e145feb5f75c3d9fbf5d8">Shader_</link></para>
 </listitem>
         </itemizedlist>
 </simplesect>
@@ -49,6 +57,10 @@ Static Public Member Functions inherited from <link linkend="_class_p_a_i_n_1_1_
         </itemizedlist>
 </simplesect>
 Static Public Attributes inherited from <link linkend="_class_p_a_i_n_1_1_render">PAIN::Render</link>        <itemizedlist>
+            <listitem><para>static unsigned int <link linkend="_class_p_a_i_n_1_1_render_1a776c8dcaca166efa541b24efb734be34">FBO</link></para>
+</listitem>
+            <listitem><para>static std::unordered_map&lt; std::string, int &gt; <link linkend="_class_p_a_i_n_1_1_render_1ad30f507c60483205de5f3c433e38db91">MaterialIdLinkDict</link></para>
+</listitem>
             <listitem><para>static std::unordered_map&lt; std::string, std::shared_ptr&lt; <link linkend="_class_p_a_i_n_1_1_model">PAIN::Model</link> &gt; &gt; <link linkend="_class_p_a_i_n_1_1_render_1ab7d797b16bb1c0e8dd5f1b90e2381e70">Modeldict</link></para>
 </listitem>
             <listitem><para>static std::vector&lt; <link linkend="_class_p_a_i_n_1_1_material">PAIN::Material</link> &gt; <link linkend="_class_p_a_i_n_1_1_render_1a84347a41643ef3f2d789da1734dbd82b">mats</link></para>
@@ -57,34 +69,32 @@ Static Public Attributes inherited from <link linkend="_class_p_a_i_n_1_1_render
 </listitem>
             <listitem><para>static <link linkend="_class_p_a_i_n_1_1_render___camera">PAIN::Render_Camera</link> * <link linkend="_class_p_a_i_n_1_1_render_1aa8941b0822d07c1f693c1cdde5a9b6d7">RenderCam</link></para>
 </listitem>
-            <listitem><para>static std::shared_ptr&lt; <link linkend="_class_c_o_r_e_1_1_behaviour">CORE::Behaviour</link> &gt; <link linkend="_class_p_a_i_n_1_1_render_1aa75a60252b5a62d78e889a2ec26fbf53">CAM</link></para>
+            <listitem><para>static std::shared_ptr&lt; <link linkend="_class_camera">Camera</link> &gt; <link linkend="_class_p_a_i_n_1_1_render_1a86d4278c37bd83b81c34f51f5afd7d7a">CAM</link></para>
+</listitem>
+            <listitem><para>static bool <link linkend="_class_p_a_i_n_1_1_render_1ae9508471e348b14b7fdc4a6d12fdb1ad">Check_Removed</link> = false</para>
 </listitem>
         </itemizedlist>
 <section>
-<title>Detailed Description</title>
-<para>
-Definition at line <link linkend="__r_e_n_d_e_r___m_a_t_e_r_i_a_l_8h_source_1l00031">31</link> of file <link linkend="__r_e_n_d_e_r___m_a_t_e_r_i_a_l_8h_source">RENDER_MATERIAL.h</link>.</para>
-</section>
-<section>
 <title>Constructor &amp; Destructor Documentation</title>
-<anchor xml:id="_class_p_a_i_n_1_1_material_1a6b8d61ec2197780024b96ae2675c3680"/><section>
-    <title>Material()</title>
+<anchor xml:id="_class_p_a_i_n_1_1_material_1a2f6509dbbead36f3db370733b877f224"/><section>
+    <title>Material()<computeroutput>[1/2]</computeroutput></title>
 <indexterm><primary>Material</primary><secondary>PAIN::Material</secondary></indexterm>
 <indexterm><primary>PAIN::Material</primary><secondary>Material</secondary></indexterm>
-<para><computeroutput>PAIN::Material::Material (<link linkend="_class_p_a_i_n_1_1_shader">Shader</link> * shade)</computeroutput></para><para>
-Definition at line <link linkend="__r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_1l00005">5</link> of file <link linkend="__r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source">RENDER_MATERIAL.cpp</link>.</para>
-</section>
+<para><computeroutput>Material::Material (<link linkend="_class_p_a_i_n_1_1_shader">Shader</link> * shade)</computeroutput></para></section>
+<anchor xml:id="_class_p_a_i_n_1_1_material_1afe93eeb2b255cdecd9a55a59eb7a240b"/><section>
+    <title>Material()<computeroutput>[2/2]</computeroutput></title>
+<indexterm><primary>Material</primary><secondary>PAIN::Material</secondary></indexterm>
+<indexterm><primary>PAIN::Material</primary><secondary>Material</secondary></indexterm>
+<para><computeroutput>Material::Material (<link linkend="_class_p_a_i_n_1_1_shader">Shader</link> shade)</computeroutput></para></section>
 </section>
 <section>
 <title>Member Function Documentation</title>
-<anchor xml:id="_class_p_a_i_n_1_1_material_1ad2a40419959a3171a9e24a0fe676d694"/><section>
+<anchor xml:id="_class_p_a_i_n_1_1_material_1ad04a24cf9ca3e24ac92ea716fee77445"/><section>
     <title>DrawObj()</title>
 <indexterm><primary>DrawObj</primary><secondary>PAIN::Material</secondary></indexterm>
 <indexterm><primary>PAIN::Material</primary><secondary>DrawObj</secondary></indexterm>
-<para><computeroutput>void PAIN::Material::DrawObj ( )<computeroutput>[inline]</computeroutput>, <computeroutput>[override]</computeroutput>, <computeroutput>[virtual]</computeroutput></computeroutput></para><para>
+<para><computeroutput>void Material::DrawObj ( )<computeroutput>[inline]</computeroutput>, <computeroutput>[override]</computeroutput>, <computeroutput>[virtual]</computeroutput></computeroutput></para><para>
 Implements <link linkend="_class_p_a_i_n_1_1_render_1a6e112f61d2775d308b72a80fb064cf66">PAIN::Render</link>.</para>
-<para>
-Definition at line <link linkend="__r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_1l00012">12</link> of file <link linkend="__r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source">RENDER_MATERIAL.cpp</link>.</para>
 </section>
 </section>
 <section>
@@ -93,16 +103,17 @@ Definition at line <link linkend="__r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp_source_1l
     <title>ID</title>
 <indexterm><primary>ID</primary><secondary>PAIN::Material</secondary></indexterm>
 <indexterm><primary>PAIN::Material</primary><secondary>ID</secondary></indexterm>
-<para><computeroutput>int PAIN::Material::ID</computeroutput></para><para>
-Definition at line <link linkend="__r_e_n_d_e_r___m_a_t_e_r_i_a_l_8h_source_1l00033">33</link> of file <link linkend="__r_e_n_d_e_r___m_a_t_e_r_i_a_l_8h_source">RENDER_MATERIAL.h</link>.</para>
-</section>
+<para><computeroutput>int PAIN::Material::ID</computeroutput></para></section>
 <anchor xml:id="_class_p_a_i_n_1_1_material_1a6347cc80081c890b9f46426f97ee60ef"/><section>
     <title>shader</title>
 <indexterm><primary>shader</primary><secondary>PAIN::Material</secondary></indexterm>
 <indexterm><primary>PAIN::Material</primary><secondary>shader</secondary></indexterm>
-<para><computeroutput><link linkend="_class_p_a_i_n_1_1_shader">Shader</link>* PAIN::Material::shader</computeroutput></para><para>
-Definition at line <link linkend="__r_e_n_d_e_r___m_a_t_e_r_i_a_l_8h_source_1l00034">34</link> of file <link linkend="__r_e_n_d_e_r___m_a_t_e_r_i_a_l_8h_source">RENDER_MATERIAL.h</link>.</para>
-</section>
+<para><computeroutput><link linkend="_class_p_a_i_n_1_1_shader">Shader</link>* PAIN::Material::shader</computeroutput></para></section>
+<anchor xml:id="_class_p_a_i_n_1_1_material_1a2498f2dea30e145feb5f75c3d9fbf5d8"/><section>
+    <title>Shader_</title>
+<indexterm><primary>Shader_</primary><secondary>PAIN::Material</secondary></indexterm>
+<indexterm><primary>PAIN::Material</primary><secondary>Shader_</secondary></indexterm>
+<para><computeroutput><link linkend="_class_p_a_i_n_1_1_shader">Shader</link> PAIN::Material::Shader_</computeroutput></para></section>
 <para>
 The documentation for this class was generated from the following files:</para>
 UPRISE_ENGINE/<link linkend="__r_e_n_d_e_r___m_a_t_e_r_i_a_l_8h">RENDER_MATERIAL.h</link>UPRISE_ENGINE/<link linkend="__r_e_n_d_e_r___m_a_t_e_r_i_a_l_8cpp">RENDER_MATERIAL.cpp</link></section>

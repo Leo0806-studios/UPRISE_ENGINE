@@ -1,0 +1,754 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="__tracy_socket_8cpp_source" xml:lang="en-US">
+<title>TracySocket.cpp</title>
+<indexterm><primary>adhed/common/TracySocket.cpp</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered"><anchor xml:id="__tracy_socket_8cpp_source_1l00001"/>00001 <emphasis role="preprocessor">#include&#32;&lt;assert.h&gt;</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00002"/>00002 <emphasis role="preprocessor">#include&#32;&lt;inttypes.h&gt;</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00003"/>00003 <emphasis role="preprocessor">#include&#32;&lt;new&gt;</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00004"/>00004 <emphasis role="preprocessor">#include&#32;&lt;stdio.h&gt;</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00005"/>00005 <emphasis role="preprocessor">#include&#32;&lt;stdlib.h&gt;</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00006"/>00006 <emphasis role="preprocessor">#include&#32;&lt;string.h&gt;</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00007"/>00007 <emphasis role="preprocessor">#include&#32;&lt;sys/types.h&gt;</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00008"/>00008 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00009"/>00009 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__tracy_alloc_8hpp">TracyAlloc.hpp</link>&quot;</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00010"/>00010 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__tracy_socket_8hpp">TracySocket.hpp</link>&quot;</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00011"/>00011 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__tracy_system_8hpp">TracySystem.hpp</link>&quot;</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00012"/>00012 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00013"/>00013 <emphasis role="preprocessor">#ifdef&#32;_WIN32</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00014"/>00014 <emphasis role="preprocessor">#&#32;&#32;ifndef&#32;NOMINMAX</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00015"/>00015 <emphasis role="preprocessor">#&#32;&#32;&#32;&#32;define&#32;NOMINMAX</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00016"/>00016 <emphasis role="preprocessor">#&#32;&#32;endif</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00017"/>00017 <emphasis role="preprocessor">#&#32;&#32;include&#32;&lt;winsock2.h&gt;</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00018"/>00018 <emphasis role="preprocessor">#&#32;&#32;include&#32;&lt;ws2tcpip.h&gt;</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00019"/>00019 <emphasis role="preprocessor">#&#32;&#32;ifdef&#32;_MSC_VER</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00020"/>00020 <emphasis role="preprocessor">#&#32;&#32;&#32;&#32;pragma&#32;warning(disable:4244)</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00021"/>00021 <emphasis role="preprocessor">#&#32;&#32;&#32;&#32;pragma&#32;warning(disable:4267)</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00022"/>00022 <emphasis role="preprocessor">#&#32;&#32;endif</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00023"/>00023 <emphasis role="preprocessor">#&#32;&#32;define&#32;poll&#32;WSAPoll</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00024"/>00024 <emphasis role="preprocessor">#else</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00025"/>00025 <emphasis role="preprocessor">#&#32;&#32;include&#32;&lt;arpa/inet.h&gt;</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00026"/>00026 <emphasis role="preprocessor">#&#32;&#32;include&#32;&lt;sys/socket.h&gt;</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00027"/>00027 <emphasis role="preprocessor">#&#32;&#32;include&#32;&lt;sys/param.h&gt;</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00028"/>00028 <emphasis role="preprocessor">#&#32;&#32;include&#32;&lt;errno.h&gt;</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00029"/>00029 <emphasis role="preprocessor">#&#32;&#32;include&#32;&lt;fcntl.h&gt;</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00030"/>00030 <emphasis role="preprocessor">#&#32;&#32;include&#32;&lt;netinet/in.h&gt;</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00031"/>00031 <emphasis role="preprocessor">#&#32;&#32;include&#32;&lt;netdb.h&gt;</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00032"/>00032 <emphasis role="preprocessor">#&#32;&#32;include&#32;&lt;unistd.h&gt;</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00033"/>00033 <emphasis role="preprocessor">#&#32;&#32;include&#32;&lt;poll.h&gt;</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00034"/>00034 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00035"/>00035 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00036"/>00036 <emphasis role="preprocessor">#ifndef&#32;MSG_NOSIGNAL</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00037"/><link linkend="__tracy_socket_8cpp_1a9f55d0e90dc8cc6b2287312435cdde48">00037</link> <emphasis role="preprocessor">#&#32;&#32;define&#32;MSG_NOSIGNAL&#32;0</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00038"/>00038 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00039"/>00039 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00040"/>00040 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespacetracy">tracy</link>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00041"/>00041 {
+<anchor xml:id="__tracy_socket_8cpp_source_1l00042"/>00042 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00043"/>00043 <emphasis role="preprocessor">#ifdef&#32;_WIN32</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00044"/>00044 <emphasis role="keyword">typedef</emphasis>&#32;SOCKET&#32;<link linkend="_namespacetracy_1ad59a4548ffc580cd8a186359bb94f130">socket_t</link>;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00045"/>00045 <emphasis role="preprocessor">#else</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00046"/><link linkend="_namespacetracy_1ad59a4548ffc580cd8a186359bb94f130">00046</link> <emphasis role="keyword">typedef</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespacetracy_1ad59a4548ffc580cd8a186359bb94f130">socket_t</link>;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00047"/>00047 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00048"/>00048 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00049"/>00049 <emphasis role="preprocessor">#ifdef&#32;_WIN32</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00050"/>00050 <emphasis role="keyword">struct&#32;</emphasis>__wsinit
+<anchor xml:id="__tracy_socket_8cpp_source_1l00051"/>00051 {
+<anchor xml:id="__tracy_socket_8cpp_source_1l00052"/>00052 &#32;&#32;&#32;&#32;__wsinit()
+<anchor xml:id="__tracy_socket_8cpp_source_1l00053"/>00053 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_socket_8cpp_source_1l00054"/>00054 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;WSADATA&#32;wsaData;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00055"/>00055 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;WSAStartup(&#32;MAKEWORD(&#32;2,&#32;2&#32;),&#32;&amp;wsaData&#32;)&#32;!=&#32;0&#32;)
+<anchor xml:id="__tracy_socket_8cpp_source_1l00056"/>00056 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_socket_8cpp_source_1l00057"/>00057 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fprintf(&#32;stderr,&#32;<emphasis role="stringliteral">&quot;Cannot&#32;init&#32;winsock.\n&quot;</emphasis>&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00058"/>00058 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;exit(&#32;1&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00059"/>00059 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_socket_8cpp_source_1l00060"/>00060 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_socket_8cpp_source_1l00061"/>00061 };
+<anchor xml:id="__tracy_socket_8cpp_source_1l00062"/>00062 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00063"/>00063 <emphasis role="keywordtype">void</emphasis>&#32;InitWinSock()
+<anchor xml:id="__tracy_socket_8cpp_source_1l00064"/>00064 {
+<anchor xml:id="__tracy_socket_8cpp_source_1l00065"/>00065 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;__wsinit&#32;init;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00066"/>00066 }
+<anchor xml:id="__tracy_socket_8cpp_source_1l00067"/>00067 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00068"/>00068 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00069"/>00069 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00070"/><link linkend="_namespacetracy_1a155832e5bc72bc5cbb68b64d42fce1c3a8ea57ec04d4f58ec1fa4e651982d1514">00070</link> <emphasis role="keyword">enum</emphasis>&#32;{&#32;<link linkend="_namespacetracy_1a155832e5bc72bc5cbb68b64d42fce1c3a8ea57ec04d4f58ec1fa4e651982d1514">BufSize</link>&#32;=&#32;128&#32;*&#32;1024&#32;};
+<anchor xml:id="__tracy_socket_8cpp_source_1l00071"/>00071 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00072"/><link linkend="_classtracy_1_1_socket_1a2a0d3dbf3768ab8eef5496631059afc9">00072</link> <link linkend="_classtracy_1_1_socket_1a2a0d3dbf3768ab8eef5496631059afc9">Socket::Socket</link>()
+<anchor xml:id="__tracy_socket_8cpp_source_1l00073"/>00073 &#32;&#32;&#32;&#32;:&#32;m_buf(&#32;(char*)tracy_malloc(&#32;<link linkend="_namespacetracy_1a155832e5bc72bc5cbb68b64d42fce1c3a8ea57ec04d4f58ec1fa4e651982d1514">BufSize</link>&#32;)&#32;)
+<anchor xml:id="__tracy_socket_8cpp_source_1l00074"/>00074 &#32;&#32;&#32;&#32;,&#32;m_bufPtr(&#32;nullptr&#32;)
+<anchor xml:id="__tracy_socket_8cpp_source_1l00075"/>00075 &#32;&#32;&#32;&#32;,&#32;m_sock(&#32;-1&#32;)
+<anchor xml:id="__tracy_socket_8cpp_source_1l00076"/>00076 &#32;&#32;&#32;&#32;,&#32;m_bufLeft(&#32;0&#32;)
+<anchor xml:id="__tracy_socket_8cpp_source_1l00077"/>00077 &#32;&#32;&#32;&#32;,&#32;m_ptr(&#32;nullptr&#32;)
+<anchor xml:id="__tracy_socket_8cpp_source_1l00078"/>00078 {
+<anchor xml:id="__tracy_socket_8cpp_source_1l00079"/>00079 <emphasis role="preprocessor">#ifdef&#32;_WIN32</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00080"/>00080 &#32;&#32;&#32;&#32;InitWinSock();
+<anchor xml:id="__tracy_socket_8cpp_source_1l00081"/>00081 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00082"/>00082 }
+<anchor xml:id="__tracy_socket_8cpp_source_1l00083"/>00083 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00084"/><link linkend="_classtracy_1_1_socket_1a6c8242e01c98d9a52c38be38339a644f">00084</link> <link linkend="_classtracy_1_1_socket_1a2a0d3dbf3768ab8eef5496631059afc9">Socket::Socket</link>(&#32;<emphasis role="keywordtype">int</emphasis>&#32;sock&#32;)
+<anchor xml:id="__tracy_socket_8cpp_source_1l00085"/>00085 &#32;&#32;&#32;&#32;:&#32;m_buf(&#32;(char*)tracy_malloc(&#32;<link linkend="_namespacetracy_1a155832e5bc72bc5cbb68b64d42fce1c3a8ea57ec04d4f58ec1fa4e651982d1514">BufSize</link>&#32;)&#32;)
+<anchor xml:id="__tracy_socket_8cpp_source_1l00086"/>00086 &#32;&#32;&#32;&#32;,&#32;m_bufPtr(&#32;nullptr&#32;)
+<anchor xml:id="__tracy_socket_8cpp_source_1l00087"/>00087 &#32;&#32;&#32;&#32;,&#32;m_sock(&#32;sock&#32;)
+<anchor xml:id="__tracy_socket_8cpp_source_1l00088"/>00088 &#32;&#32;&#32;&#32;,&#32;m_bufLeft(&#32;0&#32;)
+<anchor xml:id="__tracy_socket_8cpp_source_1l00089"/>00089 &#32;&#32;&#32;&#32;,&#32;m_ptr(&#32;nullptr&#32;)
+<anchor xml:id="__tracy_socket_8cpp_source_1l00090"/>00090 {
+<anchor xml:id="__tracy_socket_8cpp_source_1l00091"/>00091 }
+<anchor xml:id="__tracy_socket_8cpp_source_1l00092"/>00092 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00093"/><link linkend="_classtracy_1_1_socket_1afb4376afd7c2913187f119e136efb6d4">00093</link> <link linkend="_classtracy_1_1_socket_1afb4376afd7c2913187f119e136efb6d4">Socket::~Socket</link>()
+<anchor xml:id="__tracy_socket_8cpp_source_1l00094"/>00094 {
+<anchor xml:id="__tracy_socket_8cpp_source_1l00095"/>00095 &#32;&#32;&#32;&#32;tracy_free(&#32;m_buf&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00096"/>00096 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;m_sock.load(&#32;std::memory_order_relaxed&#32;)&#32;!=&#32;-1&#32;)
+<anchor xml:id="__tracy_socket_8cpp_source_1l00097"/>00097 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_socket_8cpp_source_1l00098"/>00098 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_classtracy_1_1_socket_1a3e0503d82a626755ce289a2748b28117">Close</link>();
+<anchor xml:id="__tracy_socket_8cpp_source_1l00099"/>00099 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_socket_8cpp_source_1l00100"/>00100 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;m_ptr&#32;)
+<anchor xml:id="__tracy_socket_8cpp_source_1l00101"/>00101 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_socket_8cpp_source_1l00102"/>00102 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;freeaddrinfo(&#32;m_res&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00103"/>00103 <emphasis role="preprocessor">#ifdef&#32;_WIN32</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00104"/>00104 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;closesocket(&#32;m_connSock&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00105"/>00105 <emphasis role="preprocessor">#else</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00106"/>00106 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;close(&#32;m_connSock&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00107"/>00107 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00108"/>00108 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_socket_8cpp_source_1l00109"/>00109 }
+<anchor xml:id="__tracy_socket_8cpp_source_1l00110"/>00110 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00111"/><link linkend="_classtracy_1_1_socket_1ab87610033fc96c7ab043b1ab6b4669d0">00111</link> <emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_classtracy_1_1_socket_1ab87610033fc96c7ab043b1ab6b4669d0">Socket::Connect</link>(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;addr,&#32;uint16_t&#32;port&#32;)
+<anchor xml:id="__tracy_socket_8cpp_source_1l00112"/>00112 {
+<anchor xml:id="__tracy_socket_8cpp_source_1l00113"/>00113 &#32;&#32;&#32;&#32;<link linkend="_tracy__lz4_8cpp_1acdcc5aaebf3f273c1762f24a6ece2e5e">assert</link>(&#32;!<link linkend="_classtracy_1_1_socket_1a0d1fb0f5903d217c57002e750295c120">IsValid</link>()&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00114"/>00114 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00115"/>00115 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;m_ptr&#32;)
+<anchor xml:id="__tracy_socket_8cpp_source_1l00116"/>00116 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_socket_8cpp_source_1l00117"/>00117 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;c&#32;=&#32;connect(&#32;m_connSock,&#32;m_ptr-&gt;ai_addr,&#32;m_ptr-&gt;ai_addrlen&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00118"/>00118 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;c&#32;==&#32;-1&#32;)
+<anchor xml:id="__tracy_socket_8cpp_source_1l00119"/>00119 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_socket_8cpp_source_1l00120"/>00120 <emphasis role="preprocessor">#if&#32;defined&#32;_WIN32</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00121"/>00121 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;err&#32;=&#32;WSAGetLastError();
+<anchor xml:id="__tracy_socket_8cpp_source_1l00122"/>00122 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;err&#32;==&#32;WSAEALREADY&#32;||&#32;err&#32;==&#32;WSAEINPROGRESS&#32;)&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">false</emphasis>;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00123"/>00123 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;err&#32;!=&#32;WSAEISCONN&#32;)
+<anchor xml:id="__tracy_socket_8cpp_source_1l00124"/>00124 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_socket_8cpp_source_1l00125"/>00125 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;freeaddrinfo(&#32;m_res&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00126"/>00126 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;closesocket(&#32;m_connSock&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00127"/>00127 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_ptr&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00128"/>00128 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">false</emphasis>;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00129"/>00129 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_socket_8cpp_source_1l00130"/>00130 <emphasis role="preprocessor">#else</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00131"/>00131 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;err&#32;=&#32;errno;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00132"/>00132 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;err&#32;==&#32;EALREADY&#32;||&#32;err&#32;==&#32;EINPROGRESS&#32;)&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">false</emphasis>;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00133"/>00133 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;err&#32;!=&#32;EISCONN&#32;)
+<anchor xml:id="__tracy_socket_8cpp_source_1l00134"/>00134 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_socket_8cpp_source_1l00135"/>00135 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;freeaddrinfo(&#32;m_res&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00136"/>00136 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;close(&#32;m_connSock&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00137"/>00137 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_ptr&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00138"/>00138 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">false</emphasis>;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00139"/>00139 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_socket_8cpp_source_1l00140"/>00140 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00141"/>00141 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_socket_8cpp_source_1l00142"/>00142 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00143"/>00143 <emphasis role="preprocessor">#if&#32;defined&#32;_WIN32</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00144"/>00144 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;u_long&#32;nonblocking&#32;=&#32;0;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00145"/>00145 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ioctlsocket(&#32;m_connSock,&#32;FIONBIO,&#32;&amp;nonblocking&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00146"/>00146 <emphasis role="preprocessor">#else</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00147"/>00147 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1ac7ba7d3cce3d19ca020e056b37231289">flags</link>&#32;=&#32;fcntl(&#32;m_connSock,&#32;F_GETFL,&#32;0&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00148"/>00148 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fcntl(&#32;m_connSock,&#32;F_SETFL,&#32;<link linkend="_glad_8h_1ac7ba7d3cce3d19ca020e056b37231289">flags</link>&#32;&amp;&#32;~O_NONBLOCK&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00149"/>00149 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00150"/>00150 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_sock.store(&#32;m_connSock,&#32;std::memory_order_relaxed&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00151"/>00151 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;freeaddrinfo(&#32;m_res&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00152"/>00152 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_ptr&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00153"/>00153 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">true</emphasis>;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00154"/>00154 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_socket_8cpp_source_1l00155"/>00155 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00156"/>00156 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis>addrinfo&#32;hints;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00157"/>00157 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis>addrinfo&#32;*res,&#32;*ptr;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00158"/>00158 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00159"/>00159 &#32;&#32;&#32;&#32;memset(&#32;&amp;hints,&#32;0,&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;hints&#32;)&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00160"/>00160 &#32;&#32;&#32;&#32;hints.ai_family&#32;=&#32;AF_UNSPEC;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00161"/>00161 &#32;&#32;&#32;&#32;hints.ai_socktype&#32;=&#32;SOCK_STREAM;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00162"/>00162 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00163"/>00163 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">char</emphasis>&#32;portbuf[32];
+<anchor xml:id="__tracy_socket_8cpp_source_1l00164"/>00164 &#32;&#32;&#32;&#32;sprintf(&#32;portbuf,&#32;<emphasis role="stringliteral">&quot;%&quot;</emphasis>&#32;PRIu16,&#32;port&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00165"/>00165 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00166"/>00166 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;getaddrinfo(&#32;addr,&#32;portbuf,&#32;&amp;hints,&#32;&amp;res&#32;)&#32;!=&#32;0&#32;)&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">false</emphasis>;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00167"/>00167 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;sock&#32;=&#32;0;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00168"/>00168 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>(&#32;ptr&#32;=&#32;res;&#32;ptr;&#32;ptr&#32;=&#32;ptr-&gt;ai_next&#32;)
+<anchor xml:id="__tracy_socket_8cpp_source_1l00169"/>00169 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_socket_8cpp_source_1l00170"/>00170 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;(&#32;sock&#32;=&#32;socket(&#32;ptr-&gt;ai_family,&#32;ptr-&gt;ai_socktype,&#32;ptr-&gt;ai_protocol&#32;)&#32;)&#32;==&#32;-1&#32;)&#32;<emphasis role="keywordflow">continue</emphasis>;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00171"/>00171 <emphasis role="preprocessor">#if&#32;defined&#32;__APPLE__</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00172"/>00172 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1aa857b95cc76669c2a9109239ef40a47c">val</link>&#32;=&#32;1;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00173"/>00173 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;setsockopt(&#32;sock,&#32;SOL_SOCKET,&#32;SO_NOSIGPIPE,&#32;&amp;<link linkend="_glad_8h_1aa857b95cc76669c2a9109239ef40a47c">val</link>,&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;<link linkend="_glad_8h_1aa857b95cc76669c2a9109239ef40a47c">val</link>&#32;)&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00174"/>00174 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00175"/>00175 <emphasis role="preprocessor">#if&#32;defined&#32;_WIN32</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00176"/>00176 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;u_long&#32;nonblocking&#32;=&#32;1;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00177"/>00177 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ioctlsocket(&#32;sock,&#32;FIONBIO,&#32;&amp;nonblocking&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00178"/>00178 <emphasis role="preprocessor">#else</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00179"/>00179 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1ac7ba7d3cce3d19ca020e056b37231289">flags</link>&#32;=&#32;fcntl(&#32;sock,&#32;F_GETFL,&#32;0&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00180"/>00180 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fcntl(&#32;sock,&#32;F_SETFL,&#32;<link linkend="_glad_8h_1ac7ba7d3cce3d19ca020e056b37231289">flags</link>&#32;|&#32;O_NONBLOCK&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00181"/>00181 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00182"/>00182 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;connect(&#32;sock,&#32;ptr-&gt;ai_addr,&#32;ptr-&gt;ai_addrlen&#32;)&#32;==&#32;0&#32;)
+<anchor xml:id="__tracy_socket_8cpp_source_1l00183"/>00183 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_socket_8cpp_source_1l00184"/>00184 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">break</emphasis>;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00185"/>00185 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_socket_8cpp_source_1l00186"/>00186 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00187"/>00187 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_socket_8cpp_source_1l00188"/>00188 <emphasis role="preprocessor">#if&#32;defined&#32;_WIN32</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00189"/>00189 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;err&#32;=&#32;WSAGetLastError();
+<anchor xml:id="__tracy_socket_8cpp_source_1l00190"/>00190 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;err&#32;!=&#32;WSAEWOULDBLOCK&#32;)
+<anchor xml:id="__tracy_socket_8cpp_source_1l00191"/>00191 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_socket_8cpp_source_1l00192"/>00192 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;closesocket(&#32;sock&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00193"/>00193 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">continue</emphasis>;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00194"/>00194 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_socket_8cpp_source_1l00195"/>00195 <emphasis role="preprocessor">#else</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00196"/>00196 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;errno&#32;!=&#32;EINPROGRESS&#32;)
+<anchor xml:id="__tracy_socket_8cpp_source_1l00197"/>00197 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_socket_8cpp_source_1l00198"/>00198 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;close(&#32;sock&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00199"/>00199 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">continue</emphasis>;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00200"/>00200 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_socket_8cpp_source_1l00201"/>00201 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00202"/>00202 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_socket_8cpp_source_1l00203"/>00203 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_res&#32;=&#32;res;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00204"/>00204 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_ptr&#32;=&#32;ptr;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00205"/>00205 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_connSock&#32;=&#32;sock;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00206"/>00206 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">false</emphasis>;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00207"/>00207 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_socket_8cpp_source_1l00208"/>00208 &#32;&#32;&#32;&#32;freeaddrinfo(&#32;res&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00209"/>00209 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!ptr&#32;)&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">false</emphasis>;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00210"/>00210 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00211"/>00211 <emphasis role="preprocessor">#if&#32;defined&#32;_WIN32</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00212"/>00212 &#32;&#32;&#32;&#32;u_long&#32;nonblocking&#32;=&#32;0;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00213"/>00213 &#32;&#32;&#32;&#32;ioctlsocket(&#32;sock,&#32;FIONBIO,&#32;&amp;nonblocking&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00214"/>00214 <emphasis role="preprocessor">#else</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00215"/>00215 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1ac7ba7d3cce3d19ca020e056b37231289">flags</link>&#32;=&#32;fcntl(&#32;sock,&#32;F_GETFL,&#32;0&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00216"/>00216 &#32;&#32;&#32;&#32;fcntl(&#32;sock,&#32;F_SETFL,&#32;<link linkend="_glad_8h_1ac7ba7d3cce3d19ca020e056b37231289">flags</link>&#32;&amp;&#32;~O_NONBLOCK&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00217"/>00217 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00218"/>00218 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00219"/>00219 &#32;&#32;&#32;&#32;m_sock.store(&#32;sock,&#32;std::memory_order_relaxed&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00220"/>00220 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">true</emphasis>;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00221"/>00221 }
+<anchor xml:id="__tracy_socket_8cpp_source_1l00222"/>00222 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00223"/><link linkend="_classtracy_1_1_socket_1abb435cb4155dadc761808c8418472108">00223</link> <emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_classtracy_1_1_socket_1abb435cb4155dadc761808c8418472108">Socket::ConnectBlocking</link>(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;addr,&#32;uint16_t&#32;port&#32;)
+<anchor xml:id="__tracy_socket_8cpp_source_1l00224"/>00224 {
+<anchor xml:id="__tracy_socket_8cpp_source_1l00225"/>00225 &#32;&#32;&#32;&#32;<link linkend="_tracy__lz4_8cpp_1acdcc5aaebf3f273c1762f24a6ece2e5e">assert</link>(&#32;!<link linkend="_classtracy_1_1_socket_1a0d1fb0f5903d217c57002e750295c120">IsValid</link>()&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00226"/>00226 &#32;&#32;&#32;&#32;<link linkend="_tracy__lz4_8cpp_1acdcc5aaebf3f273c1762f24a6ece2e5e">assert</link>(&#32;!m_ptr&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00227"/>00227 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00228"/>00228 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis>addrinfo&#32;hints;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00229"/>00229 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis>addrinfo&#32;*res,&#32;*ptr;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00230"/>00230 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00231"/>00231 &#32;&#32;&#32;&#32;memset(&#32;&amp;hints,&#32;0,&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;hints&#32;)&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00232"/>00232 &#32;&#32;&#32;&#32;hints.ai_family&#32;=&#32;AF_UNSPEC;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00233"/>00233 &#32;&#32;&#32;&#32;hints.ai_socktype&#32;=&#32;SOCK_STREAM;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00234"/>00234 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00235"/>00235 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">char</emphasis>&#32;portbuf[32];
+<anchor xml:id="__tracy_socket_8cpp_source_1l00236"/>00236 &#32;&#32;&#32;&#32;sprintf(&#32;portbuf,&#32;<emphasis role="stringliteral">&quot;%&quot;</emphasis>&#32;PRIu16,&#32;port&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00237"/>00237 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00238"/>00238 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;getaddrinfo(&#32;addr,&#32;portbuf,&#32;&amp;hints,&#32;&amp;res&#32;)&#32;!=&#32;0&#32;)&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">false</emphasis>;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00239"/>00239 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;sock&#32;=&#32;0;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00240"/>00240 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>(&#32;ptr&#32;=&#32;res;&#32;ptr;&#32;ptr&#32;=&#32;ptr-&gt;ai_next&#32;)
+<anchor xml:id="__tracy_socket_8cpp_source_1l00241"/>00241 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_socket_8cpp_source_1l00242"/>00242 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;(&#32;sock&#32;=&#32;socket(&#32;ptr-&gt;ai_family,&#32;ptr-&gt;ai_socktype,&#32;ptr-&gt;ai_protocol&#32;)&#32;)&#32;==&#32;-1&#32;)&#32;<emphasis role="keywordflow">continue</emphasis>;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00243"/>00243 <emphasis role="preprocessor">#if&#32;defined&#32;__APPLE__</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00244"/>00244 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1aa857b95cc76669c2a9109239ef40a47c">val</link>&#32;=&#32;1;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00245"/>00245 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;setsockopt(&#32;sock,&#32;SOL_SOCKET,&#32;SO_NOSIGPIPE,&#32;&amp;<link linkend="_glad_8h_1aa857b95cc76669c2a9109239ef40a47c">val</link>,&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;<link linkend="_glad_8h_1aa857b95cc76669c2a9109239ef40a47c">val</link>&#32;)&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00246"/>00246 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00247"/>00247 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;connect(&#32;sock,&#32;ptr-&gt;ai_addr,&#32;ptr-&gt;ai_addrlen&#32;)&#32;==&#32;-1&#32;)
+<anchor xml:id="__tracy_socket_8cpp_source_1l00248"/>00248 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_socket_8cpp_source_1l00249"/>00249 <emphasis role="preprocessor">#ifdef&#32;_WIN32</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00250"/>00250 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;closesocket(&#32;sock&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00251"/>00251 <emphasis role="preprocessor">#else</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00252"/>00252 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;close(&#32;sock&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00253"/>00253 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00254"/>00254 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">continue</emphasis>;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00255"/>00255 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_socket_8cpp_source_1l00256"/>00256 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">break</emphasis>;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00257"/>00257 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_socket_8cpp_source_1l00258"/>00258 &#32;&#32;&#32;&#32;freeaddrinfo(&#32;res&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00259"/>00259 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!ptr&#32;)&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">false</emphasis>;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00260"/>00260 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00261"/>00261 &#32;&#32;&#32;&#32;m_sock.store(&#32;sock,&#32;std::memory_order_relaxed&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00262"/>00262 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">true</emphasis>;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00263"/>00263 }
+<anchor xml:id="__tracy_socket_8cpp_source_1l00264"/>00264 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00265"/><link linkend="_classtracy_1_1_socket_1a3e0503d82a626755ce289a2748b28117">00265</link> <emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_classtracy_1_1_socket_1a3e0503d82a626755ce289a2748b28117">Socket::Close</link>()
+<anchor xml:id="__tracy_socket_8cpp_source_1l00266"/>00266 {
+<anchor xml:id="__tracy_socket_8cpp_source_1l00267"/>00267 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;sock&#32;=&#32;m_sock.load(&#32;std::memory_order_relaxed&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00268"/>00268 &#32;&#32;&#32;&#32;<link linkend="_tracy__lz4_8cpp_1acdcc5aaebf3f273c1762f24a6ece2e5e">assert</link>(&#32;sock&#32;!=&#32;-1&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00269"/>00269 <emphasis role="preprocessor">#ifdef&#32;_WIN32</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00270"/>00270 &#32;&#32;&#32;&#32;closesocket(&#32;sock&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00271"/>00271 <emphasis role="preprocessor">#else</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00272"/>00272 &#32;&#32;&#32;&#32;close(&#32;sock&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00273"/>00273 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00274"/>00274 &#32;&#32;&#32;&#32;m_sock.store(&#32;-1,&#32;std::memory_order_relaxed&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00275"/>00275 }
+<anchor xml:id="__tracy_socket_8cpp_source_1l00276"/>00276 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00277"/><link linkend="_classtracy_1_1_socket_1ad8449e788e96438c3071b0347791784a">00277</link> <emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_classtracy_1_1_socket_1ad8449e788e96438c3071b0347791784a">Socket::Send</link>(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>*&#32;_buf,&#32;<emphasis role="keywordtype">int</emphasis>&#32;len&#32;)
+<anchor xml:id="__tracy_socket_8cpp_source_1l00278"/>00278 {
+<anchor xml:id="__tracy_socket_8cpp_source_1l00279"/>00279 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;sock&#32;=&#32;m_sock.load(&#32;std::memory_order_relaxed&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00280"/>00280 &#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;buf&#32;=&#32;(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*)_buf;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00281"/>00281 &#32;&#32;&#32;&#32;<link linkend="_tracy__lz4_8cpp_1acdcc5aaebf3f273c1762f24a6ece2e5e">assert</link>(&#32;sock&#32;!=&#32;-1&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00282"/>00282 &#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;<link linkend="_glad_8h_1ac55adc720a3098c1b454d2a4647f4361">start</link>&#32;=&#32;buf;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00283"/>00283 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">while</emphasis>(&#32;len&#32;&gt;&#32;0&#32;)
+<anchor xml:id="__tracy_socket_8cpp_source_1l00284"/>00284 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_socket_8cpp_source_1l00285"/>00285 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;ret&#32;=&#32;send(&#32;sock,&#32;buf,&#32;len,&#32;<link linkend="__tracy_socket_8cpp_1a9f55d0e90dc8cc6b2287312435cdde48">MSG_NOSIGNAL</link>&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00286"/>00286 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;ret&#32;==&#32;-1&#32;)&#32;<emphasis role="keywordflow">return</emphasis>&#32;-1;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00287"/>00287 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;len&#32;-=&#32;ret;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00288"/>00288 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;buf&#32;+=&#32;ret;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00289"/>00289 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_socket_8cpp_source_1l00290"/>00290 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;int(&#32;buf&#32;-&#32;<link linkend="_glad_8h_1ac55adc720a3098c1b454d2a4647f4361">start</link>&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00291"/>00291 }
+<anchor xml:id="__tracy_socket_8cpp_source_1l00292"/>00292 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00293"/><link linkend="_classtracy_1_1_socket_1a5c0e1e102a9a647d83ba5882c04e2971">00293</link> <emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_classtracy_1_1_socket_1a5c0e1e102a9a647d83ba5882c04e2971">Socket::GetSendBufSize</link>()
+<anchor xml:id="__tracy_socket_8cpp_source_1l00294"/>00294 {
+<anchor xml:id="__tracy_socket_8cpp_source_1l00295"/>00295 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;sock&#32;=&#32;m_sock.load(&#32;std::memory_order_relaxed&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00296"/>00296 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a09918d77dec487a91825343c8cfb2b2d">bufSize</link>;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00297"/>00297 <emphasis role="preprocessor">#if&#32;defined&#32;_WIN32</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00298"/>00298 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;sz&#32;=&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;<link linkend="_glad_8h_1a09918d77dec487a91825343c8cfb2b2d">bufSize</link>&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00299"/>00299 &#32;&#32;&#32;&#32;getsockopt(&#32;sock,&#32;SOL_SOCKET,&#32;SO_SNDBUF,&#32;(<emphasis role="keywordtype">char</emphasis>*)&amp;<link linkend="_glad_8h_1a09918d77dec487a91825343c8cfb2b2d">bufSize</link>,&#32;&amp;sz&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00300"/>00300 <emphasis role="preprocessor">#else</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00301"/>00301 &#32;&#32;&#32;&#32;socklen_t&#32;sz&#32;=&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;<link linkend="_glad_8h_1a09918d77dec487a91825343c8cfb2b2d">bufSize</link>&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00302"/>00302 &#32;&#32;&#32;&#32;getsockopt(&#32;sock,&#32;SOL_SOCKET,&#32;SO_SNDBUF,&#32;&amp;<link linkend="_glad_8h_1a09918d77dec487a91825343c8cfb2b2d">bufSize</link>,&#32;&amp;sz&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00303"/>00303 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00304"/>00304 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_glad_8h_1a09918d77dec487a91825343c8cfb2b2d">bufSize</link>;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00305"/>00305 }
+<anchor xml:id="__tracy_socket_8cpp_source_1l00306"/>00306 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00307"/>00307 <emphasis role="keywordtype">int</emphasis>&#32;Socket::RecvBuffered(&#32;<emphasis role="keywordtype">void</emphasis>*&#32;buf,&#32;<emphasis role="keywordtype">int</emphasis>&#32;len,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1ad29bb0d8468b264a4e3d9204366cfaab">timeout</link>&#32;)
+<anchor xml:id="__tracy_socket_8cpp_source_1l00308"/>00308 {
+<anchor xml:id="__tracy_socket_8cpp_source_1l00309"/>00309 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;len&#32;&lt;=&#32;m_bufLeft&#32;)
+<anchor xml:id="__tracy_socket_8cpp_source_1l00310"/>00310 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_socket_8cpp_source_1l00311"/>00311 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memcpy(&#32;buf,&#32;m_bufPtr,&#32;len&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00312"/>00312 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_bufPtr&#32;+=&#32;len;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00313"/>00313 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_bufLeft&#32;-=&#32;len;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00314"/>00314 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;len;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00315"/>00315 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_socket_8cpp_source_1l00316"/>00316 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00317"/>00317 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;m_bufLeft&#32;&gt;&#32;0&#32;)
+<anchor xml:id="__tracy_socket_8cpp_source_1l00318"/>00318 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_socket_8cpp_source_1l00319"/>00319 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memcpy(&#32;buf,&#32;m_bufPtr,&#32;m_bufLeft&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00320"/>00320 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;ret&#32;=&#32;m_bufLeft;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00321"/>00321 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_bufLeft&#32;=&#32;0;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00322"/>00322 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;ret;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00323"/>00323 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_socket_8cpp_source_1l00324"/>00324 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00325"/>00325 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;len&#32;&gt;=&#32;<link linkend="_namespacetracy_1a155832e5bc72bc5cbb68b64d42fce1c3a8ea57ec04d4f58ec1fa4e651982d1514">BufSize</link>&#32;)&#32;<emphasis role="keywordflow">return</emphasis>&#32;Recv(&#32;buf,&#32;len,&#32;<link linkend="_glad_8h_1ad29bb0d8468b264a4e3d9204366cfaab">timeout</link>&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00326"/>00326 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00327"/>00327 &#32;&#32;&#32;&#32;m_bufLeft&#32;=&#32;Recv(&#32;m_buf,&#32;<link linkend="_namespacetracy_1a155832e5bc72bc5cbb68b64d42fce1c3a8ea57ec04d4f58ec1fa4e651982d1514">BufSize</link>,&#32;<link linkend="_glad_8h_1ad29bb0d8468b264a4e3d9204366cfaab">timeout</link>&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00328"/>00328 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;m_bufLeft&#32;&lt;=&#32;0&#32;)&#32;<emphasis role="keywordflow">return</emphasis>&#32;m_bufLeft;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00329"/>00329 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00330"/>00330 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;sz&#32;=&#32;len&#32;&lt;&#32;m_bufLeft&#32;?&#32;len&#32;:&#32;m_bufLeft;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00331"/>00331 &#32;&#32;&#32;&#32;memcpy(&#32;buf,&#32;m_buf,&#32;sz&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00332"/>00332 &#32;&#32;&#32;&#32;m_bufPtr&#32;=&#32;m_buf&#32;+&#32;sz;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00333"/>00333 &#32;&#32;&#32;&#32;m_bufLeft&#32;-=&#32;sz;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00334"/>00334 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;sz;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00335"/>00335 }
+<anchor xml:id="__tracy_socket_8cpp_source_1l00336"/>00336 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00337"/>00337 <emphasis role="keywordtype">int</emphasis>&#32;Socket::Recv(&#32;<emphasis role="keywordtype">void</emphasis>*&#32;_buf,&#32;<emphasis role="keywordtype">int</emphasis>&#32;len,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1ad29bb0d8468b264a4e3d9204366cfaab">timeout</link>&#32;)
+<anchor xml:id="__tracy_socket_8cpp_source_1l00338"/>00338 {
+<anchor xml:id="__tracy_socket_8cpp_source_1l00339"/>00339 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;sock&#32;=&#32;m_sock.load(&#32;std::memory_order_relaxed&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00340"/>00340 &#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;buf&#32;=&#32;(<emphasis role="keywordtype">char</emphasis>*)_buf;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00341"/>00341 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00342"/>00342 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis>pollfd&#32;fd;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00343"/>00343 &#32;&#32;&#32;&#32;fd.fd&#32;=&#32;(<link linkend="_namespacetracy_1ad59a4548ffc580cd8a186359bb94f130">socket_t</link>)sock;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00344"/>00344 &#32;&#32;&#32;&#32;fd.events&#32;=&#32;POLLIN;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00345"/>00345 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00346"/>00346 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;poll(&#32;&amp;fd,&#32;1,&#32;<link linkend="_glad_8h_1ad29bb0d8468b264a4e3d9204366cfaab">timeout</link>&#32;)&#32;&gt;&#32;0&#32;)
+<anchor xml:id="__tracy_socket_8cpp_source_1l00347"/>00347 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_socket_8cpp_source_1l00348"/>00348 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;recv(&#32;sock,&#32;buf,&#32;len,&#32;0&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00349"/>00349 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_socket_8cpp_source_1l00350"/>00350 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00351"/>00351 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_socket_8cpp_source_1l00352"/>00352 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;-1;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00353"/>00353 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_socket_8cpp_source_1l00354"/>00354 }
+<anchor xml:id="__tracy_socket_8cpp_source_1l00355"/>00355 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00356"/><link linkend="_classtracy_1_1_socket_1afdc1a7f8bd75b654b9bcacd55130fd99">00356</link> <emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_classtracy_1_1_socket_1afdc1a7f8bd75b654b9bcacd55130fd99">Socket::ReadUpTo</link>(&#32;<emphasis role="keywordtype">void</emphasis>*&#32;_buf,&#32;<emphasis role="keywordtype">int</emphasis>&#32;len&#32;)
+<anchor xml:id="__tracy_socket_8cpp_source_1l00357"/>00357 {
+<anchor xml:id="__tracy_socket_8cpp_source_1l00358"/>00358 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;sock&#32;=&#32;m_sock.load(&#32;std::memory_order_relaxed&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00359"/>00359 &#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;buf&#32;=&#32;(<emphasis role="keywordtype">char</emphasis>*)_buf;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00360"/>00360 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00361"/>00361 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;rd&#32;=&#32;0;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00362"/>00362 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">while</emphasis>(&#32;len&#32;&gt;&#32;0&#32;)
+<anchor xml:id="__tracy_socket_8cpp_source_1l00363"/>00363 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_socket_8cpp_source_1l00364"/>00364 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;res&#32;=&#32;recv(&#32;sock,&#32;buf,&#32;len,&#32;0&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00365"/>00365 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;res&#32;==&#32;0&#32;)&#32;<emphasis role="keywordflow">break</emphasis>;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00366"/>00366 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;res&#32;==&#32;-1&#32;)&#32;<emphasis role="keywordflow">return</emphasis>&#32;-1;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00367"/>00367 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;len&#32;-=&#32;res;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00368"/>00368 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;rd&#32;+=&#32;res;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00369"/>00369 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;buf&#32;+=&#32;res;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00370"/>00370 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_socket_8cpp_source_1l00371"/>00371 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;rd;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00372"/>00372 }
+<anchor xml:id="__tracy_socket_8cpp_source_1l00373"/>00373 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00374"/><link linkend="_classtracy_1_1_socket_1af13aaa4d7e0ed5022db4f7913401474d">00374</link> <emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_classtracy_1_1_socket_1af13aaa4d7e0ed5022db4f7913401474d">Socket::Read</link>(&#32;<emphasis role="keywordtype">void</emphasis>*&#32;buf,&#32;<emphasis role="keywordtype">int</emphasis>&#32;len,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1ad29bb0d8468b264a4e3d9204366cfaab">timeout</link>&#32;)
+<anchor xml:id="__tracy_socket_8cpp_source_1l00375"/>00375 {
+<anchor xml:id="__tracy_socket_8cpp_source_1l00376"/>00376 &#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;cbuf&#32;=&#32;(<emphasis role="keywordtype">char</emphasis>*)buf;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00377"/>00377 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">while</emphasis>(&#32;len&#32;&gt;&#32;0&#32;)
+<anchor xml:id="__tracy_socket_8cpp_source_1l00378"/>00378 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_socket_8cpp_source_1l00379"/>00379 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!ReadImpl(&#32;cbuf,&#32;len,&#32;<link linkend="_glad_8h_1ad29bb0d8468b264a4e3d9204366cfaab">timeout</link>&#32;)&#32;)&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">false</emphasis>;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00380"/>00380 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_socket_8cpp_source_1l00381"/>00381 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">true</emphasis>;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00382"/>00382 }
+<anchor xml:id="__tracy_socket_8cpp_source_1l00383"/>00383 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00384"/>00384 <emphasis role="keywordtype">bool</emphasis>&#32;Socket::ReadImpl(&#32;<emphasis role="keywordtype">char</emphasis>*&amp;&#32;buf,&#32;<emphasis role="keywordtype">int</emphasis>&amp;&#32;len,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1ad29bb0d8468b264a4e3d9204366cfaab">timeout</link>&#32;)
+<anchor xml:id="__tracy_socket_8cpp_source_1l00385"/>00385 {
+<anchor xml:id="__tracy_socket_8cpp_source_1l00386"/>00386 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;sz&#32;=&#32;RecvBuffered(&#32;buf,&#32;len,&#32;<link linkend="_glad_8h_1ad29bb0d8468b264a4e3d9204366cfaab">timeout</link>&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00387"/>00387 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">switch</emphasis>(&#32;sz&#32;)
+<anchor xml:id="__tracy_socket_8cpp_source_1l00388"/>00388 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_socket_8cpp_source_1l00389"/>00389 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">case</emphasis>&#32;0:
+<anchor xml:id="__tracy_socket_8cpp_source_1l00390"/>00390 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">false</emphasis>;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00391"/>00391 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">case</emphasis>&#32;-1:
+<anchor xml:id="__tracy_socket_8cpp_source_1l00392"/>00392 <emphasis role="preprocessor">#ifdef&#32;_WIN32</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00393"/>00393 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_socket_8cpp_source_1l00394"/>00394 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;err&#32;=&#32;WSAGetLastError();
+<anchor xml:id="__tracy_socket_8cpp_source_1l00395"/>00395 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;err&#32;==&#32;WSAECONNABORTED&#32;||&#32;err&#32;==&#32;WSAECONNRESET&#32;)&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">false</emphasis>;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00396"/>00396 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_socket_8cpp_source_1l00397"/>00397 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00398"/>00398 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">break</emphasis>;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00399"/>00399 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">default</emphasis>:
+<anchor xml:id="__tracy_socket_8cpp_source_1l00400"/>00400 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;len&#32;-=&#32;sz;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00401"/>00401 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;buf&#32;+=&#32;sz;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00402"/>00402 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">break</emphasis>;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00403"/>00403 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_socket_8cpp_source_1l00404"/>00404 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">true</emphasis>;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00405"/>00405 }
+<anchor xml:id="__tracy_socket_8cpp_source_1l00406"/>00406 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00407"/><link linkend="_classtracy_1_1_socket_1a2ec8226b2c192c9ce0313af6830cc751">00407</link> <emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_classtracy_1_1_socket_1a2ec8226b2c192c9ce0313af6830cc751">Socket::ReadRaw</link>(&#32;<emphasis role="keywordtype">void</emphasis>*&#32;_buf,&#32;<emphasis role="keywordtype">int</emphasis>&#32;len,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1ad29bb0d8468b264a4e3d9204366cfaab">timeout</link>&#32;)
+<anchor xml:id="__tracy_socket_8cpp_source_1l00408"/>00408 {
+<anchor xml:id="__tracy_socket_8cpp_source_1l00409"/>00409 &#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;buf&#32;=&#32;(<emphasis role="keywordtype">char</emphasis>*)_buf;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00410"/>00410 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">while</emphasis>(&#32;len&#32;&gt;&#32;0&#32;)
+<anchor xml:id="__tracy_socket_8cpp_source_1l00411"/>00411 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_socket_8cpp_source_1l00412"/>00412 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;sz&#32;=&#32;Recv(&#32;buf,&#32;len,&#32;<link linkend="_glad_8h_1ad29bb0d8468b264a4e3d9204366cfaab">timeout</link>&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00413"/>00413 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;sz&#32;&lt;=&#32;0&#32;)&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">false</emphasis>;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00414"/>00414 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;len&#32;-=&#32;sz;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00415"/>00415 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;buf&#32;+=&#32;sz;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00416"/>00416 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_socket_8cpp_source_1l00417"/>00417 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">true</emphasis>;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00418"/>00418 }
+<anchor xml:id="__tracy_socket_8cpp_source_1l00419"/>00419 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00420"/><link linkend="_classtracy_1_1_socket_1a99a7d835cb7c4d0d4e875262141749ae">00420</link> <emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_classtracy_1_1_socket_1a99a7d835cb7c4d0d4e875262141749ae">Socket::HasData</link>()
+<anchor xml:id="__tracy_socket_8cpp_source_1l00421"/>00421 {
+<anchor xml:id="__tracy_socket_8cpp_source_1l00422"/>00422 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;sock&#32;=&#32;m_sock.load(&#32;std::memory_order_relaxed&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00423"/>00423 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;m_bufLeft&#32;&gt;&#32;0&#32;)&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">true</emphasis>;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00424"/>00424 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00425"/>00425 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis>pollfd&#32;fd;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00426"/>00426 &#32;&#32;&#32;&#32;fd.fd&#32;=&#32;(<link linkend="_namespacetracy_1ad59a4548ffc580cd8a186359bb94f130">socket_t</link>)sock;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00427"/>00427 &#32;&#32;&#32;&#32;fd.events&#32;=&#32;POLLIN;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00428"/>00428 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00429"/>00429 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;poll(&#32;&amp;fd,&#32;1,&#32;0&#32;)&#32;&gt;&#32;0;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00430"/>00430 }
+<anchor xml:id="__tracy_socket_8cpp_source_1l00431"/>00431 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00432"/><link linkend="_classtracy_1_1_socket_1a0d1fb0f5903d217c57002e750295c120">00432</link> <emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_classtracy_1_1_socket_1a0d1fb0f5903d217c57002e750295c120">Socket::IsValid</link>()<emphasis role="keyword">&#32;const</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00433"/>00433 <emphasis role="keyword"></emphasis>{
+<anchor xml:id="__tracy_socket_8cpp_source_1l00434"/>00434 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;m_sock.load(&#32;std::memory_order_relaxed&#32;)&#32;&gt;=&#32;0;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00435"/>00435 }
+<anchor xml:id="__tracy_socket_8cpp_source_1l00436"/>00436 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00437"/>00437 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00438"/><link linkend="_classtracy_1_1_listen_socket_1a20ac18bf830edbfc4f754def167b3977">00438</link> <link linkend="_classtracy_1_1_listen_socket_1a20ac18bf830edbfc4f754def167b3977">ListenSocket::ListenSocket</link>()
+<anchor xml:id="__tracy_socket_8cpp_source_1l00439"/>00439 &#32;&#32;&#32;&#32;:&#32;m_sock(&#32;-1&#32;)
+<anchor xml:id="__tracy_socket_8cpp_source_1l00440"/>00440 {
+<anchor xml:id="__tracy_socket_8cpp_source_1l00441"/>00441 <emphasis role="preprocessor">#ifdef&#32;_WIN32</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00442"/>00442 &#32;&#32;&#32;&#32;InitWinSock();
+<anchor xml:id="__tracy_socket_8cpp_source_1l00443"/>00443 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00444"/>00444 }
+<anchor xml:id="__tracy_socket_8cpp_source_1l00445"/>00445 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00446"/><link linkend="_classtracy_1_1_listen_socket_1a2d675e6299683fe73349115e9c578e57">00446</link> <link linkend="_classtracy_1_1_listen_socket_1a2d675e6299683fe73349115e9c578e57">ListenSocket::~ListenSocket</link>()
+<anchor xml:id="__tracy_socket_8cpp_source_1l00447"/>00447 {
+<anchor xml:id="__tracy_socket_8cpp_source_1l00448"/>00448 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;m_sock&#32;!=&#32;-1&#32;)&#32;<link linkend="_classtracy_1_1_listen_socket_1ad5dad63358fe1703044d3bed01d6f5b6">Close</link>();
+<anchor xml:id="__tracy_socket_8cpp_source_1l00449"/>00449 }
+<anchor xml:id="__tracy_socket_8cpp_source_1l00450"/>00450 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00451"/>00451 <emphasis role="keyword">static</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;addrinfo_and_socket_for_family(&#32;uint16_t&#32;port,&#32;<emphasis role="keywordtype">int</emphasis>&#32;ai_family,&#32;<emphasis role="keyword">struct</emphasis>&#32;addrinfo**&#32;res&#32;)
+<anchor xml:id="__tracy_socket_8cpp_source_1l00452"/>00452 {
+<anchor xml:id="__tracy_socket_8cpp_source_1l00453"/>00453 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis>addrinfo&#32;hints;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00454"/>00454 &#32;&#32;&#32;&#32;memset(&#32;&amp;hints,&#32;0,&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;hints&#32;)&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00455"/>00455 &#32;&#32;&#32;&#32;hints.ai_family&#32;=&#32;ai_family;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00456"/>00456 &#32;&#32;&#32;&#32;hints.ai_socktype&#32;=&#32;SOCK_STREAM;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00457"/>00457 <emphasis role="preprocessor">#ifndef&#32;TRACY_ONLY_LOCALHOST</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00458"/>00458 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;onlyLocalhost&#32;=&#32;<link linkend="_namespacetracy_1adb548816536f60475bbd278e7be5606e">GetEnvVar</link>(&#32;<emphasis role="stringliteral">&quot;TRACY_ONLY_LOCALHOST&quot;</emphasis>&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00459"/>00459 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!onlyLocalhost&#32;||&#32;onlyLocalhost[0]&#32;!=&#32;<emphasis role="charliteral">&apos;1&apos;</emphasis>&#32;)
+<anchor xml:id="__tracy_socket_8cpp_source_1l00460"/>00460 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_socket_8cpp_source_1l00461"/>00461 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;hints.ai_flags&#32;=&#32;AI_PASSIVE;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00462"/>00462 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_socket_8cpp_source_1l00463"/>00463 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00464"/>00464 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">char</emphasis>&#32;portbuf[32];
+<anchor xml:id="__tracy_socket_8cpp_source_1l00465"/>00465 &#32;&#32;&#32;&#32;sprintf(&#32;portbuf,&#32;<emphasis role="stringliteral">&quot;%&quot;</emphasis>&#32;PRIu16,&#32;port&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00466"/>00466 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;getaddrinfo(&#32;<emphasis role="keyword">nullptr</emphasis>,&#32;portbuf,&#32;&amp;hints,&#32;res&#32;)&#32;!=&#32;0&#32;)&#32;<emphasis role="keywordflow">return</emphasis>&#32;-1;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00467"/>00467 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;sock&#32;=&#32;socket(&#32;(*res)-&gt;ai_family,&#32;(*res)-&gt;ai_socktype,&#32;(*res)-&gt;ai_protocol&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00468"/>00468 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(sock&#32;==&#32;-1)&#32;freeaddrinfo(&#32;*res&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00469"/>00469 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;sock;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00470"/>00470 }
+<anchor xml:id="__tracy_socket_8cpp_source_1l00471"/>00471 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00472"/><link linkend="_classtracy_1_1_listen_socket_1a380d74a1bfa55876f37ff55ca4945cd6">00472</link> <emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_classtracy_1_1_listen_socket_1a380d74a1bfa55876f37ff55ca4945cd6">ListenSocket::Listen</link>(&#32;uint16_t&#32;port,&#32;<emphasis role="keywordtype">int</emphasis>&#32;backlog&#32;)
+<anchor xml:id="__tracy_socket_8cpp_source_1l00473"/>00473 {
+<anchor xml:id="__tracy_socket_8cpp_source_1l00474"/>00474 &#32;&#32;&#32;&#32;<link linkend="_tracy__lz4_8cpp_1acdcc5aaebf3f273c1762f24a6ece2e5e">assert</link>(&#32;m_sock&#32;==&#32;-1&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00475"/>00475 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00476"/>00476 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis>addrinfo*&#32;res&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00477"/>00477 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00478"/>00478 <emphasis role="preprocessor">#if&#32;!defined&#32;TRACY_ONLY_IPV4&#32;&amp;&amp;&#32;!defined&#32;TRACY_ONLY_LOCALHOST</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00479"/>00479 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;onlyIPv4&#32;=&#32;<link linkend="_namespacetracy_1adb548816536f60475bbd278e7be5606e">GetEnvVar</link>(&#32;<emphasis role="stringliteral">&quot;TRACY_ONLY_IPV4&quot;</emphasis>&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00480"/>00480 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!onlyIPv4&#32;||&#32;onlyIPv4[0]&#32;!=&#32;<emphasis role="charliteral">&apos;1&apos;</emphasis>&#32;)
+<anchor xml:id="__tracy_socket_8cpp_source_1l00481"/>00481 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_socket_8cpp_source_1l00482"/>00482 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_sock&#32;=&#32;addrinfo_and_socket_for_family(&#32;port,&#32;AF_INET6,&#32;&amp;res&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00483"/>00483 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_socket_8cpp_source_1l00484"/>00484 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00485"/>00485 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(m_sock&#32;==&#32;-1)
+<anchor xml:id="__tracy_socket_8cpp_source_1l00486"/>00486 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_socket_8cpp_source_1l00487"/>00487 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;IPV6&#32;protocol&#32;may&#32;not&#32;be&#32;available/is&#32;disabled.&#32;Try&#32;to&#32;create&#32;a&#32;socket</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00488"/>00488 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;with&#32;the&#32;IPV4&#32;protocol</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00489"/>00489 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_sock&#32;=&#32;addrinfo_and_socket_for_family(&#32;port,&#32;AF_INET,&#32;&amp;res&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00490"/>00490 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;m_sock&#32;==&#32;-1&#32;)&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">false</emphasis>;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00491"/>00491 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_socket_8cpp_source_1l00492"/>00492 <emphasis role="preprocessor">#if&#32;defined&#32;_WIN32</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00493"/>00493 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">long</emphasis>&#32;<link linkend="_glad_8h_1aa857b95cc76669c2a9109239ef40a47c">val</link>&#32;=&#32;0;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00494"/>00494 &#32;&#32;&#32;&#32;setsockopt(&#32;m_sock,&#32;IPPROTO_IPV6,&#32;IPV6_V6ONLY,&#32;(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*)&amp;<link linkend="_glad_8h_1aa857b95cc76669c2a9109239ef40a47c">val</link>,&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;<link linkend="_glad_8h_1aa857b95cc76669c2a9109239ef40a47c">val</link>&#32;)&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00495"/>00495 <emphasis role="preprocessor">#elif&#32;defined&#32;BSD</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00496"/>00496 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1aa857b95cc76669c2a9109239ef40a47c">val</link>&#32;=&#32;0;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00497"/>00497 &#32;&#32;&#32;&#32;setsockopt(&#32;m_sock,&#32;IPPROTO_IPV6,&#32;IPV6_V6ONLY,&#32;(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*)&amp;<link linkend="_glad_8h_1aa857b95cc76669c2a9109239ef40a47c">val</link>,&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;<link linkend="_glad_8h_1aa857b95cc76669c2a9109239ef40a47c">val</link>&#32;)&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00498"/>00498 &#32;&#32;&#32;&#32;<link linkend="_glad_8h_1aa857b95cc76669c2a9109239ef40a47c">val</link>&#32;=&#32;1;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00499"/>00499 &#32;&#32;&#32;&#32;setsockopt(&#32;m_sock,&#32;SOL_SOCKET,&#32;SO_REUSEADDR,&#32;&amp;<link linkend="_glad_8h_1aa857b95cc76669c2a9109239ef40a47c">val</link>,&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;<link linkend="_glad_8h_1aa857b95cc76669c2a9109239ef40a47c">val</link>&#32;)&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00500"/>00500 <emphasis role="preprocessor">#else</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00501"/>00501 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1aa857b95cc76669c2a9109239ef40a47c">val</link>&#32;=&#32;1;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00502"/>00502 &#32;&#32;&#32;&#32;setsockopt(&#32;m_sock,&#32;SOL_SOCKET,&#32;SO_REUSEADDR,&#32;&amp;<link linkend="_glad_8h_1aa857b95cc76669c2a9109239ef40a47c">val</link>,&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;<link linkend="_glad_8h_1aa857b95cc76669c2a9109239ef40a47c">val</link>&#32;)&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00503"/>00503 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00504"/>00504 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;bind(&#32;m_sock,&#32;res-&gt;ai_addr,&#32;res-&gt;ai_addrlen&#32;)&#32;==&#32;-1&#32;)&#32;{&#32;freeaddrinfo(&#32;res&#32;);&#32;<link linkend="_classtracy_1_1_listen_socket_1ad5dad63358fe1703044d3bed01d6f5b6">Close</link>();&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">false</emphasis>;&#32;}
+<anchor xml:id="__tracy_socket_8cpp_source_1l00505"/>00505 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;listen(&#32;m_sock,&#32;backlog&#32;)&#32;==&#32;-1&#32;)&#32;{&#32;freeaddrinfo(&#32;res&#32;);&#32;<link linkend="_classtracy_1_1_listen_socket_1ad5dad63358fe1703044d3bed01d6f5b6">Close</link>();&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">false</emphasis>;&#32;}
+<anchor xml:id="__tracy_socket_8cpp_source_1l00506"/>00506 &#32;&#32;&#32;&#32;freeaddrinfo(&#32;res&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00507"/>00507 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">true</emphasis>;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00508"/>00508 }
+<anchor xml:id="__tracy_socket_8cpp_source_1l00509"/>00509 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00510"/><link linkend="_classtracy_1_1_listen_socket_1a4238c9bc8d761c13b208300c1c46cb66">00510</link> <link linkend="_classtracy_1_1_socket">Socket</link>*&#32;<link linkend="_classtracy_1_1_listen_socket_1a4238c9bc8d761c13b208300c1c46cb66">ListenSocket::Accept</link>()
+<anchor xml:id="__tracy_socket_8cpp_source_1l00511"/>00511 {
+<anchor xml:id="__tracy_socket_8cpp_source_1l00512"/>00512 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis>sockaddr_storage&#32;remote;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00513"/>00513 &#32;&#32;&#32;&#32;socklen_t&#32;sz&#32;=&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;remote&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00514"/>00514 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00515"/>00515 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis>pollfd&#32;fd;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00516"/>00516 &#32;&#32;&#32;&#32;fd.fd&#32;=&#32;(<link linkend="_namespacetracy_1ad59a4548ffc580cd8a186359bb94f130">socket_t</link>)m_sock;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00517"/>00517 &#32;&#32;&#32;&#32;fd.events&#32;=&#32;POLLIN;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00518"/>00518 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00519"/>00519 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;poll(&#32;&amp;fd,&#32;1,&#32;10&#32;)&#32;&gt;&#32;0&#32;)
+<anchor xml:id="__tracy_socket_8cpp_source_1l00520"/>00520 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_socket_8cpp_source_1l00521"/>00521 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;sock&#32;=&#32;accept(&#32;m_sock,&#32;(sockaddr*)&amp;remote,&#32;&amp;sz);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00522"/>00522 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;sock&#32;==&#32;-1&#32;)&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">nullptr</emphasis>;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00523"/>00523 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00524"/>00524 <emphasis role="preprocessor">#if&#32;defined&#32;__APPLE__</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00525"/>00525 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1aa857b95cc76669c2a9109239ef40a47c">val</link>&#32;=&#32;1;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00526"/>00526 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;setsockopt(&#32;sock,&#32;SOL_SOCKET,&#32;SO_NOSIGPIPE,&#32;&amp;<link linkend="_glad_8h_1aa857b95cc76669c2a9109239ef40a47c">val</link>,&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;<link linkend="_glad_8h_1aa857b95cc76669c2a9109239ef40a47c">val</link>&#32;)&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00527"/>00527 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00528"/>00528 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00529"/>00529 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;ptr&#32;=&#32;(<link linkend="_classtracy_1_1_socket">Socket</link>*)tracy_malloc(&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;<link linkend="_classtracy_1_1_socket">Socket</link>&#32;)&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00530"/>00530 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">new</emphasis>(ptr)&#32;<link linkend="_classtracy_1_1_socket">Socket</link>(&#32;sock&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00531"/>00531 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;ptr;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00532"/>00532 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_socket_8cpp_source_1l00533"/>00533 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00534"/>00534 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_socket_8cpp_source_1l00535"/>00535 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">nullptr</emphasis>;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00536"/>00536 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_socket_8cpp_source_1l00537"/>00537 }
+<anchor xml:id="__tracy_socket_8cpp_source_1l00538"/>00538 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00539"/><link linkend="_classtracy_1_1_listen_socket_1ad5dad63358fe1703044d3bed01d6f5b6">00539</link> <emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_classtracy_1_1_listen_socket_1ad5dad63358fe1703044d3bed01d6f5b6">ListenSocket::Close</link>()
+<anchor xml:id="__tracy_socket_8cpp_source_1l00540"/>00540 {
+<anchor xml:id="__tracy_socket_8cpp_source_1l00541"/>00541 &#32;&#32;&#32;&#32;<link linkend="_tracy__lz4_8cpp_1acdcc5aaebf3f273c1762f24a6ece2e5e">assert</link>(&#32;m_sock&#32;!=&#32;-1&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00542"/>00542 <emphasis role="preprocessor">#ifdef&#32;_WIN32</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00543"/>00543 &#32;&#32;&#32;&#32;closesocket(&#32;m_sock&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00544"/>00544 <emphasis role="preprocessor">#else</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00545"/>00545 &#32;&#32;&#32;&#32;close(&#32;m_sock&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00546"/>00546 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00547"/>00547 &#32;&#32;&#32;&#32;m_sock&#32;=&#32;-1;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00548"/>00548 }
+<anchor xml:id="__tracy_socket_8cpp_source_1l00549"/>00549 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00550"/><link linkend="_classtracy_1_1_udp_broadcast_1a12d617ef0942507c20f5114f2e30f2fc">00550</link> <link linkend="_classtracy_1_1_udp_broadcast_1a12d617ef0942507c20f5114f2e30f2fc">UdpBroadcast::UdpBroadcast</link>()
+<anchor xml:id="__tracy_socket_8cpp_source_1l00551"/>00551 &#32;&#32;&#32;&#32;:&#32;m_sock(&#32;-1&#32;)
+<anchor xml:id="__tracy_socket_8cpp_source_1l00552"/>00552 {
+<anchor xml:id="__tracy_socket_8cpp_source_1l00553"/>00553 <emphasis role="preprocessor">#ifdef&#32;_WIN32</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00554"/>00554 &#32;&#32;&#32;&#32;InitWinSock();
+<anchor xml:id="__tracy_socket_8cpp_source_1l00555"/>00555 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00556"/>00556 }
+<anchor xml:id="__tracy_socket_8cpp_source_1l00557"/>00557 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00558"/><link linkend="_classtracy_1_1_udp_broadcast_1a2fe5b4ee21faffe7d7545ea35c5c481d">00558</link> <link linkend="_classtracy_1_1_udp_broadcast_1a2fe5b4ee21faffe7d7545ea35c5c481d">UdpBroadcast::~UdpBroadcast</link>()
+<anchor xml:id="__tracy_socket_8cpp_source_1l00559"/>00559 {
+<anchor xml:id="__tracy_socket_8cpp_source_1l00560"/>00560 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;m_sock&#32;!=&#32;-1&#32;)&#32;<link linkend="_classtracy_1_1_udp_broadcast_1a725444a88b91897e9991595be81837f7">Close</link>();
+<anchor xml:id="__tracy_socket_8cpp_source_1l00561"/>00561 }
+<anchor xml:id="__tracy_socket_8cpp_source_1l00562"/>00562 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00563"/><link linkend="_classtracy_1_1_udp_broadcast_1a1a16ca181ed1489bbd7e2c83133eabfb">00563</link> <emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_classtracy_1_1_udp_broadcast_1a1a16ca181ed1489bbd7e2c83133eabfb">UdpBroadcast::Open</link>(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;addr,&#32;uint16_t&#32;port&#32;)
+<anchor xml:id="__tracy_socket_8cpp_source_1l00564"/>00564 {
+<anchor xml:id="__tracy_socket_8cpp_source_1l00565"/>00565 &#32;&#32;&#32;&#32;<link linkend="_tracy__lz4_8cpp_1acdcc5aaebf3f273c1762f24a6ece2e5e">assert</link>(&#32;m_sock&#32;==&#32;-1&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00566"/>00566 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00567"/>00567 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis>addrinfo&#32;hints;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00568"/>00568 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis>addrinfo&#32;*res,&#32;*ptr;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00569"/>00569 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00570"/>00570 &#32;&#32;&#32;&#32;memset(&#32;&amp;hints,&#32;0,&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;hints&#32;)&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00571"/>00571 &#32;&#32;&#32;&#32;hints.ai_family&#32;=&#32;AF_INET;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00572"/>00572 &#32;&#32;&#32;&#32;hints.ai_socktype&#32;=&#32;SOCK_DGRAM;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00573"/>00573 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00574"/>00574 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">char</emphasis>&#32;portbuf[32];
+<anchor xml:id="__tracy_socket_8cpp_source_1l00575"/>00575 &#32;&#32;&#32;&#32;sprintf(&#32;portbuf,&#32;<emphasis role="stringliteral">&quot;%&quot;</emphasis>&#32;PRIu16,&#32;port&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00576"/>00576 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00577"/>00577 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;getaddrinfo(&#32;addr,&#32;portbuf,&#32;&amp;hints,&#32;&amp;res&#32;)&#32;!=&#32;0&#32;)&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">false</emphasis>;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00578"/>00578 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;sock&#32;=&#32;0;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00579"/>00579 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>(&#32;ptr&#32;=&#32;res;&#32;ptr;&#32;ptr&#32;=&#32;ptr-&gt;ai_next&#32;)
+<anchor xml:id="__tracy_socket_8cpp_source_1l00580"/>00580 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_socket_8cpp_source_1l00581"/>00581 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;(&#32;sock&#32;=&#32;socket(&#32;ptr-&gt;ai_family,&#32;ptr-&gt;ai_socktype,&#32;ptr-&gt;ai_protocol&#32;)&#32;)&#32;==&#32;-1&#32;)&#32;<emphasis role="keywordflow">continue</emphasis>;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00582"/>00582 <emphasis role="preprocessor">#if&#32;defined&#32;__APPLE__</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00583"/>00583 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1aa857b95cc76669c2a9109239ef40a47c">val</link>&#32;=&#32;1;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00584"/>00584 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;setsockopt(&#32;sock,&#32;SOL_SOCKET,&#32;SO_NOSIGPIPE,&#32;&amp;<link linkend="_glad_8h_1aa857b95cc76669c2a9109239ef40a47c">val</link>,&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;<link linkend="_glad_8h_1aa857b95cc76669c2a9109239ef40a47c">val</link>&#32;)&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00585"/>00585 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00586"/>00586 <emphasis role="preprocessor">#if&#32;defined&#32;_WIN32</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00587"/>00587 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">long</emphasis>&#32;broadcast&#32;=&#32;1;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00588"/>00588 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;setsockopt(&#32;sock,&#32;SOL_SOCKET,&#32;SO_BROADCAST,&#32;(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*)&amp;broadcast,&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;broadcast&#32;)&#32;)&#32;==&#32;-1&#32;)
+<anchor xml:id="__tracy_socket_8cpp_source_1l00589"/>00589 <emphasis role="preprocessor">#else</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00590"/>00590 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;broadcast&#32;=&#32;1;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00591"/>00591 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;setsockopt(&#32;sock,&#32;SOL_SOCKET,&#32;SO_BROADCAST,&#32;&amp;broadcast,&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;broadcast&#32;)&#32;)&#32;==&#32;-1&#32;)
+<anchor xml:id="__tracy_socket_8cpp_source_1l00592"/>00592 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00593"/>00593 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_socket_8cpp_source_1l00594"/>00594 <emphasis role="preprocessor">#ifdef&#32;_WIN32</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00595"/>00595 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;closesocket(&#32;sock&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00596"/>00596 <emphasis role="preprocessor">#else</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00597"/>00597 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;close(&#32;sock&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00598"/>00598 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00599"/>00599 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">continue</emphasis>;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00600"/>00600 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_socket_8cpp_source_1l00601"/>00601 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">break</emphasis>;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00602"/>00602 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_socket_8cpp_source_1l00603"/>00603 &#32;&#32;&#32;&#32;freeaddrinfo(&#32;res&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00604"/>00604 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!ptr&#32;)&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">false</emphasis>;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00605"/>00605 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00606"/>00606 &#32;&#32;&#32;&#32;m_sock&#32;=&#32;sock;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00607"/>00607 &#32;&#32;&#32;&#32;inet_pton(&#32;AF_INET,&#32;addr,&#32;&amp;m_addr&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00608"/>00608 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">true</emphasis>;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00609"/>00609 }
+<anchor xml:id="__tracy_socket_8cpp_source_1l00610"/>00610 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00611"/><link linkend="_classtracy_1_1_udp_broadcast_1a725444a88b91897e9991595be81837f7">00611</link> <emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_classtracy_1_1_udp_broadcast_1a725444a88b91897e9991595be81837f7">UdpBroadcast::Close</link>()
+<anchor xml:id="__tracy_socket_8cpp_source_1l00612"/>00612 {
+<anchor xml:id="__tracy_socket_8cpp_source_1l00613"/>00613 &#32;&#32;&#32;&#32;<link linkend="_tracy__lz4_8cpp_1acdcc5aaebf3f273c1762f24a6ece2e5e">assert</link>(&#32;m_sock&#32;!=&#32;-1&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00614"/>00614 <emphasis role="preprocessor">#ifdef&#32;_WIN32</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00615"/>00615 &#32;&#32;&#32;&#32;closesocket(&#32;m_sock&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00616"/>00616 <emphasis role="preprocessor">#else</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00617"/>00617 &#32;&#32;&#32;&#32;close(&#32;m_sock&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00618"/>00618 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00619"/>00619 &#32;&#32;&#32;&#32;m_sock&#32;=&#32;-1;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00620"/>00620 }
+<anchor xml:id="__tracy_socket_8cpp_source_1l00621"/>00621 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00622"/><link linkend="_classtracy_1_1_udp_broadcast_1a9a6896faf70b7da330a4f91d83fb253a">00622</link> <emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_classtracy_1_1_udp_broadcast_1a9a6896faf70b7da330a4f91d83fb253a">UdpBroadcast::Send</link>(&#32;uint16_t&#32;port,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>*&#32;<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>,&#32;<emphasis role="keywordtype">int</emphasis>&#32;len&#32;)
+<anchor xml:id="__tracy_socket_8cpp_source_1l00623"/>00623 {
+<anchor xml:id="__tracy_socket_8cpp_source_1l00624"/>00624 &#32;&#32;&#32;&#32;<link linkend="_tracy__lz4_8cpp_1acdcc5aaebf3f273c1762f24a6ece2e5e">assert</link>(&#32;m_sock&#32;!=&#32;-1&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00625"/>00625 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis>sockaddr_in&#32;addr;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00626"/>00626 &#32;&#32;&#32;&#32;addr.sin_family&#32;=&#32;AF_INET;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00627"/>00627 &#32;&#32;&#32;&#32;addr.sin_port&#32;=&#32;htons(&#32;port&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00628"/>00628 &#32;&#32;&#32;&#32;addr.sin_addr.s_addr&#32;=&#32;m_addr;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00629"/>00629 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;sendto(&#32;m_sock,&#32;(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*)<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>,&#32;len,&#32;<link linkend="__tracy_socket_8cpp_1a9f55d0e90dc8cc6b2287312435cdde48">MSG_NOSIGNAL</link>,&#32;(sockaddr*)&amp;addr,&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;addr&#32;)&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00630"/>00630 }
+<anchor xml:id="__tracy_socket_8cpp_source_1l00631"/>00631 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00632"/><link linkend="_classtracy_1_1_ip_address_1a7f7c6e6ccbed2b76ec32cf46a912f9ef">00632</link> <link linkend="_classtracy_1_1_ip_address_1a7f7c6e6ccbed2b76ec32cf46a912f9ef">IpAddress::IpAddress</link>()
+<anchor xml:id="__tracy_socket_8cpp_source_1l00633"/>00633 &#32;&#32;&#32;&#32;:&#32;m_number(&#32;0&#32;)
+<anchor xml:id="__tracy_socket_8cpp_source_1l00634"/>00634 {
+<anchor xml:id="__tracy_socket_8cpp_source_1l00635"/>00635 &#32;&#32;&#32;&#32;*m_text&#32;=&#32;<emphasis role="charliteral">&apos;\0&apos;</emphasis>;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00636"/>00636 }
+<anchor xml:id="__tracy_socket_8cpp_source_1l00637"/>00637 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00638"/><link linkend="_classtracy_1_1_ip_address_1aa4367a47c7ba52367707bb8a51dbeaab">00638</link> <link linkend="_classtracy_1_1_ip_address_1aa4367a47c7ba52367707bb8a51dbeaab">IpAddress::~IpAddress</link>()
+<anchor xml:id="__tracy_socket_8cpp_source_1l00639"/>00639 {
+<anchor xml:id="__tracy_socket_8cpp_source_1l00640"/>00640 }
+<anchor xml:id="__tracy_socket_8cpp_source_1l00641"/>00641 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00642"/><link linkend="_classtracy_1_1_ip_address_1ae4e91ef81947d1c659c99686b3bfe948">00642</link> <emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_classtracy_1_1_ip_address_1ae4e91ef81947d1c659c99686b3bfe948">IpAddress::Set</link>(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">struct</emphasis>&#32;sockaddr&amp;&#32;addr&#32;)
+<anchor xml:id="__tracy_socket_8cpp_source_1l00643"/>00643 {
+<anchor xml:id="__tracy_socket_8cpp_source_1l00644"/>00644 <emphasis role="preprocessor">#if&#32;defined&#32;_WIN32&#32;&amp;&amp;&#32;(&#32;!defined&#32;NTDDI_WIN10&#32;||&#32;NTDDI_VERSION&#32;&lt;&#32;NTDDI_WIN10&#32;)</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00645"/>00645 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis>sockaddr_in&#32;tmp;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00646"/>00646 &#32;&#32;&#32;&#32;memcpy(&#32;&amp;tmp,&#32;&amp;addr,&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;tmp&#32;)&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00647"/>00647 &#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;ai&#32;=&#32;&amp;tmp;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00648"/>00648 <emphasis role="preprocessor">#else</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00649"/>00649 &#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;ai&#32;=&#32;(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">struct&#32;</emphasis>sockaddr_in*)&amp;addr;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00650"/>00650 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00651"/>00651 &#32;&#32;&#32;&#32;inet_ntop(&#32;AF_INET,&#32;&amp;ai-&gt;sin_addr,&#32;m_text,&#32;17&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00652"/>00652 &#32;&#32;&#32;&#32;m_number&#32;=&#32;ai-&gt;sin_addr.s_addr;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00653"/>00653 }
+<anchor xml:id="__tracy_socket_8cpp_source_1l00654"/>00654 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00655"/><link linkend="_classtracy_1_1_udp_listen_1a0cd2b7306d35cae8499ca1ad9b58c392">00655</link> <link linkend="_classtracy_1_1_udp_listen_1a0cd2b7306d35cae8499ca1ad9b58c392">UdpListen::UdpListen</link>()
+<anchor xml:id="__tracy_socket_8cpp_source_1l00656"/>00656 &#32;&#32;&#32;&#32;:&#32;m_sock(&#32;-1&#32;)
+<anchor xml:id="__tracy_socket_8cpp_source_1l00657"/>00657 {
+<anchor xml:id="__tracy_socket_8cpp_source_1l00658"/>00658 <emphasis role="preprocessor">#ifdef&#32;_WIN32</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00659"/>00659 &#32;&#32;&#32;&#32;InitWinSock();
+<anchor xml:id="__tracy_socket_8cpp_source_1l00660"/>00660 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00661"/>00661 }
+<anchor xml:id="__tracy_socket_8cpp_source_1l00662"/>00662 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00663"/><link linkend="_classtracy_1_1_udp_listen_1a4425ac4f6f5d5d08bd2a13d2cb0f516d">00663</link> <link linkend="_classtracy_1_1_udp_listen_1a4425ac4f6f5d5d08bd2a13d2cb0f516d">UdpListen::~UdpListen</link>()
+<anchor xml:id="__tracy_socket_8cpp_source_1l00664"/>00664 {
+<anchor xml:id="__tracy_socket_8cpp_source_1l00665"/>00665 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;m_sock&#32;!=&#32;-1&#32;)&#32;<link linkend="_classtracy_1_1_udp_listen_1a0b4cbd3ac6bf078568ee9808ed4f32b8">Close</link>();
+<anchor xml:id="__tracy_socket_8cpp_source_1l00666"/>00666 }
+<anchor xml:id="__tracy_socket_8cpp_source_1l00667"/>00667 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00668"/><link linkend="_classtracy_1_1_udp_listen_1ac6ace3f0f8173e312909c80ee2d8c320">00668</link> <emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_classtracy_1_1_udp_listen_1ac6ace3f0f8173e312909c80ee2d8c320">UdpListen::Listen</link>(&#32;uint16_t&#32;port&#32;)
+<anchor xml:id="__tracy_socket_8cpp_source_1l00669"/>00669 {
+<anchor xml:id="__tracy_socket_8cpp_source_1l00670"/>00670 &#32;&#32;&#32;&#32;<link linkend="_tracy__lz4_8cpp_1acdcc5aaebf3f273c1762f24a6ece2e5e">assert</link>(&#32;m_sock&#32;==&#32;-1&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00671"/>00671 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00672"/>00672 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;sock;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00673"/>00673 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;(&#32;sock&#32;=&#32;socket(&#32;AF_INET,&#32;SOCK_DGRAM,&#32;0&#32;)&#32;)&#32;==&#32;-1&#32;)&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">false</emphasis>;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00674"/>00674 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00675"/>00675 <emphasis role="preprocessor">#if&#32;defined&#32;__APPLE__</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00676"/>00676 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1aa857b95cc76669c2a9109239ef40a47c">val</link>&#32;=&#32;1;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00677"/>00677 &#32;&#32;&#32;&#32;setsockopt(&#32;sock,&#32;SOL_SOCKET,&#32;SO_NOSIGPIPE,&#32;&amp;<link linkend="_glad_8h_1aa857b95cc76669c2a9109239ef40a47c">val</link>,&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;<link linkend="_glad_8h_1aa857b95cc76669c2a9109239ef40a47c">val</link>&#32;)&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00678"/>00678 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00679"/>00679 <emphasis role="preprocessor">#if&#32;defined&#32;_WIN32</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00680"/>00680 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">long</emphasis>&#32;reuse&#32;=&#32;1;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00681"/>00681 &#32;&#32;&#32;&#32;setsockopt(&#32;sock,&#32;SOL_SOCKET,&#32;SO_REUSEADDR,&#32;(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*)&amp;reuse,&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;reuse&#32;)&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00682"/>00682 <emphasis role="preprocessor">#else</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00683"/>00683 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;reuse&#32;=&#32;1;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00684"/>00684 &#32;&#32;&#32;&#32;setsockopt(&#32;sock,&#32;SOL_SOCKET,&#32;SO_REUSEADDR,&#32;&amp;reuse,&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;reuse&#32;)&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00685"/>00685 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00686"/>00686 <emphasis role="preprocessor">#if&#32;defined&#32;_WIN32</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00687"/>00687 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">long</emphasis>&#32;broadcast&#32;=&#32;1;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00688"/>00688 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;setsockopt(&#32;sock,&#32;SOL_SOCKET,&#32;SO_BROADCAST,&#32;(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*)&amp;broadcast,&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;broadcast&#32;)&#32;)&#32;==&#32;-1&#32;)
+<anchor xml:id="__tracy_socket_8cpp_source_1l00689"/>00689 <emphasis role="preprocessor">#else</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00690"/>00690 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;broadcast&#32;=&#32;1;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00691"/>00691 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;setsockopt(&#32;sock,&#32;SOL_SOCKET,&#32;SO_BROADCAST,&#32;&amp;broadcast,&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;broadcast&#32;)&#32;)&#32;==&#32;-1&#32;)
+<anchor xml:id="__tracy_socket_8cpp_source_1l00692"/>00692 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00693"/>00693 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_socket_8cpp_source_1l00694"/>00694 <emphasis role="preprocessor">#ifdef&#32;_WIN32</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00695"/>00695 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;closesocket(&#32;sock&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00696"/>00696 <emphasis role="preprocessor">#else</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00697"/>00697 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;close(&#32;sock&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00698"/>00698 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00699"/>00699 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">false</emphasis>;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00700"/>00700 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_socket_8cpp_source_1l00701"/>00701 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00702"/>00702 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis>sockaddr_in&#32;addr;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00703"/>00703 &#32;&#32;&#32;&#32;addr.sin_family&#32;=&#32;AF_INET;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00704"/>00704 &#32;&#32;&#32;&#32;addr.sin_port&#32;=&#32;htons(&#32;port&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00705"/>00705 &#32;&#32;&#32;&#32;addr.sin_addr.s_addr&#32;=&#32;INADDR_ANY;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00706"/>00706 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00707"/>00707 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;bind(&#32;sock,&#32;(sockaddr*)&amp;addr,&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;addr&#32;)&#32;)&#32;==&#32;-1&#32;)
+<anchor xml:id="__tracy_socket_8cpp_source_1l00708"/>00708 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_socket_8cpp_source_1l00709"/>00709 <emphasis role="preprocessor">#ifdef&#32;_WIN32</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00710"/>00710 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;closesocket(&#32;sock&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00711"/>00711 <emphasis role="preprocessor">#else</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00712"/>00712 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;close(&#32;sock&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00713"/>00713 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00714"/>00714 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">false</emphasis>;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00715"/>00715 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_socket_8cpp_source_1l00716"/>00716 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00717"/>00717 &#32;&#32;&#32;&#32;m_sock&#32;=&#32;sock;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00718"/>00718 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">true</emphasis>;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00719"/>00719 }
+<anchor xml:id="__tracy_socket_8cpp_source_1l00720"/>00720 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00721"/><link linkend="_classtracy_1_1_udp_listen_1a0b4cbd3ac6bf078568ee9808ed4f32b8">00721</link> <emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_classtracy_1_1_udp_listen_1a0b4cbd3ac6bf078568ee9808ed4f32b8">UdpListen::Close</link>()
+<anchor xml:id="__tracy_socket_8cpp_source_1l00722"/>00722 {
+<anchor xml:id="__tracy_socket_8cpp_source_1l00723"/>00723 &#32;&#32;&#32;&#32;<link linkend="_tracy__lz4_8cpp_1acdcc5aaebf3f273c1762f24a6ece2e5e">assert</link>(&#32;m_sock&#32;!=&#32;-1&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00724"/>00724 <emphasis role="preprocessor">#ifdef&#32;_WIN32</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00725"/>00725 &#32;&#32;&#32;&#32;closesocket(&#32;m_sock&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00726"/>00726 <emphasis role="preprocessor">#else</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00727"/>00727 &#32;&#32;&#32;&#32;close(&#32;m_sock&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00728"/>00728 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="__tracy_socket_8cpp_source_1l00729"/>00729 &#32;&#32;&#32;&#32;m_sock&#32;=&#32;-1;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00730"/>00730 }
+<anchor xml:id="__tracy_socket_8cpp_source_1l00731"/>00731 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00732"/><link linkend="_classtracy_1_1_udp_listen_1acd85fc78c97ed4e78e43ae43e65c64fa">00732</link> <emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_classtracy_1_1_udp_listen_1acd85fc78c97ed4e78e43ae43e65c64fa">UdpListen::Read</link>(&#32;<emphasis role="keywordtype">size_t</emphasis>&amp;&#32;len,&#32;<link linkend="_classtracy_1_1_ip_address">IpAddress</link>&amp;&#32;addr,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1ad29bb0d8468b264a4e3d9204366cfaab">timeout</link>&#32;)
+<anchor xml:id="__tracy_socket_8cpp_source_1l00733"/>00733 {
+<anchor xml:id="__tracy_socket_8cpp_source_1l00734"/>00734 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;buf[2048];
+<anchor xml:id="__tracy_socket_8cpp_source_1l00735"/>00735 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00736"/>00736 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis>pollfd&#32;fd;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00737"/>00737 &#32;&#32;&#32;&#32;fd.fd&#32;=&#32;(<link linkend="_namespacetracy_1ad59a4548ffc580cd8a186359bb94f130">socket_t</link>)m_sock;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00738"/>00738 &#32;&#32;&#32;&#32;fd.events&#32;=&#32;POLLIN;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00739"/>00739 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;poll(&#32;&amp;fd,&#32;1,&#32;<link linkend="_glad_8h_1ad29bb0d8468b264a4e3d9204366cfaab">timeout</link>&#32;)&#32;&lt;=&#32;0&#32;)&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">nullptr</emphasis>;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00740"/>00740 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00741"/>00741 &#32;&#32;&#32;&#32;sockaddr&#32;sa;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00742"/>00742 &#32;&#32;&#32;&#32;socklen_t&#32;salen&#32;=&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;<emphasis role="keyword">struct&#32;</emphasis>sockaddr&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00743"/>00743 &#32;&#32;&#32;&#32;len&#32;=&#32;(size_t)recvfrom(&#32;m_sock,&#32;buf,&#32;2048,&#32;0,&#32;&amp;sa,&#32;&amp;salen&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00744"/>00744 &#32;&#32;&#32;&#32;addr.<link linkend="_classtracy_1_1_ip_address_1ae4e91ef81947d1c659c99686b3bfe948">Set</link>(&#32;sa&#32;);
+<anchor xml:id="__tracy_socket_8cpp_source_1l00745"/>00745 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00746"/>00746 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;buf;
+<anchor xml:id="__tracy_socket_8cpp_source_1l00747"/>00747 }
+<anchor xml:id="__tracy_socket_8cpp_source_1l00748"/>00748 
+<anchor xml:id="__tracy_socket_8cpp_source_1l00749"/>00749 }
+</programlisting></section>

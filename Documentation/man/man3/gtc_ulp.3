@@ -1,0 +1,278 @@
+.TH "gtc_ulp" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+gtc_ulp \- GLM_GTC_ulp
+.SH SYNOPSIS
+.br
+.PP
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "template<typename genType > \fBGLM_FUNC_DECL\fP genType \fBglm::next_float\fP (genType \fBx\fP)"
+.br
+.ti -1c
+.RI "template<typename genType > \fBGLM_FUNC_DECL\fP genType \fBglm::prev_float\fP (genType \fBx\fP)"
+.br
+.ti -1c
+.RI "template<typename genType > \fBGLM_FUNC_DECL\fP genType \fBglm::next_float\fP (genType \fBx\fP, int ULPs)"
+.br
+.ti -1c
+.RI "template<typename genType > \fBGLM_FUNC_DECL\fP genType \fBglm::prev_float\fP (genType \fBx\fP, int ULPs)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP int \fBglm::float_distance\fP (float \fBx\fP, float \fBy\fP)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP \fBint64\fP \fBglm::float_distance\fP (double \fBx\fP, double \fBy\fP)"
+.br
+.ti -1c
+.RI "template<\fBlength_t\fP L, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_DECL\fP \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > \fBglm::next_float\fP (\fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const &\fBx\fP)"
+.br
+.ti -1c
+.RI "template<\fBlength_t\fP L, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_DECL\fP \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > \fBglm::next_float\fP (\fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const &\fBx\fP, int ULPs)"
+.br
+.ti -1c
+.RI "template<\fBlength_t\fP L, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_DECL\fP \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > \fBglm::next_float\fP (\fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const &\fBx\fP, \fBvec\fP< \fBL\fP, int, \fBQ\fP > const &ULPs)"
+.br
+.ti -1c
+.RI "template<\fBlength_t\fP L, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_DECL\fP \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > \fBglm::prev_float\fP (\fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const &\fBx\fP)"
+.br
+.ti -1c
+.RI "template<\fBlength_t\fP L, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_DECL\fP \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > \fBglm::prev_float\fP (\fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const &\fBx\fP, int ULPs)"
+.br
+.ti -1c
+.RI "template<\fBlength_t\fP L, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_DECL\fP \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > \fBglm::prev_float\fP (\fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const &\fBx\fP, \fBvec\fP< \fBL\fP, int, \fBQ\fP > const &ULPs)"
+.br
+.ti -1c
+.RI "template<\fBlength_t\fP L, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_DECL\fP \fBvec\fP< \fBL\fP, int, \fBQ\fP > \fBglm::float_distance\fP (\fBvec\fP< \fBL\fP, float, \fBQ\fP > const &\fBx\fP, \fBvec\fP< \fBL\fP, float, \fBQ\fP > const &\fBy\fP)"
+.br
+.ti -1c
+.RI "template<\fBlength_t\fP L, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_DECL\fP \fBvec\fP< \fBL\fP, \fBint64\fP, \fBQ\fP > \fBglm::float_distance\fP (\fBvec\fP< \fBL\fP, double, \fBQ\fP > const &\fBx\fP, \fBvec\fP< \fBL\fP, double, \fBQ\fP > const &\fBy\fP)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Include <\fBglm/gtc/ulp\&.hpp\fP> to use the features of this extension\&.
+.PP
+Allow the measurement of the accuracy of a function against a reference implementation\&. This extension works on floating-point data and provide results in ULP\&.
+.SH "Function Documentation"
+.PP 
+.SS "\fBGLM_FUNC_QUALIFIER\fP \fBint64\fP glm::float_distance (double x, double y)"
+Return the distance in the number of ULP between 2 double-precision floating-point scalars\&.
+.PP
+\fBSee also\fP
+.RS 4
+\fBGLM_GTC_ulp\fP 
+.RE
+.PP
+
+.SS "\fBGLM_FUNC_QUALIFIER\fP int glm::float_distance (float x, float y)"
+Return the distance in the number of ULP between 2 single-precision floating-point scalars\&.
+.PP
+\fBSee also\fP
+.RS 4
+\fBGLM_GTC_ulp\fP 
+.RE
+.PP
+
+.SS "template<\fBlength_t\fP L, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_DECL\fP \fBvec\fP< \fBL\fP, \fBint64\fP, \fBQ\fP > glm::float_distance (\fBvec\fP< \fBL\fP, double, \fBQ\fP > const & x, \fBvec\fP< \fBL\fP, double, \fBQ\fP > const & y)"
+Return the distance in the number of ULP between 2 double-precision floating-point scalars\&.
+.PP
+\fBTemplate Parameters\fP
+.RS 4
+\fIL\fP Integer between 1 and 4 included that qualify the dimension of the vector 
+.br
+\fIQ\fP Value from qualifier enum
+.RE
+.PP
+\fBSee also\fP
+.RS 4
+\fBGLM_GTC_ulp\fP 
+.RE
+.PP
+
+.SS "template<\fBlength_t\fP L, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_DECL\fP \fBvec\fP< \fBL\fP, int, \fBQ\fP > glm::float_distance (\fBvec\fP< \fBL\fP, float, \fBQ\fP > const & x, \fBvec\fP< \fBL\fP, float, \fBQ\fP > const & y)"
+Return the distance in the number of ULP between 2 single-precision floating-point scalars\&.
+.PP
+\fBTemplate Parameters\fP
+.RS 4
+\fIL\fP Integer between 1 and 4 included that qualify the dimension of the vector 
+.br
+\fIQ\fP Value from qualifier enum
+.RE
+.PP
+\fBSee also\fP
+.RS 4
+\fBGLM_GTC_ulp\fP 
+.RE
+.PP
+
+.SS "template<typename genType > \fBGLM_FUNC_DECL\fP genType glm::next_float (genType x)"
+Return the next ULP \fBvalue(s)\fP after the input \fBvalue(s)\fP\&.
+.PP
+\fBTemplate Parameters\fP
+.RS 4
+\fIgenType\fP A floating-point scalar type\&.
+.RE
+.PP
+\fBSee also\fP
+.RS 4
+\fBGLM_GTC_ulp\fP 
+.RE
+.PP
+
+.SS "template<typename genType > \fBGLM_FUNC_DECL\fP genType glm::next_float (genType x, int ULPs)"
+Return the \fBvalue(s)\fP ULP distance after the input \fBvalue(s)\fP\&.
+.PP
+\fBTemplate Parameters\fP
+.RS 4
+\fIgenType\fP A floating-point scalar type\&.
+.RE
+.PP
+\fBSee also\fP
+.RS 4
+\fBGLM_GTC_ulp\fP 
+.RE
+.PP
+
+.SS "template<\fBlength_t\fP L, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_DECL\fP \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > glm::next_float (\fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const & x)"
+Return the next ULP \fBvalue(s)\fP after the input \fBvalue(s)\fP\&.
+.PP
+\fBTemplate Parameters\fP
+.RS 4
+\fIL\fP Integer between 1 and 4 included that qualify the dimension of the vector 
+.br
+\fIT\fP Floating-point 
+.br
+\fIQ\fP Value from qualifier enum
+.RE
+.PP
+\fBSee also\fP
+.RS 4
+\fBGLM_GTC_ulp\fP 
+.RE
+.PP
+
+.SS "template<\fBlength_t\fP L, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_DECL\fP \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > glm::next_float (\fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const & x, int ULPs)"
+Return the \fBvalue(s)\fP ULP distance after the input \fBvalue(s)\fP\&.
+.PP
+\fBTemplate Parameters\fP
+.RS 4
+\fIL\fP Integer between 1 and 4 included that qualify the dimension of the vector 
+.br
+\fIT\fP Floating-point 
+.br
+\fIQ\fP Value from qualifier enum
+.RE
+.PP
+\fBSee also\fP
+.RS 4
+\fBGLM_GTC_ulp\fP 
+.RE
+.PP
+
+.SS "template<\fBlength_t\fP L, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_DECL\fP \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > glm::next_float (\fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const & x, \fBvec\fP< \fBL\fP, int, \fBQ\fP > const & ULPs)"
+Return the \fBvalue(s)\fP ULP distance after the input \fBvalue(s)\fP\&.
+.PP
+\fBTemplate Parameters\fP
+.RS 4
+\fIL\fP Integer between 1 and 4 included that qualify the dimension of the vector 
+.br
+\fIT\fP Floating-point 
+.br
+\fIQ\fP Value from qualifier enum
+.RE
+.PP
+\fBSee also\fP
+.RS 4
+\fBGLM_GTC_ulp\fP 
+.RE
+.PP
+
+.SS "template<typename genType > \fBGLM_FUNC_DECL\fP genType glm::prev_float (genType x)"
+Return the previous ULP \fBvalue(s)\fP before the input \fBvalue(s)\fP\&.
+.PP
+\fBTemplate Parameters\fP
+.RS 4
+\fIgenType\fP A floating-point scalar type\&.
+.RE
+.PP
+\fBSee also\fP
+.RS 4
+\fBGLM_GTC_ulp\fP 
+.RE
+.PP
+
+.SS "template<typename genType > \fBGLM_FUNC_DECL\fP genType glm::prev_float (genType x, int ULPs)"
+Return the \fBvalue(s)\fP ULP distance before the input \fBvalue(s)\fP\&.
+.PP
+\fBTemplate Parameters\fP
+.RS 4
+\fIgenType\fP A floating-point scalar type\&.
+.RE
+.PP
+\fBSee also\fP
+.RS 4
+\fBGLM_GTC_ulp\fP 
+.RE
+.PP
+
+.SS "template<\fBlength_t\fP L, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_DECL\fP \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > glm::prev_float (\fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const & x)"
+Return the previous ULP \fBvalue(s)\fP before the input \fBvalue(s)\fP\&.
+.PP
+\fBTemplate Parameters\fP
+.RS 4
+\fIL\fP Integer between 1 and 4 included that qualify the dimension of the vector 
+.br
+\fIT\fP Floating-point 
+.br
+\fIQ\fP Value from qualifier enum
+.RE
+.PP
+\fBSee also\fP
+.RS 4
+\fBGLM_GTC_ulp\fP 
+.RE
+.PP
+
+.SS "template<\fBlength_t\fP L, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_DECL\fP \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > glm::prev_float (\fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const & x, int ULPs)"
+Return the \fBvalue(s)\fP ULP distance before the input \fBvalue(s)\fP\&.
+.PP
+\fBTemplate Parameters\fP
+.RS 4
+\fIL\fP Integer between 1 and 4 included that qualify the dimension of the vector 
+.br
+\fIT\fP Floating-point 
+.br
+\fIQ\fP Value from qualifier enum
+.RE
+.PP
+\fBSee also\fP
+.RS 4
+\fBGLM_GTC_ulp\fP 
+.RE
+.PP
+
+.SS "template<\fBlength_t\fP L, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_DECL\fP \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > glm::prev_float (\fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const & x, \fBvec\fP< \fBL\fP, int, \fBQ\fP > const & ULPs)"
+Return the \fBvalue(s)\fP ULP distance before the input \fBvalue(s)\fP\&.
+.PP
+\fBTemplate Parameters\fP
+.RS 4
+\fIL\fP Integer between 1 and 4 included that qualify the dimension of the vector 
+.br
+\fIT\fP Floating-point 
+.br
+\fIQ\fP Value from qualifier enum
+.RE
+.PP
+\fBSee also\fP
+.RS 4
+\fBGLM_GTC_ulp\fP 
+.RE
+.PP
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

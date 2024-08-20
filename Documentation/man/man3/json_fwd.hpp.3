@@ -1,0 +1,196 @@
+.TH "adhed/nlohmann/json_fwd.hpp" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+adhed/nlohmann/json_fwd.hpp
+.SH SYNOPSIS
+.br
+.PP
+\fR#include <cstdint>\fP
+.br
+\fR#include <map>\fP
+.br
+\fR#include <memory>\fP
+.br
+\fR#include <string>\fP
+.br
+\fR#include <vector>\fP
+.br
+
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBNLOHMANN_JSON_VERSION_MAJOR\fP   3"
+.br
+.ti -1c
+.RI "#define \fBNLOHMANN_JSON_VERSION_MINOR\fP   11"
+.br
+.ti -1c
+.RI "#define \fBNLOHMANN_JSON_VERSION_PATCH\fP   3"
+.br
+.ti -1c
+.RI "#define \fBJSON_DIAGNOSTICS\fP   0"
+.br
+.ti -1c
+.RI "#define \fBJSON_USE_LEGACY_DISCARDED_VALUE_COMPARISON\fP   0"
+.br
+.ti -1c
+.RI "#define \fBNLOHMANN_JSON_ABI_TAG_DIAGNOSTICS\fP"
+.br
+.ti -1c
+.RI "#define \fBNLOHMANN_JSON_ABI_TAG_LEGACY_DISCARDED_VALUE_COMPARISON\fP"
+.br
+.ti -1c
+.RI "#define \fBNLOHMANN_JSON_NAMESPACE_NO_VERSION\fP   0"
+.br
+.ti -1c
+.RI "#define \fBNLOHMANN_JSON_ABI_TAGS_CONCAT_EX\fP(\fBa\fP,  \fBb\fP)   json_abi ## \fBa\fP ## \fBb\fP"
+.br
+.ti -1c
+.RI "#define \fBNLOHMANN_JSON_ABI_TAGS_CONCAT\fP(\fBa\fP,  \fBb\fP)       \fBNLOHMANN_JSON_ABI_TAGS_CONCAT_EX\fP(\fBa\fP, \fBb\fP)"
+.br
+.ti -1c
+.RI "#define \fBNLOHMANN_JSON_ABI_TAGS\fP"
+.br
+.ti -1c
+.RI "#define \fBNLOHMANN_JSON_NAMESPACE_VERSION_CONCAT_EX\fP(major,  minor,  patch)       _v ## major ## _ ## minor ## _ ## patch"
+.br
+.ti -1c
+.RI "#define \fBNLOHMANN_JSON_NAMESPACE_VERSION_CONCAT\fP(major,  minor,  patch)       \fBNLOHMANN_JSON_NAMESPACE_VERSION_CONCAT_EX\fP(major, minor, patch)"
+.br
+.ti -1c
+.RI "#define \fBNLOHMANN_JSON_NAMESPACE_VERSION\fP"
+.br
+.ti -1c
+.RI "#define \fBNLOHMANN_JSON_NAMESPACE_CONCAT_EX\fP(\fBa\fP,  \fBb\fP)   \fBa\fP ## \fBb\fP"
+.br
+.ti -1c
+.RI "#define \fBNLOHMANN_JSON_NAMESPACE_CONCAT\fP(\fBa\fP,  \fBb\fP)       \fBNLOHMANN_JSON_NAMESPACE_CONCAT_EX\fP(\fBa\fP, \fBb\fP)"
+.br
+.ti -1c
+.RI "#define \fBNLOHMANN_JSON_NAMESPACE\fP"
+.br
+.ti -1c
+.RI "#define \fBNLOHMANN_JSON_NAMESPACE_BEGIN\fP"
+.br
+.ti -1c
+.RI "#define \fBNLOHMANN_JSON_NAMESPACE_END\fP"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "using \fBjson\fP = \fBbasic_json\fP<>"
+.br
+.RI "default specialization "
+.ti -1c
+.RI "using \fBordered_json\fP = \fBbasic_json\fP<nlohmann::ordered_map>"
+.br
+.RI "specialization that maintains the insertion order of object keys "
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define JSON_DIAGNOSTICS   0"
+
+.SS "#define JSON_USE_LEGACY_DISCARDED_VALUE_COMPARISON   0"
+
+.SS "#define NLOHMANN_JSON_ABI_TAG_DIAGNOSTICS"
+
+.SS "#define NLOHMANN_JSON_ABI_TAG_LEGACY_DISCARDED_VALUE_COMPARISON"
+
+.SS "#define NLOHMANN_JSON_ABI_TAGS"
+\fBValue:\fP
+.nf
+    NLOHMANN_JSON_ABI_TAGS_CONCAT(                                   \\
+            NLOHMANN_JSON_ABI_TAG_DIAGNOSTICS,                       \\
+            NLOHMANN_JSON_ABI_TAG_LEGACY_DISCARDED_VALUE_COMPARISON)
+.PP
+.fi
+
+.SS "#define NLOHMANN_JSON_ABI_TAGS_CONCAT( \fBa\fP,  \fBb\fP)       \fBNLOHMANN_JSON_ABI_TAGS_CONCAT_EX\fP(\fBa\fP, \fBb\fP)"
+
+.SS "#define NLOHMANN_JSON_ABI_TAGS_CONCAT_EX( \fBa\fP,  \fBb\fP)   json_abi ## \fBa\fP ## \fBb\fP"
+
+.SS "#define NLOHMANN_JSON_NAMESPACE"
+\fBValue:\fP
+.nf
+    nlohmann::NLOHMANN_JSON_NAMESPACE_CONCAT( \\
+            NLOHMANN_JSON_ABI_TAGS,           \\
+            NLOHMANN_JSON_NAMESPACE_VERSION)
+.PP
+.fi
+
+.SS "#define NLOHMANN_JSON_NAMESPACE_BEGIN"
+\fBValue:\fP
+.nf
+    namespace nlohmann                               \\
+    {                                                \\
+    inline namespace NLOHMANN_JSON_NAMESPACE_CONCAT( \\
+                NLOHMANN_JSON_ABI_TAGS,              \\
+                NLOHMANN_JSON_NAMESPACE_VERSION)     \\
+    {
+.PP
+.fi
+
+.SS "#define NLOHMANN_JSON_NAMESPACE_CONCAT( \fBa\fP,  \fBb\fP)       \fBNLOHMANN_JSON_NAMESPACE_CONCAT_EX\fP(\fBa\fP, \fBb\fP)"
+
+.SS "#define NLOHMANN_JSON_NAMESPACE_CONCAT_EX( \fBa\fP,  \fBb\fP)   \fBa\fP ## \fBb\fP"
+
+.SS "#define NLOHMANN_JSON_NAMESPACE_END"
+\fBValue:\fP
+.nf
+    }  /* namespace (inline namespace) NOLINT(readability/namespace) */ \\
+    }
+.PP
+.fi
+
+.SS "#define NLOHMANN_JSON_NAMESPACE_NO_VERSION   0"
+
+.SS "#define NLOHMANN_JSON_NAMESPACE_VERSION"
+\fBValue:\fP
+.nf
+    NLOHMANN_JSON_NAMESPACE_VERSION_CONCAT(NLOHMANN_JSON_VERSION_MAJOR, \\
+                                           NLOHMANN_JSON_VERSION_MINOR, \\
+                                           NLOHMANN_JSON_VERSION_PATCH)
+.PP
+.fi
+
+.SS "#define NLOHMANN_JSON_NAMESPACE_VERSION_CONCAT( major,  minor,  patch)       \fBNLOHMANN_JSON_NAMESPACE_VERSION_CONCAT_EX\fP(major, minor, patch)"
+
+.SS "#define NLOHMANN_JSON_NAMESPACE_VERSION_CONCAT_EX( major,  minor,  patch)       _v ## major ## _ ## minor ## _ ## patch"
+
+.SS "#define NLOHMANN_JSON_VERSION_MAJOR   3"
+
+.SS "#define NLOHMANN_JSON_VERSION_MINOR   11"
+
+.SS "#define NLOHMANN_JSON_VERSION_PATCH   3"
+
+.SH "Typedef Documentation"
+.PP 
+.SS "using \fBjson\fP = \fBbasic_json\fP<>"
+
+.PP
+default specialization 
+.PP
+\fBSee also\fP
+.RS 4
+https://json.nlohmann.me/api/json/ 
+.RE
+.PP
+
+.SS "using \fBordered_json\fP = \fBbasic_json\fP<nlohmann::ordered_map>"
+
+.PP
+specialization that maintains the insertion order of object keys 
+.PP
+\fBSee also\fP
+.RS 4
+https://json.nlohmann.me/api/ordered_json/ 
+.RE
+.PP
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

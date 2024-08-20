@@ -1,0 +1,1043 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_elf_8cpp" xml:lang="en-US">
+<title>adhed/libbacktrace/elf.cpp File Reference</title>
+<indexterm><primary>adhed/libbacktrace/elf.cpp</primary></indexterm>
+<programlisting linenumbering="unnumbered">#include &quot;config.h&quot;<?linebreak?>#include &lt;errno.h&gt;<?linebreak?>#include &lt;stdlib.h&gt;<?linebreak?>#include &lt;string.h&gt;<?linebreak?>#include &lt;sys/types.h&gt;<?linebreak?>#include &lt;sys/stat.h&gt;<?linebreak?>#include &lt;unistd.h&gt;<?linebreak?>#include &lt;link.h&gt;<?linebreak?>#include &quot;backtrace.hpp&quot;<?linebreak?>#include &quot;internal.hpp&quot;<?linebreak?>#include &quot;../client/TracyFastVector.hpp&quot;<?linebreak?>#include &quot;../common/TracyAlloc.hpp&quot;<?linebreak?></programlisting><simplesect>
+    <title>Classes    </title>
+        <itemizedlist>
+            <listitem><para>struct <link linkend="_structtracy_1_1b__elf__ehdr">tracy::b_elf_ehdr</link></para>
+</listitem>
+            <listitem><para>struct <link linkend="_structtracy_1_1b__elf__shdr">tracy::b_elf_shdr</link></para>
+</listitem>
+            <listitem><para>struct <link linkend="_structtracy_1_1b__elf__sym">tracy::b_elf_sym</link></para>
+</listitem>
+            <listitem><para>struct <link linkend="_structtracy_1_1b__elf__note">tracy::b_elf_note</link></para>
+</listitem>
+            <listitem><para>struct <link linkend="_structtracy_1_1b__elf__chdr">tracy::b_elf_chdr</link></para>
+</listitem>
+            <listitem><para>struct <link linkend="_structtracy_1_1debug__section__info">tracy::debug_section_info</link></para>
+</listitem>
+            <listitem><para>struct <link linkend="_structtracy_1_1elf__symbol">tracy::elf_symbol</link></para>
+</listitem>
+            <listitem><para>struct <link linkend="_structtracy_1_1elf__syminfo__data">tracy::elf_syminfo_data</link></para>
+</listitem>
+            <listitem><para>struct <link linkend="_structtracy_1_1elf__view">tracy::elf_view</link></para>
+</listitem>
+            <listitem><para>struct <link linkend="_structtracy_1_1elf__ppc64__opd__data">tracy::elf_ppc64_opd_data</link></para>
+</listitem>
+            <listitem><para>struct <link linkend="_structtracy_1_1elf__zstd__fse__entry">tracy::elf_zstd_fse_entry</link></para>
+</listitem>
+            <listitem><para>struct <link linkend="_structtracy_1_1elf__zstd__fse__baseline__entry">tracy::elf_zstd_fse_baseline_entry</link></para>
+</listitem>
+            <listitem><para>struct <link linkend="_structtracy_1_1elf__zstd__seq__decode">tracy::elf_zstd_seq_decode</link></para>
+</listitem>
+            <listitem><para>struct <link linkend="_structtracy_1_1phdr__data">tracy::phdr_data</link></para>
+</listitem>
+            <listitem><para>struct <link linkend="_structtracy_1_1_phdr_iterate">tracy::PhdrIterate</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Namespaces    </title>
+        <itemizedlist>
+            <listitem><para>namespace <link linkend="_namespacetracy">tracy</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Macros    </title>
+        <itemizedlist>
+            <listitem><para>#define <link linkend="_elf_8cpp_1afef163ce62372757e84bd9fc88c07aad">S_IFLNK</link>&#160;&#160;&#160;0120000</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1ab5bee51e9ee68b83ab11d4b340f7200b">S_IFMT</link>&#160;&#160;&#160;0170000</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a835359614ec43fbd96f53993cde84ef2">S_ISLNK</link>(m)&#160;&#160;&#160;(((m) &amp; <link linkend="_elf_8cpp_1ab5bee51e9ee68b83ab11d4b340f7200b">S_IFMT</link>) == <link linkend="_elf_8cpp_1afef163ce62372757e84bd9fc88c07aad">S_IFLNK</link>)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1af656159107e946b81aa6cd6ba767843e">__builtin_prefetch</link>(p,  <link linkend="_glad_8h_1abe08814c2f72843fde4d8df41440d5a0">r</link>,  l)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1ac6c45889010c1bd68631771b64f18101">unlikely</link>(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>)&#160;&#160;&#160;(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1ae407130db14180c6737390604ba7c1fe">EI_NIDENT</link>&#160;&#160;&#160;16</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1aba717f40a418b0d99c2efd4cdab4f54f">EI_MAG0</link>&#160;&#160;&#160;0</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a2cae3878d982911632b418680718d53b">EI_MAG1</link>&#160;&#160;&#160;1</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a2884a339ef7aefee59d160ed3fbb1739">EI_MAG2</link>&#160;&#160;&#160;2</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1ace03d4c5e8952e27b8505581432c3b84">EI_MAG3</link>&#160;&#160;&#160;3</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a5b508cacf6662e4bc0e98ffe1eb61636">EI_CLASS</link>&#160;&#160;&#160;4</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a79c714b4bf89638ff576e163d7d2144f">EI_DATA</link>&#160;&#160;&#160;5</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1aac8694b14e6500d9dc5047ef62518845">EI_VERSION</link>&#160;&#160;&#160;6</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a2ae7ae1a6df04e0ed6be07b94590686e">ELFMAG0</link>&#160;&#160;&#160;0x7f</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a6237b3c20ffd799df7b9a91ab3bbdff4">ELFMAG1</link>&#160;&#160;&#160;&apos;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a07484107e6d9fdf38b53edf631d6511d">E</link>&apos;</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a8ac1b98d78e30ca49e1d3f287939a18f">ELFMAG2</link>&#160;&#160;&#160;&apos;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>&apos;</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a2beeae5974769f72da5f63dcbcc325fe">ELFMAG3</link>&#160;&#160;&#160;&apos;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a42257a545daf5b7933d6e8f96adc74f2">F</link>&apos;</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a5f84b1bf6e07374d6289eab3d8c57f1c">ELFCLASS32</link>&#160;&#160;&#160;1</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a9ee66b59be5c78ea1f1eea8a36f2c291">ELFCLASS64</link>&#160;&#160;&#160;2</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1af66303c799da18c8aec282ea8592e7e7">ELFDATA2LSB</link>&#160;&#160;&#160;1</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a06385c3e5f0a3b62fae7f5e224e10f89">ELFDATA2MSB</link>&#160;&#160;&#160;2</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a8085a255e82173046afefd2a1c6de930">EV_CURRENT</link>&#160;&#160;&#160;1</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a4373ea3b3d512434ebe2213829b6751b">ET_DYN</link>&#160;&#160;&#160;3</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a416acf1af7155b8a8856f87601985794">EM_PPC64</link>&#160;&#160;&#160;21</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a9eb4d25e986c555ababcc76968e695c8">EF_PPC64_ABI</link>&#160;&#160;&#160;3</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1ab2f25695673c5f1c4ec723e595288411">SHN_UNDEF</link>&#160;&#160;&#160;0x0000		/* Undefined section */</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1ac663b490fedc8aeab91bf941772ba306">SHN_LORESERVE</link>&#160;&#160;&#160;0xFF00		/* Begin range of reserved <link linkend="_glad_8h_1a94ae715eebfc1eb65456c0ab9b97f1e9">indices</link> */</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1adcbb4b7e1c4ec5add7328be2c8de8ab2">SHN_XINDEX</link>&#160;&#160;&#160;0xFFFF		/* Section <link linkend="_glad_8h_1a57f14e05b1900f16a2da82ade47d0c6d">index</link> is held elsewhere */</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a4bff22edbae51353ba9b3572d424b91a">SHT_PROGBITS</link>&#160;&#160;&#160;1</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a4add7784e43ec3d3b9c09d3ffc476a81">SHT_SYMTAB</link>&#160;&#160;&#160;2</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1af4b916dc4ca5016fb5c374068002a532">SHT_STRTAB</link>&#160;&#160;&#160;3</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1aa9949aedf49107f6a07e618d5d791d40">SHT_DYNSYM</link>&#160;&#160;&#160;11</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a9393278edb59f46f55263f9d10ef2076">SHF_COMPRESSED</link>&#160;&#160;&#160;0x800</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1ac236cc313291ed38ecb346a8b4bde6b2">STT_OBJECT</link>&#160;&#160;&#160;1</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a9cdfedf900935f23f6e409ce378dc1d2">STT_FUNC</link>&#160;&#160;&#160;2</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a0e968935fb5cb01c4abe6eed8b140059">NT_GNU_BUILD_ID</link>&#160;&#160;&#160;3</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a30a4382c53c82c191613b7e4a5b9833e">ELFCOMPRESS_ZLIB</link>&#160;&#160;&#160;1</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1aca80e70eaa183876150998aea7610e98">ELFCOMPRESS_ZSTD</link>&#160;&#160;&#160;2</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1ad6182965114505d92c40b429d111bd91">SYSTEM_BUILD_ID_DIR</link>&#160;&#160;&#160;&quot;/usr/lib/debug/.build-<link linkend="_glad_8h_1a0f49c9e660c049e85b4735b5246b6258">id</link>/&quot;</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1ad6b3c6dbea50b63cb84f1dab1e2b58ac">ZLIB_HUFFMAN_TABLE_SIZE</link>&#160;&#160;&#160;(1024)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1ad3681bfedfda0791c986ffec10975daf">ZLIB_HUFFMAN_VALUE_MASK</link>&#160;&#160;&#160;0x01ff</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1aec72c566f5d0808c10c092f3c04666b7">ZLIB_HUFFMAN_BITS_SHIFT</link>&#160;&#160;&#160;9</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a2ab232dc3eda1b390c2e2bba82b6a542">ZLIB_HUFFMAN_BITS_MASK</link>&#160;&#160;&#160;0x7</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a4bba0577c3c3db8295b5cec077ba5278">ZLIB_HUFFMAN_SECONDARY_SHIFT</link>&#160;&#160;&#160;12</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a5867aee2b9401e107bb4645a76ab5122">ZLIB_TABLE_SIZE</link></para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1aadda0713c3470b27511ddb6f1bf28b49">ZLIB_TABLE_CODELEN_OFFSET</link></para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a423214005a9bc8cc48acdafcf44270df">ZLIB_TABLE_WORK_OFFSET</link>&#160;&#160;&#160;  (2 * <link linkend="_elf_8cpp_1ad6b3c6dbea50b63cb84f1dab1e2b58ac">ZLIB_HUFFMAN_TABLE_SIZE</link> * sizeof (uint16_t))</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1abab9f8eee3e7f804059071f1e904c1a3">ZSTD_TABLE_SIZE</link></para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a846b96183e9d5c18280f23542561d4aa">ZSTD_TABLE_LITERAL_FSE_OFFSET</link>&#160;&#160;&#160;(0)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a6d40352114601c70edcacdec6477308f">ZSTD_TABLE_MATCH_FSE_OFFSET</link>&#160;&#160;&#160;  (512 * sizeof (<link linkend="_interfacestruct">struct</link> elf_zstd_fse_baseline_entry))</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1ad130faf3c0f977d28c5add0bc677f989">ZSTD_TABLE_OFFSET_FSE_OFFSET</link></para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a834af4da3b41e2f867e783bfb632b478">ZSTD_TABLE_HUFFMAN_OFFSET</link></para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a72f15292993113b379945683895b0adc">ZSTD_TABLE_WORK_OFFSET</link>&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1a834af4da3b41e2f867e783bfb632b478">ZSTD_TABLE_HUFFMAN_OFFSET</link> + 2048 * sizeof (uint16_t))</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1ad45c905b10c17c0b27ce56baeaf00730">ZSTD_ENCODE_BASELINE_BITS</link>(baseline,  basebits)&#160;&#160;&#160;  ((uint32_t)(baseline) | ((uint32_t)(basebits) &lt;&lt; 24))</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a15667f81622d44a8e4f04bad2f82dec0">ZSTD_DECODE_BASELINE</link>(baseline_basebits)&#160;&#160;&#160;  ((uint32_t)(baseline_basebits) &amp; 0xffffff)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a0078b600b35a41529c42ec583bbe88cb">ZSTD_DECODE_BASEBITS</link>(baseline_basebits)&#160;&#160;&#160;  ((uint32_t)(baseline_basebits) &gt;&gt; 24)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a98c2908428d9e1cae69cf21f6d6d354c">ZSTD_LITERAL_LENGTH_BASELINE_OFFSET</link>&#160;&#160;&#160;(16)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a4de9c24e7edc8e64410d7501cc016a20">ZSTD_MATCH_LENGTH_BASELINE_OFFSET</link>&#160;&#160;&#160;(32)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a0346d561555a2a3b5eb93dda3e760971">ZDEBUG_TABLE_SIZE</link>&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1a5867aee2b9401e107bb4645a76ab5122">ZLIB_TABLE_SIZE</link> &gt; <link linkend="_elf_8cpp_1abab9f8eee3e7f804059071f1e904c1a3">ZSTD_TABLE_SIZE</link> ? <link linkend="_elf_8cpp_1a5867aee2b9401e107bb4645a76ab5122">ZLIB_TABLE_SIZE</link> : <link linkend="_elf_8cpp_1abab9f8eee3e7f804059071f1e904c1a3">ZSTD_TABLE_SIZE</link>)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a238df818a893c29131955c85331b4cf6">LZMA_STATES</link>&#160;&#160;&#160;(12)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1abbae2ec1a897a69e2e21fed65129a9e0">LZMA_POS_STATES</link>&#160;&#160;&#160;(16)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1aa2e8087accd1f465791b7ef7dbeb768e">LZMA_DIST_STATES</link>&#160;&#160;&#160;(4)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a023938d279d7b8cd1748206b26adcdaa">LZMA_DIST_SLOTS</link>&#160;&#160;&#160;(64)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a631b8f609ce7a64a7417cfea563cc57e">LZMA_DIST_MODEL_START</link>&#160;&#160;&#160;(4)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a0af4fce6e7926cb88a2499a9a9585cb3">LZMA_DIST_MODEL_END</link>&#160;&#160;&#160;(14)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1ab315bf14c97bc38f19505c4609e386b3">LZMA_FULL_DISTANCES</link>&#160;&#160;&#160;(128)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a909627183544161301904045db46bbff">LZMA_ALIGN_SIZE</link>&#160;&#160;&#160;(16)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a1571bb1e4de4b6f6724254ff913d39f0">LZMA_LEN_LOW_SYMBOLS</link>&#160;&#160;&#160;(8)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a9d02352cc306a7a9f544565623e69039">LZMA_LEN_MID_SYMBOLS</link>&#160;&#160;&#160;(8)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1ae4b7488ce014fd6647742700d949bf07">LZMA_LEN_HIGH_SYMBOLS</link>&#160;&#160;&#160;(256)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1aaaa5c65f791ee7de051ea19d675469e7">LZMA_LITERAL_CODERS_MAX</link>&#160;&#160;&#160;(16)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1ac3b5863514060490b084e7d7bac3b5f7">LZMA_LITERAL_CODER_SIZE</link>&#160;&#160;&#160;(0x300)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a59e0b9429e5c7427c582bbaf3e1810e6">LZMA_PROB_IS_MATCH_LEN</link>&#160;&#160;&#160;(<link linkend="_elf_8cpp_1a238df818a893c29131955c85331b4cf6">LZMA_STATES</link> * <link linkend="_elf_8cpp_1abbae2ec1a897a69e2e21fed65129a9e0">LZMA_POS_STATES</link>)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a05a9aeb7c22ab569d0f514d4c4a68bd9">LZMA_PROB_IS_REP_LEN</link>&#160;&#160;&#160;<link linkend="_elf_8cpp_1a238df818a893c29131955c85331b4cf6">LZMA_STATES</link></para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a7d0543d1087d3426f34796fa335b1b0c">LZMA_PROB_IS_REP0_LEN</link>&#160;&#160;&#160;<link linkend="_elf_8cpp_1a238df818a893c29131955c85331b4cf6">LZMA_STATES</link></para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a0791de93e66f20bef7bbf22891ac71fc">LZMA_PROB_IS_REP1_LEN</link>&#160;&#160;&#160;<link linkend="_elf_8cpp_1a238df818a893c29131955c85331b4cf6">LZMA_STATES</link></para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1abf9fbb7eb0204111db12c33401ac1129">LZMA_PROB_IS_REP2_LEN</link>&#160;&#160;&#160;<link linkend="_elf_8cpp_1a238df818a893c29131955c85331b4cf6">LZMA_STATES</link></para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a2ee2e37b0e4dc5a702f9edf21a646ebd">LZMA_PROB_IS_REP0_LONG_LEN</link>&#160;&#160;&#160;(<link linkend="_elf_8cpp_1a238df818a893c29131955c85331b4cf6">LZMA_STATES</link> * <link linkend="_elf_8cpp_1abbae2ec1a897a69e2e21fed65129a9e0">LZMA_POS_STATES</link>)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1ab15ff83898a1fc436f68d4ddd1fc8075">LZMA_PROB_DIST_SLOT_LEN</link>&#160;&#160;&#160;(<link linkend="_elf_8cpp_1aa2e8087accd1f465791b7ef7dbeb768e">LZMA_DIST_STATES</link> * <link linkend="_elf_8cpp_1a023938d279d7b8cd1748206b26adcdaa">LZMA_DIST_SLOTS</link>)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a90477313f0437d5e9ffe49ff06d65f7e">LZMA_PROB_DIST_SPECIAL_LEN</link>&#160;&#160;&#160;(<link linkend="_elf_8cpp_1ab315bf14c97bc38f19505c4609e386b3">LZMA_FULL_DISTANCES</link> - <link linkend="_elf_8cpp_1a0af4fce6e7926cb88a2499a9a9585cb3">LZMA_DIST_MODEL_END</link>)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1aba809e4a3a1170d351430b8981b5277c">LZMA_PROB_DIST_ALIGN_LEN</link>&#160;&#160;&#160;<link linkend="_elf_8cpp_1a909627183544161301904045db46bbff">LZMA_ALIGN_SIZE</link></para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1ad09d84f7c68de453fde08cc873754092">LZMA_PROB_MATCH_LEN_CHOICE_LEN</link>&#160;&#160;&#160;1</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a0366a77bbfcf5a1807ad0c0682d8bed4">LZMA_PROB_MATCH_LEN_CHOICE2_LEN</link>&#160;&#160;&#160;1</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a8ed5dcf3bcd60de68fe52600b7e9b8a5">LZMA_PROB_MATCH_LEN_LOW_LEN</link>&#160;&#160;&#160;(<link linkend="_elf_8cpp_1abbae2ec1a897a69e2e21fed65129a9e0">LZMA_POS_STATES</link> * <link linkend="_elf_8cpp_1a1571bb1e4de4b6f6724254ff913d39f0">LZMA_LEN_LOW_SYMBOLS</link>)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a37e1817170724054088161de9428968a">LZMA_PROB_MATCH_LEN_MID_LEN</link>&#160;&#160;&#160;(<link linkend="_elf_8cpp_1abbae2ec1a897a69e2e21fed65129a9e0">LZMA_POS_STATES</link> * <link linkend="_elf_8cpp_1a9d02352cc306a7a9f544565623e69039">LZMA_LEN_MID_SYMBOLS</link>)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a080be1f65797f460353ad75efda2b156">LZMA_PROB_MATCH_LEN_HIGH_LEN</link>&#160;&#160;&#160;<link linkend="_elf_8cpp_1ae4b7488ce014fd6647742700d949bf07">LZMA_LEN_HIGH_SYMBOLS</link></para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1aab16508a5453982c0899c9bd9028b390">LZMA_PROB_REP_LEN_CHOICE_LEN</link>&#160;&#160;&#160;1</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a4d6494408e2dc3d68778df6b07b621ac">LZMA_PROB_REP_LEN_CHOICE2_LEN</link>&#160;&#160;&#160;1</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a8c168b85f1b74bc169c39a57d2ca0478">LZMA_PROB_REP_LEN_LOW_LEN</link>&#160;&#160;&#160;(<link linkend="_elf_8cpp_1abbae2ec1a897a69e2e21fed65129a9e0">LZMA_POS_STATES</link> * <link linkend="_elf_8cpp_1a1571bb1e4de4b6f6724254ff913d39f0">LZMA_LEN_LOW_SYMBOLS</link>)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a8a7155972bf2817bfcaa2ebae9669c7d">LZMA_PROB_REP_LEN_MID_LEN</link>&#160;&#160;&#160;(<link linkend="_elf_8cpp_1abbae2ec1a897a69e2e21fed65129a9e0">LZMA_POS_STATES</link> * <link linkend="_elf_8cpp_1a9d02352cc306a7a9f544565623e69039">LZMA_LEN_MID_SYMBOLS</link>)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a79f87ce7605e371013f328821e8d9e4c">LZMA_PROB_REP_LEN_HIGH_LEN</link>&#160;&#160;&#160;<link linkend="_elf_8cpp_1ae4b7488ce014fd6647742700d949bf07">LZMA_LEN_HIGH_SYMBOLS</link></para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1ae15b4c297b36ff2867ef508a89e59bdc">LZMA_PROB_LITERAL_LEN</link>&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1aaaa5c65f791ee7de051ea19d675469e7">LZMA_LITERAL_CODERS_MAX</link> * <link linkend="_elf_8cpp_1ac3b5863514060490b084e7d7bac3b5f7">LZMA_LITERAL_CODER_SIZE</link>)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a88214027886c11a0626eb926f1db8c42">LZMA_PROB_IS_MATCH_OFFSET</link>&#160;&#160;&#160;0</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1ac948c4a8bf48ac3da844e52b72e39aa4">LZMA_PROB_IS_REP_OFFSET</link>&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1a88214027886c11a0626eb926f1db8c42">LZMA_PROB_IS_MATCH_OFFSET</link> + <link linkend="_elf_8cpp_1a59e0b9429e5c7427c582bbaf3e1810e6">LZMA_PROB_IS_MATCH_LEN</link>)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a606f5377a0b59d7218b1c7313625abe7">LZMA_PROB_IS_REP0_OFFSET</link>&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1ac948c4a8bf48ac3da844e52b72e39aa4">LZMA_PROB_IS_REP_OFFSET</link> + <link linkend="_elf_8cpp_1a05a9aeb7c22ab569d0f514d4c4a68bd9">LZMA_PROB_IS_REP_LEN</link>)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1aedddcc62cef513b282eaff273e5e18d2">LZMA_PROB_IS_REP1_OFFSET</link>&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1a606f5377a0b59d7218b1c7313625abe7">LZMA_PROB_IS_REP0_OFFSET</link> + <link linkend="_elf_8cpp_1a7d0543d1087d3426f34796fa335b1b0c">LZMA_PROB_IS_REP0_LEN</link>)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1ae7cb4e5dba242543a532e569915cc019">LZMA_PROB_IS_REP2_OFFSET</link>&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1aedddcc62cef513b282eaff273e5e18d2">LZMA_PROB_IS_REP1_OFFSET</link> + <link linkend="_elf_8cpp_1a0791de93e66f20bef7bbf22891ac71fc">LZMA_PROB_IS_REP1_LEN</link>)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a3c7b3a52c32334af4d23676cbd9bb20d">LZMA_PROB_IS_REP0_LONG_OFFSET</link>&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1ae7cb4e5dba242543a532e569915cc019">LZMA_PROB_IS_REP2_OFFSET</link> + <link linkend="_elf_8cpp_1abf9fbb7eb0204111db12c33401ac1129">LZMA_PROB_IS_REP2_LEN</link>)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1aa3c397552b5c2761679c2678bf79150e">LZMA_PROB_DIST_SLOT_OFFSET</link>&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1a3c7b3a52c32334af4d23676cbd9bb20d">LZMA_PROB_IS_REP0_LONG_OFFSET</link> + <link linkend="_elf_8cpp_1a2ee2e37b0e4dc5a702f9edf21a646ebd">LZMA_PROB_IS_REP0_LONG_LEN</link>)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1abe1875049ebae6b6cbe99c556de20bc3">LZMA_PROB_DIST_SPECIAL_OFFSET</link>&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1aa3c397552b5c2761679c2678bf79150e">LZMA_PROB_DIST_SLOT_OFFSET</link> + <link linkend="_elf_8cpp_1ab15ff83898a1fc436f68d4ddd1fc8075">LZMA_PROB_DIST_SLOT_LEN</link>)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a8d5ea6c3b2050798b0e561037d40e98b">LZMA_PROB_DIST_ALIGN_OFFSET</link>&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1abe1875049ebae6b6cbe99c556de20bc3">LZMA_PROB_DIST_SPECIAL_OFFSET</link> + <link linkend="_elf_8cpp_1a90477313f0437d5e9ffe49ff06d65f7e">LZMA_PROB_DIST_SPECIAL_LEN</link>)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a47bfbe0646357593c5c0c7b14d7042f1">LZMA_PROB_MATCH_LEN_CHOICE_OFFSET</link>&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1a8d5ea6c3b2050798b0e561037d40e98b">LZMA_PROB_DIST_ALIGN_OFFSET</link> + <link linkend="_elf_8cpp_1aba809e4a3a1170d351430b8981b5277c">LZMA_PROB_DIST_ALIGN_LEN</link>)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1afbf2ea3729a9f7093f6aae9b065c9d1c">LZMA_PROB_MATCH_LEN_CHOICE2_OFFSET</link>&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1a47bfbe0646357593c5c0c7b14d7042f1">LZMA_PROB_MATCH_LEN_CHOICE_OFFSET</link> + <link linkend="_elf_8cpp_1ad09d84f7c68de453fde08cc873754092">LZMA_PROB_MATCH_LEN_CHOICE_LEN</link>)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a538044a6be91a69f4f65bcd0d5032610">LZMA_PROB_MATCH_LEN_LOW_OFFSET</link>&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1afbf2ea3729a9f7093f6aae9b065c9d1c">LZMA_PROB_MATCH_LEN_CHOICE2_OFFSET</link> + <link linkend="_elf_8cpp_1a0366a77bbfcf5a1807ad0c0682d8bed4">LZMA_PROB_MATCH_LEN_CHOICE2_LEN</link>)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1afc82d2d1d23c9c9a527bd9a2f5195ea1">LZMA_PROB_MATCH_LEN_MID_OFFSET</link>&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1a538044a6be91a69f4f65bcd0d5032610">LZMA_PROB_MATCH_LEN_LOW_OFFSET</link> + <link linkend="_elf_8cpp_1a8ed5dcf3bcd60de68fe52600b7e9b8a5">LZMA_PROB_MATCH_LEN_LOW_LEN</link>)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a1a22175fb9ddbc493380b1f9e76815d7">LZMA_PROB_MATCH_LEN_HIGH_OFFSET</link>&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1afc82d2d1d23c9c9a527bd9a2f5195ea1">LZMA_PROB_MATCH_LEN_MID_OFFSET</link> + <link linkend="_elf_8cpp_1a37e1817170724054088161de9428968a">LZMA_PROB_MATCH_LEN_MID_LEN</link>)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a8d3e8547048d98a8dae1ed732cb73d22">LZMA_PROB_REP_LEN_CHOICE_OFFSET</link>&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1a1a22175fb9ddbc493380b1f9e76815d7">LZMA_PROB_MATCH_LEN_HIGH_OFFSET</link> + <link linkend="_elf_8cpp_1a080be1f65797f460353ad75efda2b156">LZMA_PROB_MATCH_LEN_HIGH_LEN</link>)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1af1b03dbb338e91e443ea75c3e35c1d34">LZMA_PROB_REP_LEN_CHOICE2_OFFSET</link>&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1a8d3e8547048d98a8dae1ed732cb73d22">LZMA_PROB_REP_LEN_CHOICE_OFFSET</link> + <link linkend="_elf_8cpp_1aab16508a5453982c0899c9bd9028b390">LZMA_PROB_REP_LEN_CHOICE_LEN</link>)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1ab86d3e7ef7713a9e7f37a944300b0e3a">LZMA_PROB_REP_LEN_LOW_OFFSET</link>&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1af1b03dbb338e91e443ea75c3e35c1d34">LZMA_PROB_REP_LEN_CHOICE2_OFFSET</link> + <link linkend="_elf_8cpp_1a4d6494408e2dc3d68778df6b07b621ac">LZMA_PROB_REP_LEN_CHOICE2_LEN</link>)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a4f90f29b6f42ba784201067bbfef9045">LZMA_PROB_REP_LEN_MID_OFFSET</link>&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1ab86d3e7ef7713a9e7f37a944300b0e3a">LZMA_PROB_REP_LEN_LOW_OFFSET</link> + <link linkend="_elf_8cpp_1a8c168b85f1b74bc169c39a57d2ca0478">LZMA_PROB_REP_LEN_LOW_LEN</link>)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1af31bfbd2736dabe59bbdaa0a85557d47">LZMA_PROB_REP_LEN_HIGH_OFFSET</link>&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1a4f90f29b6f42ba784201067bbfef9045">LZMA_PROB_REP_LEN_MID_OFFSET</link> + <link linkend="_elf_8cpp_1a8a7155972bf2817bfcaa2ebae9669c7d">LZMA_PROB_REP_LEN_MID_LEN</link>)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1aa9679fbdd53ad9208d62d1b32c729c02">LZMA_PROB_LITERAL_OFFSET</link>&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1af31bfbd2736dabe59bbdaa0a85557d47">LZMA_PROB_REP_LEN_HIGH_OFFSET</link> + <link linkend="_elf_8cpp_1a79f87ce7605e371013f328821e8d9e4c">LZMA_PROB_REP_LEN_HIGH_LEN</link>)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1ab9f20b3552968080519ffa8fd849bcfe">LZMA_PROB_TOTAL_COUNT</link>&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1aa9679fbdd53ad9208d62d1b32c729c02">LZMA_PROB_LITERAL_OFFSET</link> + <link linkend="_elf_8cpp_1ae15b4c297b36ff2867ef508a89e59bdc">LZMA_PROB_LITERAL_LEN</link>)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a2095faf2d5e374201560fe66ee3222b7">LZMA_IS_MATCH</link>(state,  pos)&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1a88214027886c11a0626eb926f1db8c42">LZMA_PROB_IS_MATCH_OFFSET</link> + (state) * <link linkend="_elf_8cpp_1abbae2ec1a897a69e2e21fed65129a9e0">LZMA_POS_STATES</link> + (pos))</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a7fed3d1ea9edeff2a35e555fc27a5de5">LZMA_IS_REP</link>(state)&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1ac948c4a8bf48ac3da844e52b72e39aa4">LZMA_PROB_IS_REP_OFFSET</link> + (state))</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a39ec0dab099d7798071d6851a704439d">LZMA_IS_REP0</link>(state)&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1a606f5377a0b59d7218b1c7313625abe7">LZMA_PROB_IS_REP0_OFFSET</link> + (state))</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1aaf3ca3e13c50e2fb1a8122b672e54f4d">LZMA_IS_REP1</link>(state)&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1aedddcc62cef513b282eaff273e5e18d2">LZMA_PROB_IS_REP1_OFFSET</link> + (state))</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a09bc832adf4980cb4d9c70efa0711511">LZMA_IS_REP2</link>(state)&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1ae7cb4e5dba242543a532e569915cc019">LZMA_PROB_IS_REP2_OFFSET</link> + (state))</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1ab423a071f1678f2ae9b8d380316cc84a">LZMA_IS_REP0_LONG</link>(state,  pos)&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1a3c7b3a52c32334af4d23676cbd9bb20d">LZMA_PROB_IS_REP0_LONG_OFFSET</link> + (state) * <link linkend="_elf_8cpp_1abbae2ec1a897a69e2e21fed65129a9e0">LZMA_POS_STATES</link> + (pos))</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a0055edacd76048f7410722093f8e43d0">LZMA_DIST_SLOT</link>(dist,  slot)&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1aa3c397552b5c2761679c2678bf79150e">LZMA_PROB_DIST_SLOT_OFFSET</link> + (dist) * <link linkend="_elf_8cpp_1a023938d279d7b8cd1748206b26adcdaa">LZMA_DIST_SLOTS</link> + (slot))</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a65d556534515fc155fc69aff962632ec">LZMA_DIST_SPECIAL</link>(dist)&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1abe1875049ebae6b6cbe99c556de20bc3">LZMA_PROB_DIST_SPECIAL_OFFSET</link> + (dist))</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1af25a609e24f8aaa3eadc0fcd3138712c">LZMA_DIST_ALIGN</link>(dist)&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1a8d5ea6c3b2050798b0e561037d40e98b">LZMA_PROB_DIST_ALIGN_OFFSET</link> + (dist))</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a9be8dbd716d61214fb026e16554e14c0">LZMA_MATCH_LEN_CHOICE</link>&#160;&#160;&#160;  <link linkend="_elf_8cpp_1a47bfbe0646357593c5c0c7b14d7042f1">LZMA_PROB_MATCH_LEN_CHOICE_OFFSET</link></para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a2ec366fe1d3063bb3136158eca17d6e7">LZMA_MATCH_LEN_CHOICE2</link>&#160;&#160;&#160;  <link linkend="_elf_8cpp_1afbf2ea3729a9f7093f6aae9b065c9d1c">LZMA_PROB_MATCH_LEN_CHOICE2_OFFSET</link></para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1afd47b37c3a101c2a9b478afc2004a482">LZMA_MATCH_LEN_LOW</link>(pos,  sym)&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1a538044a6be91a69f4f65bcd0d5032610">LZMA_PROB_MATCH_LEN_LOW_OFFSET</link> + (pos) * <link linkend="_elf_8cpp_1a1571bb1e4de4b6f6724254ff913d39f0">LZMA_LEN_LOW_SYMBOLS</link> + (sym))</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1acfbd74d2ff1d6193f8e81d85c6d4cb4d">LZMA_MATCH_LEN_MID</link>(pos,  sym)&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1afc82d2d1d23c9c9a527bd9a2f5195ea1">LZMA_PROB_MATCH_LEN_MID_OFFSET</link> + (pos) * <link linkend="_elf_8cpp_1a9d02352cc306a7a9f544565623e69039">LZMA_LEN_MID_SYMBOLS</link> + (sym))</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a7a2ce3ee44da7d1a51ca4abf08e39ccf">LZMA_MATCH_LEN_HIGH</link>(sym)&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1a1a22175fb9ddbc493380b1f9e76815d7">LZMA_PROB_MATCH_LEN_HIGH_OFFSET</link> + (sym))</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a2c2eac29e761520f32b7406a50336d52">LZMA_REP_LEN_CHOICE</link>&#160;&#160;&#160;  <link linkend="_elf_8cpp_1a8d3e8547048d98a8dae1ed732cb73d22">LZMA_PROB_REP_LEN_CHOICE_OFFSET</link></para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a074229118e2def7c3bcb12bf72be73a5">LZMA_REP_LEN_CHOICE2</link>&#160;&#160;&#160;  <link linkend="_elf_8cpp_1af1b03dbb338e91e443ea75c3e35c1d34">LZMA_PROB_REP_LEN_CHOICE2_OFFSET</link></para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1aeeb68d9cccec7bd66e3fef1452daa322">LZMA_REP_LEN_LOW</link>(pos,  sym)&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1ab86d3e7ef7713a9e7f37a944300b0e3a">LZMA_PROB_REP_LEN_LOW_OFFSET</link> + (pos) * <link linkend="_elf_8cpp_1a1571bb1e4de4b6f6724254ff913d39f0">LZMA_LEN_LOW_SYMBOLS</link> + (sym))</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a7d9a8aaca33551acc522344decdc5ec2">LZMA_REP_LEN_MID</link>(pos,  sym)&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1a4f90f29b6f42ba784201067bbfef9045">LZMA_PROB_REP_LEN_MID_OFFSET</link> + (pos) * <link linkend="_elf_8cpp_1a9d02352cc306a7a9f544565623e69039">LZMA_LEN_MID_SYMBOLS</link> + (sym))</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a3b59830aefa29b47cbc1dd94e571606e">LZMA_REP_LEN_HIGH</link>(sym)&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1af31bfbd2736dabe59bbdaa0a85557d47">LZMA_PROB_REP_LEN_HIGH_OFFSET</link> + (sym))</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1ac37ff799337b9dd41390c63a3ae3a975">LZMA_LITERAL</link>(code,  <link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>)&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1aa9679fbdd53ad9208d62d1b32c729c02">LZMA_PROB_LITERAL_OFFSET</link> + (code) * <link linkend="_elf_8cpp_1ac3b5863514060490b084e7d7bac3b5f7">LZMA_LITERAL_CODER_SIZE</link> + (<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>))</para>
+</listitem>
+            <listitem><para>#define <link linkend="_elf_8cpp_1a7f5759a86c1cc5a37ab35a347f8d96bb">BACKTRACE_ELFCLASS</link>&#160;&#160;&#160;<link linkend="_elf_8cpp_1a5f84b1bf6e07374d6289eab3d8c57f1c">ELFCLASS32</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Typedefs    </title>
+        <itemizedlist>
+            <listitem><para>typedef uint16_t <link linkend="_namespacetracy_1acb3691f48061b6892d6c4784915dc470">tracy::b_elf_half</link></para>
+</listitem>
+            <listitem><para>typedef uint32_t <link linkend="_namespacetracy_1abf5245d2d62d9fddb3b0469b577db09c">tracy::b_elf_word</link></para>
+</listitem>
+            <listitem><para>typedef int32_t <link linkend="_namespacetracy_1a31a79af52e6ea546c7bd610f5d7e4362">tracy::b_elf_sword</link></para>
+</listitem>
+            <listitem><para>typedef uint32_t <link linkend="_namespacetracy_1abfb869f24c9a353b49cb7e6790dc01e9">tracy::b_elf_addr</link></para>
+</listitem>
+            <listitem><para>typedef uint32_t <link linkend="_namespacetracy_1a6fcddd205ca716be9d192850c29fee7d">tracy::b_elf_off</link></para>
+</listitem>
+            <listitem><para>typedef uint32_t <link linkend="_namespacetracy_1a8916beb2699e4ee814e48e2e185b476d">tracy::b_elf_wxword</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Functions    </title>
+        <itemizedlist>
+            <listitem><para>int <link linkend="_namespacetracy_1a7a6feecc909b2a0df8e8837b2f3795ab">tracy::backtrace_uncompress_zdebug</link> (<link linkend="_interfacestruct">struct</link> <link linkend="_structtracy_1_1backtrace__state">backtrace_state</link> *state, const unsigned char *compressed, size_t compressed_size, <link linkend="_namespacetracy_1a019d09b2670f8caee2a5ed29b09066e8">backtrace_error_callback</link> error_callback, <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> *<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>, unsigned char **uncompressed, size_t *uncompressed_size)</para>
+</listitem>
+            <listitem><para>int <link linkend="_namespacetracy_1a19c7fdd338821246e718e5bd6849e9dd">tracy::backtrace_uncompress_zstd</link> (<link linkend="_interfacestruct">struct</link> <link linkend="_structtracy_1_1backtrace__state">backtrace_state</link> *state, const unsigned char *compressed, size_t compressed_size, <link linkend="_namespacetracy_1a019d09b2670f8caee2a5ed29b09066e8">backtrace_error_callback</link> error_callback, <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> *<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>, unsigned char *uncompressed, size_t uncompressed_size)</para>
+</listitem>
+            <listitem><para>int <link linkend="_namespacetracy_1a35a0f53a2df639accbfcb13988e5f5ac">tracy::backtrace_uncompress_lzma</link> (<link linkend="_interfacestruct">struct</link> <link linkend="_structtracy_1_1backtrace__state">backtrace_state</link> *state, const unsigned char *compressed, size_t compressed_size, <link linkend="_namespacetracy_1a019d09b2670f8caee2a5ed29b09066e8">backtrace_error_callback</link> error_callback, <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> *<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>, unsigned char **uncompressed, size_t *uncompressed_size)</para>
+</listitem>
+            <listitem><para>int <link linkend="_namespacetracy_1ab633b0d383780293fca759595c526433">tracy::backtrace_initialize</link> (<link linkend="_interfacestruct">struct</link> <link linkend="_structtracy_1_1backtrace__state">backtrace_state</link> *state, const char *filename, int descriptor, <link linkend="_namespacetracy_1a019d09b2670f8caee2a5ed29b09066e8">backtrace_error_callback</link> error_callback, <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> *<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>, <link linkend="_namespacetracy_1a18687ec634ee3c9b4bc4a9d3e855ea6e">fileline</link> *fileline_fn)</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Variables    </title>
+        <itemizedlist>
+            <listitem><para><link linkend="_classtracy_1_1_fast_vector">FastVector</link>&lt; <link linkend="_structtracy_1_1_phdr_iterate">PhdrIterate</link> &gt; <link linkend="_namespacetracy_1a2b450cb76715d7b64e3610695d5d2c82">tracy::s_phdrData</link> (16)</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Macro Definition Documentation</title>
+<anchor xml:id="_elf_8cpp_1af656159107e946b81aa6cd6ba767843e"/><section>
+    <title>__builtin_prefetch</title>
+<indexterm><primary>__builtin_prefetch</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>__builtin_prefetch</secondary></indexterm>
+<para><computeroutput>#define __builtin_prefetch( p,  <link linkend="_glad_8h_1abe08814c2f72843fde4d8df41440d5a0">r</link>,  l)</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a7f5759a86c1cc5a37ab35a347f8d96bb"/><section>
+    <title>BACKTRACE_ELFCLASS</title>
+<indexterm><primary>BACKTRACE_ELFCLASS</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>BACKTRACE_ELFCLASS</secondary></indexterm>
+<para><computeroutput>#define BACKTRACE_ELFCLASS&#160;&#160;&#160;<link linkend="_elf_8cpp_1a5f84b1bf6e07374d6289eab3d8c57f1c">ELFCLASS32</link></computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a9eb4d25e986c555ababcc76968e695c8"/><section>
+    <title>EF_PPC64_ABI</title>
+<indexterm><primary>EF_PPC64_ABI</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>EF_PPC64_ABI</secondary></indexterm>
+<para><computeroutput>#define EF_PPC64_ABI&#160;&#160;&#160;3</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a5b508cacf6662e4bc0e98ffe1eb61636"/><section>
+    <title>EI_CLASS</title>
+<indexterm><primary>EI_CLASS</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>EI_CLASS</secondary></indexterm>
+<para><computeroutput>#define EI_CLASS&#160;&#160;&#160;4</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a79c714b4bf89638ff576e163d7d2144f"/><section>
+    <title>EI_DATA</title>
+<indexterm><primary>EI_DATA</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>EI_DATA</secondary></indexterm>
+<para><computeroutput>#define EI_DATA&#160;&#160;&#160;5</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1aba717f40a418b0d99c2efd4cdab4f54f"/><section>
+    <title>EI_MAG0</title>
+<indexterm><primary>EI_MAG0</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>EI_MAG0</secondary></indexterm>
+<para><computeroutput>#define EI_MAG0&#160;&#160;&#160;0</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a2cae3878d982911632b418680718d53b"/><section>
+    <title>EI_MAG1</title>
+<indexterm><primary>EI_MAG1</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>EI_MAG1</secondary></indexterm>
+<para><computeroutput>#define EI_MAG1&#160;&#160;&#160;1</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a2884a339ef7aefee59d160ed3fbb1739"/><section>
+    <title>EI_MAG2</title>
+<indexterm><primary>EI_MAG2</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>EI_MAG2</secondary></indexterm>
+<para><computeroutput>#define EI_MAG2&#160;&#160;&#160;2</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1ace03d4c5e8952e27b8505581432c3b84"/><section>
+    <title>EI_MAG3</title>
+<indexterm><primary>EI_MAG3</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>EI_MAG3</secondary></indexterm>
+<para><computeroutput>#define EI_MAG3&#160;&#160;&#160;3</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1ae407130db14180c6737390604ba7c1fe"/><section>
+    <title>EI_NIDENT</title>
+<indexterm><primary>EI_NIDENT</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>EI_NIDENT</secondary></indexterm>
+<para><computeroutput>#define EI_NIDENT&#160;&#160;&#160;16</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1aac8694b14e6500d9dc5047ef62518845"/><section>
+    <title>EI_VERSION</title>
+<indexterm><primary>EI_VERSION</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>EI_VERSION</secondary></indexterm>
+<para><computeroutput>#define EI_VERSION&#160;&#160;&#160;6</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a5f84b1bf6e07374d6289eab3d8c57f1c"/><section>
+    <title>ELFCLASS32</title>
+<indexterm><primary>ELFCLASS32</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>ELFCLASS32</secondary></indexterm>
+<para><computeroutput>#define ELFCLASS32&#160;&#160;&#160;1</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a9ee66b59be5c78ea1f1eea8a36f2c291"/><section>
+    <title>ELFCLASS64</title>
+<indexterm><primary>ELFCLASS64</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>ELFCLASS64</secondary></indexterm>
+<para><computeroutput>#define ELFCLASS64&#160;&#160;&#160;2</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a30a4382c53c82c191613b7e4a5b9833e"/><section>
+    <title>ELFCOMPRESS_ZLIB</title>
+<indexterm><primary>ELFCOMPRESS_ZLIB</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>ELFCOMPRESS_ZLIB</secondary></indexterm>
+<para><computeroutput>#define ELFCOMPRESS_ZLIB&#160;&#160;&#160;1</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1aca80e70eaa183876150998aea7610e98"/><section>
+    <title>ELFCOMPRESS_ZSTD</title>
+<indexterm><primary>ELFCOMPRESS_ZSTD</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>ELFCOMPRESS_ZSTD</secondary></indexterm>
+<para><computeroutput>#define ELFCOMPRESS_ZSTD&#160;&#160;&#160;2</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1af66303c799da18c8aec282ea8592e7e7"/><section>
+    <title>ELFDATA2LSB</title>
+<indexterm><primary>ELFDATA2LSB</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>ELFDATA2LSB</secondary></indexterm>
+<para><computeroutput>#define ELFDATA2LSB&#160;&#160;&#160;1</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a06385c3e5f0a3b62fae7f5e224e10f89"/><section>
+    <title>ELFDATA2MSB</title>
+<indexterm><primary>ELFDATA2MSB</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>ELFDATA2MSB</secondary></indexterm>
+<para><computeroutput>#define ELFDATA2MSB&#160;&#160;&#160;2</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a2ae7ae1a6df04e0ed6be07b94590686e"/><section>
+    <title>ELFMAG0</title>
+<indexterm><primary>ELFMAG0</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>ELFMAG0</secondary></indexterm>
+<para><computeroutput>#define ELFMAG0&#160;&#160;&#160;0x7f</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a6237b3c20ffd799df7b9a91ab3bbdff4"/><section>
+    <title>ELFMAG1</title>
+<indexterm><primary>ELFMAG1</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>ELFMAG1</secondary></indexterm>
+<para><computeroutput>#define ELFMAG1&#160;&#160;&#160;&apos;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a07484107e6d9fdf38b53edf631d6511d">E</link>&apos;</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a8ac1b98d78e30ca49e1d3f287939a18f"/><section>
+    <title>ELFMAG2</title>
+<indexterm><primary>ELFMAG2</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>ELFMAG2</secondary></indexterm>
+<para><computeroutput>#define ELFMAG2&#160;&#160;&#160;&apos;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>&apos;</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a2beeae5974769f72da5f63dcbcc325fe"/><section>
+    <title>ELFMAG3</title>
+<indexterm><primary>ELFMAG3</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>ELFMAG3</secondary></indexterm>
+<para><computeroutput>#define ELFMAG3&#160;&#160;&#160;&apos;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a42257a545daf5b7933d6e8f96adc74f2">F</link>&apos;</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a416acf1af7155b8a8856f87601985794"/><section>
+    <title>EM_PPC64</title>
+<indexterm><primary>EM_PPC64</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>EM_PPC64</secondary></indexterm>
+<para><computeroutput>#define EM_PPC64&#160;&#160;&#160;21</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a4373ea3b3d512434ebe2213829b6751b"/><section>
+    <title>ET_DYN</title>
+<indexterm><primary>ET_DYN</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>ET_DYN</secondary></indexterm>
+<para><computeroutput>#define ET_DYN&#160;&#160;&#160;3</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a8085a255e82173046afefd2a1c6de930"/><section>
+    <title>EV_CURRENT</title>
+<indexterm><primary>EV_CURRENT</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>EV_CURRENT</secondary></indexterm>
+<para><computeroutput>#define EV_CURRENT&#160;&#160;&#160;1</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a909627183544161301904045db46bbff"/><section>
+    <title>LZMA_ALIGN_SIZE</title>
+<indexterm><primary>LZMA_ALIGN_SIZE</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_ALIGN_SIZE</secondary></indexterm>
+<para><computeroutput>#define LZMA_ALIGN_SIZE&#160;&#160;&#160;(16)</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1af25a609e24f8aaa3eadc0fcd3138712c"/><section>
+    <title>LZMA_DIST_ALIGN</title>
+<indexterm><primary>LZMA_DIST_ALIGN</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_DIST_ALIGN</secondary></indexterm>
+<para><computeroutput>#define LZMA_DIST_ALIGN( dist)&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1a8d5ea6c3b2050798b0e561037d40e98b">LZMA_PROB_DIST_ALIGN_OFFSET</link> + (dist))</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a0af4fce6e7926cb88a2499a9a9585cb3"/><section>
+    <title>LZMA_DIST_MODEL_END</title>
+<indexterm><primary>LZMA_DIST_MODEL_END</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_DIST_MODEL_END</secondary></indexterm>
+<para><computeroutput>#define LZMA_DIST_MODEL_END&#160;&#160;&#160;(14)</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a631b8f609ce7a64a7417cfea563cc57e"/><section>
+    <title>LZMA_DIST_MODEL_START</title>
+<indexterm><primary>LZMA_DIST_MODEL_START</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_DIST_MODEL_START</secondary></indexterm>
+<para><computeroutput>#define LZMA_DIST_MODEL_START&#160;&#160;&#160;(4)</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a0055edacd76048f7410722093f8e43d0"/><section>
+    <title>LZMA_DIST_SLOT</title>
+<indexterm><primary>LZMA_DIST_SLOT</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_DIST_SLOT</secondary></indexterm>
+<para><computeroutput>#define LZMA_DIST_SLOT( dist,  slot)&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1aa3c397552b5c2761679c2678bf79150e">LZMA_PROB_DIST_SLOT_OFFSET</link> + (dist) * <link linkend="_elf_8cpp_1a023938d279d7b8cd1748206b26adcdaa">LZMA_DIST_SLOTS</link> + (slot))</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a023938d279d7b8cd1748206b26adcdaa"/><section>
+    <title>LZMA_DIST_SLOTS</title>
+<indexterm><primary>LZMA_DIST_SLOTS</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_DIST_SLOTS</secondary></indexterm>
+<para><computeroutput>#define LZMA_DIST_SLOTS&#160;&#160;&#160;(64)</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a65d556534515fc155fc69aff962632ec"/><section>
+    <title>LZMA_DIST_SPECIAL</title>
+<indexterm><primary>LZMA_DIST_SPECIAL</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_DIST_SPECIAL</secondary></indexterm>
+<para><computeroutput>#define LZMA_DIST_SPECIAL( dist)&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1abe1875049ebae6b6cbe99c556de20bc3">LZMA_PROB_DIST_SPECIAL_OFFSET</link> + (dist))</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1aa2e8087accd1f465791b7ef7dbeb768e"/><section>
+    <title>LZMA_DIST_STATES</title>
+<indexterm><primary>LZMA_DIST_STATES</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_DIST_STATES</secondary></indexterm>
+<para><computeroutput>#define LZMA_DIST_STATES&#160;&#160;&#160;(4)</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1ab315bf14c97bc38f19505c4609e386b3"/><section>
+    <title>LZMA_FULL_DISTANCES</title>
+<indexterm><primary>LZMA_FULL_DISTANCES</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_FULL_DISTANCES</secondary></indexterm>
+<para><computeroutput>#define LZMA_FULL_DISTANCES&#160;&#160;&#160;(128)</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a2095faf2d5e374201560fe66ee3222b7"/><section>
+    <title>LZMA_IS_MATCH</title>
+<indexterm><primary>LZMA_IS_MATCH</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_IS_MATCH</secondary></indexterm>
+<para><computeroutput>#define LZMA_IS_MATCH( state,  pos)&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1a88214027886c11a0626eb926f1db8c42">LZMA_PROB_IS_MATCH_OFFSET</link> + (state) * <link linkend="_elf_8cpp_1abbae2ec1a897a69e2e21fed65129a9e0">LZMA_POS_STATES</link> + (pos))</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a7fed3d1ea9edeff2a35e555fc27a5de5"/><section>
+    <title>LZMA_IS_REP</title>
+<indexterm><primary>LZMA_IS_REP</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_IS_REP</secondary></indexterm>
+<para><computeroutput>#define LZMA_IS_REP( state)&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1ac948c4a8bf48ac3da844e52b72e39aa4">LZMA_PROB_IS_REP_OFFSET</link> + (state))</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a39ec0dab099d7798071d6851a704439d"/><section>
+    <title>LZMA_IS_REP0</title>
+<indexterm><primary>LZMA_IS_REP0</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_IS_REP0</secondary></indexterm>
+<para><computeroutput>#define LZMA_IS_REP0( state)&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1a606f5377a0b59d7218b1c7313625abe7">LZMA_PROB_IS_REP0_OFFSET</link> + (state))</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1ab423a071f1678f2ae9b8d380316cc84a"/><section>
+    <title>LZMA_IS_REP0_LONG</title>
+<indexterm><primary>LZMA_IS_REP0_LONG</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_IS_REP0_LONG</secondary></indexterm>
+<para><computeroutput>#define LZMA_IS_REP0_LONG( state,  pos)&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1a3c7b3a52c32334af4d23676cbd9bb20d">LZMA_PROB_IS_REP0_LONG_OFFSET</link> + (state) * <link linkend="_elf_8cpp_1abbae2ec1a897a69e2e21fed65129a9e0">LZMA_POS_STATES</link> + (pos))</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1aaf3ca3e13c50e2fb1a8122b672e54f4d"/><section>
+    <title>LZMA_IS_REP1</title>
+<indexterm><primary>LZMA_IS_REP1</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_IS_REP1</secondary></indexterm>
+<para><computeroutput>#define LZMA_IS_REP1( state)&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1aedddcc62cef513b282eaff273e5e18d2">LZMA_PROB_IS_REP1_OFFSET</link> + (state))</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a09bc832adf4980cb4d9c70efa0711511"/><section>
+    <title>LZMA_IS_REP2</title>
+<indexterm><primary>LZMA_IS_REP2</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_IS_REP2</secondary></indexterm>
+<para><computeroutput>#define LZMA_IS_REP2( state)&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1ae7cb4e5dba242543a532e569915cc019">LZMA_PROB_IS_REP2_OFFSET</link> + (state))</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1ae4b7488ce014fd6647742700d949bf07"/><section>
+    <title>LZMA_LEN_HIGH_SYMBOLS</title>
+<indexterm><primary>LZMA_LEN_HIGH_SYMBOLS</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_LEN_HIGH_SYMBOLS</secondary></indexterm>
+<para><computeroutput>#define LZMA_LEN_HIGH_SYMBOLS&#160;&#160;&#160;(256)</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a1571bb1e4de4b6f6724254ff913d39f0"/><section>
+    <title>LZMA_LEN_LOW_SYMBOLS</title>
+<indexterm><primary>LZMA_LEN_LOW_SYMBOLS</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_LEN_LOW_SYMBOLS</secondary></indexterm>
+<para><computeroutput>#define LZMA_LEN_LOW_SYMBOLS&#160;&#160;&#160;(8)</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a9d02352cc306a7a9f544565623e69039"/><section>
+    <title>LZMA_LEN_MID_SYMBOLS</title>
+<indexterm><primary>LZMA_LEN_MID_SYMBOLS</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_LEN_MID_SYMBOLS</secondary></indexterm>
+<para><computeroutput>#define LZMA_LEN_MID_SYMBOLS&#160;&#160;&#160;(8)</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1ac37ff799337b9dd41390c63a3ae3a975"/><section>
+    <title>LZMA_LITERAL</title>
+<indexterm><primary>LZMA_LITERAL</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_LITERAL</secondary></indexterm>
+<para><computeroutput>#define LZMA_LITERAL( code,  <link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>)&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1aa9679fbdd53ad9208d62d1b32c729c02">LZMA_PROB_LITERAL_OFFSET</link> + (code) * <link linkend="_elf_8cpp_1ac3b5863514060490b084e7d7bac3b5f7">LZMA_LITERAL_CODER_SIZE</link> + (<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>))</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1ac3b5863514060490b084e7d7bac3b5f7"/><section>
+    <title>LZMA_LITERAL_CODER_SIZE</title>
+<indexterm><primary>LZMA_LITERAL_CODER_SIZE</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_LITERAL_CODER_SIZE</secondary></indexterm>
+<para><computeroutput>#define LZMA_LITERAL_CODER_SIZE&#160;&#160;&#160;(0x300)</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1aaaa5c65f791ee7de051ea19d675469e7"/><section>
+    <title>LZMA_LITERAL_CODERS_MAX</title>
+<indexterm><primary>LZMA_LITERAL_CODERS_MAX</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_LITERAL_CODERS_MAX</secondary></indexterm>
+<para><computeroutput>#define LZMA_LITERAL_CODERS_MAX&#160;&#160;&#160;(16)</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a9be8dbd716d61214fb026e16554e14c0"/><section>
+    <title>LZMA_MATCH_LEN_CHOICE</title>
+<indexterm><primary>LZMA_MATCH_LEN_CHOICE</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_MATCH_LEN_CHOICE</secondary></indexterm>
+<para><computeroutput>#define LZMA_MATCH_LEN_CHOICE&#160;&#160;&#160;  <link linkend="_elf_8cpp_1a47bfbe0646357593c5c0c7b14d7042f1">LZMA_PROB_MATCH_LEN_CHOICE_OFFSET</link></computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a2ec366fe1d3063bb3136158eca17d6e7"/><section>
+    <title>LZMA_MATCH_LEN_CHOICE2</title>
+<indexterm><primary>LZMA_MATCH_LEN_CHOICE2</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_MATCH_LEN_CHOICE2</secondary></indexterm>
+<para><computeroutput>#define LZMA_MATCH_LEN_CHOICE2&#160;&#160;&#160;  <link linkend="_elf_8cpp_1afbf2ea3729a9f7093f6aae9b065c9d1c">LZMA_PROB_MATCH_LEN_CHOICE2_OFFSET</link></computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a7a2ce3ee44da7d1a51ca4abf08e39ccf"/><section>
+    <title>LZMA_MATCH_LEN_HIGH</title>
+<indexterm><primary>LZMA_MATCH_LEN_HIGH</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_MATCH_LEN_HIGH</secondary></indexterm>
+<para><computeroutput>#define LZMA_MATCH_LEN_HIGH( sym)&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1a1a22175fb9ddbc493380b1f9e76815d7">LZMA_PROB_MATCH_LEN_HIGH_OFFSET</link> + (sym))</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1afd47b37c3a101c2a9b478afc2004a482"/><section>
+    <title>LZMA_MATCH_LEN_LOW</title>
+<indexterm><primary>LZMA_MATCH_LEN_LOW</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_MATCH_LEN_LOW</secondary></indexterm>
+<para><computeroutput>#define LZMA_MATCH_LEN_LOW( pos,  sym)&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1a538044a6be91a69f4f65bcd0d5032610">LZMA_PROB_MATCH_LEN_LOW_OFFSET</link> + (pos) * <link linkend="_elf_8cpp_1a1571bb1e4de4b6f6724254ff913d39f0">LZMA_LEN_LOW_SYMBOLS</link> + (sym))</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1acfbd74d2ff1d6193f8e81d85c6d4cb4d"/><section>
+    <title>LZMA_MATCH_LEN_MID</title>
+<indexterm><primary>LZMA_MATCH_LEN_MID</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_MATCH_LEN_MID</secondary></indexterm>
+<para><computeroutput>#define LZMA_MATCH_LEN_MID( pos,  sym)&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1afc82d2d1d23c9c9a527bd9a2f5195ea1">LZMA_PROB_MATCH_LEN_MID_OFFSET</link> + (pos) * <link linkend="_elf_8cpp_1a9d02352cc306a7a9f544565623e69039">LZMA_LEN_MID_SYMBOLS</link> + (sym))</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1abbae2ec1a897a69e2e21fed65129a9e0"/><section>
+    <title>LZMA_POS_STATES</title>
+<indexterm><primary>LZMA_POS_STATES</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_POS_STATES</secondary></indexterm>
+<para><computeroutput>#define LZMA_POS_STATES&#160;&#160;&#160;(16)</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1aba809e4a3a1170d351430b8981b5277c"/><section>
+    <title>LZMA_PROB_DIST_ALIGN_LEN</title>
+<indexterm><primary>LZMA_PROB_DIST_ALIGN_LEN</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_PROB_DIST_ALIGN_LEN</secondary></indexterm>
+<para><computeroutput>#define LZMA_PROB_DIST_ALIGN_LEN&#160;&#160;&#160;<link linkend="_elf_8cpp_1a909627183544161301904045db46bbff">LZMA_ALIGN_SIZE</link></computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a8d5ea6c3b2050798b0e561037d40e98b"/><section>
+    <title>LZMA_PROB_DIST_ALIGN_OFFSET</title>
+<indexterm><primary>LZMA_PROB_DIST_ALIGN_OFFSET</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_PROB_DIST_ALIGN_OFFSET</secondary></indexterm>
+<para><computeroutput>#define LZMA_PROB_DIST_ALIGN_OFFSET&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1abe1875049ebae6b6cbe99c556de20bc3">LZMA_PROB_DIST_SPECIAL_OFFSET</link> + <link linkend="_elf_8cpp_1a90477313f0437d5e9ffe49ff06d65f7e">LZMA_PROB_DIST_SPECIAL_LEN</link>)</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1ab15ff83898a1fc436f68d4ddd1fc8075"/><section>
+    <title>LZMA_PROB_DIST_SLOT_LEN</title>
+<indexterm><primary>LZMA_PROB_DIST_SLOT_LEN</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_PROB_DIST_SLOT_LEN</secondary></indexterm>
+<para><computeroutput>#define LZMA_PROB_DIST_SLOT_LEN&#160;&#160;&#160;(<link linkend="_elf_8cpp_1aa2e8087accd1f465791b7ef7dbeb768e">LZMA_DIST_STATES</link> * <link linkend="_elf_8cpp_1a023938d279d7b8cd1748206b26adcdaa">LZMA_DIST_SLOTS</link>)</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1aa3c397552b5c2761679c2678bf79150e"/><section>
+    <title>LZMA_PROB_DIST_SLOT_OFFSET</title>
+<indexterm><primary>LZMA_PROB_DIST_SLOT_OFFSET</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_PROB_DIST_SLOT_OFFSET</secondary></indexterm>
+<para><computeroutput>#define LZMA_PROB_DIST_SLOT_OFFSET&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1a3c7b3a52c32334af4d23676cbd9bb20d">LZMA_PROB_IS_REP0_LONG_OFFSET</link> + <link linkend="_elf_8cpp_1a2ee2e37b0e4dc5a702f9edf21a646ebd">LZMA_PROB_IS_REP0_LONG_LEN</link>)</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a90477313f0437d5e9ffe49ff06d65f7e"/><section>
+    <title>LZMA_PROB_DIST_SPECIAL_LEN</title>
+<indexterm><primary>LZMA_PROB_DIST_SPECIAL_LEN</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_PROB_DIST_SPECIAL_LEN</secondary></indexterm>
+<para><computeroutput>#define LZMA_PROB_DIST_SPECIAL_LEN&#160;&#160;&#160;(<link linkend="_elf_8cpp_1ab315bf14c97bc38f19505c4609e386b3">LZMA_FULL_DISTANCES</link> - <link linkend="_elf_8cpp_1a0af4fce6e7926cb88a2499a9a9585cb3">LZMA_DIST_MODEL_END</link>)</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1abe1875049ebae6b6cbe99c556de20bc3"/><section>
+    <title>LZMA_PROB_DIST_SPECIAL_OFFSET</title>
+<indexterm><primary>LZMA_PROB_DIST_SPECIAL_OFFSET</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_PROB_DIST_SPECIAL_OFFSET</secondary></indexterm>
+<para><computeroutput>#define LZMA_PROB_DIST_SPECIAL_OFFSET&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1aa3c397552b5c2761679c2678bf79150e">LZMA_PROB_DIST_SLOT_OFFSET</link> + <link linkend="_elf_8cpp_1ab15ff83898a1fc436f68d4ddd1fc8075">LZMA_PROB_DIST_SLOT_LEN</link>)</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a59e0b9429e5c7427c582bbaf3e1810e6"/><section>
+    <title>LZMA_PROB_IS_MATCH_LEN</title>
+<indexterm><primary>LZMA_PROB_IS_MATCH_LEN</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_PROB_IS_MATCH_LEN</secondary></indexterm>
+<para><computeroutput>#define LZMA_PROB_IS_MATCH_LEN&#160;&#160;&#160;(<link linkend="_elf_8cpp_1a238df818a893c29131955c85331b4cf6">LZMA_STATES</link> * <link linkend="_elf_8cpp_1abbae2ec1a897a69e2e21fed65129a9e0">LZMA_POS_STATES</link>)</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a88214027886c11a0626eb926f1db8c42"/><section>
+    <title>LZMA_PROB_IS_MATCH_OFFSET</title>
+<indexterm><primary>LZMA_PROB_IS_MATCH_OFFSET</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_PROB_IS_MATCH_OFFSET</secondary></indexterm>
+<para><computeroutput>#define LZMA_PROB_IS_MATCH_OFFSET&#160;&#160;&#160;0</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a7d0543d1087d3426f34796fa335b1b0c"/><section>
+    <title>LZMA_PROB_IS_REP0_LEN</title>
+<indexterm><primary>LZMA_PROB_IS_REP0_LEN</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_PROB_IS_REP0_LEN</secondary></indexterm>
+<para><computeroutput>#define LZMA_PROB_IS_REP0_LEN&#160;&#160;&#160;<link linkend="_elf_8cpp_1a238df818a893c29131955c85331b4cf6">LZMA_STATES</link></computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a2ee2e37b0e4dc5a702f9edf21a646ebd"/><section>
+    <title>LZMA_PROB_IS_REP0_LONG_LEN</title>
+<indexterm><primary>LZMA_PROB_IS_REP0_LONG_LEN</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_PROB_IS_REP0_LONG_LEN</secondary></indexterm>
+<para><computeroutput>#define LZMA_PROB_IS_REP0_LONG_LEN&#160;&#160;&#160;(<link linkend="_elf_8cpp_1a238df818a893c29131955c85331b4cf6">LZMA_STATES</link> * <link linkend="_elf_8cpp_1abbae2ec1a897a69e2e21fed65129a9e0">LZMA_POS_STATES</link>)</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a3c7b3a52c32334af4d23676cbd9bb20d"/><section>
+    <title>LZMA_PROB_IS_REP0_LONG_OFFSET</title>
+<indexterm><primary>LZMA_PROB_IS_REP0_LONG_OFFSET</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_PROB_IS_REP0_LONG_OFFSET</secondary></indexterm>
+<para><computeroutput>#define LZMA_PROB_IS_REP0_LONG_OFFSET&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1ae7cb4e5dba242543a532e569915cc019">LZMA_PROB_IS_REP2_OFFSET</link> + <link linkend="_elf_8cpp_1abf9fbb7eb0204111db12c33401ac1129">LZMA_PROB_IS_REP2_LEN</link>)</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a606f5377a0b59d7218b1c7313625abe7"/><section>
+    <title>LZMA_PROB_IS_REP0_OFFSET</title>
+<indexterm><primary>LZMA_PROB_IS_REP0_OFFSET</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_PROB_IS_REP0_OFFSET</secondary></indexterm>
+<para><computeroutput>#define LZMA_PROB_IS_REP0_OFFSET&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1ac948c4a8bf48ac3da844e52b72e39aa4">LZMA_PROB_IS_REP_OFFSET</link> + <link linkend="_elf_8cpp_1a05a9aeb7c22ab569d0f514d4c4a68bd9">LZMA_PROB_IS_REP_LEN</link>)</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a0791de93e66f20bef7bbf22891ac71fc"/><section>
+    <title>LZMA_PROB_IS_REP1_LEN</title>
+<indexterm><primary>LZMA_PROB_IS_REP1_LEN</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_PROB_IS_REP1_LEN</secondary></indexterm>
+<para><computeroutput>#define LZMA_PROB_IS_REP1_LEN&#160;&#160;&#160;<link linkend="_elf_8cpp_1a238df818a893c29131955c85331b4cf6">LZMA_STATES</link></computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1aedddcc62cef513b282eaff273e5e18d2"/><section>
+    <title>LZMA_PROB_IS_REP1_OFFSET</title>
+<indexterm><primary>LZMA_PROB_IS_REP1_OFFSET</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_PROB_IS_REP1_OFFSET</secondary></indexterm>
+<para><computeroutput>#define LZMA_PROB_IS_REP1_OFFSET&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1a606f5377a0b59d7218b1c7313625abe7">LZMA_PROB_IS_REP0_OFFSET</link> + <link linkend="_elf_8cpp_1a7d0543d1087d3426f34796fa335b1b0c">LZMA_PROB_IS_REP0_LEN</link>)</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1abf9fbb7eb0204111db12c33401ac1129"/><section>
+    <title>LZMA_PROB_IS_REP2_LEN</title>
+<indexterm><primary>LZMA_PROB_IS_REP2_LEN</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_PROB_IS_REP2_LEN</secondary></indexterm>
+<para><computeroutput>#define LZMA_PROB_IS_REP2_LEN&#160;&#160;&#160;<link linkend="_elf_8cpp_1a238df818a893c29131955c85331b4cf6">LZMA_STATES</link></computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1ae7cb4e5dba242543a532e569915cc019"/><section>
+    <title>LZMA_PROB_IS_REP2_OFFSET</title>
+<indexterm><primary>LZMA_PROB_IS_REP2_OFFSET</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_PROB_IS_REP2_OFFSET</secondary></indexterm>
+<para><computeroutput>#define LZMA_PROB_IS_REP2_OFFSET&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1aedddcc62cef513b282eaff273e5e18d2">LZMA_PROB_IS_REP1_OFFSET</link> + <link linkend="_elf_8cpp_1a0791de93e66f20bef7bbf22891ac71fc">LZMA_PROB_IS_REP1_LEN</link>)</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a05a9aeb7c22ab569d0f514d4c4a68bd9"/><section>
+    <title>LZMA_PROB_IS_REP_LEN</title>
+<indexterm><primary>LZMA_PROB_IS_REP_LEN</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_PROB_IS_REP_LEN</secondary></indexterm>
+<para><computeroutput>#define LZMA_PROB_IS_REP_LEN&#160;&#160;&#160;<link linkend="_elf_8cpp_1a238df818a893c29131955c85331b4cf6">LZMA_STATES</link></computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1ac948c4a8bf48ac3da844e52b72e39aa4"/><section>
+    <title>LZMA_PROB_IS_REP_OFFSET</title>
+<indexterm><primary>LZMA_PROB_IS_REP_OFFSET</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_PROB_IS_REP_OFFSET</secondary></indexterm>
+<para><computeroutput>#define LZMA_PROB_IS_REP_OFFSET&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1a88214027886c11a0626eb926f1db8c42">LZMA_PROB_IS_MATCH_OFFSET</link> + <link linkend="_elf_8cpp_1a59e0b9429e5c7427c582bbaf3e1810e6">LZMA_PROB_IS_MATCH_LEN</link>)</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1ae15b4c297b36ff2867ef508a89e59bdc"/><section>
+    <title>LZMA_PROB_LITERAL_LEN</title>
+<indexterm><primary>LZMA_PROB_LITERAL_LEN</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_PROB_LITERAL_LEN</secondary></indexterm>
+<para><computeroutput>#define LZMA_PROB_LITERAL_LEN&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1aaaa5c65f791ee7de051ea19d675469e7">LZMA_LITERAL_CODERS_MAX</link> * <link linkend="_elf_8cpp_1ac3b5863514060490b084e7d7bac3b5f7">LZMA_LITERAL_CODER_SIZE</link>)</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1aa9679fbdd53ad9208d62d1b32c729c02"/><section>
+    <title>LZMA_PROB_LITERAL_OFFSET</title>
+<indexterm><primary>LZMA_PROB_LITERAL_OFFSET</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_PROB_LITERAL_OFFSET</secondary></indexterm>
+<para><computeroutput>#define LZMA_PROB_LITERAL_OFFSET&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1af31bfbd2736dabe59bbdaa0a85557d47">LZMA_PROB_REP_LEN_HIGH_OFFSET</link> + <link linkend="_elf_8cpp_1a79f87ce7605e371013f328821e8d9e4c">LZMA_PROB_REP_LEN_HIGH_LEN</link>)</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a0366a77bbfcf5a1807ad0c0682d8bed4"/><section>
+    <title>LZMA_PROB_MATCH_LEN_CHOICE2_LEN</title>
+<indexterm><primary>LZMA_PROB_MATCH_LEN_CHOICE2_LEN</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_PROB_MATCH_LEN_CHOICE2_LEN</secondary></indexterm>
+<para><computeroutput>#define LZMA_PROB_MATCH_LEN_CHOICE2_LEN&#160;&#160;&#160;1</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1afbf2ea3729a9f7093f6aae9b065c9d1c"/><section>
+    <title>LZMA_PROB_MATCH_LEN_CHOICE2_OFFSET</title>
+<indexterm><primary>LZMA_PROB_MATCH_LEN_CHOICE2_OFFSET</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_PROB_MATCH_LEN_CHOICE2_OFFSET</secondary></indexterm>
+<para><computeroutput>#define LZMA_PROB_MATCH_LEN_CHOICE2_OFFSET&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1a47bfbe0646357593c5c0c7b14d7042f1">LZMA_PROB_MATCH_LEN_CHOICE_OFFSET</link> + <link linkend="_elf_8cpp_1ad09d84f7c68de453fde08cc873754092">LZMA_PROB_MATCH_LEN_CHOICE_LEN</link>)</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1ad09d84f7c68de453fde08cc873754092"/><section>
+    <title>LZMA_PROB_MATCH_LEN_CHOICE_LEN</title>
+<indexterm><primary>LZMA_PROB_MATCH_LEN_CHOICE_LEN</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_PROB_MATCH_LEN_CHOICE_LEN</secondary></indexterm>
+<para><computeroutput>#define LZMA_PROB_MATCH_LEN_CHOICE_LEN&#160;&#160;&#160;1</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a47bfbe0646357593c5c0c7b14d7042f1"/><section>
+    <title>LZMA_PROB_MATCH_LEN_CHOICE_OFFSET</title>
+<indexterm><primary>LZMA_PROB_MATCH_LEN_CHOICE_OFFSET</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_PROB_MATCH_LEN_CHOICE_OFFSET</secondary></indexterm>
+<para><computeroutput>#define LZMA_PROB_MATCH_LEN_CHOICE_OFFSET&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1a8d5ea6c3b2050798b0e561037d40e98b">LZMA_PROB_DIST_ALIGN_OFFSET</link> + <link linkend="_elf_8cpp_1aba809e4a3a1170d351430b8981b5277c">LZMA_PROB_DIST_ALIGN_LEN</link>)</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a080be1f65797f460353ad75efda2b156"/><section>
+    <title>LZMA_PROB_MATCH_LEN_HIGH_LEN</title>
+<indexterm><primary>LZMA_PROB_MATCH_LEN_HIGH_LEN</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_PROB_MATCH_LEN_HIGH_LEN</secondary></indexterm>
+<para><computeroutput>#define LZMA_PROB_MATCH_LEN_HIGH_LEN&#160;&#160;&#160;<link linkend="_elf_8cpp_1ae4b7488ce014fd6647742700d949bf07">LZMA_LEN_HIGH_SYMBOLS</link></computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a1a22175fb9ddbc493380b1f9e76815d7"/><section>
+    <title>LZMA_PROB_MATCH_LEN_HIGH_OFFSET</title>
+<indexterm><primary>LZMA_PROB_MATCH_LEN_HIGH_OFFSET</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_PROB_MATCH_LEN_HIGH_OFFSET</secondary></indexterm>
+<para><computeroutput>#define LZMA_PROB_MATCH_LEN_HIGH_OFFSET&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1afc82d2d1d23c9c9a527bd9a2f5195ea1">LZMA_PROB_MATCH_LEN_MID_OFFSET</link> + <link linkend="_elf_8cpp_1a37e1817170724054088161de9428968a">LZMA_PROB_MATCH_LEN_MID_LEN</link>)</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a8ed5dcf3bcd60de68fe52600b7e9b8a5"/><section>
+    <title>LZMA_PROB_MATCH_LEN_LOW_LEN</title>
+<indexterm><primary>LZMA_PROB_MATCH_LEN_LOW_LEN</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_PROB_MATCH_LEN_LOW_LEN</secondary></indexterm>
+<para><computeroutput>#define LZMA_PROB_MATCH_LEN_LOW_LEN&#160;&#160;&#160;(<link linkend="_elf_8cpp_1abbae2ec1a897a69e2e21fed65129a9e0">LZMA_POS_STATES</link> * <link linkend="_elf_8cpp_1a1571bb1e4de4b6f6724254ff913d39f0">LZMA_LEN_LOW_SYMBOLS</link>)</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a538044a6be91a69f4f65bcd0d5032610"/><section>
+    <title>LZMA_PROB_MATCH_LEN_LOW_OFFSET</title>
+<indexterm><primary>LZMA_PROB_MATCH_LEN_LOW_OFFSET</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_PROB_MATCH_LEN_LOW_OFFSET</secondary></indexterm>
+<para><computeroutput>#define LZMA_PROB_MATCH_LEN_LOW_OFFSET&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1afbf2ea3729a9f7093f6aae9b065c9d1c">LZMA_PROB_MATCH_LEN_CHOICE2_OFFSET</link> + <link linkend="_elf_8cpp_1a0366a77bbfcf5a1807ad0c0682d8bed4">LZMA_PROB_MATCH_LEN_CHOICE2_LEN</link>)</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a37e1817170724054088161de9428968a"/><section>
+    <title>LZMA_PROB_MATCH_LEN_MID_LEN</title>
+<indexterm><primary>LZMA_PROB_MATCH_LEN_MID_LEN</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_PROB_MATCH_LEN_MID_LEN</secondary></indexterm>
+<para><computeroutput>#define LZMA_PROB_MATCH_LEN_MID_LEN&#160;&#160;&#160;(<link linkend="_elf_8cpp_1abbae2ec1a897a69e2e21fed65129a9e0">LZMA_POS_STATES</link> * <link linkend="_elf_8cpp_1a9d02352cc306a7a9f544565623e69039">LZMA_LEN_MID_SYMBOLS</link>)</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1afc82d2d1d23c9c9a527bd9a2f5195ea1"/><section>
+    <title>LZMA_PROB_MATCH_LEN_MID_OFFSET</title>
+<indexterm><primary>LZMA_PROB_MATCH_LEN_MID_OFFSET</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_PROB_MATCH_LEN_MID_OFFSET</secondary></indexterm>
+<para><computeroutput>#define LZMA_PROB_MATCH_LEN_MID_OFFSET&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1a538044a6be91a69f4f65bcd0d5032610">LZMA_PROB_MATCH_LEN_LOW_OFFSET</link> + <link linkend="_elf_8cpp_1a8ed5dcf3bcd60de68fe52600b7e9b8a5">LZMA_PROB_MATCH_LEN_LOW_LEN</link>)</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a4d6494408e2dc3d68778df6b07b621ac"/><section>
+    <title>LZMA_PROB_REP_LEN_CHOICE2_LEN</title>
+<indexterm><primary>LZMA_PROB_REP_LEN_CHOICE2_LEN</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_PROB_REP_LEN_CHOICE2_LEN</secondary></indexterm>
+<para><computeroutput>#define LZMA_PROB_REP_LEN_CHOICE2_LEN&#160;&#160;&#160;1</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1af1b03dbb338e91e443ea75c3e35c1d34"/><section>
+    <title>LZMA_PROB_REP_LEN_CHOICE2_OFFSET</title>
+<indexterm><primary>LZMA_PROB_REP_LEN_CHOICE2_OFFSET</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_PROB_REP_LEN_CHOICE2_OFFSET</secondary></indexterm>
+<para><computeroutput>#define LZMA_PROB_REP_LEN_CHOICE2_OFFSET&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1a8d3e8547048d98a8dae1ed732cb73d22">LZMA_PROB_REP_LEN_CHOICE_OFFSET</link> + <link linkend="_elf_8cpp_1aab16508a5453982c0899c9bd9028b390">LZMA_PROB_REP_LEN_CHOICE_LEN</link>)</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1aab16508a5453982c0899c9bd9028b390"/><section>
+    <title>LZMA_PROB_REP_LEN_CHOICE_LEN</title>
+<indexterm><primary>LZMA_PROB_REP_LEN_CHOICE_LEN</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_PROB_REP_LEN_CHOICE_LEN</secondary></indexterm>
+<para><computeroutput>#define LZMA_PROB_REP_LEN_CHOICE_LEN&#160;&#160;&#160;1</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a8d3e8547048d98a8dae1ed732cb73d22"/><section>
+    <title>LZMA_PROB_REP_LEN_CHOICE_OFFSET</title>
+<indexterm><primary>LZMA_PROB_REP_LEN_CHOICE_OFFSET</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_PROB_REP_LEN_CHOICE_OFFSET</secondary></indexterm>
+<para><computeroutput>#define LZMA_PROB_REP_LEN_CHOICE_OFFSET&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1a1a22175fb9ddbc493380b1f9e76815d7">LZMA_PROB_MATCH_LEN_HIGH_OFFSET</link> + <link linkend="_elf_8cpp_1a080be1f65797f460353ad75efda2b156">LZMA_PROB_MATCH_LEN_HIGH_LEN</link>)</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a79f87ce7605e371013f328821e8d9e4c"/><section>
+    <title>LZMA_PROB_REP_LEN_HIGH_LEN</title>
+<indexterm><primary>LZMA_PROB_REP_LEN_HIGH_LEN</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_PROB_REP_LEN_HIGH_LEN</secondary></indexterm>
+<para><computeroutput>#define LZMA_PROB_REP_LEN_HIGH_LEN&#160;&#160;&#160;<link linkend="_elf_8cpp_1ae4b7488ce014fd6647742700d949bf07">LZMA_LEN_HIGH_SYMBOLS</link></computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1af31bfbd2736dabe59bbdaa0a85557d47"/><section>
+    <title>LZMA_PROB_REP_LEN_HIGH_OFFSET</title>
+<indexterm><primary>LZMA_PROB_REP_LEN_HIGH_OFFSET</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_PROB_REP_LEN_HIGH_OFFSET</secondary></indexterm>
+<para><computeroutput>#define LZMA_PROB_REP_LEN_HIGH_OFFSET&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1a4f90f29b6f42ba784201067bbfef9045">LZMA_PROB_REP_LEN_MID_OFFSET</link> + <link linkend="_elf_8cpp_1a8a7155972bf2817bfcaa2ebae9669c7d">LZMA_PROB_REP_LEN_MID_LEN</link>)</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a8c168b85f1b74bc169c39a57d2ca0478"/><section>
+    <title>LZMA_PROB_REP_LEN_LOW_LEN</title>
+<indexterm><primary>LZMA_PROB_REP_LEN_LOW_LEN</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_PROB_REP_LEN_LOW_LEN</secondary></indexterm>
+<para><computeroutput>#define LZMA_PROB_REP_LEN_LOW_LEN&#160;&#160;&#160;(<link linkend="_elf_8cpp_1abbae2ec1a897a69e2e21fed65129a9e0">LZMA_POS_STATES</link> * <link linkend="_elf_8cpp_1a1571bb1e4de4b6f6724254ff913d39f0">LZMA_LEN_LOW_SYMBOLS</link>)</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1ab86d3e7ef7713a9e7f37a944300b0e3a"/><section>
+    <title>LZMA_PROB_REP_LEN_LOW_OFFSET</title>
+<indexterm><primary>LZMA_PROB_REP_LEN_LOW_OFFSET</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_PROB_REP_LEN_LOW_OFFSET</secondary></indexterm>
+<para><computeroutput>#define LZMA_PROB_REP_LEN_LOW_OFFSET&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1af1b03dbb338e91e443ea75c3e35c1d34">LZMA_PROB_REP_LEN_CHOICE2_OFFSET</link> + <link linkend="_elf_8cpp_1a4d6494408e2dc3d68778df6b07b621ac">LZMA_PROB_REP_LEN_CHOICE2_LEN</link>)</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a8a7155972bf2817bfcaa2ebae9669c7d"/><section>
+    <title>LZMA_PROB_REP_LEN_MID_LEN</title>
+<indexterm><primary>LZMA_PROB_REP_LEN_MID_LEN</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_PROB_REP_LEN_MID_LEN</secondary></indexterm>
+<para><computeroutput>#define LZMA_PROB_REP_LEN_MID_LEN&#160;&#160;&#160;(<link linkend="_elf_8cpp_1abbae2ec1a897a69e2e21fed65129a9e0">LZMA_POS_STATES</link> * <link linkend="_elf_8cpp_1a9d02352cc306a7a9f544565623e69039">LZMA_LEN_MID_SYMBOLS</link>)</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a4f90f29b6f42ba784201067bbfef9045"/><section>
+    <title>LZMA_PROB_REP_LEN_MID_OFFSET</title>
+<indexterm><primary>LZMA_PROB_REP_LEN_MID_OFFSET</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_PROB_REP_LEN_MID_OFFSET</secondary></indexterm>
+<para><computeroutput>#define LZMA_PROB_REP_LEN_MID_OFFSET&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1ab86d3e7ef7713a9e7f37a944300b0e3a">LZMA_PROB_REP_LEN_LOW_OFFSET</link> + <link linkend="_elf_8cpp_1a8c168b85f1b74bc169c39a57d2ca0478">LZMA_PROB_REP_LEN_LOW_LEN</link>)</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1ab9f20b3552968080519ffa8fd849bcfe"/><section>
+    <title>LZMA_PROB_TOTAL_COUNT</title>
+<indexterm><primary>LZMA_PROB_TOTAL_COUNT</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_PROB_TOTAL_COUNT</secondary></indexterm>
+<para><computeroutput>#define LZMA_PROB_TOTAL_COUNT&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1aa9679fbdd53ad9208d62d1b32c729c02">LZMA_PROB_LITERAL_OFFSET</link> + <link linkend="_elf_8cpp_1ae15b4c297b36ff2867ef508a89e59bdc">LZMA_PROB_LITERAL_LEN</link>)</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a2c2eac29e761520f32b7406a50336d52"/><section>
+    <title>LZMA_REP_LEN_CHOICE</title>
+<indexterm><primary>LZMA_REP_LEN_CHOICE</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_REP_LEN_CHOICE</secondary></indexterm>
+<para><computeroutput>#define LZMA_REP_LEN_CHOICE&#160;&#160;&#160;  <link linkend="_elf_8cpp_1a8d3e8547048d98a8dae1ed732cb73d22">LZMA_PROB_REP_LEN_CHOICE_OFFSET</link></computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a074229118e2def7c3bcb12bf72be73a5"/><section>
+    <title>LZMA_REP_LEN_CHOICE2</title>
+<indexterm><primary>LZMA_REP_LEN_CHOICE2</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_REP_LEN_CHOICE2</secondary></indexterm>
+<para><computeroutput>#define LZMA_REP_LEN_CHOICE2&#160;&#160;&#160;  <link linkend="_elf_8cpp_1af1b03dbb338e91e443ea75c3e35c1d34">LZMA_PROB_REP_LEN_CHOICE2_OFFSET</link></computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a3b59830aefa29b47cbc1dd94e571606e"/><section>
+    <title>LZMA_REP_LEN_HIGH</title>
+<indexterm><primary>LZMA_REP_LEN_HIGH</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_REP_LEN_HIGH</secondary></indexterm>
+<para><computeroutput>#define LZMA_REP_LEN_HIGH( sym)&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1af31bfbd2736dabe59bbdaa0a85557d47">LZMA_PROB_REP_LEN_HIGH_OFFSET</link> + (sym))</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1aeeb68d9cccec7bd66e3fef1452daa322"/><section>
+    <title>LZMA_REP_LEN_LOW</title>
+<indexterm><primary>LZMA_REP_LEN_LOW</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_REP_LEN_LOW</secondary></indexterm>
+<para><computeroutput>#define LZMA_REP_LEN_LOW( pos,  sym)&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1ab86d3e7ef7713a9e7f37a944300b0e3a">LZMA_PROB_REP_LEN_LOW_OFFSET</link> + (pos) * <link linkend="_elf_8cpp_1a1571bb1e4de4b6f6724254ff913d39f0">LZMA_LEN_LOW_SYMBOLS</link> + (sym))</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a7d9a8aaca33551acc522344decdc5ec2"/><section>
+    <title>LZMA_REP_LEN_MID</title>
+<indexterm><primary>LZMA_REP_LEN_MID</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_REP_LEN_MID</secondary></indexterm>
+<para><computeroutput>#define LZMA_REP_LEN_MID( pos,  sym)&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1a4f90f29b6f42ba784201067bbfef9045">LZMA_PROB_REP_LEN_MID_OFFSET</link> + (pos) * <link linkend="_elf_8cpp_1a9d02352cc306a7a9f544565623e69039">LZMA_LEN_MID_SYMBOLS</link> + (sym))</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a238df818a893c29131955c85331b4cf6"/><section>
+    <title>LZMA_STATES</title>
+<indexterm><primary>LZMA_STATES</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>LZMA_STATES</secondary></indexterm>
+<para><computeroutput>#define LZMA_STATES&#160;&#160;&#160;(12)</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a0e968935fb5cb01c4abe6eed8b140059"/><section>
+    <title>NT_GNU_BUILD_ID</title>
+<indexterm><primary>NT_GNU_BUILD_ID</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>NT_GNU_BUILD_ID</secondary></indexterm>
+<para><computeroutput>#define NT_GNU_BUILD_ID&#160;&#160;&#160;3</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1afef163ce62372757e84bd9fc88c07aad"/><section>
+    <title>S_IFLNK</title>
+<indexterm><primary>S_IFLNK</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>S_IFLNK</secondary></indexterm>
+<para><computeroutput>#define S_IFLNK&#160;&#160;&#160;0120000</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1ab5bee51e9ee68b83ab11d4b340f7200b"/><section>
+    <title>S_IFMT</title>
+<indexterm><primary>S_IFMT</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>S_IFMT</secondary></indexterm>
+<para><computeroutput>#define S_IFMT&#160;&#160;&#160;0170000</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a835359614ec43fbd96f53993cde84ef2"/><section>
+    <title>S_ISLNK</title>
+<indexterm><primary>S_ISLNK</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>S_ISLNK</secondary></indexterm>
+<para><computeroutput>#define S_ISLNK( m)&#160;&#160;&#160;(((m) &amp; <link linkend="_elf_8cpp_1ab5bee51e9ee68b83ab11d4b340f7200b">S_IFMT</link>) == <link linkend="_elf_8cpp_1afef163ce62372757e84bd9fc88c07aad">S_IFLNK</link>)</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a9393278edb59f46f55263f9d10ef2076"/><section>
+    <title>SHF_COMPRESSED</title>
+<indexterm><primary>SHF_COMPRESSED</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>SHF_COMPRESSED</secondary></indexterm>
+<para><computeroutput>#define SHF_COMPRESSED&#160;&#160;&#160;0x800</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1ac663b490fedc8aeab91bf941772ba306"/><section>
+    <title>SHN_LORESERVE</title>
+<indexterm><primary>SHN_LORESERVE</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>SHN_LORESERVE</secondary></indexterm>
+<para><computeroutput>#define SHN_LORESERVE&#160;&#160;&#160;0xFF00		/* Begin range of reserved <link linkend="_glad_8h_1a94ae715eebfc1eb65456c0ab9b97f1e9">indices</link> */</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1ab2f25695673c5f1c4ec723e595288411"/><section>
+    <title>SHN_UNDEF</title>
+<indexterm><primary>SHN_UNDEF</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>SHN_UNDEF</secondary></indexterm>
+<para><computeroutput>#define SHN_UNDEF&#160;&#160;&#160;0x0000		/* Undefined section */</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1adcbb4b7e1c4ec5add7328be2c8de8ab2"/><section>
+    <title>SHN_XINDEX</title>
+<indexterm><primary>SHN_XINDEX</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>SHN_XINDEX</secondary></indexterm>
+<para><computeroutput>#define SHN_XINDEX&#160;&#160;&#160;0xFFFF		/* Section <link linkend="_glad_8h_1a57f14e05b1900f16a2da82ade47d0c6d">index</link> is held elsewhere */</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1aa9949aedf49107f6a07e618d5d791d40"/><section>
+    <title>SHT_DYNSYM</title>
+<indexterm><primary>SHT_DYNSYM</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>SHT_DYNSYM</secondary></indexterm>
+<para><computeroutput>#define SHT_DYNSYM&#160;&#160;&#160;11</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a4bff22edbae51353ba9b3572d424b91a"/><section>
+    <title>SHT_PROGBITS</title>
+<indexterm><primary>SHT_PROGBITS</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>SHT_PROGBITS</secondary></indexterm>
+<para><computeroutput>#define SHT_PROGBITS&#160;&#160;&#160;1</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1af4b916dc4ca5016fb5c374068002a532"/><section>
+    <title>SHT_STRTAB</title>
+<indexterm><primary>SHT_STRTAB</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>SHT_STRTAB</secondary></indexterm>
+<para><computeroutput>#define SHT_STRTAB&#160;&#160;&#160;3</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a4add7784e43ec3d3b9c09d3ffc476a81"/><section>
+    <title>SHT_SYMTAB</title>
+<indexterm><primary>SHT_SYMTAB</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>SHT_SYMTAB</secondary></indexterm>
+<para><computeroutput>#define SHT_SYMTAB&#160;&#160;&#160;2</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a9cdfedf900935f23f6e409ce378dc1d2"/><section>
+    <title>STT_FUNC</title>
+<indexterm><primary>STT_FUNC</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>STT_FUNC</secondary></indexterm>
+<para><computeroutput>#define STT_FUNC&#160;&#160;&#160;2</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1ac236cc313291ed38ecb346a8b4bde6b2"/><section>
+    <title>STT_OBJECT</title>
+<indexterm><primary>STT_OBJECT</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>STT_OBJECT</secondary></indexterm>
+<para><computeroutput>#define STT_OBJECT&#160;&#160;&#160;1</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1ad6182965114505d92c40b429d111bd91"/><section>
+    <title>SYSTEM_BUILD_ID_DIR</title>
+<indexterm><primary>SYSTEM_BUILD_ID_DIR</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>SYSTEM_BUILD_ID_DIR</secondary></indexterm>
+<para><computeroutput>#define SYSTEM_BUILD_ID_DIR&#160;&#160;&#160;&quot;/usr/lib/debug/.build-<link linkend="_glad_8h_1a0f49c9e660c049e85b4735b5246b6258">id</link>/&quot;</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1ac6c45889010c1bd68631771b64f18101"/><section>
+    <title>unlikely</title>
+<indexterm><primary>unlikely</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>unlikely</secondary></indexterm>
+<para><computeroutput>#define unlikely( <link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>)&#160;&#160;&#160;(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>)</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a0346d561555a2a3b5eb93dda3e760971"/><section>
+    <title>ZDEBUG_TABLE_SIZE</title>
+<indexterm><primary>ZDEBUG_TABLE_SIZE</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>ZDEBUG_TABLE_SIZE</secondary></indexterm>
+<para><computeroutput>#define ZDEBUG_TABLE_SIZE&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1a5867aee2b9401e107bb4645a76ab5122">ZLIB_TABLE_SIZE</link> &gt; <link linkend="_elf_8cpp_1abab9f8eee3e7f804059071f1e904c1a3">ZSTD_TABLE_SIZE</link> ? <link linkend="_elf_8cpp_1a5867aee2b9401e107bb4645a76ab5122">ZLIB_TABLE_SIZE</link> : <link linkend="_elf_8cpp_1abab9f8eee3e7f804059071f1e904c1a3">ZSTD_TABLE_SIZE</link>)</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a2ab232dc3eda1b390c2e2bba82b6a542"/><section>
+    <title>ZLIB_HUFFMAN_BITS_MASK</title>
+<indexterm><primary>ZLIB_HUFFMAN_BITS_MASK</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>ZLIB_HUFFMAN_BITS_MASK</secondary></indexterm>
+<para><computeroutput>#define ZLIB_HUFFMAN_BITS_MASK&#160;&#160;&#160;0x7</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1aec72c566f5d0808c10c092f3c04666b7"/><section>
+    <title>ZLIB_HUFFMAN_BITS_SHIFT</title>
+<indexterm><primary>ZLIB_HUFFMAN_BITS_SHIFT</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>ZLIB_HUFFMAN_BITS_SHIFT</secondary></indexterm>
+<para><computeroutput>#define ZLIB_HUFFMAN_BITS_SHIFT&#160;&#160;&#160;9</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a4bba0577c3c3db8295b5cec077ba5278"/><section>
+    <title>ZLIB_HUFFMAN_SECONDARY_SHIFT</title>
+<indexterm><primary>ZLIB_HUFFMAN_SECONDARY_SHIFT</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>ZLIB_HUFFMAN_SECONDARY_SHIFT</secondary></indexterm>
+<para><computeroutput>#define ZLIB_HUFFMAN_SECONDARY_SHIFT&#160;&#160;&#160;12</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1ad6b3c6dbea50b63cb84f1dab1e2b58ac"/><section>
+    <title>ZLIB_HUFFMAN_TABLE_SIZE</title>
+<indexterm><primary>ZLIB_HUFFMAN_TABLE_SIZE</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>ZLIB_HUFFMAN_TABLE_SIZE</secondary></indexterm>
+<para><computeroutput>#define ZLIB_HUFFMAN_TABLE_SIZE&#160;&#160;&#160;(1024)</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1ad3681bfedfda0791c986ffec10975daf"/><section>
+    <title>ZLIB_HUFFMAN_VALUE_MASK</title>
+<indexterm><primary>ZLIB_HUFFMAN_VALUE_MASK</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>ZLIB_HUFFMAN_VALUE_MASK</secondary></indexterm>
+<para><computeroutput>#define ZLIB_HUFFMAN_VALUE_MASK&#160;&#160;&#160;0x01ff</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1aadda0713c3470b27511ddb6f1bf28b49"/><section>
+    <title>ZLIB_TABLE_CODELEN_OFFSET</title>
+<indexterm><primary>ZLIB_TABLE_CODELEN_OFFSET</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>ZLIB_TABLE_CODELEN_OFFSET</secondary></indexterm>
+<para><computeroutput>#define ZLIB_TABLE_CODELEN_OFFSET</computeroutput></para><emphasis role="strong">Value:</emphasis><programlisting linenumbering="unnumbered">&#32;&#32;(2&#32;*&#32;<link linkend="_elf_8cpp_1ad6b3c6dbea50b63cb84f1dab1e2b58ac">ZLIB_HUFFMAN_TABLE_SIZE</link>&#32;*&#32;<emphasis role="keyword">sizeof</emphasis>&#32;(uint16_t)&#32;\
+&#32;&#32;&#32;+&#32;(286&#32;+&#32;30)&#32;*&#32;<emphasis role="keyword">sizeof</emphasis>&#32;(uint16_t))
+</programlisting></section>
+<anchor xml:id="_elf_8cpp_1a5867aee2b9401e107bb4645a76ab5122"/><section>
+    <title>ZLIB_TABLE_SIZE</title>
+<indexterm><primary>ZLIB_TABLE_SIZE</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>ZLIB_TABLE_SIZE</secondary></indexterm>
+<para><computeroutput>#define ZLIB_TABLE_SIZE</computeroutput></para><emphasis role="strong">Value:</emphasis><programlisting linenumbering="unnumbered">&#32;&#32;(2&#32;*&#32;<link linkend="_elf_8cpp_1ad6b3c6dbea50b63cb84f1dab1e2b58ac">ZLIB_HUFFMAN_TABLE_SIZE</link>&#32;*&#32;<emphasis role="keyword">sizeof</emphasis>&#32;(uint16_t)&#32;\
+&#32;&#32;&#32;+&#32;(286&#32;+&#32;30)&#32;*&#32;<emphasis role="keyword">sizeof</emphasis>&#32;(uint16_t)&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;+&#32;(286&#32;+&#32;30)&#32;*&#32;<emphasis role="keyword">sizeof</emphasis>&#32;(<emphasis role="keywordtype">unsigned</emphasis>&#32;char))
+</programlisting></section>
+<anchor xml:id="_elf_8cpp_1a423214005a9bc8cc48acdafcf44270df"/><section>
+    <title>ZLIB_TABLE_WORK_OFFSET</title>
+<indexterm><primary>ZLIB_TABLE_WORK_OFFSET</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>ZLIB_TABLE_WORK_OFFSET</secondary></indexterm>
+<para><computeroutput>#define ZLIB_TABLE_WORK_OFFSET&#160;&#160;&#160;  (2 * <link linkend="_elf_8cpp_1ad6b3c6dbea50b63cb84f1dab1e2b58ac">ZLIB_HUFFMAN_TABLE_SIZE</link> * sizeof (uint16_t))</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a0078b600b35a41529c42ec583bbe88cb"/><section>
+    <title>ZSTD_DECODE_BASEBITS</title>
+<indexterm><primary>ZSTD_DECODE_BASEBITS</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>ZSTD_DECODE_BASEBITS</secondary></indexterm>
+<para><computeroutput>#define ZSTD_DECODE_BASEBITS( baseline_basebits)&#160;&#160;&#160;  ((uint32_t)(baseline_basebits) &gt;&gt; 24)</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a15667f81622d44a8e4f04bad2f82dec0"/><section>
+    <title>ZSTD_DECODE_BASELINE</title>
+<indexterm><primary>ZSTD_DECODE_BASELINE</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>ZSTD_DECODE_BASELINE</secondary></indexterm>
+<para><computeroutput>#define ZSTD_DECODE_BASELINE( baseline_basebits)&#160;&#160;&#160;  ((uint32_t)(baseline_basebits) &amp; 0xffffff)</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1ad45c905b10c17c0b27ce56baeaf00730"/><section>
+    <title>ZSTD_ENCODE_BASELINE_BITS</title>
+<indexterm><primary>ZSTD_ENCODE_BASELINE_BITS</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>ZSTD_ENCODE_BASELINE_BITS</secondary></indexterm>
+<para><computeroutput>#define ZSTD_ENCODE_BASELINE_BITS( baseline,  basebits)&#160;&#160;&#160;  ((uint32_t)(baseline) | ((uint32_t)(basebits) &lt;&lt; 24))</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a98c2908428d9e1cae69cf21f6d6d354c"/><section>
+    <title>ZSTD_LITERAL_LENGTH_BASELINE_OFFSET</title>
+<indexterm><primary>ZSTD_LITERAL_LENGTH_BASELINE_OFFSET</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>ZSTD_LITERAL_LENGTH_BASELINE_OFFSET</secondary></indexterm>
+<para><computeroutput>#define ZSTD_LITERAL_LENGTH_BASELINE_OFFSET&#160;&#160;&#160;(16)</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a4de9c24e7edc8e64410d7501cc016a20"/><section>
+    <title>ZSTD_MATCH_LENGTH_BASELINE_OFFSET</title>
+<indexterm><primary>ZSTD_MATCH_LENGTH_BASELINE_OFFSET</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>ZSTD_MATCH_LENGTH_BASELINE_OFFSET</secondary></indexterm>
+<para><computeroutput>#define ZSTD_MATCH_LENGTH_BASELINE_OFFSET&#160;&#160;&#160;(32)</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a834af4da3b41e2f867e783bfb632b478"/><section>
+    <title>ZSTD_TABLE_HUFFMAN_OFFSET</title>
+<indexterm><primary>ZSTD_TABLE_HUFFMAN_OFFSET</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>ZSTD_TABLE_HUFFMAN_OFFSET</secondary></indexterm>
+<para><computeroutput>#define ZSTD_TABLE_HUFFMAN_OFFSET</computeroutput></para><emphasis role="strong">Value:</emphasis><programlisting linenumbering="unnumbered">&#32;&#32;(<link linkend="_elf_8cpp_1ad130faf3c0f977d28c5add0bc677f989">ZSTD_TABLE_OFFSET_FSE_OFFSET</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;+&#32;256&#32;*&#32;<emphasis role="keyword">sizeof</emphasis>&#32;(<emphasis role="keyword">struct&#32;</emphasis>elf_zstd_fse_baseline_entry))
+</programlisting></section>
+<anchor xml:id="_elf_8cpp_1a846b96183e9d5c18280f23542561d4aa"/><section>
+    <title>ZSTD_TABLE_LITERAL_FSE_OFFSET</title>
+<indexterm><primary>ZSTD_TABLE_LITERAL_FSE_OFFSET</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>ZSTD_TABLE_LITERAL_FSE_OFFSET</secondary></indexterm>
+<para><computeroutput>#define ZSTD_TABLE_LITERAL_FSE_OFFSET&#160;&#160;&#160;(0)</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1a6d40352114601c70edcacdec6477308f"/><section>
+    <title>ZSTD_TABLE_MATCH_FSE_OFFSET</title>
+<indexterm><primary>ZSTD_TABLE_MATCH_FSE_OFFSET</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>ZSTD_TABLE_MATCH_FSE_OFFSET</secondary></indexterm>
+<para><computeroutput>#define ZSTD_TABLE_MATCH_FSE_OFFSET&#160;&#160;&#160;  (512 * sizeof (<link linkend="_interfacestruct">struct</link> elf_zstd_fse_baseline_entry))</computeroutput></para></section>
+<anchor xml:id="_elf_8cpp_1ad130faf3c0f977d28c5add0bc677f989"/><section>
+    <title>ZSTD_TABLE_OFFSET_FSE_OFFSET</title>
+<indexterm><primary>ZSTD_TABLE_OFFSET_FSE_OFFSET</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>ZSTD_TABLE_OFFSET_FSE_OFFSET</secondary></indexterm>
+<para><computeroutput>#define ZSTD_TABLE_OFFSET_FSE_OFFSET</computeroutput></para><emphasis role="strong">Value:</emphasis><programlisting linenumbering="unnumbered">&#32;&#32;(<link linkend="_elf_8cpp_1a6d40352114601c70edcacdec6477308f">ZSTD_TABLE_MATCH_FSE_OFFSET</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;+&#32;512&#32;*&#32;<emphasis role="keyword">sizeof</emphasis>&#32;(<emphasis role="keyword">struct&#32;</emphasis>elf_zstd_fse_baseline_entry))
+</programlisting></section>
+<anchor xml:id="_elf_8cpp_1abab9f8eee3e7f804059071f1e904c1a3"/><section>
+    <title>ZSTD_TABLE_SIZE</title>
+<indexterm><primary>ZSTD_TABLE_SIZE</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>ZSTD_TABLE_SIZE</secondary></indexterm>
+<para><computeroutput>#define ZSTD_TABLE_SIZE</computeroutput></para><emphasis role="strong">Value:</emphasis><programlisting linenumbering="unnumbered">&#32;&#32;(2&#32;*&#32;512&#32;*&#32;<emphasis role="keyword">sizeof</emphasis>&#32;(<emphasis role="keyword">struct&#32;</emphasis>elf_zstd_fse_baseline_entry)&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;+&#32;256&#32;*&#32;<emphasis role="keyword">sizeof</emphasis>&#32;(<emphasis role="keyword">struct&#32;</emphasis>elf_zstd_fse_baseline_entry)&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;+&#32;2048&#32;*&#32;<emphasis role="keyword">sizeof</emphasis>&#32;(uint16_t)&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;\
+&#32;&#32;&#32;+&#32;512&#32;*&#32;<emphasis role="keyword">sizeof</emphasis>&#32;(uint16_t)&#32;+&#32;256&#32;*&#32;<emphasis role="keyword">sizeof</emphasis>&#32;(uint32_t))
+</programlisting></section>
+<anchor xml:id="_elf_8cpp_1a72f15292993113b379945683895b0adc"/><section>
+    <title>ZSTD_TABLE_WORK_OFFSET</title>
+<indexterm><primary>ZSTD_TABLE_WORK_OFFSET</primary><secondary>elf.cpp</secondary></indexterm>
+<indexterm><primary>elf.cpp</primary><secondary>ZSTD_TABLE_WORK_OFFSET</secondary></indexterm>
+<para><computeroutput>#define ZSTD_TABLE_WORK_OFFSET&#160;&#160;&#160;  (<link linkend="_elf_8cpp_1a834af4da3b41e2f867e783bfb632b478">ZSTD_TABLE_HUFFMAN_OFFSET</link> + 2048 * sizeof (uint16_t))</computeroutput></para></section>
+</section>
+</section>

@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="__tracy_socket_8hpp_source" xml:lang="en-US">
+<title>TracySocket.hpp</title>
+<indexterm><primary>adhed/common/TracySocket.hpp</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 <emphasis role="preprocessor">#ifndef&#32;__TRACYSOCKET_HPP__</emphasis>
+2 <emphasis role="preprocessor">#define&#32;__TRACYSOCKET_HPP__</emphasis>
+3 
+4 <emphasis role="preprocessor">#include&#32;&lt;atomic&gt;</emphasis>
+5 <emphasis role="preprocessor">#include&#32;&lt;stddef.h&gt;</emphasis>
+6 <emphasis role="preprocessor">#include&#32;&lt;stdint.h&gt;</emphasis>
+7 
+8 <emphasis role="keyword">struct&#32;</emphasis>addrinfo;
+9 <emphasis role="keyword">struct&#32;</emphasis>sockaddr;
+10 
+11 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespacetracy">tracy</link>
+12 {
+13 
+14 <emphasis role="preprocessor">#ifdef&#32;_WIN32</emphasis>
+15 <emphasis role="keywordtype">void</emphasis>&#32;InitWinSock();
+16 <emphasis role="preprocessor">#endif</emphasis>
+17 
+18 <emphasis role="keyword">class&#32;</emphasis><link linkend="_classtracy_1_1_socket">Socket</link>
+19 {
+20 <emphasis role="keyword">public</emphasis>:
+21 &#32;&#32;&#32;&#32;<link linkend="_classtracy_1_1_socket_1a2a0d3dbf3768ab8eef5496631059afc9">Socket</link>();
+22 &#32;&#32;&#32;&#32;<link linkend="_classtracy_1_1_socket_1a2a0d3dbf3768ab8eef5496631059afc9">Socket</link>(&#32;<emphasis role="keywordtype">int</emphasis>&#32;sock&#32;);
+23 &#32;&#32;&#32;&#32;<link linkend="_classtracy_1_1_socket_1afb4376afd7c2913187f119e136efb6d4">~Socket</link>();
+24 
+25 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_classtracy_1_1_socket_1ab87610033fc96c7ab043b1ab6b4669d0">Connect</link>(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;addr,&#32;uint16_t&#32;port&#32;);
+26 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_classtracy_1_1_socket_1abb435cb4155dadc761808c8418472108">ConnectBlocking</link>(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;addr,&#32;uint16_t&#32;port&#32;);
+27 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_classtracy_1_1_socket_1a3e0503d82a626755ce289a2748b28117">Close</link>();
+28 
+29 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_classtracy_1_1_socket_1ad8449e788e96438c3071b0347791784a">Send</link>(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>*&#32;buf,&#32;<emphasis role="keywordtype">int</emphasis>&#32;len&#32;);
+30 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_classtracy_1_1_socket_1a5c0e1e102a9a647d83ba5882c04e2971">GetSendBufSize</link>();
+31 
+32 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_classtracy_1_1_socket_1afdc1a7f8bd75b654b9bcacd55130fd99">ReadUpTo</link>(&#32;<emphasis role="keywordtype">void</emphasis>*&#32;buf,&#32;<emphasis role="keywordtype">int</emphasis>&#32;len&#32;);
+33 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_classtracy_1_1_socket_1af13aaa4d7e0ed5022db4f7913401474d">Read</link>(&#32;<emphasis role="keywordtype">void</emphasis>*&#32;buf,&#32;<emphasis role="keywordtype">int</emphasis>&#32;len,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1ad29bb0d8468b264a4e3d9204366cfaab">timeout</link>&#32;);
+34 
+35 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;ShouldExit&gt;
+36 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_classtracy_1_1_socket_1a117fc77ab79123b7475e26229b785271">Read</link>(&#32;<emphasis role="keywordtype">void</emphasis>*&#32;buf,&#32;<emphasis role="keywordtype">int</emphasis>&#32;len,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1ad29bb0d8468b264a4e3d9204366cfaab">timeout</link>,&#32;ShouldExit&#32;exitCb&#32;)
+37 &#32;&#32;&#32;&#32;{
+38 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;cbuf&#32;=&#32;(<emphasis role="keywordtype">char</emphasis>*)buf;
+39 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">while</emphasis>(&#32;len&#32;&gt;&#32;0&#32;)
+40 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+41 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;exitCb()&#32;)&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">false</emphasis>;
+42 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!ReadImpl(&#32;cbuf,&#32;len,&#32;<link linkend="_glad_8h_1ad29bb0d8468b264a4e3d9204366cfaab">timeout</link>&#32;)&#32;)&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">false</emphasis>;
+43 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+44 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">true</emphasis>;
+45 &#32;&#32;&#32;&#32;}
+46 
+47 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_classtracy_1_1_socket_1a2ec8226b2c192c9ce0313af6830cc751">ReadRaw</link>(&#32;<emphasis role="keywordtype">void</emphasis>*&#32;buf,&#32;<emphasis role="keywordtype">int</emphasis>&#32;len,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1ad29bb0d8468b264a4e3d9204366cfaab">timeout</link>&#32;);
+48 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_classtracy_1_1_socket_1a99a7d835cb7c4d0d4e875262141749ae">HasData</link>();
+49 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_classtracy_1_1_socket_1a0d1fb0f5903d217c57002e750295c120">IsValid</link>()&#32;<emphasis role="keyword">const</emphasis>;
+50 
+51 &#32;&#32;&#32;&#32;<link linkend="_classtracy_1_1_socket_1a64da8ab1abe9d06cbd1e6a550ff68c67">Socket</link>(&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_classtracy_1_1_socket">Socket</link>&amp;&#32;)&#32;=&#32;<emphasis role="keyword">delete</emphasis>;
+52 &#32;&#32;&#32;&#32;<link linkend="_classtracy_1_1_socket_1a22a8af012806eddbc5b3a90a20b52931">Socket</link>(&#32;<link linkend="_classtracy_1_1_socket">Socket</link>&amp;&amp;&#32;)&#32;=&#32;<emphasis role="keyword">delete</emphasis>;
+53 &#32;&#32;&#32;&#32;<link linkend="_classtracy_1_1_socket">Socket</link>&amp;&#32;<link linkend="_classtracy_1_1_socket_1a207a78628df7fd244a629049cf637fcc">operator=</link>(&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_classtracy_1_1_socket">Socket</link>&amp;&#32;)&#32;=&#32;<emphasis role="keyword">delete</emphasis>;
+54 &#32;&#32;&#32;&#32;<link linkend="_classtracy_1_1_socket">Socket</link>&amp;&#32;<link linkend="_classtracy_1_1_socket_1aef34bd96b566e0b5106826bb726c359c">operator=</link>(&#32;<link linkend="_classtracy_1_1_socket">Socket</link>&amp;&amp;&#32;)&#32;=&#32;<emphasis role="keyword">delete</emphasis>;
+55 
+56 <emphasis role="keyword">private</emphasis>:
+57 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;RecvBuffered(&#32;<emphasis role="keywordtype">void</emphasis>*&#32;buf,&#32;<emphasis role="keywordtype">int</emphasis>&#32;len,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1ad29bb0d8468b264a4e3d9204366cfaab">timeout</link>&#32;);
+58 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;Recv(&#32;<emphasis role="keywordtype">void</emphasis>*&#32;buf,&#32;<emphasis role="keywordtype">int</emphasis>&#32;len,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1ad29bb0d8468b264a4e3d9204366cfaab">timeout</link>&#32;);
+59 
+60 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;ReadImpl(&#32;<emphasis role="keywordtype">char</emphasis>*&amp;&#32;buf,&#32;<emphasis role="keywordtype">int</emphasis>&amp;&#32;len,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1ad29bb0d8468b264a4e3d9204366cfaab">timeout</link>&#32;);
+61 
+62 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">char</emphasis>*&#32;m_buf;
+63 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">char</emphasis>*&#32;m_bufPtr;
+64 &#32;&#32;&#32;&#32;std::atomic&lt;int&gt;&#32;m_sock;
+65 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;m_bufLeft;
+66 
+67 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis>addrinfo&#32;*m_res;
+68 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis>addrinfo&#32;*m_ptr;
+69 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;m_connSock;
+70 };
+71 
+72 <emphasis role="keyword">class&#32;</emphasis><link linkend="_classtracy_1_1_listen_socket">ListenSocket</link>
+73 {
+74 <emphasis role="keyword">public</emphasis>:
+75 &#32;&#32;&#32;&#32;<link linkend="_classtracy_1_1_listen_socket_1a20ac18bf830edbfc4f754def167b3977">ListenSocket</link>();
+76 &#32;&#32;&#32;&#32;<link linkend="_classtracy_1_1_listen_socket_1a2d675e6299683fe73349115e9c578e57">~ListenSocket</link>();
+77 
+78 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_classtracy_1_1_listen_socket_1a380d74a1bfa55876f37ff55ca4945cd6">Listen</link>(&#32;uint16_t&#32;port,&#32;<emphasis role="keywordtype">int</emphasis>&#32;backlog&#32;);
+79 &#32;&#32;&#32;&#32;<link linkend="_classtracy_1_1_socket">Socket</link>*&#32;<link linkend="_classtracy_1_1_listen_socket_1a4238c9bc8d761c13b208300c1c46cb66">Accept</link>();
+80 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_classtracy_1_1_listen_socket_1ad5dad63358fe1703044d3bed01d6f5b6">Close</link>();
+81 
+82 &#32;&#32;&#32;&#32;<link linkend="_classtracy_1_1_listen_socket_1ab622bae0cae9c51eb67653b7c921e576">ListenSocket</link>(&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_classtracy_1_1_listen_socket">ListenSocket</link>&amp;&#32;)&#32;=&#32;<emphasis role="keyword">delete</emphasis>;
+83 &#32;&#32;&#32;&#32;<link linkend="_classtracy_1_1_listen_socket_1a422d03f4d98c4b73377fa02bf07f0136">ListenSocket</link>(&#32;<link linkend="_classtracy_1_1_listen_socket">ListenSocket</link>&amp;&amp;&#32;)&#32;=&#32;<emphasis role="keyword">delete</emphasis>;
+84 &#32;&#32;&#32;&#32;<link linkend="_classtracy_1_1_listen_socket">ListenSocket</link>&amp;&#32;<link linkend="_classtracy_1_1_listen_socket_1a5ea325858854b49f90af909269174de2">operator=</link>(&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_classtracy_1_1_listen_socket">ListenSocket</link>&amp;&#32;)&#32;=&#32;<emphasis role="keyword">delete</emphasis>;
+85 &#32;&#32;&#32;&#32;<link linkend="_classtracy_1_1_listen_socket">ListenSocket</link>&amp;&#32;<link linkend="_classtracy_1_1_listen_socket_1a59e6de931812af9343b639a4d29606a9">operator=</link>(&#32;<link linkend="_classtracy_1_1_listen_socket">ListenSocket</link>&amp;&amp;&#32;)&#32;=&#32;<emphasis role="keyword">delete</emphasis>;
+86 
+87 <emphasis role="keyword">private</emphasis>:
+88 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;m_sock;
+89 };
+90 
+91 <emphasis role="keyword">class&#32;</emphasis><link linkend="_classtracy_1_1_udp_broadcast">UdpBroadcast</link>
+92 {
+93 <emphasis role="keyword">public</emphasis>:
+94 &#32;&#32;&#32;&#32;<link linkend="_classtracy_1_1_udp_broadcast_1a12d617ef0942507c20f5114f2e30f2fc">UdpBroadcast</link>();
+95 &#32;&#32;&#32;&#32;<link linkend="_classtracy_1_1_udp_broadcast_1a2fe5b4ee21faffe7d7545ea35c5c481d">~UdpBroadcast</link>();
+96 
+97 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_classtracy_1_1_udp_broadcast_1a1a16ca181ed1489bbd7e2c83133eabfb">Open</link>(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;addr,&#32;uint16_t&#32;port&#32;);
+98 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_classtracy_1_1_udp_broadcast_1a725444a88b91897e9991595be81837f7">Close</link>();
+99 
+100 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_classtracy_1_1_udp_broadcast_1a9a6896faf70b7da330a4f91d83fb253a">Send</link>(&#32;uint16_t&#32;port,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>*&#32;<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>,&#32;<emphasis role="keywordtype">int</emphasis>&#32;len&#32;);
+101 
+102 &#32;&#32;&#32;&#32;<link linkend="_classtracy_1_1_udp_broadcast_1ac1dd520e1ff19280e534081c6db4e8c2">UdpBroadcast</link>(&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_classtracy_1_1_udp_broadcast">UdpBroadcast</link>&amp;&#32;)&#32;=&#32;<emphasis role="keyword">delete</emphasis>;
+103 &#32;&#32;&#32;&#32;<link linkend="_classtracy_1_1_udp_broadcast_1a775d6953ac24c82504dd786f5496f924">UdpBroadcast</link>(&#32;<link linkend="_classtracy_1_1_udp_broadcast">UdpBroadcast</link>&amp;&amp;&#32;)&#32;=&#32;<emphasis role="keyword">delete</emphasis>;
+104 &#32;&#32;&#32;&#32;<link linkend="_classtracy_1_1_udp_broadcast">UdpBroadcast</link>&amp;&#32;<link linkend="_classtracy_1_1_udp_broadcast_1a7251ca43e172665b969381ade4564588">operator=</link>(&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_classtracy_1_1_udp_broadcast">UdpBroadcast</link>&amp;&#32;)&#32;=&#32;<emphasis role="keyword">delete</emphasis>;
+105 &#32;&#32;&#32;&#32;<link linkend="_classtracy_1_1_udp_broadcast">UdpBroadcast</link>&amp;&#32;<link linkend="_classtracy_1_1_udp_broadcast_1a329f8adb94c077d81f6e767c2ada286d">operator=</link>(&#32;<link linkend="_classtracy_1_1_udp_broadcast">UdpBroadcast</link>&amp;&amp;&#32;)&#32;=&#32;<emphasis role="keyword">delete</emphasis>;
+106 
+107 <emphasis role="keyword">private</emphasis>:
+108 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;m_sock;
+109 &#32;&#32;&#32;&#32;uint32_t&#32;m_addr;
+110 };
+111 
+112 <emphasis role="keyword">class&#32;</emphasis><link linkend="_classtracy_1_1_ip_address">IpAddress</link>
+113 {
+114 <emphasis role="keyword">public</emphasis>:
+115 &#32;&#32;&#32;&#32;<link linkend="_classtracy_1_1_ip_address_1a7f7c6e6ccbed2b76ec32cf46a912f9ef">IpAddress</link>();
+116 &#32;&#32;&#32;&#32;<link linkend="_classtracy_1_1_ip_address_1aa4367a47c7ba52367707bb8a51dbeaab">~IpAddress</link>();
+117 
+118 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1a04b214e7efdfd660ece81f0561f2ee4d">Set</link>(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">struct</emphasis>&#32;sockaddr&amp;&#32;addr&#32;);
+119 
+120 &#32;&#32;&#32;&#32;uint32_t&#32;<link linkend="_classtracy_1_1_ip_address_1a72edff8523350df6d429b63310da8379">GetNumber</link>()<emphasis role="keyword">&#32;const&#32;</emphasis>{&#32;<emphasis role="keywordflow">return</emphasis>&#32;m_number;&#32;}
+121 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_classtracy_1_1_ip_address_1ad02029930754f70d90e586c6083d0422">GetText</link>()<emphasis role="keyword">&#32;const&#32;</emphasis>{&#32;<emphasis role="keywordflow">return</emphasis>&#32;m_text;&#32;}
+122 
+123 &#32;&#32;&#32;&#32;<link linkend="_classtracy_1_1_ip_address_1a3ce31d10c0a762140b033997a976ab58">IpAddress</link>(&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_classtracy_1_1_ip_address">IpAddress</link>&amp;&#32;)&#32;=&#32;<emphasis role="keyword">delete</emphasis>;
+124 &#32;&#32;&#32;&#32;<link linkend="_classtracy_1_1_ip_address_1a25605d67d8a3df227a6c92184d21bccf">IpAddress</link>(&#32;<link linkend="_classtracy_1_1_ip_address">IpAddress</link>&amp;&amp;&#32;)&#32;=&#32;<emphasis role="keyword">delete</emphasis>;
+125 &#32;&#32;&#32;&#32;<link linkend="_classtracy_1_1_ip_address">IpAddress</link>&amp;&#32;<link linkend="_classtracy_1_1_ip_address_1a278544e6e9082556d8b1ae54f18cc040">operator=</link>(&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_classtracy_1_1_ip_address">IpAddress</link>&amp;&#32;)&#32;=&#32;<emphasis role="keyword">delete</emphasis>;
+126 &#32;&#32;&#32;&#32;<link linkend="_classtracy_1_1_ip_address">IpAddress</link>&amp;&#32;<link linkend="_classtracy_1_1_ip_address_1a7d66b8c067f9290bd0cfbcde18d8ee4e">operator=</link>(&#32;<link linkend="_classtracy_1_1_ip_address">IpAddress</link>&amp;&amp;&#32;)&#32;=&#32;<emphasis role="keyword">delete</emphasis>;
+127 
+128 <emphasis role="keyword">private</emphasis>:
+129 &#32;&#32;&#32;&#32;uint32_t&#32;m_number;
+130 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">char</emphasis>&#32;m_text[17];
+131 };
+132 
+133 <emphasis role="keyword">class&#32;</emphasis><link linkend="_classtracy_1_1_udp_listen">UdpListen</link>
+134 {
+135 <emphasis role="keyword">public</emphasis>:
+136 &#32;&#32;&#32;&#32;<link linkend="_classtracy_1_1_udp_listen_1a0cd2b7306d35cae8499ca1ad9b58c392">UdpListen</link>();
+137 &#32;&#32;&#32;&#32;<link linkend="_classtracy_1_1_udp_listen_1a4425ac4f6f5d5d08bd2a13d2cb0f516d">~UdpListen</link>();
+138 
+139 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_classtracy_1_1_udp_listen_1ac6ace3f0f8173e312909c80ee2d8c320">Listen</link>(&#32;uint16_t&#32;port&#32;);
+140 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_classtracy_1_1_udp_listen_1a0b4cbd3ac6bf078568ee9808ed4f32b8">Close</link>();
+141 
+142 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_classtracy_1_1_udp_listen_1acd85fc78c97ed4e78e43ae43e65c64fa">Read</link>(&#32;<emphasis role="keywordtype">size_t</emphasis>&amp;&#32;len,&#32;<link linkend="_classtracy_1_1_ip_address">IpAddress</link>&amp;&#32;addr,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1ad29bb0d8468b264a4e3d9204366cfaab">timeout</link>&#32;);
+143 
+144 &#32;&#32;&#32;&#32;<link linkend="_classtracy_1_1_udp_listen_1a50885300ca591419fc99e5c2c2e9ffc7">UdpListen</link>(&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_classtracy_1_1_udp_listen">UdpListen</link>&amp;&#32;)&#32;=&#32;<emphasis role="keyword">delete</emphasis>;
+145 &#32;&#32;&#32;&#32;<link linkend="_classtracy_1_1_udp_listen_1a032224dd50ad9b69204da127229dcc6c">UdpListen</link>(&#32;<link linkend="_classtracy_1_1_udp_listen">UdpListen</link>&amp;&amp;&#32;)&#32;=&#32;<emphasis role="keyword">delete</emphasis>;
+146 &#32;&#32;&#32;&#32;<link linkend="_classtracy_1_1_udp_listen">UdpListen</link>&amp;&#32;<link linkend="_classtracy_1_1_udp_listen_1ad1c91ec37fa54b94801a89ca83ed950b">operator=</link>(&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_classtracy_1_1_udp_listen">UdpListen</link>&amp;&#32;)&#32;=&#32;<emphasis role="keyword">delete</emphasis>;
+147 &#32;&#32;&#32;&#32;<link linkend="_classtracy_1_1_udp_listen">UdpListen</link>&amp;&#32;<link linkend="_classtracy_1_1_udp_listen_1a93bd6fb45eef9263807f1b8b0803de0b">operator=</link>(&#32;<link linkend="_classtracy_1_1_udp_listen">UdpListen</link>&amp;&amp;&#32;)&#32;=&#32;<emphasis role="keyword">delete</emphasis>;
+148 
+149 <emphasis role="keyword">private</emphasis>:
+150 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;m_sock;
+151 };
+152 
+153 }
+154 
+155 <emphasis role="preprocessor">#endif</emphasis>
+</programlisting></section>

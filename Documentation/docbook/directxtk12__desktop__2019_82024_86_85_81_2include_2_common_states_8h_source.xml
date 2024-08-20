@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_directxtk12__desktop__2019_82024_86_85_81_2include_2_common_states_8h_source" xml:lang="en-US">
+<title>CommonStates.h</title>
+<indexterm><primary>packages/directxtk12_desktop_2019.2024.6.5.1/include/CommonStates.h</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 <emphasis role="comment">//--------------------------------------------------------------------------------------</emphasis>
+2 <emphasis role="comment">//&#32;File:&#32;CommonStates.h</emphasis>
+3 <emphasis role="comment">//</emphasis>
+4 <emphasis role="comment">//&#32;Copyright&#32;(c)&#32;Microsoft&#32;Corporation.</emphasis>
+5 <emphasis role="comment">//&#32;Licensed&#32;under&#32;the&#32;MIT&#32;License.</emphasis>
+6 <emphasis role="comment">//</emphasis>
+7 <emphasis role="comment">//&#32;http://go.microsoft.com/fwlink/?LinkID=615561</emphasis>
+8 <emphasis role="comment">//--------------------------------------------------------------------------------------</emphasis>
+9 
+10 <emphasis role="preprocessor">#pragma&#32;once</emphasis>
+11 
+12 <emphasis role="preprocessor">#ifdef&#32;_GAMING_XBOX_SCARLETT</emphasis>
+13 <emphasis role="preprocessor">#include&#32;&lt;d3d12_xs.h&gt;</emphasis>
+14 <emphasis role="preprocessor">#elif&#32;(defined(_XBOX_ONE)&#32;&amp;&amp;&#32;defined(_TITLE))&#32;||&#32;defined(_GAMING_XBOX)</emphasis>
+15 <emphasis role="preprocessor">#include&#32;&lt;d3d12_x.h&gt;</emphasis>
+16 <emphasis role="preprocessor">#elif&#32;defined(USING_DIRECTX_HEADERS)</emphasis>
+17 <emphasis role="preprocessor">#include&#32;&lt;directx/d3d12.h&gt;</emphasis>
+18 <emphasis role="preprocessor">#include&#32;&lt;dxguids/dxguids.h&gt;</emphasis>
+19 <emphasis role="preprocessor">#else</emphasis>
+20 <emphasis role="preprocessor">#include&#32;&lt;<link linkend="_d3d12_8h">d3d12.h</link>&gt;</emphasis>
+21 <emphasis role="preprocessor">#endif</emphasis>
+22 
+23 <emphasis role="preprocessor">#include&#32;&lt;memory&gt;</emphasis>
+24 
+25 
+26 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespace_direct_x">DirectX</link>
+27 {
+28 &#32;&#32;&#32;&#32;<emphasis role="keyword">inline</emphasis>&#32;<emphasis role="keyword">namespace&#32;</emphasis>DX12
+29 &#32;&#32;&#32;&#32;{
+30 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">class&#32;</emphasis><link linkend="_class_direct_x_1_1_d_x12_1_1_common_states">CommonStates</link>
+31 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+32 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">public</emphasis>:
+33 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">explicit</emphasis>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_common_states_1a8a43e86b1ff5e7f01e88b65e5341aacc">CommonStates</link>(_In_&#32;<link linkend="_interface_i_d3_d12_device">ID3D12Device</link>*&#32;device);
+34 
+35 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_common_states_1a6b508ffd0e2f9259738ad4f66e568791">CommonStates</link>(<link linkend="_class_direct_x_1_1_d_x12_1_1_common_states">CommonStates</link>&amp;&amp;)&#32;noexcept;
+36 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_common_states">CommonStates</link>&amp;&#32;operator&#32;=&#32;(<link linkend="_class_direct_x_1_1_d_x12_1_1_common_states">CommonStates</link>&amp;&amp;)&#32;noexcept;
+37 
+38 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_common_states">CommonStates</link>(const&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_common_states">CommonStates</link>&amp;)&#32;=&#32;delete;
+39 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_common_states">CommonStates</link>&amp;&#32;operator&#32;=&#32;(const&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_common_states">CommonStates</link>&amp;)&#32;=&#32;delete;
+40 
+41 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;virtual&#32;~<link linkend="_class_direct_x_1_1_d_x12_1_1_common_states">CommonStates</link>();
+42 
+43 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Blend&#32;states.</emphasis>
+44 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;static&#32;const&#32;<link linkend="_struct_d3_d12___b_l_e_n_d___d_e_s_c">D3D12_BLEND_DESC</link>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_common_states_1a3a4e361ea762fbd8aa307735a01a368f">Opaque</link>;
+45 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;static&#32;const&#32;<link linkend="_struct_d3_d12___b_l_e_n_d___d_e_s_c">D3D12_BLEND_DESC</link>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_common_states_1a54a75de7bc4132c2cca1513136ef610c">AlphaBlend</link>;
+46 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;static&#32;const&#32;<link linkend="_struct_d3_d12___b_l_e_n_d___d_e_s_c">D3D12_BLEND_DESC</link>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_common_states_1af8b06c9704fb6efa199a8e8d8a43da13">Additive</link>;
+47 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;static&#32;const&#32;<link linkend="_struct_d3_d12___b_l_e_n_d___d_e_s_c">D3D12_BLEND_DESC</link>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_common_states_1abdbfa8bfa2e9b98828488c964cd4ef70">NonPremultiplied</link>;
+48 
+49 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Depth&#32;stencil&#32;states.</emphasis>
+50 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;static&#32;const&#32;<link linkend="_struct_d3_d12___d_e_p_t_h___s_t_e_n_c_i_l___d_e_s_c">D3D12_DEPTH_STENCIL_DESC</link>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_common_states_1ae268bbe02a511b008b8ac7cc32ca2b98">DepthNone</link>;
+51 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;static&#32;const&#32;<link linkend="_struct_d3_d12___d_e_p_t_h___s_t_e_n_c_i_l___d_e_s_c">D3D12_DEPTH_STENCIL_DESC</link>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_common_states_1a8312b29aa8edcf8732754624047fedbd">DepthDefault</link>;
+52 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;static&#32;const&#32;<link linkend="_struct_d3_d12___d_e_p_t_h___s_t_e_n_c_i_l___d_e_s_c">D3D12_DEPTH_STENCIL_DESC</link>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_common_states_1a272a02535feb818f38d6f3dabe25cf80">DepthRead</link>;
+53 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;static&#32;const&#32;<link linkend="_struct_d3_d12___d_e_p_t_h___s_t_e_n_c_i_l___d_e_s_c">D3D12_DEPTH_STENCIL_DESC</link>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_common_states_1aa4c9400156b856cab79401e9edcf9bbc">DepthReverseZ</link>;
+54 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;static&#32;const&#32;<link linkend="_struct_d3_d12___d_e_p_t_h___s_t_e_n_c_i_l___d_e_s_c">D3D12_DEPTH_STENCIL_DESC</link>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_common_states_1a0b61b26dad223284b287e926fd7dbfcc">DepthReadReverseZ</link>;
+55 
+56 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Rasterizer&#32;states.</emphasis>
+57 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;static&#32;const&#32;<link linkend="_struct_d3_d12___r_a_s_t_e_r_i_z_e_r___d_e_s_c">D3D12_RASTERIZER_DESC</link>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_common_states_1a890d9761cef447bc87e2c0b80bdbcb8a">CullNone</link>;
+58 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;static&#32;const&#32;<link linkend="_struct_d3_d12___r_a_s_t_e_r_i_z_e_r___d_e_s_c">D3D12_RASTERIZER_DESC</link>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_common_states_1a291f9b6958688f9ec3450481d15b45a1">CullClockwise</link>;
+59 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;static&#32;const&#32;<link linkend="_struct_d3_d12___r_a_s_t_e_r_i_z_e_r___d_e_s_c">D3D12_RASTERIZER_DESC</link>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_common_states_1a0139d5a8efabff0b6882813078710741">CullCounterClockwise</link>;
+60 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;static&#32;const&#32;<link linkend="_struct_d3_d12___r_a_s_t_e_r_i_z_e_r___d_e_s_c">D3D12_RASTERIZER_DESC</link>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_common_states_1ad4f89cb9ce7a706d69ab6633b40eea5e">Wireframe</link>;
+61 
+62 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Static&#32;sampler&#32;states.</emphasis>
+63 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;static&#32;const&#32;<link linkend="_struct_d3_d12___s_t_a_t_i_c___s_a_m_p_l_e_r___d_e_s_c">D3D12_STATIC_SAMPLER_DESC</link>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_common_states_1a511a5768de6d37a53aa0ed7b13a14fad">StaticPointWrap</link>(<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;shaderRegister,&#32;<link linkend="_d3d12_8idl_1ad89d726f42e6e53f157e0ddfcf4e0c76">D3D12_SHADER_VISIBILITY</link>&#32;shaderVisibility&#32;=&#32;<link linkend="_d3d12_8idl_1ad89d726f42e6e53f157e0ddfcf4e0c76a509d6c410615622bb468a8d60a528e51">D3D12_SHADER_VISIBILITY_ALL</link>,&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;registerSpace&#32;=&#32;0)&#32;noexcept;
+64 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;static&#32;const&#32;<link linkend="_struct_d3_d12___s_t_a_t_i_c___s_a_m_p_l_e_r___d_e_s_c">D3D12_STATIC_SAMPLER_DESC</link>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_common_states_1add31efe2e05a2b396d3e9c7a2d79bf88">StaticPointClamp</link>(<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;shaderRegister,&#32;<link linkend="_d3d12_8idl_1ad89d726f42e6e53f157e0ddfcf4e0c76">D3D12_SHADER_VISIBILITY</link>&#32;shaderVisibility&#32;=&#32;<link linkend="_d3d12_8idl_1ad89d726f42e6e53f157e0ddfcf4e0c76a509d6c410615622bb468a8d60a528e51">D3D12_SHADER_VISIBILITY_ALL</link>,&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;registerSpace&#32;=&#32;0)&#32;noexcept;
+65 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;static&#32;const&#32;<link linkend="_struct_d3_d12___s_t_a_t_i_c___s_a_m_p_l_e_r___d_e_s_c">D3D12_STATIC_SAMPLER_DESC</link>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_common_states_1a7a1d67935a80b302446418dc59c37af7">StaticLinearWrap</link>(<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;shaderRegister,&#32;<link linkend="_d3d12_8idl_1ad89d726f42e6e53f157e0ddfcf4e0c76">D3D12_SHADER_VISIBILITY</link>&#32;shaderVisibility&#32;=&#32;<link linkend="_d3d12_8idl_1ad89d726f42e6e53f157e0ddfcf4e0c76a509d6c410615622bb468a8d60a528e51">D3D12_SHADER_VISIBILITY_ALL</link>,&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;registerSpace&#32;=&#32;0)&#32;noexcept;
+66 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;static&#32;const&#32;<link linkend="_struct_d3_d12___s_t_a_t_i_c___s_a_m_p_l_e_r___d_e_s_c">D3D12_STATIC_SAMPLER_DESC</link>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_common_states_1a15f8d730408c921bcd3e5502ad73302b">StaticLinearClamp</link>(<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;shaderRegister,&#32;<link linkend="_d3d12_8idl_1ad89d726f42e6e53f157e0ddfcf4e0c76">D3D12_SHADER_VISIBILITY</link>&#32;shaderVisibility&#32;=&#32;<link linkend="_d3d12_8idl_1ad89d726f42e6e53f157e0ddfcf4e0c76a509d6c410615622bb468a8d60a528e51">D3D12_SHADER_VISIBILITY_ALL</link>,&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;registerSpace&#32;=&#32;0)&#32;noexcept;
+67 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;static&#32;const&#32;<link linkend="_struct_d3_d12___s_t_a_t_i_c___s_a_m_p_l_e_r___d_e_s_c">D3D12_STATIC_SAMPLER_DESC</link>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_common_states_1a6986c2cf54d7c16b566406e8e67454d7">StaticAnisotropicWrap</link>(<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;shaderRegister,&#32;<link linkend="_d3d12_8idl_1ad89d726f42e6e53f157e0ddfcf4e0c76">D3D12_SHADER_VISIBILITY</link>&#32;shaderVisibility&#32;=&#32;<link linkend="_d3d12_8idl_1ad89d726f42e6e53f157e0ddfcf4e0c76a509d6c410615622bb468a8d60a528e51">D3D12_SHADER_VISIBILITY_ALL</link>,&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;registerSpace&#32;=&#32;0)&#32;noexcept;
+68 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;static&#32;const&#32;<link linkend="_struct_d3_d12___s_t_a_t_i_c___s_a_m_p_l_e_r___d_e_s_c">D3D12_STATIC_SAMPLER_DESC</link>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_common_states_1aee7f549dd99c394d1f764314af2dc67f">StaticAnisotropicClamp</link>(<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;shaderRegister,&#32;<link linkend="_d3d12_8idl_1ad89d726f42e6e53f157e0ddfcf4e0c76">D3D12_SHADER_VISIBILITY</link>&#32;shaderVisibility&#32;=&#32;<link linkend="_d3d12_8idl_1ad89d726f42e6e53f157e0ddfcf4e0c76a509d6c410615622bb468a8d60a528e51">D3D12_SHADER_VISIBILITY_ALL</link>,&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;registerSpace&#32;=&#32;0)&#32;noexcept;
+69 
+70 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Sampler&#32;states.</emphasis>
+71 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___g_p_u___d_e_s_c_r_i_p_t_o_r___h_a_n_d_l_e">D3D12_GPU_DESCRIPTOR_HANDLE</link>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_common_states_1a008535624633e7d6c46c7f187cd324c6">PointWrap</link>()&#32;const;
+72 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___g_p_u___d_e_s_c_r_i_p_t_o_r___h_a_n_d_l_e">D3D12_GPU_DESCRIPTOR_HANDLE</link>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_common_states_1a7325e6f9bff19945c67a8d62d22739ef">PointClamp</link>()&#32;const;
+73 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___g_p_u___d_e_s_c_r_i_p_t_o_r___h_a_n_d_l_e">D3D12_GPU_DESCRIPTOR_HANDLE</link>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_common_states_1a4a65eddeacd3b6676dde475bd496002e">LinearWrap</link>()&#32;const;
+74 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___g_p_u___d_e_s_c_r_i_p_t_o_r___h_a_n_d_l_e">D3D12_GPU_DESCRIPTOR_HANDLE</link>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_common_states_1a6713450668205781aac314c518ae84e7">LinearClamp</link>()&#32;const;
+75 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___g_p_u___d_e_s_c_r_i_p_t_o_r___h_a_n_d_l_e">D3D12_GPU_DESCRIPTOR_HANDLE</link>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_common_states_1a1a2a5398dc252d9f68b1ec570d5a4397">AnisotropicWrap</link>()&#32;const;
+76 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___g_p_u___d_e_s_c_r_i_p_t_o_r___h_a_n_d_l_e">D3D12_GPU_DESCRIPTOR_HANDLE</link>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_common_states_1a780fa33daa5672a904caaf32f34d16f1">AnisotropicClamp</link>()&#32;const;
+77 
+78 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;These&#32;index&#32;into&#32;the&#32;heap&#32;returned&#32;by&#32;SamplerDescriptorHeap</emphasis>
+79 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_interfaceenum">enum</link>&#32;class&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_common_states_1a2efb3e2c27cac14dfc3bae8848884f1c">SamplerIndex</link>
+80 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+81 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_common_states_1a008535624633e7d6c46c7f187cd324c6">PointWrap</link>,
+82 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_common_states_1a7325e6f9bff19945c67a8d62d22739ef">PointClamp</link>,
+83 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_common_states_1a4a65eddeacd3b6676dde475bd496002e">LinearWrap</link>,
+84 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_common_states_1a6713450668205781aac314c518ae84e7">LinearClamp</link>,
+85 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_common_states_1a1a2a5398dc252d9f68b1ec570d5a4397">AnisotropicWrap</link>,
+86 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_common_states_1a780fa33daa5672a904caaf32f34d16f1">AnisotropicClamp</link>,
+87 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_common_states_1a2efb3e2c27cac14dfc3bae8848884f1cae93f994f01c537c4e2f7d8528c3eb5e9">Count</link>
+88 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+89 
+90 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_interface_i_d3_d12_descriptor_heap">ID3D12DescriptorHeap</link>*&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_common_states_1aed5bd8e1cece7a6a45e1942bacca8494">Heap</link>()&#32;const&#32;noexcept;
+91 
+92 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;private:
+93 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;class&#32;Impl;
+94 
+95 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacestd">std</link>::unique_ptr&lt;Impl&gt;&#32;pImpl;
+96 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+97 &#32;&#32;&#32;&#32;}
+98 }
+</programlisting></section>

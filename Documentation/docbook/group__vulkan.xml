@@ -1,0 +1,161 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_group__vulkan" xml:lang="en-US">
+<title>Vulkan support reference</title>
+<indexterm><primary>Vulkan support reference</primary></indexterm>
+<para>
+
+<para>Functions and types related to Vulkan. </para>
+ 
+</para>
+<simplesect>
+    <title>Typedefs    </title>
+        <itemizedlist>
+            <listitem><para>typedef <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link>(* <link linkend="_group__vulkan_1ga70c01918dc9d233a4fbe0681a43018af">GLFWvkproc</link>) (<link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link>)</para>
+
+<para>Vulkan API function pointer type. </para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Functions    </title>
+        <itemizedlist>
+            <listitem><para><link linkend="_glfw3_8h_1a56da5036b2cc259351ae22fd6439bb47">GLFWAPI</link> int <link linkend="_group__vulkan_1ga72e7c3757d9ff2333181a5569bb7c403">glfwVulkanSupported</link> (<link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link>)</para>
+
+<para>Returns whether the Vulkan loader and an ICD have been found. </para>
+</listitem>
+            <listitem><para><link linkend="_glfw3_8h_1a56da5036b2cc259351ae22fd6439bb47">GLFWAPI</link> const char ** <link linkend="_group__vulkan_1gada152edc5bbbd0c2138728878632fd9c">glfwGetRequiredInstanceExtensions</link> (uint32_t *<link linkend="_glad_8h_1a619bc20e8198de3bd3f3d7fc34de66b2">count</link>)</para>
+
+<para>Returns the Vulkan instance extensions required by GLFW. </para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para>Functions and types related to Vulkan. </para>
+
+<para>This is the reference documentation for Vulkan related functions and types. For more task-oriented information, see the vulkan_guide. </para>
+</section>
+<section>
+<title>Typedef Documentation</title>
+<anchor xml:id="_group__vulkan_1ga70c01918dc9d233a4fbe0681a43018af"/><section>
+    <title>GLFWvkproc</title>
+<indexterm><primary>GLFWvkproc</primary><secondary>Vulkan support reference</secondary></indexterm>
+<indexterm><primary>Vulkan support reference</primary><secondary>GLFWvkproc</secondary></indexterm>
+<para><computeroutput>typedef <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link>(* GLFWvkproc) (<link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link>)</computeroutput></para><para>
+
+<para>Vulkan API function pointer type. </para>
+</para>
+
+<para>Generic function pointer used for returning Vulkan API function pointers without forcing a cast from a regular pointer.</para>
+
+<para><formalpara><title>See also</title>
+
+<para>vulkan_proc </para>
+
+<para>glfwGetInstanceProcAddress</para>
+</formalpara>
+<formalpara><title>Since</title>
+
+<para>Added in version 3.2. </para>
+</formalpara>
+</para>
+</section>
+</section>
+<section>
+<title>Function Documentation</title>
+<anchor xml:id="_group__vulkan_1gada152edc5bbbd0c2138728878632fd9c"/><section>
+    <title>glfwGetRequiredInstanceExtensions()</title>
+<indexterm><primary>glfwGetRequiredInstanceExtensions</primary><secondary>Vulkan support reference</secondary></indexterm>
+<indexterm><primary>Vulkan support reference</primary><secondary>glfwGetRequiredInstanceExtensions</secondary></indexterm>
+<para><computeroutput><link linkend="_glfw3_8h_1a56da5036b2cc259351ae22fd6439bb47">GLFWAPI</link> const char ** glfwGetRequiredInstanceExtensions (uint32_t * count)</computeroutput></para><para>
+
+<para>Returns the Vulkan instance extensions required by GLFW. </para>
+</para>
+
+<para>This function returns an array of names of Vulkan instance extensions required by GLFW for creating Vulkan surfaces for GLFW windows. If successful, the list will always contain <computeroutput>VK_KHR_surface</computeroutput>, so if you don&apos;t require any additional extensions you can pass this list directly to the <computeroutput>VkInstanceCreateInfo</computeroutput> struct.</para>
+
+<para>If Vulkan is not available on the machine, this function returns <computeroutput>NULL</computeroutput> and generates a <link linkend="_group__errors_1ga56882b290db23261cc6c053c40c2d08e">GLFW_API_UNAVAILABLE</link> error. Call <link linkend="_group__vulkan_1ga72e7c3757d9ff2333181a5569bb7c403">glfwVulkanSupported</link> to check whether Vulkan is at least minimally available.</para>
+
+<para>If Vulkan is available but no set of extensions allowing window surface creation was found, this function returns <computeroutput>NULL</computeroutput>. You may still use Vulkan for off-screen rendering and compute work.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>out</entry><entry>count</entry><entry>
+<para>Where to store the number of extensions in the returned array. This is set to zero if an error occurred. </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>An array of ASCII encoded extension names, or <computeroutput>NULL</computeroutput> if an error occurred.</para>
+</formalpara>
+@errors Possible errors include <link linkend="_group__errors_1ga2374ee02c177f12e1fa76ff3ed15e14a">GLFW_NOT_INITIALIZED</link> and <link linkend="_group__errors_1ga56882b290db23261cc6c053c40c2d08e">GLFW_API_UNAVAILABLE</link>.</para>
+
+<para><formalpara><title>Remarks</title>
+
+<para>Additional extensions may be required by future versions of GLFW. You should check if any extensions you wish to enable are already in the returned array, as it is an error to specify an extension more than once in the <computeroutput>VkInstanceCreateInfo</computeroutput> struct.</para>
+</formalpara>
+@pointer_lifetime The returned array is allocated and freed by GLFW. You should not free it yourself. It is guaranteed to be valid only until the library is terminated.</para>
+
+<para>@thread_safety This function may be called from any thread.</para>
+
+<para><formalpara><title>See also</title>
+
+<para>vulkan_ext </para>
+
+<para>glfwCreateWindowSurface</para>
+</formalpara>
+<formalpara><title>Since</title>
+
+<para>Added in version 3.2. </para>
+</formalpara>
+</para>
+</section>
+<anchor xml:id="_group__vulkan_1ga72e7c3757d9ff2333181a5569bb7c403"/><section>
+    <title>glfwVulkanSupported()</title>
+<indexterm><primary>glfwVulkanSupported</primary><secondary>Vulkan support reference</secondary></indexterm>
+<indexterm><primary>Vulkan support reference</primary><secondary>glfwVulkanSupported</secondary></indexterm>
+<para><computeroutput><link linkend="_glfw3_8h_1a56da5036b2cc259351ae22fd6439bb47">GLFWAPI</link> int glfwVulkanSupported (<link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> )</computeroutput></para><para>
+
+<para>Returns whether the Vulkan loader and an ICD have been found. </para>
+</para>
+
+<para>This function returns whether the Vulkan loader and any minimally functional ICD have been found.</para>
+
+<para>The availability of a Vulkan loader and even an ICD does not by itself guarantee that surface creation or even instance creation is possible. Call <link linkend="_group__vulkan_1gada152edc5bbbd0c2138728878632fd9c">glfwGetRequiredInstanceExtensions</link> to check whether the extensions necessary for Vulkan surface creation are available and glfwGetPhysicalDevicePresentationSupport to check whether a queue family of a physical device supports image presentation.</para>
+
+<para><formalpara><title>Returns</title>
+
+<para><computeroutput>GLFW_TRUE</computeroutput> if Vulkan is minimally available, or <computeroutput>GLFW_FALSE</computeroutput> otherwise.</para>
+</formalpara>
+@errors Possible errors include <link linkend="_group__errors_1ga2374ee02c177f12e1fa76ff3ed15e14a">GLFW_NOT_INITIALIZED</link>.</para>
+
+<para>@thread_safety This function may be called from any thread.</para>
+
+<para><formalpara><title>See also</title>
+
+<para>vulkan_support</para>
+</formalpara>
+<formalpara><title>Since</title>
+
+<para>Added in version 3.2. </para>
+</formalpara>
+</para>
+</section>
+</section>
+</section>

@@ -1,0 +1,334 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_directxtk12__desktop__2019_82024_86_85_81_2include_2_game_pad_8h_source" xml:lang="en-US">
+<title>GamePad.h</title>
+<indexterm><primary>packages/directxtk12_desktop_2019.2024.6.5.1/include/GamePad.h</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 <emphasis role="comment">//--------------------------------------------------------------------------------------</emphasis>
+2 <emphasis role="comment">//&#32;File:&#32;GamePad.h</emphasis>
+3 <emphasis role="comment">//</emphasis>
+4 <emphasis role="comment">//&#32;Copyright&#32;(c)&#32;Microsoft&#32;Corporation.</emphasis>
+5 <emphasis role="comment">//&#32;Licensed&#32;under&#32;the&#32;MIT&#32;License.</emphasis>
+6 <emphasis role="comment">//</emphasis>
+7 <emphasis role="comment">//&#32;http://go.microsoft.com/fwlink/?LinkId=248929</emphasis>
+8 <emphasis role="comment">//&#32;http://go.microsoft.com/fwlink/?LinkID=615561</emphasis>
+9 <emphasis role="comment">//--------------------------------------------------------------------------------------</emphasis>
+10 
+11 <emphasis role="preprocessor">#pragma&#32;once</emphasis>
+12 
+13 <emphasis role="preprocessor">#if&#32;!defined(USING_XINPUT)&#32;&amp;&amp;&#32;!defined(USING_GAMEINPUT)&#32;&amp;&amp;&#32;!defined(USING_WINDOWS_GAMING_INPUT)</emphasis>
+14 
+15 <emphasis role="preprocessor">#ifdef&#32;_GAMING_DESKTOP</emphasis>
+16 <emphasis role="preprocessor">#include&#32;&lt;grdk.h&gt;</emphasis>
+17 <emphasis role="preprocessor">#endif</emphasis>
+18 
+19 <emphasis role="preprocessor">#if&#32;(defined(WINAPI_FAMILY)&#32;&amp;&amp;&#32;(WINAPI_FAMILY&#32;==&#32;WINAPI_FAMILY_GAMES))&#32;||&#32;(defined(_GAMING_DESKTOP)&#32;&amp;&amp;&#32;(_GRDK_EDITION&#32;&gt;=&#32;220600))</emphasis>
+20 <emphasis role="preprocessor">#define&#32;USING_GAMEINPUT</emphasis>
+21 <emphasis role="preprocessor">#elif&#32;(_WIN32_WINNT&#32;&gt;=&#32;0x0A00&#32;</emphasis><emphasis role="comment">/*_WIN32_WINNT_WIN10*/</emphasis><emphasis role="preprocessor">)&#32;&amp;&amp;&#32;!defined(_GAMING_DESKTOP)&#32;&amp;&amp;&#32;!defined(__MINGW32__)</emphasis>
+22 <emphasis role="preprocessor">#define&#32;USING_WINDOWS_GAMING_INPUT</emphasis>
+23 <emphasis role="preprocessor">#elif&#32;!defined(_XBOX_ONE)</emphasis>
+24 <emphasis role="preprocessor">#define&#32;USING_XINPUT</emphasis>
+25 <emphasis role="preprocessor">#endif</emphasis>
+26 
+27 <emphasis role="preprocessor">#endif&#32;</emphasis><emphasis role="comment">//&#32;!USING_XINPUT&#32;&amp;&amp;&#32;!USING_GAMEINPUT&#32;&amp;&amp;&#32;!USING_WINDOWS_GAMING_INPUT</emphasis>
+28 
+29 <emphasis role="preprocessor">#ifdef&#32;USING_GAMEINPUT</emphasis>
+30 <emphasis role="preprocessor">#include&#32;&lt;GameInput.h&gt;</emphasis>
+31 <emphasis role="preprocessor">#if&#32;!defined(_GAMING_XBOX)&#32;&amp;&amp;&#32;defined(_MSC_VER)</emphasis>
+32 <emphasis role="preprocessor">#pragma&#32;comment(lib,&quot;gameinput.lib&quot;)</emphasis>
+33 <emphasis role="preprocessor">#endif</emphasis>
+34 
+35 <emphasis role="preprocessor">#elif&#32;defined(USING_WINDOWS_GAMING_INPUT)</emphasis>
+36 <emphasis role="preprocessor">#ifdef&#32;_MSC_VER</emphasis>
+37 <emphasis role="preprocessor">#pragma&#32;comment(lib,&quot;runtimeobject.lib&quot;)</emphasis>
+38 <emphasis role="preprocessor">#endif</emphasis>
+39 <emphasis role="preprocessor">#include&#32;&lt;string&gt;</emphasis>
+40 
+41 <emphasis role="preprocessor">#elif&#32;defined(_XBOX_ONE)</emphasis>
+42 <emphasis role="comment">//&#32;Legacy&#32;Xbox&#32;One&#32;XDK&#32;uses&#32;Windows::Xbox::Input</emphasis>
+43 
+44 <emphasis role="preprocessor">#elif&#32;defined(USING_XINPUT)</emphasis>
+45 <emphasis role="preprocessor">#ifdef&#32;_MSC_VER</emphasis>
+46 <emphasis role="preprocessor">#if&#32;(_WIN32_WINNT&#32;&gt;=&#32;0x0602&#32;</emphasis><emphasis role="comment">/*_WIN32_WINNT_WIN8*/</emphasis><emphasis role="preprocessor">&#32;)</emphasis>
+47 <emphasis role="preprocessor">#pragma&#32;comment(lib,&quot;xinput.lib&quot;)</emphasis>
+48 <emphasis role="preprocessor">#else</emphasis>
+49 <emphasis role="preprocessor">#pragma&#32;comment(lib,&quot;xinput9_1_0.lib&quot;)</emphasis>
+50 <emphasis role="preprocessor">#endif</emphasis>
+51 <emphasis role="preprocessor">#endif</emphasis>
+52 <emphasis role="preprocessor">#endif</emphasis>
+53 
+54 <emphasis role="preprocessor">#include&#32;&lt;cstdint&gt;</emphasis>
+55 <emphasis role="preprocessor">#include&#32;&lt;memory&gt;</emphasis>
+56 
+57 <emphasis role="preprocessor">#ifdef&#32;__clang__</emphasis>
+58 <emphasis role="preprocessor">#pragma&#32;clang&#32;diagnostic&#32;push</emphasis>
+59 <emphasis role="preprocessor">#pragma&#32;clang&#32;diagnostic&#32;ignored&#32;&quot;-Wunknown-pragmas&quot;</emphasis>
+60 <emphasis role="preprocessor">#endif</emphasis>
+61 
+62 
+63 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespace_direct_x">DirectX</link>
+64 {
+65 &#32;&#32;&#32;&#32;<emphasis role="keyword">class&#32;</emphasis>GamePad
+66 &#32;&#32;&#32;&#32;{
+67 &#32;&#32;&#32;&#32;<emphasis role="keyword">public</emphasis>:
+68 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_game_pad_1af5496ce77e3cb65bf8dda222b8ce596e">GamePad</link>()&#32;noexcept(false);
+69 
+70 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_game_pad">GamePad</link>(<link linkend="_class_direct_x_1_1_game_pad">GamePad</link>&amp;&amp;)&#32;noexcept;
+71 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_game_pad">GamePad</link>&amp;&#32;operator=&#32;(<link linkend="_class_direct_x_1_1_game_pad">GamePad</link>&amp;&amp;)&#32;noexcept;
+72 
+73 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_game_pad">GamePad</link>(<link linkend="_class_direct_x_1_1_game_pad">GamePad</link>&#32;const&amp;)&#32;=&#32;delete;
+74 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_game_pad">GamePad</link>&amp;&#32;operator=(<link linkend="_class_direct_x_1_1_game_pad">GamePad</link>&#32;const&amp;)&#32;=&#32;delete;
+75 
+76 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;virtual&#32;~<link linkend="_class_direct_x_1_1_game_pad">GamePad</link>();
+77 
+78 &#32;&#32;&#32;&#32;<emphasis role="preprocessor">#if&#32;defined(USING_GAMEINPUT)&#32;||&#32;defined(USING_WINDOWS_GAMING_INPUT)&#32;||&#32;defined(_XBOX_ONE)</emphasis>
+79 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keyword">constexpr</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_class_direct_x_1_1_game_pad_1a3866e4a48d63f9450c48f287c3cd63d1">MAX_PLAYER_COUNT</link>&#32;=&#32;8;
+80 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;#else</emphasis>
+81 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keyword">constexpr</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_class_direct_x_1_1_game_pad_1a3866e4a48d63f9450c48f287c3cd63d1">MAX_PLAYER_COUNT</link>&#32;=&#32;4;
+82 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;#endif</emphasis>
+83 
+84 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keyword">constexpr</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_class_direct_x_1_1_game_pad_1a654a7db3db7c02924b00ad2dd760ca0e">c_MostRecent</link>&#32;=&#32;-1;
+85 
+86 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;#ifdef&#32;USING_GAMEINPUT</emphasis>
+87 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keyword">constexpr</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;c_MergedInput&#32;=&#32;-2;
+88 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;#endif</emphasis>
+89 
+90 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">enum</emphasis>&#32;<link linkend="_class_direct_x_1_1_game_pad_1ac4fca4f8b8086f42d1d7850ace1e15b8">DeadZone</link>
+91 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+92 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_game_pad_1ac4fca4f8b8086f42d1d7850ace1e15b8a6e735e94bc335a481d28d72a477c2a81">DEAD_ZONE_INDEPENDENT_AXES</link>&#32;=&#32;0,
+93 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_game_pad_1ac4fca4f8b8086f42d1d7850ace1e15b8a617b5b8844aa24e05b178b1c26f06152">DEAD_ZONE_CIRCULAR</link>,
+94 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_game_pad_1ac4fca4f8b8086f42d1d7850ace1e15b8ab8cd6d6d5f4b84e23bc384dda04abf83">DEAD_ZONE_NONE</link>,
+95 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+96 
+97 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis>Buttons
+98 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+99 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_buttons_1a8767993ea8fe5fb84328d3cb4cdfe114">a</link>;
+100 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_buttons_1a052346e3eeb45cb96851c1eee5ae33b4">b</link>;
+101 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_buttons_1a91f87f2780f7a56e8961ff0242fd25ae">x</link>;
+102 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_buttons_1ad51420902bfa32c5cc1317441f1a4af9">y</link>;
+103 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_buttons_1ae3a5a6e5abed99d14be7782e36b5a8ec">leftStick</link>;
+104 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_buttons_1ab47552f727f85908ca82fdee60226686">rightStick</link>;
+105 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_buttons_1a457a23e5ffa9174c33c2e65989e307cd">leftShoulder</link>;
+106 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_buttons_1aaae8c9f8e6a2af8fee711e6b9c7e85f8">rightShoulder</link>;
+107 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">union</emphasis>
+108 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+109 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_buttons_1a7a775016ed14f5a3f8061730e70cefac">back</link>;
+110 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_buttons_1a329927bb5fd6868eaf9b03f0d567535f">view</link>;
+111 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+112 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">union</emphasis>
+113 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+114 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_buttons_1a2296e8866d9567c4e66e23e65a65bd45">start</link>;
+115 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_buttons_1a8e5eda0015244941f99aeb68d426b872">menu</link>;
+116 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+117 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+118 
+119 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis>DPad
+120 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+121 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_d_pad_1a6fa94b6ab4cf78a5c2662b7a9b932847">up</link>;
+122 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_d_pad_1aa1cdfb4f9e0d246e142cac96c498cecb">down</link>;
+123 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_d_pad_1a6d37fa61f52a2080912a30fe25bff440">right</link>;
+124 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_d_pad_1ac946c0b19179001ee668475cb6edb1c1">left</link>;
+125 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+126 
+127 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis><link linkend="_struct_direct_x_1_1_game_pad_1_1_thumb_sticks">ThumbSticks</link>
+128 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+129 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">float</emphasis>&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_thumb_sticks_1a03d91599124d5365419b0b15c1294559">leftX</link>;
+130 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">float</emphasis>&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_thumb_sticks_1acaf61b22a7bfc1178c0b9f06cb405d47">leftY</link>;
+131 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">float</emphasis>&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_thumb_sticks_1a0b7b58bbe0af7d594ae1b9e0ef2d2580">rightX</link>;
+132 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">float</emphasis>&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_thumb_sticks_1a8e20ff0f23ef21bb6cd8113cdf0860df">rightY</link>;
+133 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+134 
+135 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis><link linkend="_struct_direct_x_1_1_game_pad_1_1_triggers">Triggers</link>
+136 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+137 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">float</emphasis>&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_triggers_1ad752e3d4f2a466b48a5735fa2fac1259">left</link>;
+138 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">float</emphasis>&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_triggers_1aafe341a26f9404ab9654befc392fdc1a">right</link>;
+139 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+140 
+141 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis><link linkend="_struct_direct_x_1_1_game_pad_1_1_state">State</link>
+142 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+143 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_state_1ada8b93f248d02a98101a0acdbd1aac9a">connected</link>;
+144 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uint64_t&#32;&#32;&#32;&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_state_1a96fd2aecdd1f07840352a7ea568ef1d2">packet</link>;
+145 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_buttons">Buttons</link>&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_state_1acd53d2456d217efb814c7d4b1c22597b">buttons</link>;
+146 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_d_pad">DPad</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_state_1af0a57e0cb3fa74a6335887360898da40">dpad</link>;
+147 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_thumb_sticks">ThumbSticks</link>&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_state_1aa840ea350c38b54a5b78eb7b469188fe">thumbSticks</link>;
+148 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_triggers">Triggers</link>&#32;&#32;&#32;&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_state_1aa26f70d0b6df7eb4f5eda823ec0cd4e1">triggers</link>;
+149 
+150 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;__cdecl&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_state_1aebe3b431cf2527ddaf2447464589ef94">IsConnected</link>()&#32;const&#32;noexcept&#32;{&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_state_1ada8b93f248d02a98101a0acdbd1aac9a">connected</link>;&#32;}
+151 
+152 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Is&#32;the&#32;button&#32;pressed&#32;currently?</emphasis>
+153 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;__cdecl&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_state_1af179ac213166a4353c94ace68fbef0fe">IsAPressed</link>()&#32;const&#32;noexcept&#32;{&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_state_1acd53d2456d217efb814c7d4b1c22597b">buttons</link>.<link linkend="_struct_direct_x_1_1_game_pad_1_1_buttons_1a8767993ea8fe5fb84328d3cb4cdfe114">a</link>;&#32;}
+154 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;__cdecl&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_state_1afe577c46a913c8884f805f7efe5f24e2">IsBPressed</link>()&#32;const&#32;noexcept&#32;{&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_state_1acd53d2456d217efb814c7d4b1c22597b">buttons</link>.<link linkend="_struct_direct_x_1_1_game_pad_1_1_buttons_1a052346e3eeb45cb96851c1eee5ae33b4">b</link>;&#32;}
+155 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;__cdecl&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_state_1abfddfe91ac5e8a5a402a3157076469dc">IsXPressed</link>()&#32;const&#32;noexcept&#32;{&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_state_1acd53d2456d217efb814c7d4b1c22597b">buttons</link>.<link linkend="_struct_direct_x_1_1_game_pad_1_1_buttons_1a91f87f2780f7a56e8961ff0242fd25ae">x</link>;&#32;}
+156 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;__cdecl&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_state_1ad975a416de79a18027e64d1e55221ddf">IsYPressed</link>()&#32;const&#32;noexcept&#32;{&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_state_1acd53d2456d217efb814c7d4b1c22597b">buttons</link>.<link linkend="_struct_direct_x_1_1_game_pad_1_1_buttons_1ad51420902bfa32c5cc1317441f1a4af9">y</link>;&#32;}
+157 
+158 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;__cdecl&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_state_1ae623e652b6003fbf92407ae0700e1e85">IsLeftStickPressed</link>()&#32;const&#32;noexcept&#32;{&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_state_1acd53d2456d217efb814c7d4b1c22597b">buttons</link>.<link linkend="_struct_direct_x_1_1_game_pad_1_1_buttons_1ae3a5a6e5abed99d14be7782e36b5a8ec">leftStick</link>;&#32;}
+159 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;__cdecl&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_state_1ade50abc2b3ac5d3febff74030c024a53">IsRightStickPressed</link>()&#32;const&#32;noexcept&#32;{&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_state_1acd53d2456d217efb814c7d4b1c22597b">buttons</link>.<link linkend="_struct_direct_x_1_1_game_pad_1_1_buttons_1ab47552f727f85908ca82fdee60226686">rightStick</link>;&#32;}
+160 
+161 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;__cdecl&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_state_1a1b82edf42139c4bd575fe99f89900226">IsLeftShoulderPressed</link>()&#32;const&#32;noexcept&#32;{&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_state_1acd53d2456d217efb814c7d4b1c22597b">buttons</link>.<link linkend="_struct_direct_x_1_1_game_pad_1_1_buttons_1a457a23e5ffa9174c33c2e65989e307cd">leftShoulder</link>;&#32;}
+162 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;__cdecl&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_state_1a0acc7ec22fb72725ab27d702dfbf9ef7">IsRightShoulderPressed</link>()&#32;const&#32;noexcept&#32;{&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_state_1acd53d2456d217efb814c7d4b1c22597b">buttons</link>.<link linkend="_struct_direct_x_1_1_game_pad_1_1_buttons_1aaae8c9f8e6a2af8fee711e6b9c7e85f8">rightShoulder</link>;&#32;}
+163 
+164 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;__cdecl&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_state_1a4be026d2c204c57980e2aa4bc791f58b">IsBackPressed</link>()&#32;const&#32;noexcept&#32;{&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_state_1acd53d2456d217efb814c7d4b1c22597b">buttons</link>.<link linkend="_struct_direct_x_1_1_game_pad_1_1_buttons_1a7a775016ed14f5a3f8061730e70cefac">back</link>;&#32;}
+165 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;__cdecl&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_state_1a893427a9aeda749ec4c317e2b02b1f55">IsViewPressed</link>()&#32;const&#32;noexcept&#32;{&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_state_1acd53d2456d217efb814c7d4b1c22597b">buttons</link>.<link linkend="_struct_direct_x_1_1_game_pad_1_1_buttons_1a329927bb5fd6868eaf9b03f0d567535f">view</link>;&#32;}
+166 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;__cdecl&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_state_1a761b5b3ffbd35c9491dc703fa0c3aa57">IsStartPressed</link>()&#32;const&#32;noexcept&#32;{&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_state_1acd53d2456d217efb814c7d4b1c22597b">buttons</link>.<link linkend="_struct_direct_x_1_1_game_pad_1_1_buttons_1a2296e8866d9567c4e66e23e65a65bd45">start</link>;&#32;}
+167 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;__cdecl&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_state_1a3afb1126a4585a9863ca841a21c1e23f">IsMenuPressed</link>()&#32;const&#32;noexcept&#32;{&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_state_1acd53d2456d217efb814c7d4b1c22597b">buttons</link>.<link linkend="_struct_direct_x_1_1_game_pad_1_1_buttons_1a8e5eda0015244941f99aeb68d426b872">menu</link>;&#32;}
+168 
+169 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;__cdecl&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_state_1aa743151be04f0648362b4debc885421f">IsDPadDownPressed</link>()&#32;const&#32;noexcept&#32;{&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_state_1af0a57e0cb3fa74a6335887360898da40">dpad</link>.<link linkend="_struct_direct_x_1_1_game_pad_1_1_d_pad_1aa1cdfb4f9e0d246e142cac96c498cecb">down</link>;&#32;}
+170 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;__cdecl&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_state_1a94e08e1a98a2ee9ed6a7f8fc3cbfc4a2">IsDPadUpPressed</link>()&#32;const&#32;noexcept&#32;{&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_state_1af0a57e0cb3fa74a6335887360898da40">dpad</link>.<link linkend="_struct_direct_x_1_1_game_pad_1_1_d_pad_1a6fa94b6ab4cf78a5c2662b7a9b932847">up</link>;&#32;}
+171 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;__cdecl&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_state_1a2580fa734f031f40eb8e46170f9bd119">IsDPadLeftPressed</link>()&#32;const&#32;noexcept&#32;{&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_state_1af0a57e0cb3fa74a6335887360898da40">dpad</link>.<link linkend="_struct_direct_x_1_1_game_pad_1_1_d_pad_1ac946c0b19179001ee668475cb6edb1c1">left</link>;&#32;}
+172 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;__cdecl&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_state_1a47d055bc7439beffa520876b95ac139a">IsDPadRightPressed</link>()&#32;const&#32;noexcept&#32;{&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_state_1af0a57e0cb3fa74a6335887360898da40">dpad</link>.<link linkend="_struct_direct_x_1_1_game_pad_1_1_d_pad_1a6d37fa61f52a2080912a30fe25bff440">right</link>;&#32;}
+173 
+174 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;__cdecl&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_state_1a71ea523cdd13396c810a5eacfcd40463">IsLeftThumbStickUp</link>()&#32;const&#32;noexcept&#32;{&#32;<emphasis role="keywordflow">return</emphasis>&#32;(<link linkend="_struct_direct_x_1_1_game_pad_1_1_state_1aa840ea350c38b54a5b78eb7b469188fe">thumbSticks</link>.<link linkend="_struct_direct_x_1_1_game_pad_1_1_thumb_sticks_1acaf61b22a7bfc1178c0b9f06cb405d47">leftY</link>&#32;&gt;&#32;0.5f)&#32;!=&#32;0;&#32;}
+175 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;__cdecl&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_state_1aa7544b454ebdfcacd606cb757b89ce35">IsLeftThumbStickDown</link>()&#32;const&#32;noexcept&#32;{&#32;<emphasis role="keywordflow">return</emphasis>&#32;(<link linkend="_struct_direct_x_1_1_game_pad_1_1_state_1aa840ea350c38b54a5b78eb7b469188fe">thumbSticks</link>.<link linkend="_struct_direct_x_1_1_game_pad_1_1_thumb_sticks_1acaf61b22a7bfc1178c0b9f06cb405d47">leftY</link>&#32;&lt;&#32;-0.5f)&#32;!=&#32;0;&#32;}
+176 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;__cdecl&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_state_1a48c0a2fd6bae37b3c82c5d51709b2045">IsLeftThumbStickLeft</link>()&#32;const&#32;noexcept&#32;{&#32;<emphasis role="keywordflow">return</emphasis>&#32;(<link linkend="_struct_direct_x_1_1_game_pad_1_1_state_1aa840ea350c38b54a5b78eb7b469188fe">thumbSticks</link>.<link linkend="_struct_direct_x_1_1_game_pad_1_1_thumb_sticks_1a03d91599124d5365419b0b15c1294559">leftX</link>&#32;&lt;&#32;-0.5f)&#32;!=&#32;0;&#32;}
+177 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;__cdecl&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_state_1aa0af994f0237a3cb285df7200c7e2d10">IsLeftThumbStickRight</link>()&#32;const&#32;noexcept&#32;{&#32;<emphasis role="keywordflow">return</emphasis>&#32;(<link linkend="_struct_direct_x_1_1_game_pad_1_1_state_1aa840ea350c38b54a5b78eb7b469188fe">thumbSticks</link>.<link linkend="_struct_direct_x_1_1_game_pad_1_1_thumb_sticks_1a03d91599124d5365419b0b15c1294559">leftX</link>&#32;&gt;&#32;0.5f)&#32;!=&#32;0;&#32;}
+178 
+179 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;__cdecl&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_state_1a61f564ac972577562fa2c3395b10ce2c">IsRightThumbStickUp</link>()&#32;const&#32;noexcept&#32;{&#32;<emphasis role="keywordflow">return</emphasis>&#32;(<link linkend="_struct_direct_x_1_1_game_pad_1_1_state_1aa840ea350c38b54a5b78eb7b469188fe">thumbSticks</link>.<link linkend="_struct_direct_x_1_1_game_pad_1_1_thumb_sticks_1a8e20ff0f23ef21bb6cd8113cdf0860df">rightY</link>&#32;&gt;&#32;0.5f)&#32;!=&#32;0;&#32;}
+180 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;__cdecl&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_state_1a4bc3ccdf84fe7add58a03120e8cc63e7">IsRightThumbStickDown</link>()&#32;const&#32;noexcept&#32;{&#32;<emphasis role="keywordflow">return</emphasis>&#32;(<link linkend="_struct_direct_x_1_1_game_pad_1_1_state_1aa840ea350c38b54a5b78eb7b469188fe">thumbSticks</link>.<link linkend="_struct_direct_x_1_1_game_pad_1_1_thumb_sticks_1a8e20ff0f23ef21bb6cd8113cdf0860df">rightY</link>&#32;&lt;&#32;-0.5f)&#32;!=&#32;0;&#32;}
+181 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;__cdecl&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_state_1a23caf9d909ce844775ff1630d279a671">IsRightThumbStickLeft</link>()&#32;const&#32;noexcept&#32;{&#32;<emphasis role="keywordflow">return</emphasis>&#32;(<link linkend="_struct_direct_x_1_1_game_pad_1_1_state_1aa840ea350c38b54a5b78eb7b469188fe">thumbSticks</link>.<link linkend="_struct_direct_x_1_1_game_pad_1_1_thumb_sticks_1a0b7b58bbe0af7d594ae1b9e0ef2d2580">rightX</link>&#32;&lt;&#32;-0.5f)&#32;!=&#32;0;&#32;}
+182 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;__cdecl&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_state_1a071d27a8c11deacd0252e1f4cac29aa0">IsRightThumbStickRight</link>()&#32;const&#32;noexcept&#32;{&#32;<emphasis role="keywordflow">return</emphasis>&#32;(<link linkend="_struct_direct_x_1_1_game_pad_1_1_state_1aa840ea350c38b54a5b78eb7b469188fe">thumbSticks</link>.<link linkend="_struct_direct_x_1_1_game_pad_1_1_thumb_sticks_1a0b7b58bbe0af7d594ae1b9e0ef2d2580">rightX</link>&#32;&gt;&#32;0.5f)&#32;!=&#32;0;&#32;}
+183 
+184 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;__cdecl&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_state_1a9cfffe64212e7e40355d6660464d48ff">IsLeftTriggerPressed</link>()&#32;const&#32;noexcept&#32;{&#32;<emphasis role="keywordflow">return</emphasis>&#32;(<link linkend="_struct_direct_x_1_1_game_pad_1_1_state_1aa26f70d0b6df7eb4f5eda823ec0cd4e1">triggers</link>.<link linkend="_struct_direct_x_1_1_game_pad_1_1_triggers_1ad752e3d4f2a466b48a5735fa2fac1259">left</link>&#32;&gt;&#32;0.5f)&#32;!=&#32;0;&#32;}
+185 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;__cdecl&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_state_1ab9541dd119d72da696be736b67440b95">IsRightTriggerPressed</link>()&#32;const&#32;noexcept&#32;{&#32;<emphasis role="keywordflow">return</emphasis>&#32;(<link linkend="_struct_direct_x_1_1_game_pad_1_1_state_1aa26f70d0b6df7eb4f5eda823ec0cd4e1">triggers</link>.<link linkend="_struct_direct_x_1_1_game_pad_1_1_triggers_1aafe341a26f9404ab9654befc392fdc1a">right</link>&#32;&gt;&#32;0.5f)&#32;!=&#32;0;&#32;}
+186 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+187 
+188 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis>Capabilities
+189 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+190 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">enum</emphasis>&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_capabilities_1a82a786b9a7add21d0328eeb33df52885">Type</link>
+191 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+192 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_capabilities_1a82a786b9a7add21d0328eeb33df52885a34d22f80a7cec7ff922085daf7a0c3d1">UNKNOWN</link>&#32;=&#32;0,
+193 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_capabilities_1a82a786b9a7add21d0328eeb33df52885afdf9c72de9e7efc26e5952c82665a626">GAMEPAD</link>,
+194 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_capabilities_1a82a786b9a7add21d0328eeb33df52885a2133bd5a4686f4d0829461efbbb04a9a">WHEEL</link>,
+195 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_capabilities_1a82a786b9a7add21d0328eeb33df52885aa570cef48111eb8fec7e9d131104df9c">ARCADE_STICK</link>,
+196 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_capabilities_1a82a786b9a7add21d0328eeb33df52885ac40bba1e217a75088f111ad0b13f04cd">FLIGHT_STICK</link>,
+197 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_capabilities_1a82a786b9a7add21d0328eeb33df52885a7c14d63a82a8dc80af6651791f11c01d">DANCE_PAD</link>,
+198 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_capabilities_1a82a786b9a7add21d0328eeb33df52885aa89ef4888da4fb4da382ee75bf590f14">GUITAR</link>,
+199 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_capabilities_1a82a786b9a7add21d0328eeb33df52885a8209458d263ef29a63bd8cb414d74f7c">GUITAR_ALTERNATE</link>,
+200 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_capabilities_1a82a786b9a7add21d0328eeb33df52885a6c1d8e921dcabb70a164c6ddef854c5d">DRUM_KIT</link>,
+201 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_capabilities_1a82a786b9a7add21d0328eeb33df52885adb2153d06455002dc3e68a8590ffb552">GUITAR_BASS</link>&#32;=&#32;11,
+202 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_capabilities_1a82a786b9a7add21d0328eeb33df52885a69e37a7ccea41304ddd9d2343eaf4ddb">ARCADE_PAD</link>&#32;=&#32;19,
+203 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+204 
+205 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_capabilities_1a3d6e278d397db0d5176197c2b9135b3f">connected</link>;
+206 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_capabilities_1a82a786b9a7add21d0328eeb33df52885">Type</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_capabilities_1a96d54e6a5745ff38a4b5a16651e4043a">gamepadType</link>;
+207 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;#ifdef&#32;USING_GAMEINPUT</emphasis>
+208 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;APP_LOCAL_DEVICE_ID&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_capabilities_1a37454af3bcab2d4b94497b6f0fadd5ce">id</link>;
+209 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;#elif&#32;defined(USING_WINDOWS_GAMING_INPUT)</emphasis>
+210 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::wstring&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_capabilities_1a37454af3bcab2d4b94497b6f0fadd5ce">id</link>;
+211 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;#else</emphasis>
+212 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uint64_t&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_capabilities_1a37454af3bcab2d4b94497b6f0fadd5ce">id</link>;
+213 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;#endif</emphasis>
+214 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uint16_t&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_capabilities_1aae393cee948f0888ff9db85e2b80b3fc">vid</link>;
+215 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uint16_t&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_capabilities_1ab6813c8bd5711a8bd3dc074d4f380ca3">pid</link>;
+216 
+217 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_capabilities_1aff9669c94bb127a688fe124f86f62f6f">Capabilities</link>()&#32;noexcept&#32;:&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_capabilities_1a3d6e278d397db0d5176197c2b9135b3f">connected</link>(false),&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_capabilities_1a96d54e6a5745ff38a4b5a16651e4043a">gamepadType</link>(<link linkend="_struct_direct_x_1_1_game_pad_1_1_capabilities_1a82a786b9a7add21d0328eeb33df52885a34d22f80a7cec7ff922085daf7a0c3d1">UNKNOWN</link>),&#32;<emphasis role="keywordtype">id</emphasis>{},&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_capabilities_1aae393cee948f0888ff9db85e2b80b3fc">vid</link>(0),&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_capabilities_1ab6813c8bd5711a8bd3dc074d4f380ca3">pid</link>(0)&#32;{}
+218 
+219 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;__cdecl&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_capabilities_1a66190d95cffb4d618da3650288b1b681">IsConnected</link>()&#32;const&#32;noexcept&#32;{&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_capabilities_1a3d6e278d397db0d5176197c2b9135b3f">connected</link>;&#32;}
+220 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+221 
+222 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">class&#32;</emphasis>ButtonStateTracker
+223 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+224 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">public</emphasis>:
+225 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">enum</emphasis>&#32;<link linkend="_class_direct_x_1_1_game_pad_1_1_button_state_tracker_1aad7c02540e15ea14c29cd0be67ddc27e">ButtonState</link>
+226 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+227 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_game_pad_1_1_button_state_tracker_1aad7c02540e15ea14c29cd0be67ddc27eacfeed794236c7d55592d64f4497c8f36">UP</link>&#32;=&#32;0,&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Button&#32;is&#32;up</emphasis>
+228 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_game_pad_1_1_button_state_tracker_1aad7c02540e15ea14c29cd0be67ddc27ea0cf6a84b23739ba23aef48ea46efffed">HELD</link>&#32;=&#32;1,&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Button&#32;is&#32;held&#32;down</emphasis>
+229 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_game_pad_1_1_button_state_tracker_1aad7c02540e15ea14c29cd0be67ddc27ea9080783a7686f2177bd30cde1b212bc1">RELEASED</link>&#32;=&#32;2,&#32;&#32;&#32;<emphasis role="comment">//&#32;Button&#32;was&#32;just&#32;released</emphasis>
+230 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_game_pad_1_1_button_state_tracker_1aad7c02540e15ea14c29cd0be67ddc27ea3ab2afbd512dcff80b327f995df37fc3">PRESSED</link>&#32;=&#32;3,&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Buton&#32;was&#32;just&#32;pressed</emphasis>
+231 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+232 
+233 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_game_pad_1_1_button_state_tracker_1aad7c02540e15ea14c29cd0be67ddc27e">ButtonState</link>&#32;<link linkend="_class_direct_x_1_1_game_pad_1_1_button_state_tracker_1ab184eb852da996b4bd10c4f088dc2d19">a</link>;
+234 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_game_pad_1_1_button_state_tracker_1aad7c02540e15ea14c29cd0be67ddc27e">ButtonState</link>&#32;<link linkend="_class_direct_x_1_1_game_pad_1_1_button_state_tracker_1a081a15ea8e55c83ffc75151afd5739db">b</link>;
+235 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_game_pad_1_1_button_state_tracker_1aad7c02540e15ea14c29cd0be67ddc27e">ButtonState</link>&#32;<link linkend="_class_direct_x_1_1_game_pad_1_1_button_state_tracker_1abca73f81d6a07b9d89bd1eefe689f830">x</link>;
+236 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_game_pad_1_1_button_state_tracker_1aad7c02540e15ea14c29cd0be67ddc27e">ButtonState</link>&#32;<link linkend="_class_direct_x_1_1_game_pad_1_1_button_state_tracker_1af49f65cdc82e109e731621515175db7b">y</link>;
+237 
+238 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_game_pad_1_1_button_state_tracker_1aad7c02540e15ea14c29cd0be67ddc27e">ButtonState</link>&#32;<link linkend="_class_direct_x_1_1_game_pad_1_1_button_state_tracker_1aecc15c968d03eeb32ac089510707bd2c">leftStick</link>;
+239 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_game_pad_1_1_button_state_tracker_1aad7c02540e15ea14c29cd0be67ddc27e">ButtonState</link>&#32;<link linkend="_class_direct_x_1_1_game_pad_1_1_button_state_tracker_1aafe790b0de711d6bea36572984868c24">rightStick</link>;
+240 
+241 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_game_pad_1_1_button_state_tracker_1aad7c02540e15ea14c29cd0be67ddc27e">ButtonState</link>&#32;<link linkend="_class_direct_x_1_1_game_pad_1_1_button_state_tracker_1ac66e613bc23fce71c6d5f8a6df865c0a">leftShoulder</link>;
+242 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_game_pad_1_1_button_state_tracker_1aad7c02540e15ea14c29cd0be67ddc27e">ButtonState</link>&#32;<link linkend="_class_direct_x_1_1_game_pad_1_1_button_state_tracker_1a72a9472e972f37e7a2b8096a94480cb3">rightShoulder</link>;
+243 
+244 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">union</emphasis>
+245 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+246 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_game_pad_1_1_button_state_tracker_1aad7c02540e15ea14c29cd0be67ddc27e">ButtonState</link>&#32;<link linkend="_class_direct_x_1_1_game_pad_1_1_button_state_tracker_1affb50f192df0a1078b0e9575d15745e4">back</link>;
+247 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_game_pad_1_1_button_state_tracker_1aad7c02540e15ea14c29cd0be67ddc27e">ButtonState</link>&#32;<link linkend="_class_direct_x_1_1_game_pad_1_1_button_state_tracker_1af44f286f45138307ff3a889e6306d5ff">view</link>;
+248 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+249 
+250 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">union</emphasis>
+251 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+252 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_game_pad_1_1_button_state_tracker_1aad7c02540e15ea14c29cd0be67ddc27e">ButtonState</link>&#32;<link linkend="_class_direct_x_1_1_game_pad_1_1_button_state_tracker_1a3659d4a3a4e239e94756e232f2573c68">start</link>;
+253 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_game_pad_1_1_button_state_tracker_1aad7c02540e15ea14c29cd0be67ddc27e">ButtonState</link>&#32;<link linkend="_class_direct_x_1_1_game_pad_1_1_button_state_tracker_1a5c4fa14aaf672a6960fd5acc59efd850">menu</link>;
+254 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+255 
+256 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_game_pad_1_1_button_state_tracker_1aad7c02540e15ea14c29cd0be67ddc27e">ButtonState</link>&#32;<link linkend="_class_direct_x_1_1_game_pad_1_1_button_state_tracker_1a30f51af5bc2fd06cf9c5033cb3cf4c91">dpadUp</link>;
+257 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_game_pad_1_1_button_state_tracker_1aad7c02540e15ea14c29cd0be67ddc27e">ButtonState</link>&#32;<link linkend="_class_direct_x_1_1_game_pad_1_1_button_state_tracker_1acd6f44282a79150cb5fd2ddf5a9e508f">dpadDown</link>;
+258 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_game_pad_1_1_button_state_tracker_1aad7c02540e15ea14c29cd0be67ddc27e">ButtonState</link>&#32;<link linkend="_class_direct_x_1_1_game_pad_1_1_button_state_tracker_1a2914796d4852f58dc15e35657dafc441">dpadLeft</link>;
+259 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_game_pad_1_1_button_state_tracker_1aad7c02540e15ea14c29cd0be67ddc27e">ButtonState</link>&#32;<link linkend="_class_direct_x_1_1_game_pad_1_1_button_state_tracker_1a6e1af55b960ed653b350a2f6d9d27073">dpadRight</link>;
+260 
+261 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_game_pad_1_1_button_state_tracker_1aad7c02540e15ea14c29cd0be67ddc27e">ButtonState</link>&#32;<link linkend="_class_direct_x_1_1_game_pad_1_1_button_state_tracker_1a5543fb47f90cbfcac7eb392c5ce92d18">leftStickUp</link>;
+262 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_game_pad_1_1_button_state_tracker_1aad7c02540e15ea14c29cd0be67ddc27e">ButtonState</link>&#32;<link linkend="_class_direct_x_1_1_game_pad_1_1_button_state_tracker_1a4c2a47f444a8acabbf059582ac09c165">leftStickDown</link>;
+263 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_game_pad_1_1_button_state_tracker_1aad7c02540e15ea14c29cd0be67ddc27e">ButtonState</link>&#32;<link linkend="_class_direct_x_1_1_game_pad_1_1_button_state_tracker_1a57d9cd95202475557028970e33d8bfeb">leftStickLeft</link>;
+264 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_game_pad_1_1_button_state_tracker_1aad7c02540e15ea14c29cd0be67ddc27e">ButtonState</link>&#32;<link linkend="_class_direct_x_1_1_game_pad_1_1_button_state_tracker_1abe248073b74e54cbee53010746568aea">leftStickRight</link>;
+265 
+266 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_game_pad_1_1_button_state_tracker_1aad7c02540e15ea14c29cd0be67ddc27e">ButtonState</link>&#32;<link linkend="_class_direct_x_1_1_game_pad_1_1_button_state_tracker_1a56d43897c64eedc4a0bc18c2289eebcd">rightStickUp</link>;
+267 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_game_pad_1_1_button_state_tracker_1aad7c02540e15ea14c29cd0be67ddc27e">ButtonState</link>&#32;<link linkend="_class_direct_x_1_1_game_pad_1_1_button_state_tracker_1a54e181c9591287507121c5cfb9711db8">rightStickDown</link>;
+268 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_game_pad_1_1_button_state_tracker_1aad7c02540e15ea14c29cd0be67ddc27e">ButtonState</link>&#32;<link linkend="_class_direct_x_1_1_game_pad_1_1_button_state_tracker_1ae75d0e75f2a4c4ce93bfcb63afe409ab">rightStickLeft</link>;
+269 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_game_pad_1_1_button_state_tracker_1aad7c02540e15ea14c29cd0be67ddc27e">ButtonState</link>&#32;<link linkend="_class_direct_x_1_1_game_pad_1_1_button_state_tracker_1aeb5fc8d252f044c281a4fa612e95e612">rightStickRight</link>;
+270 
+271 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_game_pad_1_1_button_state_tracker_1aad7c02540e15ea14c29cd0be67ddc27e">ButtonState</link>&#32;<link linkend="_class_direct_x_1_1_game_pad_1_1_button_state_tracker_1a9a061d5164a7dd392c73f655f0104bd1">leftTrigger</link>;
+272 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_game_pad_1_1_button_state_tracker_1aad7c02540e15ea14c29cd0be67ddc27e">ButtonState</link>&#32;<link linkend="_class_direct_x_1_1_game_pad_1_1_button_state_tracker_1a37dadd27403d3b29cca160bc76be2c8a">rightTrigger</link>;
+273 
+274 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;#ifdef&#32;_PREFAST_</emphasis>
+275 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;#pragma&#32;prefast(push)</emphasis>
+276 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;#pragma&#32;prefast(disable&#32;:&#32;26495,&#32;&quot;Reset()&#32;performs&#32;the&#32;initialization&quot;)</emphasis>
+277 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;#endif</emphasis>
+278 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_game_pad_1_1_button_state_tracker_1a7e2287dd475d6011f7cfca12b246e955">ButtonStateTracker</link>()&#32;noexcept&#32;{&#32;<link linkend="_class_direct_x_1_1_game_pad_1_1_button_state_tracker_1a953263630309e7619f07284515dd8817">Reset</link>();&#32;}
+279 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;#ifdef&#32;_PREFAST_</emphasis>
+280 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;#pragma&#32;prefast(pop)</emphasis>
+281 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;#endif</emphasis>
+282 
+283 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_game_pad_1_1_button_state_tracker_1abda8e5166e7ce59f61fb5ad9db05b631">Update</link>(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_state">State</link>&amp;&#32;state)&#32;<emphasis role="keyword">noexcept</emphasis>;
+284 
+285 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_game_pad_1_1_button_state_tracker_1a953263630309e7619f07284515dd8817">Reset</link>()&#32;noexcept;
+286 
+287 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_state">State</link>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_game_pad_1_1_button_state_tracker_1a130c30785eddd181736aae1c9eb39f0d">GetLastState</link>()&#32;const&#32;noexcept&#32;{&#32;<emphasis role="keywordflow">return</emphasis>&#32;lastState;&#32;}
+288 
+289 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">private</emphasis>:
+290 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_state">State</link>&#32;lastState;
+291 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+292 
+293 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Retrieve&#32;the&#32;current&#32;state&#32;of&#32;the&#32;gamepad&#32;of&#32;the&#32;associated&#32;player&#32;index</emphasis>
+294 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_state">State</link>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_game_pad_1a7bc3c33d2cea5f867008ce238cc2f406">GetState</link>(<emphasis role="keywordtype">int</emphasis>&#32;player,&#32;<link linkend="_class_direct_x_1_1_game_pad_1ac4fca4f8b8086f42d1d7850ace1e15b8">DeadZone</link>&#32;deadZoneMode&#32;=&#32;<link linkend="_class_direct_x_1_1_game_pad_1ac4fca4f8b8086f42d1d7850ace1e15b8a6e735e94bc335a481d28d72a477c2a81">DEAD_ZONE_INDEPENDENT_AXES</link>);
+295 
+296 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Retrieve&#32;the&#32;current&#32;capabilities&#32;of&#32;the&#32;gamepad&#32;of&#32;the&#32;associated&#32;player&#32;index</emphasis>
+297 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_direct_x_1_1_game_pad_1_1_capabilities">Capabilities</link>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_game_pad_1a612a2d4010285c3754438920e2ee37e0">GetCapabilities</link>(<emphasis role="keywordtype">int</emphasis>&#32;player);
+298 
+299 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Set&#32;the&#32;vibration&#32;motor&#32;speeds&#32;of&#32;the&#32;gamepad</emphasis>
+300 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_game_pad_1a8226683f812ec2f0a41dd0b89dc392b5">SetVibration</link>(<emphasis role="keywordtype">int</emphasis>&#32;player,&#32;<emphasis role="keywordtype">float</emphasis>&#32;leftMotor,&#32;<emphasis role="keywordtype">float</emphasis>&#32;rightMotor,&#32;<emphasis role="keywordtype">float</emphasis>&#32;leftTrigger&#32;=&#32;0.f,&#32;<emphasis role="keywordtype">float</emphasis>&#32;rightTrigger&#32;=&#32;0.f)&#32;noexcept;
+301 
+302 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Handle&#32;suspending/resuming</emphasis>
+303 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_game_pad_1ad6f7a203b36b9718066dda3830288e53">Suspend</link>()&#32;noexcept;
+304 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_game_pad_1a2d9d2585ec7e4e1674e2784aaf520926">Resume</link>()&#32;noexcept;
+305 
+306 &#32;&#32;&#32;&#32;<emphasis role="preprocessor">#ifdef&#32;USING_GAMEINPUT</emphasis>
+307 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;RegisterEvents(<emphasis role="keywordtype">void</emphasis>*&#32;ctrlChanged)&#32;<emphasis role="keyword">noexcept</emphasis>;
+308 
+309 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Underlying&#32;device&#32;access</emphasis>
+310 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_Success_(<emphasis role="keywordflow">return</emphasis>)
+311 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;__cdecl&#32;GetDevice(<emphasis role="keywordtype">int</emphasis>&#32;player,&#32;_Outptr_&#32;IGameInputDevice&#32;*&#32;*device)&#32;<emphasis role="keyword">noexcept</emphasis>;
+312 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;#elif&#32;defined(USING_WINDOWS_GAMING_INPUT)&#32;||&#32;defined(_XBOX_ONE)</emphasis>
+313 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;RegisterEvents(<emphasis role="keywordtype">void</emphasis>*&#32;ctrlChanged,&#32;<emphasis role="keywordtype">void</emphasis>*&#32;userChanged)&#32;<emphasis role="keyword">noexcept</emphasis>;
+314 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;#endif</emphasis>
+315 
+316 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Singleton</emphasis>
+317 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="_class_direct_x_1_1_game_pad">GamePad</link>&amp;&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_game_pad_1ab0a6929d59a4703f1c98c26bff628d00">Get</link>();
+318 
+319 &#32;&#32;&#32;&#32;<emphasis role="keyword">private</emphasis>:
+320 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Private&#32;implementation.</emphasis>
+321 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">class&#32;</emphasis>Impl;
+322 
+323 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::unique_ptr&lt;Impl&gt;&#32;pImpl;
+324 &#32;&#32;&#32;&#32;};
+325 }
+326 
+327 <emphasis role="preprocessor">#ifdef&#32;__clang__</emphasis>
+328 <emphasis role="preprocessor">#pragma&#32;clang&#32;diagnostic&#32;pop</emphasis>
+329 <emphasis role="preprocessor">#endif</emphasis>
+</programlisting></section>

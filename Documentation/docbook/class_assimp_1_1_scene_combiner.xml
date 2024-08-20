@@ -1,0 +1,612 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_assimp_1_1_scene_combiner" xml:lang="en-US">
+<title>Assimp::SceneCombiner Class Reference</title>
+<indexterm><primary>Assimp::SceneCombiner</primary></indexterm>
+<para>
+
+<para>Static helper class providing various utilities to merge two scenes. It is intended as internal utility and NOT for use by applications. </para>
+ 
+</para>
+<para>
+<computeroutput>#include &lt;SceneCombiner.h&gt;</computeroutput>
+</para>
+<simplesect>
+    <title>Static Public Member Functions    </title>
+        <itemizedlist>
+            <listitem><para>static <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> <link linkend="_class_assimp_1_1_scene_combiner_1ab399fdea5846bc969a021a39f5a11276">MergeScenes</link> (<link linkend="_structai_scene">aiScene</link> **dest, std::vector&lt; <link linkend="_structai_scene">aiScene</link> * &gt; &amp;<link linkend="_glad_8h_1a2a98ddb6f79ec1048ff9e15cdd2422ba">src</link>, unsigned int <link linkend="_glad_8h_1ac7ba7d3cce3d19ca020e056b37231289">flags</link>=0)</para>
+</listitem>
+            <listitem><para>static <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> <link linkend="_class_assimp_1_1_scene_combiner_1a49af3c46e42d4da59bb1a488e517618c">MergeScenes</link> (<link linkend="_structai_scene">aiScene</link> **dest, <link linkend="_structai_scene">aiScene</link> *master, std::vector&lt; <link linkend="_struct_assimp_1_1_attachment_info">AttachmentInfo</link> &gt; &amp;<link linkend="_glad_8h_1a2a98ddb6f79ec1048ff9e15cdd2422ba">src</link>, unsigned int <link linkend="_glad_8h_1ac7ba7d3cce3d19ca020e056b37231289">flags</link>=0)</para>
+</listitem>
+            <listitem><para>static <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> <link linkend="_class_assimp_1_1_scene_combiner_1a3486044d9e2213bb8c408d8e8ef906f4">MergeMeshes</link> (<link linkend="_structai_mesh">aiMesh</link> **dest, unsigned int <link linkend="_glad_8h_1ac7ba7d3cce3d19ca020e056b37231289">flags</link>, std::vector&lt; <link linkend="_structai_mesh">aiMesh</link> * &gt;::const_iterator begin, std::vector&lt; <link linkend="_structai_mesh">aiMesh</link> * &gt;::const_iterator <link linkend="_glad_8h_1a432111147038972f06e049e18a837002">end</link>)</para>
+</listitem>
+            <listitem><para>static <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> <link linkend="_class_assimp_1_1_scene_combiner_1aa42d5370510db89cbdd739617a617d4e">MergeBones</link> (<link linkend="_structai_mesh">aiMesh</link> *out, std::vector&lt; <link linkend="_structai_mesh">aiMesh</link> * &gt;::const_iterator it, std::vector&lt; <link linkend="_structai_mesh">aiMesh</link> * &gt;::const_iterator <link linkend="_glad_8h_1a432111147038972f06e049e18a837002">end</link>)</para>
+</listitem>
+            <listitem><para>static <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> <link linkend="_class_assimp_1_1_scene_combiner_1a9ebdb2b454f84032f2cfb51ebd7d5716">MergeMaterials</link> (<link linkend="_structai_material">aiMaterial</link> **dest, std::vector&lt; <link linkend="_structai_material">aiMaterial</link> * &gt;::const_iterator begin, std::vector&lt; <link linkend="_structai_material">aiMaterial</link> * &gt;::const_iterator <link linkend="_glad_8h_1a432111147038972f06e049e18a837002">end</link>)</para>
+</listitem>
+            <listitem><para>static <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> <link linkend="_class_assimp_1_1_scene_combiner_1a9bfbbbab2ece2925fc3628c587ea9dcc">BuildUniqueBoneList</link> (std::list&lt; <link linkend="_struct_assimp_1_1_bone_with_hash">BoneWithHash</link> &gt; &amp;asBones, std::vector&lt; <link linkend="_structai_mesh">aiMesh</link> * &gt;::const_iterator it, std::vector&lt; <link linkend="_structai_mesh">aiMesh</link> * &gt;::const_iterator <link linkend="_glad_8h_1a432111147038972f06e049e18a837002">end</link>)</para>
+</listitem>
+            <listitem><para>static <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> <link linkend="_class_assimp_1_1_scene_combiner_1a5e4ec755bb270b894e37d20938a4a88b">AddNodePrefixes</link> (<link linkend="_structai_node">aiNode</link> *node, const char *prefix, unsigned int len)</para>
+</listitem>
+            <listitem><para>static <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> <link linkend="_class_assimp_1_1_scene_combiner_1a0c52e873dfdd0c71f7f2bae06bcbb865">OffsetNodeMeshIndices</link> (<link linkend="_structai_node">aiNode</link> *node, unsigned int <link linkend="_glad_8h_1ae1b92ae085ddef4b1cdca7d749339fb0">offset</link>)</para>
+</listitem>
+            <listitem><para>static <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> <link linkend="_class_assimp_1_1_scene_combiner_1a1672dc80009a8183edbabc4ef262b5c5">AttachToGraph</link> (<link linkend="_structai_scene">aiScene</link> *master, std::vector&lt; <link linkend="_struct_assimp_1_1_node_attachment_info">NodeAttachmentInfo</link> &gt; &amp;srcList)</para>
+</listitem>
+            <listitem><para>static <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> <link linkend="_class_assimp_1_1_scene_combiner_1a269f58bf3cd9d0e2841488a83e265785">AttachToGraph</link> (<link linkend="_structai_node">aiNode</link> *attach, std::vector&lt; <link linkend="_struct_assimp_1_1_node_attachment_info">NodeAttachmentInfo</link> &gt; &amp;srcList)</para>
+</listitem>
+            <listitem><para>static <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> <link linkend="_class_assimp_1_1_scene_combiner_1a855a472e4848d737ef1ff091363f3a7c">CopyScene</link> (<link linkend="_structai_scene">aiScene</link> **dest, const <link linkend="_structai_scene">aiScene</link> *<link linkend="_glad_8h_1a6ffd2192cbc75d017665e95207ee36a7">source</link>, bool allocate=true)</para>
+</listitem>
+            <listitem><para>static <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> <link linkend="_class_assimp_1_1_scene_combiner_1afd836d513bc02da4c40d1432bf687f3e">CopySceneFlat</link> (<link linkend="_structai_scene">aiScene</link> **dest, const <link linkend="_structai_scene">aiScene</link> *<link linkend="_glad_8h_1a6ffd2192cbc75d017665e95207ee36a7">source</link>)</para>
+</listitem>
+            <listitem><para>static <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> <link linkend="_class_assimp_1_1_scene_combiner_1aabed196fdfb16f82873ec811c6a64bfc">Copy</link> (<link linkend="_structai_mesh">aiMesh</link> **dest, const <link linkend="_structai_mesh">aiMesh</link> *<link linkend="_glad_8h_1a2a98ddb6f79ec1048ff9e15cdd2422ba">src</link>)</para>
+</listitem>
+            <listitem><para>static <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> <link linkend="_class_assimp_1_1_scene_combiner_1acfcbaaf94a026c06148bccb070a49d09">Copy</link> (<link linkend="_structai_anim_mesh">aiAnimMesh</link> **dest, const <link linkend="_structai_anim_mesh">aiAnimMesh</link> *<link linkend="_glad_8h_1a2a98ddb6f79ec1048ff9e15cdd2422ba">src</link>)</para>
+</listitem>
+            <listitem><para>static <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> <link linkend="_class_assimp_1_1_scene_combiner_1ada94b6a9447bcf44b16c26517af347b5">Copy</link> (<link linkend="_structai_material">aiMaterial</link> **dest, const <link linkend="_structai_material">aiMaterial</link> *<link linkend="_glad_8h_1a2a98ddb6f79ec1048ff9e15cdd2422ba">src</link>)</para>
+</listitem>
+            <listitem><para>static <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> <link linkend="_class_assimp_1_1_scene_combiner_1a5a28e4264b5449e8fa789b07649f105d">Copy</link> (<link linkend="_structai_texture">aiTexture</link> **dest, const <link linkend="_structai_texture">aiTexture</link> *<link linkend="_glad_8h_1a2a98ddb6f79ec1048ff9e15cdd2422ba">src</link>)</para>
+</listitem>
+            <listitem><para>static <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> <link linkend="_class_assimp_1_1_scene_combiner_1af9d3dfc83ee46803849e3c72ba5b3f41">Copy</link> (<link linkend="_structai_animation">aiAnimation</link> **dest, const <link linkend="_structai_animation">aiAnimation</link> *<link linkend="_glad_8h_1a2a98ddb6f79ec1048ff9e15cdd2422ba">src</link>)</para>
+</listitem>
+            <listitem><para>static <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> <link linkend="_class_assimp_1_1_scene_combiner_1a7b898d651efd801cbd13c55af0cc9e0f">Copy</link> (<link linkend="_structai_camera">aiCamera</link> **dest, const <link linkend="_structai_camera">aiCamera</link> *<link linkend="_glad_8h_1a2a98ddb6f79ec1048ff9e15cdd2422ba">src</link>)</para>
+</listitem>
+            <listitem><para>static <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> <link linkend="_class_assimp_1_1_scene_combiner_1a9e36195e75b13510f1d81e6b0bc53778">Copy</link> (<link linkend="_structai_bone">aiBone</link> **dest, const <link linkend="_structai_bone">aiBone</link> *<link linkend="_glad_8h_1a2a98ddb6f79ec1048ff9e15cdd2422ba">src</link>)</para>
+</listitem>
+            <listitem><para>static <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> <link linkend="_class_assimp_1_1_scene_combiner_1a4fa124aea5032357294ecbe48f572611">Copy</link> (<link linkend="_structai_light">aiLight</link> **dest, const <link linkend="_structai_light">aiLight</link> *<link linkend="_glad_8h_1a2a98ddb6f79ec1048ff9e15cdd2422ba">src</link>)</para>
+</listitem>
+            <listitem><para>static <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> <link linkend="_class_assimp_1_1_scene_combiner_1afbebe1cefa45eece9ebe4bcd8c7e3e65">Copy</link> (<link linkend="_structai_node_anim">aiNodeAnim</link> **dest, const <link linkend="_structai_node_anim">aiNodeAnim</link> *<link linkend="_glad_8h_1a2a98ddb6f79ec1048ff9e15cdd2422ba">src</link>)</para>
+</listitem>
+            <listitem><para>static <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> <link linkend="_class_assimp_1_1_scene_combiner_1a55f8edf157fec67f0c49c363ec37bad7">Copy</link> (<link linkend="_structai_mesh_morph_anim">aiMeshMorphAnim</link> **dest, const <link linkend="_structai_mesh_morph_anim">aiMeshMorphAnim</link> *<link linkend="_glad_8h_1a2a98ddb6f79ec1048ff9e15cdd2422ba">src</link>)</para>
+</listitem>
+            <listitem><para>static <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> <link linkend="_class_assimp_1_1_scene_combiner_1a70a442fed79eda7f99852a3daa064a0b">Copy</link> (<link linkend="_structai_metadata">aiMetadata</link> **dest, const <link linkend="_structai_metadata">aiMetadata</link> *<link linkend="_glad_8h_1a2a98ddb6f79ec1048ff9e15cdd2422ba">src</link>)</para>
+</listitem>
+            <listitem><para>static <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> <link linkend="_class_assimp_1_1_scene_combiner_1a7031937fb7808dcb7a2f1a59cc4c16f5">Copy</link> (<link linkend="_structai_string">aiString</link> **dest, const <link linkend="_structai_string">aiString</link> *<link linkend="_glad_8h_1a2a98ddb6f79ec1048ff9e15cdd2422ba">src</link>)</para>
+</listitem>
+            <listitem><para>static <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> <link linkend="_class_assimp_1_1_scene_combiner_1ac6b44e00c4bab88e9c84f0a53ad14e29">Copy</link> (<link linkend="_structai_node">aiNode</link> **dest, const <link linkend="_structai_node">aiNode</link> *<link linkend="_glad_8h_1a2a98ddb6f79ec1048ff9e15cdd2422ba">src</link>)</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para>Static helper class providing various utilities to merge two scenes. It is intended as internal utility and NOT for use by applications. </para>
+
+
+
+<para>The class is currently being used by various postprocessing steps and loaders (ie. LWS). </para>
+</section>
+<section>
+<title>Member Function Documentation</title>
+<anchor xml:id="_class_assimp_1_1_scene_combiner_1a5e4ec755bb270b894e37d20938a4a88b"/><section>
+    <title>AddNodePrefixes()</title>
+<indexterm><primary>AddNodePrefixes</primary><secondary>Assimp::SceneCombiner</secondary></indexterm>
+<indexterm><primary>Assimp::SceneCombiner</primary><secondary>AddNodePrefixes</secondary></indexterm>
+<para><computeroutput>static <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> Assimp::SceneCombiner::AddNodePrefixes (<link linkend="_structai_node">aiNode</link> * node, const char * prefix, unsigned int len)<computeroutput>[static]</computeroutput></computeroutput></para>
+<para>Add a name prefix to all nodes in a scene.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>Current</entry><entry>
+<para>node. This function is called recursively. </para>
+</entry>
+                            </row>
+                            <row>
+<entry>prefix</entry><entry>
+<para>Prefix to be added to all nodes </para>
+</entry>
+                            </row>
+                            <row>
+<entry>len</entry><entry>
+<para>STring length </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                </para>
+</section>
+<anchor xml:id="_class_assimp_1_1_scene_combiner_1a269f58bf3cd9d0e2841488a83e265785"/><section>
+    <title>AttachToGraph()<computeroutput>[1/2]</computeroutput></title>
+<indexterm><primary>AttachToGraph</primary><secondary>Assimp::SceneCombiner</secondary></indexterm>
+<indexterm><primary>Assimp::SceneCombiner</primary><secondary>AttachToGraph</secondary></indexterm>
+<para><computeroutput>static <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> Assimp::SceneCombiner::AttachToGraph (<link linkend="_structai_node">aiNode</link> * attach, std::vector&lt; <link linkend="_struct_assimp_1_1_node_attachment_info">NodeAttachmentInfo</link> &gt; &amp; srcList)<computeroutput>[static]</computeroutput></computeroutput></para></section>
+<anchor xml:id="_class_assimp_1_1_scene_combiner_1a1672dc80009a8183edbabc4ef262b5c5"/><section>
+    <title>AttachToGraph()<computeroutput>[2/2]</computeroutput></title>
+<indexterm><primary>AttachToGraph</primary><secondary>Assimp::SceneCombiner</secondary></indexterm>
+<indexterm><primary>Assimp::SceneCombiner</primary><secondary>AttachToGraph</secondary></indexterm>
+<para><computeroutput>static <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> Assimp::SceneCombiner::AttachToGraph (<link linkend="_structai_scene">aiScene</link> * master, std::vector&lt; <link linkend="_struct_assimp_1_1_node_attachment_info">NodeAttachmentInfo</link> &gt; &amp; srcList)<computeroutput>[static]</computeroutput></computeroutput></para>
+<para>Attach a list of node graphs to well-defined nodes in a master graph. This is a helper for <link linkend="_class_assimp_1_1_scene_combiner_1ab399fdea5846bc969a021a39f5a11276">MergeScenes()</link></para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>master</entry><entry>
+<para>Master scene </para>
+</entry>
+                            </row>
+                            <row>
+<entry>srcList</entry><entry>
+<para>List of source scenes along with their attachment points. If an attachment point is nullptr (or does not exist in the master graph), a scene is attached to the root of the master graph (as an additional child node) @duplicates List of duplicates. If elem[n] == n the scene is not a duplicate. Otherwise elem[n] links scene n to its first occurrence. </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                </para>
+</section>
+<anchor xml:id="_class_assimp_1_1_scene_combiner_1a9bfbbbab2ece2925fc3628c587ea9dcc"/><section>
+    <title>BuildUniqueBoneList()</title>
+<indexterm><primary>BuildUniqueBoneList</primary><secondary>Assimp::SceneCombiner</secondary></indexterm>
+<indexterm><primary>Assimp::SceneCombiner</primary><secondary>BuildUniqueBoneList</secondary></indexterm>
+<para><computeroutput>static <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> Assimp::SceneCombiner::BuildUniqueBoneList (std::list&lt; <link linkend="_struct_assimp_1_1_bone_with_hash">BoneWithHash</link> &gt; &amp; asBones, std::vector&lt; <link linkend="_structai_mesh">aiMesh</link> * &gt;::const_iterator it, std::vector&lt; <link linkend="_structai_mesh">aiMesh</link> * &gt;::const_iterator end)<computeroutput>[static]</computeroutput></computeroutput></para>
+<para>Builds a list of uniquely named bones in a mesh list</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>asBones</entry><entry>
+<para>Receives the output list </para>
+</entry>
+                            </row>
+                            <row>
+<entry>it</entry><entry>
+<para>First mesh to be processed </para>
+</entry>
+                            </row>
+                            <row>
+<entry>end</entry><entry>
+<para>Last mesh to be processed </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                </para>
+</section>
+<anchor xml:id="_class_assimp_1_1_scene_combiner_1af9d3dfc83ee46803849e3c72ba5b3f41"/><section>
+    <title>Copy()<computeroutput>[1/13]</computeroutput></title>
+<indexterm><primary>Copy</primary><secondary>Assimp::SceneCombiner</secondary></indexterm>
+<indexterm><primary>Assimp::SceneCombiner</primary><secondary>Copy</secondary></indexterm>
+<para><computeroutput>static <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> Assimp::SceneCombiner::Copy (<link linkend="_structai_animation">aiAnimation</link> ** dest, const <link linkend="_structai_animation">aiAnimation</link> * src)<computeroutput>[static]</computeroutput></computeroutput></para></section>
+<anchor xml:id="_class_assimp_1_1_scene_combiner_1acfcbaaf94a026c06148bccb070a49d09"/><section>
+    <title>Copy()<computeroutput>[2/13]</computeroutput></title>
+<indexterm><primary>Copy</primary><secondary>Assimp::SceneCombiner</secondary></indexterm>
+<indexterm><primary>Assimp::SceneCombiner</primary><secondary>Copy</secondary></indexterm>
+<para><computeroutput>static <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> Assimp::SceneCombiner::Copy (<link linkend="_structai_anim_mesh">aiAnimMesh</link> ** dest, const <link linkend="_structai_anim_mesh">aiAnimMesh</link> * src)<computeroutput>[static]</computeroutput></computeroutput></para></section>
+<anchor xml:id="_class_assimp_1_1_scene_combiner_1a9e36195e75b13510f1d81e6b0bc53778"/><section>
+    <title>Copy()<computeroutput>[3/13]</computeroutput></title>
+<indexterm><primary>Copy</primary><secondary>Assimp::SceneCombiner</secondary></indexterm>
+<indexterm><primary>Assimp::SceneCombiner</primary><secondary>Copy</secondary></indexterm>
+<para><computeroutput>static <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> Assimp::SceneCombiner::Copy (<link linkend="_structai_bone">aiBone</link> ** dest, const <link linkend="_structai_bone">aiBone</link> * src)<computeroutput>[static]</computeroutput></computeroutput></para></section>
+<anchor xml:id="_class_assimp_1_1_scene_combiner_1a7b898d651efd801cbd13c55af0cc9e0f"/><section>
+    <title>Copy()<computeroutput>[4/13]</computeroutput></title>
+<indexterm><primary>Copy</primary><secondary>Assimp::SceneCombiner</secondary></indexterm>
+<indexterm><primary>Assimp::SceneCombiner</primary><secondary>Copy</secondary></indexterm>
+<para><computeroutput>static <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> Assimp::SceneCombiner::Copy (<link linkend="_structai_camera">aiCamera</link> ** dest, const <link linkend="_structai_camera">aiCamera</link> * src)<computeroutput>[static]</computeroutput></computeroutput></para></section>
+<anchor xml:id="_class_assimp_1_1_scene_combiner_1a4fa124aea5032357294ecbe48f572611"/><section>
+    <title>Copy()<computeroutput>[5/13]</computeroutput></title>
+<indexterm><primary>Copy</primary><secondary>Assimp::SceneCombiner</secondary></indexterm>
+<indexterm><primary>Assimp::SceneCombiner</primary><secondary>Copy</secondary></indexterm>
+<para><computeroutput>static <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> Assimp::SceneCombiner::Copy (<link linkend="_structai_light">aiLight</link> ** dest, const <link linkend="_structai_light">aiLight</link> * src)<computeroutput>[static]</computeroutput></computeroutput></para></section>
+<anchor xml:id="_class_assimp_1_1_scene_combiner_1ada94b6a9447bcf44b16c26517af347b5"/><section>
+    <title>Copy()<computeroutput>[6/13]</computeroutput></title>
+<indexterm><primary>Copy</primary><secondary>Assimp::SceneCombiner</secondary></indexterm>
+<indexterm><primary>Assimp::SceneCombiner</primary><secondary>Copy</secondary></indexterm>
+<para><computeroutput>static <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> Assimp::SceneCombiner::Copy (<link linkend="_structai_material">aiMaterial</link> ** dest, const <link linkend="_structai_material">aiMaterial</link> * src)<computeroutput>[static]</computeroutput></computeroutput></para></section>
+<anchor xml:id="_class_assimp_1_1_scene_combiner_1aabed196fdfb16f82873ec811c6a64bfc"/><section>
+    <title>Copy()<computeroutput>[7/13]</computeroutput></title>
+<indexterm><primary>Copy</primary><secondary>Assimp::SceneCombiner</secondary></indexterm>
+<indexterm><primary>Assimp::SceneCombiner</primary><secondary>Copy</secondary></indexterm>
+<para><computeroutput>static <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> Assimp::SceneCombiner::Copy (<link linkend="_structai_mesh">aiMesh</link> ** dest, const <link linkend="_structai_mesh">aiMesh</link> * src)<computeroutput>[static]</computeroutput></computeroutput></para>
+<para>Get a deep copy of a mesh</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>dest</entry><entry>
+<para>Receives a pointer to the destination mesh </para>
+</entry>
+                            </row>
+                            <row>
+<entry>src</entry><entry>
+<para>Source mesh - remains unmodified. </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                </para>
+</section>
+<anchor xml:id="_class_assimp_1_1_scene_combiner_1a55f8edf157fec67f0c49c363ec37bad7"/><section>
+    <title>Copy()<computeroutput>[8/13]</computeroutput></title>
+<indexterm><primary>Copy</primary><secondary>Assimp::SceneCombiner</secondary></indexterm>
+<indexterm><primary>Assimp::SceneCombiner</primary><secondary>Copy</secondary></indexterm>
+<para><computeroutput>static <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> Assimp::SceneCombiner::Copy (<link linkend="_structai_mesh_morph_anim">aiMeshMorphAnim</link> ** dest, const <link linkend="_structai_mesh_morph_anim">aiMeshMorphAnim</link> * src)<computeroutput>[static]</computeroutput></computeroutput></para></section>
+<anchor xml:id="_class_assimp_1_1_scene_combiner_1a70a442fed79eda7f99852a3daa064a0b"/><section>
+    <title>Copy()<computeroutput>[9/13]</computeroutput></title>
+<indexterm><primary>Copy</primary><secondary>Assimp::SceneCombiner</secondary></indexterm>
+<indexterm><primary>Assimp::SceneCombiner</primary><secondary>Copy</secondary></indexterm>
+<para><computeroutput>static <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> Assimp::SceneCombiner::Copy (<link linkend="_structai_metadata">aiMetadata</link> ** dest, const <link linkend="_structai_metadata">aiMetadata</link> * src)<computeroutput>[static]</computeroutput></computeroutput></para></section>
+<anchor xml:id="_class_assimp_1_1_scene_combiner_1ac6b44e00c4bab88e9c84f0a53ad14e29"/><section>
+    <title>Copy()<computeroutput>[10/13]</computeroutput></title>
+<indexterm><primary>Copy</primary><secondary>Assimp::SceneCombiner</secondary></indexterm>
+<indexterm><primary>Assimp::SceneCombiner</primary><secondary>Copy</secondary></indexterm>
+<para><computeroutput>static <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> Assimp::SceneCombiner::Copy (<link linkend="_structai_node">aiNode</link> ** dest, const <link linkend="_structai_node">aiNode</link> * src)<computeroutput>[static]</computeroutput></computeroutput></para></section>
+<anchor xml:id="_class_assimp_1_1_scene_combiner_1afbebe1cefa45eece9ebe4bcd8c7e3e65"/><section>
+    <title>Copy()<computeroutput>[11/13]</computeroutput></title>
+<indexterm><primary>Copy</primary><secondary>Assimp::SceneCombiner</secondary></indexterm>
+<indexterm><primary>Assimp::SceneCombiner</primary><secondary>Copy</secondary></indexterm>
+<para><computeroutput>static <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> Assimp::SceneCombiner::Copy (<link linkend="_structai_node_anim">aiNodeAnim</link> ** dest, const <link linkend="_structai_node_anim">aiNodeAnim</link> * src)<computeroutput>[static]</computeroutput></computeroutput></para></section>
+<anchor xml:id="_class_assimp_1_1_scene_combiner_1a7031937fb7808dcb7a2f1a59cc4c16f5"/><section>
+    <title>Copy()<computeroutput>[12/13]</computeroutput></title>
+<indexterm><primary>Copy</primary><secondary>Assimp::SceneCombiner</secondary></indexterm>
+<indexterm><primary>Assimp::SceneCombiner</primary><secondary>Copy</secondary></indexterm>
+<para><computeroutput>static <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> Assimp::SceneCombiner::Copy (<link linkend="_structai_string">aiString</link> ** dest, const <link linkend="_structai_string">aiString</link> * src)<computeroutput>[static]</computeroutput></computeroutput></para></section>
+<anchor xml:id="_class_assimp_1_1_scene_combiner_1a5a28e4264b5449e8fa789b07649f105d"/><section>
+    <title>Copy()<computeroutput>[13/13]</computeroutput></title>
+<indexterm><primary>Copy</primary><secondary>Assimp::SceneCombiner</secondary></indexterm>
+<indexterm><primary>Assimp::SceneCombiner</primary><secondary>Copy</secondary></indexterm>
+<para><computeroutput>static <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> Assimp::SceneCombiner::Copy (<link linkend="_structai_texture">aiTexture</link> ** dest, const <link linkend="_structai_texture">aiTexture</link> * src)<computeroutput>[static]</computeroutput></computeroutput></para></section>
+<anchor xml:id="_class_assimp_1_1_scene_combiner_1a855a472e4848d737ef1ff091363f3a7c"/><section>
+    <title>CopyScene()</title>
+<indexterm><primary>CopyScene</primary><secondary>Assimp::SceneCombiner</secondary></indexterm>
+<indexterm><primary>Assimp::SceneCombiner</primary><secondary>CopyScene</secondary></indexterm>
+<para><computeroutput>static <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> Assimp::SceneCombiner::CopyScene (<link linkend="_structai_scene">aiScene</link> ** dest, const <link linkend="_structai_scene">aiScene</link> * source, bool allocate = <computeroutput>true</computeroutput>
+)<computeroutput>[static]</computeroutput></computeroutput></para>
+<para>Get a deep copy of a scene</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>dest</entry><entry>
+<para>Receives a pointer to the destination scene </para>
+</entry>
+                            </row>
+                            <row>
+<entry>src</entry><entry>
+<para>Source scene - remains unmodified. </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                </para>
+</section>
+<anchor xml:id="_class_assimp_1_1_scene_combiner_1afd836d513bc02da4c40d1432bf687f3e"/><section>
+    <title>CopySceneFlat()</title>
+<indexterm><primary>CopySceneFlat</primary><secondary>Assimp::SceneCombiner</secondary></indexterm>
+<indexterm><primary>Assimp::SceneCombiner</primary><secondary>CopySceneFlat</secondary></indexterm>
+<para><computeroutput>static <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> Assimp::SceneCombiner::CopySceneFlat (<link linkend="_structai_scene">aiScene</link> ** dest, const <link linkend="_structai_scene">aiScene</link> * source)<computeroutput>[static]</computeroutput></computeroutput></para>
+<para>Get a flat copy of a scene</para>
+
+<para>Only the first hierarchy layer is copied. All pointer members of <link linkend="_structai_scene">aiScene</link> are shared by source and destination scene. If the pointer doesn&apos;t point to nullptr when the function is called, the existing scene is cleared and refilled. 
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>dest</entry><entry>
+<para>Receives a pointer to the destination scene </para>
+</entry>
+                            </row>
+                            <row>
+<entry>src</entry><entry>
+<para>Source scene - remains unmodified. </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                </para>
+</section>
+<anchor xml:id="_class_assimp_1_1_scene_combiner_1aa42d5370510db89cbdd739617a617d4e"/><section>
+    <title>MergeBones()</title>
+<indexterm><primary>MergeBones</primary><secondary>Assimp::SceneCombiner</secondary></indexterm>
+<indexterm><primary>Assimp::SceneCombiner</primary><secondary>MergeBones</secondary></indexterm>
+<para><computeroutput>static <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> Assimp::SceneCombiner::MergeBones (<link linkend="_structai_mesh">aiMesh</link> * out, std::vector&lt; <link linkend="_structai_mesh">aiMesh</link> * &gt;::const_iterator it, std::vector&lt; <link linkend="_structai_mesh">aiMesh</link> * &gt;::const_iterator end)<computeroutput>[static]</computeroutput></computeroutput></para>
+<para>Merges two or more bones</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>out</entry><entry>
+<para>Mesh to receive the output bone list </para>
+</entry>
+                            </row>
+                            <row>
+<entry>flags</entry><entry>
+<para>Currently no parameters </para>
+</entry>
+                            </row>
+                            <row>
+<entry>begin</entry><entry>
+<para>First mesh to be processed </para>
+</entry>
+                            </row>
+                            <row>
+<entry>end</entry><entry>
+<para>Points to the mesh after the last mesh to be processed </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                </para>
+</section>
+<anchor xml:id="_class_assimp_1_1_scene_combiner_1a9ebdb2b454f84032f2cfb51ebd7d5716"/><section>
+    <title>MergeMaterials()</title>
+<indexterm><primary>MergeMaterials</primary><secondary>Assimp::SceneCombiner</secondary></indexterm>
+<indexterm><primary>Assimp::SceneCombiner</primary><secondary>MergeMaterials</secondary></indexterm>
+<para><computeroutput>static <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> Assimp::SceneCombiner::MergeMaterials (<link linkend="_structai_material">aiMaterial</link> ** dest, std::vector&lt; <link linkend="_structai_material">aiMaterial</link> * &gt;::const_iterator begin, std::vector&lt; <link linkend="_structai_material">aiMaterial</link> * &gt;::const_iterator end)<computeroutput>[static]</computeroutput></computeroutput></para>
+<para>Merges two or more materials</para>
+
+<para>The materials should be complementary as much as possible. In case of a property present in different materials, the first occurrence is used.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>dest</entry><entry>
+<para>Destination material. Must be empty. </para>
+</entry>
+                            </row>
+                            <row>
+<entry>begin</entry><entry>
+<para>First material to be processed </para>
+</entry>
+                            </row>
+                            <row>
+<entry>end</entry><entry>
+<para>Points to the material after the last material to be processed </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                </para>
+</section>
+<anchor xml:id="_class_assimp_1_1_scene_combiner_1a3486044d9e2213bb8c408d8e8ef906f4"/><section>
+    <title>MergeMeshes()</title>
+<indexterm><primary>MergeMeshes</primary><secondary>Assimp::SceneCombiner</secondary></indexterm>
+<indexterm><primary>Assimp::SceneCombiner</primary><secondary>MergeMeshes</secondary></indexterm>
+<para><computeroutput>static <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> Assimp::SceneCombiner::MergeMeshes (<link linkend="_structai_mesh">aiMesh</link> ** dest, unsigned int flags, std::vector&lt; <link linkend="_structai_mesh">aiMesh</link> * &gt;::const_iterator begin, std::vector&lt; <link linkend="_structai_mesh">aiMesh</link> * &gt;::const_iterator end)<computeroutput>[static]</computeroutput></computeroutput></para>
+<para>Merges two or more meshes</para>
+
+<para>The meshes should have equal vertex formats. Only components that are provided by ALL meshes will be present in the output mesh. An exception is made for VColors - they are set to black. The meshes should have the same material indices, too. The output material index is always the material index of the first mesh.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>dest</entry><entry>
+<para>Destination mesh. Must be empty. </para>
+</entry>
+                            </row>
+                            <row>
+<entry>flags</entry><entry>
+<para>Currently no parameters </para>
+</entry>
+                            </row>
+                            <row>
+<entry>begin</entry><entry>
+<para>First mesh to be processed </para>
+</entry>
+                            </row>
+                            <row>
+<entry>end</entry><entry>
+<para>Points to the mesh after the last mesh to be processed </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                </para>
+</section>
+<anchor xml:id="_class_assimp_1_1_scene_combiner_1a49af3c46e42d4da59bb1a488e517618c"/><section>
+    <title>MergeScenes()<computeroutput>[1/2]</computeroutput></title>
+<indexterm><primary>MergeScenes</primary><secondary>Assimp::SceneCombiner</secondary></indexterm>
+<indexterm><primary>Assimp::SceneCombiner</primary><secondary>MergeScenes</secondary></indexterm>
+<para><computeroutput>static <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> Assimp::SceneCombiner::MergeScenes (<link linkend="_structai_scene">aiScene</link> ** dest, <link linkend="_structai_scene">aiScene</link> * master, std::vector&lt; <link linkend="_struct_assimp_1_1_attachment_info">AttachmentInfo</link> &gt; &amp; src, unsigned int flags = <computeroutput>0</computeroutput>
+)<computeroutput>[static]</computeroutput></computeroutput></para>
+<para>Merges two or more scenes and attaches all scenes to a specific position in the node graph of the master scene.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>dest</entry><entry>
+<para>Receives a pointer to the destination scene. If the pointer doesn&apos;t point to nullptr when the function is called, the existing scene is cleared and refilled. </para>
+</entry>
+                            </row>
+                            <row>
+<entry>master</entry><entry>
+<para>Master scene. It will be deleted afterwards. All other scenes will be inserted in its node graph. </para>
+</entry>
+                            </row>
+                            <row>
+<entry>src</entry><entry>
+<para>Non-empty list of scenes to be merged along with their corresponding attachment points in the master scene. The function deletes the input scenes afterwards. There may be duplicate scenes. </para>
+</entry>
+                            </row>
+                            <row>
+<entry>flags</entry><entry>
+<para>Combination of the AI_INT_MERGE_SCENE flags defined above </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                </para>
+</section>
+<anchor xml:id="_class_assimp_1_1_scene_combiner_1ab399fdea5846bc969a021a39f5a11276"/><section>
+    <title>MergeScenes()<computeroutput>[2/2]</computeroutput></title>
+<indexterm><primary>MergeScenes</primary><secondary>Assimp::SceneCombiner</secondary></indexterm>
+<indexterm><primary>Assimp::SceneCombiner</primary><secondary>MergeScenes</secondary></indexterm>
+<para><computeroutput>static <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> Assimp::SceneCombiner::MergeScenes (<link linkend="_structai_scene">aiScene</link> ** dest, std::vector&lt; <link linkend="_structai_scene">aiScene</link> * &gt; &amp; src, unsigned int flags = <computeroutput>0</computeroutput>
+)<computeroutput>[static]</computeroutput></computeroutput></para>
+<para>Merges two or more scenes.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>dest</entry><entry>
+<para>Receives a pointer to the destination scene. If the pointer doesn&apos;t point to nullptr when the function is called, the existing scene is cleared and refilled. </para>
+</entry>
+                            </row>
+                            <row>
+<entry>src</entry><entry>
+<para>Non-empty list of scenes to be merged. The function deletes the input scenes afterwards. There may be duplicate scenes. </para>
+</entry>
+                            </row>
+                            <row>
+<entry>flags</entry><entry>
+<para>Combination of the AI_INT_MERGE_SCENE flags defined above </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                </para>
+</section>
+<anchor xml:id="_class_assimp_1_1_scene_combiner_1a0c52e873dfdd0c71f7f2bae06bcbb865"/><section>
+    <title>OffsetNodeMeshIndices()</title>
+<indexterm><primary>OffsetNodeMeshIndices</primary><secondary>Assimp::SceneCombiner</secondary></indexterm>
+<indexterm><primary>Assimp::SceneCombiner</primary><secondary>OffsetNodeMeshIndices</secondary></indexterm>
+<para><computeroutput>static <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> Assimp::SceneCombiner::OffsetNodeMeshIndices (<link linkend="_structai_node">aiNode</link> * node, unsigned int offset)<computeroutput>[static]</computeroutput></computeroutput></para>
+<para>Add an offset to all mesh indices in a node graph</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>Current</entry><entry>
+<para>node. This function is called recursively. </para>
+</entry>
+                            </row>
+                            <row>
+<entry>offset</entry><entry>
+<para>Offset to be added to all mesh indices </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                </para>
+</section>
+<para>
+The documentation for this class was generated from the following file:</para>
+adhed/assimp/<link linkend="__scene_combiner_8h">SceneCombiner.h</link></section>
+</section>

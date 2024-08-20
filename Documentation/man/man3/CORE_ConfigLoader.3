@@ -1,4 +1,4 @@
-.TH "CORE::ConfigLoader" 3 "Version 0.0.0.1" "My Project" \" -*- nroff -*-
+.TH "CORE::ConfigLoader" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -7,7 +7,7 @@ CORE::ConfigLoader
 .br
 .PP
 .PP
-\fR#include <CONFIGLOADER\&.h>\fP
+\fR#include <C_CONFIGLOADER\&.h>\fP
 .SS "Public Member Functions"
 
 .in +1c
@@ -19,7 +19,10 @@ CORE::ConfigLoader
 
 .in +1c
 .ti -1c
-.RI "static \fBConfigFile\fP \fBLoadCOnfigFile\fP (const char *path)"
+.RI "static void \fBLoadConfigFiles\fP (const std::filesystem::path path)"
+.br
+.ti -1c
+.RI "static std::shared_ptr< \fBConfigFile\fP > \fBLoadCOnfigFile\fP (const char *path)"
 .br
 .ti -1c
 .RI "static void \fBLoadModels\fP (const std::filesystem::path path)"
@@ -30,6 +33,15 @@ CORE::ConfigLoader
 .ti -1c
 .RI "template<class _Ty , class _Arg > static _Ty \fBGameobjectFromCFGFile\fP (std::shared_ptr< \fBConfigFile\fP > CFG)"
 .br
+.ti -1c
+.RI "static \fBPAIN::Shader\fP \fBShaderFromCFGFile\fP (std::shared_ptr< \fBConfigFile\fP > vertexshader, std::shared_ptr< \fBConfigFile\fP >frgmentshader, std::shared_ptr< \fBConfigFile\fP >geometryshader)"
+.br
+.ti -1c
+.RI "static \fBPAIN::Shader\fP \fBShaderFromCFGFile\fP (std::shared_ptr< \fBConfigFile\fP > vertexshader, std::shared_ptr< \fBConfigFile\fP >frgmentshader)"
+.br
+.ti -1c
+.RI "static void \fBLoadMaterials\fP (const std::filesystem::path path)"
+.br
 .in -1c
 .SS "Public Attributes"
 
@@ -38,37 +50,261 @@ CORE::ConfigLoader
 .RI "bool \fBsafemode\fP"
 .br
 .in -1c
+.SS "Static Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "static std::unordered_map< \fBConfigFile::ConfigType\fP, std::unordered_map< std::string, std::shared_ptr< \fBConfigFile\fP > > > \fBConfigDatabase\fP"
+.br
+.in -1c
 .SH "Detailed Description"
 .PP 
-Definition at line \fB7\fP of file \fBCONFIGLOADER\&.h\fP\&.
+Definition at line \fB12\fP of file \fBC_CONFIGLOADER\&.h\fP\&.
 .SH "Member Function Documentation"
 .PP 
 .SS "template<class _Ty , class _Arg > _Ty CORE::ConfigLoader::GameobjectFromCFGFile (std::shared_ptr< \fBConfigFile\fP > CFG)\fR [static]\fP"
 
 .PP
-Definition at line \fB66\fP of file \fBCONFIGLOADER\&.cpp\fP\&.
-.SS "\fBConfigFile\fP CORE::ConfigLoader::LoadCOnfigFile (const char * path)\fR [static]\fP"
+Definition at line \fB149\fP of file \fBC_CONFIGLOADER\&.cpp\fP\&.
+.nf
+149                                                                          {
+150 
+151     auto configCasted = std::dynamic_pointer_cast<_Arg>(CFG)\&.get();
+152     if (configCasted\->ConfigType_ == (ConfigFile::ConfigType::VertexShader || ConfigFile::ConfigType::GeometryShader || ConfigFile::ConfigType::ComputeShader || ConfigFile::ConfigType::FragmentShader || ConfigFile::ConfigType::Material)) {
+153         Log << "Error: Wrong ConfigType\&. got {0}\&.", configCasted\->ConfigType_;
+154     }
+155     if (configCasted\->ConfigType_ == (ConfigFile::ConfigType::AiObject || ConfigFile::ConfigType::Global || ConfigFile::ConfigType::Manager)) {
+156 
+157         auto tmp = GameObject::CreateEmpty(TS_P_Vector3(0, 0, 0));
+158         return std::make_shared<GameObject>(tmp);
+159     }
+160     else {
+161        // auto tmp = GameObject::Create(TS_P_Vector3(0, 0, 0), PAIN::Render::Modeldict[configCasted\->Modelpath],0);
+162         auto tmp = GameObject::CreateEmpty(TS_P_Vector3(0, 0, 0));
+163 
+164         return std::make_shared<GameObject>(tmp);
+165     }
+166     ;
+167 }
+.PP
+.fi
 
 .PP
-Definition at line \fB10\fP of file \fBCONFIGLOADER\&.cpp\fP\&.
+References \fBConfigFile::AiObject\fP, \fBConfigFile::ComputeShader\fP, \fBGameObject::CreateEmpty()\fP, \fBConfigFile::FragmentShader\fP, \fBConfigFile::GeometryShader\fP, \fBConfigFile::Global\fP, \fBLog\fP, \fBConfigFile::Manager\fP, \fBConfigFile::Material\fP, and \fBConfigFile::VertexShader\fP\&.
+.SS "std::shared_ptr< \fBConfigFile\fP > CORE::ConfigLoader::LoadCOnfigFile (const char * path)\fR [static]\fP"
+
+.PP
+Definition at line \fB47\fP of file \fBC_CONFIGLOADER\&.cpp\fP\&.
+.nf
+48 {
+49     TrPr(ctx, __func__)
+50         std::ifstream file(path);
+51     
+52     if (!file\&.is_open()) {
+53         throw std::runtime_error("Could not open config file\&.");
+54     }
+55     nlohmann::json j;
+56     file >> j;
+57    auto Name = j["name"]\&.get<std::string>();
+58     auto Modelpath = j["modelPath"]\&.get<std::string>();
+59     ConfigFile::ConfigType ConnfigType = ConfigFile::toConfigType(j["configType"]\&.get<std::string>());
+60    std::vector<std::string> Texturepaths;
+61     for (const auto& path : j["texturePaths"]) {
+62          Texturepaths\&.push_back(path\&.get<std::string>());
+63     }
+64     nlohmann::json Data=j["data"];
+65 
+66     //for (const auto& path : j["data"]) {
+67     //    //Texturepaths\&.push_back(path\&.get<std::string>());
+68     //   // std::string dataString = ;
+69     //    Data\&.push_back(path\&.get<std::string>());
+70 
+71     //}
+72     if (ConnfigType == ConfigFile::ConfigType::Building) { std::shared_ptr<ConfigFile> ret = std::make_shared<Buidling>(Buidling(Name, Modelpath, Texturepaths, ConnfigType, Data));CORE::ConfigLoader::ConfigDatabase[ConfigFile::ConfigType::Building][Name]=ret; TrPrE(ctx) return ret; }
+73     if (ConnfigType == ConfigFile::ConfigType::Vehicle) { std::shared_ptr<ConfigFile> ret = std::make_shared<Vehicle>(Vehicle(Name, Modelpath, Texturepaths, ConnfigType, Data)); CORE::ConfigLoader::ConfigDatabase[ConfigFile::ConfigType::Vehicle][Name] = ret; TrPrE(ctx) return ret;}
+74     if (ConnfigType == ConfigFile::ConfigType::Projectile) { std::shared_ptr<ConfigFile> ret = std::make_shared<Projectile>(Projectile(Name, Modelpath, Texturepaths, ConnfigType, Data)); CORE::ConfigLoader::ConfigDatabase[ConfigFile::ConfigType::Projectile][Name] = ret; TrPrE(ctx) return ret;}
+75     if (ConnfigType == ConfigFile::ConfigType::Particle) { std::shared_ptr<ConfigFile> ret = std::make_shared<Particle>(Particle(Name, Modelpath, Texturepaths, ConnfigType, Data)); CORE::ConfigLoader::ConfigDatabase[ConfigFile::ConfigType::Particle][Name] = ret; TrPrE(ctx) return ret;}
+76     if (ConnfigType == ConfigFile::ConfigType::Island) { std::shared_ptr<ConfigFile> ret = std::make_shared<Island>(Island(Name, Modelpath, Texturepaths, ConnfigType, Data)); CORE::ConfigLoader::ConfigDatabase[ConfigFile::ConfigType::Island][Name] = ret; TrPrE(ctx) return ret;}
+77     if (ConnfigType == ConfigFile::ConfigType::AiObject) { std::shared_ptr<ConfigFile> ret = std::make_shared<AiObject>(AiObject(Name, Modelpath, Texturepaths, ConnfigType, Data)); CORE::ConfigLoader::ConfigDatabase[ConfigFile::ConfigType::AiObject][Name] = ret; TrPrE(ctx) return ret;}
+78     if (ConnfigType == ConfigFile::ConfigType::Global) { std::shared_ptr<ConfigFile> ret = std::make_shared<Global>(Global(Name, Modelpath, Texturepaths, ConnfigType, Data)); CORE::ConfigLoader::ConfigDatabase[ConfigFile::ConfigType::Global][Name] = ret; TrPrE(ctx) return ret;}
+79     if (ConnfigType == ConfigFile::ConfigType::Manager) { std::shared_ptr<ConfigFile> ret = std::make_shared<Manager>(Manager(Name, Modelpath, Texturepaths, ConnfigType, Data)); CORE::ConfigLoader::ConfigDatabase[ConfigFile::ConfigType::Manager][Name] = ret; TrPrE(ctx) return ret;}
+80     if (ConnfigType == ConfigFile::ConfigType::VertexShader) { std::shared_ptr<ConfigFile> ret = std::make_shared<VertexShader>(VertexShader(Name, Modelpath, Texturepaths, ConnfigType, Data)); CORE::ConfigLoader::ConfigDatabase[ConfigFile::ConfigType::VertexShader][Name] = ret; TrPrE(ctx) return ret;}
+81     if (ConnfigType == ConfigFile::ConfigType::FragmentShader) { std::shared_ptr<ConfigFile> ret = std::make_shared<FragmentShader>(FragmentShader(Name, Modelpath, Texturepaths, ConnfigType, Data)); CORE::ConfigLoader::ConfigDatabase[ConfigFile::ConfigType::FragmentShader][Name] = ret; TrPrE(ctx) return ret;}
+82     if (ConnfigType == ConfigFile::ConfigType::GeometryShader) { std::shared_ptr<ConfigFile> ret = std::make_shared<GeometryShader>(GeometryShader(Name, Modelpath, Texturepaths, ConnfigType, Data)); CORE::ConfigLoader::ConfigDatabase[ConfigFile::ConfigType::GeometryShader][Name] = ret; TrPrE(ctx) return ret;}
+83     if (ConnfigType == ConfigFile::ConfigType::ComputeShader) { std::shared_ptr<ConfigFile> ret = std::make_shared<ComputeShader>(ComputeShader(Name, Modelpath, Texturepaths, ConnfigType, Data)); CORE::ConfigLoader::ConfigDatabase[ConfigFile::ConfigType::ComputeShader][Name] = ret; TrPrE(ctx) return ret;}
+84     if (ConnfigType == ConfigFile::ConfigType::Material) { std::shared_ptr<ConfigFile> ret = std::make_shared<Material>(Material(Name, Modelpath, Texturepaths, ConnfigType, Data)); CORE::ConfigLoader::ConfigDatabase[ConfigFile::ConfigType::Material][Name] = ret; TrPrE(ctx) return ret;}
+85 }
+.PP
+.fi
+
+.PP
+References \fBConfigFile::AiObject\fP, \fBConfigFile::Building\fP, \fBConfigFile::ComputeShader\fP, \fBConfigDatabase\fP, \fBConfigFile::FragmentShader\fP, \fBConfigFile::GeometryShader\fP, \fBConfigFile::Global\fP, \fBConfigFile::Island\fP, \fBConfigFile::Manager\fP, \fBConfigFile::Material\fP, \fBConfigFile::Particle\fP, \fBConfigFile::Projectile\fP, \fBConfigFile::toConfigType()\fP, \fBTrPr\fP, \fBTrPrE\fP, \fBConfigFile::Vehicle\fP, and \fBConfigFile::VertexShader\fP\&.
+.SS "void CORE::ConfigLoader::LoadConfigFiles (const std::filesystem::path path)\fR [static]\fP"
+
+.PP
+Definition at line \fB15\fP of file \fBC_CONFIGLOADER\&.cpp\fP\&.
+.nf
+16 {
+17     TrPr(ctx,__func__)
+18     for (const auto& entry : std::filesystem::directory_iterator(path)) {
+19         if (std::filesystem::is_directory(entry\&.status())) {
+20             for (const auto& sub_entry : std::filesystem::directory_iterator(entry\&.path())) {
+21                 if (std::filesystem::is_directory(sub_entry\&.status())) {
+22                     if (sub_entry\&.path()\&.filename() == "CONFIG") {
+23                         // Do something
+24                         for (const auto& ConfigFolders : std::filesystem::directory_iterator(sub_entry\&.path())) {
+25                             if (std::filesystem::is_directory(ConfigFolders\&.status())) {
+26                                 //for(const auto& innerConfigFolder:std::filesystem::directory_iterator(ConfigFolders\&.path())){}
+27                                 for (const auto& file : std::filesystem::directory_iterator(ConfigFolders\&.path())) {
+28                                     if (std::filesystem::is_regular_file(file\&.status())) {
+29                                         LoadCOnfigFile(file\&.path()\&.string()\&.c_str());
+30                                         Log << "Loaded ConfigFile: " << file\&.path()\&.string() << "\\n";
+31                                         //std::cout << "Found file: " << file\&.path()\&.string() << std::endl;
+32                                     }
+33                                 }
+34                             }
+35                         }
+36 
+37                         //std::cout << "Found directory: " << sub_entry\&.path()\&.string() << std::endl;
+38                     }
+39                 }
+40             }
+41         }
+42     }
+43     std::cout << CORE::ConfigLoader::ConfigDatabase\&.size();
+44     TrPrE(ctx)
+45 }
+.PP
+.fi
+
+.PP
+References \fBConfigDatabase\fP, \fBLog\fP, \fBTrPr\fP, and \fBTrPrE\fP\&.
+.PP
+Referenced by \fBmain()\fP\&.
+.SS "void CORE::ConfigLoader::LoadMaterials (const std::filesystem::path path)\fR [static]\fP"
+
+.PP
+Definition at line \fB127\fP of file \fBC_CONFIGLOADER\&.cpp\fP\&.
+.nf
+128 {
+129     TrPr(ctx, __func__)
+130         int i = 0;
+131     for (const auto material : CORE::ConfigLoader::ConfigDatabase[ConfigFile::ConfigType::Material]) {
+132         auto a = std::dynamic_pointer_cast<Material>(material\&.second)\&.get();
+133         if (a\->ShaderCount == 2) {
+134             auto oo= CORE::ConfigLoader::ConfigDatabase[ConfigFile::ConfigType::VertexShader][a\->VertexShader];
+135             auto aa= CORE::ConfigLoader::ConfigDatabase[ConfigFile::ConfigType::VertexShader][a\->FragmentShader];
+136             PAIN::Render::mats\&.push_back(ShaderFromCFGFile(CORE::ConfigLoader::ConfigDatabase[ConfigFile::ConfigType::VertexShader][a\->VertexShader], CORE::ConfigLoader::ConfigDatabase[ConfigFile::ConfigType::FragmentShader][a\->FragmentShader]));
+137 
+138         }
+139         else if (a\->ShaderCount == 3) {
+140             PAIN::Render::mats\&.push_back(ShaderFromCFGFile(CORE::ConfigLoader::ConfigDatabase[ConfigFile::ConfigType::VertexShader][a\->VertexShader], CORE::ConfigLoader::ConfigDatabase[ConfigFile::ConfigType::FragmentShader][a\->FragmentShader], CORE::ConfigLoader::ConfigDatabase[ConfigFile::ConfigType::GeometryShader][a\->GeometryShader]));
+141 
+142 
+143         }
+144             i++;
+145     } 
+146     TrPrE(ctx)
+147 }
+.PP
+.fi
+
+.PP
+References \fBConfigDatabase\fP, \fBConfigFile::FragmentShader\fP, \fBConfigFile::GeometryShader\fP, \fBi\fP, \fBConfigFile::Material\fP, \fBPAIN::Render::mats\fP, \fBTrPr\fP, \fBTrPrE\fP, and \fBConfigFile::VertexShader\fP\&.
 .SS "void CORE::ConfigLoader::LoadModels (const std::filesystem::path path)\fR [static]\fP"
 
 .PP
-Definition at line \fB37\fP of file \fBCONFIGLOADER\&.cpp\fP\&.
+Definition at line \fB87\fP of file \fBC_CONFIGLOADER\&.cpp\fP\&.
+.nf
+87                                                               {
+88     TrPr(ctx, __func__)
+89 
+90     for (const auto& entry : std::filesystem::directory_iterator(path)) {
+91         if (std::filesystem::is_directory(entry\&.status())) {
+92             for (const auto& sub_entry : std::filesystem::directory_iterator(entry\&.path())) {
+93                 if (std::filesystem::is_directory(sub_entry\&.status())) {
+94                     if (sub_entry\&.path()\&.filename() == "MODELS") {
+95                         // Do something
+96                         for (const auto& file : std::filesystem::directory_iterator(sub_entry\&.path())) {
+97                             if (std::filesystem::is_regular_file(file\&.status())) {
+98                                 // Do something with each file
+99                                 PAIN::Model model = PAIN::Model(file\&.path()\&.string());
+100                                 PAIN::Render::Modeldict[file\&.path()\&.filename()\&.string()] = std::make_shared<PAIN::Model>(model);
+101                                 std::cout << "Found file: " << file\&.path()\&.string() << std::endl;
+102                             }
+103                         }
+104                         std::cout << "Found directory: " << sub_entry\&.path()\&.string() << std::endl;
+105                     }
+106                 }
+107             }
+108         }
+109     }
+110     TrPrE(ctx)
+111 }
+.PP
+.fi
+
+.PP
+References \fBPAIN::Render::Modeldict\fP, \fBTrPr\fP, and \fBTrPrE\fP\&.
+.PP
+Referenced by \fBmain()\fP\&.
 .SS "\fBSettingsFile\fP CORE::ConfigLoader::LoadSettingsFile (const char * path)"
 
 .PP
-Definition at line \fB5\fP of file \fBCONFIGLOADER\&.cpp\fP\&.
+Definition at line \fB10\fP of file \fBC_CONFIGLOADER\&.cpp\fP\&.
+.nf
+11 {
+12     return SettingsFile();
+13 }
+.PP
+.fi
+
 .SS "void CORE::ConfigLoader::LoadTerrains ()\fR [static]\fP"
 
 .PP
-Definition at line \fB62\fP of file \fBCONFIGLOADER\&.cpp\fP\&.
+Definition at line \fB114\fP of file \fBC_CONFIGLOADER\&.cpp\fP\&.
+.nf
+115 {
+116 
+117 }
+.PP
+.fi
+
+.SS "\fBPAIN::Shader\fP CORE::ConfigLoader::ShaderFromCFGFile (std::shared_ptr< \fBConfigFile\fP > vertexshader, std::shared_ptr< \fBConfigFile\fP > frgmentshader)\fR [static]\fP"
+
+.PP
+Definition at line \fB122\fP of file \fBC_CONFIGLOADER\&.cpp\fP\&.
+.nf
+123 {
+124     return PAIN::Shader(std::dynamic_pointer_cast<VertexShader>(vertexshader), std::dynamic_pointer_cast<FragmentShader> (frgmentshader));
+125     ;
+126 }
+.PP
+.fi
+
+.SS "\fBPAIN::Shader\fP CORE::ConfigLoader::ShaderFromCFGFile (std::shared_ptr< \fBConfigFile\fP > vertexshader, std::shared_ptr< \fBConfigFile\fP > frgmentshader, std::shared_ptr< \fBConfigFile\fP > geometryshader)\fR [static]\fP"
+
+.PP
+Definition at line \fB118\fP of file \fBC_CONFIGLOADER\&.cpp\fP\&.
+.nf
+119 {
+120     return PAIN::Shader(*std::dynamic_pointer_cast<VertexShader>(vertexshader)\&.get(), *std::dynamic_pointer_cast<FragmentShader> (frgmentshader)\&.get(), *std::dynamic_pointer_cast<GeometryShader> (geometryshader)\&.get());
+121 }
+.PP
+.fi
+
 .SH "Member Data Documentation"
 .PP 
+.SS "std::unordered_map< \fBConfigFile::ConfigType\fP, std::unordered_map< std::string, std::shared_ptr< \fBConfigFile\fP > > > CORE::ConfigLoader::ConfigDatabase\fR [static]\fP"
+
+.PP
+Definition at line \fB14\fP of file \fBC_CONFIGLOADER\&.h\fP\&.
+.PP
+Referenced by \fBLoadCOnfigFile()\fP, \fBLoadConfigFiles()\fP, \fBLoadMaterials()\fP, and \fBmain()\fP\&.
 .SS "bool CORE::ConfigLoader::safemode"
 
 .PP
-Definition at line \fB12\fP of file \fBCONFIGLOADER\&.h\fP\&.
+Definition at line \fB19\fP of file \fBC_CONFIGLOADER\&.h\fP\&.
 
 .SH "Author"
 .PP 

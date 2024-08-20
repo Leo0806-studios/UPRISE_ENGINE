@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_anim_8h" xml:lang="en-US">
+<title>adhed/assimp/anim.h File Reference</title>
+<indexterm><primary>adhed/assimp/anim.h</primary></indexterm>
+<para>
+
+<para>Defines the data structures in which the imported animations are returned. </para>
+ 
+</para>
+<programlisting linenumbering="unnumbered">#include &lt;assimp/quaternion.h&gt;<?linebreak?>#include &lt;assimp/types.h&gt;<?linebreak?></programlisting><simplesect>
+    <title>Classes    </title>
+        <itemizedlist>
+            <listitem><para>struct <link linkend="_structai_vector_key">aiVectorKey</link></para>
+</listitem>
+            <listitem><para>struct <link linkend="_structai_quat_key">aiQuatKey</link></para>
+</listitem>
+            <listitem><para>struct <link linkend="_structai_mesh_key">aiMeshKey</link></para>
+</listitem>
+            <listitem><para>struct <link linkend="_structai_mesh_morph_key">aiMeshMorphKey</link></para>
+</listitem>
+            <listitem><para>struct <link linkend="_structai_node_anim">aiNodeAnim</link></para>
+</listitem>
+            <listitem><para>struct <link linkend="_structai_mesh_anim">aiMeshAnim</link></para>
+</listitem>
+            <listitem><para>struct <link linkend="_structai_mesh_morph_anim">aiMeshMorphAnim</link></para>
+</listitem>
+            <listitem><para>struct <link linkend="_structai_animation">aiAnimation</link></para>
+</listitem>
+            <listitem><para>struct <link linkend="_struct_assimp_1_1_interpolator">Assimp::Interpolator&lt; T &gt;</link></para>
+
+<para>CPP-API: Utility class to simplify interpolations of various data types. </para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Namespaces    </title>
+        <itemizedlist>
+            <listitem><para>namespace <link linkend="_namespace_assimp">Assimp</link></para>
+
+<para>Some C++ utilities for inter- and extrapolation. </para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Macros    </title>
+        <itemizedlist>
+            <listitem><para>#define <link linkend="_anim_8h_1afc07ef96362c6baf707f0715739bbbc4">AI_ANIM_H_INC</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Enumerations    </title>
+        <itemizedlist>
+            <listitem><para>enum <link linkend="_anim_8h_1a201b9e9429b82cd6423ff4a4daf01cef">aiAnimBehaviour</link> { <?linebreak?><link linkend="_anim_8h_1a201b9e9429b82cd6423ff4a4daf01cefac580185752c298b2e5bca0dbbef7f5c1">aiAnimBehaviour_DEFAULT</link> = 0x0
+, <link linkend="_anim_8h_1a201b9e9429b82cd6423ff4a4daf01cefaf6e8fd16ed92f7ec3652c367e15eb798">aiAnimBehaviour_CONSTANT</link> = 0x1
+, <link linkend="_anim_8h_1a201b9e9429b82cd6423ff4a4daf01cefa735ec243b581565a1ea5c974b07ec260">aiAnimBehaviour_LINEAR</link> = 0x2
+, <link linkend="_anim_8h_1a201b9e9429b82cd6423ff4a4daf01cefafa0d6cc9c9718af698b436c7c6da836d">aiAnimBehaviour_REPEAT</link> = 0x3
+, <?linebreak?><link linkend="_anim_8h_1a201b9e9429b82cd6423ff4a4daf01cefa8e18d19abc297d6f6ed86c7a7ab9b4fc">_aiAnimBehaviour_Force32Bit</link>
+ }</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para>Defines the data structures in which the imported animations are returned. </para>
+</section>
+<section>
+<title>Macro Definition Documentation</title>
+<anchor xml:id="_anim_8h_1afc07ef96362c6baf707f0715739bbbc4"/><section>
+    <title>AI_ANIM_H_INC</title>
+<indexterm><primary>AI_ANIM_H_INC</primary><secondary>anim.h</secondary></indexterm>
+<indexterm><primary>anim.h</primary><secondary>AI_ANIM_H_INC</secondary></indexterm>
+<para><computeroutput>#define AI_ANIM_H_INC</computeroutput></para></section>
+</section>
+<section>
+<title>Enumeration Type Documentation</title>
+<anchor xml:id="_anim_8h_1a201b9e9429b82cd6423ff4a4daf01cef"/><section>
+    <title>aiAnimBehaviour</title>
+<indexterm><primary>aiAnimBehaviour</primary><secondary>anim.h</secondary></indexterm>
+<indexterm><primary>anim.h</primary><secondary>aiAnimBehaviour</secondary></indexterm>
+<para><computeroutput><link linkend="_interfaceenum">enum</link> <link linkend="_anim_8h_1a201b9e9429b82cd6423ff4a4daf01cef">aiAnimBehaviour</link></computeroutput></para>
+<para>Defines how an animation channel behaves outside the defined time range. This corresponds to <link linkend="_structai_node_anim_1a305c01b60886a07b69f04b1db6d7d3c5">aiNodeAnim::mPreState</link> and <link linkend="_structai_node_anim_1a93cefd440cbaf587c136eb224d4a0327">aiNodeAnim::mPostState</link>. </para>
+<informaltable frame="all">
+<title>Enumerator</title>
+    <tgroup cols="2" align="left" colsep="1" rowsep="1">
+      <colspec colname='c1'/>
+      <colspec colname='c2'/>
+<tbody>
+<row><entry><indexterm><primary>aiAnimBehaviour_DEFAULT</primary><secondary>anim.h</secondary></indexterm>
+<indexterm><primary>anim.h</primary><secondary>aiAnimBehaviour_DEFAULT</secondary></indexterm>
+<anchor xml:id="_anim_8h_1a201b9e9429b82cd6423ff4a4daf01cefac580185752c298b2e5bca0dbbef7f5c1"/>aiAnimBehaviour_DEFAULT</entry><entry>
+<para>The value from the default node transformation is taken </para>
+</entry></row><row><entry><indexterm><primary>aiAnimBehaviour_CONSTANT</primary><secondary>anim.h</secondary></indexterm>
+<indexterm><primary>anim.h</primary><secondary>aiAnimBehaviour_CONSTANT</secondary></indexterm>
+<anchor xml:id="_anim_8h_1a201b9e9429b82cd6423ff4a4daf01cefaf6e8fd16ed92f7ec3652c367e15eb798"/>aiAnimBehaviour_CONSTANT</entry><entry>
+<para>The nearest key value is used without interpolation </para>
+</entry></row><row><entry><indexterm><primary>aiAnimBehaviour_LINEAR</primary><secondary>anim.h</secondary></indexterm>
+<indexterm><primary>anim.h</primary><secondary>aiAnimBehaviour_LINEAR</secondary></indexterm>
+<anchor xml:id="_anim_8h_1a201b9e9429b82cd6423ff4a4daf01cefa735ec243b581565a1ea5c974b07ec260"/>aiAnimBehaviour_LINEAR</entry><entry>
+<para>The value of the nearest two keys is linearly extrapolated for the current time value. </para>
+</entry></row><row><entry><indexterm><primary>aiAnimBehaviour_REPEAT</primary><secondary>anim.h</secondary></indexterm>
+<indexterm><primary>anim.h</primary><secondary>aiAnimBehaviour_REPEAT</secondary></indexterm>
+<anchor xml:id="_anim_8h_1a201b9e9429b82cd6423ff4a4daf01cefafa0d6cc9c9718af698b436c7c6da836d"/>aiAnimBehaviour_REPEAT</entry><entry>
+<para>The animation is repeated.</para>
+
+<para>If the animation key go from n to m and the current time is t, use the value at (t-n) % (|m-n|). </para>
+</entry></row><row><entry><indexterm><primary>_aiAnimBehaviour_Force32Bit</primary><secondary>anim.h</secondary></indexterm>
+<indexterm><primary>anim.h</primary><secondary>_aiAnimBehaviour_Force32Bit</secondary></indexterm>
+<anchor xml:id="_anim_8h_1a201b9e9429b82cd6423ff4a4daf01cefa8e18d19abc297d6f6ed86c7a7ab9b4fc"/>_aiAnimBehaviour_Force32Bit</entry><entry>
+<para>This value is not used, it is just here to force the the compiler to map this enum to a 32 Bit integer <?linebreak?> </para>
+</entry></row>    </tbody>
+    </tgroup>
+</informaltable>
+</section>
+</section>
+</section>

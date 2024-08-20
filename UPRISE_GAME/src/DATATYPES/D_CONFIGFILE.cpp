@@ -1,7 +1,12 @@
 #include "pch.h"
 
 #include "Header/DATATYPES/D_CONFIGFILE.h"
-
+#include "Header/ECS/ENTITYS/GAMEOBJECT.h"
+#include "Header/ECS/COMPONENTS/MESH.h"
+#include "Header/RENDER/RENDER_MATERIAL.h"
+#include "Header/CORE/C_CONFIGLOADER.h"
+#include "C_Building.h"
+#include "C_RESIDENTIAL.h"
 ConfigFile::ConfigFile(std::string name, std::string modelpath, std::vector<std::string> texturepath, ConfigType configType, nlohmann::json data)
 {
 	Name = name;
@@ -13,7 +18,7 @@ ConfigFile::ConfigFile(std::string name, std::string modelpath, std::vector<std:
 
 
 
-  Buidling::Buidling(std::string name, std::string modelpath, std::vector<std::string> texturepath, ConfigType configType, nlohmann::json data) 
+Building::Building(std::string name, std::string modelpath, std::vector<std::string> texturepath, ConfigType configType, nlohmann::json data)
 	  : ConfigFile(name, modelpath, texturepath, configType, data) {
 	 // buildinngType = data["BuildingType"];
 	  switch (buildinngType) {
@@ -82,6 +87,8 @@ ConfigFile::ConfigFile(std::string name, std::string modelpath, std::vector<std:
 	  }
   
   }
+
+ std::shared_ptr<GameObject> Building::CreateFromCFG() { return std::make_shared<GameObject>(GameObject(1)); }
 
   Vehicle::Vehicle(std::string name, std::string modelpath, std::vector<std::string> texturepath, ConfigType configType, nlohmann::json data)
 	  : ConfigFile(name, modelpath, texturepath, configType, data) {
@@ -165,4 +172,48 @@ ConfigFile::ConfigFile(std::string name, std::string modelpath, std::vector<std:
 	  }
 	  ShaderCode = shadercode;
 
+  }
+
+  std::shared_ptr<GameObject> Residential::CreateFromCFG()
+  {
+	  std::shared_ptr<GameObject> tmp = GameObject::Create(TSPVector3(0, 0, 0), Quaternion(1, 0, 0, 0), std::make_shared<COMPONENTS::_Mesh>(COMPONENTS::_Mesh(PAIN::Render::Modeldict->operator[](Modelpath))), dynamic_pointer_cast<Material>(CORE::ConfigLoader::ConfigDatabase->operator[](ConfigFile::ConfigType::ConfigType_Material)[_Material])->Mat_ID);
+	  auto cmp =tmp->AddComponent(C_Building());
+	  cmp->Main_Component = tmp->AddComponentD(C_Resitential());
+	  
+	  return std::shared_ptr<GameObject>();
+  }
+
+  std::shared_ptr<GameObject> Prodiction::CreateFromCFG()
+  {
+	  return std::shared_ptr<GameObject>();
+  }
+
+  std::shared_ptr<GameObject> Needs::CreateFromCFG()
+  {
+	  return std::shared_ptr<GameObject>();
+  }
+
+  std::shared_ptr<GameObject> Energy::CreateFromCFG()
+  {
+	  return std::shared_ptr<GameObject>();
+  }
+
+  std::shared_ptr<GameObject> Eco::CreateFromCFG()
+  {
+	  return std::shared_ptr<GameObject>();
+  }
+
+  std::shared_ptr<GameObject> Decoration::CreateFromCFG()
+  {
+	  return std::shared_ptr<GameObject>();
+  }
+
+  std::shared_ptr<GameObject> Military::CreateFromCFG()
+  {
+	  return std::shared_ptr<GameObject>();
+  }
+
+  std::shared_ptr<GameObject> Special::CreateFromCFG()
+  {
+	  return std::shared_ptr<GameObject>();
   }

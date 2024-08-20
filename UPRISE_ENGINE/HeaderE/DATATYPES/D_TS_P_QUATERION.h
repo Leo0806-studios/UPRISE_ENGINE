@@ -13,19 +13,19 @@ namespace DATATYPES {
 
 		
 
-		static Quaternion FromEulerAngles(DATATYPES::TS_P_Vector3 vec);
+		static Quaternion FromEulerAngles(DATATYPES::TSPVector3 vec);
 
 
 		Quaternion operator*(const Quaternion& other) const;
 		
-		DATATYPES::TS_P_Vector3 ToRotationVector() const;
-		TS_P_Vector3 operator*(DATATYPES::TS_P_Vector3 vec);
+		DATATYPES::TSPVector3 ToRotationVector() const;
+		TSPVector3 operator*(DATATYPES::TSPVector3 vec);
 
-		DATATYPES::TS_P_Vector3 Rotate(const DATATYPES::TS_P_Vector3& v) const {
+		DATATYPES::TSPVector3 Rotate(const DATATYPES::TSPVector3& v) const {
 			Quaternion qv(0, v.x, v.y, v.z);
 			Quaternion qconj(w, -x, -y, -z);
 			Quaternion result = (*this) * qv * qconj;
-			auto a = DATATYPES::TS_P_Vector3(result.x, result.y, result.z);
+			auto a = DATATYPES::TSPVector3(result.x, result.y, result.z);
 			return a;
 		}
 		glm::mat4 ToMat4() const {

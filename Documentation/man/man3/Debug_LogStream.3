@@ -1,4 +1,4 @@
-.TH "Debug::LogStream" 3 "Version 0.0.0.1" "My Project" \" -*- nroff -*-
+.TH "Debug::LogStream" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -18,28 +18,50 @@ Debug::LogStream
 .RI "\fB~LogStream\fP ()"
 .br
 .ti -1c
-.RI "template<typename t > \fBLogStream\fP & \fBoperator<<\fP (const t &value)"
+.RI "template<typename \fBt\fP > \fBLogStream\fP & \fBoperator<<\fP (const \fBt\fP &value)"
 .br
 .in -1c
 .SH "Detailed Description"
 .PP 
-Definition at line \fB36\fP of file \fBDEBUG_LOGGER\&.h\fP\&.
+Definition at line \fB40\fP of file \fBDEBUG_LOGGER\&.h\fP\&.
 .SH "Constructor & Destructor Documentation"
 .PP 
 .SS "Debug::LogStream::LogStream ()\fR [inline]\fP"
 
 .PP
-Definition at line \fB38\fP of file \fBDEBUG_LOGGER\&.h\fP\&.
+Definition at line \fB42\fP of file \fBDEBUG_LOGGER\&.h\fP\&.
+.nf
+42 : stream() {}
+.PP
+.fi
+
 .SS "Debug::LogStream::~LogStream ()\fR [inline]\fP"
 
 .PP
-Definition at line \fB39\fP of file \fBDEBUG_LOGGER\&.h\fP\&.
-.SH "Member Function Documentation"
-.PP 
-.SS "template<typename t > \fBLogStream\fP & Debug::LogStream::operator<< (const t & value)\fR [inline]\fP"
+Definition at line \fB43\fP of file \fBDEBUG_LOGGER\&.h\fP\&.
+.nf
+43                      {
+44             Logger::log(stream\&.str());
+45         }
+.PP
+.fi
 
 .PP
-Definition at line \fB44\fP of file \fBDEBUG_LOGGER\&.h\fP\&.
+References \fBDebug::Logger::log()\fP\&.
+.SH "Member Function Documentation"
+.PP 
+.SS "template<typename \fBt\fP > \fBLogStream\fP & Debug::LogStream::operator<< (const \fBt\fP & value)\fR [inline]\fP"
+
+.PP
+Definition at line \fB48\fP of file \fBDEBUG_LOGGER\&.h\fP\&.
+.nf
+48                                               {
+49             stream << value;
+50             return *this;
+51         }
+.PP
+.fi
+
 
 .SH "Author"
 .PP 

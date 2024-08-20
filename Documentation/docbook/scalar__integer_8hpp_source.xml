@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_scalar__integer_8hpp_source" xml:lang="en-US">
+<title>scalar_integer.hpp</title>
+<indexterm><primary>adhed/glm/ext/scalar_integer.hpp</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 
+10 
+11 <emphasis role="preprocessor">#pragma&#32;once</emphasis>
+12 
+13 <emphasis role="comment">//&#32;Dependencies</emphasis>
+14 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_setup_8hpp">../detail/setup.hpp</link>&quot;</emphasis>
+15 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_qualifier_8hpp">../detail/qualifier.hpp</link>&quot;</emphasis>
+16 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="___vectorize_8hpp">../detail/_vectorize.hpp</link>&quot;</emphasis>
+17 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_type__float_8hpp">../detail/type_float.hpp</link>&quot;</emphasis>
+18 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_vector__relational_8hpp">../vector_relational.hpp</link>&quot;</emphasis>
+19 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_common_8hpp">../common.hpp</link>&quot;</emphasis>
+20 <emphasis role="preprocessor">#include&#32;&lt;limits&gt;</emphasis>
+21 
+22 <emphasis role="preprocessor">#if&#32;GLM_MESSAGES&#32;==&#32;GLM_ENABLE&#32;&amp;&amp;&#32;!defined(GLM_EXT_INCLUDED)</emphasis>
+23 <emphasis role="preprocessor">#&#32;&#32;&#32;pragma&#32;message(&quot;GLM:&#32;GLM_EXT_scalar_integer&#32;extension&#32;included&quot;)</emphasis>
+24 <emphasis role="preprocessor">#endif</emphasis>
+25 
+26 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespaceglm">glm</link>
+27 {
+30 
+34 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;genIUType&gt;
+35 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1ab2d052de21a70539923e9bcbf6e83a51">GLM_FUNC_DECL</link>&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_group__ext__scalar__integer_1gadf491730354aa7da67fbe23d4d688763">isPowerOfTwo</link>(genIUType&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>);
+36 
+41 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;genIUType&gt;
+42 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1ab2d052de21a70539923e9bcbf6e83a51">GLM_FUNC_DECL</link>&#32;genIUType&#32;<link linkend="_group__ext__scalar__integer_1ga3a37c2f2fd347886c9af6a3ca3db04dc">nextPowerOfTwo</link>(genIUType&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>);
+43 
+48 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;genIUType&gt;
+49 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1ab2d052de21a70539923e9bcbf6e83a51">GLM_FUNC_DECL</link>&#32;genIUType&#32;<link linkend="_group__ext__scalar__integer_1gab21902a0e7e5a8451a7ad80333618727">prevPowerOfTwo</link>(genIUType&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>);
+50 
+54 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;genIUType&gt;
+55 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1ab2d052de21a70539923e9bcbf6e83a51">GLM_FUNC_DECL</link>&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_group__ext__scalar__integer_1gaec593d33956a8fe43f78fccc63ddde9a">isMultiple</link>(genIUType&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>,&#32;genIUType&#32;Multiple);
+56 
+65 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;genIUType&gt;
+66 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1ab2d052de21a70539923e9bcbf6e83a51">GLM_FUNC_DECL</link>&#32;genIUType&#32;<link linkend="_group__ext__scalar__integer_1gab770a3835c44c8a6fd225be4f4e6b317">nextMultiple</link>(genIUType&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>,&#32;genIUType&#32;Multiple);
+67 
+76 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;genIUType&gt;
+77 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1ab2d052de21a70539923e9bcbf6e83a51">GLM_FUNC_DECL</link>&#32;genIUType&#32;<link linkend="_group__ext__scalar__integer_1gada3bdd871ffe31f2d484aa668362f636">prevMultiple</link>(genIUType&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>,&#32;genIUType&#32;Multiple);
+78 
+86 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;genIUType&gt;
+87 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1ab2d052de21a70539923e9bcbf6e83a51">GLM_FUNC_DECL</link>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_group__ext__scalar__integer_1ga2777901e41ad6e1e9d0ad6cc855d1075">findNSB</link>(genIUType&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<emphasis role="keywordtype">int</emphasis>&#32;significantBitCount);
+88 
+90 }&#32;<emphasis role="comment">//namespace&#32;glm</emphasis>
+91 
+92 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_scalar__integer_8inl">scalar_integer.inl</link>&quot;</emphasis>
+</programlisting></section>

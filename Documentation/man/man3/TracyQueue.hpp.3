@@ -1,0 +1,301 @@
+.TH "adhed/common/TracyQueue.hpp" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+adhed/common/TracyQueue.hpp
+.SH SYNOPSIS
+.br
+.PP
+\fR#include <stddef\&.h>\fP
+.br
+\fR#include <stdint\&.h>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBtracy::QueueThreadContext\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueZoneBeginLean\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueZoneBegin\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueZoneBeginThread\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueZoneEnd\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueZoneEndThread\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueZoneValidation\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueZoneValidationThread\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueZoneColor\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueZoneColorThread\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueZoneValue\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueZoneValueThread\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueStringTransfer\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueFrameMark\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueFrameVsync\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueFrameImage\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueFrameImageFat\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueSourceLocation\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueZoneTextFat\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueZoneTextFatThread\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueLockAnnounce\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueFiberEnter\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueFiberLeave\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueLockTerminate\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueLockWait\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueLockObtain\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueLockRelease\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueLockReleaseShared\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueLockMark\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueLockName\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueLockNameFat\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueuePlotDataBase\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueuePlotDataInt\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueuePlotDataFloat\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueuePlotDataDouble\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueMessage\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueMessageColor\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueMessageLiteral\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueMessageLiteralThread\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueMessageColorLiteral\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueMessageColorLiteralThread\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueMessageFat\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueMessageFatThread\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueMessageColorFat\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueMessageColorFatThread\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueGpuNewContext\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueGpuZoneBeginLean\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueGpuZoneBegin\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueGpuZoneEnd\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueGpuTime\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueGpuCalibration\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueGpuContextName\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueGpuContextNameFat\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueMemNamePayload\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueMemAlloc\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueMemFree\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueCallstackFat\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueCallstackFatThread\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueCallstackAllocFat\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueCallstackAllocFatThread\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueCallstackSample\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueCallstackSampleFat\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueCallstackFrameSize\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueCallstackFrameSizeFat\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueCallstackFrame\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueSymbolInformation\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueSymbolInformationFat\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueCrashReport\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueCrashReportThread\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueSysTime\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueSysPower\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueContextSwitch\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueThreadWakeup\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueTidToPid\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueHwSample\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueuePlotConfig\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueParamSetup\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueSourceCodeNotAvailable\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueCpuTopology\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueExternalNameMetadata\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueSymbolCodeMetadata\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueSourceCodeMetadata\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueHeader\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::QueueItem\fP"
+.br
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI "namespace \fBtracy\fP"
+.br
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum class \fBtracy::QueueType\fP : uint8_t { \fBtracy::ZoneText\fP, \fBtracy::ZoneName\fP, \fBtracy::Message\fP, \fBtracy::MessageColor\fP, \fBtracy::MessageCallstack\fP, \fBtracy::MessageColorCallstack\fP, \fBtracy::MessageAppInfo\fP, \fBtracy::ZoneBeginAllocSrcLoc\fP, \fBtracy::ZoneBeginAllocSrcLocCallstack\fP, \fBtracy::CallstackSerial\fP, \fBtracy::Callstack\fP, \fBtracy::CallstackAlloc\fP, \fBtracy::CallstackSample\fP, \fBtracy::CallstackSampleContextSwitch\fP, \fBtracy::FrameImage\fP, \fBtracy::ZoneBegin\fP, \fBtracy::ZoneBeginCallstack\fP, \fBtracy::ZoneEnd\fP, \fBtracy::LockWait\fP, \fBtracy::LockObtain\fP, \fBtracy::LockRelease\fP, \fBtracy::LockSharedWait\fP, \fBtracy::LockSharedObtain\fP, \fBtracy::LockSharedRelease\fP, \fBtracy::LockName\fP, \fBtracy::MemAlloc\fP, \fBtracy::MemAllocNamed\fP, \fBtracy::MemFree\fP, \fBtracy::MemFreeNamed\fP, \fBtracy::MemAllocCallstack\fP, \fBtracy::MemAllocCallstackNamed\fP, \fBtracy::MemFreeCallstack\fP, \fBtracy::MemFreeCallstackNamed\fP, \fBtracy::GpuZoneBegin\fP, \fBtracy::GpuZoneBeginCallstack\fP, \fBtracy::GpuZoneBeginAllocSrcLoc\fP, \fBtracy::GpuZoneBeginAllocSrcLocCallstack\fP, \fBtracy::GpuZoneEnd\fP, \fBtracy::GpuZoneBeginSerial\fP, \fBtracy::GpuZoneBeginCallstackSerial\fP, \fBtracy::GpuZoneBeginAllocSrcLocSerial\fP, \fBtracy::GpuZoneBeginAllocSrcLocCallstackSerial\fP, \fBtracy::GpuZoneEndSerial\fP, \fBtracy::PlotDataInt\fP, \fBtracy::PlotDataFloat\fP, \fBtracy::PlotDataDouble\fP, \fBtracy::ContextSwitch\fP, \fBtracy::ThreadWakeup\fP, \fBtracy::GpuTime\fP, \fBtracy::GpuContextName\fP, \fBtracy::CallstackFrameSize\fP, \fBtracy::SymbolInformation\fP, \fBtracy::ExternalNameMetadata\fP, \fBtracy::SymbolCodeMetadata\fP, \fBtracy::SourceCodeMetadata\fP, \fBtracy::FiberEnter\fP, \fBtracy::FiberLeave\fP, \fBtracy::Terminate\fP, \fBtracy::KeepAlive\fP, \fBtracy::ThreadContext\fP, \fBtracy::GpuCalibration\fP, \fBtracy::Crash\fP, \fBtracy::CrashReport\fP, \fBtracy::ZoneValidation\fP, \fBtracy::ZoneColor\fP, \fBtracy::ZoneValue\fP, \fBtracy::FrameMarkMsg\fP, \fBtracy::FrameMarkMsgStart\fP, \fBtracy::FrameMarkMsgEnd\fP, \fBtracy::FrameVsync\fP, \fBtracy::SourceLocation\fP, \fBtracy::LockAnnounce\fP, \fBtracy::LockTerminate\fP, \fBtracy::LockMark\fP, \fBtracy::MessageLiteral\fP, \fBtracy::MessageLiteralColor\fP, \fBtracy::MessageLiteralCallstack\fP, \fBtracy::MessageLiteralColorCallstack\fP, \fBtracy::GpuNewContext\fP, \fBtracy::CallstackFrame\fP, \fBtracy::SysTimeReport\fP, \fBtracy::SysPowerReport\fP, \fBtracy::TidToPid\fP, \fBtracy::HwSampleCpuCycle\fP, \fBtracy::HwSampleInstructionRetired\fP, \fBtracy::HwSampleCacheReference\fP, \fBtracy::HwSampleCacheMiss\fP, \fBtracy::HwSampleBranchRetired\fP, \fBtracy::HwSampleBranchMiss\fP, \fBtracy::PlotConfig\fP, \fBtracy::ParamSetup\fP, \fBtracy::AckServerQueryNoop\fP, \fBtracy::AckSourceCodeNotAvailable\fP, \fBtracy::AckSymbolCodeNotAvailable\fP, \fBtracy::CpuTopology\fP, \fBtracy::SingleStringData\fP, \fBtracy::SecondStringData\fP, \fBtracy::MemNamePayload\fP, \fBtracy::StringData\fP, \fBtracy::ThreadName\fP, \fBtracy::PlotName\fP, \fBtracy::SourceLocationPayload\fP, \fBtracy::CallstackPayload\fP, \fBtracy::CallstackAllocPayload\fP, \fBtracy::FrameName\fP, \fBtracy::FrameImageData\fP, \fBtracy::ExternalName\fP, \fBtracy::ExternalThreadName\fP, \fBtracy::SymbolCode\fP, \fBtracy::SourceCode\fP, \fBtracy::FiberName\fP, \fBtracy::NUM_TYPES\fP }"
+.br
+.ti -1c
+.RI "enum class \fBtracy::LockType\fP : uint8_t { \fBtracy::Lockable\fP, \fBtracy::SharedLockable\fP }"
+.br
+.ti -1c
+.RI "enum class \fBtracy::GpuContextType\fP : uint8_t { \fBtracy::Invalid\fP, \fBtracy::OpenGl\fP, \fBtracy::Vulkan\fP, \fBtracy::OpenCL\fP, \fBtracy::Direct3D12\fP, \fBtracy::Direct3D11\fP }"
+.br
+.ti -1c
+.RI "enum \fBtracy::GpuContextFlags\fP : uint8_t { \fBtracy::GpuContextCalibration\fP = 1 << 0 }"
+.br
+.ti -1c
+.RI "enum class \fBtracy::PlotFormatType\fP : uint8_t { \fBtracy::Number\fP, \fBtracy::Memory\fP, \fBtracy::Percentage\fP }"
+.br
+.ti -1c
+.RI "enum { \fBtracy::QueueItemSize\fP = sizeof( QueueItem ) }"
+.br
+.in -1c
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

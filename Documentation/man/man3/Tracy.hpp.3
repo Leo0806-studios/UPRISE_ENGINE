@@ -1,0 +1,422 @@
+.TH "adhed/tracy/Tracy.hpp" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+adhed/tracy/Tracy.hpp
+.SH SYNOPSIS
+.br
+.PP
+\fR#include '\&.\&./common/TracyColor\&.hpp'\fP
+.br
+\fR#include '\&.\&./common/TracySystem\&.hpp'\fP
+.br
+
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBTracyFunction\fP   __FUNCTION__"
+.br
+.ti -1c
+.RI "#define \fBTracyFile\fP   __FILE__"
+.br
+.ti -1c
+.RI "#define \fBTracyLine\fP   __LINE__"
+.br
+.ti -1c
+.RI "#define \fBZoneNamed\fP(\fBx\fP,  \fBy\fP)"
+.br
+.ti -1c
+.RI "#define \fBZoneNamedN\fP(\fBx\fP,  \fBy\fP,  \fBz\fP)"
+.br
+.ti -1c
+.RI "#define \fBZoneNamedC\fP(\fBx\fP,  \fBy\fP,  \fBz\fP)"
+.br
+.ti -1c
+.RI "#define \fBZoneNamedNC\fP(\fBx\fP,  \fBy\fP,  \fBz\fP,  \fBw\fP)"
+.br
+.ti -1c
+.RI "#define \fBZoneTransient\fP(\fBx\fP,  \fBy\fP)"
+.br
+.ti -1c
+.RI "#define \fBZoneTransientN\fP(\fBx\fP,  \fBy\fP,  \fBz\fP)"
+.br
+.ti -1c
+.RI "#define \fBZoneScoped\fP"
+.br
+.ti -1c
+.RI "#define \fBZoneScopedN\fP(\fBx\fP)"
+.br
+.ti -1c
+.RI "#define \fBZoneScopedC\fP(\fBx\fP)"
+.br
+.ti -1c
+.RI "#define \fBZoneScopedNC\fP(\fBx\fP,  \fBy\fP)"
+.br
+.ti -1c
+.RI "#define \fBZoneText\fP(\fBx\fP,  \fBy\fP)"
+.br
+.ti -1c
+.RI "#define \fBZoneTextV\fP(\fBx\fP,  \fBy\fP,  \fBz\fP)"
+.br
+.ti -1c
+.RI "#define \fBZoneName\fP(\fBx\fP,  \fBy\fP)"
+.br
+.ti -1c
+.RI "#define \fBZoneNameV\fP(\fBx\fP,  \fBy\fP,  \fBz\fP)"
+.br
+.ti -1c
+.RI "#define \fBZoneColor\fP(\fBx\fP)"
+.br
+.ti -1c
+.RI "#define \fBZoneColorV\fP(\fBx\fP,  \fBy\fP)"
+.br
+.ti -1c
+.RI "#define \fBZoneValue\fP(\fBx\fP)"
+.br
+.ti -1c
+.RI "#define \fBZoneValueV\fP(\fBx\fP,  \fBy\fP)"
+.br
+.ti -1c
+.RI "#define \fBZoneIsActive\fP   false"
+.br
+.ti -1c
+.RI "#define \fBZoneIsActiveV\fP(\fBx\fP)   false"
+.br
+.ti -1c
+.RI "#define \fBFrameMark\fP"
+.br
+.ti -1c
+.RI "#define \fBFrameMarkNamed\fP(\fBx\fP)"
+.br
+.ti -1c
+.RI "#define \fBFrameMarkStart\fP(\fBx\fP)"
+.br
+.ti -1c
+.RI "#define \fBFrameMarkEnd\fP(\fBx\fP)"
+.br
+.ti -1c
+.RI "#define \fBFrameImage\fP(\fBx\fP,  \fBy\fP,  \fBz\fP,  \fBw\fP,  \fBa\fP)"
+.br
+.ti -1c
+.RI "#define \fBTracyLockable\fP(\fBtype\fP,  varname)   \fBtype\fP varname"
+.br
+.ti -1c
+.RI "#define \fBTracyLockableN\fP(\fBtype\fP,  varname,  desc)   \fBtype\fP varname"
+.br
+.ti -1c
+.RI "#define \fBTracySharedLockable\fP(\fBtype\fP,  varname)   \fBtype\fP varname"
+.br
+.ti -1c
+.RI "#define \fBTracySharedLockableN\fP(\fBtype\fP,  varname,  desc)   \fBtype\fP varname"
+.br
+.ti -1c
+.RI "#define \fBLockableBase\fP(\fBtype\fP)   \fBtype\fP"
+.br
+.ti -1c
+.RI "#define \fBSharedLockableBase\fP(\fBtype\fP)   \fBtype\fP"
+.br
+.ti -1c
+.RI "#define \fBLockMark\fP(\fBx\fP)   (\fBvoid\fP)\fBx\fP"
+.br
+.ti -1c
+.RI "#define \fBLockableName\fP(\fBx\fP,  \fBy\fP,  \fBz\fP)"
+.br
+.ti -1c
+.RI "#define \fBTracyPlot\fP(\fBx\fP,  \fBy\fP)"
+.br
+.ti -1c
+.RI "#define \fBTracyPlotConfig\fP(\fBx\fP,  \fBy\fP,  \fBz\fP,  \fBw\fP,  \fBa\fP)"
+.br
+.ti -1c
+.RI "#define \fBTracyMessage\fP(\fBx\fP,  \fBy\fP)"
+.br
+.ti -1c
+.RI "#define \fBTracyMessageL\fP(\fBx\fP)"
+.br
+.ti -1c
+.RI "#define \fBTracyMessageC\fP(\fBx\fP,  \fBy\fP,  \fBz\fP)"
+.br
+.ti -1c
+.RI "#define \fBTracyMessageLC\fP(\fBx\fP,  \fBy\fP)"
+.br
+.ti -1c
+.RI "#define \fBTracyAppInfo\fP(\fBx\fP,  \fBy\fP)"
+.br
+.ti -1c
+.RI "#define \fBTracyAlloc\fP(\fBx\fP,  \fBy\fP)"
+.br
+.ti -1c
+.RI "#define \fBTracyFree\fP(\fBx\fP)"
+.br
+.ti -1c
+.RI "#define \fBTracySecureAlloc\fP(\fBx\fP,  \fBy\fP)"
+.br
+.ti -1c
+.RI "#define \fBTracySecureFree\fP(\fBx\fP)"
+.br
+.ti -1c
+.RI "#define \fBTracyAllocN\fP(\fBx\fP,  \fBy\fP,  \fBz\fP)"
+.br
+.ti -1c
+.RI "#define \fBTracyFreeN\fP(\fBx\fP,  \fBy\fP)"
+.br
+.ti -1c
+.RI "#define \fBTracySecureAllocN\fP(\fBx\fP,  \fBy\fP,  \fBz\fP)"
+.br
+.ti -1c
+.RI "#define \fBTracySecureFreeN\fP(\fBx\fP,  \fBy\fP)"
+.br
+.ti -1c
+.RI "#define \fBZoneNamedS\fP(\fBx\fP,  \fBy\fP,  \fBz\fP)"
+.br
+.ti -1c
+.RI "#define \fBZoneNamedNS\fP(\fBx\fP,  \fBy\fP,  \fBz\fP,  \fBw\fP)"
+.br
+.ti -1c
+.RI "#define \fBZoneNamedCS\fP(\fBx\fP,  \fBy\fP,  \fBz\fP,  \fBw\fP)"
+.br
+.ti -1c
+.RI "#define \fBZoneNamedNCS\fP(\fBx\fP,  \fBy\fP,  \fBz\fP,  \fBw\fP,  \fBa\fP)"
+.br
+.ti -1c
+.RI "#define \fBZoneTransientS\fP(\fBx\fP,  \fBy\fP,  \fBz\fP)"
+.br
+.ti -1c
+.RI "#define \fBZoneTransientNS\fP(\fBx\fP,  \fBy\fP,  \fBz\fP,  \fBw\fP)"
+.br
+.ti -1c
+.RI "#define \fBZoneScopedS\fP(\fBx\fP)"
+.br
+.ti -1c
+.RI "#define \fBZoneScopedNS\fP(\fBx\fP,  \fBy\fP)"
+.br
+.ti -1c
+.RI "#define \fBZoneScopedCS\fP(\fBx\fP,  \fBy\fP)"
+.br
+.ti -1c
+.RI "#define \fBZoneScopedNCS\fP(\fBx\fP,  \fBy\fP,  \fBz\fP)"
+.br
+.ti -1c
+.RI "#define \fBTracyAllocS\fP(\fBx\fP,  \fBy\fP,  \fBz\fP)"
+.br
+.ti -1c
+.RI "#define \fBTracyFreeS\fP(\fBx\fP,  \fBy\fP)"
+.br
+.ti -1c
+.RI "#define \fBTracySecureAllocS\fP(\fBx\fP,  \fBy\fP,  \fBz\fP)"
+.br
+.ti -1c
+.RI "#define \fBTracySecureFreeS\fP(\fBx\fP,  \fBy\fP)"
+.br
+.ti -1c
+.RI "#define \fBTracyAllocNS\fP(\fBx\fP,  \fBy\fP,  \fBz\fP,  \fBw\fP)"
+.br
+.ti -1c
+.RI "#define \fBTracyFreeNS\fP(\fBx\fP,  \fBy\fP,  \fBz\fP)"
+.br
+.ti -1c
+.RI "#define \fBTracySecureAllocNS\fP(\fBx\fP,  \fBy\fP,  \fBz\fP,  \fBw\fP)"
+.br
+.ti -1c
+.RI "#define \fBTracySecureFreeNS\fP(\fBx\fP,  \fBy\fP,  \fBz\fP)"
+.br
+.ti -1c
+.RI "#define \fBTracyMessageS\fP(\fBx\fP,  \fBy\fP,  \fBz\fP)"
+.br
+.ti -1c
+.RI "#define \fBTracyMessageLS\fP(\fBx\fP,  \fBy\fP)"
+.br
+.ti -1c
+.RI "#define \fBTracyMessageCS\fP(\fBx\fP,  \fBy\fP,  \fBz\fP,  \fBw\fP)"
+.br
+.ti -1c
+.RI "#define \fBTracyMessageLCS\fP(\fBx\fP,  \fBy\fP,  \fBz\fP)"
+.br
+.ti -1c
+.RI "#define \fBTracySourceCallbackRegister\fP(\fBx\fP,  \fBy\fP)"
+.br
+.ti -1c
+.RI "#define \fBTracyParameterRegister\fP(\fBx\fP,  \fBy\fP)"
+.br
+.ti -1c
+.RI "#define \fBTracyParameterSetup\fP(\fBx\fP,  \fBy\fP,  \fBz\fP,  \fBw\fP)"
+.br
+.ti -1c
+.RI "#define \fBTracyIsConnected\fP   false"
+.br
+.ti -1c
+.RI "#define \fBTracySetProgramName\fP(\fBx\fP)"
+.br
+.ti -1c
+.RI "#define \fBTracyFiberEnter\fP(\fBx\fP)"
+.br
+.ti -1c
+.RI "#define \fBTracyFiberLeave\fP"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define FrameImage( \fBx\fP,  \fBy\fP,  \fBz\fP,  \fBw\fP,  \fBa\fP)"
+
+.SS "#define FrameMark"
+
+.SS "#define FrameMarkEnd( \fBx\fP)"
+
+.SS "#define FrameMarkNamed( \fBx\fP)"
+
+.SS "#define FrameMarkStart( \fBx\fP)"
+
+.SS "#define LockableBase( \fBtype\fP)   \fBtype\fP"
+
+.SS "#define LockableName( \fBx\fP,  \fBy\fP,  \fBz\fP)"
+
+.SS "#define LockMark( \fBx\fP)   (\fBvoid\fP)\fBx\fP"
+
+.SS "#define SharedLockableBase( \fBtype\fP)   \fBtype\fP"
+
+.SS "#define TracyAlloc( \fBx\fP,  \fBy\fP)"
+
+.SS "#define TracyAllocN( \fBx\fP,  \fBy\fP,  \fBz\fP)"
+
+.SS "#define TracyAllocNS( \fBx\fP,  \fBy\fP,  \fBz\fP,  \fBw\fP)"
+
+.SS "#define TracyAllocS( \fBx\fP,  \fBy\fP,  \fBz\fP)"
+
+.SS "#define TracyAppInfo( \fBx\fP,  \fBy\fP)"
+
+.SS "#define TracyFiberEnter( \fBx\fP)"
+
+.SS "#define TracyFiberLeave"
+
+.SS "#define TracyFile   __FILE__"
+
+.SS "#define TracyFree( \fBx\fP)"
+
+.SS "#define TracyFreeN( \fBx\fP,  \fBy\fP)"
+
+.SS "#define TracyFreeNS( \fBx\fP,  \fBy\fP,  \fBz\fP)"
+
+.SS "#define TracyFreeS( \fBx\fP,  \fBy\fP)"
+
+.SS "#define TracyFunction   __FUNCTION__"
+
+.SS "#define TracyIsConnected   false"
+
+.SS "#define TracyLine   __LINE__"
+
+.SS "#define TracyLockable( \fBtype\fP,  varname)   \fBtype\fP varname"
+
+.SS "#define TracyLockableN( \fBtype\fP,  varname,  desc)   \fBtype\fP varname"
+
+.SS "#define TracyMessage( \fBx\fP,  \fBy\fP)"
+
+.SS "#define TracyMessageC( \fBx\fP,  \fBy\fP,  \fBz\fP)"
+
+.SS "#define TracyMessageCS( \fBx\fP,  \fBy\fP,  \fBz\fP,  \fBw\fP)"
+
+.SS "#define TracyMessageL( \fBx\fP)"
+
+.SS "#define TracyMessageLC( \fBx\fP,  \fBy\fP)"
+
+.SS "#define TracyMessageLCS( \fBx\fP,  \fBy\fP,  \fBz\fP)"
+
+.SS "#define TracyMessageLS( \fBx\fP,  \fBy\fP)"
+
+.SS "#define TracyMessageS( \fBx\fP,  \fBy\fP,  \fBz\fP)"
+
+.SS "#define TracyParameterRegister( \fBx\fP,  \fBy\fP)"
+
+.SS "#define TracyParameterSetup( \fBx\fP,  \fBy\fP,  \fBz\fP,  \fBw\fP)"
+
+.SS "#define TracyPlot( \fBx\fP,  \fBy\fP)"
+
+.SS "#define TracyPlotConfig( \fBx\fP,  \fBy\fP,  \fBz\fP,  \fBw\fP,  \fBa\fP)"
+
+.SS "#define TracySecureAlloc( \fBx\fP,  \fBy\fP)"
+
+.SS "#define TracySecureAllocN( \fBx\fP,  \fBy\fP,  \fBz\fP)"
+
+.SS "#define TracySecureAllocNS( \fBx\fP,  \fBy\fP,  \fBz\fP,  \fBw\fP)"
+
+.SS "#define TracySecureAllocS( \fBx\fP,  \fBy\fP,  \fBz\fP)"
+
+.SS "#define TracySecureFree( \fBx\fP)"
+
+.SS "#define TracySecureFreeN( \fBx\fP,  \fBy\fP)"
+
+.SS "#define TracySecureFreeNS( \fBx\fP,  \fBy\fP,  \fBz\fP)"
+
+.SS "#define TracySecureFreeS( \fBx\fP,  \fBy\fP)"
+
+.SS "#define TracySetProgramName( \fBx\fP)"
+
+.SS "#define TracySharedLockable( \fBtype\fP,  varname)   \fBtype\fP varname"
+
+.SS "#define TracySharedLockableN( \fBtype\fP,  varname,  desc)   \fBtype\fP varname"
+
+.SS "#define TracySourceCallbackRegister( \fBx\fP,  \fBy\fP)"
+
+.SS "#define ZoneColor( \fBx\fP)"
+
+.SS "#define ZoneColorV( \fBx\fP,  \fBy\fP)"
+
+.SS "#define ZoneIsActive   false"
+
+.SS "#define ZoneIsActiveV( \fBx\fP)   false"
+
+.SS "#define ZoneName( \fBx\fP,  \fBy\fP)"
+
+.SS "#define ZoneNamed( \fBx\fP,  \fBy\fP)"
+
+.SS "#define ZoneNamedC( \fBx\fP,  \fBy\fP,  \fBz\fP)"
+
+.SS "#define ZoneNamedCS( \fBx\fP,  \fBy\fP,  \fBz\fP,  \fBw\fP)"
+
+.SS "#define ZoneNamedN( \fBx\fP,  \fBy\fP,  \fBz\fP)"
+
+.SS "#define ZoneNamedNC( \fBx\fP,  \fBy\fP,  \fBz\fP,  \fBw\fP)"
+
+.SS "#define ZoneNamedNCS( \fBx\fP,  \fBy\fP,  \fBz\fP,  \fBw\fP,  \fBa\fP)"
+
+.SS "#define ZoneNamedNS( \fBx\fP,  \fBy\fP,  \fBz\fP,  \fBw\fP)"
+
+.SS "#define ZoneNamedS( \fBx\fP,  \fBy\fP,  \fBz\fP)"
+
+.SS "#define ZoneNameV( \fBx\fP,  \fBy\fP,  \fBz\fP)"
+
+.SS "#define ZoneScoped"
+
+.SS "#define ZoneScopedC( \fBx\fP)"
+
+.SS "#define ZoneScopedCS( \fBx\fP,  \fBy\fP)"
+
+.SS "#define ZoneScopedN( \fBx\fP)"
+
+.SS "#define ZoneScopedNC( \fBx\fP,  \fBy\fP)"
+
+.SS "#define ZoneScopedNCS( \fBx\fP,  \fBy\fP,  \fBz\fP)"
+
+.SS "#define ZoneScopedNS( \fBx\fP,  \fBy\fP)"
+
+.SS "#define ZoneScopedS( \fBx\fP)"
+
+.SS "#define ZoneText( \fBx\fP,  \fBy\fP)"
+
+.SS "#define ZoneTextV( \fBx\fP,  \fBy\fP,  \fBz\fP)"
+
+.SS "#define ZoneTransient( \fBx\fP,  \fBy\fP)"
+
+.SS "#define ZoneTransientN( \fBx\fP,  \fBy\fP,  \fBz\fP)"
+
+.SS "#define ZoneTransientNS( \fBx\fP,  \fBy\fP,  \fBz\fP,  \fBw\fP)"
+
+.SS "#define ZoneTransientS( \fBx\fP,  \fBy\fP,  \fBz\fP)"
+
+.SS "#define ZoneValue( \fBx\fP)"
+
+.SS "#define ZoneValueV( \fBx\fP,  \fBy\fP)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

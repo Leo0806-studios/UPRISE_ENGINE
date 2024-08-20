@@ -1,0 +1,130 @@
+.TH "gtc_random" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+gtc_random \- GLM_GTC_random
+.SH SYNOPSIS
+.br
+.PP
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "template<typename genType > \fBGLM_FUNC_DECL\fP genType \fBglm::linearRand\fP (genType Min, genType Max)"
+.br
+.ti -1c
+.RI "template<\fBlength_t\fP L, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_DECL\fP \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > \fBglm::linearRand\fP (\fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const &Min, \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const &Max)"
+.br
+.ti -1c
+.RI "template<typename genType > \fBGLM_FUNC_DECL\fP genType \fBglm::gaussRand\fP (genType Mean, genType Deviation)"
+.br
+.ti -1c
+.RI "template<typename \fBT\fP > \fBGLM_FUNC_DECL\fP \fBvec\fP< 2, \fBT\fP, \fBdefaultp\fP > \fBglm::circularRand\fP (\fBT\fP Radius)"
+.br
+.ti -1c
+.RI "template<typename \fBT\fP > \fBGLM_FUNC_DECL\fP \fBvec\fP< 3, \fBT\fP, \fBdefaultp\fP > \fBglm::sphericalRand\fP (\fBT\fP Radius)"
+.br
+.ti -1c
+.RI "template<typename \fBT\fP > \fBGLM_FUNC_DECL\fP \fBvec\fP< 2, \fBT\fP, \fBdefaultp\fP > \fBglm::diskRand\fP (\fBT\fP Radius)"
+.br
+.ti -1c
+.RI "template<typename \fBT\fP > \fBGLM_FUNC_DECL\fP \fBvec\fP< 3, \fBT\fP, \fBdefaultp\fP > \fBglm::ballRand\fP (\fBT\fP Radius)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Include <\fBglm/gtc/random\&.hpp\fP> to use the features of this extension\&.
+.PP
+Generate random number from various distribution methods\&.
+.SH "Function Documentation"
+.PP 
+.SS "template<typename \fBT\fP > \fBGLM_FUNC_DECL\fP \fBvec\fP< 3, \fBT\fP, \fBdefaultp\fP > glm::ballRand (\fBT\fP Radius)"
+Generate a random 3D vector which coordinates are regularly distributed within the volume of a ball of a given radius
+.PP
+\fBSee also\fP
+.RS 4
+\fBGLM_GTC_random\fP 
+.RE
+.PP
+
+.SS "template<typename \fBT\fP > \fBGLM_FUNC_DECL\fP \fBvec\fP< 2, \fBT\fP, \fBdefaultp\fP > glm::circularRand (\fBT\fP Radius)"
+Generate a random 2D vector which coordinates are regularly distributed on a circle of a given radius
+.PP
+\fBSee also\fP
+.RS 4
+\fBGLM_GTC_random\fP 
+.RE
+.PP
+
+.SS "template<typename \fBT\fP > \fBGLM_FUNC_DECL\fP \fBvec\fP< 2, \fBT\fP, \fBdefaultp\fP > glm::diskRand (\fBT\fP Radius)"
+Generate a random 2D vector which coordinates are regularly distributed within the area of a disk of a given radius
+.PP
+\fBSee also\fP
+.RS 4
+\fBGLM_GTC_random\fP 
+.RE
+.PP
+
+.SS "template<typename genType > \fBGLM_FUNC_DECL\fP genType glm::gaussRand (genType Mean, genType Deviation)"
+Generate random numbers in the interval [Min, Max], according a gaussian distribution
+.PP
+\fBSee also\fP
+.RS 4
+\fBGLM_GTC_random\fP 
+.RE
+.PP
+
+.SS "template<typename genType > \fBGLM_FUNC_DECL\fP genType glm::linearRand (genType Min, genType Max)"
+Generate random numbers in the interval [Min, Max], according a linear distribution
+.PP
+\fBParameters\fP
+.RS 4
+\fIMin\fP Minimum value included in the sampling 
+.br
+\fIMax\fP Maximum value included in the sampling 
+.RE
+.PP
+\fBTemplate Parameters\fP
+.RS 4
+\fIgenType\fP Value type\&. Currently supported: float or double scalars\&. 
+.RE
+.PP
+\fBSee also\fP
+.RS 4
+\fBGLM_GTC_random\fP 
+.RE
+.PP
+
+.SS "template<\fBlength_t\fP L, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_DECL\fP \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > glm::linearRand (\fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const & Min, \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const & Max)"
+Generate random numbers in the interval [Min, Max], according a linear distribution
+.PP
+\fBParameters\fP
+.RS 4
+\fIMin\fP Minimum value included in the sampling 
+.br
+\fIMax\fP Maximum value included in the sampling 
+.RE
+.PP
+\fBTemplate Parameters\fP
+.RS 4
+\fIT\fP Value type\&. Currently supported: float or double\&.
+.RE
+.PP
+\fBSee also\fP
+.RS 4
+\fBGLM_GTC_random\fP 
+.RE
+.PP
+
+.SS "template<typename \fBT\fP > \fBGLM_FUNC_DECL\fP \fBvec\fP< 3, \fBT\fP, \fBdefaultp\fP > glm::sphericalRand (\fBT\fP Radius)"
+Generate a random 3D vector which coordinates are regularly distributed on a sphere of a given radius
+.PP
+\fBSee also\fP
+.RS 4
+\fBGLM_GTC_random\fP 
+.RE
+.PP
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

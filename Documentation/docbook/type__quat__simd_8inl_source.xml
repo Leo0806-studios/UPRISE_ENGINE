@@ -1,0 +1,213 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_type__quat__simd_8inl_source" xml:lang="en-US">
+<title>type_quat_simd.inl</title>
+<indexterm><primary>adhed/glm/detail/type_quat_simd.inl</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered"><anchor xml:id="_type__quat__simd_8inl_source_1l00001"/>00001 
+<anchor xml:id="_type__quat__simd_8inl_source_1l00002"/>00002 
+<anchor xml:id="_type__quat__simd_8inl_source_1l00003"/>00003 <emphasis role="preprocessor">#if&#32;GLM_ARCH&#32;&amp;&#32;GLM_ARCH_SSE2_BIT</emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00004"/>00004 
+<anchor xml:id="_type__quat__simd_8inl_source_1l00005"/>00005 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespaceglm">glm</link>{
+<anchor xml:id="_type__quat__simd_8inl_source_1l00006"/>00006 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespacedetail">detail</link>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00007"/>00007 {
+<anchor xml:id="_type__quat__simd_8inl_source_1l00008"/>00008 <emphasis role="comment">/*</emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00009"/>00009 <emphasis role="comment">&#32;&#32;&#32;&#32;template&lt;qualifier&#32;Q&gt;</emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00010"/>00010 <emphasis role="comment">&#32;&#32;&#32;&#32;struct&#32;compute_quat_mul&lt;float,&#32;Q,&#32;true&gt;</emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00011"/>00011 <emphasis role="comment">&#32;&#32;&#32;&#32;{</emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00012"/>00012 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;static&#32;qua&lt;float,&#32;Q&gt;&#32;call(qua&lt;float,&#32;Q&gt;&#32;const&amp;&#32;q1,&#32;qua&lt;float,&#32;Q&gt;&#32;const&amp;&#32;q2)</emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00013"/>00013 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{</emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00014"/>00014 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;//&#32;SSE2&#32;STATS:&#32;11&#32;shuffle,&#32;8&#32;mul,&#32;8&#32;add</emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00015"/>00015 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;//&#32;SSE4&#32;STATS:&#32;3&#32;shuffle,&#32;4&#32;mul,&#32;4&#32;dpps</emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00016"/>00016 <emphasis role="comment"></emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00017"/>00017 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;const&#32;mul0&#32;=&#32;_mm_mul_ps(q1.data,&#32;_mm_shuffle_ps(q2.data,&#32;q2.data,&#32;_MM_SHUFFLE(0,&#32;1,&#32;2,&#32;3)));</emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00018"/>00018 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;const&#32;mul1&#32;=&#32;_mm_mul_ps(q1.data,&#32;_mm_shuffle_ps(q2.data,&#32;q2.data,&#32;_MM_SHUFFLE(1,&#32;0,&#32;3,&#32;2)));</emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00019"/>00019 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;const&#32;mul2&#32;=&#32;_mm_mul_ps(q1.data,&#32;_mm_shuffle_ps(q2.data,&#32;q2.data,&#32;_MM_SHUFFLE(2,&#32;3,&#32;0,&#32;1)));</emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00020"/>00020 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;const&#32;mul3&#32;=&#32;_mm_mul_ps(q1.data,&#32;q2.data);</emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00021"/>00021 <emphasis role="comment"></emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00022"/>00022 <emphasis role="comment">#&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;if&#32;GLM_ARCH&#32;&amp;&#32;GLM_ARCH_SSE41_BIT</emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00023"/>00023 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;const&#32;add0&#32;=&#32;_mm_dp_ps(mul0,&#32;_mm_set_ps(1.0f,&#32;-1.0f,&#32;&#32;1.0f,&#32;&#32;1.0f),&#32;0xff);</emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00024"/>00024 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;const&#32;add1&#32;=&#32;_mm_dp_ps(mul1,&#32;_mm_set_ps(1.0f,&#32;&#32;1.0f,&#32;&#32;1.0f,&#32;-1.0f),&#32;0xff);</emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00025"/>00025 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;const&#32;add2&#32;=&#32;_mm_dp_ps(mul2,&#32;_mm_set_ps(1.0f,&#32;&#32;1.0f,&#32;-1.0f,&#32;&#32;1.0f),&#32;0xff);</emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00026"/>00026 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;const&#32;add3&#32;=&#32;_mm_dp_ps(mul3,&#32;_mm_set_ps(1.0f,&#32;-1.0f,&#32;-1.0f,&#32;-1.0f),&#32;0xff);</emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00027"/>00027 <emphasis role="comment">#&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;else</emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00028"/>00028 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;const&#32;mul4&#32;=&#32;_mm_mul_ps(mul0,&#32;_mm_set_ps(1.0f,&#32;-1.0f,&#32;&#32;1.0f,&#32;&#32;1.0f));</emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00029"/>00029 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;const&#32;add0&#32;=&#32;_mm_add_ps(mul0,&#32;_mm_movehl_ps(mul4,&#32;mul4));</emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00030"/>00030 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;const&#32;add4&#32;=&#32;_mm_add_ss(add0,&#32;_mm_shuffle_ps(add0,&#32;add0,&#32;1));</emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00031"/>00031 <emphasis role="comment"></emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00032"/>00032 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;const&#32;mul5&#32;=&#32;_mm_mul_ps(mul1,&#32;_mm_set_ps(1.0f,&#32;&#32;1.0f,&#32;&#32;1.0f,&#32;-1.0f));</emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00033"/>00033 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;const&#32;add1&#32;=&#32;_mm_add_ps(mul1,&#32;_mm_movehl_ps(mul5,&#32;mul5));</emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00034"/>00034 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;const&#32;add5&#32;=&#32;_mm_add_ss(add1,&#32;_mm_shuffle_ps(add1,&#32;add1,&#32;1));</emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00035"/>00035 <emphasis role="comment"></emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00036"/>00036 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;const&#32;mul6&#32;=&#32;_mm_mul_ps(mul2,&#32;_mm_set_ps(1.0f,&#32;&#32;1.0f,&#32;-1.0f,&#32;&#32;1.0f));</emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00037"/>00037 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;const&#32;add2&#32;=&#32;_mm_add_ps(mul6,&#32;_mm_movehl_ps(mul6,&#32;mul6));</emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00038"/>00038 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;const&#32;add6&#32;=&#32;_mm_add_ss(add2,&#32;_mm_shuffle_ps(add2,&#32;add2,&#32;1));</emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00039"/>00039 <emphasis role="comment"></emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00040"/>00040 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;const&#32;mul7&#32;=&#32;_mm_mul_ps(mul3,&#32;_mm_set_ps(1.0f,&#32;-1.0f,&#32;-1.0f,&#32;-1.0f));</emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00041"/>00041 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;const&#32;add3&#32;=&#32;_mm_add_ps(mul3,&#32;_mm_movehl_ps(mul7,&#32;mul7));</emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00042"/>00042 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;const&#32;add7&#32;=&#32;_mm_add_ss(add3,&#32;_mm_shuffle_ps(add3,&#32;add3,&#32;1));</emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00043"/>00043 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;#endif</emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00044"/>00044 <emphasis role="comment"></emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00045"/>00045 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;//&#32;This&#32;SIMD&#32;code&#32;is&#32;a&#32;politically&#32;correct&#32;way&#32;of&#32;doing&#32;this,&#32;but&#32;in&#32;every&#32;test&#32;I&apos;ve&#32;tried&#32;it&#32;has&#32;been&#32;slower&#32;than</emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00046"/>00046 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;//&#32;the&#32;final&#32;code&#32;below.&#32;I&apos;ll&#32;keep&#32;this&#32;here&#32;for&#32;reference&#32;-&#32;maybe&#32;somebody&#32;else&#32;can&#32;do&#32;something&#32;better...</emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00047"/>00047 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;//</emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00048"/>00048 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;//__m128&#32;xxyy&#32;=&#32;_mm_shuffle_ps(add4,&#32;add5,&#32;_MM_SHUFFLE(0,&#32;0,&#32;0,&#32;0));</emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00049"/>00049 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;//__m128&#32;zzww&#32;=&#32;_mm_shuffle_ps(add6,&#32;add7,&#32;_MM_SHUFFLE(0,&#32;0,&#32;0,&#32;0));</emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00050"/>00050 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;//</emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00051"/>00051 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;//return&#32;_mm_shuffle_ps(xxyy,&#32;zzww,&#32;_MM_SHUFFLE(2,&#32;0,&#32;2,&#32;0));</emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00052"/>00052 <emphasis role="comment"></emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00053"/>00053 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;qua&lt;float,&#32;Q&gt;&#32;Result;</emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00054"/>00054 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_mm_store_ss(&amp;Result.x,&#32;add4);</emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00055"/>00055 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_mm_store_ss(&amp;Result.y,&#32;add5);</emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00056"/>00056 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_mm_store_ss(&amp;Result.z,&#32;add6);</emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00057"/>00057 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_mm_store_ss(&amp;Result.w,&#32;add7);</emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00058"/>00058 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;return&#32;Result;</emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00059"/>00059 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}</emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00060"/>00060 <emphasis role="comment">&#32;&#32;&#32;&#32;};</emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00061"/>00061 <emphasis role="comment">*/</emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00062"/>00062 
+<anchor xml:id="_type__quat__simd_8inl_source_1l00063"/>00063 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;qualifier&#32;Q&gt;
+<anchor xml:id="_type__quat__simd_8inl_source_1l00064"/>00064 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis>compute_quat_add&lt;float,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1acbcee443d6d55cb8600b3f240f5cf907">Q</link>,&#32;true&gt;
+<anchor xml:id="_type__quat__simd_8inl_source_1l00065"/>00065 &#32;&#32;&#32;&#32;{
+<anchor xml:id="_type__quat__simd_8inl_source_1l00066"/>00066 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;qua&lt;float,&#32;Q&gt;&#32;<link linkend="_structglm_1_1detail_1_1compute__quat__add_1a1dcc74730a2f5adc03c898baac71fbde">call</link>(qua&lt;float,&#32;Q&gt;&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;q,&#32;qua&lt;float,&#32;Q&gt;&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;p)
+<anchor xml:id="_type__quat__simd_8inl_source_1l00067"/>00067 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="_type__quat__simd_8inl_source_1l00068"/>00068 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;qua&lt;float,&#32;Q&gt;&#32;Result;
+<anchor xml:id="_type__quat__simd_8inl_source_1l00069"/>00069 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Result.data&#32;=&#32;_mm_add_ps(q.data,&#32;p.data);
+<anchor xml:id="_type__quat__simd_8inl_source_1l00070"/>00070 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;Result;
+<anchor xml:id="_type__quat__simd_8inl_source_1l00071"/>00071 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="_type__quat__simd_8inl_source_1l00072"/>00072 &#32;&#32;&#32;&#32;};
+<anchor xml:id="_type__quat__simd_8inl_source_1l00073"/>00073 
+<anchor xml:id="_type__quat__simd_8inl_source_1l00074"/>00074 <emphasis role="preprocessor">#&#32;&#32;&#32;if&#32;GLM_ARCH&#32;&amp;&#32;GLM_ARCH_AVX_BIT</emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00075"/>00075 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;qualifier&#32;Q&gt;
+<anchor xml:id="_type__quat__simd_8inl_source_1l00076"/>00076 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis>compute_quat_add&lt;double,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1acbcee443d6d55cb8600b3f240f5cf907">Q</link>,&#32;true&gt;
+<anchor xml:id="_type__quat__simd_8inl_source_1l00077"/>00077 &#32;&#32;&#32;&#32;{
+<anchor xml:id="_type__quat__simd_8inl_source_1l00078"/>00078 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;qua&lt;double,&#32;Q&gt;&#32;<link linkend="_structglm_1_1detail_1_1compute__quat__add_1a1dcc74730a2f5adc03c898baac71fbde">call</link>(qua&lt;double,&#32;Q&gt;&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>,&#32;qua&lt;double,&#32;Q&gt;&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>)
+<anchor xml:id="_type__quat__simd_8inl_source_1l00079"/>00079 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="_type__quat__simd_8inl_source_1l00080"/>00080 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;qua&lt;double,&#32;Q&gt;&#32;Result;
+<anchor xml:id="_type__quat__simd_8inl_source_1l00081"/>00081 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Result.data&#32;=&#32;_mm256_add_pd(<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>.data,&#32;<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>.data);
+<anchor xml:id="_type__quat__simd_8inl_source_1l00082"/>00082 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;Result;
+<anchor xml:id="_type__quat__simd_8inl_source_1l00083"/>00083 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="_type__quat__simd_8inl_source_1l00084"/>00084 &#32;&#32;&#32;&#32;};
+<anchor xml:id="_type__quat__simd_8inl_source_1l00085"/>00085 <emphasis role="preprocessor">#&#32;&#32;&#32;endif</emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00086"/>00086 
+<anchor xml:id="_type__quat__simd_8inl_source_1l00087"/>00087 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;qualifier&#32;Q&gt;
+<anchor xml:id="_type__quat__simd_8inl_source_1l00088"/>00088 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis>compute_quat_sub&lt;float,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1acbcee443d6d55cb8600b3f240f5cf907">Q</link>,&#32;true&gt;
+<anchor xml:id="_type__quat__simd_8inl_source_1l00089"/>00089 &#32;&#32;&#32;&#32;{
+<anchor xml:id="_type__quat__simd_8inl_source_1l00090"/>00090 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;qua&lt;float,&#32;Q&gt;&#32;<link linkend="_structglm_1_1detail_1_1compute__quat__sub_1a5f3f0fdc21fa7b08aa6539cbec709a8c">call</link>(qua&lt;float,&#32;Q&gt;&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;q,&#32;qua&lt;float,&#32;Q&gt;&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;p)
+<anchor xml:id="_type__quat__simd_8inl_source_1l00091"/>00091 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="_type__quat__simd_8inl_source_1l00092"/>00092 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;qua&lt;float,&#32;Q&gt;&#32;Result;
+<anchor xml:id="_type__quat__simd_8inl_source_1l00093"/>00093 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Result.data&#32;=&#32;_mm_sub_ps(q.data,&#32;p.data);
+<anchor xml:id="_type__quat__simd_8inl_source_1l00094"/>00094 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;Result;
+<anchor xml:id="_type__quat__simd_8inl_source_1l00095"/>00095 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="_type__quat__simd_8inl_source_1l00096"/>00096 &#32;&#32;&#32;&#32;};
+<anchor xml:id="_type__quat__simd_8inl_source_1l00097"/>00097 
+<anchor xml:id="_type__quat__simd_8inl_source_1l00098"/>00098 <emphasis role="preprocessor">#&#32;&#32;&#32;if&#32;GLM_ARCH&#32;&amp;&#32;GLM_ARCH_AVX_BIT</emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00099"/>00099 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;qualifier&#32;Q&gt;
+<anchor xml:id="_type__quat__simd_8inl_source_1l00100"/>00100 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis>compute_quat_sub&lt;double,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1acbcee443d6d55cb8600b3f240f5cf907">Q</link>,&#32;true&gt;
+<anchor xml:id="_type__quat__simd_8inl_source_1l00101"/>00101 &#32;&#32;&#32;&#32;{
+<anchor xml:id="_type__quat__simd_8inl_source_1l00102"/>00102 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;qua&lt;double,&#32;Q&gt;&#32;<link linkend="_structglm_1_1detail_1_1compute__quat__sub_1a5f3f0fdc21fa7b08aa6539cbec709a8c">call</link>(qua&lt;double,&#32;Q&gt;&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>,&#32;qua&lt;double,&#32;Q&gt;&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>)
+<anchor xml:id="_type__quat__simd_8inl_source_1l00103"/>00103 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="_type__quat__simd_8inl_source_1l00104"/>00104 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;qua&lt;double,&#32;Q&gt;&#32;Result;
+<anchor xml:id="_type__quat__simd_8inl_source_1l00105"/>00105 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Result.data&#32;=&#32;_mm256_sub_pd(<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>.data,&#32;<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>.data);
+<anchor xml:id="_type__quat__simd_8inl_source_1l00106"/>00106 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;Result;
+<anchor xml:id="_type__quat__simd_8inl_source_1l00107"/>00107 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="_type__quat__simd_8inl_source_1l00108"/>00108 &#32;&#32;&#32;&#32;};
+<anchor xml:id="_type__quat__simd_8inl_source_1l00109"/>00109 <emphasis role="preprocessor">#&#32;&#32;&#32;endif</emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00110"/>00110 
+<anchor xml:id="_type__quat__simd_8inl_source_1l00111"/>00111 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;qualifier&#32;Q&gt;
+<anchor xml:id="_type__quat__simd_8inl_source_1l00112"/>00112 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis>compute_quat_mul_scalar&lt;float,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1acbcee443d6d55cb8600b3f240f5cf907">Q</link>,&#32;true&gt;
+<anchor xml:id="_type__quat__simd_8inl_source_1l00113"/>00113 &#32;&#32;&#32;&#32;{
+<anchor xml:id="_type__quat__simd_8inl_source_1l00114"/>00114 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;qua&lt;float,&#32;Q&gt;&#32;<link linkend="_structglm_1_1detail_1_1compute__quat__mul__scalar_1a1171ac56557297588b006b8d3b9a0ff7">call</link>(qua&lt;float,&#32;Q&gt;&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;q,&#32;<emphasis role="keywordtype">float</emphasis>&#32;s)
+<anchor xml:id="_type__quat__simd_8inl_source_1l00115"/>00115 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="_type__quat__simd_8inl_source_1l00116"/>00116 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;vec&lt;4,&#32;float,&#32;Q&gt;&#32;Result;
+<anchor xml:id="_type__quat__simd_8inl_source_1l00117"/>00117 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Result.data&#32;=&#32;_mm_mul_ps(q.data,&#32;_mm_set_ps1(s));
+<anchor xml:id="_type__quat__simd_8inl_source_1l00118"/>00118 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;Result;
+<anchor xml:id="_type__quat__simd_8inl_source_1l00119"/>00119 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="_type__quat__simd_8inl_source_1l00120"/>00120 &#32;&#32;&#32;&#32;};
+<anchor xml:id="_type__quat__simd_8inl_source_1l00121"/>00121 
+<anchor xml:id="_type__quat__simd_8inl_source_1l00122"/>00122 <emphasis role="preprocessor">#&#32;&#32;&#32;if&#32;GLM_ARCH&#32;&amp;&#32;GLM_ARCH_AVX_BIT</emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00123"/>00123 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;qualifier&#32;Q&gt;
+<anchor xml:id="_type__quat__simd_8inl_source_1l00124"/>00124 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis>compute_quat_mul_scalar&lt;double,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1acbcee443d6d55cb8600b3f240f5cf907">Q</link>,&#32;true&gt;
+<anchor xml:id="_type__quat__simd_8inl_source_1l00125"/>00125 &#32;&#32;&#32;&#32;{
+<anchor xml:id="_type__quat__simd_8inl_source_1l00126"/>00126 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;qua&lt;double,&#32;Q&gt;&#32;<link linkend="_structglm_1_1detail_1_1compute__quat__mul__scalar_1a1171ac56557297588b006b8d3b9a0ff7">call</link>(qua&lt;double,&#32;Q&gt;&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;q,&#32;<emphasis role="keywordtype">double</emphasis>&#32;s)
+<anchor xml:id="_type__quat__simd_8inl_source_1l00127"/>00127 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="_type__quat__simd_8inl_source_1l00128"/>00128 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;qua&lt;double,&#32;Q&gt;&#32;Result;
+<anchor xml:id="_type__quat__simd_8inl_source_1l00129"/>00129 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Result.data&#32;=&#32;_mm256_mul_pd(q.data,&#32;_mm_set_ps1(s));
+<anchor xml:id="_type__quat__simd_8inl_source_1l00130"/>00130 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;Result;
+<anchor xml:id="_type__quat__simd_8inl_source_1l00131"/>00131 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="_type__quat__simd_8inl_source_1l00132"/>00132 &#32;&#32;&#32;&#32;};
+<anchor xml:id="_type__quat__simd_8inl_source_1l00133"/>00133 <emphasis role="preprocessor">#&#32;&#32;&#32;endif</emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00134"/>00134 
+<anchor xml:id="_type__quat__simd_8inl_source_1l00135"/>00135 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;qualifier&#32;Q&gt;
+<anchor xml:id="_type__quat__simd_8inl_source_1l00136"/>00136 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis>compute_quat_div_scalar&lt;float,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1acbcee443d6d55cb8600b3f240f5cf907">Q</link>,&#32;true&gt;
+<anchor xml:id="_type__quat__simd_8inl_source_1l00137"/>00137 &#32;&#32;&#32;&#32;{
+<anchor xml:id="_type__quat__simd_8inl_source_1l00138"/>00138 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;qua&lt;float,&#32;Q&gt;&#32;<link linkend="_structglm_1_1detail_1_1compute__quat__div__scalar_1a6b25481b3a8b8cd317a157322fef1c04">call</link>(qua&lt;float,&#32;Q&gt;&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;q,&#32;<emphasis role="keywordtype">float</emphasis>&#32;s)
+<anchor xml:id="_type__quat__simd_8inl_source_1l00139"/>00139 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="_type__quat__simd_8inl_source_1l00140"/>00140 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;vec&lt;4,&#32;float,&#32;Q&gt;&#32;Result;
+<anchor xml:id="_type__quat__simd_8inl_source_1l00141"/>00141 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Result.data&#32;=&#32;_mm_div_ps(q.data,&#32;_mm_set_ps1(s));
+<anchor xml:id="_type__quat__simd_8inl_source_1l00142"/>00142 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;Result;
+<anchor xml:id="_type__quat__simd_8inl_source_1l00143"/>00143 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="_type__quat__simd_8inl_source_1l00144"/>00144 &#32;&#32;&#32;&#32;};
+<anchor xml:id="_type__quat__simd_8inl_source_1l00145"/>00145 
+<anchor xml:id="_type__quat__simd_8inl_source_1l00146"/>00146 <emphasis role="preprocessor">#&#32;&#32;&#32;if&#32;GLM_ARCH&#32;&amp;&#32;GLM_ARCH_AVX_BIT</emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00147"/>00147 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;qualifier&#32;Q&gt;
+<anchor xml:id="_type__quat__simd_8inl_source_1l00148"/>00148 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis>compute_quat_div_scalar&lt;double,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1acbcee443d6d55cb8600b3f240f5cf907">Q</link>,&#32;true&gt;
+<anchor xml:id="_type__quat__simd_8inl_source_1l00149"/>00149 &#32;&#32;&#32;&#32;{
+<anchor xml:id="_type__quat__simd_8inl_source_1l00150"/>00150 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;qua&lt;double,&#32;Q&gt;&#32;<link linkend="_structglm_1_1detail_1_1compute__quat__div__scalar_1a6b25481b3a8b8cd317a157322fef1c04">call</link>(qua&lt;double,&#32;Q&gt;&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;q,&#32;<emphasis role="keywordtype">double</emphasis>&#32;s)
+<anchor xml:id="_type__quat__simd_8inl_source_1l00151"/>00151 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="_type__quat__simd_8inl_source_1l00152"/>00152 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;qua&lt;double,&#32;Q&gt;&#32;Result;
+<anchor xml:id="_type__quat__simd_8inl_source_1l00153"/>00153 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Result.data&#32;=&#32;_mm256_div_pd(q.data,&#32;_mm_set_ps1(s));
+<anchor xml:id="_type__quat__simd_8inl_source_1l00154"/>00154 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;Result;
+<anchor xml:id="_type__quat__simd_8inl_source_1l00155"/>00155 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="_type__quat__simd_8inl_source_1l00156"/>00156 &#32;&#32;&#32;&#32;};
+<anchor xml:id="_type__quat__simd_8inl_source_1l00157"/>00157 <emphasis role="preprocessor">#&#32;&#32;&#32;endif</emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00158"/>00158 
+<anchor xml:id="_type__quat__simd_8inl_source_1l00159"/>00159 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;qualifier&#32;Q&gt;
+<anchor xml:id="_type__quat__simd_8inl_source_1l00160"/>00160 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis>compute_quat_mul_vec4&lt;float,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1acbcee443d6d55cb8600b3f240f5cf907">Q</link>,&#32;true&gt;
+<anchor xml:id="_type__quat__simd_8inl_source_1l00161"/>00161 &#32;&#32;&#32;&#32;{
+<anchor xml:id="_type__quat__simd_8inl_source_1l00162"/>00162 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;vec&lt;4,&#32;float,&#32;Q&gt;&#32;<link linkend="_structglm_1_1detail_1_1compute__quat__mul__vec4_1a637b14baf0ce1620b3811c6306588893">call</link>(qua&lt;float,&#32;Q&gt;&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;q,&#32;vec&lt;4,&#32;float,&#32;Q&gt;&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+<anchor xml:id="_type__quat__simd_8inl_source_1l00163"/>00163 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="_type__quat__simd_8inl_source_1l00164"/>00164 <emphasis role="preprocessor">#&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ifdef&#32;GLM_FORCE_QUAT_DATA_WXYZ</emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00165"/>00165 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;<emphasis role="keyword">const</emphasis>&#32;q_wwww&#32;=&#32;_mm_shuffle_ps(q.data,&#32;q.data,&#32;_MM_SHUFFLE(0,&#32;0,&#32;0,&#32;0));
+<anchor xml:id="_type__quat__simd_8inl_source_1l00166"/>00166 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;<emphasis role="keyword">const</emphasis>&#32;q_swp0&#32;=&#32;_mm_shuffle_ps(q.data,&#32;q.data,&#32;_MM_SHUFFLE(0,&#32;1,&#32;3,&#32;2));
+<anchor xml:id="_type__quat__simd_8inl_source_1l00167"/>00167 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;<emphasis role="keyword">const</emphasis>&#32;q_swp1&#32;=&#32;_mm_shuffle_ps(q.data,&#32;q.data,&#32;_MM_SHUFFLE(0,&#32;2,&#32;1,&#32;3));
+<anchor xml:id="_type__quat__simd_8inl_source_1l00168"/>00168 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;<emphasis role="keyword">const</emphasis>&#32;v_swp0&#32;=&#32;_mm_shuffle_ps(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.data,&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.data,&#32;_MM_SHUFFLE(3,&#32;0,&#32;2,&#32;1));
+<anchor xml:id="_type__quat__simd_8inl_source_1l00169"/>00169 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;<emphasis role="keyword">const</emphasis>&#32;v_swp1&#32;=&#32;_mm_shuffle_ps(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.data,&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.data,&#32;_MM_SHUFFLE(3,&#32;1,&#32;0,&#32;2));
+<anchor xml:id="_type__quat__simd_8inl_source_1l00170"/>00170 
+<anchor xml:id="_type__quat__simd_8inl_source_1l00171"/>00171 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;uv&#32;=&#32;_mm_sub_ps(_mm_mul_ps(q_swp0,&#32;v_swp1),&#32;_mm_mul_ps(q_swp1,&#32;v_swp0));
+<anchor xml:id="_type__quat__simd_8inl_source_1l00172"/>00172 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;uv_swp0&#32;=&#32;_mm_shuffle_ps(uv,&#32;uv,&#32;_MM_SHUFFLE(3,&#32;0,&#32;2,&#32;1));
+<anchor xml:id="_type__quat__simd_8inl_source_1l00173"/>00173 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;uv_swp1&#32;=&#32;_mm_shuffle_ps(uv,&#32;uv,&#32;_MM_SHUFFLE(3,&#32;1,&#32;0,&#32;2));
+<anchor xml:id="_type__quat__simd_8inl_source_1l00174"/>00174 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;uuv&#32;=&#32;_mm_sub_ps(_mm_mul_ps(q_swp0,&#32;uv_swp1),&#32;_mm_mul_ps(q_swp1,&#32;uv_swp0));
+<anchor xml:id="_type__quat__simd_8inl_source_1l00175"/>00175 
+<anchor xml:id="_type__quat__simd_8inl_source_1l00176"/>00176 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a282f45bc7cdc923f2937b85bbd8d3c10">two</link>&#32;=&#32;_mm_set1_ps(2.0f);
+<anchor xml:id="_type__quat__simd_8inl_source_1l00177"/>00177 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uv&#32;=&#32;_mm_mul_ps(uv,&#32;_mm_mul_ps(q_wwww,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a282f45bc7cdc923f2937b85bbd8d3c10">two</link>));
+<anchor xml:id="_type__quat__simd_8inl_source_1l00178"/>00178 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uuv&#32;=&#32;_mm_mul_ps(uuv,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a282f45bc7cdc923f2937b85bbd8d3c10">two</link>);
+<anchor xml:id="_type__quat__simd_8inl_source_1l00179"/>00179 
+<anchor xml:id="_type__quat__simd_8inl_source_1l00180"/>00180 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;vec&lt;4,&#32;float,&#32;Q&gt;&#32;Result;
+<anchor xml:id="_type__quat__simd_8inl_source_1l00181"/>00181 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Result.data&#32;=&#32;_mm_add_ps(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.data,&#32;_mm_add_ps(uv,&#32;uuv));
+<anchor xml:id="_type__quat__simd_8inl_source_1l00182"/>00182 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;Result;
+<anchor xml:id="_type__quat__simd_8inl_source_1l00183"/>00183 <emphasis role="preprocessor">#&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;else</emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00184"/>00184 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;<emphasis role="keyword">const</emphasis>&#32;q_wwww&#32;=&#32;_mm_shuffle_ps(q.data,&#32;q.data,&#32;_MM_SHUFFLE(3,&#32;3,&#32;3,&#32;3));
+<anchor xml:id="_type__quat__simd_8inl_source_1l00185"/>00185 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;<emphasis role="keyword">const</emphasis>&#32;q_swp0&#32;=&#32;_mm_shuffle_ps(q.data,&#32;q.data,&#32;_MM_SHUFFLE(3,&#32;0,&#32;2,&#32;1));
+<anchor xml:id="_type__quat__simd_8inl_source_1l00186"/>00186 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;<emphasis role="keyword">const</emphasis>&#32;q_swp1&#32;=&#32;_mm_shuffle_ps(q.data,&#32;q.data,&#32;_MM_SHUFFLE(3,&#32;1,&#32;0,&#32;2));
+<anchor xml:id="_type__quat__simd_8inl_source_1l00187"/>00187 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;<emphasis role="keyword">const</emphasis>&#32;v_swp0&#32;=&#32;_mm_shuffle_ps(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.data,&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.data,&#32;_MM_SHUFFLE(3,&#32;0,&#32;2,&#32;1));
+<anchor xml:id="_type__quat__simd_8inl_source_1l00188"/>00188 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;<emphasis role="keyword">const</emphasis>&#32;v_swp1&#32;=&#32;_mm_shuffle_ps(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.data,&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.data,&#32;_MM_SHUFFLE(3,&#32;1,&#32;0,&#32;2));
+<anchor xml:id="_type__quat__simd_8inl_source_1l00189"/>00189 
+<anchor xml:id="_type__quat__simd_8inl_source_1l00190"/>00190 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;uv&#32;&#32;&#32;&#32;&#32;&#32;=&#32;_mm_sub_ps(_mm_mul_ps(q_swp0,&#32;v_swp1),&#32;_mm_mul_ps(q_swp1,&#32;v_swp0));
+<anchor xml:id="_type__quat__simd_8inl_source_1l00191"/>00191 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;uv_swp0&#32;=&#32;_mm_shuffle_ps(uv,&#32;uv,&#32;_MM_SHUFFLE(3,&#32;0,&#32;2,&#32;1));
+<anchor xml:id="_type__quat__simd_8inl_source_1l00192"/>00192 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;uv_swp1&#32;=&#32;_mm_shuffle_ps(uv,&#32;uv,&#32;_MM_SHUFFLE(3,&#32;1,&#32;0,&#32;2));
+<anchor xml:id="_type__quat__simd_8inl_source_1l00193"/>00193 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;uuv&#32;&#32;&#32;&#32;&#32;=&#32;_mm_sub_ps(_mm_mul_ps(q_swp0,&#32;uv_swp1),&#32;_mm_mul_ps(q_swp1,&#32;uv_swp0));
+<anchor xml:id="_type__quat__simd_8inl_source_1l00194"/>00194 
+<anchor xml:id="_type__quat__simd_8inl_source_1l00195"/>00195 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a282f45bc7cdc923f2937b85bbd8d3c10">two</link>&#32;=&#32;_mm_set1_ps(2.0f);
+<anchor xml:id="_type__quat__simd_8inl_source_1l00196"/>00196 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uv&#32;&#32;=&#32;_mm_mul_ps(uv,&#32;_mm_mul_ps(q_wwww,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a282f45bc7cdc923f2937b85bbd8d3c10">two</link>));
+<anchor xml:id="_type__quat__simd_8inl_source_1l00197"/>00197 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uuv&#32;=&#32;_mm_mul_ps(uuv,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a282f45bc7cdc923f2937b85bbd8d3c10">two</link>);
+<anchor xml:id="_type__quat__simd_8inl_source_1l00198"/>00198 
+<anchor xml:id="_type__quat__simd_8inl_source_1l00199"/>00199 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;vec&lt;4,&#32;float,&#32;Q&gt;&#32;Result;
+<anchor xml:id="_type__quat__simd_8inl_source_1l00200"/>00200 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Result.data&#32;=&#32;_mm_add_ps(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.data,&#32;_mm_add_ps(uv,&#32;uuv));
+<anchor xml:id="_type__quat__simd_8inl_source_1l00201"/>00201 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;Result;
+<anchor xml:id="_type__quat__simd_8inl_source_1l00202"/>00202 <emphasis role="preprocessor">#&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;endif</emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00203"/>00203 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="_type__quat__simd_8inl_source_1l00204"/>00204 &#32;&#32;&#32;&#32;};
+<anchor xml:id="_type__quat__simd_8inl_source_1l00205"/>00205 }<emphasis role="comment">//namespace&#32;detail</emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00206"/>00206 }<emphasis role="comment">//namespace&#32;glm</emphasis>
+<anchor xml:id="_type__quat__simd_8inl_source_1l00207"/>00207 
+<anchor xml:id="_type__quat__simd_8inl_source_1l00208"/>00208 <emphasis role="preprocessor">#endif</emphasis><emphasis role="comment">//GLM_ARCH&#32;&amp;&#32;GLM_ARCH_SSE2_BIT</emphasis>
+</programlisting></section>

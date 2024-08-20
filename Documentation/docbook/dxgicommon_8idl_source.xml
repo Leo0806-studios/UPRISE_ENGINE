@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_dxgicommon_8idl_source" xml:lang="en-US">
+<title>dxgicommon.idl</title>
+<indexterm><primary>adhed/dxgicommon.idl</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 <emphasis role="comment">//</emphasis>
+2 <emphasis role="comment">//&#32;&#32;&#32;&#32;Copyright&#32;(C)&#32;Microsoft&#32;Corporation.</emphasis>
+3 <emphasis role="comment">//&#32;&#32;&#32;&#32;Licensed&#32;under&#32;the&#32;MIT&#32;license</emphasis>
+4 <emphasis role="comment">//</emphasis>
+5 
+6 <emphasis role="keyword">import</emphasis>&#32;<emphasis role="stringliteral">&quot;ocidl.idl&quot;</emphasis>;
+7 
+8 <emphasis role="keyword">typedef</emphasis>&#32;<emphasis role="keyword">struct&#32;</emphasis><link linkend="_struct_d_x_g_i___r_a_t_i_o_n_a_l">DXGI_RATIONAL</link>
+9 {
+10 &#32;&#32;&#32;&#32;UINT&#32;<link linkend="_struct_d_x_g_i___r_a_t_i_o_n_a_l_1acbc94d995137814bb5a499cf1d241fe4">Numerator</link>;
+11 &#32;&#32;&#32;&#32;UINT&#32;<link linkend="_struct_d_x_g_i___r_a_t_i_o_n_a_l_1aa91185f8ccbc7d3f80695343ba9d89c3">Denominator</link>;
+12 }&#32;<link linkend="_dxgicommon_8idl_1a21bc023078a8722a8604c73d4351dc49">DXGI_RATIONAL</link>;
+13 
+14 <emphasis role="comment">//&#32;The&#32;following&#32;values&#32;are&#32;used&#32;with&#32;DXGI_SAMPLE_DESC::Quality:</emphasis>
+15 <emphasis role="preprocessor">#define&#32;DXGI_STANDARD_MULTISAMPLE_QUALITY_PATTERN&#32;0xffffffff</emphasis>
+16 <emphasis role="preprocessor">#define&#32;DXGI_CENTER_MULTISAMPLE_QUALITY_PATTERN&#32;0xfffffffe</emphasis>
+17 
+18 <emphasis role="keyword">typedef</emphasis>&#32;<emphasis role="keyword">struct&#32;</emphasis><link linkend="_struct_d_x_g_i___s_a_m_p_l_e___d_e_s_c">DXGI_SAMPLE_DESC</link>
+19 {
+20 &#32;&#32;&#32;&#32;UINT&#32;<link linkend="_struct_d_x_g_i___s_a_m_p_l_e___d_e_s_c_1ade4623104f822ea63cbbcf43a365a87f">Count</link>;
+21 &#32;&#32;&#32;&#32;UINT&#32;<link linkend="_struct_d_x_g_i___s_a_m_p_l_e___d_e_s_c_1a5801818269211925865000f66756dcb8">Quality</link>;
+22 }&#32;<link linkend="_dxgicommon_8idl_1a1b8510a4d51fe33d3ccaf2155f94cae5">DXGI_SAMPLE_DESC</link>;
+23 
+24 <emphasis role="keyword">typedef</emphasis>&#32;<emphasis role="keyword">enum</emphasis>&#32;<link linkend="_dxgicommon_8h_1a9a75af6c1dbff7fcbea19a9211772a94">DXGI_COLOR_SPACE_TYPE</link>
+25 {
+26 &#32;&#32;&#32;&#32;<link linkend="_dxgicommon_8idl_1a9a75af6c1dbff7fcbea19a9211772a94a9e49877c341404e04b205d8912f9a61a">DXGI_COLOR_SPACE_RGB_FULL_G22_NONE_P709</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;=&#32;0,
+27 &#32;&#32;&#32;&#32;<link linkend="_dxgicommon_8idl_1a9a75af6c1dbff7fcbea19a9211772a94ac4e19fd8b72819472d20d70cc519d428">DXGI_COLOR_SPACE_RGB_FULL_G10_NONE_P709</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;=&#32;1,
+28 &#32;&#32;&#32;&#32;<link linkend="_dxgicommon_8idl_1a9a75af6c1dbff7fcbea19a9211772a94ae2ad96dd04370a8c24b72abb0bc8dfb0">DXGI_COLOR_SPACE_RGB_STUDIO_G22_NONE_P709</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;=&#32;2,
+29 &#32;&#32;&#32;&#32;<link linkend="_dxgicommon_8idl_1a9a75af6c1dbff7fcbea19a9211772a94ae2b37edbaf1411dbb72ce4c96ea1ab4e">DXGI_COLOR_SPACE_RGB_STUDIO_G22_NONE_P2020</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;=&#32;3,
+30 &#32;&#32;&#32;&#32;<link linkend="_dxgicommon_8idl_1a9a75af6c1dbff7fcbea19a9211772a94abe39bb064998f0a592cae4a9ff7b4133">DXGI_COLOR_SPACE_RESERVED</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;=&#32;4,
+31 &#32;&#32;&#32;&#32;<link linkend="_dxgicommon_8idl_1a9a75af6c1dbff7fcbea19a9211772a94a2a83e3946a200396e0f2788479112751">DXGI_COLOR_SPACE_YCBCR_FULL_G22_NONE_P709_X601</link>&#32;&#32;&#32;&#32;&#32;&#32;=&#32;5,
+32 &#32;&#32;&#32;&#32;<link linkend="_dxgicommon_8idl_1a9a75af6c1dbff7fcbea19a9211772a94ab26f320b31b9fe31a3ffd3ef4b9536cd">DXGI_COLOR_SPACE_YCBCR_STUDIO_G22_LEFT_P601</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;=&#32;6,
+33 &#32;&#32;&#32;&#32;<link linkend="_dxgicommon_8idl_1a9a75af6c1dbff7fcbea19a9211772a94add72d1274cd957bedcde00d01f78005c">DXGI_COLOR_SPACE_YCBCR_FULL_G22_LEFT_P601</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;=&#32;7,
+34 &#32;&#32;&#32;&#32;<link linkend="_dxgicommon_8idl_1a9a75af6c1dbff7fcbea19a9211772a94a26a0bb9400a5d1df0a857a8bdc9444eb">DXGI_COLOR_SPACE_YCBCR_STUDIO_G22_LEFT_P709</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;=&#32;8,
+35 &#32;&#32;&#32;&#32;<link linkend="_dxgicommon_8idl_1a9a75af6c1dbff7fcbea19a9211772a94a1934ee98e336f0cc94183163800e25ae">DXGI_COLOR_SPACE_YCBCR_FULL_G22_LEFT_P709</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;=&#32;9,
+36 &#32;&#32;&#32;&#32;<link linkend="_dxgicommon_8idl_1a9a75af6c1dbff7fcbea19a9211772a94a22f540669deab7a022f163e2643c85bd">DXGI_COLOR_SPACE_YCBCR_STUDIO_G22_LEFT_P2020</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;=&#32;10,
+37 &#32;&#32;&#32;&#32;<link linkend="_dxgicommon_8idl_1a9a75af6c1dbff7fcbea19a9211772a94a99996cc0386c0fde9498084644ed38af">DXGI_COLOR_SPACE_YCBCR_FULL_G22_LEFT_P2020</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;=&#32;11,
+38 &#32;&#32;&#32;&#32;<link linkend="_dxgicommon_8idl_1a9a75af6c1dbff7fcbea19a9211772a94aa7e77f54b5d894559e72c30c32e6f902">DXGI_COLOR_SPACE_RGB_FULL_G2084_NONE_P2020</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;=&#32;12,
+39 &#32;&#32;&#32;&#32;<link linkend="_dxgicommon_8idl_1a9a75af6c1dbff7fcbea19a9211772a94a0703f183ddf910bddd11a81041542e2a">DXGI_COLOR_SPACE_YCBCR_STUDIO_G2084_LEFT_P2020</link>&#32;&#32;&#32;&#32;&#32;&#32;=&#32;13,
+40 &#32;&#32;&#32;&#32;<link linkend="_dxgicommon_8idl_1a9a75af6c1dbff7fcbea19a9211772a94a609541393b859523e3270af0d6939f87">DXGI_COLOR_SPACE_RGB_STUDIO_G2084_NONE_P2020</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;=&#32;14,
+41 &#32;&#32;&#32;&#32;<link linkend="_dxgicommon_8idl_1a9a75af6c1dbff7fcbea19a9211772a94a3360facd193ff8923072531e96338799">DXGI_COLOR_SPACE_YCBCR_STUDIO_G22_TOPLEFT_P2020</link>&#32;&#32;&#32;&#32;&#32;=&#32;15,
+42 &#32;&#32;&#32;&#32;<link linkend="_dxgicommon_8idl_1a9a75af6c1dbff7fcbea19a9211772a94ad0abbfd03e392c758ac9b825d6a05a67">DXGI_COLOR_SPACE_YCBCR_STUDIO_G2084_TOPLEFT_P2020</link>&#32;&#32;&#32;=&#32;16,
+43 &#32;&#32;&#32;&#32;<link linkend="_dxgicommon_8idl_1a9a75af6c1dbff7fcbea19a9211772a94ad0c13eb0cff03d786e80af9c0d0a4f28">DXGI_COLOR_SPACE_RGB_FULL_G22_NONE_P2020</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;=&#32;17,
+44 &#32;&#32;&#32;&#32;<link linkend="_dxgicommon_8idl_1a9a75af6c1dbff7fcbea19a9211772a94ad847e7fbda7313973ec78cdbde5153da">DXGI_COLOR_SPACE_YCBCR_STUDIO_GHLG_TOPLEFT_P2020</link>&#32;&#32;&#32;&#32;=&#32;18,
+45 &#32;&#32;&#32;&#32;<link linkend="_dxgicommon_8idl_1a9a75af6c1dbff7fcbea19a9211772a94a6875b468d980b114383cf2bb507cbf6c">DXGI_COLOR_SPACE_YCBCR_FULL_GHLG_TOPLEFT_P2020</link>&#32;&#32;&#32;&#32;&#32;&#32;=&#32;19,
+46 &#32;&#32;&#32;&#32;<link linkend="_dxgicommon_8idl_1a9a75af6c1dbff7fcbea19a9211772a94ac9f9a36eb195c9fc341e491905f11f6e">DXGI_COLOR_SPACE_RGB_STUDIO_G24_NONE_P709</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;=&#32;20,
+47 &#32;&#32;&#32;&#32;<link linkend="_dxgicommon_8idl_1a9a75af6c1dbff7fcbea19a9211772a94a8057b0e2805fca2714743558c5052044">DXGI_COLOR_SPACE_RGB_STUDIO_G24_NONE_P2020</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;=&#32;21,
+48 &#32;&#32;&#32;&#32;<link linkend="_dxgicommon_8idl_1a9a75af6c1dbff7fcbea19a9211772a94ace0504bbd68b84ce07a0e3ff0be1d1a1">DXGI_COLOR_SPACE_YCBCR_STUDIO_G24_LEFT_P709</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;=&#32;22,
+49 &#32;&#32;&#32;&#32;<link linkend="_dxgicommon_8idl_1a9a75af6c1dbff7fcbea19a9211772a94abbccc44c05a81623d05ef0b0f790ed36">DXGI_COLOR_SPACE_YCBCR_STUDIO_G24_LEFT_P2020</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;=&#32;23,
+50 &#32;&#32;&#32;&#32;<link linkend="_dxgicommon_8idl_1a9a75af6c1dbff7fcbea19a9211772a94a98f2e6ac97c2d4cd9b906f125a75980c">DXGI_COLOR_SPACE_YCBCR_STUDIO_G24_TOPLEFT_P2020</link>&#32;&#32;&#32;&#32;&#32;=&#32;24,
+51 &#32;&#32;&#32;&#32;<link linkend="_dxgicommon_8idl_1a9a75af6c1dbff7fcbea19a9211772a94ac4c5a9afae770dddaa4eb307ad778e5a">DXGI_COLOR_SPACE_CUSTOM</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;=&#32;0xFFFFFFFF
+52 }&#32;<link linkend="_dxgicommon_8idl_1a9a75af6c1dbff7fcbea19a9211772a94">DXGI_COLOR_SPACE_TYPE</link>;
+53 
+</programlisting></section>

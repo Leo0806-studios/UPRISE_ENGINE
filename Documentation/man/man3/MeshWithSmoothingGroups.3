@@ -1,0 +1,50 @@
+.TH "MeshWithSmoothingGroups< T >" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+MeshWithSmoothingGroups< T >
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fR#include <SmoothingGroups\&.h>\fP
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "std::vector< \fBaiVector3D\fP > \fBmPositions\fP"
+.br
+.RI "Vertex positions\&. "
+.ti -1c
+.RI "std::vector< \fBT\fP > \fBmFaces\fP"
+.br
+.RI "Face lists\&. "
+.ti -1c
+.RI "std::vector< \fBaiVector3D\fP > \fBmNormals\fP"
+.br
+.RI "List of normal vectors\&. "
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.SS "template<class \fBT\fP>
+.br
+struct MeshWithSmoothingGroups< T >"Helper structure representing a mesh whose faces have smoothing groups assigned\&. This allows us to reuse the code for normal computations from smoothings groups for several loaders (3DS, ASE)\&. All of them use face structures which inherit from \fBFaceWithSmoothingGroup\fP, but as they add extra members and need to be copied by value we need to use a template here\&. 
+.SH "Member Data Documentation"
+.PP 
+.SS "template<class \fBT\fP > std::vector<\fBT\fP> \fBMeshWithSmoothingGroups\fP< \fBT\fP >::mFaces"
+
+.PP
+Face lists\&. 
+.SS "template<class \fBT\fP > std::vector<\fBaiVector3D\fP> \fBMeshWithSmoothingGroups\fP< \fBT\fP >::mNormals"
+
+.PP
+List of normal vectors\&. 
+.SS "template<class \fBT\fP > std::vector<\fBaiVector3D\fP> \fBMeshWithSmoothingGroups\fP< \fBT\fP >::mPositions"
+
+.PP
+Vertex positions\&. 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

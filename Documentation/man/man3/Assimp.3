@@ -1,0 +1,654 @@
+.TH "Assimp" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Assimp \- Some C++ utilities for inter- and extrapolation\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI "namespace \fBBase64\fP"
+.br
+.ti -1c
+.RI "namespace \fBFormatter\fP"
+.br
+.ti -1c
+.RI "namespace \fBIntern\fP"
+.br
+.ti -1c
+.RI "namespace \fBMath\fP"
+.br
+.ti -1c
+.RI "namespace \fBProfiling\fP"
+.br
+.in -1c
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBAttachmentInfo\fP"
+.br
+.RI "Helper data structure for \fBSceneCombiner\fP\&. "
+.ti -1c
+.RI "class \fBBaseImporter\fP"
+.br
+.ti -1c
+.RI "class \fBBitmap\fP"
+.br
+.ti -1c
+.RI "class \fBBlobIOStream\fP"
+.br
+.ti -1c
+.RI "class \fBBlobIOSystem\fP"
+.br
+.ti -1c
+.RI "struct \fBBoneWithHash\fP"
+.br
+.RI "Helper data structure for \fBSceneCombiner::MergeBones\fP\&. "
+.ti -1c
+.RI "class \fBByteSwap\fP"
+.br
+.ti -1c
+.RI "class \fBCommentRemover\fP"
+.br
+.RI "Helper class to remove single and multi line comments from a file\&. "
+.ti -1c
+.RI "class \fBDefaultIOStream\fP"
+.br
+.RI "Default IO implementation, use standard IO operations\&. "
+.ti -1c
+.RI "class \fBDefaultIOSystem\fP"
+.br
+.ti -1c
+.RI "class \fBDefaultLogger\fP"
+.br
+.RI "CPP-API: Primary logging facility of \fBAssimp\fP\&. "
+.ti -1c
+.RI "class \fBExporter\fP"
+.br
+.ti -1c
+.RI "class \fBExportProperties\fP"
+.br
+.ti -1c
+.RI "struct \fBfind_node_by_name_predicate\fP"
+.br
+.RI "Will find a node by its name\&. "
+.ti -1c
+.RI "class \fBImporter\fP"
+.br
+.ti -1c
+.RI "struct \fBInterpolator\fP"
+.br
+.RI "CPP-API: Utility class to simplify interpolations of various data types\&. "
+.ti -1c
+.RI "class \fBIOStream\fP"
+.br
+.RI "CPP-API: Class to handle file I/O for C++\&. "
+.ti -1c
+.RI "class \fBIOStreamBuffer\fP"
+.br
+.ti -1c
+.RI "class \fBIOSystem\fP"
+.br
+.RI "CPP-API: Interface to the file system\&. "
+.ti -1c
+.RI "class \fBLineSplitter\fP"
+.br
+.ti -1c
+.RI "class \fBLogFunctions\fP"
+.br
+.RI "\fBLogger\fP class, which will extend the class by log-functions\&. "
+.ti -1c
+.RI "class \fBLogger\fP"
+.br
+.RI "CPP-API: Abstract interface for logger implementations\&. \fBAssimp\fP provides a default implementation and uses it for almost all logging stuff ('\fBDefaultLogger\fP')\&. This class defines just basic logging behavior and is not of interest for you\&. Instead, take a look at #DefaultLogger\&. "
+.ti -1c
+.RI "class \fBLogStream\fP"
+.br
+.RI "CPP-API: Abstract interface for log stream implementations\&. "
+.ti -1c
+.RI "class \fBMemoryIOStream\fP"
+.br
+.ti -1c
+.RI "class \fBMemoryIOSystem\fP"
+.br
+.ti -1c
+.RI "struct \fBNodeAttachmentInfo\fP"
+.br
+.ti -1c
+.RI "struct \fBNodeConverter\fP"
+.br
+.RI "Will convert an attribute to its int value\&. "
+.ti -1c
+.RI "class \fBNullLogger\fP"
+.br
+.RI "CPP-API: \fBEmpty\fP logging implementation\&. "
+.ti -1c
+.RI "class \fBProgressHandler\fP"
+.br
+.RI "CPP-API: Abstract interface for custom progress report receivers\&. "
+.ti -1c
+.RI "class \fBSceneCombiner\fP"
+.br
+.RI "Static helper class providing various utilities to merge two scenes\&. It is intended as internal utility and NOT for use by applications\&. "
+.ti -1c
+.RI "struct \fBSceneHelper\fP"
+.br
+.RI "Utility for \fBSceneCombiner\fP\&. "
+.ti -1c
+.RI "class \fBSGSpatialSort\fP"
+.br
+.ti -1c
+.RI "class \fBSkeletonMeshBuilder\fP"
+.br
+.ti -1c
+.RI "class \fBSmallVector\fP"
+.br
+.RI "Small vector with inplace storage\&. "
+.ti -1c
+.RI "class \fBSpatialSort\fP"
+.br
+.ti -1c
+.RI "class \fBStandardShapes\fP"
+.br
+.RI "Helper class to generate vertex buffers for standard geometric shapes, such as cylinders, cones, boxes, spheres, elipsoids \&.\&.\&. \&. "
+.ti -1c
+.RI "class \fBStreamReader\fP"
+.br
+.ti -1c
+.RI "class \fBStreamWriter\fP"
+.br
+.ti -1c
+.RI "class \fBSubdivider\fP"
+.br
+.ti -1c
+.RI "class \fBTXmlParser\fP"
+.br
+.RI "The Xml-Parser class\&. "
+.ti -1c
+.RI "class \fBVertex\fP"
+.br
+.ti -1c
+.RI "class \fBXmlNodeIterator\fP"
+.br
+.RI "This class declares an iterator to loop through all children of the root node\&. "
+.ti -1c
+.RI "class \fBZipArchiveIOSystem\fP"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef std::pair< \fBaiBone\fP *, unsigned int > \fBBoneSrcIndex\fP"
+.br
+.ti -1c
+.RI "typedef \fBStreamReader\fP< true > \fBStreamReaderBE\fP"
+.br
+.ti -1c
+.RI "typedef \fBStreamReader\fP< false > \fBStreamReaderLE\fP"
+.br
+.ti -1c
+.RI "typedef \fBStreamReader\fP< true, true > \fBStreamReaderAny\fP"
+.br
+.ti -1c
+.RI "typedef \fBStreamWriter\fP< true > \fBStreamWriterBE\fP"
+.br
+.ti -1c
+.RI "typedef \fBStreamWriter\fP< false > \fBStreamWriterLE\fP"
+.br
+.ti -1c
+.RI "typedef \fBStreamWriter\fP< true, true > \fBStreamWriterAny\fP"
+.br
+.ti -1c
+.RI "using \fBXmlNode\fP = pugi::xml_node"
+.br
+.ti -1c
+.RI "using \fBXmlAttribute\fP = pugi::xml_attribute"
+.br
+.ti -1c
+.RI "using \fBXmlParser\fP = \fBTXmlParser\fP<pugi::xml_node>"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBaiAnimMesh\fP * \fBaiCreateAnimMesh\fP (const \fBaiMesh\fP *mesh, bool needPositions=true, bool needNormals=true, bool needTangents=true, bool needColors=true, bool needTexCoords=true)"
+.br
+.ti -1c
+.RI "unsigned int \fBstrtoul10\fP (const char *in, const char **out=0)"
+.br
+.ti -1c
+.RI "unsigned int \fBstrtoul8\fP (const char *in, const char **out=0)"
+.br
+.ti -1c
+.RI "unsigned int \fBstrtoul16\fP (const char *in, const char **out=0)"
+.br
+.ti -1c
+.RI "unsigned int \fBHexDigitToDecimal\fP (char in)"
+.br
+.ti -1c
+.RI "uint8_t \fBHexOctetToDecimal\fP (const char *in)"
+.br
+.ti -1c
+.RI "int \fBstrtol10\fP (const char *in, const char **out=0)"
+.br
+.ti -1c
+.RI "unsigned int \fBstrtoul_cppstyle\fP (const char *in, const char **out=0)"
+.br
+.ti -1c
+.RI "template<typename ExceptionType  = DeadlyImportError> uint64_t \fBstrtoul10_64\fP (const char *in, const char **out=0, unsigned int *max_inout=0)"
+.br
+.ti -1c
+.RI "template<typename ExceptionType  = DeadlyImportError> int64_t \fBstrtol10_64\fP (const char *in, const char **out=0, unsigned int *max_inout=0)"
+.br
+.ti -1c
+.RI "template<typename Real , typename ExceptionType  = DeadlyImportError> const char * \fBfast_atoreal_move\fP (const char *c, Real &out, bool check_comma=true)"
+.br
+.ti -1c
+.RI "template<typename ExceptionType  = DeadlyImportError> \fBai_real\fP \fBfast_atof\fP (const char *c)"
+.br
+.ti -1c
+.RI "template<typename ExceptionType  = DeadlyImportError> \fBai_real\fP \fBfast_atof\fP (const char *c, const char **cout)"
+.br
+.ti -1c
+.RI "template<typename ExceptionType  = DeadlyImportError> \fBai_real\fP \fBfast_atof\fP (const char **inout)"
+.br
+.ti -1c
+.RI "template<class char_t > \fBAI_FORCE_INLINE\fP bool \fBIsUpper\fP (char_t in)"
+.br
+.ti -1c
+.RI "template<class char_t > \fBAI_FORCE_INLINE\fP bool \fBIsLower\fP (char_t in)"
+.br
+.ti -1c
+.RI "template<class char_t > \fBAI_FORCE_INLINE\fP bool \fBIsSpace\fP (char_t in)"
+.br
+.ti -1c
+.RI "template<class char_t > \fBAI_FORCE_INLINE\fP bool \fBIsLineEnd\fP (char_t in)"
+.br
+.ti -1c
+.RI "template<class char_t > \fBAI_FORCE_INLINE\fP bool \fBIsSpaceOrNewLine\fP (char_t in)"
+.br
+.ti -1c
+.RI "template<class char_t > \fBAI_FORCE_INLINE\fP bool \fBSkipSpaces\fP (const char_t *in, const char_t **out)"
+.br
+.ti -1c
+.RI "template<class char_t > \fBAI_FORCE_INLINE\fP bool \fBSkipSpaces\fP (const char_t **inout)"
+.br
+.ti -1c
+.RI "template<class char_t > \fBAI_FORCE_INLINE\fP bool \fBSkipLine\fP (const char_t *in, const char_t **out)"
+.br
+.ti -1c
+.RI "template<class char_t > \fBAI_FORCE_INLINE\fP bool \fBSkipLine\fP (const char_t **inout)"
+.br
+.ti -1c
+.RI "template<class char_t > \fBAI_FORCE_INLINE\fP bool \fBSkipSpacesAndLineEnd\fP (const char_t *in, const char_t **out)"
+.br
+.ti -1c
+.RI "template<class char_t > \fBAI_FORCE_INLINE\fP bool \fBSkipSpacesAndLineEnd\fP (const char_t **inout)"
+.br
+.ti -1c
+.RI "template<class char_t > \fBAI_FORCE_INLINE\fP bool \fBGetNextLine\fP (const char_t *&\fBbuffer\fP, char_t out[BufferSize])"
+.br
+.ti -1c
+.RI "template<class char_t > \fBAI_FORCE_INLINE\fP bool \fBIsNumeric\fP (char_t in)"
+.br
+.ti -1c
+.RI "template<class char_t > \fBAI_FORCE_INLINE\fP bool \fBTokenMatch\fP (char_t *&in, const char *token, unsigned int len)"
+.br
+.ti -1c
+.RI "\fBAI_FORCE_INLINE\fP bool \fBTokenMatchI\fP (const char *&in, const char *token, unsigned int len)"
+.br
+.RI "Case-ignoring version of TokenMatch\&. "
+.ti -1c
+.RI "\fBAI_FORCE_INLINE\fP \fBvoid\fP \fBSkipToken\fP (const char *&in)"
+.br
+.ti -1c
+.RI "\fBAI_FORCE_INLINE\fP std::string \fBGetNextToken\fP (const char *&in)"
+.br
+.ti -1c
+.RI "template<class string_type > \fBAI_FORCE_INLINE\fP unsigned int \fBtokenize\fP (const string_type &str, std::vector< string_type > &tokens, const string_type &delimiters)"
+.br
+.RI "Will perform a simple tokenize\&. "
+.ti -1c
+.RI "std::string \fBai_stdStrToLower\fP (const std::string &str)"
+.br
+.ti -1c
+.RI "unsigned int \fBASSIMP_itoa10\fP (char *out, unsigned int max, int32_t number)"
+.br
+.RI "itoa with a fixed base 10 'itoa' is not consistently available on all platforms so it is quite useful to have a small replacement function here\&. No need to use a full sprintf() if we just want to print a number \&.\&.\&. "
+.ti -1c
+.RI "template<size_t length> unsigned int \fBASSIMP_itoa10\fP (char(&out)[\fBlength\fP], int32_t number)"
+.br
+.RI "itoa with a fixed base 10 (Secure template overload) The compiler should choose this function if he or she is able to determine the size of the array automatically\&. "
+.ti -1c
+.RI "int \fBASSIMP_stricmp\fP (const char *s1, const char *s2)"
+.br
+.RI "Helper function to do platform independent string comparison\&. "
+.ti -1c
+.RI "int \fBASSIMP_stricmp\fP (const std::string &\fBa\fP, const std::string &\fBb\fP)"
+.br
+.RI "Case independent comparison of two std::strings\&. "
+.ti -1c
+.RI "int \fBASSIMP_strincmp\fP (const char *s1, const char *s2, unsigned int n)"
+.br
+.RI "Helper function to do platform independent string comparison\&. "
+.ti -1c
+.RI "unsigned int \fBinteger_pow\fP (unsigned int base, unsigned int power)"
+.br
+.RI "Evaluates an integer power\&. "
+.ti -1c
+.RI "\fBAI_FORCE_INLINE\fP \fBVertex\fP \fBoperator+\fP (const \fBVertex\fP &\fBv0\fP, const \fBVertex\fP &\fBv1\fP)"
+.br
+.ti -1c
+.RI "\fBAI_FORCE_INLINE\fP \fBVertex\fP \fBoperator\-\fP (const \fBVertex\fP &\fBv0\fP, const \fBVertex\fP &\fBv1\fP)"
+.br
+.ti -1c
+.RI "\fBAI_FORCE_INLINE\fP \fBVertex\fP \fBoperator*\fP (const \fBVertex\fP &\fBv0\fP, \fBai_real\fP \fBf\fP)"
+.br
+.ti -1c
+.RI "\fBAI_FORCE_INLINE\fP \fBVertex\fP \fBoperator/\fP (const \fBVertex\fP &\fBv0\fP, \fBai_real\fP \fBf\fP)"
+.br
+.ti -1c
+.RI "\fBAI_FORCE_INLINE\fP \fBVertex\fP \fBoperator*\fP (\fBai_real\fP \fBf\fP, const \fBVertex\fP &\fBv0\fP)"
+.br
+.ti -1c
+.RI "std::string \fBXMLEscape\fP (const std::string &\fBdata\fP)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "class \fBASSIMP_API\fP \fBExportProperties\fP"
+.br
+.ti -1c
+.RI "const double \fBfast_atof_table\fP [16]"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Some C++ utilities for inter- and extrapolation\&. 
+
+\fBAssimp\fP's CPP-API and all internal APIs 
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef std::pair<\fBaiBone\fP *, unsigned int> \fBAssimp::BoneSrcIndex\fP"
+
+.SS "typedef \fBStreamReader\fP<true, true> \fBAssimp::StreamReaderAny\fP"
+
+.SS "typedef \fBStreamReader\fP<true> \fBAssimp::StreamReaderBE\fP"
+
+.SS "typedef \fBStreamReader\fP<false> \fBAssimp::StreamReaderLE\fP"
+
+.SS "typedef \fBStreamWriter\fP<true,true> \fBAssimp::StreamWriterAny\fP"
+
+.SS "typedef \fBStreamWriter\fP<true> \fBAssimp::StreamWriterBE\fP"
+
+.SS "typedef \fBStreamWriter\fP<false> \fBAssimp::StreamWriterLE\fP"
+
+.SS "using \fBAssimp::XmlAttribute\fP = pugi::xml_attribute"
+
+.SS "using \fBAssimp::XmlNode\fP = pugi::xml_node"
+
+.SS "using \fBAssimp::XmlParser\fP = \fBTXmlParser\fP<pugi::xml_node>"
+
+.SH "Function Documentation"
+.PP 
+.SS "std::string Assimp::ai_stdStrToLower (const std::string & str)\fR [inline]\fP"
+
+.SS "\fBASSIMP_API\fP \fBaiAnimMesh\fP * Assimp::aiCreateAnimMesh (const \fBaiMesh\fP * mesh, bool needPositions = \fRtrue\fP, bool needNormals = \fRtrue\fP, bool needTangents = \fRtrue\fP, bool needColors = \fRtrue\fP, bool needTexCoords = \fRtrue\fP)"
+Create \fBaiAnimMesh\fP from \fBaiMesh\fP\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fImesh\fP The input mesh to create an animated mesh from\&. 
+.br
+\fIneedPositions\fP If true, positions will be copied from\&. 
+.br
+\fIneedNormals\fP If true, normals will be copied from\&. 
+.br
+\fIneedTangents\fP If true, tangents and bitangents will be copied from\&. 
+.br
+\fIneedColors\fP If true, colors will be copied from\&. 
+.br
+\fIneedTexCoords\fP If true, texCoords will be copied from\&. 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+The new created animated mesh\&. 
+.RE
+.PP
+
+.SS "unsigned int Assimp::ASSIMP_itoa10 (char * out, unsigned int max, int32_t number)\fR [inline]\fP"
+
+.PP
+itoa with a fixed base 10 'itoa' is not consistently available on all platforms so it is quite useful to have a small replacement function here\&. No need to use a full sprintf() if we just want to print a number \&.\&.\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIout\fP Output buffer 
+.br
+\fImax\fP Maximum number of characters to be written, including '\\0'\&. This parameter may not be 0\&. 
+.br
+\fInumber\fP Number to be written 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+Length of the output string, excluding the '\\0' 
+.RE
+.PP
+
+.SS "template<size_t length> unsigned int Assimp::ASSIMP_itoa10 (char(&) out[length], int32_t number)\fR [inline]\fP"
+
+.PP
+itoa with a fixed base 10 (Secure template overload) The compiler should choose this function if he or she is able to determine the size of the array automatically\&. 
+.SS "int Assimp::ASSIMP_stricmp (const char * s1, const char * s2)\fR [inline]\fP"
+
+.PP
+Helper function to do platform independent string comparison\&. This is required since stricmp() is not consistently available on all platforms\&. Some platforms use the '_' prefix, others don't even have such a function\&.
+.PP
+\fBParameters\fP
+.RS 4
+\fIs1\fP First input string 
+.br
+\fIs2\fP Second input string 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+0 if the given strings are identical 
+.RE
+.PP
+
+.SS "int Assimp::ASSIMP_stricmp (const std::string & a, const std::string & b)\fR [inline]\fP"
+
+.PP
+Case independent comparison of two std::strings\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIa\fP First string 
+.br
+\fIb\fP Second string 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+0 if a == b 
+.RE
+.PP
+
+.SS "int Assimp::ASSIMP_strincmp (const char * s1, const char * s2, unsigned int n)\fR [inline]\fP"
+
+.PP
+Helper function to do platform independent string comparison\&. This is required since strincmp() is not consistently available on all platforms\&. Some platforms use the '_' prefix, others don't even have such a function\&.
+.PP
+\fBParameters\fP
+.RS 4
+\fIs1\fP First input string 
+.br
+\fIs2\fP Second input string 
+.br
+\fIn\fP Maximum number of characters to compare 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+0 if the given strings are identical 
+.RE
+.PP
+
+.SS "template<typename ExceptionType  = DeadlyImportError> \fBai_real\fP Assimp::fast_atof (const char ** inout)\fR [inline]\fP"
+
+.SS "template<typename ExceptionType  = DeadlyImportError> \fBai_real\fP Assimp::fast_atof (const char * c)\fR [inline]\fP"
+
+.SS "template<typename ExceptionType  = DeadlyImportError> \fBai_real\fP Assimp::fast_atof (const char * c, const char ** cout)\fR [inline]\fP"
+
+.SS "template<typename Real , typename ExceptionType  = DeadlyImportError> const char * Assimp::fast_atoreal_move (const char * c, Real & out, bool check_comma = \fRtrue\fP)\fR [inline]\fP"
+Provides a fast function for converting a string into a float, about 6 times faster than atof in win32\&. 
+.SS "template<class char_t > \fBAI_FORCE_INLINE\fP bool Assimp::GetNextLine (const char_t *& buffer, char_t out[BufferSize])"
+
+.SS "\fBAI_FORCE_INLINE\fP std::string Assimp::GetNextToken (const char *& in)"
+
+.SS "unsigned int Assimp::HexDigitToDecimal (char in)\fR [inline]\fP"
+
+.SS "uint8_t Assimp::HexOctetToDecimal (const char * in)\fR [inline]\fP"
+
+.SS "unsigned int Assimp::integer_pow (unsigned int base, unsigned int power)\fR [inline]\fP"
+
+.PP
+Evaluates an integer power\&. todo: move somewhere where it fits better in than here 
+.SS "template<class char_t > \fBAI_FORCE_INLINE\fP bool Assimp::IsLineEnd (char_t in)"
+
+.SS "template<class char_t > \fBAI_FORCE_INLINE\fP bool Assimp::IsLower (char_t in)"
+
+.SS "template<class char_t > \fBAI_FORCE_INLINE\fP bool Assimp::IsNumeric (char_t in)"
+
+.SS "template<class char_t > \fBAI_FORCE_INLINE\fP bool Assimp::IsSpace (char_t in)"
+
+.SS "template<class char_t > \fBAI_FORCE_INLINE\fP bool Assimp::IsSpaceOrNewLine (char_t in)"
+
+.SS "template<class char_t > \fBAI_FORCE_INLINE\fP bool Assimp::IsUpper (char_t in)"
+
+.SS "\fBAI_FORCE_INLINE\fP \fBVertex\fP Assimp::operator* (\fBai_real\fP f, const \fBVertex\fP & v0)"
+
+.SS "\fBAI_FORCE_INLINE\fP \fBVertex\fP Assimp::operator* (const \fBVertex\fP & v0, \fBai_real\fP f)"
+
+.SS "\fBAI_FORCE_INLINE\fP \fBVertex\fP Assimp::operator+ (const \fBVertex\fP & v0, const \fBVertex\fP & v1)"
+
+.SS "\fBAI_FORCE_INLINE\fP \fBVertex\fP Assimp::operator\- (const \fBVertex\fP & v0, const \fBVertex\fP & v1)"
+
+.SS "\fBAI_FORCE_INLINE\fP \fBVertex\fP Assimp::operator/ (const \fBVertex\fP & v0, \fBai_real\fP f)"
+
+.SS "template<class char_t > \fBAI_FORCE_INLINE\fP bool Assimp::SkipLine (const char_t ** inout)"
+
+.SS "template<class char_t > \fBAI_FORCE_INLINE\fP bool Assimp::SkipLine (const char_t * in, const char_t ** out)"
+
+.SS "template<class char_t > \fBAI_FORCE_INLINE\fP bool Assimp::SkipSpaces (const char_t ** inout)"
+
+.SS "template<class char_t > \fBAI_FORCE_INLINE\fP bool Assimp::SkipSpaces (const char_t * in, const char_t ** out)"
+
+.SS "template<class char_t > \fBAI_FORCE_INLINE\fP bool Assimp::SkipSpacesAndLineEnd (const char_t ** inout)"
+
+.SS "template<class char_t > \fBAI_FORCE_INLINE\fP bool Assimp::SkipSpacesAndLineEnd (const char_t * in, const char_t ** out)"
+
+.SS "\fBAI_FORCE_INLINE\fP \fBvoid\fP Assimp::SkipToken (const char *& in)"
+
+.SS "int Assimp::strtol10 (const char * in, const char ** out = \fR0\fP)\fR [inline]\fP"
+
+.SS "template<typename ExceptionType  = DeadlyImportError> int64_t Assimp::strtol10_64 (const char * in, const char ** out = \fR0\fP, unsigned int * max_inout = \fR0\fP)\fR [inline]\fP"
+
+.SS "unsigned int Assimp::strtoul10 (const char * in, const char ** out = \fR0\fP)\fR [inline]\fP"
+
+.SS "template<typename ExceptionType  = DeadlyImportError> uint64_t Assimp::strtoul10_64 (const char * in, const char ** out = \fR0\fP, unsigned int * max_inout = \fR0\fP)\fR [inline]\fP"
+
+.SS "unsigned int Assimp::strtoul16 (const char * in, const char ** out = \fR0\fP)\fR [inline]\fP"
+
+.SS "unsigned int Assimp::strtoul8 (const char * in, const char ** out = \fR0\fP)\fR [inline]\fP"
+
+.SS "unsigned int Assimp::strtoul_cppstyle (const char * in, const char ** out = \fR0\fP)\fR [inline]\fP"
+
+.SS "template<class string_type > \fBAI_FORCE_INLINE\fP unsigned int Assimp::tokenize (const string_type & str, std::vector< string_type > & tokens, const string_type & delimiters)"
+
+.PP
+Will perform a simple tokenize\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIstr\fP String to tokenize\&. 
+.br
+\fItokens\fP Array with tokens, will be empty if no token was found\&. 
+.br
+\fIdelimiters\fP Delimiter for tokenize\&. 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+Number of found token\&. 
+.RE
+.PP
+
+.SS "template<class char_t > \fBAI_FORCE_INLINE\fP bool Assimp::TokenMatch (char_t *& in, const char * token, unsigned int len)"
+
+.SS "\fBAI_FORCE_INLINE\fP bool Assimp::TokenMatchI (const char *& in, const char * token, unsigned int len)"
+
+.PP
+Case-ignoring version of TokenMatch\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIin\fP Input 
+.br
+\fItoken\fP Token to check for 
+.br
+\fIlen\fP Number of characters to check 
+.RE
+.PP
+
+.SS "std::string Assimp::XMLEscape (const std::string & data)"
+
+.SH "Variable Documentation"
+.PP 
+.SS "class \fBASSIMP_API\fP Assimp::ExportProperties"
+CPP-API: The \fBExporter\fP class forms an C++ interface to the export functionality of the Open Asset Import Library\&. Note that the export interface is available only if \fBAssimp\fP has been built with ASSIMP_BUILD_NO_EXPORT not defined\&.
+.PP
+The interface is modeled after the importer interface and mostly symmetric\&. The same rules for threading etc\&. apply\&.
+.PP
+In a nutshell, there are two export interfaces: #Export, which writes the output file(s) either to the regular file system or to a user-supplied #IOSystem, and #ExportToBlob which returns a linked list of memory buffers (blob), each referring to one output file (in most cases there will be only one output file of course, but this extra complexity is needed since \fBAssimp\fP aims at supporting a wide range of file formats)\&.
+.PP
+#ExportToBlob is especially useful if you intend to work with the data in-memory\&. 
+.SS "const double Assimp::fast_atof_table[16]"
+\fBInitial value:\fP
+.nf
+=  {  
+    0\&.0,
+    0\&.1,
+    0\&.01,
+    0\&.001,
+    0\&.0001,
+    0\&.00001,
+    0\&.000001,
+    0\&.0000001,
+    0\&.00000001,
+    0\&.000000001,
+    0\&.0000000001,
+    0\&.00000000001,
+    0\&.000000000001,
+    0\&.0000000000001,
+    0\&.00000000000001,
+    0\&.000000000000001
+}
+.PP
+.fi
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

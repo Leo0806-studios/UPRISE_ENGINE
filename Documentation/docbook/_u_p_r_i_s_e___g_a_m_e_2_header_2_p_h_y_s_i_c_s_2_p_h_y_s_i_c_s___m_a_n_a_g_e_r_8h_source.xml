@@ -1,0 +1,178 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="__u_p_r_i_s_e___g_a_m_e_2_header_2_p_h_y_s_i_c_s_2_p_h_y_s_i_c_s___m_a_n_a_g_e_r_8h_source" xml:lang="en-US">
+<title>PHYSICS_MANAGER.h</title>
+<indexterm><primary>UPRISE_GAME/Header/PHYSICS/PHYSICS_MANAGER.h</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 <emphasis role="preprocessor">#pragma&#32;once</emphasis>
+2 <emphasis role="preprocessor">#ifndef&#32;_PHYSICS_MANAGER_</emphasis>
+3 <emphasis role="preprocessor">#define&#32;_PHYSICS_MANAGER_</emphasis>
+4 <emphasis role="preprocessor">#include&#32;&quot;pch.h&quot;</emphasis>
+5 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__u_p_r_i_s_e___g_a_m_e_2_header_2_p_h_y_s_i_c_s_2_p_h_y_s_i_c_s___o_b_j_e_c_t_8h">PHYSICS_OBJECT.h</link>&quot;</emphasis>
+6 <emphasis role="keyword">class&#32;</emphasis><link linkend="_class___physics_object">_PhysicsObject</link>;
+7 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespace_p_h_y_s_i_c_s">PHYSICS</link>&#32;{
+8 &#32;&#32;&#32;&#32;<emphasis role="keyword">class&#32;</emphasis>Physics;
+9 &#32;&#32;&#32;&#32;<emphasis role="keyword">class&#32;</emphasis>Physics_Object;
+10 &#32;&#32;&#32;&#32;<emphasis role="keyword">class&#32;</emphasis><link linkend="_class_p_h_y_s_i_c_s_1_1_physics">Physics</link>&#32;{
+11 &#32;&#32;&#32;&#32;<emphasis role="keyword">public</emphasis>:
+12 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;std::vector&#32;&lt;&#32;std::shared_ptr&lt;PHYSICS::Physics&gt;&gt;&#32;<link linkend="_class_p_h_y_s_i_c_s_1_1_physics_1a81c440ad35439919c2b592788c69e87a">physicsobjects</link>;
+13 
+14 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">virtual</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_p_h_y_s_i_c_s_1_1_physics_1a76287e2c69f3cecf9b58087825f03fa4">UpdatePhysics</link>()&#32;=&#32;0;
+15 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_p_h_y_s_i_c_s_1_1_physics_1a3843fb8e22e18c5ada55b2f9aa25a7f8">UpdateAllPhysics</link>();
+16 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_class_p_h_y_s_i_c_s_1_1_physics_1ad1c30615810e79b7e8feb850a1fffc12">OverlapOnAxis</link>(__m128*&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>,&#32;__m128*&#32;<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>,&#32;__m128&#32;axis)
+17 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+18 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">float</emphasis>&#32;mx&#32;=&#32;(std::numeric_limits&lt;float&gt;::max)();
+19 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">float</emphasis>&#32;mi&#32;=&#32;-(std::numeric_limits&lt;float&gt;::max)();
+20 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;MINMAX&#32;=&#32;_mm_set_ps(mi,&#32;mx,&#32;mi,&#32;mx);
+21 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//float&#32;min&#32;=&#32;0;</emphasis>
+22 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//min.MaxValue;</emphasis>
+23 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//float&#32;max&#32;=&#32;0;</emphasis>
+24 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//max.MinValue;</emphasis>
+25 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//float&#32;minOther&#32;=&#32;0;</emphasis>
+26 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//minOther.MaxValue;</emphasis>
+27 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//float&#32;maxOther&#32;=&#32;0;</emphasis>
+28 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//maxOther.MinValue;</emphasis>
+29 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">float</emphasis>&#32;proj[8];
+30 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;corner[8];
+31 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;PROJ[4];
+32 
+33 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+34 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//__m128&#32;AXIS&#32;=&#32;axis;</emphasis>
+35 
+36 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;corner[0]&#32;=&#32;_mm_mul_ps(axis,&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>[0]);
+37 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;corner[1]&#32;=&#32;_mm_mul_ps(axis,&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>[1]);
+38 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;corner[2]&#32;=&#32;_mm_mul_ps(axis,&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>[2]);
+39 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;corner[3]&#32;=&#32;_mm_mul_ps(axis,&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>[3]);
+40 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;corner[4]&#32;=&#32;_mm_mul_ps(axis,&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>[4]);
+41 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;corner[5]&#32;=&#32;_mm_mul_ps(axis,&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>[5]);
+42 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;corner[6]&#32;=&#32;_mm_mul_ps(axis,&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>[6]);
+43 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;corner[7]&#32;=&#32;_mm_mul_ps(axis,&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>[7]);
+44 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//__m128&#32;PROJ[4];</emphasis>
+45 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;PROJ[0]&#32;=&#32;_mm_hadd_ps(_mm_hadd_ps(corner[0],&#32;corner[1]),&#32;_mm_setzero_ps());
+46 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;PROJ[1]&#32;=&#32;_mm_hadd_ps(_mm_hadd_ps(corner[2],&#32;corner[3]),&#32;_mm_setzero_ps());
+47 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;PROJ[2]&#32;=&#32;_mm_hadd_ps(_mm_hadd_ps(corner[4],&#32;corner[5]),&#32;_mm_setzero_ps());
+48 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;PROJ[3]&#32;=&#32;_mm_hadd_ps(_mm_hadd_ps(corner[6],&#32;corner[7]),&#32;_mm_setzero_ps());
+49 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//float&#32;proj[8]{</emphasis>
+50 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//proj[0]&#32;=&#32;PROJ[0].m128_f32[1],</emphasis>
+51 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;proj[1]&#32;=&#32;PROJ[0].m128_f32[2],</emphasis>
+52 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;proj[2]&#32;=&#32;PROJ[1].m128_f32[1],</emphasis>
+53 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;proj[3]&#32;=&#32;PROJ[1].m128_f32[2],</emphasis>
+54 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;proj[4]&#32;=&#32;PROJ[2].m128_f32[1],</emphasis>
+55 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;proj[5]&#32;=&#32;PROJ[2].m128_f32[2],</emphasis>
+56 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;proj[6]&#32;=&#32;PROJ[3].m128_f32[1],</emphasis>
+57 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;proj[7]&#32;=&#32;PROJ[3].m128_f32[2],</emphasis>
+58 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;};</emphasis>
+59 
+60 
+61 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;One&#32;=&#32;_mm_min_ps(PROJ[0],&#32;PROJ[1]);
+62 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;Two&#32;=&#32;_mm_min_ps(PROJ[2],&#32;PROJ[3]);
+63 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;Tree&#32;=&#32;_mm_min_ps(Two,&#32;One);
+64 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;Four&#32;=&#32;_mm_unpacklo_ps(Tree,&#32;_mm_setzero_ps());
+65 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;Five&#32;=&#32;_mm_unpackhi_ps(Tree,&#32;_mm_setzero_ps());
+66 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;Six&#32;=&#32;_mm_min_ps(Four,&#32;Five);
+67 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;MINMAX.m128_f32[0]&#32;=&#32;Six.m128_f32[1];
+68 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(Six.m128_f32[0]&#32;&lt;&#32;Six.m128_f32[1])&#32;{
+69 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;MINMAX.m128_f32[0]&#32;=&#32;Six.m128_f32[0];
+70 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+71 
+72 
+73 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;Seven&#32;=&#32;_mm_max_ps(PROJ[0],&#32;PROJ[1]);
+74 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;Eight&#32;=&#32;_mm_max_ps(PROJ[2],&#32;PROJ[3]);
+75 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;Nine&#32;=&#32;_mm_max_ps(Eight,&#32;Seven);
+76 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;ten&#32;=&#32;_mm_unpacklo_ps(Nine,&#32;_mm_setzero_ps());
+77 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;eleven&#32;=&#32;_mm_unpackhi_ps(Nine,&#32;_mm_setzero_ps());
+78 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;twelve&#32;=&#32;_mm_max_ps(eleven,&#32;ten);
+79 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;MINMAX.m128_f32[1]&#32;=&#32;twelve.m128_f32[1];
+80 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(twelve.m128_f32[1]&#32;&gt;&#32;twelve.m128_f32[1])&#32;{
+81 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;MINMAX.m128_f32[1]&#32;=&#32;twelve.m128_f32[0];
+82 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+83 
+84 
+85 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+86 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+87 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//__m128&#32;AXIS&#32;=&#32;axis;</emphasis>
+88 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//__m128&#32;corner[8];</emphasis>
+89 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;corner[0]&#32;=&#32;_mm_mul_ps(axis,&#32;<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>[0]);
+90 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;corner[1]&#32;=&#32;_mm_mul_ps(axis,&#32;<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>[1]);
+91 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;corner[2]&#32;=&#32;_mm_mul_ps(axis,&#32;<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>[2]);
+92 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;corner[3]&#32;=&#32;_mm_mul_ps(axis,&#32;<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>[3]);
+93 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;corner[4]&#32;=&#32;_mm_mul_ps(axis,&#32;<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>[4]);
+94 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;corner[5]&#32;=&#32;_mm_mul_ps(axis,&#32;<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>[5]);
+95 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;corner[6]&#32;=&#32;_mm_mul_ps(axis,&#32;<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>[6]);
+96 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;corner[7]&#32;=&#32;_mm_mul_ps(axis,&#32;<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>[7]);
+97 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//__m128&#32;PROJ[4];</emphasis>
+98 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;PROJ[0]&#32;=&#32;_mm_hadd_ps(_mm_hadd_ps(corner[0],&#32;corner[1]),&#32;_mm_setzero_ps());
+99 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;PROJ[1]&#32;=&#32;_mm_hadd_ps(_mm_hadd_ps(corner[2],&#32;corner[3]),&#32;_mm_setzero_ps());
+100 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;PROJ[2]&#32;=&#32;_mm_hadd_ps(_mm_hadd_ps(corner[4],&#32;corner[5]),&#32;_mm_setzero_ps());
+101 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;PROJ[3]&#32;=&#32;_mm_hadd_ps(_mm_hadd_ps(corner[6],&#32;corner[7]),&#32;_mm_setzero_ps());
+103 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//proj[0]&#32;=&#32;PROJ[0].m128_f32[1],</emphasis>
+104 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;proj[1]&#32;=&#32;PROJ[0].m128_f32[2],</emphasis>
+105 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;proj[2]&#32;=&#32;PROJ[1].m128_f32[1],</emphasis>
+106 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;proj[3]&#32;=&#32;PROJ[1].m128_f32[2],</emphasis>
+107 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;proj[4]&#32;=&#32;PROJ[2].m128_f32[1],</emphasis>
+108 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;proj[5]&#32;=&#32;PROJ[2].m128_f32[2],</emphasis>
+109 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;proj[6]&#32;=&#32;PROJ[3].m128_f32[1],</emphasis>
+110 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;proj[7]&#32;=&#32;PROJ[3].m128_f32[2],</emphasis>
+111 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;//};</emphasis>
+112 
+113 
+114 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;One&#32;=&#32;_mm_min_ps(PROJ[0],&#32;PROJ[1]);
+115 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;Two&#32;=&#32;_mm_min_ps(PROJ[2],&#32;PROJ[3]);
+116 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;Tree&#32;=&#32;_mm_min_ps(Two,&#32;One);
+117 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;Four&#32;=&#32;_mm_unpacklo_ps(Tree,&#32;_mm_setzero_ps());
+118 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;Five&#32;=&#32;_mm_unpackhi_ps(Tree,&#32;_mm_setzero_ps());
+119 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;Six&#32;=&#32;_mm_min_ps(Four,&#32;Five);
+120 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;MINMAX.m128_f32[2]&#32;=&#32;Six.m128_f32[1];
+121 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(Six.m128_f32[2]&#32;&lt;&#32;Six.m128_f32[1])&#32;{
+122 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;MINMAX.m128_f32[2]&#32;=&#32;Six.m128_f32[0];
+123 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+124 
+125 
+126 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;Seven&#32;=&#32;_mm_max_ps(PROJ[0],&#32;PROJ[1]);
+127 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;Eight&#32;=&#32;_mm_max_ps(PROJ[2],&#32;PROJ[3]);
+128 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;Nine&#32;=&#32;_mm_max_ps(Eight,&#32;Seven);
+129 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;ten&#32;=&#32;_mm_unpacklo_ps(Nine,&#32;_mm_setzero_ps());
+130 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;eleven&#32;=&#32;_mm_unpackhi_ps(Nine,&#32;_mm_setzero_ps());
+131 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;__m128&#32;twelve&#32;=&#32;_mm_max_ps(eleven,&#32;ten);
+132 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;MINMAX.m128_f32[3]&#32;=&#32;twelve.m128_f32[1];
+133 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(twelve.m128_f32[3]&#32;&gt;&#32;twelve.m128_f32[1])&#32;{
+134 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;MINMAX.m128_f32[3]&#32;=&#32;twelve.m128_f32[0];
+135 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+136 
+137 
+138 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+139 
+140 
+141 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//ProjectOntoAxis(a,&#32;&amp;axis,&#32;&amp;MINMAX,-1);</emphasis>
+142 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//ProjectOntoAxis(b,&#32;&amp;axis,&#32;&amp;MINMAX,1);</emphasis>
+143 
+144 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;MINMAX.m128_f32[0]&#32;&lt;=&#32;MINMAX.m128_f32[3]&#32;&amp;&amp;&#32;MINMAX.m128_f32[1]&#32;&gt;=&#32;MINMAX.m128_f32[2];
+145 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//return&#32;min&#32;&lt;=&#32;maxOther&#32;&amp;&amp;&#32;max&#32;&gt;=&#32;minOther;</emphasis>
+146 
+147 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+148 
+149 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_class_p_h_y_s_i_c_s_1_1_physics_1a1ddab566889036f69fe0b601b841419c">intersect</link>(<link linkend="_class_p_h_y_s_i_c_s_1_1_physics___object">Physics_Object</link>*&#32;selfobj,&#32;<link linkend="_class_p_h_y_s_i_c_s_1_1_physics___object">Physics_Object</link>*&#32;otherobj);
+150 
+151 
+152 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_p_h_y_s_i_c_s_1_1_physics_1af1edbb62c428e2c5b1a2eb6da4f0e140">updateBox</link>(<link linkend="_class_p_h_y_s_i_c_s_1_1_physics___object">Physics_Object</link>*&#32;self);
+153 &#32;&#32;&#32;&#32;};
+154 &#32;&#32;&#32;&#32;<emphasis role="keyword">class&#32;</emphasis><link linkend="_class_p_h_y_s_i_c_s_1_1_physics___object">Physics_Object</link>&#32;:&#32;<emphasis role="keyword">public</emphasis>&#32;<link linkend="_class_p_h_y_s_i_c_s_1_1_physics">PHYSICS::Physics</link>&#32;{
+155 &#32;&#32;&#32;&#32;<emphasis role="keyword">public</emphasis>:
+156 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class___physics_object">_PhysicsObject</link>*&#32;<link linkend="_class_p_h_y_s_i_c_s_1_1_physics___object_1ac2072bf69d83e9b09c5e144ae8c23b45">objlnkprnt</link>;
+157 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_class_p_h_y_s_i_c_s_1_1_physics___object_1a202f0db2a9a641b83bb1ed6083c4774a">DrawCollider</link>;
+158 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_class_p_h_y_s_i_c_s_1_1_physics___object_1a1fe90738191dc640f855bf16fa64a350">disabledSkipp</link>;
+159 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_class_p_h_y_s_i_c_s_1_1_physics___object_1abc747fa01138aff23e82537c5d03c3fb">isStatic</link>;
+160 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_class_p_h_y_s_i_c_s_1_1_physics___object_1a615eb1a3157efe4d5549504e6cb1c4c9">haschanged</link>;
+161 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_class_p_h_y_s_i_c_s_1_1_physics___object_1ac1a6764993d53e8ffaf1ba1e1690bb49">isKinematic</link>;
+162 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_class_p_h_y_s_i_c_s_1_1_physics___object_1adf5c32ad20033b8e500d2024686712a3">ID</link>;
+163 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_class_p_h_y_s_i_c_s_1_1_physics___object_1aae42eff88f550e4ccd105725e73e1451">Compid</link>;
+164 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_t_s___p___collider__box">TS_P_Collider_box</link>&#32;<link linkend="_class_p_h_y_s_i_c_s_1_1_physics___object_1a6b9b75ed234fe360c2feff0dc085c907">Collider_Boxes</link>;
+165 
+166 
+167 
+168 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_p_h_y_s_i_c_s_1_1_physics___object_1a3085002c60270a33e6379a31c215c425">UpdatePhysics</link>()<emphasis role="keyword">override&#32;</emphasis>{
+169 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+170 
+171 &#32;&#32;&#32;&#32;};
+172 }
+173 
+174 <emphasis role="preprocessor">#endif&#32;</emphasis><emphasis role="comment">//&#32;!_PHYSICS_MANAGER_</emphasis>
+</programlisting></section>

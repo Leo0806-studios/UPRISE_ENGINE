@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_pca_8hpp_source" xml:lang="en-US">
+<title>pca.hpp</title>
+<indexterm><primary>adhed/glm/gtx/pca.hpp</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 
+38 
+39 <emphasis role="preprocessor">#pragma&#32;once</emphasis>
+40 
+41 <emphasis role="comment">//&#32;Dependency:</emphasis>
+42 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_glm_8hpp">../glm.hpp</link>&quot;</emphasis>
+43 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_ext_2scalar__relational_8hpp">../ext/scalar_relational.hpp</link>&quot;</emphasis>
+44 
+45 <emphasis role="preprocessor">#ifndef&#32;GLM_ENABLE_EXPERIMENTAL</emphasis>
+46 <emphasis role="preprocessor">#&#32;&#32;&#32;error&#32;&quot;GLM:&#32;GLM_GTX_pca&#32;is&#32;an&#32;experimental&#32;extension&#32;and&#32;may&#32;change&#32;in&#32;the&#32;future.&#32;Use&#32;#define&#32;GLM_ENABLE_EXPERIMENTAL&#32;before&#32;including&#32;it,&#32;if&#32;you&#32;really&#32;want&#32;to&#32;use&#32;it.&quot;</emphasis>
+47 <emphasis role="preprocessor">#elif&#32;GLM_MESSAGES&#32;==&#32;GLM_ENABLE&#32;&amp;&amp;&#32;!defined(GLM_EXT_INCLUDED)</emphasis>
+48 <emphasis role="preprocessor">#&#32;&#32;&#32;pragma&#32;message(&quot;GLM:&#32;GLM_GTX_pca&#32;extension&#32;included&quot;)</emphasis>
+49 <emphasis role="preprocessor">#endif</emphasis>
+50 
+51 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespaceglm">glm</link>&#32;{
+54 
+58 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;length_t&#32;D,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+59 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a4603970cbd724c5d102bbcf17f430047">GLM_INLINE</link>&#32;mat&lt;D,&#32;D,&#32;T,&#32;Q&gt;&#32;<link linkend="_group__gtx__pca_1ga4290358424d0cb9bcdfc5106f1db557e">computeCovarianceMatrix</link>(vec&lt;D,&#32;T,&#32;Q&gt;&#32;<emphasis role="keyword">const</emphasis>*&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;n);
+60 
+65 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;length_t&#32;D,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+66 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a4603970cbd724c5d102bbcf17f430047">GLM_INLINE</link>&#32;mat&lt;D,&#32;D,&#32;T,&#32;Q&gt;&#32;<link linkend="_group__gtx__pca_1ga4290358424d0cb9bcdfc5106f1db557e">computeCovarianceMatrix</link>(vec&lt;D,&#32;T,&#32;Q&gt;&#32;<emphasis role="keyword">const</emphasis>*&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;n,&#32;vec&lt;D,&#32;T,&#32;Q&gt;&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;c);
+67 
+70 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;length_t&#32;D,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q,&#32;<emphasis role="keyword">typename</emphasis>&#32;I&gt;
+71 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1ab2d052de21a70539923e9bcbf6e83a51">GLM_FUNC_DECL</link>&#32;mat&lt;D,&#32;D,&#32;T,&#32;Q&gt;&#32;<link linkend="_group__gtx__pca_1ga4290358424d0cb9bcdfc5106f1db557e">computeCovarianceMatrix</link>(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a60ef6e1bcfabb95cfeb300e1d03ce470">I</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a60ef6e1bcfabb95cfeb300e1d03ce470">I</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_classe">e</link>);
+72 
+75 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;length_t&#32;D,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q,&#32;<emphasis role="keyword">typename</emphasis>&#32;I&gt;
+76 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1ab2d052de21a70539923e9bcbf6e83a51">GLM_FUNC_DECL</link>&#32;mat&lt;D,&#32;D,&#32;T,&#32;Q&gt;&#32;<link linkend="_group__gtx__pca_1ga4290358424d0cb9bcdfc5106f1db557e">computeCovarianceMatrix</link>(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a60ef6e1bcfabb95cfeb300e1d03ce470">I</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a60ef6e1bcfabb95cfeb300e1d03ce470">I</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_classe">e</link>,&#32;vec&lt;D,&#32;T,&#32;Q&gt;&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;c);
+77 
+86 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;length_t&#32;D,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+87 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1ab2d052de21a70539923e9bcbf6e83a51">GLM_FUNC_DECL</link>&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespaceglm_1ac83240b521220feb7081eaedb4a1938f">findEigenvaluesSymReal</link>
+88 &#32;&#32;&#32;&#32;(
+89 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;mat&lt;D,&#32;D,&#32;T,&#32;Q&gt;&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;covarMat,
+90 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;vec&lt;D,&#32;T,&#32;Q&gt;&amp;&#32;outEigenvalues,
+91 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;mat&lt;D,&#32;D,&#32;T,&#32;Q&gt;&amp;&#32;outEigenvectors
+92 &#32;&#32;&#32;&#32;);
+93 
+96 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+97 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a364212a7fa4148cd960bd919442c4fc8">GLM_FUNC_DISCARD_DECL</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_group__gtx__pca_1ga3fe570b4abe7eca8afb32896d77394f5">sortEigenvalues</link>(vec&lt;2,&#32;T,&#32;Q&gt;&amp;&#32;eigenvalues,&#32;mat&lt;2,&#32;2,&#32;T,&#32;Q&gt;&amp;&#32;eigenvectors);
+98 
+101 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+102 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a364212a7fa4148cd960bd919442c4fc8">GLM_FUNC_DISCARD_DECL</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_group__gtx__pca_1ga3fe570b4abe7eca8afb32896d77394f5">sortEigenvalues</link>(vec&lt;3,&#32;T,&#32;Q&gt;&amp;&#32;eigenvalues,&#32;mat&lt;3,&#32;3,&#32;T,&#32;Q&gt;&amp;&#32;eigenvectors);
+103 
+106 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+107 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a364212a7fa4148cd960bd919442c4fc8">GLM_FUNC_DISCARD_DECL</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_group__gtx__pca_1ga3fe570b4abe7eca8afb32896d77394f5">sortEigenvalues</link>(vec&lt;4,&#32;T,&#32;Q&gt;&amp;&#32;eigenvalues,&#32;mat&lt;4,&#32;4,&#32;T,&#32;Q&gt;&amp;&#32;eigenvectors);
+108 
+110 }<emphasis role="comment">//namespace&#32;glm</emphasis>
+111 
+112 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_pca_8inl">pca.inl</link>&quot;</emphasis>
+</programlisting></section>

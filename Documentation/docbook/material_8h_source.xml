@@ -1,0 +1,1069 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_material_8h_source" xml:lang="en-US">
+<title>material.h</title>
+<indexterm><primary>adhed/assimp/material.h</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 <emphasis role="comment">/*</emphasis>
+2 <emphasis role="comment">---------------------------------------------------------------------------</emphasis>
+3 <emphasis role="comment">Open&#32;Asset&#32;Import&#32;Library&#32;(assimp)</emphasis>
+4 <emphasis role="comment">---------------------------------------------------------------------------</emphasis>
+5 <emphasis role="comment"></emphasis>
+6 <emphasis role="comment">Copyright&#32;(c)&#32;2006-2022,&#32;assimp&#32;team</emphasis>
+7 <emphasis role="comment"></emphasis>
+8 <emphasis role="comment">All&#32;rights&#32;reserved.</emphasis>
+9 <emphasis role="comment"></emphasis>
+10 <emphasis role="comment">Redistribution&#32;and&#32;use&#32;of&#32;this&#32;software&#32;in&#32;source&#32;and&#32;binary&#32;forms,</emphasis>
+11 <emphasis role="comment">with&#32;or&#32;without&#32;modification,&#32;are&#32;permitted&#32;provided&#32;that&#32;the&#32;following</emphasis>
+12 <emphasis role="comment">conditions&#32;are&#32;met:</emphasis>
+13 <emphasis role="comment"></emphasis>
+14 <emphasis role="comment">*&#32;Redistributions&#32;of&#32;source&#32;code&#32;must&#32;retain&#32;the&#32;above</emphasis>
+15 <emphasis role="comment">&#32;&#32;copyright&#32;notice,&#32;this&#32;list&#32;of&#32;conditions&#32;and&#32;the</emphasis>
+16 <emphasis role="comment">&#32;&#32;following&#32;disclaimer.</emphasis>
+17 <emphasis role="comment"></emphasis>
+18 <emphasis role="comment">*&#32;Redistributions&#32;in&#32;binary&#32;form&#32;must&#32;reproduce&#32;the&#32;above</emphasis>
+19 <emphasis role="comment">&#32;&#32;copyright&#32;notice,&#32;this&#32;list&#32;of&#32;conditions&#32;and&#32;the</emphasis>
+20 <emphasis role="comment">&#32;&#32;following&#32;disclaimer&#32;in&#32;the&#32;documentation&#32;and/or&#32;other</emphasis>
+21 <emphasis role="comment">&#32;&#32;materials&#32;provided&#32;with&#32;the&#32;distribution.</emphasis>
+22 <emphasis role="comment"></emphasis>
+23 <emphasis role="comment">*&#32;Neither&#32;the&#32;name&#32;of&#32;the&#32;assimp&#32;team,&#32;nor&#32;the&#32;names&#32;of&#32;its</emphasis>
+24 <emphasis role="comment">&#32;&#32;contributors&#32;may&#32;be&#32;used&#32;to&#32;endorse&#32;or&#32;promote&#32;products</emphasis>
+25 <emphasis role="comment">&#32;&#32;derived&#32;from&#32;this&#32;software&#32;without&#32;specific&#32;prior</emphasis>
+26 <emphasis role="comment">&#32;&#32;written&#32;permission&#32;of&#32;the&#32;assimp&#32;team.</emphasis>
+27 <emphasis role="comment"></emphasis>
+28 <emphasis role="comment">THIS&#32;SOFTWARE&#32;IS&#32;PROVIDED&#32;BY&#32;THE&#32;COPYRIGHT&#32;HOLDERS&#32;AND&#32;CONTRIBUTORS</emphasis>
+29 <emphasis role="comment">&quot;AS&#32;IS&quot;&#32;AND&#32;ANY&#32;EXPRESS&#32;OR&#32;IMPLIED&#32;WARRANTIES,&#32;INCLUDING,&#32;BUT&#32;NOT</emphasis>
+30 <emphasis role="comment">LIMITED&#32;TO,&#32;THE&#32;IMPLIED&#32;WARRANTIES&#32;OF&#32;MERCHANTABILITY&#32;AND&#32;FITNESS&#32;FOR</emphasis>
+31 <emphasis role="comment">A&#32;PARTICULAR&#32;PURPOSE&#32;ARE&#32;DISCLAIMED.&#32;IN&#32;NO&#32;EVENT&#32;SHALL&#32;THE&#32;COPYRIGHT</emphasis>
+32 <emphasis role="comment">OWNER&#32;OR&#32;CONTRIBUTORS&#32;BE&#32;LIABLE&#32;FOR&#32;ANY&#32;DIRECT,&#32;INDIRECT,&#32;INCIDENTAL,</emphasis>
+33 <emphasis role="comment">SPECIAL,&#32;EXEMPLARY,&#32;OR&#32;CONSEQUENTIAL&#32;DAMAGES&#32;(INCLUDING,&#32;BUT&#32;NOT</emphasis>
+34 <emphasis role="comment">LIMITED&#32;TO,&#32;PROCUREMENT&#32;OF&#32;SUBSTITUTE&#32;GOODS&#32;OR&#32;SERVICES;&#32;LOSS&#32;OF&#32;USE,</emphasis>
+35 <emphasis role="comment">DATA,&#32;OR&#32;PROFITS;&#32;OR&#32;BUSINESS&#32;INTERRUPTION)&#32;HOWEVER&#32;CAUSED&#32;AND&#32;ON&#32;ANY</emphasis>
+36 <emphasis role="comment">THEORY&#32;OF&#32;LIABILITY,&#32;WHETHER&#32;IN&#32;CONTRACT,&#32;STRICT&#32;LIABILITY,&#32;OR&#32;TORT</emphasis>
+37 <emphasis role="comment">(INCLUDING&#32;NEGLIGENCE&#32;OR&#32;OTHERWISE)&#32;ARISING&#32;IN&#32;ANY&#32;WAY&#32;OUT&#32;OF&#32;THE&#32;USE</emphasis>
+38 <emphasis role="comment">OF&#32;THIS&#32;SOFTWARE,&#32;EVEN&#32;IF&#32;ADVISED&#32;OF&#32;THE&#32;POSSIBILITY&#32;OF&#32;SUCH&#32;DAMAGE.</emphasis>
+39 <emphasis role="comment">---------------------------------------------------------------------------</emphasis>
+40 <emphasis role="comment">*/</emphasis>
+41 
+45 <emphasis role="preprocessor">#pragma&#32;once</emphasis>
+46 <emphasis role="preprocessor">#ifndef&#32;AI_MATERIAL_H_INC</emphasis>
+47 <emphasis role="preprocessor">#define&#32;AI_MATERIAL_H_INC</emphasis>
+48 
+49 <emphasis role="preprocessor">#ifdef&#32;__GNUC__</emphasis>
+50 <emphasis role="preprocessor">#pragma&#32;GCC&#32;system_header</emphasis>
+51 <emphasis role="preprocessor">#endif</emphasis>
+52 
+53 <emphasis role="preprocessor">#include&#32;&lt;<link linkend="_types_8h">assimp/types.h</link>&gt;</emphasis>
+54 
+55 <emphasis role="preprocessor">#ifdef&#32;__cplusplus</emphasis>
+56 <emphasis role="keyword">extern</emphasis>&#32;<emphasis role="stringliteral">&quot;C&quot;</emphasis>&#32;{
+57 <emphasis role="preprocessor">#endif</emphasis>
+58 
+59 <emphasis role="comment">//&#32;Name&#32;for&#32;default&#32;materials&#32;(2nd&#32;is&#32;used&#32;if&#32;meshes&#32;have&#32;UV&#32;coords)</emphasis>
+60 <emphasis role="preprocessor">#define&#32;AI_DEFAULT_MATERIAL_NAME&#32;&quot;DefaultMaterial&quot;</emphasis>
+61 
+62 <emphasis role="comment">//&#32;---------------------------------------------------------------------------</emphasis>
+81 <emphasis role="keyword">enum</emphasis>&#32;<link linkend="_material_8h_1afcd3096d69affba13114cedfc6f9ee6b">aiTextureOp</link>&#32;{
+83 &#32;&#32;&#32;&#32;<link linkend="_material_8h_1afcd3096d69affba13114cedfc6f9ee6ba4b4cf98920571bc5b5cdf333d1642759">aiTextureOp_Multiply</link>&#32;=&#32;0x0,
+84 
+86 &#32;&#32;&#32;&#32;<link linkend="_material_8h_1afcd3096d69affba13114cedfc6f9ee6ba38c643dc19bdb5dad544c54829129d14">aiTextureOp_Add</link>&#32;=&#32;0x1,
+87 
+89 &#32;&#32;&#32;&#32;<link linkend="_material_8h_1afcd3096d69affba13114cedfc6f9ee6bac20a0da785e4670500e7338bc59a0793">aiTextureOp_Subtract</link>&#32;=&#32;0x2,
+90 
+92 &#32;&#32;&#32;&#32;<link linkend="_material_8h_1afcd3096d69affba13114cedfc6f9ee6bac15b6232b50780f509edf0a6b39af72c">aiTextureOp_Divide</link>&#32;=&#32;0x3,
+93 
+95 &#32;&#32;&#32;&#32;<link linkend="_material_8h_1afcd3096d69affba13114cedfc6f9ee6ba174eaa1b84bdcc131febea53da22aa4a">aiTextureOp_SmoothAdd</link>&#32;=&#32;0x4,
+96 
+98 &#32;&#32;&#32;&#32;<link linkend="_material_8h_1afcd3096d69affba13114cedfc6f9ee6babe30ac3d3c7bff0fe1d69c70fbd646ff">aiTextureOp_SignedAdd</link>&#32;=&#32;0x5,
+99 
+100 <emphasis role="preprocessor">#ifndef&#32;SWIG</emphasis>
+101 &#32;&#32;&#32;&#32;<link linkend="_material_8h_1afcd3096d69affba13114cedfc6f9ee6bafa05ee61b2b3dc74d2f042d9443a57c4">_aiTextureOp_Force32Bit</link>&#32;=&#32;INT_MAX
+102 <emphasis role="preprocessor">#endif</emphasis>
+103 };
+104 
+105 <emphasis role="comment">//&#32;---------------------------------------------------------------------------</emphasis>
+110 <emphasis role="keyword">enum</emphasis>&#32;<link linkend="_material_8h_1a6cbe56056751aa80e8dd714632a49de0">aiTextureMapMode</link>&#32;{
+113 &#32;&#32;&#32;&#32;<link linkend="_material_8h_1a6cbe56056751aa80e8dd714632a49de0a39bee4a4d7222d7f21fc093cacac2bcf">aiTextureMapMode_Wrap</link>&#32;=&#32;0x0,
+114 
+118 &#32;&#32;&#32;&#32;<link linkend="_material_8h_1a6cbe56056751aa80e8dd714632a49de0a809e31ce25b28e9fb7dba0a362293ace">aiTextureMapMode_Clamp</link>&#32;=&#32;0x1,
+119 
+123 &#32;&#32;&#32;&#32;<link linkend="_material_8h_1a6cbe56056751aa80e8dd714632a49de0a36bdbb449ea382cf7d3ecd7ccbd9c3e8">aiTextureMapMode_Decal</link>&#32;=&#32;0x3,
+124 
+128 &#32;&#32;&#32;&#32;<link linkend="_material_8h_1a6cbe56056751aa80e8dd714632a49de0ae0105c73fb2e7e6d10e80395b6995337">aiTextureMapMode_Mirror</link>&#32;=&#32;0x2,
+129 
+130 <emphasis role="preprocessor">#ifndef&#32;SWIG</emphasis>
+131 &#32;&#32;&#32;&#32;<link linkend="_material_8h_1a6cbe56056751aa80e8dd714632a49de0afcec988b7883a042f9ff9f80823da2c0">_aiTextureMapMode_Force32Bit</link>&#32;=&#32;INT_MAX
+132 <emphasis role="preprocessor">#endif</emphasis>
+133 };
+134 
+135 <emphasis role="comment">//&#32;---------------------------------------------------------------------------</emphasis>
+144 <emphasis role="keyword">enum</emphasis>&#32;<link linkend="_material_8h_1a6186e909f1ae28133ab10f1b4635b0f9">aiTextureMapping</link>&#32;{
+151 &#32;&#32;&#32;&#32;<link linkend="_material_8h_1a6186e909f1ae28133ab10f1b4635b0f9afe4af8e2f0303198ff2c51edf3039277">aiTextureMapping_UV</link>&#32;=&#32;0x0,
+152 
+154 &#32;&#32;&#32;&#32;<link linkend="_material_8h_1a6186e909f1ae28133ab10f1b4635b0f9ada83cfca5e55fc99dc89e0e94c91cdb5">aiTextureMapping_SPHERE</link>&#32;=&#32;0x1,
+155 
+157 &#32;&#32;&#32;&#32;<link linkend="_material_8h_1a6186e909f1ae28133ab10f1b4635b0f9a1f3e2bcbdb450f19666b9b0730bad9ae">aiTextureMapping_CYLINDER</link>&#32;=&#32;0x2,
+158 
+160 &#32;&#32;&#32;&#32;<link linkend="_material_8h_1a6186e909f1ae28133ab10f1b4635b0f9ac680b16f3be94f101132982afd003fee">aiTextureMapping_BOX</link>&#32;=&#32;0x3,
+161 
+163 &#32;&#32;&#32;&#32;<link linkend="_material_8h_1a6186e909f1ae28133ab10f1b4635b0f9acbb0fa22c77e4c8936c1071fcacd1a64">aiTextureMapping_PLANE</link>&#32;=&#32;0x4,
+164 
+166 &#32;&#32;&#32;&#32;<link linkend="_material_8h_1a6186e909f1ae28133ab10f1b4635b0f9a585fb9423e1e77a52c9096fc0b907881">aiTextureMapping_OTHER</link>&#32;=&#32;0x5,
+167 
+168 <emphasis role="preprocessor">#ifndef&#32;SWIG</emphasis>
+169 &#32;&#32;&#32;&#32;<link linkend="_material_8h_1a6186e909f1ae28133ab10f1b4635b0f9a26d999203feb901a0b17e4babe9b9791">_aiTextureMapping_Force32Bit</link>&#32;=&#32;INT_MAX
+170 <emphasis role="preprocessor">#endif</emphasis>
+171 };
+172 
+173 <emphasis role="comment">//&#32;---------------------------------------------------------------------------</emphasis>
+188 <emphasis role="keyword">enum</emphasis>&#32;<link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0">aiTextureType</link>&#32;{
+195 &#32;&#32;&#32;&#32;<link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a29933480f8f018b381ae8be57435a435">aiTextureType_NONE</link>&#32;=&#32;0,
+196 
+208 &#32;&#32;&#32;&#32;<link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a3027af56603d5babd7e2efcf5ed1debd">aiTextureType_DIFFUSE</link>&#32;=&#32;1,
+209 
+215 &#32;&#32;&#32;&#32;<link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a0fdc17eca73119fe7c4e7d17043aba6b">aiTextureType_SPECULAR</link>&#32;=&#32;2,
+216 
+220 &#32;&#32;&#32;&#32;<link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a88d7fc7cc800d2641fd481067eca0dc4">aiTextureType_AMBIENT</link>&#32;=&#32;3,
+221 
+225 &#32;&#32;&#32;&#32;<link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a9a8cd97191328740f68e0e77e83ac485">aiTextureType_EMISSIVE</link>&#32;=&#32;4,
+226 
+232 &#32;&#32;&#32;&#32;<link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a5cff2209ef767617b00c2875afe7d5a7">aiTextureType_HEIGHT</link>&#32;=&#32;5,
+233 
+240 &#32;&#32;&#32;&#32;<link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0aaf9089ae800fe4b3d97bc88d7686bab0">aiTextureType_NORMALS</link>&#32;=&#32;6,
+241 
+249 &#32;&#32;&#32;&#32;<link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a8675306af91180469f7e98a438125b89">aiTextureType_SHININESS</link>&#32;=&#32;7,
+250 
+256 &#32;&#32;&#32;&#32;<link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a68e7f8f7485bb00142a25df18e1ff148">aiTextureType_OPACITY</link>&#32;=&#32;8,
+257 
+263 &#32;&#32;&#32;&#32;<link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a929ae2ac33faa1ffe15978933c29337e">aiTextureType_DISPLACEMENT</link>&#32;=&#32;9,
+264 
+272 &#32;&#32;&#32;&#32;<link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a86e356815b137cd584336cab11e72820">aiTextureType_LIGHTMAP</link>&#32;=&#32;10,
+273 
+279 &#32;&#32;&#32;&#32;<link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0aa675f72b81148c5c260d408e122de7f8">aiTextureType_REFLECTION</link>&#32;=&#32;11,
+280 
+288 &#32;&#32;&#32;&#32;<link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a5d752b64d94439eadbb815e8a35d4fc0">aiTextureType_BASE_COLOR</link>&#32;=&#32;12,
+289 &#32;&#32;&#32;&#32;<link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0aa8526cb493ab84b04a758a82cb858978">aiTextureType_NORMAL_CAMERA</link>&#32;=&#32;13,
+290 &#32;&#32;&#32;&#32;<link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a47ba4de160b7ffc0c05a872563c4bec7">aiTextureType_EMISSION_COLOR</link>&#32;=&#32;14,
+291 &#32;&#32;&#32;&#32;<link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a102addc15801212fb74d821cf6556bcd">aiTextureType_METALNESS</link>&#32;=&#32;15,
+292 &#32;&#32;&#32;&#32;<link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a3be75e9bfee00f0df2a715ca27fcebc6">aiTextureType_DIFFUSE_ROUGHNESS</link>&#32;=&#32;16,
+293 &#32;&#32;&#32;&#32;<link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0ae35c89a0f567067aa7985b6d0ba1ac0d">aiTextureType_AMBIENT_OCCLUSION</link>&#32;=&#32;17,
+294 
+306 &#32;&#32;&#32;&#32;<link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a2534326d369dc2b340ac0c23a9405c0a">aiTextureType_SHEEN</link>&#32;=&#32;19,
+307 
+313 &#32;&#32;&#32;&#32;<link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a4c8443070acff2892a377aeb022e273f">aiTextureType_CLEARCOAT</link>&#32;=&#32;20,
+314 
+319 &#32;&#32;&#32;&#32;<link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a5012d291ed3b5fc6f4ebba375b5fa74a">aiTextureType_TRANSMISSION</link>&#32;=&#32;21,
+320 
+327 &#32;&#32;&#32;&#32;<link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a435cc5adea69c96c0c3205a2bde21cce">aiTextureType_UNKNOWN</link>&#32;=&#32;18,
+328 
+329 <emphasis role="preprocessor">#ifndef&#32;SWIG</emphasis>
+330 &#32;&#32;&#32;&#32;<link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a78e1009477fa87111ae38c7ef2bdb154">_aiTextureType_Force32Bit</link>&#32;=&#32;INT_MAX
+331 <emphasis role="preprocessor">#endif</emphasis>
+332 };
+333 
+334 <emphasis role="preprocessor">#define&#32;AI_TEXTURE_TYPE_MAX&#32;aiTextureType_TRANSMISSION</emphasis>
+335 
+336 <emphasis role="comment">//&#32;-------------------------------------------------------------------------------</emphasis>
+337 <emphasis role="comment">//&#32;Get&#32;a&#32;string&#32;for&#32;a&#32;given&#32;aiTextureType</emphasis>
+338 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*<link linkend="_material_8h_1a68fe8857ca972dc8a221bf7bd533df7b">aiTextureTypeToString</link>(<emphasis role="keyword">enum</emphasis>&#32;<link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0">aiTextureType</link>&#32;in);
+339 
+340 <emphasis role="comment">//&#32;---------------------------------------------------------------------------</emphasis>
+355 <emphasis role="keyword">enum</emphasis>&#32;<link linkend="_material_8h_1a93e23e0201d6ed86fb4287e15218e4cf">aiShadingMode</link>&#32;{
+359 &#32;&#32;&#32;&#32;<link linkend="_material_8h_1a93e23e0201d6ed86fb4287e15218e4cfa59fa2c27721e28dadd58cbd39cd46782">aiShadingMode_Flat</link>&#32;=&#32;0x1,
+360 
+363 &#32;&#32;&#32;&#32;<link linkend="_material_8h_1a93e23e0201d6ed86fb4287e15218e4cfa8a20ae47f38c01554ef467c324c27431">aiShadingMode_Gouraud</link>&#32;=&#32;0x2,
+364 
+367 &#32;&#32;&#32;&#32;<link linkend="_material_8h_1a93e23e0201d6ed86fb4287e15218e4cfafe5e89f846a9657232077c224fd1a914">aiShadingMode_Phong</link>&#32;=&#32;0x3,
+368 
+371 &#32;&#32;&#32;&#32;<link linkend="_material_8h_1a93e23e0201d6ed86fb4287e15218e4cfaccd4aca098e73986e50c7566efd6ca1f">aiShadingMode_Blinn</link>&#32;=&#32;0x4,
+372 
+377 &#32;&#32;&#32;&#32;<link linkend="_material_8h_1a93e23e0201d6ed86fb4287e15218e4cfa85c7b6a3c243a1991f4b17125a28a54c">aiShadingMode_Toon</link>&#32;=&#32;0x5,
+378 
+384 &#32;&#32;&#32;&#32;<link linkend="_material_8h_1a93e23e0201d6ed86fb4287e15218e4cfab2243130ec0bdb25a26ce829d486e55a">aiShadingMode_OrenNayar</link>&#32;=&#32;0x6,
+385 
+391 &#32;&#32;&#32;&#32;<link linkend="_material_8h_1a93e23e0201d6ed86fb4287e15218e4cfa0947dbe335c16766da43fe1b992af4fb">aiShadingMode_Minnaert</link>&#32;=&#32;0x7,
+392 
+397 &#32;&#32;&#32;&#32;<link linkend="_material_8h_1a93e23e0201d6ed86fb4287e15218e4cfa36519b85cbfbba437bfe1c504d3dbd6d">aiShadingMode_CookTorrance</link>&#32;=&#32;0x8,
+398 
+402 &#32;&#32;&#32;&#32;<link linkend="_material_8h_1a93e23e0201d6ed86fb4287e15218e4cfa625d6dc1a678985000a1e3a9c7da1e3f">aiShadingMode_NoShading</link>&#32;=&#32;0x9,
+403 &#32;&#32;&#32;&#32;<link linkend="_material_8h_1a93e23e0201d6ed86fb4287e15218e4cfa24be16c9bd26f4f3d5d493881dcc1ec1">aiShadingMode_Unlit</link>&#32;=&#32;<link linkend="_material_8h_1a93e23e0201d6ed86fb4287e15218e4cfa625d6dc1a678985000a1e3a9c7da1e3f">aiShadingMode_NoShading</link>,&#32;<emphasis role="comment">//&#32;Alias</emphasis>
+404 
+407 &#32;&#32;&#32;&#32;<link linkend="_material_8h_1a93e23e0201d6ed86fb4287e15218e4cfab2f24381f6f4f21cee9cef32c1fd4d5f">aiShadingMode_Fresnel</link>&#32;=&#32;0xa,
+408 
+420 &#32;&#32;&#32;&#32;<link linkend="_material_8h_1a93e23e0201d6ed86fb4287e15218e4cfa0b3fe30914cb8961c68b0faa888a8be1">aiShadingMode_PBR_BRDF</link>&#32;=&#32;0xb,
+421 
+422 <emphasis role="preprocessor">#ifndef&#32;SWIG</emphasis>
+423 &#32;&#32;&#32;&#32;<link linkend="_material_8h_1a93e23e0201d6ed86fb4287e15218e4cfaa33165721a2d89fde364b76fe2da3d00">_aiShadingMode_Force32Bit</link>&#32;=&#32;INT_MAX
+424 <emphasis role="preprocessor">#endif</emphasis>
+425 };
+426 
+427 <emphasis role="comment">//&#32;---------------------------------------------------------------------------</emphasis>
+438 <emphasis role="keyword">enum</emphasis>&#32;<link linkend="_material_8h_1a6d003e078617e4e80d1313a6250b2dfd">aiTextureFlags</link>&#32;{
+441 &#32;&#32;&#32;&#32;<link linkend="_material_8h_1a6d003e078617e4e80d1313a6250b2dfda2d22809697f40ef1969a491a8d3278ff">aiTextureFlags_Invert</link>&#32;=&#32;0x1,
+442 
+452 &#32;&#32;&#32;&#32;<link linkend="_material_8h_1a6d003e078617e4e80d1313a6250b2dfda5712da7264ec0c6e90b45580e5badbe0">aiTextureFlags_UseAlpha</link>&#32;=&#32;0x2,
+453 
+459 &#32;&#32;&#32;&#32;<link linkend="_material_8h_1a6d003e078617e4e80d1313a6250b2dfda78f2667e8304213210c2508b7af47499">aiTextureFlags_IgnoreAlpha</link>&#32;=&#32;0x4,
+460 
+461 <emphasis role="preprocessor">#ifndef&#32;SWIG</emphasis>
+462 &#32;&#32;&#32;&#32;<link linkend="_material_8h_1a6d003e078617e4e80d1313a6250b2dfdabdc67fee0727d08bd17135d58f67cdd6">_aiTextureFlags_Force32Bit</link>&#32;=&#32;INT_MAX
+463 <emphasis role="preprocessor">#endif</emphasis>
+464 };
+465 
+466 <emphasis role="comment">//&#32;---------------------------------------------------------------------------</emphasis>
+482 <emphasis role="keyword">enum</emphasis>&#32;<link linkend="_material_8h_1ae1236da1ccfbf4f23bb490287a4d61ac">aiBlendMode</link>&#32;{
+489 &#32;&#32;&#32;&#32;<link linkend="_material_8h_1ae1236da1ccfbf4f23bb490287a4d61aca2df47d5d42d73938d3d273a75db671b0">aiBlendMode_Default</link>&#32;=&#32;0x0,
+490 
+498 &#32;&#32;&#32;&#32;<link linkend="_material_8h_1ae1236da1ccfbf4f23bb490287a4d61aca60eb5958c8fd4147bafd9098edf54e1e">aiBlendMode_Additive</link>&#32;=&#32;0x1,
+499 
+500 <emphasis role="comment">//&#32;we&#32;don&apos;t&#32;need&#32;more&#32;for&#32;the&#32;moment,&#32;but&#32;we&#32;might&#32;need&#32;them</emphasis>
+501 <emphasis role="comment">//&#32;in&#32;future&#32;versions&#32;...</emphasis>
+502 
+503 <emphasis role="preprocessor">#ifndef&#32;SWIG</emphasis>
+504 &#32;&#32;&#32;&#32;<link linkend="_material_8h_1ae1236da1ccfbf4f23bb490287a4d61aca75430f7adb68b57be3892d40720f2982">_aiBlendMode_Force32Bit</link>&#32;=&#32;INT_MAX
+505 <emphasis role="preprocessor">#endif</emphasis>
+506 };
+507 
+508 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_pushpack1_8h">./Compiler/pushpack1.h</link>&quot;</emphasis>
+509 
+510 <emphasis role="comment">//&#32;---------------------------------------------------------------------------</emphasis>
+520 <emphasis role="keyword">struct&#32;</emphasis><link linkend="_structai_u_v_transform">aiUVTransform</link>&#32;{
+525 &#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector2_d">aiVector2D</link>&#32;<link linkend="_structai_u_v_transform_1a8c7f35959aa342bf0cef670246fbb813">mTranslation</link>;
+526 
+531 &#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector2_d">aiVector2D</link>&#32;<link linkend="_structai_u_v_transform_1a89429a027cbf914e7212e48149a957c8">mScaling</link>;
+532 
+539 &#32;&#32;&#32;&#32;<link linkend="_defs_8h_1af221f9bbc3e0dc43a46efaaac6dab067">ai_real</link>&#32;<link linkend="_structai_u_v_transform_1a157005aadfdd145a56c7831c7b24f1ea">mRotation</link>;
+540 
+541 <emphasis role="preprocessor">#ifdef&#32;__cplusplus</emphasis>
+542 &#32;&#32;&#32;&#32;<link linkend="_structai_u_v_transform">aiUVTransform</link>()&#32;<link linkend="_defs_8h_1ae032f18edd69bf6ba935ef9feb025a96">AI_NO_EXCEPT</link>
+543 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;<link linkend="_structai_u_v_transform_1a8c7f35959aa342bf0cef670246fbb813">mTranslation</link>(0.0,&#32;0.0),
+544 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structai_u_v_transform_1a89429a027cbf914e7212e48149a957c8">mScaling</link>(1.0,&#32;1.0),
+545 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structai_u_v_transform_1a157005aadfdd145a56c7831c7b24f1ea">mRotation</link>(0.0)&#32;{
+546 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;nothing&#32;to&#32;be&#32;done&#32;here&#32;...</emphasis>
+547 &#32;&#32;&#32;&#32;}
+548 <emphasis role="preprocessor">#endif</emphasis>
+549 };
+550 
+551 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_poppack1_8h">./Compiler/poppack1.h</link>&quot;</emphasis>
+552 
+554 <emphasis role="comment">//&#32;---------------------------------------------------------------------------</emphasis>
+558 <emphasis role="keyword">enum</emphasis>&#32;aiPropertyTypeInfo&#32;{
+565 &#32;&#32;&#32;&#32;aiPTI_Float&#32;=&#32;0x1,
+566 
+573 &#32;&#32;&#32;&#32;aiPTI_Double&#32;=&#32;0x2,
+574 
+580 &#32;&#32;&#32;&#32;aiPTI_String&#32;=&#32;0x3,
+581 
+588 &#32;&#32;&#32;&#32;aiPTI_Integer&#32;=&#32;0x4,
+589 
+592 &#32;&#32;&#32;&#32;aiPTI_Buffer&#32;=&#32;0x5,
+593 
+597 <emphasis role="preprocessor">#ifndef&#32;SWIG</emphasis>
+598 &#32;&#32;&#32;&#32;_aiPTI_Force32Bit&#32;=&#32;INT_MAX
+599 <emphasis role="preprocessor">#endif</emphasis>
+600 };
+601 
+602 <emphasis role="comment">//&#32;---------------------------------------------------------------------------</emphasis>
+622 <emphasis role="keyword">struct&#32;</emphasis>aiMaterialProperty&#32;{
+626 &#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_string">aiString</link>&#32;mKey;
+627 
+632 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;mSemantic;
+633 
+637 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;mIndex;
+638 
+642 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;mDataLength;
+643 
+651 &#32;&#32;&#32;&#32;<link linkend="_defs_8h_1aa8c1788fd9d096036c9e3b6cfe4b1301">C_ENUM</link>&#32;aiPropertyTypeInfo&#32;mType;
+652 
+656 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">char</emphasis>&#32;*mData;
+657 
+658 <emphasis role="preprocessor">#ifdef&#32;__cplusplus</emphasis>
+659 
+660 &#32;&#32;&#32;&#32;aiMaterialProperty()&#32;<link linkend="_defs_8h_1ae032f18edd69bf6ba935ef9feb025a96">AI_NO_EXCEPT</link>
+661 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;mSemantic(0),
+662 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;mIndex(0),
+663 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;mDataLength(0),
+664 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;mType(aiPTI_Float),
+665 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;mData(<emphasis role="keywordtype">nullptr</emphasis>)&#32;{
+666 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;empty</emphasis>
+667 &#32;&#32;&#32;&#32;}
+668 
+669 &#32;&#32;&#32;&#32;~aiMaterialProperty()&#32;{
+670 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">delete</emphasis>[]&#32;mData;
+671 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;mData&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>;
+672 &#32;&#32;&#32;&#32;}
+673 
+674 <emphasis role="preprocessor">#endif</emphasis>
+675 };
+677 
+678 <emphasis role="preprocessor">#ifdef&#32;__cplusplus</emphasis>
+679 }&#32;<emphasis role="comment">//&#32;We&#32;need&#32;to&#32;leave&#32;the&#32;&quot;C&quot;&#32;block&#32;here&#32;to&#32;allow&#32;template&#32;member&#32;functions</emphasis>
+680 <emphasis role="preprocessor">#endif</emphasis>
+681 
+682 <emphasis role="comment">//&#32;---------------------------------------------------------------------------</emphasis>
+691 <emphasis role="preprocessor">#ifdef&#32;__cplusplus</emphasis>
+692 <emphasis role="keyword">struct&#32;</emphasis><link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<link linkend="_structai_material">aiMaterial</link>
+693 #else
+694 <link linkend="_interfacestruct">struct</link>&#32;<link linkend="_structai_material">aiMaterial</link>
+695 #endif
+696 {
+697 
+698 <emphasis role="preprocessor">#ifdef&#32;__cplusplus</emphasis>
+699 
+700 <emphasis role="keyword">public</emphasis>:
+701 &#32;&#32;&#32;&#32;<link linkend="_structai_material">aiMaterial</link>();
+702 &#32;&#32;&#32;&#32;<link linkend="_structai_material">~aiMaterial</link>();
+703 
+704 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-------------------------------------------------------------------</emphasis>
+709 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-------------------------------------------------------------------</emphasis>
+710 &#32;&#32;&#32;&#32;<link linkend="_structai_string">aiString</link>&#32;GetName()&#32;<emphasis role="keyword">const</emphasis>;
+711 
+712 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-------------------------------------------------------------------</emphasis>
+724 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&#32;&lt;<emphasis role="keyword">typename</emphasis>&#32;Type&gt;
+725 &#32;&#32;&#32;&#32;<link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1aca26bc79b127c87708ebda19c2dacd8c">Get</link>(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*pKey,&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>,
+726 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;idx,&#32;Type&#32;*pOut,&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;*pMax)&#32;<emphasis role="keyword">const</emphasis>;
+727 
+728 &#32;&#32;&#32;&#32;<link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1aca26bc79b127c87708ebda19c2dacd8c">Get</link>(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*pKey,&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>,
+729 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;idx,&#32;<emphasis role="keywordtype">int</emphasis>&#32;*pOut,&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;*pMax)&#32;<emphasis role="keyword">const</emphasis>;
+730 
+731 &#32;&#32;&#32;&#32;<link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1aca26bc79b127c87708ebda19c2dacd8c">Get</link>(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*pKey,&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>,
+732 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;idx,&#32;<link linkend="_defs_8h_1af221f9bbc3e0dc43a46efaaac6dab067">ai_real</link>&#32;*pOut,&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;*pMax)&#32;<emphasis role="keyword">const</emphasis>;
+733 
+734 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-------------------------------------------------------------------</emphasis>
+744 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&#32;&lt;<emphasis role="keyword">typename</emphasis>&#32;Type&gt;
+745 &#32;&#32;&#32;&#32;<link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1aca26bc79b127c87708ebda19c2dacd8c">Get</link>(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*pKey,&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>,
+746 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;idx,&#32;Type&#32;&amp;pOut)&#32;<emphasis role="keyword">const</emphasis>;
+747 
+748 &#32;&#32;&#32;&#32;<link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1aca26bc79b127c87708ebda19c2dacd8c">Get</link>(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*pKey,&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>,
+749 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;idx,&#32;<emphasis role="keywordtype">int</emphasis>&#32;&amp;pOut)&#32;<emphasis role="keyword">const</emphasis>;
+750 
+751 &#32;&#32;&#32;&#32;<link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1aca26bc79b127c87708ebda19c2dacd8c">Get</link>(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*pKey,&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>,
+752 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;idx,&#32;<link linkend="_defs_8h_1af221f9bbc3e0dc43a46efaaac6dab067">ai_real</link>&#32;&amp;pOut)&#32;<emphasis role="keyword">const</emphasis>;
+753 
+754 &#32;&#32;&#32;&#32;<link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1aca26bc79b127c87708ebda19c2dacd8c">Get</link>(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*pKey,&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>,
+755 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;idx,&#32;<link linkend="_structai_string">aiString</link>&#32;&amp;pOut)&#32;<emphasis role="keyword">const</emphasis>;
+756 
+757 &#32;&#32;&#32;&#32;<link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1aca26bc79b127c87708ebda19c2dacd8c">Get</link>(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*pKey,&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>,
+758 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;idx,&#32;<link linkend="_structai_color3_d">aiColor3D</link>&#32;&amp;pOut)&#32;<emphasis role="keyword">const</emphasis>;
+759 
+760 &#32;&#32;&#32;&#32;<link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1aca26bc79b127c87708ebda19c2dacd8c">Get</link>(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*pKey,&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>,
+761 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;idx,&#32;<link linkend="_structai_color4_d">aiColor4D</link>&#32;&amp;pOut)&#32;<emphasis role="keyword">const</emphasis>;
+762 
+763 &#32;&#32;&#32;&#32;<link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1aca26bc79b127c87708ebda19c2dacd8c">Get</link>(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*pKey,&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>,
+764 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;idx,&#32;<link linkend="_structai_u_v_transform">aiUVTransform</link>&#32;&amp;pOut)&#32;<emphasis role="keyword">const</emphasis>;
+765 
+766 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-------------------------------------------------------------------</emphasis>
+771 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;GetTextureCount(<link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0">aiTextureType</link>&#32;<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>)&#32;<emphasis role="keyword">const</emphasis>;
+772 
+773 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-------------------------------------------------------------------</emphasis>
+803 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-------------------------------------------------------------------</emphasis>
+804 &#32;&#32;&#32;&#32;<link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link>&#32;GetTexture(<link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0">aiTextureType</link>&#32;<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>,
+805 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a57f14e05b1900f16a2da82ade47d0c6d">index</link>,
+806 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_string">aiString</link>&#32;*path,
+807 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_material_8h_1a6186e909f1ae28133ab10f1b4635b0f9">aiTextureMapping</link>&#32;*mapping&#32;=&#32;NULL,
+808 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;*uvindex&#32;=&#32;NULL,
+809 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1af221f9bbc3e0dc43a46efaaac6dab067">ai_real</link>&#32;*blend&#32;=&#32;NULL,
+810 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_material_8h_1afcd3096d69affba13114cedfc6f9ee6b">aiTextureOp</link>&#32;*<link linkend="_tracy__lz4hc_8cpp_1a853ce719be9725860615b4ec1f7f23a9">op</link>&#32;=&#32;NULL,
+811 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_material_8h_1a6cbe56056751aa80e8dd714632a49de0">aiTextureMapMode</link>&#32;*mapmode&#32;=&#32;NULL)&#32;<emphasis role="keyword">const</emphasis>;
+812 
+813 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Setters</emphasis>
+814 
+815 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;------------------------------------------------------------------------------</emphasis>
+825 &#32;&#32;&#32;&#32;<link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link>&#32;AddBinaryProperty(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;*pInput,
+826 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;pSizeInBytes,
+827 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*pKey,
+828 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>,
+829 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a57f14e05b1900f16a2da82ade47d0c6d">index</link>,
+830 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;aiPropertyTypeInfo&#32;pType);
+831 
+832 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;------------------------------------------------------------------------------</emphasis>
+840 &#32;&#32;&#32;&#32;<link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link>&#32;AddProperty(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_structai_string">aiString</link>&#32;*pInput,
+841 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*pKey,
+842 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>&#32;=&#32;0,
+843 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a57f14e05b1900f16a2da82ade47d0c6d">index</link>&#32;=&#32;0);
+844 
+845 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;------------------------------------------------------------------------------</emphasis>
+852 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&#32;&lt;<emphasis role="keyword">class</emphasis>&#32;TYPE&gt;
+853 &#32;&#32;&#32;&#32;<link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link>&#32;AddProperty(<emphasis role="keyword">const</emphasis>&#32;TYPE&#32;*pInput,
+854 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;pNumValues,
+855 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*pKey,
+856 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>&#32;=&#32;0,
+857 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a57f14e05b1900f16a2da82ade47d0c6d">index</link>&#32;=&#32;0);
+858 
+859 &#32;&#32;&#32;&#32;<link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link>&#32;AddProperty(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&#32;*pInput,
+860 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;pNumValues,
+861 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*pKey,
+862 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>&#32;=&#32;0,
+863 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a57f14e05b1900f16a2da82ade47d0c6d">index</link>&#32;=&#32;0);
+864 
+865 &#32;&#32;&#32;&#32;<link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link>&#32;AddProperty(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_structai_color3_d">aiColor3D</link>&#32;*pInput,
+866 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;pNumValues,
+867 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*pKey,
+868 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>&#32;=&#32;0,
+869 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a57f14e05b1900f16a2da82ade47d0c6d">index</link>&#32;=&#32;0);
+870 
+871 &#32;&#32;&#32;&#32;<link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link>&#32;AddProperty(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_structai_color4_d">aiColor4D</link>&#32;*pInput,
+872 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;pNumValues,
+873 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*pKey,
+874 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>&#32;=&#32;0,
+875 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a57f14e05b1900f16a2da82ade47d0c6d">index</link>&#32;=&#32;0);
+876 
+877 &#32;&#32;&#32;&#32;<link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link>&#32;AddProperty(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;*pInput,
+878 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;pNumValues,
+879 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*pKey,
+880 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>&#32;=&#32;0,
+881 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a57f14e05b1900f16a2da82ade47d0c6d">index</link>&#32;=&#32;0);
+882 
+883 &#32;&#32;&#32;&#32;<link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link>&#32;AddProperty(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">float</emphasis>&#32;*pInput,
+884 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;pNumValues,
+885 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*pKey,
+886 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>&#32;=&#32;0,
+887 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a57f14e05b1900f16a2da82ade47d0c6d">index</link>&#32;=&#32;0);
+888 
+889 &#32;&#32;&#32;&#32;<link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link>&#32;AddProperty(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">double</emphasis>&#32;*pInput,
+890 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;pNumValues,
+891 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*pKey,
+892 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>&#32;=&#32;0,
+893 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a57f14e05b1900f16a2da82ade47d0c6d">index</link>&#32;=&#32;0);
+894 
+895 &#32;&#32;&#32;&#32;<link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link>&#32;AddProperty(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_structai_u_v_transform">aiUVTransform</link>&#32;*pInput,
+896 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;pNumValues,
+897 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*pKey,
+898 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>&#32;=&#32;0,
+899 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a57f14e05b1900f16a2da82ade47d0c6d">index</link>&#32;=&#32;0);
+900 
+901 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;------------------------------------------------------------------------------</emphasis>
+908 &#32;&#32;&#32;&#32;<link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link>&#32;RemoveProperty(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*pKey,
+909 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>&#32;=&#32;0,
+910 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a57f14e05b1900f16a2da82ade47d0c6d">index</link>&#32;=&#32;0);
+911 
+912 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;------------------------------------------------------------------------------</emphasis>
+916 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;Clear();
+917 
+918 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;------------------------------------------------------------------------------</emphasis>
+923 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;CopyPropertyList(<link linkend="_structai_material">aiMaterial</link>&#32;*pcDest,
+924 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_structai_material">aiMaterial</link>&#32;*pcSrc);
+925 
+926 <emphasis role="preprocessor">#endif</emphasis>
+927 
+929 &#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;aiMaterialProperty&#32;**<link linkend="_structai_material_1af32b125d54bff5bc1fc54a1007487cab">mProperties</link>;
+930 
+932 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_structai_material_1a243b07afdc6507f8878c93a2cafe4963">mNumProperties</link>;
+933 
+935 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_structai_material_1a84a0016a263362c52b27a9d8d76dc449">mNumAllocated</link>;
+936 };
+937 
+938 <emphasis role="comment">//&#32;Go&#32;back&#32;to&#32;extern&#32;&quot;C&quot;&#32;again</emphasis>
+939 <emphasis role="preprocessor">#ifdef&#32;__cplusplus</emphasis>
+940 <emphasis role="keyword">extern</emphasis>&#32;<emphasis role="stringliteral">&quot;C&quot;</emphasis>&#32;{
+941 <emphasis role="preprocessor">#endif</emphasis>
+942 
+943 <emphasis role="comment">//&#32;---------------------------------------------------------------------------</emphasis>
+944 <emphasis role="preprocessor">#define&#32;AI_MATKEY_NAME&#32;&quot;?mat.name&quot;,&#32;0,&#32;0</emphasis>
+945 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TWOSIDED&#32;&quot;$mat.twosided&quot;,&#32;0,&#32;0</emphasis>
+946 <emphasis role="preprocessor">#define&#32;AI_MATKEY_SHADING_MODEL&#32;&quot;$mat.shadingm&quot;,&#32;0,&#32;0</emphasis>
+947 <emphasis role="preprocessor">#define&#32;AI_MATKEY_ENABLE_WIREFRAME&#32;&quot;$mat.wireframe&quot;,&#32;0,&#32;0</emphasis>
+948 <emphasis role="preprocessor">#define&#32;AI_MATKEY_BLEND_FUNC&#32;&quot;$mat.blend&quot;,&#32;0,&#32;0</emphasis>
+949 <emphasis role="preprocessor">#define&#32;AI_MATKEY_OPACITY&#32;&quot;$mat.opacity&quot;,&#32;0,&#32;0</emphasis>
+950 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TRANSPARENCYFACTOR&#32;&quot;$mat.transparencyfactor&quot;,&#32;0,&#32;0</emphasis>
+951 <emphasis role="preprocessor">#define&#32;AI_MATKEY_BUMPSCALING&#32;&quot;$mat.bumpscaling&quot;,&#32;0,&#32;0</emphasis>
+952 <emphasis role="preprocessor">#define&#32;AI_MATKEY_SHININESS&#32;&quot;$mat.shininess&quot;,&#32;0,&#32;0</emphasis>
+953 <emphasis role="preprocessor">#define&#32;AI_MATKEY_REFLECTIVITY&#32;&quot;$mat.reflectivity&quot;,&#32;0,&#32;0</emphasis>
+954 <emphasis role="preprocessor">#define&#32;AI_MATKEY_SHININESS_STRENGTH&#32;&quot;$mat.shinpercent&quot;,&#32;0,&#32;0</emphasis>
+955 <emphasis role="preprocessor">#define&#32;AI_MATKEY_REFRACTI&#32;&quot;$mat.refracti&quot;,&#32;0,&#32;0</emphasis>
+956 <emphasis role="preprocessor">#define&#32;AI_MATKEY_COLOR_DIFFUSE&#32;&quot;$clr.diffuse&quot;,&#32;0,&#32;0</emphasis>
+957 <emphasis role="preprocessor">#define&#32;AI_MATKEY_COLOR_AMBIENT&#32;&quot;$clr.ambient&quot;,&#32;0,&#32;0</emphasis>
+958 <emphasis role="preprocessor">#define&#32;AI_MATKEY_COLOR_SPECULAR&#32;&quot;$clr.specular&quot;,&#32;0,&#32;0</emphasis>
+959 <emphasis role="preprocessor">#define&#32;AI_MATKEY_COLOR_EMISSIVE&#32;&quot;$clr.emissive&quot;,&#32;0,&#32;0</emphasis>
+960 <emphasis role="preprocessor">#define&#32;AI_MATKEY_COLOR_TRANSPARENT&#32;&quot;$clr.transparent&quot;,&#32;0,&#32;0</emphasis>
+961 <emphasis role="preprocessor">#define&#32;AI_MATKEY_COLOR_REFLECTIVE&#32;&quot;$clr.reflective&quot;,&#32;0,&#32;0</emphasis>
+962 <emphasis role="preprocessor">#define&#32;AI_MATKEY_GLOBAL_BACKGROUND_IMAGE&#32;&quot;?bg.global&quot;,&#32;0,&#32;0</emphasis>
+963 <emphasis role="preprocessor">#define&#32;AI_MATKEY_GLOBAL_SHADERLANG&#32;&quot;?sh.lang&quot;,&#32;0,&#32;0</emphasis>
+964 <emphasis role="preprocessor">#define&#32;AI_MATKEY_SHADER_VERTEX&#32;&quot;?sh.vs&quot;,&#32;0,&#32;0</emphasis>
+965 <emphasis role="preprocessor">#define&#32;AI_MATKEY_SHADER_FRAGMENT&#32;&quot;?sh.fs&quot;,&#32;0,&#32;0</emphasis>
+966 <emphasis role="preprocessor">#define&#32;AI_MATKEY_SHADER_GEO&#32;&quot;?sh.gs&quot;,&#32;0,&#32;0</emphasis>
+967 <emphasis role="preprocessor">#define&#32;AI_MATKEY_SHADER_TESSELATION&#32;&quot;?sh.ts&quot;,&#32;0,&#32;0</emphasis>
+968 <emphasis role="preprocessor">#define&#32;AI_MATKEY_SHADER_PRIMITIVE&#32;&quot;?sh.ps&quot;,&#32;0,&#32;0</emphasis>
+969 <emphasis role="preprocessor">#define&#32;AI_MATKEY_SHADER_COMPUTE&#32;&quot;?sh.cs&quot;,&#32;0,&#32;0</emphasis>
+970 
+971 <emphasis role="comment">//&#32;---------------------------------------------------------------------------</emphasis>
+972 <emphasis role="comment">//&#32;PBR&#32;material&#32;support</emphasis>
+973 <emphasis role="comment">//&#32;--------------------</emphasis>
+974 <emphasis role="comment">//&#32;Properties&#32;defining&#32;PBR&#32;rendering&#32;techniques</emphasis>
+975 <emphasis role="preprocessor">#define&#32;AI_MATKEY_USE_COLOR_MAP&#32;&quot;$mat.useColorMap&quot;,&#32;0,&#32;0</emphasis>
+976 
+977 <emphasis role="comment">//&#32;Metallic/Roughness&#32;Workflow</emphasis>
+978 <emphasis role="comment">//&#32;---------------------------</emphasis>
+979 <emphasis role="comment">//&#32;Base&#32;RGBA&#32;color&#32;factor.&#32;Will&#32;be&#32;multiplied&#32;by&#32;final&#32;base&#32;color&#32;texture&#32;values&#32;if&#32;extant</emphasis>
+980 <emphasis role="comment">//&#32;Note:&#32;Importers&#32;may&#32;choose&#32;to&#32;copy&#32;this&#32;into&#32;AI_MATKEY_COLOR_DIFFUSE&#32;for&#32;compatibility</emphasis>
+981 <emphasis role="comment">//&#32;with&#32;renderers&#32;and&#32;formats&#32;that&#32;do&#32;not&#32;support&#32;Metallic/Roughness&#32;PBR</emphasis>
+982 <emphasis role="preprocessor">#define&#32;AI_MATKEY_BASE_COLOR&#32;&quot;$clr.base&quot;,&#32;0,&#32;0</emphasis>
+983 <emphasis role="preprocessor">#define&#32;AI_MATKEY_BASE_COLOR_TEXTURE&#32;aiTextureType_BASE_COLOR,&#32;0</emphasis>
+984 <emphasis role="preprocessor">#define&#32;AI_MATKEY_USE_METALLIC_MAP&#32;&quot;$mat.useMetallicMap&quot;,&#32;0,&#32;0</emphasis>
+985 <emphasis role="comment">//&#32;Metallic&#32;factor.&#32;0.0&#32;=&#32;Full&#32;Dielectric,&#32;1.0&#32;=&#32;Full&#32;Metal</emphasis>
+986 <emphasis role="preprocessor">#define&#32;AI_MATKEY_METALLIC_FACTOR&#32;&quot;$mat.metallicFactor&quot;,&#32;0,&#32;0</emphasis>
+987 <emphasis role="preprocessor">#define&#32;AI_MATKEY_METALLIC_TEXTURE&#32;aiTextureType_METALNESS,&#32;0</emphasis>
+988 <emphasis role="preprocessor">#define&#32;AI_MATKEY_USE_ROUGHNESS_MAP&#32;&quot;$mat.useRoughnessMap&quot;,&#32;0,&#32;0</emphasis>
+989 <emphasis role="comment">//&#32;Roughness&#32;factor.&#32;0.0&#32;=&#32;Perfectly&#32;Smooth,&#32;1.0&#32;=&#32;Completely&#32;Rough</emphasis>
+990 <emphasis role="preprocessor">#define&#32;AI_MATKEY_ROUGHNESS_FACTOR&#32;&quot;$mat.roughnessFactor&quot;,&#32;0,&#32;0</emphasis>
+991 <emphasis role="preprocessor">#define&#32;AI_MATKEY_ROUGHNESS_TEXTURE&#32;aiTextureType_DIFFUSE_ROUGHNESS,&#32;0</emphasis>
+992 <emphasis role="comment">//&#32;Anisotropy&#32;factor.&#32;0.0&#32;=&#32;isotropic,&#32;1.0&#32;=&#32;anisotropy&#32;along&#32;tangent&#32;direction,</emphasis>
+993 <emphasis role="comment">//&#32;-1.0&#32;=&#32;anisotropy&#32;along&#32;bitangent&#32;direction</emphasis>
+994 <emphasis role="preprocessor">#define&#32;AI_MATKEY_ANISOTROPY_FACTOR&#32;&quot;$mat.anisotropyFactor&quot;,&#32;0,&#32;0</emphasis>
+995 
+996 <emphasis role="comment">//&#32;Specular/Glossiness&#32;Workflow</emphasis>
+997 <emphasis role="comment">//&#32;---------------------------</emphasis>
+998 <emphasis role="comment">//&#32;Diffuse/Albedo&#32;Color.&#32;Note:&#32;Pure&#32;Metals&#32;have&#32;a&#32;diffuse&#32;of&#32;{0,0,0}</emphasis>
+999 <emphasis role="comment">//&#32;AI_MATKEY_COLOR_DIFFUSE</emphasis>
+1000 <emphasis role="comment">//&#32;Specular&#32;Color.</emphasis>
+1001 <emphasis role="comment">//&#32;Note:&#32;Metallic/Roughness&#32;may&#32;also&#32;have&#32;a&#32;Specular&#32;Color</emphasis>
+1002 <emphasis role="comment">//&#32;AI_MATKEY_COLOR_SPECULAR</emphasis>
+1003 <emphasis role="preprocessor">#define&#32;AI_MATKEY_SPECULAR_FACTOR&#32;&quot;$mat.specularFactor&quot;,&#32;0,&#32;0</emphasis>
+1004 <emphasis role="comment">//&#32;Glossiness&#32;factor.&#32;0.0&#32;=&#32;Completely&#32;Rough,&#32;1.0&#32;=&#32;Perfectly&#32;Smooth</emphasis>
+1005 <emphasis role="preprocessor">#define&#32;AI_MATKEY_GLOSSINESS_FACTOR&#32;&quot;$mat.glossinessFactor&quot;,&#32;0,&#32;0</emphasis>
+1006 
+1007 <emphasis role="comment">//&#32;Sheen</emphasis>
+1008 <emphasis role="comment">//&#32;-----</emphasis>
+1009 <emphasis role="comment">//&#32;Sheen&#32;base&#32;RGB&#32;color.&#32;Default&#32;{0,0,0}</emphasis>
+1010 <emphasis role="preprocessor">#define&#32;AI_MATKEY_SHEEN_COLOR_FACTOR&#32;&quot;$clr.sheen.factor&quot;,&#32;0,&#32;0</emphasis>
+1011 <emphasis role="comment">//&#32;Sheen&#32;Roughness&#32;Factor.</emphasis>
+1012 <emphasis role="preprocessor">#define&#32;AI_MATKEY_SHEEN_ROUGHNESS_FACTOR&#32;&quot;$mat.sheen.roughnessFactor&quot;,&#32;0,&#32;0</emphasis>
+1013 <emphasis role="preprocessor">#define&#32;AI_MATKEY_SHEEN_COLOR_TEXTURE&#32;aiTextureType_SHEEN,&#32;0</emphasis>
+1014 <emphasis role="preprocessor">#define&#32;AI_MATKEY_SHEEN_ROUGHNESS_TEXTURE&#32;aiTextureType_SHEEN,&#32;1</emphasis>
+1015 
+1016 <emphasis role="comment">//&#32;Clearcoat</emphasis>
+1017 <emphasis role="comment">//&#32;---------</emphasis>
+1018 <emphasis role="comment">//&#32;Clearcoat&#32;layer&#32;intensity.&#32;0.0&#32;=&#32;none&#32;(disabled)</emphasis>
+1019 <emphasis role="preprocessor">#define&#32;AI_MATKEY_CLEARCOAT_FACTOR&#32;&quot;$mat.clearcoat.factor&quot;,&#32;0,&#32;0</emphasis>
+1020 <emphasis role="preprocessor">#define&#32;AI_MATKEY_CLEARCOAT_ROUGHNESS_FACTOR&#32;&quot;$mat.clearcoat.roughnessFactor&quot;,&#32;0,&#32;0</emphasis>
+1021 <emphasis role="preprocessor">#define&#32;AI_MATKEY_CLEARCOAT_TEXTURE&#32;aiTextureType_CLEARCOAT,&#32;0</emphasis>
+1022 <emphasis role="preprocessor">#define&#32;AI_MATKEY_CLEARCOAT_ROUGHNESS_TEXTURE&#32;aiTextureType_CLEARCOAT,&#32;1</emphasis>
+1023 <emphasis role="preprocessor">#define&#32;AI_MATKEY_CLEARCOAT_NORMAL_TEXTURE&#32;aiTextureType_CLEARCOAT,&#32;2</emphasis>
+1024 
+1025 <emphasis role="comment">//&#32;Transmission</emphasis>
+1026 <emphasis role="comment">//&#32;------------</emphasis>
+1027 <emphasis role="comment">//&#32;https://github.com/KhronosGroup/glTF/tree/master/extensions/2.0/Khronos/KHR_materials_transmission</emphasis>
+1028 <emphasis role="comment">//&#32;Base&#32;percentage&#32;of&#32;light&#32;transmitted&#32;through&#32;the&#32;surface.&#32;0.0&#32;=&#32;Opaque,&#32;1.0&#32;=&#32;Fully&#32;transparent</emphasis>
+1029 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TRANSMISSION_FACTOR&#32;&quot;$mat.transmission.factor&quot;,&#32;0,&#32;0</emphasis>
+1030 <emphasis role="comment">//&#32;Texture&#32;defining&#32;percentage&#32;of&#32;light&#32;transmitted&#32;through&#32;the&#32;surface.</emphasis>
+1031 <emphasis role="comment">//&#32;Multiplied&#32;by&#32;AI_MATKEY_TRANSMISSION_FACTOR</emphasis>
+1032 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TRANSMISSION_TEXTURE&#32;aiTextureType_TRANSMISSION,&#32;0</emphasis>
+1033 
+1034 <emphasis role="comment">//&#32;Volume</emphasis>
+1035 <emphasis role="comment">//&#32;------------</emphasis>
+1036 <emphasis role="comment">//&#32;https://github.com/KhronosGroup/glTF/tree/main/extensions/2.0/Khronos/KHR_materials_volume</emphasis>
+1037 <emphasis role="comment">//&#32;The&#32;thickness&#32;of&#32;the&#32;volume&#32;beneath&#32;the&#32;surface.&#32;If&#32;the&#32;value&#32;is&#32;0&#32;the&#32;material&#32;is&#32;thin-walled.&#32;Otherwise&#32;the&#32;material&#32;is&#32;a&#32;volume&#32;boundary.</emphasis>
+1038 <emphasis role="preprocessor">#define&#32;AI_MATKEY_VOLUME_THICKNESS_FACTOR&#32;&quot;$mat.volume.thicknessFactor&quot;,&#32;0,&#32;0</emphasis>
+1039 <emphasis role="comment">//&#32;Texture&#32;that&#32;defines&#32;the&#32;thickness.</emphasis>
+1040 <emphasis role="comment">//&#32;Multiplied&#32;by&#32;AI_MATKEY_THICKNESS_FACTOR</emphasis>
+1041 <emphasis role="preprocessor">#define&#32;AI_MATKEY_VOLUME_THICKNESS_TEXTURE&#32;aiTextureType_TRANSMISSION,&#32;1</emphasis>
+1042 <emphasis role="comment">//&#32;Density&#32;of&#32;the&#32;medium&#32;given&#32;as&#32;the&#32;average&#32;distance&#32;that&#32;light&#32;travels&#32;in&#32;the&#32;medium&#32;before&#32;interacting&#32;with&#32;a&#32;particle.</emphasis>
+1043 <emphasis role="preprocessor">#define&#32;AI_MATKEY_VOLUME_ATTENUATION_DISTANCE&#32;&quot;$mat.volume.attenuationDistance&quot;,&#32;0,&#32;0</emphasis>
+1044 <emphasis role="comment">//&#32;The&#32;color&#32;that&#32;white&#32;light&#32;turns&#32;into&#32;due&#32;to&#32;absorption&#32;when&#32;reaching&#32;the&#32;attenuation&#32;distance.</emphasis>
+1045 <emphasis role="preprocessor">#define&#32;AI_MATKEY_VOLUME_ATTENUATION_COLOR&#32;&quot;$mat.volume.attenuationColor&quot;,&#32;0,&#32;0</emphasis>
+1046 
+1047 <emphasis role="comment">//&#32;Emissive</emphasis>
+1048 <emphasis role="comment">//&#32;--------</emphasis>
+1049 <emphasis role="preprocessor">#define&#32;AI_MATKEY_USE_EMISSIVE_MAP&#32;&quot;$mat.useEmissiveMap&quot;,&#32;0,&#32;0</emphasis>
+1050 <emphasis role="preprocessor">#define&#32;AI_MATKEY_EMISSIVE_INTENSITY&#32;&quot;$mat.emissiveIntensity&quot;,&#32;0,&#32;0</emphasis>
+1051 <emphasis role="preprocessor">#define&#32;AI_MATKEY_USE_AO_MAP&#32;&quot;$mat.useAOMap&quot;,&#32;0,&#32;0</emphasis>
+1052 
+1053 <emphasis role="comment">//&#32;---------------------------------------------------------------------------</emphasis>
+1054 <emphasis role="comment">//&#32;Pure&#32;key&#32;names&#32;for&#32;all&#32;texture-related&#32;properties</emphasis>
+1056 <emphasis role="preprocessor">#define&#32;_AI_MATKEY_TEXTURE_BASE&#32;&quot;$tex.file&quot;</emphasis>
+1057 <emphasis role="preprocessor">#define&#32;_AI_MATKEY_UVWSRC_BASE&#32;&quot;$tex.uvwsrc&quot;</emphasis>
+1058 <emphasis role="preprocessor">#define&#32;_AI_MATKEY_TEXOP_BASE&#32;&quot;$tex.op&quot;</emphasis>
+1059 <emphasis role="preprocessor">#define&#32;_AI_MATKEY_MAPPING_BASE&#32;&quot;$tex.mapping&quot;</emphasis>
+1060 <emphasis role="preprocessor">#define&#32;_AI_MATKEY_TEXBLEND_BASE&#32;&quot;$tex.blend&quot;</emphasis>
+1061 <emphasis role="preprocessor">#define&#32;_AI_MATKEY_MAPPINGMODE_U_BASE&#32;&quot;$tex.mapmodeu&quot;</emphasis>
+1062 <emphasis role="preprocessor">#define&#32;_AI_MATKEY_MAPPINGMODE_V_BASE&#32;&quot;$tex.mapmodev&quot;</emphasis>
+1063 <emphasis role="preprocessor">#define&#32;_AI_MATKEY_TEXMAP_AXIS_BASE&#32;&quot;$tex.mapaxis&quot;</emphasis>
+1064 <emphasis role="preprocessor">#define&#32;_AI_MATKEY_UVTRANSFORM_BASE&#32;&quot;$tex.uvtrafo&quot;</emphasis>
+1065 <emphasis role="preprocessor">#define&#32;_AI_MATKEY_TEXFLAGS_BASE&#32;&quot;$tex.flags&quot;</emphasis>
+1067 
+1068 <emphasis role="comment">//&#32;---------------------------------------------------------------------------</emphasis>
+1069 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TEXTURE(type,&#32;N)&#32;_AI_MATKEY_TEXTURE_BASE,&#32;type,&#32;N</emphasis>
+1070 
+1071 <emphasis role="comment">//&#32;For&#32;backward&#32;compatibility&#32;and&#32;simplicity</emphasis>
+1073 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TEXTURE_DIFFUSE(N)&#32;\</emphasis>
+1074 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_TEXTURE(aiTextureType_DIFFUSE,&#32;N)</emphasis>
+1075 
+1076 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TEXTURE_SPECULAR(N)&#32;\</emphasis>
+1077 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_TEXTURE(aiTextureType_SPECULAR,&#32;N)</emphasis>
+1078 
+1079 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TEXTURE_AMBIENT(N)&#32;\</emphasis>
+1080 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_TEXTURE(aiTextureType_AMBIENT,&#32;N)</emphasis>
+1081 
+1082 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TEXTURE_EMISSIVE(N)&#32;\</emphasis>
+1083 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_TEXTURE(aiTextureType_EMISSIVE,&#32;N)</emphasis>
+1084 
+1085 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TEXTURE_NORMALS(N)&#32;\</emphasis>
+1086 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_TEXTURE(aiTextureType_NORMALS,&#32;N)</emphasis>
+1087 
+1088 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TEXTURE_HEIGHT(N)&#32;\</emphasis>
+1089 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_TEXTURE(aiTextureType_HEIGHT,&#32;N)</emphasis>
+1090 
+1091 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TEXTURE_SHININESS(N)&#32;\</emphasis>
+1092 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_TEXTURE(aiTextureType_SHININESS,&#32;N)</emphasis>
+1093 
+1094 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TEXTURE_OPACITY(N)&#32;\</emphasis>
+1095 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_TEXTURE(aiTextureType_OPACITY,&#32;N)</emphasis>
+1096 
+1097 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TEXTURE_DISPLACEMENT(N)&#32;\</emphasis>
+1098 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_TEXTURE(aiTextureType_DISPLACEMENT,&#32;N)</emphasis>
+1099 
+1100 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TEXTURE_LIGHTMAP(N)&#32;\</emphasis>
+1101 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_TEXTURE(aiTextureType_LIGHTMAP,&#32;N)</emphasis>
+1102 
+1103 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TEXTURE_REFLECTION(N)&#32;\</emphasis>
+1104 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_TEXTURE(aiTextureType_REFLECTION,&#32;N)</emphasis>
+1105 
+1107 
+1108 <emphasis role="comment">//&#32;---------------------------------------------------------------------------</emphasis>
+1109 <emphasis role="preprocessor">#define&#32;AI_MATKEY_UVWSRC(type,&#32;N)&#32;_AI_MATKEY_UVWSRC_BASE,&#32;type,&#32;N</emphasis>
+1110 
+1111 <emphasis role="comment">//&#32;For&#32;backward&#32;compatibility&#32;and&#32;simplicity</emphasis>
+1113 <emphasis role="preprocessor">#define&#32;AI_MATKEY_UVWSRC_DIFFUSE(N)&#32;\</emphasis>
+1114 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_UVWSRC(aiTextureType_DIFFUSE,&#32;N)</emphasis>
+1115 
+1116 <emphasis role="preprocessor">#define&#32;AI_MATKEY_UVWSRC_SPECULAR(N)&#32;\</emphasis>
+1117 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_UVWSRC(aiTextureType_SPECULAR,&#32;N)</emphasis>
+1118 
+1119 <emphasis role="preprocessor">#define&#32;AI_MATKEY_UVWSRC_AMBIENT(N)&#32;\</emphasis>
+1120 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_UVWSRC(aiTextureType_AMBIENT,&#32;N)</emphasis>
+1121 
+1122 <emphasis role="preprocessor">#define&#32;AI_MATKEY_UVWSRC_EMISSIVE(N)&#32;\</emphasis>
+1123 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_UVWSRC(aiTextureType_EMISSIVE,&#32;N)</emphasis>
+1124 
+1125 <emphasis role="preprocessor">#define&#32;AI_MATKEY_UVWSRC_NORMALS(N)&#32;\</emphasis>
+1126 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_UVWSRC(aiTextureType_NORMALS,&#32;N)</emphasis>
+1127 
+1128 <emphasis role="preprocessor">#define&#32;AI_MATKEY_UVWSRC_HEIGHT(N)&#32;\</emphasis>
+1129 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_UVWSRC(aiTextureType_HEIGHT,&#32;N)</emphasis>
+1130 
+1131 <emphasis role="preprocessor">#define&#32;AI_MATKEY_UVWSRC_SHININESS(N)&#32;\</emphasis>
+1132 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_UVWSRC(aiTextureType_SHININESS,&#32;N)</emphasis>
+1133 
+1134 <emphasis role="preprocessor">#define&#32;AI_MATKEY_UVWSRC_OPACITY(N)&#32;\</emphasis>
+1135 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_UVWSRC(aiTextureType_OPACITY,&#32;N)</emphasis>
+1136 
+1137 <emphasis role="preprocessor">#define&#32;AI_MATKEY_UVWSRC_DISPLACEMENT(N)&#32;\</emphasis>
+1138 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_UVWSRC(aiTextureType_DISPLACEMENT,&#32;N)</emphasis>
+1139 
+1140 <emphasis role="preprocessor">#define&#32;AI_MATKEY_UVWSRC_LIGHTMAP(N)&#32;\</emphasis>
+1141 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_UVWSRC(aiTextureType_LIGHTMAP,&#32;N)</emphasis>
+1142 
+1143 <emphasis role="preprocessor">#define&#32;AI_MATKEY_UVWSRC_REFLECTION(N)&#32;\</emphasis>
+1144 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_UVWSRC(aiTextureType_REFLECTION,&#32;N)</emphasis>
+1145 
+1147 <emphasis role="comment">//&#32;---------------------------------------------------------------------------</emphasis>
+1148 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TEXOP(type,&#32;N)&#32;_AI_MATKEY_TEXOP_BASE,&#32;type,&#32;N</emphasis>
+1149 
+1150 <emphasis role="comment">//&#32;For&#32;backward&#32;compatibility&#32;and&#32;simplicity</emphasis>
+1152 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TEXOP_DIFFUSE(N)&#32;\</emphasis>
+1153 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_TEXOP(aiTextureType_DIFFUSE,&#32;N)</emphasis>
+1154 
+1155 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TEXOP_SPECULAR(N)&#32;\</emphasis>
+1156 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_TEXOP(aiTextureType_SPECULAR,&#32;N)</emphasis>
+1157 
+1158 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TEXOP_AMBIENT(N)&#32;\</emphasis>
+1159 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_TEXOP(aiTextureType_AMBIENT,&#32;N)</emphasis>
+1160 
+1161 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TEXOP_EMISSIVE(N)&#32;\</emphasis>
+1162 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_TEXOP(aiTextureType_EMISSIVE,&#32;N)</emphasis>
+1163 
+1164 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TEXOP_NORMALS(N)&#32;\</emphasis>
+1165 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_TEXOP(aiTextureType_NORMALS,&#32;N)</emphasis>
+1166 
+1167 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TEXOP_HEIGHT(N)&#32;\</emphasis>
+1168 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_TEXOP(aiTextureType_HEIGHT,&#32;N)</emphasis>
+1169 
+1170 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TEXOP_SHININESS(N)&#32;\</emphasis>
+1171 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_TEXOP(aiTextureType_SHININESS,&#32;N)</emphasis>
+1172 
+1173 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TEXOP_OPACITY(N)&#32;\</emphasis>
+1174 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_TEXOP(aiTextureType_OPACITY,&#32;N)</emphasis>
+1175 
+1176 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TEXOP_DISPLACEMENT(N)&#32;\</emphasis>
+1177 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_TEXOP(aiTextureType_DISPLACEMENT,&#32;N)</emphasis>
+1178 
+1179 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TEXOP_LIGHTMAP(N)&#32;\</emphasis>
+1180 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_TEXOP(aiTextureType_LIGHTMAP,&#32;N)</emphasis>
+1181 
+1182 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TEXOP_REFLECTION(N)&#32;\</emphasis>
+1183 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_TEXOP(aiTextureType_REFLECTION,&#32;N)</emphasis>
+1184 
+1186 <emphasis role="comment">//&#32;---------------------------------------------------------------------------</emphasis>
+1187 <emphasis role="preprocessor">#define&#32;AI_MATKEY_MAPPING(type,&#32;N)&#32;_AI_MATKEY_MAPPING_BASE,&#32;type,&#32;N</emphasis>
+1188 
+1189 <emphasis role="comment">//&#32;For&#32;backward&#32;compatibility&#32;and&#32;simplicity</emphasis>
+1191 <emphasis role="preprocessor">#define&#32;AI_MATKEY_MAPPING_DIFFUSE(N)&#32;\</emphasis>
+1192 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_MAPPING(aiTextureType_DIFFUSE,&#32;N)</emphasis>
+1193 
+1194 <emphasis role="preprocessor">#define&#32;AI_MATKEY_MAPPING_SPECULAR(N)&#32;\</emphasis>
+1195 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_MAPPING(aiTextureType_SPECULAR,&#32;N)</emphasis>
+1196 
+1197 <emphasis role="preprocessor">#define&#32;AI_MATKEY_MAPPING_AMBIENT(N)&#32;\</emphasis>
+1198 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_MAPPING(aiTextureType_AMBIENT,&#32;N)</emphasis>
+1199 
+1200 <emphasis role="preprocessor">#define&#32;AI_MATKEY_MAPPING_EMISSIVE(N)&#32;\</emphasis>
+1201 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_MAPPING(aiTextureType_EMISSIVE,&#32;N)</emphasis>
+1202 
+1203 <emphasis role="preprocessor">#define&#32;AI_MATKEY_MAPPING_NORMALS(N)&#32;\</emphasis>
+1204 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_MAPPING(aiTextureType_NORMALS,&#32;N)</emphasis>
+1205 
+1206 <emphasis role="preprocessor">#define&#32;AI_MATKEY_MAPPING_HEIGHT(N)&#32;\</emphasis>
+1207 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_MAPPING(aiTextureType_HEIGHT,&#32;N)</emphasis>
+1208 
+1209 <emphasis role="preprocessor">#define&#32;AI_MATKEY_MAPPING_SHININESS(N)&#32;\</emphasis>
+1210 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_MAPPING(aiTextureType_SHININESS,&#32;N)</emphasis>
+1211 
+1212 <emphasis role="preprocessor">#define&#32;AI_MATKEY_MAPPING_OPACITY(N)&#32;\</emphasis>
+1213 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_MAPPING(aiTextureType_OPACITY,&#32;N)</emphasis>
+1214 
+1215 <emphasis role="preprocessor">#define&#32;AI_MATKEY_MAPPING_DISPLACEMENT(N)&#32;\</emphasis>
+1216 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_MAPPING(aiTextureType_DISPLACEMENT,&#32;N)</emphasis>
+1217 
+1218 <emphasis role="preprocessor">#define&#32;AI_MATKEY_MAPPING_LIGHTMAP(N)&#32;\</emphasis>
+1219 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_MAPPING(aiTextureType_LIGHTMAP,&#32;N)</emphasis>
+1220 
+1221 <emphasis role="preprocessor">#define&#32;AI_MATKEY_MAPPING_REFLECTION(N)&#32;\</emphasis>
+1222 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_MAPPING(aiTextureType_REFLECTION,&#32;N)</emphasis>
+1223 
+1225 <emphasis role="comment">//&#32;---------------------------------------------------------------------------</emphasis>
+1226 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TEXBLEND(type,&#32;N)&#32;_AI_MATKEY_TEXBLEND_BASE,&#32;type,&#32;N</emphasis>
+1227 
+1228 <emphasis role="comment">//&#32;For&#32;backward&#32;compatibility&#32;and&#32;simplicity</emphasis>
+1230 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TEXBLEND_DIFFUSE(N)&#32;\</emphasis>
+1231 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_TEXBLEND(aiTextureType_DIFFUSE,&#32;N)</emphasis>
+1232 
+1233 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TEXBLEND_SPECULAR(N)&#32;\</emphasis>
+1234 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_TEXBLEND(aiTextureType_SPECULAR,&#32;N)</emphasis>
+1235 
+1236 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TEXBLEND_AMBIENT(N)&#32;\</emphasis>
+1237 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_TEXBLEND(aiTextureType_AMBIENT,&#32;N)</emphasis>
+1238 
+1239 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TEXBLEND_EMISSIVE(N)&#32;\</emphasis>
+1240 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_TEXBLEND(aiTextureType_EMISSIVE,&#32;N)</emphasis>
+1241 
+1242 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TEXBLEND_NORMALS(N)&#32;\</emphasis>
+1243 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_TEXBLEND(aiTextureType_NORMALS,&#32;N)</emphasis>
+1244 
+1245 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TEXBLEND_HEIGHT(N)&#32;\</emphasis>
+1246 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_TEXBLEND(aiTextureType_HEIGHT,&#32;N)</emphasis>
+1247 
+1248 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TEXBLEND_SHININESS(N)&#32;\</emphasis>
+1249 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_TEXBLEND(aiTextureType_SHININESS,&#32;N)</emphasis>
+1250 
+1251 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TEXBLEND_OPACITY(N)&#32;\</emphasis>
+1252 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_TEXBLEND(aiTextureType_OPACITY,&#32;N)</emphasis>
+1253 
+1254 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TEXBLEND_DISPLACEMENT(N)&#32;\</emphasis>
+1255 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_TEXBLEND(aiTextureType_DISPLACEMENT,&#32;N)</emphasis>
+1256 
+1257 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TEXBLEND_LIGHTMAP(N)&#32;\</emphasis>
+1258 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_TEXBLEND(aiTextureType_LIGHTMAP,&#32;N)</emphasis>
+1259 
+1260 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TEXBLEND_REFLECTION(N)&#32;\</emphasis>
+1261 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_TEXBLEND(aiTextureType_REFLECTION,&#32;N)</emphasis>
+1262 
+1264 <emphasis role="comment">//&#32;---------------------------------------------------------------------------</emphasis>
+1265 <emphasis role="preprocessor">#define&#32;AI_MATKEY_MAPPINGMODE_U(type,&#32;N)&#32;_AI_MATKEY_MAPPINGMODE_U_BASE,&#32;type,&#32;N</emphasis>
+1266 
+1267 <emphasis role="comment">//&#32;For&#32;backward&#32;compatibility&#32;and&#32;simplicity</emphasis>
+1269 <emphasis role="preprocessor">#define&#32;AI_MATKEY_MAPPINGMODE_U_DIFFUSE(N)&#32;\</emphasis>
+1270 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_MAPPINGMODE_U(aiTextureType_DIFFUSE,&#32;N)</emphasis>
+1271 
+1272 <emphasis role="preprocessor">#define&#32;AI_MATKEY_MAPPINGMODE_U_SPECULAR(N)&#32;\</emphasis>
+1273 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_MAPPINGMODE_U(aiTextureType_SPECULAR,&#32;N)</emphasis>
+1274 
+1275 <emphasis role="preprocessor">#define&#32;AI_MATKEY_MAPPINGMODE_U_AMBIENT(N)&#32;\</emphasis>
+1276 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_MAPPINGMODE_U(aiTextureType_AMBIENT,&#32;N)</emphasis>
+1277 
+1278 <emphasis role="preprocessor">#define&#32;AI_MATKEY_MAPPINGMODE_U_EMISSIVE(N)&#32;\</emphasis>
+1279 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_MAPPINGMODE_U(aiTextureType_EMISSIVE,&#32;N)</emphasis>
+1280 
+1281 <emphasis role="preprocessor">#define&#32;AI_MATKEY_MAPPINGMODE_U_NORMALS(N)&#32;\</emphasis>
+1282 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_MAPPINGMODE_U(aiTextureType_NORMALS,&#32;N)</emphasis>
+1283 
+1284 <emphasis role="preprocessor">#define&#32;AI_MATKEY_MAPPINGMODE_U_HEIGHT(N)&#32;\</emphasis>
+1285 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_MAPPINGMODE_U(aiTextureType_HEIGHT,&#32;N)</emphasis>
+1286 
+1287 <emphasis role="preprocessor">#define&#32;AI_MATKEY_MAPPINGMODE_U_SHININESS(N)&#32;\</emphasis>
+1288 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_MAPPINGMODE_U(aiTextureType_SHININESS,&#32;N)</emphasis>
+1289 
+1290 <emphasis role="preprocessor">#define&#32;AI_MATKEY_MAPPINGMODE_U_OPACITY(N)&#32;\</emphasis>
+1291 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_MAPPINGMODE_U(aiTextureType_OPACITY,&#32;N)</emphasis>
+1292 
+1293 <emphasis role="preprocessor">#define&#32;AI_MATKEY_MAPPINGMODE_U_DISPLACEMENT(N)&#32;\</emphasis>
+1294 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_MAPPINGMODE_U(aiTextureType_DISPLACEMENT,&#32;N)</emphasis>
+1295 
+1296 <emphasis role="preprocessor">#define&#32;AI_MATKEY_MAPPINGMODE_U_LIGHTMAP(N)&#32;\</emphasis>
+1297 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_MAPPINGMODE_U(aiTextureType_LIGHTMAP,&#32;N)</emphasis>
+1298 
+1299 <emphasis role="preprocessor">#define&#32;AI_MATKEY_MAPPINGMODE_U_REFLECTION(N)&#32;\</emphasis>
+1300 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_MAPPINGMODE_U(aiTextureType_REFLECTION,&#32;N)</emphasis>
+1301 
+1303 <emphasis role="comment">//&#32;---------------------------------------------------------------------------</emphasis>
+1304 <emphasis role="preprocessor">#define&#32;AI_MATKEY_MAPPINGMODE_V(type,&#32;N)&#32;_AI_MATKEY_MAPPINGMODE_V_BASE,&#32;type,&#32;N</emphasis>
+1305 
+1306 <emphasis role="comment">//&#32;For&#32;backward&#32;compatibility&#32;and&#32;simplicity</emphasis>
+1308 <emphasis role="preprocessor">#define&#32;AI_MATKEY_MAPPINGMODE_V_DIFFUSE(N)&#32;\</emphasis>
+1309 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_MAPPINGMODE_V(aiTextureType_DIFFUSE,&#32;N)</emphasis>
+1310 
+1311 <emphasis role="preprocessor">#define&#32;AI_MATKEY_MAPPINGMODE_V_SPECULAR(N)&#32;\</emphasis>
+1312 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_MAPPINGMODE_V(aiTextureType_SPECULAR,&#32;N)</emphasis>
+1313 
+1314 <emphasis role="preprocessor">#define&#32;AI_MATKEY_MAPPINGMODE_V_AMBIENT(N)&#32;\</emphasis>
+1315 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_MAPPINGMODE_V(aiTextureType_AMBIENT,&#32;N)</emphasis>
+1316 
+1317 <emphasis role="preprocessor">#define&#32;AI_MATKEY_MAPPINGMODE_V_EMISSIVE(N)&#32;\</emphasis>
+1318 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_MAPPINGMODE_V(aiTextureType_EMISSIVE,&#32;N)</emphasis>
+1319 
+1320 <emphasis role="preprocessor">#define&#32;AI_MATKEY_MAPPINGMODE_V_NORMALS(N)&#32;\</emphasis>
+1321 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_MAPPINGMODE_V(aiTextureType_NORMALS,&#32;N)</emphasis>
+1322 
+1323 <emphasis role="preprocessor">#define&#32;AI_MATKEY_MAPPINGMODE_V_HEIGHT(N)&#32;\</emphasis>
+1324 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_MAPPINGMODE_V(aiTextureType_HEIGHT,&#32;N)</emphasis>
+1325 
+1326 <emphasis role="preprocessor">#define&#32;AI_MATKEY_MAPPINGMODE_V_SHININESS(N)&#32;\</emphasis>
+1327 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_MAPPINGMODE_V(aiTextureType_SHININESS,&#32;N)</emphasis>
+1328 
+1329 <emphasis role="preprocessor">#define&#32;AI_MATKEY_MAPPINGMODE_V_OPACITY(N)&#32;\</emphasis>
+1330 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_MAPPINGMODE_V(aiTextureType_OPACITY,&#32;N)</emphasis>
+1331 
+1332 <emphasis role="preprocessor">#define&#32;AI_MATKEY_MAPPINGMODE_V_DISPLACEMENT(N)&#32;\</emphasis>
+1333 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_MAPPINGMODE_V(aiTextureType_DISPLACEMENT,&#32;N)</emphasis>
+1334 
+1335 <emphasis role="preprocessor">#define&#32;AI_MATKEY_MAPPINGMODE_V_LIGHTMAP(N)&#32;\</emphasis>
+1336 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_MAPPINGMODE_V(aiTextureType_LIGHTMAP,&#32;N)</emphasis>
+1337 
+1338 <emphasis role="preprocessor">#define&#32;AI_MATKEY_MAPPINGMODE_V_REFLECTION(N)&#32;\</emphasis>
+1339 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_MAPPINGMODE_V(aiTextureType_REFLECTION,&#32;N)</emphasis>
+1340 
+1342 <emphasis role="comment">//&#32;---------------------------------------------------------------------------</emphasis>
+1343 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TEXMAP_AXIS(type,&#32;N)&#32;_AI_MATKEY_TEXMAP_AXIS_BASE,&#32;type,&#32;N</emphasis>
+1344 
+1345 <emphasis role="comment">//&#32;For&#32;backward&#32;compatibility&#32;and&#32;simplicity</emphasis>
+1347 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TEXMAP_AXIS_DIFFUSE(N)&#32;\</emphasis>
+1348 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_TEXMAP_AXIS(aiTextureType_DIFFUSE,&#32;N)</emphasis>
+1349 
+1350 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TEXMAP_AXIS_SPECULAR(N)&#32;\</emphasis>
+1351 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_TEXMAP_AXIS(aiTextureType_SPECULAR,&#32;N)</emphasis>
+1352 
+1353 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TEXMAP_AXIS_AMBIENT(N)&#32;\</emphasis>
+1354 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_TEXMAP_AXIS(aiTextureType_AMBIENT,&#32;N)</emphasis>
+1355 
+1356 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TEXMAP_AXIS_EMISSIVE(N)&#32;\</emphasis>
+1357 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_TEXMAP_AXIS(aiTextureType_EMISSIVE,&#32;N)</emphasis>
+1358 
+1359 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TEXMAP_AXIS_NORMALS(N)&#32;\</emphasis>
+1360 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_TEXMAP_AXIS(aiTextureType_NORMALS,&#32;N)</emphasis>
+1361 
+1362 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TEXMAP_AXIS_HEIGHT(N)&#32;\</emphasis>
+1363 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_TEXMAP_AXIS(aiTextureType_HEIGHT,&#32;N)</emphasis>
+1364 
+1365 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TEXMAP_AXIS_SHININESS(N)&#32;\</emphasis>
+1366 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_TEXMAP_AXIS(aiTextureType_SHININESS,&#32;N)</emphasis>
+1367 
+1368 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TEXMAP_AXIS_OPACITY(N)&#32;\</emphasis>
+1369 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_TEXMAP_AXIS(aiTextureType_OPACITY,&#32;N)</emphasis>
+1370 
+1371 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TEXMAP_AXIS_DISPLACEMENT(N)&#32;\</emphasis>
+1372 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_TEXMAP_AXIS(aiTextureType_DISPLACEMENT,&#32;N)</emphasis>
+1373 
+1374 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TEXMAP_AXIS_LIGHTMAP(N)&#32;\</emphasis>
+1375 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_TEXMAP_AXIS(aiTextureType_LIGHTMAP,&#32;N)</emphasis>
+1376 
+1377 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TEXMAP_AXIS_REFLECTION(N)&#32;\</emphasis>
+1378 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_TEXMAP_AXIS(aiTextureType_REFLECTION,&#32;N)</emphasis>
+1379 
+1381 <emphasis role="comment">//&#32;---------------------------------------------------------------------------</emphasis>
+1382 <emphasis role="preprocessor">#define&#32;AI_MATKEY_UVTRANSFORM(type,&#32;N)&#32;_AI_MATKEY_UVTRANSFORM_BASE,&#32;type,&#32;N</emphasis>
+1383 
+1384 <emphasis role="comment">//&#32;For&#32;backward&#32;compatibility&#32;and&#32;simplicity</emphasis>
+1386 <emphasis role="preprocessor">#define&#32;AI_MATKEY_UVTRANSFORM_DIFFUSE(N)&#32;\</emphasis>
+1387 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_UVTRANSFORM(aiTextureType_DIFFUSE,&#32;N)</emphasis>
+1388 
+1389 <emphasis role="preprocessor">#define&#32;AI_MATKEY_UVTRANSFORM_SPECULAR(N)&#32;\</emphasis>
+1390 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_UVTRANSFORM(aiTextureType_SPECULAR,&#32;N)</emphasis>
+1391 
+1392 <emphasis role="preprocessor">#define&#32;AI_MATKEY_UVTRANSFORM_AMBIENT(N)&#32;\</emphasis>
+1393 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_UVTRANSFORM(aiTextureType_AMBIENT,&#32;N)</emphasis>
+1394 
+1395 <emphasis role="preprocessor">#define&#32;AI_MATKEY_UVTRANSFORM_EMISSIVE(N)&#32;\</emphasis>
+1396 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_UVTRANSFORM(aiTextureType_EMISSIVE,&#32;N)</emphasis>
+1397 
+1398 <emphasis role="preprocessor">#define&#32;AI_MATKEY_UVTRANSFORM_NORMALS(N)&#32;\</emphasis>
+1399 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_UVTRANSFORM(aiTextureType_NORMALS,&#32;N)</emphasis>
+1400 
+1401 <emphasis role="preprocessor">#define&#32;AI_MATKEY_UVTRANSFORM_HEIGHT(N)&#32;\</emphasis>
+1402 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_UVTRANSFORM(aiTextureType_HEIGHT,&#32;N)</emphasis>
+1403 
+1404 <emphasis role="preprocessor">#define&#32;AI_MATKEY_UVTRANSFORM_SHININESS(N)&#32;\</emphasis>
+1405 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_UVTRANSFORM(aiTextureType_SHININESS,&#32;N)</emphasis>
+1406 
+1407 <emphasis role="preprocessor">#define&#32;AI_MATKEY_UVTRANSFORM_OPACITY(N)&#32;\</emphasis>
+1408 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_UVTRANSFORM(aiTextureType_OPACITY,&#32;N)</emphasis>
+1409 
+1410 <emphasis role="preprocessor">#define&#32;AI_MATKEY_UVTRANSFORM_DISPLACEMENT(N)&#32;\</emphasis>
+1411 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_UVTRANSFORM(aiTextureType_DISPLACEMENT,&#32;N)</emphasis>
+1412 
+1413 <emphasis role="preprocessor">#define&#32;AI_MATKEY_UVTRANSFORM_LIGHTMAP(N)&#32;\</emphasis>
+1414 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_UVTRANSFORM(aiTextureType_LIGHTMAP,&#32;N)</emphasis>
+1415 
+1416 <emphasis role="preprocessor">#define&#32;AI_MATKEY_UVTRANSFORM_REFLECTION(N)&#32;\</emphasis>
+1417 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_UVTRANSFORM(aiTextureType_REFLECTION,&#32;N)</emphasis>
+1418 
+1419 <emphasis role="preprocessor">#define&#32;AI_MATKEY_UVTRANSFORM_UNKNOWN(N)&#32;\</emphasis>
+1420 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_UVTRANSFORM(aiTextureType_UNKNOWN,&#32;N)</emphasis>
+1421 
+1423 <emphasis role="comment">//&#32;---------------------------------------------------------------------------</emphasis>
+1424 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TEXFLAGS(type,&#32;N)&#32;_AI_MATKEY_TEXFLAGS_BASE,&#32;type,&#32;N</emphasis>
+1425 
+1426 <emphasis role="comment">//&#32;For&#32;backward&#32;compatibility&#32;and&#32;simplicity</emphasis>
+1428 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TEXFLAGS_DIFFUSE(N)&#32;\</emphasis>
+1429 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_TEXFLAGS(aiTextureType_DIFFUSE,&#32;N)</emphasis>
+1430 
+1431 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TEXFLAGS_SPECULAR(N)&#32;\</emphasis>
+1432 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_TEXFLAGS(aiTextureType_SPECULAR,&#32;N)</emphasis>
+1433 
+1434 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TEXFLAGS_AMBIENT(N)&#32;\</emphasis>
+1435 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_TEXFLAGS(aiTextureType_AMBIENT,&#32;N)</emphasis>
+1436 
+1437 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TEXFLAGS_EMISSIVE(N)&#32;\</emphasis>
+1438 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_TEXFLAGS(aiTextureType_EMISSIVE,&#32;N)</emphasis>
+1439 
+1440 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TEXFLAGS_NORMALS(N)&#32;\</emphasis>
+1441 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_TEXFLAGS(aiTextureType_NORMALS,&#32;N)</emphasis>
+1442 
+1443 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TEXFLAGS_HEIGHT(N)&#32;\</emphasis>
+1444 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_TEXFLAGS(aiTextureType_HEIGHT,&#32;N)</emphasis>
+1445 
+1446 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TEXFLAGS_SHININESS(N)&#32;\</emphasis>
+1447 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_TEXFLAGS(aiTextureType_SHININESS,&#32;N)</emphasis>
+1448 
+1449 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TEXFLAGS_OPACITY(N)&#32;\</emphasis>
+1450 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_TEXFLAGS(aiTextureType_OPACITY,&#32;N)</emphasis>
+1451 
+1452 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TEXFLAGS_DISPLACEMENT(N)&#32;\</emphasis>
+1453 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_TEXFLAGS(aiTextureType_DISPLACEMENT,&#32;N)</emphasis>
+1454 
+1455 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TEXFLAGS_LIGHTMAP(N)&#32;\</emphasis>
+1456 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_TEXFLAGS(aiTextureType_LIGHTMAP,&#32;N)</emphasis>
+1457 
+1458 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TEXFLAGS_REFLECTION(N)&#32;\</emphasis>
+1459 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_TEXFLAGS(aiTextureType_REFLECTION,&#32;N)</emphasis>
+1460 
+1461 <emphasis role="preprocessor">#define&#32;AI_MATKEY_TEXFLAGS_UNKNOWN(N)&#32;\</emphasis>
+1462 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;AI_MATKEY_TEXFLAGS(aiTextureType_UNKNOWN,&#32;N)</emphasis>
+1463 
+1466 <emphasis role="comment">//&#32;---------------------------------------------------------------------------</emphasis>
+1476 <emphasis role="comment">//&#32;---------------------------------------------------------------------------</emphasis>
+1477 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<link linkend="_defs_8h_1aa8c1788fd9d096036c9e3b6cfe4b1301">C_ENUM</link>&#32;<link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link>&#32;<link linkend="_material_8h_1a3052135188f8fc7987d2f98fa17615e4">aiGetMaterialProperty</link>(
+1478 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_material">aiMaterial</link>&#32;*pMat,
+1479 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*pKey,
+1480 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>,
+1481 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a57f14e05b1900f16a2da82ade47d0c6d">index</link>,
+1482 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;aiMaterialProperty&#32;**pPropOut);
+1483 
+1484 <emphasis role="comment">//&#32;---------------------------------------------------------------------------</emphasis>
+1509 <emphasis role="comment">//&#32;---------------------------------------------------------------------------</emphasis>
+1510 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<link linkend="_defs_8h_1aa8c1788fd9d096036c9e3b6cfe4b1301">C_ENUM</link>&#32;<link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link>&#32;<link linkend="_material_8h_1a914b58254f33c1574ec872a7f8c78805">aiGetMaterialFloatArray</link>(
+1511 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_material">aiMaterial</link>&#32;*pMat,
+1512 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*pKey,
+1513 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>,
+1514 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a57f14e05b1900f16a2da82ade47d0c6d">index</link>,
+1515 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1af221f9bbc3e0dc43a46efaaac6dab067">ai_real</link>&#32;*pOut,
+1516 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;*pMax);
+1517 
+1518 <emphasis role="comment">//&#32;---------------------------------------------------------------------------</emphasis>
+1536 <emphasis role="comment">//&#32;---------------------------------------------------------------------------</emphasis>
+1537 <emphasis role="keyword">inline</emphasis>&#32;<link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link>&#32;<link linkend="_material_8h_1af3a0c289a0ec5d5b01bdfced0605bb11">aiGetMaterialFloat</link>(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_material">aiMaterial</link>&#32;*pMat,
+1538 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*pKey,
+1539 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>,
+1540 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a57f14e05b1900f16a2da82ade47d0c6d">index</link>,
+1541 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1af221f9bbc3e0dc43a46efaaac6dab067">ai_real</link>&#32;*pOut)&#32;{
+1542 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_material_8h_1a914b58254f33c1574ec872a7f8c78805">aiGetMaterialFloatArray</link>(pMat,&#32;pKey,&#32;<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>,&#32;<link linkend="_glad_8h_1a57f14e05b1900f16a2da82ade47d0c6d">index</link>,&#32;pOut,&#32;(<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;*)0x0);
+1543 }
+1544 
+1545 <emphasis role="comment">//&#32;---------------------------------------------------------------------------</emphasis>
+1550 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<link linkend="_defs_8h_1aa8c1788fd9d096036c9e3b6cfe4b1301">C_ENUM</link>&#32;<link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link>&#32;<link linkend="_material_8h_1a8ed2b99a9861d257b77231b4ed70f69d">aiGetMaterialIntegerArray</link>(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_material">aiMaterial</link>&#32;*pMat,
+1551 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*pKey,
+1552 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>,
+1553 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a57f14e05b1900f16a2da82ade47d0c6d">index</link>,
+1554 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;*pOut,
+1555 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;*pMax);
+1556 
+1557 <emphasis role="comment">//&#32;---------------------------------------------------------------------------</emphasis>
+1561 <emphasis role="comment">//&#32;---------------------------------------------------------------------------</emphasis>
+1562 <emphasis role="keyword">inline</emphasis>&#32;<link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link>&#32;<link linkend="_material_8h_1a0c3edecf5eade8c3c0578de7eab6d6dc">aiGetMaterialInteger</link>(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_material">aiMaterial</link>&#32;*pMat,
+1563 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*pKey,
+1564 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>,
+1565 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a57f14e05b1900f16a2da82ade47d0c6d">index</link>,
+1566 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;*pOut)&#32;{
+1567 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_material_8h_1a8ed2b99a9861d257b77231b4ed70f69d">aiGetMaterialIntegerArray</link>(pMat,&#32;pKey,&#32;<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>,&#32;<link linkend="_glad_8h_1a57f14e05b1900f16a2da82ade47d0c6d">index</link>,&#32;pOut,&#32;(<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;*)0x0);
+1568 }
+1569 
+1570 <emphasis role="comment">//&#32;---------------------------------------------------------------------------</emphasis>
+1574 <emphasis role="comment">//&#32;---------------------------------------------------------------------------</emphasis>
+1575 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<link linkend="_defs_8h_1aa8c1788fd9d096036c9e3b6cfe4b1301">C_ENUM</link>&#32;<link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link>&#32;<link linkend="_material_8h_1ac4a6fbb0c08ddd1372ae187bf108d7e8">aiGetMaterialColor</link>(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_material">aiMaterial</link>&#32;*pMat,
+1576 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*pKey,
+1577 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>,
+1578 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a57f14e05b1900f16a2da82ade47d0c6d">index</link>,
+1579 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_color4_d">aiColor4D</link>&#32;*pOut);
+1580 
+1581 <emphasis role="comment">//&#32;---------------------------------------------------------------------------</emphasis>
+1585 <emphasis role="comment">//&#32;---------------------------------------------------------------------------</emphasis>
+1586 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<link linkend="_defs_8h_1aa8c1788fd9d096036c9e3b6cfe4b1301">C_ENUM</link>&#32;<link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link>&#32;<link linkend="_material_8h_1a47b7e8aecc784edcb894600af33fd592">aiGetMaterialUVTransform</link>(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_material">aiMaterial</link>&#32;*pMat,
+1587 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*pKey,
+1588 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>,
+1589 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a57f14e05b1900f16a2da82ade47d0c6d">index</link>,
+1590 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_u_v_transform">aiUVTransform</link>&#32;*pOut);
+1591 
+1592 <emphasis role="comment">//&#32;---------------------------------------------------------------------------</emphasis>
+1596 <emphasis role="comment">//&#32;---------------------------------------------------------------------------</emphasis>
+1597 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<link linkend="_defs_8h_1aa8c1788fd9d096036c9e3b6cfe4b1301">C_ENUM</link>&#32;<link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link>&#32;<link linkend="_material_8h_1a20e2873fb56982ea3a5dcd6a343b7070">aiGetMaterialString</link>(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_material">aiMaterial</link>&#32;*pMat,
+1598 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*pKey,
+1599 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>,
+1600 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a57f14e05b1900f16a2da82ade47d0c6d">index</link>,
+1601 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_string">aiString</link>&#32;*pOut);
+1602 
+1603 <emphasis role="comment">//&#32;---------------------------------------------------------------------------</emphasis>
+1609 <emphasis role="comment">//&#32;---------------------------------------------------------------------------</emphasis>
+1610 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_material_8h_1a8d331464c4f86b44cb6c6d64e39398ed">aiGetMaterialTextureCount</link>(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_material">aiMaterial</link>&#32;*pMat,
+1611 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1aa8c1788fd9d096036c9e3b6cfe4b1301">C_ENUM</link>&#32;<link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0">aiTextureType</link>&#32;<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>);
+1612 
+1613 <emphasis role="comment">//&#32;---------------------------------------------------------------------------</emphasis>
+1649 <emphasis role="comment">//&#32;---------------------------------------------------------------------------</emphasis>
+1650 <emphasis role="preprocessor">#ifdef&#32;__cplusplus</emphasis>
+1651 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link>&#32;<link linkend="_material_8h_1af3a53df46231d9f0aab39e972cd40ad3">aiGetMaterialTexture</link>(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_material">aiMaterial</link>&#32;*mat,
+1652 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0">aiTextureType</link>&#32;<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>,
+1653 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a57f14e05b1900f16a2da82ade47d0c6d">index</link>,
+1654 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structai_string">aiString</link>&#32;*path,
+1655 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_material_8h_1a6186e909f1ae28133ab10f1b4635b0f9">aiTextureMapping</link>&#32;*mapping&#32;=&#32;NULL,
+1656 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;*uvindex&#32;=&#32;NULL,
+1657 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1af221f9bbc3e0dc43a46efaaac6dab067">ai_real</link>&#32;*blend&#32;=&#32;NULL,
+1658 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_material_8h_1afcd3096d69affba13114cedfc6f9ee6b">aiTextureOp</link>&#32;*<link linkend="_tracy__lz4hc_8cpp_1a853ce719be9725860615b4ec1f7f23a9">op</link>&#32;=&#32;NULL,
+1659 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_material_8h_1a6cbe56056751aa80e8dd714632a49de0">aiTextureMapMode</link>&#32;*mapmode&#32;=&#32;NULL,
+1660 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;*<link linkend="_glad_8h_1ac7ba7d3cce3d19ca020e056b37231289">flags</link>&#32;=&#32;NULL);
+1661 <emphasis role="preprocessor">#else</emphasis>
+1662 <link linkend="_defs_8h_1aa8c1788fd9d096036c9e3b6cfe4b1301">C_ENUM</link>&#32;<link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link>&#32;<link linkend="_material_8h_1af3a53df46231d9f0aab39e972cd40ad3">aiGetMaterialTexture</link>(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_material">aiMaterial</link>&#32;*mat,
+1663 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1aa8c1788fd9d096036c9e3b6cfe4b1301">C_ENUM</link>&#32;<link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0">aiTextureType</link>&#32;<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>,
+1664 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a57f14e05b1900f16a2da82ade47d0c6d">index</link>,
+1665 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_string">aiString</link>&#32;*path,
+1666 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1aa8c1788fd9d096036c9e3b6cfe4b1301">C_ENUM</link>&#32;<link linkend="_material_8h_1a6186e909f1ae28133ab10f1b4635b0f9">aiTextureMapping</link>&#32;*mapping&#32;<emphasis role="comment">/*=&#32;NULL*/</emphasis>,
+1667 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;*uvindex&#32;<emphasis role="comment">/*=&#32;NULL*/</emphasis>,
+1668 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1af221f9bbc3e0dc43a46efaaac6dab067">ai_real</link>&#32;*blend&#32;<emphasis role="comment">/*=&#32;NULL*/</emphasis>,
+1669 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1aa8c1788fd9d096036c9e3b6cfe4b1301">C_ENUM</link>&#32;<link linkend="_material_8h_1afcd3096d69affba13114cedfc6f9ee6b">aiTextureOp</link>&#32;*<link linkend="_tracy__lz4hc_8cpp_1a853ce719be9725860615b4ec1f7f23a9">op</link>&#32;<emphasis role="comment">/*=&#32;NULL*/</emphasis>,
+1670 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1aa8c1788fd9d096036c9e3b6cfe4b1301">C_ENUM</link>&#32;<link linkend="_material_8h_1a6cbe56056751aa80e8dd714632a49de0">aiTextureMapMode</link>&#32;*mapmode&#32;<emphasis role="comment">/*=&#32;NULL*/</emphasis>,
+1671 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;*<link linkend="_glad_8h_1ac7ba7d3cce3d19ca020e056b37231289">flags</link>&#32;<emphasis role="comment">/*=&#32;NULL*/</emphasis>);
+1672 <emphasis role="preprocessor">#endif&#32;</emphasis><emphasis role="comment">//&#32;!#ifdef&#32;__cplusplus</emphasis>
+1673 
+1674 <emphasis role="preprocessor">#ifdef&#32;__cplusplus</emphasis>
+1675 }
+1676 
+1677 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_material_8inl">material.inl</link>&quot;</emphasis>
+1678 
+1679 <emphasis role="preprocessor">#endif&#32;</emphasis>
+1680 
+1681 <emphasis role="preprocessor">#endif&#32;</emphasis>
+</programlisting></section>

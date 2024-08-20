@@ -1,0 +1,259 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="__exporter_8hpp_source" xml:lang="en-US">
+<title>Exporter.hpp</title>
+<indexterm><primary>adhed/assimp/Exporter.hpp</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 <emphasis role="comment">/*</emphasis>
+2 <emphasis role="comment">---------------------------------------------------------------------------</emphasis>
+3 <emphasis role="comment">Open&#32;Asset&#32;Import&#32;Library&#32;(assimp)</emphasis>
+4 <emphasis role="comment">---------------------------------------------------------------------------</emphasis>
+5 <emphasis role="comment"></emphasis>
+6 <emphasis role="comment">Copyright&#32;(c)&#32;2006-2022,&#32;assimp&#32;team</emphasis>
+7 <emphasis role="comment"></emphasis>
+8 <emphasis role="comment">All&#32;rights&#32;reserved.</emphasis>
+9 <emphasis role="comment"></emphasis>
+10 <emphasis role="comment">Redistribution&#32;and&#32;use&#32;of&#32;this&#32;software&#32;in&#32;source&#32;and&#32;binary&#32;forms,</emphasis>
+11 <emphasis role="comment">with&#32;or&#32;without&#32;modification,&#32;are&#32;permitted&#32;provided&#32;that&#32;the&#32;following</emphasis>
+12 <emphasis role="comment">conditions&#32;are&#32;met:</emphasis>
+13 <emphasis role="comment"></emphasis>
+14 <emphasis role="comment">*&#32;Redistributions&#32;of&#32;source&#32;code&#32;must&#32;retain&#32;the&#32;above</emphasis>
+15 <emphasis role="comment">copyright&#32;notice,&#32;this&#32;list&#32;of&#32;conditions&#32;and&#32;the</emphasis>
+16 <emphasis role="comment">following&#32;disclaimer.</emphasis>
+17 <emphasis role="comment"></emphasis>
+18 <emphasis role="comment">*&#32;Redistributions&#32;in&#32;binary&#32;form&#32;must&#32;reproduce&#32;the&#32;above</emphasis>
+19 <emphasis role="comment">copyright&#32;notice,&#32;this&#32;list&#32;of&#32;conditions&#32;and&#32;the</emphasis>
+20 <emphasis role="comment">following&#32;disclaimer&#32;in&#32;the&#32;documentation&#32;and/or&#32;other</emphasis>
+21 <emphasis role="comment">materials&#32;provided&#32;with&#32;the&#32;distribution.</emphasis>
+22 <emphasis role="comment"></emphasis>
+23 <emphasis role="comment">*&#32;Neither&#32;the&#32;name&#32;of&#32;the&#32;assimp&#32;team,&#32;nor&#32;the&#32;names&#32;of&#32;its</emphasis>
+24 <emphasis role="comment">contributors&#32;may&#32;be&#32;used&#32;to&#32;endorse&#32;or&#32;promote&#32;products</emphasis>
+25 <emphasis role="comment">derived&#32;from&#32;this&#32;software&#32;without&#32;specific&#32;prior</emphasis>
+26 <emphasis role="comment">written&#32;permission&#32;of&#32;the&#32;assimp&#32;team.</emphasis>
+27 <emphasis role="comment"></emphasis>
+28 <emphasis role="comment">THIS&#32;SOFTWARE&#32;IS&#32;PROVIDED&#32;BY&#32;THE&#32;COPYRIGHT&#32;HOLDERS&#32;AND&#32;CONTRIBUTORS</emphasis>
+29 <emphasis role="comment">&quot;AS&#32;IS&quot;&#32;AND&#32;ANY&#32;EXPRESS&#32;OR&#32;IMPLIED&#32;WARRANTIES,&#32;INCLUDING,&#32;BUT&#32;NOT</emphasis>
+30 <emphasis role="comment">LIMITED&#32;TO,&#32;THE&#32;IMPLIED&#32;WARRANTIES&#32;OF&#32;MERCHANTABILITY&#32;AND&#32;FITNESS&#32;FOR</emphasis>
+31 <emphasis role="comment">A&#32;PARTICULAR&#32;PURPOSE&#32;ARE&#32;DISCLAIMED.&#32;IN&#32;NO&#32;EVENT&#32;SHALL&#32;THE&#32;COPYRIGHT</emphasis>
+32 <emphasis role="comment">OWNER&#32;OR&#32;CONTRIBUTORS&#32;BE&#32;LIABLE&#32;FOR&#32;ANY&#32;DIRECT,&#32;INDIRECT,&#32;INCIDENTAL,</emphasis>
+33 <emphasis role="comment">SPECIAL,&#32;EXEMPLARY,&#32;OR&#32;CONSEQUENTIAL&#32;DAMAGES&#32;(INCLUDING,&#32;BUT&#32;NOT</emphasis>
+34 <emphasis role="comment">LIMITED&#32;TO,&#32;PROCUREMENT&#32;OF&#32;SUBSTITUTE&#32;GOODS&#32;OR&#32;SERVICES;&#32;LOSS&#32;OF&#32;USE,</emphasis>
+35 <emphasis role="comment">DATA,&#32;OR&#32;PROFITS;&#32;OR&#32;BUSINESS&#32;INTERRUPTION)&#32;HOWEVER&#32;CAUSED&#32;AND&#32;ON&#32;ANY</emphasis>
+36 <emphasis role="comment">THEORY&#32;OF&#32;LIABILITY,&#32;WHETHER&#32;IN&#32;CONTRACT,&#32;STRICT&#32;LIABILITY,&#32;OR&#32;TORT</emphasis>
+37 <emphasis role="comment">(INCLUDING&#32;NEGLIGENCE&#32;OR&#32;OTHERWISE)&#32;ARISING&#32;IN&#32;ANY&#32;WAY&#32;OUT&#32;OF&#32;THE&#32;USE</emphasis>
+38 <emphasis role="comment">OF&#32;THIS&#32;SOFTWARE,&#32;EVEN&#32;IF&#32;ADVISED&#32;OF&#32;THE&#32;POSSIBILITY&#32;OF&#32;SUCH&#32;DAMAGE.</emphasis>
+39 <emphasis role="comment">---------------------------------------------------------------------------</emphasis>
+40 <emphasis role="comment">*/</emphasis>
+41 
+45 <emphasis role="preprocessor">#pragma&#32;once</emphasis>
+46 <emphasis role="preprocessor">#ifndef&#32;AI_EXPORT_HPP_INC</emphasis>
+47 <emphasis role="preprocessor">#define&#32;AI_EXPORT_HPP_INC</emphasis>
+48 
+49 <emphasis role="preprocessor">#ifdef&#32;__GNUC__</emphasis>
+50 <emphasis role="preprocessor">#pragma&#32;GCC&#32;system_header</emphasis>
+51 <emphasis role="preprocessor">#endif</emphasis>
+52 
+53 <emphasis role="preprocessor">#ifndef&#32;ASSIMP_BUILD_NO_EXPORT</emphasis>
+54 
+55 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_cexport_8h">cexport.h</link>&quot;</emphasis>
+56 <emphasis role="preprocessor">#include&#32;&lt;map&gt;</emphasis>
+57 <emphasis role="preprocessor">#include&#32;&lt;functional&gt;</emphasis>
+58 
+59 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespace_assimp">Assimp</link>&#32;{
+60 
+61 <emphasis role="keyword">class&#32;</emphasis>ExporterPimpl;
+62 <emphasis role="keyword">class&#32;</emphasis>IOSystem;
+63 <emphasis role="keyword">class&#32;</emphasis>ProgressHandler;
+64 
+65 <emphasis role="comment">//&#32;----------------------------------------------------------------------------------</emphasis>
+83 <emphasis role="keyword">class&#32;</emphasis><link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<link linkend="_class_assimp_1_1_export_properties">ExportProperties</link>;
+84 
+85 <emphasis role="keyword">class&#32;</emphasis><link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<link linkend="_class_assimp_1_1_exporter">Exporter</link>&#32;{
+86 <emphasis role="keyword">public</emphasis>:
+88 &#32;&#32;&#32;&#32;<emphasis role="keyword">typedef</emphasis>&#32;<link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link>&#32;(*fpExportFunc)(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*,&#32;<link linkend="_class_assimp_1_1_i_o_system">IOSystem</link>&#32;*,&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_structai_scene">aiScene</link>&#32;*,&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_class_assimp_1_1_export_properties">ExportProperties</link>&#32;*);
+89 
+91 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis><link linkend="_struct_assimp_1_1_exporter_1_1_export_format_entry">ExportFormatEntry</link>&#32;{
+93 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structai_export_format_desc">aiExportFormatDesc</link>&#32;<link linkend="_struct_assimp_1_1_exporter_1_1_export_format_entry_1a59f8bf48e35a70ac0540c9b65d4b891d">mDescription</link>;
+94 
+95 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Worker&#32;function&#32;to&#32;do&#32;the&#32;actual&#32;exporting</emphasis>
+96 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fpExportFunc&#32;<link linkend="_struct_assimp_1_1_exporter_1_1_export_format_entry_1a5cf4464ae6f7f7d92aaade27f1e545f5">mExportFunction</link>;
+97 
+98 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Post-processing&#32;steps&#32;to&#32;be&#32;executed&#32;PRIOR&#32;to&#32;invoking&#32;mExportFunction</emphasis>
+99 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_struct_assimp_1_1_exporter_1_1_export_format_entry_1aefb2d077aebc473ce9a6e38fd883f181">mEnforcePP</link>;
+100 
+101 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Constructor&#32;to&#32;fill&#32;all&#32;entries</emphasis>
+102 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_assimp_1_1_exporter_1_1_export_format_entry_1ab89610d7a5b295aa8a22bceae013d76f">ExportFormatEntry</link>(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*pId,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*pDesc,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*pExtension,&#32;fpExportFunc&#32;pFunction,&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;pEnforcePP&#32;=&#32;0u)&#32;{
+103 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;mDescription.<link linkend="_structai_export_format_desc_1afe216eaea3a04abca041e5c253f94bbf">id</link>&#32;=&#32;pId;
+104 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;mDescription.<link linkend="_structai_export_format_desc_1a9c84c4b07c5177fb6539b9bdf90236fb">description</link>&#32;=&#32;pDesc;
+105 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;mDescription.<link linkend="_structai_export_format_desc_1a589d08d526f253176d09886787cd6b22">fileExtension</link>&#32;=&#32;pExtension;
+106 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;mExportFunction&#32;=&#32;pFunction;
+107 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;mEnforcePP&#32;=&#32;pEnforcePP;
+108 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+109 
+110 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_assimp_1_1_exporter_1_1_export_format_entry_1a6a34ccd6431d47d6a9fd6d1a498d1ee5">ExportFormatEntry</link>()&#32;:
+111 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;mExportFunction(),
+112 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;mEnforcePP()&#32;{
+113 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;mDescription.<link linkend="_structai_export_format_desc_1afe216eaea3a04abca041e5c253f94bbf">id</link>&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>;
+114 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;mDescription.<link linkend="_structai_export_format_desc_1a9c84c4b07c5177fb6539b9bdf90236fb">description</link>&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>;
+115 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;mDescription.<link linkend="_structai_export_format_desc_1a589d08d526f253176d09886787cd6b22">fileExtension</link>&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>;
+116 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+117 &#32;&#32;&#32;&#32;};
+118 
+122 &#32;&#32;&#32;&#32;<link linkend="_class_assimp_1_1_exporter_1ac45a55fc178256576d2d21b58bd944a0">Exporter</link>();
+123 
+127 &#32;&#32;&#32;&#32;<link linkend="_class_assimp_1_1_exporter_1a52c3ba6c76c778fb5dd70ad30589fb2c">~Exporter</link>();
+128 
+129 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-------------------------------------------------------------------</emphasis>
+144 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_assimp_1_1_exporter_1a054201cf78fa352b1281ea8b484f6e3a">SetIOHandler</link>(<link linkend="_class_assimp_1_1_i_o_system">IOSystem</link>&#32;*pIOHandler);
+145 
+146 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-------------------------------------------------------------------</emphasis>
+153 &#32;&#32;&#32;&#32;<link linkend="_class_assimp_1_1_i_o_system">IOSystem</link>&#32;*<link linkend="_class_assimp_1_1_exporter_1abfef69a3dc77cc4f7eb8b385ccfe6deb">GetIOHandler</link>()&#32;<emphasis role="keyword">const</emphasis>;
+154 
+155 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-------------------------------------------------------------------</emphasis>
+160 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_class_assimp_1_1_exporter_1a78735bb79173a37f9d3126577244be7b">IsDefaultIOHandler</link>()&#32;<emphasis role="keyword">const</emphasis>;
+161 
+162 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-------------------------------------------------------------------</emphasis>
+173 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_assimp_1_1_exporter_1ad62dcc1ed4fb9f2c17114e2f98b94d15">SetProgressHandler</link>(<link linkend="_class_assimp_1_1_progress_handler">ProgressHandler</link>&#32;*pHandler);
+174 
+175 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-------------------------------------------------------------------</emphasis>
+193 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_structai_export_data_blob">aiExportDataBlob</link>&#32;*<link linkend="_class_assimp_1_1_exporter_1a7277886036ad226658c10365ba37df18">ExportToBlob</link>(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_structai_scene">aiScene</link>&#32;*pScene,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*pFormatId,
+194 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;pPreprocessing&#32;=&#32;0u,&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_class_assimp_1_1_export_properties">ExportProperties</link>&#32;*pProperties&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>);
+195 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_structai_export_data_blob">aiExportDataBlob</link>&#32;*ExportToBlob(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_structai_scene">aiScene</link>&#32;*pScene,&#32;<emphasis role="keyword">const</emphasis>&#32;std::string&#32;&amp;pFormatId,
+196 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;pPreprocessing&#32;=&#32;0u,&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_class_assimp_1_1_export_properties">ExportProperties</link>&#32;*pProperties&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>);
+197 
+198 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-------------------------------------------------------------------</emphasis>
+231 &#32;&#32;&#32;&#32;<link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link>&#32;<link linkend="_class_assimp_1_1_exporter_1a03adf017791ffc3694e382678f056e9c">Export</link>(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_structai_scene">aiScene</link>&#32;*pScene,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*pFormatId,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*pPath,
+232 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;pPreprocessing&#32;=&#32;0u,&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_class_assimp_1_1_export_properties">ExportProperties</link>&#32;*pProperties&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>);
+233 &#32;&#32;&#32;&#32;<link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link>&#32;Export(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_structai_scene">aiScene</link>&#32;*pScene,&#32;<emphasis role="keyword">const</emphasis>&#32;std::string&#32;&amp;pFormatId,&#32;<emphasis role="keyword">const</emphasis>&#32;std::string&#32;&amp;pPath,
+234 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;pPreprocessing&#32;=&#32;0u,&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_class_assimp_1_1_export_properties">ExportProperties</link>&#32;*pProperties&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>);
+235 
+236 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-------------------------------------------------------------------</emphasis>
+246 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*<link linkend="_class_assimp_1_1_exporter_1a0bb958749ed4d08bc644b87cb9244336">GetErrorString</link>()&#32;<emphasis role="keyword">const</emphasis>;
+247 
+248 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-------------------------------------------------------------------</emphasis>
+250 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_structai_export_data_blob">aiExportDataBlob</link>&#32;*<link linkend="_class_assimp_1_1_exporter_1a5decf63339305b6bf5dab240950af22b">GetBlob</link>()&#32;<emphasis role="keyword">const</emphasis>;
+251 
+252 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-------------------------------------------------------------------</emphasis>
+256 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_structai_export_data_blob">aiExportDataBlob</link>&#32;*<link linkend="_class_assimp_1_1_exporter_1a3293aac177464667227b235a4a13ae58">GetOrphanedBlob</link>()&#32;<emphasis role="keyword">const</emphasis>;
+257 
+258 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-------------------------------------------------------------------</emphasis>
+266 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_assimp_1_1_exporter_1a8200b618c21c272c839c37060a871d48">FreeBlob</link>();
+267 
+268 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-------------------------------------------------------------------</emphasis>
+276 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_class_assimp_1_1_exporter_1abc7d35254b0191ba97dccee597364084">GetExportFormatCount</link>()&#32;<emphasis role="keyword">const</emphasis>;
+277 
+278 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-------------------------------------------------------------------</emphasis>
+292 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_structai_export_format_desc">aiExportFormatDesc</link>&#32;*<link linkend="_class_assimp_1_1_exporter_1aff607412ba49d2cd2fd2b4cce34ff808">GetExportFormatDescription</link>(<emphasis role="keywordtype">size_t</emphasis>&#32;pIndex)&#32;<emphasis role="keyword">const</emphasis>;
+293 
+294 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-------------------------------------------------------------------</emphasis>
+305 &#32;&#32;&#32;&#32;<link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link>&#32;<link linkend="_class_assimp_1_1_exporter_1ae65025d7c5a06a0c3e8655585f87e1c4">RegisterExporter</link>(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_struct_assimp_1_1_exporter_1_1_export_format_entry">ExportFormatEntry</link>&#32;&amp;desc);
+306 
+307 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-------------------------------------------------------------------</emphasis>
+316 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_assimp_1_1_exporter_1afa5956ce18138b90396c505468d1e52b">UnregisterExporter</link>(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*<emphasis role="keywordtype">id</emphasis>);
+317 
+318 <emphasis role="keyword">protected</emphasis>:
+319 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Just&#32;because&#32;we&#32;don&apos;t&#32;want&#32;you&#32;to&#32;know&#32;how&#32;we&apos;re&#32;hacking&#32;around.</emphasis>
+320 &#32;&#32;&#32;&#32;ExporterPimpl&#32;*<link linkend="_class_assimp_1_1_exporter_1a75bc178ae29edc192e1c1935c31c42b2">pimpl</link>;
+321 };
+322 
+323 <emphasis role="keyword">class&#32;</emphasis><link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<link linkend="_class_assimp_1_1_export_properties">ExportProperties</link>&#32;{
+324 <emphasis role="keyword">public</emphasis>:
+325 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Data&#32;type&#32;to&#32;store&#32;the&#32;key&#32;hash</emphasis>
+326 &#32;&#32;&#32;&#32;<emphasis role="keyword">typedef</emphasis>&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_class_assimp_1_1_export_properties_1aa04b43f5e76d5f3c5431be9a35e706e6">KeyType</link>;
+327 
+328 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;typedefs&#32;for&#32;our&#32;four&#32;configuration&#32;maps.</emphasis>
+329 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;We&#32;don&apos;t&#32;need&#32;more,&#32;so&#32;there&#32;is&#32;no&#32;need&#32;for&#32;a&#32;generic&#32;solution</emphasis>
+330 &#32;&#32;&#32;&#32;<emphasis role="keyword">typedef</emphasis>&#32;std::map&lt;KeyType,&#32;int&gt;&#32;<link linkend="_class_assimp_1_1_export_properties_1a5eb68bd8289eb42e495a7ce4e93d8b70">IntPropertyMap</link>;
+331 &#32;&#32;&#32;&#32;<emphasis role="keyword">typedef</emphasis>&#32;std::map&lt;KeyType,&#32;ai_real&gt;&#32;<link linkend="_class_assimp_1_1_export_properties_1acc1c8ad6e55de8f9da60b907a1434c6c">FloatPropertyMap</link>;
+332 &#32;&#32;&#32;&#32;<emphasis role="keyword">typedef</emphasis>&#32;std::map&lt;KeyType,&#32;std::string&gt;&#32;<link linkend="_class_assimp_1_1_export_properties_1a8a0ab4fafe00d7ffdffd7ad40782c218">StringPropertyMap</link>;
+333 &#32;&#32;&#32;&#32;<emphasis role="keyword">typedef</emphasis>&#32;std::map&lt;KeyType,&#32;aiMatrix4x4&gt;&#32;<link linkend="_class_assimp_1_1_export_properties_1adc9f7b8ed897e43a287138feec6f3d64">MatrixPropertyMap</link>;
+334 &#32;&#32;&#32;&#32;<emphasis role="keyword">typedef</emphasis>&#32;std::map&lt;<link linkend="_class_assimp_1_1_export_properties_1aa04b43f5e76d5f3c5431be9a35e706e6">KeyType</link>,&#32;std::function&lt;<emphasis role="keywordtype">void</emphasis>&#32;*(<emphasis role="keywordtype">void</emphasis>&#32;*)&gt;&gt;&#32;<link linkend="_class_assimp_1_1_export_properties_1ab06b379985083def27d41a9ba87c8d06">CallbackPropertyMap</link>;
+335 
+336 <emphasis role="keyword">public</emphasis>:
+340 &#32;&#32;&#32;&#32;<link linkend="_class_assimp_1_1_export_properties_1aedefab9bf14c50bcd319eda39030aa0e">ExportProperties</link>();
+341 
+342 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-------------------------------------------------------------------</emphasis>
+348 &#32;&#32;&#32;&#32;<link linkend="_class_assimp_1_1_export_properties_1a5c91357f3ca4dcf7f7582abdb551534d">ExportProperties</link>(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_class_assimp_1_1_export_properties">ExportProperties</link>&#32;&amp;other);
+349 
+350 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-------------------------------------------------------------------</emphasis>
+363 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_class_assimp_1_1_export_properties_1a3b5953dfef79567d672c81a58b51090c">SetPropertyInteger</link>(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*szName,&#32;<emphasis role="keywordtype">int</emphasis>&#32;iValue);
+364 
+365 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-------------------------------------------------------------------</emphasis>
+372 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_class_assimp_1_1_export_properties_1a3eb3aea4da6b94da06b7dd118c864c38">SetPropertyBool</link>(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*szName,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;{
+373 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;SetPropertyInteger(szName,&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>);
+374 &#32;&#32;&#32;&#32;}
+375 
+376 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-------------------------------------------------------------------</emphasis>
+380 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_class_assimp_1_1_export_properties_1aad233a63272730b466615feae09b9a1d">SetPropertyFloat</link>(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*szName,&#32;<link linkend="_defs_8h_1af221f9bbc3e0dc43a46efaaac6dab067">ai_real</link>&#32;fValue);
+381 
+382 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-------------------------------------------------------------------</emphasis>
+386 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_class_assimp_1_1_export_properties_1a2be9953a8f29595fc518e7ddb2fc481b">SetPropertyString</link>(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*szName,&#32;<emphasis role="keyword">const</emphasis>&#32;std::string&#32;&amp;sValue);
+387 
+388 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-------------------------------------------------------------------</emphasis>
+392 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_class_assimp_1_1_export_properties_1ac77448b65347c90a6baa65ac4e546dbe">SetPropertyMatrix</link>(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*szName,&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_structai_matrix4x4">aiMatrix4x4</link>&#32;&amp;sValue);
+393 
+394 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_class_assimp_1_1_export_properties_1aba0ec052693ed39bda46af7e05f8d7d7">SetPropertyCallback</link>(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*szName,&#32;<emphasis role="keyword">const</emphasis>&#32;std::function&lt;<emphasis role="keywordtype">void</emphasis>&#32;*(<emphasis role="keywordtype">void</emphasis>&#32;*)&gt;&#32;&amp;<link linkend="_glad_8h_1ae29c29480f1260cc37ad71203904ea4d">f</link>);
+395 
+396 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-------------------------------------------------------------------</emphasis>
+409 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_class_assimp_1_1_export_properties_1a24257a57419d1f143cde1221c2300ecb">GetPropertyInteger</link>(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*szName,
+410 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;iErrorReturn&#32;=&#32;0xffffffff)&#32;<emphasis role="keyword">const</emphasis>;
+411 
+412 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-------------------------------------------------------------------</emphasis>
+419 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_class_assimp_1_1_export_properties_1abcb151b5c3da6c759b13b6f25abe65c9">GetPropertyBool</link>(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*szName,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;bErrorReturn&#32;=&#32;<emphasis role="keyword">false</emphasis>)<emphasis role="keyword">&#32;const&#32;</emphasis>{
+420 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;GetPropertyInteger(szName,&#32;bErrorReturn)&#32;!=&#32;0;
+421 &#32;&#32;&#32;&#32;}
+422 
+423 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-------------------------------------------------------------------</emphasis>
+427 &#32;&#32;&#32;&#32;<link linkend="_defs_8h_1af221f9bbc3e0dc43a46efaaac6dab067">ai_real</link>&#32;<link linkend="_class_assimp_1_1_export_properties_1a315d21aa9d9b78f2b5280e6216565234">GetPropertyFloat</link>(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*szName,
+428 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1af221f9bbc3e0dc43a46efaaac6dab067">ai_real</link>&#32;fErrorReturn&#32;=&#32;10e10f)&#32;<emphasis role="keyword">const</emphasis>;
+429 
+430 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-------------------------------------------------------------------</emphasis>
+436 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;std::string&#32;<link linkend="_class_assimp_1_1_export_properties_1a9ce9cd54969c247232887195b3d54cd3">GetPropertyString</link>(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*szName,
+437 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;std::string&#32;&amp;sErrorReturn&#32;=&#32;<emphasis role="stringliteral">&quot;&quot;</emphasis>)&#32;<emphasis role="keyword">const</emphasis>;
+438 
+439 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-------------------------------------------------------------------</emphasis>
+445 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_structai_matrix4x4">aiMatrix4x4</link>&#32;<link linkend="_class_assimp_1_1_export_properties_1ac70802b25ae02ad866c753032ae4c859">GetPropertyMatrix</link>(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*szName,
+446 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_structai_matrix4x4">aiMatrix4x4</link>&#32;&amp;sErrorReturn&#32;=&#32;<link linkend="_structai_matrix4x4">aiMatrix4x4</link>())&#32;<emphasis role="keyword">const</emphasis>;
+447 
+448 &#32;&#32;&#32;&#32;std::function&lt;<emphasis role="keywordtype">void</emphasis>&#32;*(<emphasis role="keywordtype">void</emphasis>&#32;*)&gt;&#32;<link linkend="_class_assimp_1_1_export_properties_1a7b02f4dee9e53ba6bd3435b4eafcf30a">GetPropertyCallback</link>(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;szName)&#32;<emphasis role="keyword">const</emphasis>;
+449 
+450 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-------------------------------------------------------------------</emphasis>
+454 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_class_assimp_1_1_export_properties_1aea0ef936553e641f172eb72379b5726c">HasPropertyInteger</link>(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*szName)&#32;<emphasis role="keyword">const</emphasis>;
+455 
+459 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_class_assimp_1_1_export_properties_1ae1a68e0839afac468f1e30b6df43ec81">HasPropertyBool</link>(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*szName)&#32;<emphasis role="keyword">const</emphasis>;
+460 
+464 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_class_assimp_1_1_export_properties_1a867560a77b1c00941c2d329a4e9219cf">HasPropertyFloat</link>(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*szName)&#32;<emphasis role="keyword">const</emphasis>;
+465 
+469 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_class_assimp_1_1_export_properties_1aa37ac3a66f91aa3e34a3894b0fbddccf">HasPropertyString</link>(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*szName)&#32;<emphasis role="keyword">const</emphasis>;
+470 
+474 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_class_assimp_1_1_export_properties_1aa99262953ae9812ccfae65ca6c66fd4e">HasPropertyMatrix</link>(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*szName)&#32;<emphasis role="keyword">const</emphasis>;
+475 
+476 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_class_assimp_1_1_export_properties_1a15f9b693709bedbc94e7088a679a077c">HasPropertyCallback</link>(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*szName)&#32;<emphasis role="keyword">const</emphasis>;
+477 
+479 &#32;&#32;&#32;&#32;<link linkend="_class_assimp_1_1_export_properties_1a5eb68bd8289eb42e495a7ce4e93d8b70">IntPropertyMap</link>&#32;<link linkend="_class_assimp_1_1_export_properties_1ad69c0546b1e7faf054240f228cf5f9b6">mIntProperties</link>;
+480 
+482 &#32;&#32;&#32;&#32;<link linkend="_class_assimp_1_1_export_properties_1acc1c8ad6e55de8f9da60b907a1434c6c">FloatPropertyMap</link>&#32;<link linkend="_class_assimp_1_1_export_properties_1acf10a6aec3a1d5cb6f190bebc48ed4c7">mFloatProperties</link>;
+483 
+485 &#32;&#32;&#32;&#32;<link linkend="_class_assimp_1_1_export_properties_1a8a0ab4fafe00d7ffdffd7ad40782c218">StringPropertyMap</link>&#32;<link linkend="_class_assimp_1_1_export_properties_1aa842acefe6a2b4eb8efff24030850a4f">mStringProperties</link>;
+486 
+488 &#32;&#32;&#32;&#32;<link linkend="_class_assimp_1_1_export_properties_1adc9f7b8ed897e43a287138feec6f3d64">MatrixPropertyMap</link>&#32;<link linkend="_class_assimp_1_1_export_properties_1a1c7dc9cd6b7f34a98fdb1a16f37b260f">mMatrixProperties</link>;
+489 
+490 &#32;&#32;&#32;&#32;<link linkend="_class_assimp_1_1_export_properties_1ab06b379985083def27d41a9ba87c8d06">CallbackPropertyMap</link>&#32;<link linkend="_class_assimp_1_1_export_properties_1ab731059370cb86ccb791cae8e13154dd">mCallbackProperties</link>;
+491 };
+492 
+493 <emphasis role="comment">//&#32;----------------------------------------------------------------------------------</emphasis>
+494 <emphasis role="keyword">inline</emphasis>&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_structai_export_data_blob">aiExportDataBlob</link>&#32;*<link linkend="_class_assimp_1_1_exporter_1a7277886036ad226658c10365ba37df18">Exporter::ExportToBlob</link>(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_structai_scene">aiScene</link>&#32;*pScene,&#32;<emphasis role="keyword">const</emphasis>&#32;std::string&#32;&amp;pFormatId,
+495 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;pPreprocessing,&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_class_assimp_1_1_export_properties">ExportProperties</link>&#32;*pProperties)&#32;{
+496 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_class_assimp_1_1_exporter_1a7277886036ad226658c10365ba37df18">ExportToBlob</link>(pScene,&#32;pFormatId.c_str(),&#32;pPreprocessing,&#32;pProperties);
+497 }
+498 
+499 <emphasis role="comment">//&#32;----------------------------------------------------------------------------------</emphasis>
+500 <emphasis role="keyword">inline</emphasis>&#32;<link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link>&#32;Exporter&#32;::Export(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_structai_scene">aiScene</link>&#32;*pScene,&#32;<emphasis role="keyword">const</emphasis>&#32;std::string&#32;&amp;pFormatId,
+501 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;std::string&#32;&amp;pPath,&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;pPreprocessing,
+502 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_class_assimp_1_1_export_properties">ExportProperties</link>&#32;*pProperties)&#32;{
+503 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;Export(pScene,&#32;pFormatId.c_str(),&#32;pPath.c_str(),&#32;pPreprocessing,&#32;pProperties);
+504 }
+505 
+506 }&#32;<emphasis role="comment">//&#32;namespace&#32;Assimp</emphasis>
+507 
+508 <emphasis role="preprocessor">#endif&#32;</emphasis><emphasis role="comment">//&#32;ASSIMP_BUILD_NO_EXPORT</emphasis>
+509 <emphasis role="preprocessor">#endif&#32;</emphasis><emphasis role="comment">//&#32;AI_EXPORT_HPP_INC</emphasis>
+</programlisting></section>

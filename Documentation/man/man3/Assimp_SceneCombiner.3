@@ -1,0 +1,285 @@
+.TH "Assimp::SceneCombiner" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Assimp::SceneCombiner \- Static helper class providing various utilities to merge two scenes\&. It is intended as internal utility and NOT for use by applications\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fR#include <SceneCombiner\&.h>\fP
+.SS "Static Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "static \fBvoid\fP \fBMergeScenes\fP (\fBaiScene\fP **dest, std::vector< \fBaiScene\fP * > &\fBsrc\fP, unsigned int \fBflags\fP=0)"
+.br
+.ti -1c
+.RI "static \fBvoid\fP \fBMergeScenes\fP (\fBaiScene\fP **dest, \fBaiScene\fP *master, std::vector< \fBAttachmentInfo\fP > &\fBsrc\fP, unsigned int \fBflags\fP=0)"
+.br
+.ti -1c
+.RI "static \fBvoid\fP \fBMergeMeshes\fP (\fBaiMesh\fP **dest, unsigned int \fBflags\fP, std::vector< \fBaiMesh\fP * >::const_iterator begin, std::vector< \fBaiMesh\fP * >::const_iterator \fBend\fP)"
+.br
+.ti -1c
+.RI "static \fBvoid\fP \fBMergeBones\fP (\fBaiMesh\fP *out, std::vector< \fBaiMesh\fP * >::const_iterator it, std::vector< \fBaiMesh\fP * >::const_iterator \fBend\fP)"
+.br
+.ti -1c
+.RI "static \fBvoid\fP \fBMergeMaterials\fP (\fBaiMaterial\fP **dest, std::vector< \fBaiMaterial\fP * >::const_iterator begin, std::vector< \fBaiMaterial\fP * >::const_iterator \fBend\fP)"
+.br
+.ti -1c
+.RI "static \fBvoid\fP \fBBuildUniqueBoneList\fP (std::list< \fBBoneWithHash\fP > &asBones, std::vector< \fBaiMesh\fP * >::const_iterator it, std::vector< \fBaiMesh\fP * >::const_iterator \fBend\fP)"
+.br
+.ti -1c
+.RI "static \fBvoid\fP \fBAddNodePrefixes\fP (\fBaiNode\fP *node, const char *prefix, unsigned int len)"
+.br
+.ti -1c
+.RI "static \fBvoid\fP \fBOffsetNodeMeshIndices\fP (\fBaiNode\fP *node, unsigned int \fBoffset\fP)"
+.br
+.ti -1c
+.RI "static \fBvoid\fP \fBAttachToGraph\fP (\fBaiScene\fP *master, std::vector< \fBNodeAttachmentInfo\fP > &srcList)"
+.br
+.ti -1c
+.RI "static \fBvoid\fP \fBAttachToGraph\fP (\fBaiNode\fP *attach, std::vector< \fBNodeAttachmentInfo\fP > &srcList)"
+.br
+.ti -1c
+.RI "static \fBvoid\fP \fBCopyScene\fP (\fBaiScene\fP **dest, const \fBaiScene\fP *\fBsource\fP, bool allocate=true)"
+.br
+.ti -1c
+.RI "static \fBvoid\fP \fBCopySceneFlat\fP (\fBaiScene\fP **dest, const \fBaiScene\fP *\fBsource\fP)"
+.br
+.ti -1c
+.RI "static \fBvoid\fP \fBCopy\fP (\fBaiMesh\fP **dest, const \fBaiMesh\fP *\fBsrc\fP)"
+.br
+.ti -1c
+.RI "static \fBvoid\fP \fBCopy\fP (\fBaiAnimMesh\fP **dest, const \fBaiAnimMesh\fP *\fBsrc\fP)"
+.br
+.ti -1c
+.RI "static \fBvoid\fP \fBCopy\fP (\fBaiMaterial\fP **dest, const \fBaiMaterial\fP *\fBsrc\fP)"
+.br
+.ti -1c
+.RI "static \fBvoid\fP \fBCopy\fP (\fBaiTexture\fP **dest, const \fBaiTexture\fP *\fBsrc\fP)"
+.br
+.ti -1c
+.RI "static \fBvoid\fP \fBCopy\fP (\fBaiAnimation\fP **dest, const \fBaiAnimation\fP *\fBsrc\fP)"
+.br
+.ti -1c
+.RI "static \fBvoid\fP \fBCopy\fP (\fBaiCamera\fP **dest, const \fBaiCamera\fP *\fBsrc\fP)"
+.br
+.ti -1c
+.RI "static \fBvoid\fP \fBCopy\fP (\fBaiBone\fP **dest, const \fBaiBone\fP *\fBsrc\fP)"
+.br
+.ti -1c
+.RI "static \fBvoid\fP \fBCopy\fP (\fBaiLight\fP **dest, const \fBaiLight\fP *\fBsrc\fP)"
+.br
+.ti -1c
+.RI "static \fBvoid\fP \fBCopy\fP (\fBaiNodeAnim\fP **dest, const \fBaiNodeAnim\fP *\fBsrc\fP)"
+.br
+.ti -1c
+.RI "static \fBvoid\fP \fBCopy\fP (\fBaiMeshMorphAnim\fP **dest, const \fBaiMeshMorphAnim\fP *\fBsrc\fP)"
+.br
+.ti -1c
+.RI "static \fBvoid\fP \fBCopy\fP (\fBaiMetadata\fP **dest, const \fBaiMetadata\fP *\fBsrc\fP)"
+.br
+.ti -1c
+.RI "static \fBvoid\fP \fBCopy\fP (\fBaiString\fP **dest, const \fBaiString\fP *\fBsrc\fP)"
+.br
+.ti -1c
+.RI "static \fBvoid\fP \fBCopy\fP (\fBaiNode\fP **dest, const \fBaiNode\fP *\fBsrc\fP)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Static helper class providing various utilities to merge two scenes\&. It is intended as internal utility and NOT for use by applications\&. 
+
+The class is currently being used by various postprocessing steps and loaders (ie\&. LWS)\&. 
+.SH "Member Function Documentation"
+.PP 
+.SS "static \fBvoid\fP Assimp::SceneCombiner::AddNodePrefixes (\fBaiNode\fP * node, const char * prefix, unsigned int len)\fR [static]\fP"
+Add a name prefix to all nodes in a scene\&.
+.PP
+\fBParameters\fP
+.RS 4
+\fICurrent\fP node\&. This function is called recursively\&. 
+.br
+\fIprefix\fP Prefix to be added to all nodes 
+.br
+\fIlen\fP STring length 
+.RE
+.PP
+
+.SS "static \fBvoid\fP Assimp::SceneCombiner::AttachToGraph (\fBaiNode\fP * attach, std::vector< \fBNodeAttachmentInfo\fP > & srcList)\fR [static]\fP"
+
+.SS "static \fBvoid\fP Assimp::SceneCombiner::AttachToGraph (\fBaiScene\fP * master, std::vector< \fBNodeAttachmentInfo\fP > & srcList)\fR [static]\fP"
+Attach a list of node graphs to well-defined nodes in a master graph\&. This is a helper for \fBMergeScenes()\fP
+.PP
+\fBParameters\fP
+.RS 4
+\fImaster\fP Master scene 
+.br
+\fIsrcList\fP List of source scenes along with their attachment points\&. If an attachment point is nullptr (or does not exist in the master graph), a scene is attached to the root of the master graph (as an additional child node) @duplicates List of duplicates\&. If elem[n] == n the scene is not a duplicate\&. Otherwise elem[n] links scene n to its first occurrence\&. 
+.RE
+.PP
+
+.SS "static \fBvoid\fP Assimp::SceneCombiner::BuildUniqueBoneList (std::list< \fBBoneWithHash\fP > & asBones, std::vector< \fBaiMesh\fP * >::const_iterator it, std::vector< \fBaiMesh\fP * >::const_iterator end)\fR [static]\fP"
+Builds a list of uniquely named bones in a mesh list
+.PP
+\fBParameters\fP
+.RS 4
+\fIasBones\fP Receives the output list 
+.br
+\fIit\fP First mesh to be processed 
+.br
+\fIend\fP Last mesh to be processed 
+.RE
+.PP
+
+.SS "static \fBvoid\fP Assimp::SceneCombiner::Copy (\fBaiAnimation\fP ** dest, const \fBaiAnimation\fP * src)\fR [static]\fP"
+
+.SS "static \fBvoid\fP Assimp::SceneCombiner::Copy (\fBaiAnimMesh\fP ** dest, const \fBaiAnimMesh\fP * src)\fR [static]\fP"
+
+.SS "static \fBvoid\fP Assimp::SceneCombiner::Copy (\fBaiBone\fP ** dest, const \fBaiBone\fP * src)\fR [static]\fP"
+
+.SS "static \fBvoid\fP Assimp::SceneCombiner::Copy (\fBaiCamera\fP ** dest, const \fBaiCamera\fP * src)\fR [static]\fP"
+
+.SS "static \fBvoid\fP Assimp::SceneCombiner::Copy (\fBaiLight\fP ** dest, const \fBaiLight\fP * src)\fR [static]\fP"
+
+.SS "static \fBvoid\fP Assimp::SceneCombiner::Copy (\fBaiMaterial\fP ** dest, const \fBaiMaterial\fP * src)\fR [static]\fP"
+
+.SS "static \fBvoid\fP Assimp::SceneCombiner::Copy (\fBaiMesh\fP ** dest, const \fBaiMesh\fP * src)\fR [static]\fP"
+Get a deep copy of a mesh
+.PP
+\fBParameters\fP
+.RS 4
+\fIdest\fP Receives a pointer to the destination mesh 
+.br
+\fIsrc\fP Source mesh - remains unmodified\&. 
+.RE
+.PP
+
+.SS "static \fBvoid\fP Assimp::SceneCombiner::Copy (\fBaiMeshMorphAnim\fP ** dest, const \fBaiMeshMorphAnim\fP * src)\fR [static]\fP"
+
+.SS "static \fBvoid\fP Assimp::SceneCombiner::Copy (\fBaiMetadata\fP ** dest, const \fBaiMetadata\fP * src)\fR [static]\fP"
+
+.SS "static \fBvoid\fP Assimp::SceneCombiner::Copy (\fBaiNode\fP ** dest, const \fBaiNode\fP * src)\fR [static]\fP"
+
+.SS "static \fBvoid\fP Assimp::SceneCombiner::Copy (\fBaiNodeAnim\fP ** dest, const \fBaiNodeAnim\fP * src)\fR [static]\fP"
+
+.SS "static \fBvoid\fP Assimp::SceneCombiner::Copy (\fBaiString\fP ** dest, const \fBaiString\fP * src)\fR [static]\fP"
+
+.SS "static \fBvoid\fP Assimp::SceneCombiner::Copy (\fBaiTexture\fP ** dest, const \fBaiTexture\fP * src)\fR [static]\fP"
+
+.SS "static \fBvoid\fP Assimp::SceneCombiner::CopyScene (\fBaiScene\fP ** dest, const \fBaiScene\fP * source, bool allocate = \fRtrue\fP)\fR [static]\fP"
+Get a deep copy of a scene
+.PP
+\fBParameters\fP
+.RS 4
+\fIdest\fP Receives a pointer to the destination scene 
+.br
+\fIsrc\fP Source scene - remains unmodified\&. 
+.RE
+.PP
+
+.SS "static \fBvoid\fP Assimp::SceneCombiner::CopySceneFlat (\fBaiScene\fP ** dest, const \fBaiScene\fP * source)\fR [static]\fP"
+Get a flat copy of a scene
+.PP
+Only the first hierarchy layer is copied\&. All pointer members of \fBaiScene\fP are shared by source and destination scene\&. If the pointer doesn't point to nullptr when the function is called, the existing scene is cleared and refilled\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIdest\fP Receives a pointer to the destination scene 
+.br
+\fIsrc\fP Source scene - remains unmodified\&. 
+.RE
+.PP
+
+.SS "static \fBvoid\fP Assimp::SceneCombiner::MergeBones (\fBaiMesh\fP * out, std::vector< \fBaiMesh\fP * >::const_iterator it, std::vector< \fBaiMesh\fP * >::const_iterator end)\fR [static]\fP"
+Merges two or more bones
+.PP
+\fBParameters\fP
+.RS 4
+\fIout\fP Mesh to receive the output bone list 
+.br
+\fIflags\fP Currently no parameters 
+.br
+\fIbegin\fP First mesh to be processed 
+.br
+\fIend\fP Points to the mesh after the last mesh to be processed 
+.RE
+.PP
+
+.SS "static \fBvoid\fP Assimp::SceneCombiner::MergeMaterials (\fBaiMaterial\fP ** dest, std::vector< \fBaiMaterial\fP * >::const_iterator begin, std::vector< \fBaiMaterial\fP * >::const_iterator end)\fR [static]\fP"
+Merges two or more materials
+.PP
+The materials should be complementary as much as possible\&. In case of a property present in different materials, the first occurrence is used\&.
+.PP
+\fBParameters\fP
+.RS 4
+\fIdest\fP Destination material\&. Must be empty\&. 
+.br
+\fIbegin\fP First material to be processed 
+.br
+\fIend\fP Points to the material after the last material to be processed 
+.RE
+.PP
+
+.SS "static \fBvoid\fP Assimp::SceneCombiner::MergeMeshes (\fBaiMesh\fP ** dest, unsigned int flags, std::vector< \fBaiMesh\fP * >::const_iterator begin, std::vector< \fBaiMesh\fP * >::const_iterator end)\fR [static]\fP"
+Merges two or more meshes
+.PP
+The meshes should have equal vertex formats\&. Only components that are provided by ALL meshes will be present in the output mesh\&. An exception is made for VColors - they are set to black\&. The meshes should have the same material indices, too\&. The output material index is always the material index of the first mesh\&.
+.PP
+\fBParameters\fP
+.RS 4
+\fIdest\fP Destination mesh\&. Must be empty\&. 
+.br
+\fIflags\fP Currently no parameters 
+.br
+\fIbegin\fP First mesh to be processed 
+.br
+\fIend\fP Points to the mesh after the last mesh to be processed 
+.RE
+.PP
+
+.SS "static \fBvoid\fP Assimp::SceneCombiner::MergeScenes (\fBaiScene\fP ** dest, \fBaiScene\fP * master, std::vector< \fBAttachmentInfo\fP > & src, unsigned int flags = \fR0\fP)\fR [static]\fP"
+Merges two or more scenes and attaches all scenes to a specific position in the node graph of the master scene\&.
+.PP
+\fBParameters\fP
+.RS 4
+\fIdest\fP Receives a pointer to the destination scene\&. If the pointer doesn't point to nullptr when the function is called, the existing scene is cleared and refilled\&. 
+.br
+\fImaster\fP Master scene\&. It will be deleted afterwards\&. All other scenes will be inserted in its node graph\&. 
+.br
+\fIsrc\fP Non-empty list of scenes to be merged along with their corresponding attachment points in the master scene\&. The function deletes the input scenes afterwards\&. There may be duplicate scenes\&. 
+.br
+\fIflags\fP Combination of the AI_INT_MERGE_SCENE flags defined above 
+.RE
+.PP
+
+.SS "static \fBvoid\fP Assimp::SceneCombiner::MergeScenes (\fBaiScene\fP ** dest, std::vector< \fBaiScene\fP * > & src, unsigned int flags = \fR0\fP)\fR [static]\fP"
+Merges two or more scenes\&.
+.PP
+\fBParameters\fP
+.RS 4
+\fIdest\fP Receives a pointer to the destination scene\&. If the pointer doesn't point to nullptr when the function is called, the existing scene is cleared and refilled\&. 
+.br
+\fIsrc\fP Non-empty list of scenes to be merged\&. The function deletes the input scenes afterwards\&. There may be duplicate scenes\&. 
+.br
+\fIflags\fP Combination of the AI_INT_MERGE_SCENE flags defined above 
+.RE
+.PP
+
+.SS "static \fBvoid\fP Assimp::SceneCombiner::OffsetNodeMeshIndices (\fBaiNode\fP * node, unsigned int offset)\fR [static]\fP"
+Add an offset to all mesh indices in a node graph
+.PP
+\fBParameters\fP
+.RS 4
+\fICurrent\fP node\&. This function is called recursively\&. 
+.br
+\fIoffset\fP Offset to be added to all mesh indices 
+.RE
+.PP
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

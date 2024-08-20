@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_msf__reader_8cpp_source" xml:lang="en-US">
+<title>msf_reader.cpp</title>
+<indexterm><primary>BLINK/source/msf_reader.cpp</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered"><anchor xml:id="_msf__reader_8cpp_source_1l00001"/>00001 
+<anchor xml:id="_msf__reader_8cpp_source_1l00006"/>00006 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_msf__reader_8hpp">msf_reader.hpp</link>&quot;</emphasis>
+<anchor xml:id="_msf__reader_8cpp_source_1l00007"/>00007 <emphasis role="preprocessor">#include&#32;&lt;algorithm&gt;</emphasis>
+<anchor xml:id="_msf__reader_8cpp_source_1l00008"/>00008 
+<anchor xml:id="_msf__reader_8cpp_source_1l00017"/><link linkend="_structmsf__file__header">00017</link> <emphasis role="keyword">struct&#32;</emphasis><link linkend="_structmsf__file__header">msf_file_header</link>
+<anchor xml:id="_msf__reader_8cpp_source_1l00018"/>00018 {
+<anchor xml:id="_msf__reader_8cpp_source_1l00019"/><link linkend="_structmsf__file__header_1a91ae28e36adf45e08e359f5a44bea836">00019</link> &#32;&#32;&#32;&#32;<emphasis role="keywordtype">char</emphasis>&#32;<link linkend="_structmsf__file__header_1a91ae28e36adf45e08e359f5a44bea836">signature</link>[32];
+<anchor xml:id="_msf__reader_8cpp_source_1l00020"/><link linkend="_structmsf__file__header_1a289dc2a9535954bd55cc7a84062d12e6">00020</link> &#32;&#32;&#32;&#32;uint32_t&#32;<link linkend="_structmsf__file__header_1a289dc2a9535954bd55cc7a84062d12e6">page_size</link>;
+<anchor xml:id="_msf__reader_8cpp_source_1l00021"/><link linkend="_structmsf__file__header_1af01ad001275bfcd39515a2c559658ea4">00021</link> &#32;&#32;&#32;&#32;uint32_t&#32;<link linkend="_structmsf__file__header_1af01ad001275bfcd39515a2c559658ea4">free_page_map</link>;
+<anchor xml:id="_msf__reader_8cpp_source_1l00022"/><link linkend="_structmsf__file__header_1a502d28bf26ec8703ee2683c9314c91eb">00022</link> &#32;&#32;&#32;&#32;uint32_t&#32;<link linkend="_structmsf__file__header_1a502d28bf26ec8703ee2683c9314c91eb">page_count</link>;
+<anchor xml:id="_msf__reader_8cpp_source_1l00023"/><link linkend="_structmsf__file__header_1ae51b82ca5dd2ac7d484d949e50408a61">00023</link> &#32;&#32;&#32;&#32;uint32_t&#32;<link linkend="_structmsf__file__header_1ae51b82ca5dd2ac7d484d949e50408a61">directory_size</link>;
+<anchor xml:id="_msf__reader_8cpp_source_1l00024"/><link linkend="_structmsf__file__header_1a41e4cf3b04634e833731d4410ce44c53">00024</link> &#32;&#32;&#32;&#32;uint32_t&#32;<link linkend="_structmsf__file__header_1a41e4cf3b04634e833731d4410ce44c53">reserved</link>;
+<anchor xml:id="_msf__reader_8cpp_source_1l00025"/>00025 };
+<anchor xml:id="_msf__reader_8cpp_source_1l00026"/>00026 
+<anchor xml:id="_msf__reader_8cpp_source_1l00027"/>00027 <emphasis role="keyword">static</emphasis>&#32;<emphasis role="keyword">inline</emphasis>&#32;uint32_t&#32;calc_page_count(uint32_t&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>,&#32;uint32_t&#32;page_size)
+<anchor xml:id="_msf__reader_8cpp_source_1l00028"/>00028 {
+<anchor xml:id="_msf__reader_8cpp_source_1l00029"/>00029 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;(<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>&#32;+&#32;page_size&#32;-&#32;1u)&#32;/&#32;page_size;
+<anchor xml:id="_msf__reader_8cpp_source_1l00030"/>00030 }
+<anchor xml:id="_msf__reader_8cpp_source_1l00031"/>00031 
+<anchor xml:id="_msf__reader_8cpp_source_1l00032"/><link linkend="_classblink_1_1msf__reader_1a3d05ecf2ac9e41ea5786c0f785492d46">00032</link> <link linkend="_classblink_1_1msf__reader_1a3d05ecf2ac9e41ea5786c0f785492d46">blink::msf_reader::msf_reader</link>(<emphasis role="keyword">const</emphasis>&#32;std::string&#32;&amp;path)&#32;:
+<anchor xml:id="_msf__reader_8cpp_source_1l00033"/>00033 &#32;&#32;&#32;&#32;_file_stream(path,&#32;<link linkend="_namespacestd">std</link>::ios::in&#32;|&#32;<link linkend="_namespacestd">std</link>::ios::binary)
+<anchor xml:id="_msf__reader_8cpp_source_1l00034"/>00034 {
+<anchor xml:id="_msf__reader_8cpp_source_1l00035"/>00035 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(!_file_stream.is_open())
+<anchor xml:id="_msf__reader_8cpp_source_1l00036"/>00036 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>;
+<anchor xml:id="_msf__reader_8cpp_source_1l00037"/>00037 
+<anchor xml:id="_msf__reader_8cpp_source_1l00038"/>00038 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Read&#32;and&#32;verify&#32;MSF&#32;header&#32;from&#32;file</emphasis>
+<anchor xml:id="_msf__reader_8cpp_source_1l00039"/><link linkend="_classblink_1_1pdb__reader_1af151d1f84574fcbf5c0f838c481edb66">00039</link> &#32;&#32;&#32;&#32;<link linkend="_structmsf__file__header">msf_file_header</link>&#32;header;
+<anchor xml:id="_msf__reader_8cpp_source_1l00040"/>00040 &#32;&#32;&#32;&#32;_file_stream.read(<emphasis role="keyword">reinterpret_cast&lt;</emphasis><emphasis role="keywordtype">char</emphasis>&#32;*<emphasis role="keyword">&gt;</emphasis>(&amp;header),&#32;<emphasis role="keyword">sizeof</emphasis>(header));
+<anchor xml:id="_msf__reader_8cpp_source_1l00041"/>00041 
+<anchor xml:id="_msf__reader_8cpp_source_1l00042"/>00042 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keyword">constexpr</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;signature[]&#32;=&#32;<emphasis role="stringliteral">&quot;Microsoft&#32;C/C++&#32;MSF&#32;7.00\r\n\032DS\0\0&quot;</emphasis>;
+<anchor xml:id="_msf__reader_8cpp_source_1l00043"/>00043 
+<anchor xml:id="_msf__reader_8cpp_source_1l00044"/>00044 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(_file_stream.bad()&#32;||&#32;std::memcmp(header.<link linkend="_structmsf__file__header_1a91ae28e36adf45e08e359f5a44bea836">signature</link>,&#32;signature,&#32;<emphasis role="keyword">sizeof</emphasis>(signature))&#32;!=&#32;0)
+<anchor xml:id="_msf__reader_8cpp_source_1l00045"/>00045 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>;
+<anchor xml:id="_msf__reader_8cpp_source_1l00046"/>00046 
+<anchor xml:id="_msf__reader_8cpp_source_1l00047"/>00047 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Read&#32;root&#32;directory</emphasis>
+<anchor xml:id="_msf__reader_8cpp_source_1l00048"/>00048 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;num_root_pages&#32;=&#32;calc_page_count(header.<link linkend="_structmsf__file__header_1ae51b82ca5dd2ac7d484d949e50408a61">directory_size</link>,&#32;header.<link linkend="_structmsf__file__header_1a289dc2a9535954bd55cc7a84062d12e6">page_size</link>);
+<anchor xml:id="_msf__reader_8cpp_source_1l00049"/>00049 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;num_root_index_pages&#32;=&#32;calc_page_count(num_root_pages&#32;*&#32;4,&#32;header.<link linkend="_structmsf__file__header_1a289dc2a9535954bd55cc7a84062d12e6">page_size</link>);
+<anchor xml:id="_msf__reader_8cpp_source_1l00050"/>00050 &#32;&#32;&#32;&#32;std::vector&lt;uint32_t&gt;&#32;root_pages(num_root_pages);
+<anchor xml:id="_msf__reader_8cpp_source_1l00051"/>00051 &#32;&#32;&#32;&#32;std::vector&lt;uint32_t&gt;&#32;root_index_pages(num_root_index_pages);
+<anchor xml:id="_msf__reader_8cpp_source_1l00052"/>00052 
+<anchor xml:id="_msf__reader_8cpp_source_1l00053"/>00053 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(num_root_index_pages&#32;==&#32;0)
+<anchor xml:id="_msf__reader_8cpp_source_1l00054"/>00054 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>;
+<anchor xml:id="_msf__reader_8cpp_source_1l00055"/>00055 
+<anchor xml:id="_msf__reader_8cpp_source_1l00056"/>00056 &#32;&#32;&#32;&#32;_page_size&#32;=&#32;header.<link linkend="_structmsf__file__header_1a289dc2a9535954bd55cc7a84062d12e6">page_size</link>;
+<anchor xml:id="_msf__reader_8cpp_source_1l00057"/>00057 
+<anchor xml:id="_msf__reader_8cpp_source_1l00058"/>00058 &#32;&#32;&#32;&#32;_file_stream.read(<emphasis role="keyword">reinterpret_cast&lt;</emphasis><emphasis role="keywordtype">char</emphasis>&#32;*<emphasis role="keyword">&gt;</emphasis>(root_index_pages.data()),&#32;num_root_index_pages&#32;*&#32;4);
+<anchor xml:id="_msf__reader_8cpp_source_1l00059"/>00059 
+<anchor xml:id="_msf__reader_8cpp_source_1l00060"/>00060 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(uint32_t&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;=&#32;0,&#32;k&#32;=&#32;0,&#32;len;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;&lt;&#32;num_root_index_pages;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>++,&#32;k&#32;+=&#32;len)
+<anchor xml:id="_msf__reader_8cpp_source_1l00061"/>00061 &#32;&#32;&#32;&#32;{
+<anchor xml:id="_msf__reader_8cpp_source_1l00062"/>00062 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;len&#32;=&#32;std::min(_page_size&#32;/&#32;4,&#32;num_root_pages&#32;-&#32;k);
+<anchor xml:id="_msf__reader_8cpp_source_1l00063"/>00063 
+<anchor xml:id="_msf__reader_8cpp_source_1l00064"/>00064 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_file_stream.seekg(root_index_pages[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>]&#32;*&#32;_page_size);
+<anchor xml:id="_msf__reader_8cpp_source_1l00065"/>00065 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_file_stream.read(<emphasis role="keyword">reinterpret_cast&lt;</emphasis><emphasis role="keywordtype">char</emphasis>&#32;*<emphasis role="keyword">&gt;</emphasis>(&amp;root_pages[k]),&#32;len&#32;*&#32;4);
+<anchor xml:id="_msf__reader_8cpp_source_1l00066"/>00066 &#32;&#32;&#32;&#32;}
+<anchor xml:id="_msf__reader_8cpp_source_1l00067"/>00067 
+<anchor xml:id="_msf__reader_8cpp_source_1l00068"/>00068 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Read&#32;content&#32;stream&#32;sizes</emphasis>
+<anchor xml:id="_msf__reader_8cpp_source_1l00069"/>00069 &#32;&#32;&#32;&#32;uint32_t&#32;current_root_page&#32;=&#32;0;
+<anchor xml:id="_msf__reader_8cpp_source_1l00070"/>00070 
+<anchor xml:id="_msf__reader_8cpp_source_1l00071"/>00071 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(uint32_t&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;=&#32;0,&#32;j&#32;=&#32;0;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;&lt;&#32;num_root_pages;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>++)
+<anchor xml:id="_msf__reader_8cpp_source_1l00072"/>00072 &#32;&#32;&#32;&#32;{
+<anchor xml:id="_msf__reader_8cpp_source_1l00073"/>00073 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_file_stream.seekg(root_pages[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>]&#32;*&#32;_page_size);
+<anchor xml:id="_msf__reader_8cpp_source_1l00074"/>00074 
+<anchor xml:id="_msf__reader_8cpp_source_1l00075"/>00075 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;==&#32;0)
+<anchor xml:id="_msf__reader_8cpp_source_1l00076"/>00076 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="_msf__reader_8cpp_source_1l00077"/>00077 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_file_stream.read(<emphasis role="keyword">reinterpret_cast&lt;</emphasis><emphasis role="keywordtype">char</emphasis>&#32;*<emphasis role="keyword">&gt;</emphasis>(&amp;j),&#32;<emphasis role="keyword">sizeof</emphasis>(j));
+<anchor xml:id="_msf__reader_8cpp_source_1l00078"/>00078 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_classblink_1_1msf__reader_1ac9150ae23b97ade5e22408b2e1a5ce09">_streams</link>.reserve(j);
+<anchor xml:id="_msf__reader_8cpp_source_1l00079"/>00079 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="_msf__reader_8cpp_source_1l00080"/>00080 
+<anchor xml:id="_msf__reader_8cpp_source_1l00081"/>00081 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(uint32_t&#32;k&#32;=&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;==&#32;0,&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>;&#32;j&#32;&gt;&#32;0&#32;&amp;&amp;&#32;k&#32;&lt;&#32;_page_size&#32;/&#32;4;&#32;k++,&#32;j--)
+<anchor xml:id="_msf__reader_8cpp_source_1l00082"/>00082 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="_msf__reader_8cpp_source_1l00083"/>00083 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_file_stream.read(<emphasis role="keyword">reinterpret_cast&lt;</emphasis><emphasis role="keywordtype">char</emphasis>&#32;*<emphasis role="keyword">&gt;</emphasis>(&amp;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>),&#32;<emphasis role="keyword">sizeof</emphasis>(<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>));
+<anchor xml:id="_msf__reader_8cpp_source_1l00084"/>00084 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(0xFFFFFFFF&#32;==&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>)
+<anchor xml:id="_msf__reader_8cpp_source_1l00085"/>00085 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>&#32;=&#32;0;
+<anchor xml:id="_msf__reader_8cpp_source_1l00086"/>00086 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_classblink_1_1msf__reader_1ac9150ae23b97ade5e22408b2e1a5ce09">_streams</link>.push_back({&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>&#32;});
+<anchor xml:id="_msf__reader_8cpp_source_1l00087"/>00087 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="_msf__reader_8cpp_source_1l00088"/>00088 
+<anchor xml:id="_msf__reader_8cpp_source_1l00089"/>00089 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(j&#32;==&#32;0)
+<anchor xml:id="_msf__reader_8cpp_source_1l00090"/>00090 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="_msf__reader_8cpp_source_1l00091"/>00091 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;current_root_page&#32;=&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>;
+<anchor xml:id="_msf__reader_8cpp_source_1l00092"/>00092 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">break</emphasis>;
+<anchor xml:id="_msf__reader_8cpp_source_1l00093"/>00093 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="_msf__reader_8cpp_source_1l00094"/>00094 &#32;&#32;&#32;&#32;}
+<anchor xml:id="_msf__reader_8cpp_source_1l00095"/>00095 
+<anchor xml:id="_msf__reader_8cpp_source_1l00096"/>00096 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Read&#32;content&#32;stream&#32;page&#32;indices&#32;(located&#32;directly&#32;after&#32;stream&#32;sizes)</emphasis>
+<anchor xml:id="_msf__reader_8cpp_source_1l00097"/>00097 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(content_stream&#32;&amp;<link linkend="_glad_8h_1ad02d2488127e1cf9a27262c4ee30ba85">stream</link>&#32;:&#32;<link linkend="_classblink_1_1msf__reader_1ac9150ae23b97ade5e22408b2e1a5ce09">_streams</link>)
+<anchor xml:id="_msf__reader_8cpp_source_1l00098"/>00098 &#32;&#32;&#32;&#32;{
+<anchor xml:id="_msf__reader_8cpp_source_1l00099"/>00099 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uint32_t&#32;num_pages&#32;=&#32;calc_page_count(<link linkend="_glad_8h_1ad02d2488127e1cf9a27262c4ee30ba85">stream</link>.size,&#32;_page_size);
+<anchor xml:id="_msf__reader_8cpp_source_1l00100"/>00100 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(num_pages&#32;==&#32;0)
+<anchor xml:id="_msf__reader_8cpp_source_1l00101"/>00101 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">continue</emphasis>;
+<anchor xml:id="_msf__reader_8cpp_source_1l00102"/>00102 
+<anchor xml:id="_msf__reader_8cpp_source_1l00103"/>00103 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1ad02d2488127e1cf9a27262c4ee30ba85">stream</link>.page_indices.resize(num_pages);
+<anchor xml:id="_msf__reader_8cpp_source_1l00104"/>00104 
+<anchor xml:id="_msf__reader_8cpp_source_1l00105"/>00105 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(uint32_t&#32;num_pages_remaining&#32;=&#32;num_pages;&#32;num_pages_remaining&#32;&gt;&#32;0;)
+<anchor xml:id="_msf__reader_8cpp_source_1l00106"/>00106 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="_msf__reader_8cpp_source_1l00107"/>00107 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;page_off&#32;=&#32;<emphasis role="keyword">static_cast&lt;</emphasis>uint32_t<emphasis role="keyword">&gt;</emphasis>(_file_stream.tellg())&#32;%&#32;_page_size;
+<anchor xml:id="_msf__reader_8cpp_source_1l00108"/>00108 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;page_size&#32;=&#32;std::min(num_pages_remaining&#32;*&#32;4,&#32;_page_size&#32;-&#32;page_off);
+<anchor xml:id="_msf__reader_8cpp_source_1l00109"/>00109 
+<anchor xml:id="_msf__reader_8cpp_source_1l00110"/>00110 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_file_stream.read(<emphasis role="keyword">reinterpret_cast&lt;</emphasis><emphasis role="keywordtype">char</emphasis>&#32;*<emphasis role="keyword">&gt;</emphasis>(<link linkend="_glad_8h_1ad02d2488127e1cf9a27262c4ee30ba85">stream</link>.page_indices.data()&#32;+&#32;num_pages&#32;-&#32;num_pages_remaining),&#32;page_size);
+<anchor xml:id="_msf__reader_8cpp_source_1l00111"/>00111 
+<anchor xml:id="_msf__reader_8cpp_source_1l00112"/>00112 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;num_pages_remaining&#32;-=&#32;page_size&#32;/&#32;4;
+<anchor xml:id="_msf__reader_8cpp_source_1l00113"/>00113 
+<anchor xml:id="_msf__reader_8cpp_source_1l00114"/>00114 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Advance&#32;to&#32;next&#32;root&#32;page</emphasis>
+<anchor xml:id="_msf__reader_8cpp_source_1l00115"/>00115 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(page_off&#32;+&#32;page_size&#32;==&#32;_page_size)
+<anchor xml:id="_msf__reader_8cpp_source_1l00116"/>00116 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_file_stream.seekg(root_pages[++current_root_page]&#32;*&#32;_page_size);
+<anchor xml:id="_msf__reader_8cpp_source_1l00117"/>00117 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="_msf__reader_8cpp_source_1l00118"/>00118 &#32;&#32;&#32;&#32;}
+<anchor xml:id="_msf__reader_8cpp_source_1l00119"/>00119 
+<anchor xml:id="_msf__reader_8cpp_source_1l00120"/>00120 &#32;&#32;&#32;&#32;<link linkend="_classblink_1_1msf__reader_1a5015bad68affaf87307cf0bc2702545c">_is_valid</link>&#32;=&#32;_file_stream.good();
+<anchor xml:id="_msf__reader_8cpp_source_1l00121"/>00121 }
+<anchor xml:id="_msf__reader_8cpp_source_1l00122"/>00122 
+<anchor xml:id="_msf__reader_8cpp_source_1l00123"/><link linkend="_classblink_1_1msf__reader_1af151d1f84574fcbf5c0f838c481edb66">00123</link> std::vector&lt;char&gt;&#32;<link linkend="_classblink_1_1msf__reader_1af151d1f84574fcbf5c0f838c481edb66">blink::msf_reader::stream</link>(<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1a57f14e05b1900f16a2da82ade47d0c6d">index</link>)
+<anchor xml:id="_msf__reader_8cpp_source_1l00124"/>00124 {
+<anchor xml:id="_msf__reader_8cpp_source_1l00125"/>00125 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_structblink_1_1msf__reader_1_1content__stream">content_stream</link>&#32;&amp;<link linkend="_glad_8h_1ad02d2488127e1cf9a27262c4ee30ba85">stream</link>&#32;=&#32;_streams[<link linkend="_glad_8h_1a57f14e05b1900f16a2da82ade47d0c6d">index</link>];
+<anchor xml:id="_msf__reader_8cpp_source_1l00126"/>00126 
+<anchor xml:id="_msf__reader_8cpp_source_1l00127"/>00127 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1ae1b92ae085ddef4b1cdca7d749339fb0">offset</link>&#32;=&#32;0;
+<anchor xml:id="_msf__reader_8cpp_source_1l00128"/>00128 &#32;&#32;&#32;&#32;std::vector&lt;char&gt;&#32;stream_data(&#32;<emphasis role="comment">//&#32;Allocate&#32;enough&#32;memory&#32;to&#32;hold&#32;all&#32;associated&#32;pages</emphasis>
+<anchor xml:id="_msf__reader_8cpp_source_1l00129"/>00129 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1ad02d2488127e1cf9a27262c4ee30ba85">stream</link>.page_indices.size()&#32;*&#32;_page_size);
+<anchor xml:id="_msf__reader_8cpp_source_1l00130"/>00130 
+<anchor xml:id="_msf__reader_8cpp_source_1l00131"/>00131 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Iterate&#32;through&#32;all&#32;pages&#32;associated&#32;with&#32;this&#32;stream&#32;and&#32;read&#32;their&#32;data</emphasis>
+<anchor xml:id="_msf__reader_8cpp_source_1l00132"/>00132 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(uint32_t&#32;page_index&#32;:&#32;<link linkend="_glad_8h_1ad02d2488127e1cf9a27262c4ee30ba85">stream</link>.page_indices)
+<anchor xml:id="_msf__reader_8cpp_source_1l00133"/>00133 &#32;&#32;&#32;&#32;{
+<anchor xml:id="_msf__reader_8cpp_source_1l00134"/>00134 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_file_stream.seekg(page_index&#32;*&#32;_page_size);
+<anchor xml:id="_msf__reader_8cpp_source_1l00135"/>00135 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_file_stream.read(stream_data.data()&#32;+&#32;<link linkend="_glad_8h_1ae1b92ae085ddef4b1cdca7d749339fb0">offset</link>,&#32;_page_size);
+<anchor xml:id="_msf__reader_8cpp_source_1l00136"/>00136 
+<anchor xml:id="_msf__reader_8cpp_source_1l00137"/>00137 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1ae1b92ae085ddef4b1cdca7d749339fb0">offset</link>&#32;+=&#32;_page_size;
+<anchor xml:id="_msf__reader_8cpp_source_1l00138"/>00138 &#32;&#32;&#32;&#32;}
+<anchor xml:id="_msf__reader_8cpp_source_1l00139"/>00139 
+<anchor xml:id="_msf__reader_8cpp_source_1l00140"/>00140 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Shrink&#32;result&#32;to&#32;the&#32;actual&#32;stream&#32;size</emphasis>
+<anchor xml:id="_msf__reader_8cpp_source_1l00141"/>00141 &#32;&#32;&#32;&#32;stream_data.resize(<link linkend="_glad_8h_1ad02d2488127e1cf9a27262c4ee30ba85">stream</link>.size);
+<anchor xml:id="_msf__reader_8cpp_source_1l00142"/>00142 
+<anchor xml:id="_msf__reader_8cpp_source_1l00143"/>00143 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;stream_data;
+<anchor xml:id="_msf__reader_8cpp_source_1l00144"/>00144 }
+</programlisting></section>

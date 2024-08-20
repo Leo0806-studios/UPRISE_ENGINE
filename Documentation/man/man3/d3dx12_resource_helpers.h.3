@@ -1,0 +1,94 @@
+.TH "adhed/d3dx12_resource_helpers.h" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+adhed/d3dx12_resource_helpers.h
+.SH SYNOPSIS
+.br
+.PP
+\fR#include 'd3dx12_property_format_table\&.h'\fP
+.br
+\fR#include 'd3d12\&.h'\fP
+.br
+\fR#include 'd3dx12_core\&.h'\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "template<typename \fBT\fP , typename \fBU\fP , typename \fBV\fP > \fBvoid\fP \fBD3D12DecomposeSubresource\fP (UINT Subresource, UINT MipLevels, UINT ArraySize, _Out_ \fBT\fP &MipSlice, _Out_ \fBU\fP &ArraySlice, _Out_ \fBV\fP &PlaneSlice) noexcept"
+.br
+.ti -1c
+.RI "\fBvoid\fP \fBMemcpySubresource\fP (_In_ const \fBD3D12_MEMCPY_DEST\fP *pDest, _In_ const \fBD3D12_SUBRESOURCE_DATA\fP *pSrc, SIZE_T RowSizeInBytes, UINT NumRows, UINT NumSlices) noexcept"
+.br
+.ti -1c
+.RI "\fBvoid\fP \fBMemcpySubresource\fP (_In_ const \fBD3D12_MEMCPY_DEST\fP *pDest, _In_ const \fBvoid\fP *pResourceData, _In_ const \fBD3D12_SUBRESOURCE_INFO\fP *pSrc, SIZE_T RowSizeInBytes, UINT NumRows, UINT NumSlices) noexcept"
+.br
+.ti -1c
+.RI "UINT64 \fBGetRequiredIntermediateSize\fP (_In_ \fBID3D12Resource\fP *pDestinationResource, _In_range_(0, \fBD3D12_REQ_SUBRESOURCES\fP) UINT FirstSubresource, _In_range_(0, \fBD3D12_REQ_SUBRESOURCES\fP\-FirstSubresource) UINT NumSubresources) noexcept"
+.br
+.ti -1c
+.RI "UINT64 \fBUpdateSubresources\fP (_In_ \fBID3D12GraphicsCommandList\fP *pCmdList, _In_ \fBID3D12Resource\fP *pDestinationResource, _In_ \fBID3D12Resource\fP *pIntermediate, _In_range_(0, \fBD3D12_REQ_SUBRESOURCES\fP) UINT FirstSubresource, _In_range_(0, \fBD3D12_REQ_SUBRESOURCES\fP\-FirstSubresource) UINT NumSubresources, UINT64 RequiredSize, _In_reads_(NumSubresources) const \fBD3D12_PLACED_SUBRESOURCE_FOOTPRINT\fP *pLayouts, _In_reads_(NumSubresources) const UINT *pNumRows, _In_reads_(NumSubresources) const UINT64 *pRowSizesInBytes, _In_reads_(NumSubresources) const \fBD3D12_SUBRESOURCE_DATA\fP *pSrcData) noexcept"
+.br
+.ti -1c
+.RI "UINT64 \fBUpdateSubresources\fP (_In_ \fBID3D12GraphicsCommandList\fP *pCmdList, _In_ \fBID3D12Resource\fP *pDestinationResource, _In_ \fBID3D12Resource\fP *pIntermediate, _In_range_(0, \fBD3D12_REQ_SUBRESOURCES\fP) UINT FirstSubresource, _In_range_(0, \fBD3D12_REQ_SUBRESOURCES\fP\-FirstSubresource) UINT NumSubresources, UINT64 RequiredSize, _In_reads_(NumSubresources) const \fBD3D12_PLACED_SUBRESOURCE_FOOTPRINT\fP *pLayouts, _In_reads_(NumSubresources) const UINT *pNumRows, _In_reads_(NumSubresources) const UINT64 *pRowSizesInBytes, _In_ const \fBvoid\fP *pResourceData, _In_reads_(NumSubresources) const \fBD3D12_SUBRESOURCE_INFO\fP *pSrcData) noexcept"
+.br
+.ti -1c
+.RI "UINT64 \fBUpdateSubresources\fP (_In_ \fBID3D12GraphicsCommandList\fP *pCmdList, _In_ \fBID3D12Resource\fP *pDestinationResource, _In_ \fBID3D12Resource\fP *pIntermediate, UINT64 IntermediateOffset, _In_range_(0, \fBD3D12_REQ_SUBRESOURCES\fP) UINT FirstSubresource, _In_range_(0, \fBD3D12_REQ_SUBRESOURCES\fP\-FirstSubresource) UINT NumSubresources, _In_reads_(NumSubresources) const \fBD3D12_SUBRESOURCE_DATA\fP *pSrcData) noexcept"
+.br
+.ti -1c
+.RI "UINT64 \fBUpdateSubresources\fP (_In_ \fBID3D12GraphicsCommandList\fP *pCmdList, _In_ \fBID3D12Resource\fP *pDestinationResource, _In_ \fBID3D12Resource\fP *pIntermediate, UINT64 IntermediateOffset, _In_range_(0, \fBD3D12_REQ_SUBRESOURCES\fP) UINT FirstSubresource, _In_range_(0, \fBD3D12_REQ_SUBRESOURCES\fP\-FirstSubresource) UINT NumSubresources, _In_ const \fBvoid\fP *pResourceData, _In_reads_(NumSubresources) const \fBD3D12_SUBRESOURCE_INFO\fP *pSrcData) noexcept"
+.br
+.ti -1c
+.RI "template<UINT MaxSubresources> UINT64 \fBUpdateSubresources\fP (_In_ \fBID3D12GraphicsCommandList\fP *pCmdList, _In_ \fBID3D12Resource\fP *pDestinationResource, _In_ \fBID3D12Resource\fP *pIntermediate, UINT64 IntermediateOffset, _In_range_(0, MaxSubresources) UINT FirstSubresource, _In_range_(1, MaxSubresources\-FirstSubresource) UINT NumSubresources, _In_reads_(NumSubresources) const \fBD3D12_SUBRESOURCE_DATA\fP *pSrcData) noexcept"
+.br
+.ti -1c
+.RI "template<UINT MaxSubresources> UINT64 \fBUpdateSubresources\fP (_In_ \fBID3D12GraphicsCommandList\fP *pCmdList, _In_ \fBID3D12Resource\fP *pDestinationResource, _In_ \fBID3D12Resource\fP *pIntermediate, UINT64 IntermediateOffset, _In_range_(0, MaxSubresources) UINT FirstSubresource, _In_range_(1, MaxSubresources\-FirstSubresource) UINT NumSubresources, _In_ const \fBvoid\fP *pResourceData, _In_reads_(NumSubresources) const \fBD3D12_SUBRESOURCE_INFO\fP *pSrcData) noexcept"
+.br
+.ti -1c
+.RI "constexpr bool \fBD3D12IsLayoutOpaque\fP (\fBD3D12_TEXTURE_LAYOUT\fP Layout) noexcept"
+.br
+.ti -1c
+.RI "template<typename \fBT\fP > \fBT\fP \fBD3DX12Align\fP (\fBT\fP uValue, \fBT\fP uAlign)"
+.br
+.ti -1c
+.RI "template<typename \fBT\fP > \fBT\fP \fBD3DX12AlignAtLeast\fP (\fBT\fP uValue, \fBT\fP uAlign)"
+.br
+.ti -1c
+.RI "const \fBCD3DX12_RESOURCE_DESC1\fP * \fBD3DX12ConditionallyExpandAPIDesc\fP (\fBD3D12_RESOURCE_DESC1\fP &LclDesc, const \fBD3D12_RESOURCE_DESC1\fP *pDesc)"
+.br
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "template<typename \fBT\fP , typename \fBU\fP , typename \fBV\fP > \fBvoid\fP D3D12DecomposeSubresource (UINT Subresource, UINT MipLevels, UINT ArraySize, _Out_ \fBT\fP & MipSlice, _Out_ \fBU\fP & ArraySlice, _Out_ \fBV\fP & PlaneSlice)\fR [inline]\fP, \fR [noexcept]\fP"
+
+.SS "bool D3D12IsLayoutOpaque (\fBD3D12_TEXTURE_LAYOUT\fP Layout)\fR [constexpr]\fP, \fR [noexcept]\fP"
+
+.SS "template<typename \fBT\fP > \fBT\fP D3DX12Align (\fBT\fP uValue, \fBT\fP uAlign)\fR [inline]\fP"
+
+.SS "template<typename \fBT\fP > \fBT\fP D3DX12AlignAtLeast (\fBT\fP uValue, \fBT\fP uAlign)\fR [inline]\fP"
+
+.SS "const \fBCD3DX12_RESOURCE_DESC1\fP * D3DX12ConditionallyExpandAPIDesc (\fBD3D12_RESOURCE_DESC1\fP & LclDesc, const \fBD3D12_RESOURCE_DESC1\fP * pDesc)\fR [inline]\fP"
+
+.SS "UINT64 GetRequiredIntermediateSize (_In_ \fBID3D12Resource\fP * pDestinationResource, _In_range_(0, \fBD3D12_REQ_SUBRESOURCES\fP) UINT FirstSubresource, _In_range_(0, \fBD3D12_REQ_SUBRESOURCES\fP\-FirstSubresource) UINT NumSubresources)\fR [inline]\fP, \fR [noexcept]\fP"
+
+.SS "\fBvoid\fP MemcpySubresource (_In_ const \fBD3D12_MEMCPY_DEST\fP * pDest, _In_ const \fBD3D12_SUBRESOURCE_DATA\fP * pSrc, SIZE_T RowSizeInBytes, UINT NumRows, UINT NumSlices)\fR [inline]\fP, \fR [noexcept]\fP"
+
+.SS "\fBvoid\fP MemcpySubresource (_In_ const \fBD3D12_MEMCPY_DEST\fP * pDest, _In_ const \fBvoid\fP * pResourceData, _In_ const \fBD3D12_SUBRESOURCE_INFO\fP * pSrc, SIZE_T RowSizeInBytes, UINT NumRows, UINT NumSlices)\fR [inline]\fP, \fR [noexcept]\fP"
+
+.SS "UINT64 UpdateSubresources (_In_ \fBID3D12GraphicsCommandList\fP * pCmdList, _In_ \fBID3D12Resource\fP * pDestinationResource, _In_ \fBID3D12Resource\fP * pIntermediate, _In_range_(0, \fBD3D12_REQ_SUBRESOURCES\fP) UINT FirstSubresource, _In_range_(0, \fBD3D12_REQ_SUBRESOURCES\fP\-FirstSubresource) UINT NumSubresources, UINT64 RequiredSize, _In_reads_(NumSubresources) const \fBD3D12_PLACED_SUBRESOURCE_FOOTPRINT\fP * pLayouts, _In_reads_(NumSubresources) const UINT * pNumRows, _In_reads_(NumSubresources) const UINT64 * pRowSizesInBytes, _In_ const \fBvoid\fP * pResourceData, _In_reads_(NumSubresources) const \fBD3D12_SUBRESOURCE_INFO\fP * pSrcData)\fR [inline]\fP, \fR [noexcept]\fP"
+
+.SS "UINT64 UpdateSubresources (_In_ \fBID3D12GraphicsCommandList\fP * pCmdList, _In_ \fBID3D12Resource\fP * pDestinationResource, _In_ \fBID3D12Resource\fP * pIntermediate, _In_range_(0, \fBD3D12_REQ_SUBRESOURCES\fP) UINT FirstSubresource, _In_range_(0, \fBD3D12_REQ_SUBRESOURCES\fP\-FirstSubresource) UINT NumSubresources, UINT64 RequiredSize, _In_reads_(NumSubresources) const \fBD3D12_PLACED_SUBRESOURCE_FOOTPRINT\fP * pLayouts, _In_reads_(NumSubresources) const UINT * pNumRows, _In_reads_(NumSubresources) const UINT64 * pRowSizesInBytes, _In_reads_(NumSubresources) const \fBD3D12_SUBRESOURCE_DATA\fP * pSrcData)\fR [inline]\fP, \fR [noexcept]\fP"
+
+.SS "UINT64 UpdateSubresources (_In_ \fBID3D12GraphicsCommandList\fP * pCmdList, _In_ \fBID3D12Resource\fP * pDestinationResource, _In_ \fBID3D12Resource\fP * pIntermediate, UINT64 IntermediateOffset, _In_range_(0, \fBD3D12_REQ_SUBRESOURCES\fP) UINT FirstSubresource, _In_range_(0, \fBD3D12_REQ_SUBRESOURCES\fP\-FirstSubresource) UINT NumSubresources, _In_ const \fBvoid\fP * pResourceData, _In_reads_(NumSubresources) const \fBD3D12_SUBRESOURCE_INFO\fP * pSrcData)\fR [inline]\fP, \fR [noexcept]\fP"
+
+.SS "UINT64 UpdateSubresources (_In_ \fBID3D12GraphicsCommandList\fP * pCmdList, _In_ \fBID3D12Resource\fP * pDestinationResource, _In_ \fBID3D12Resource\fP * pIntermediate, UINT64 IntermediateOffset, _In_range_(0, \fBD3D12_REQ_SUBRESOURCES\fP) UINT FirstSubresource, _In_range_(0, \fBD3D12_REQ_SUBRESOURCES\fP\-FirstSubresource) UINT NumSubresources, _In_reads_(NumSubresources) const \fBD3D12_SUBRESOURCE_DATA\fP * pSrcData)\fR [inline]\fP, \fR [noexcept]\fP"
+
+.SS "template<UINT MaxSubresources> UINT64 UpdateSubresources (_In_ \fBID3D12GraphicsCommandList\fP * pCmdList, _In_ \fBID3D12Resource\fP * pDestinationResource, _In_ \fBID3D12Resource\fP * pIntermediate, UINT64 IntermediateOffset, _In_range_(0, MaxSubresources) UINT FirstSubresource, _In_range_(1, MaxSubresources\-FirstSubresource) UINT NumSubresources, _In_ const \fBvoid\fP * pResourceData, _In_reads_(NumSubresources) const \fBD3D12_SUBRESOURCE_INFO\fP * pSrcData)\fR [inline]\fP, \fR [noexcept]\fP"
+
+.SS "template<UINT MaxSubresources> UINT64 UpdateSubresources (_In_ \fBID3D12GraphicsCommandList\fP * pCmdList, _In_ \fBID3D12Resource\fP * pDestinationResource, _In_ \fBID3D12Resource\fP * pIntermediate, UINT64 IntermediateOffset, _In_range_(0, MaxSubresources) UINT FirstSubresource, _In_range_(1, MaxSubresources\-FirstSubresource) UINT NumSubresources, _In_reads_(NumSubresources) const \fBD3D12_SUBRESOURCE_DATA\fP * pSrcData)\fR [inline]\fP, \fR [noexcept]\fP"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

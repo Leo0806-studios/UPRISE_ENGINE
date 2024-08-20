@@ -1,4 +1,4 @@
-.TH "Terrain_Data" 3 "Version 0.0.0.1" "My Project" \" -*- nroff -*-
+.TH "Terrain_Data" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -7,7 +7,7 @@ Terrain_Data
 .br
 .PP
 .PP
-\fR#include <TERRAIN_DATA\&.h>\fP
+\fR#include <D_TERRAIN_DATA\&.h>\fP
 .SS "Public Member Functions"
 
 .in +1c
@@ -52,53 +52,148 @@ Terrain_Data
 .in -1c
 .SH "Detailed Description"
 .PP 
-Definition at line \fB6\fP of file \fBTERRAIN_DATA\&.h\fP\&.
+Definition at line \fB10\fP of file \fBD_TERRAIN_DATA\&.h\fP\&.
 .SH "Constructor & Destructor Documentation"
 .PP 
 .SS "Terrain_Data::Terrain_Data ()"
 
 .PP
-Definition at line \fB5\fP of file \fBTERRAIN_DATA\&.cpp\fP\&.
+Definition at line \fB6\fP of file \fBD_TERRAIN_DATA\&.cpp\fP\&.
+.nf
+7 {
+8 }
+.PP
+.fi
+
 .SH "Member Function Documentation"
 .PP 
 .SS "std::shared_ptr< \fBTerrain_Data\fP > Terrain_Data::Create (const char * path, int w, int d, int mh, \fBPAIN::Shader\fP * shader)\fR [static]\fP"
 
 .PP
-Definition at line \fB60\fP of file \fBTERRAIN_DATA\&.cpp\fP\&.
+Definition at line \fB61\fP of file \fBD_TERRAIN_DATA\&.cpp\fP\&.
+.nf
+62 {
+63     Terrain_Data tmp;
+64     tmp\&.maxHeight = mh;
+65     tmp\&.depth = d;
+66     tmp\&.width = w;
+67     tmp\&.LoadHeightmap(path);
+68     tmp\&.model = PAIN::TerrainModel(&tmp, w, d, mh,shader);
+69     
+70     return std::make_shared<Terrain_Data>(tmp);
+71 }
+.PP
+.fi
+
+.PP
+References \fBdepth\fP, \fBLoadHeightmap()\fP, \fBmaxHeight\fP, \fBmodel\fP, \fBshader\fP, and \fBwidth\fP\&.
 .SS "float Terrain_Data::GetHeight (int x, int z) const\fR [inline]\fP"
 
 .PP
-Definition at line \fB15\fP of file \fBTERRAIN_DATA\&.h\fP\&.
+Definition at line \fB19\fP of file \fBD_TERRAIN_DATA\&.h\fP\&.
+.nf
+19                                         {
+20         if (x >= 0 && x < 512 && z >= 0 && z < 512) {
+21             return heightMap[x][z];
+22         }
+23         return 0\&.0f;
+24     }
+.PP
+.fi
+
+.PP
+References \fBheightMap\fP\&.
 .SS "bool Terrain_Data::LoadHeightmap (const char * filename)"
 
 .PP
-Definition at line \fB28\fP of file \fBTERRAIN_DATA\&.cpp\fP\&.
+Definition at line \fB29\fP of file \fBD_TERRAIN_DATA\&.cpp\fP\&.
+.nf
+30 {
+31     int imgWidth, imgHeight, nrChannels;
+32     //unsigned char* data = stbi_load(filename\&.c_str(), &imgWidth, &imgHeight, &nrChannels, 0);
+33    // auto oooo = CallCSharpFunction(filename\&.c_str());
+34     const WCHAR* addrs = L"C:\\\\Users\\\\leo08\\\\source\\\\repos\\\\Neuer Ordner (2)\\\\NativeLibrary\\\\bin\\\\release\\\\net8\&.0\-windows\\\\win\-x64\\\\native\\\\NativeLibrary\&.dll";
+35     float* owow = CallCSharpFunction<float*,const char*>(addrs,(char*)"Heightmap",filename);
+36     std::vector<float> heightValues(owow, owow + (512 * 512));
+37     //if (!data) {
+38     //    std::cerr << "Failed to load heightmap: " << filename << std::endl;
+39     //    return false;
+40     //}
+41 
+42     //width = imgWidth;
+43     //depth = imgHeight;
+44     heightMap\&.resize(512, std::vector<float>(512));
+45 
+46     for (int z = 0; z < 512; ++z) {
+47         for (int x = 0; x < 512; ++x) {
+48             float height = heightValues[z * 512 + x] * maxHeight;
+49             if (heightValues[z * 512 + x] > 0) {
+50                 float t = heightValues[z * 512 + x];
+51                 std::cout << "island\\n";
+52             }
+53             SetHeight(x, z, height);
+54         }
+55     }
+56 
+57     //stbi_image_free(data);
+58     return true;
+59 }
+.PP
+.fi
+
+.PP
+References \fBaddrs\fP, \fBCallCSharpFunction()\fP, \fBheightMap\fP, \fBL\fP, \fBmaxHeight\fP, and \fBSetHeight()\fP\&.
+.PP
+Referenced by \fBCreate()\fP\&.
 .SS "void Terrain_Data::SetHeight (int x, int z, float height)\fR [inline]\fP"
 
 .PP
-Definition at line \fB21\fP of file \fBTERRAIN_DATA\&.h\fP\&.
+Definition at line \fB25\fP of file \fBD_TERRAIN_DATA\&.h\fP\&.
+.nf
+25                                                {
+26         if (x >= 0 && x < 512 && z >= 0 && z < 512) {
+27             heightMap[x][z] = height;
+28         }
+29     }
+.PP
+.fi
+
+.PP
+References \fBheightMap\fP\&.
+.PP
+Referenced by \fBLoadHeightmap()\fP\&.
 .SH "Member Data Documentation"
 .PP 
 .SS "int Terrain_Data::depth"
 
 .PP
-Definition at line \fB9\fP of file \fBTERRAIN_DATA\&.h\fP\&.
+Definition at line \fB13\fP of file \fBD_TERRAIN_DATA\&.h\fP\&.
+.PP
+Referenced by \fBCreate()\fP\&.
 .SS "std::vector<std::vector<float> > Terrain_Data::heightMap"
 
 .PP
-Definition at line \fB13\fP of file \fBTERRAIN_DATA\&.h\fP\&.
+Definition at line \fB17\fP of file \fBD_TERRAIN_DATA\&.h\fP\&.
+.PP
+Referenced by \fBGetHeight()\fP, \fBLoadHeightmap()\fP, and \fBSetHeight()\fP\&.
 .SS "float Terrain_Data::maxHeight"
 
 .PP
-Definition at line \fB10\fP of file \fBTERRAIN_DATA\&.h\fP\&.
+Definition at line \fB14\fP of file \fBD_TERRAIN_DATA\&.h\fP\&.
+.PP
+Referenced by \fBCreate()\fP, and \fBLoadHeightmap()\fP\&.
 .SS "\fBPAIN::TerrainModel\fP Terrain_Data::model"
 
 .PP
-Definition at line \fB12\fP of file \fBTERRAIN_DATA\&.h\fP\&.
+Definition at line \fB16\fP of file \fBD_TERRAIN_DATA\&.h\fP\&.
+.PP
+Referenced by \fBCreate()\fP\&.
 .SS "int Terrain_Data::width"
 
 .PP
-Definition at line \fB8\fP of file \fBTERRAIN_DATA\&.h\fP\&.
+Definition at line \fB12\fP of file \fBD_TERRAIN_DATA\&.h\fP\&.
+.PP
+Referenced by \fBCreate()\fP\&.
 
 .SH "Author"
 .PP 

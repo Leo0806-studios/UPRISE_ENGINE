@@ -1,0 +1,50 @@
+.TH "gtx_matrix_factorisation" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+gtx_matrix_factorisation \- GLM_GTX_matrix_factorisation
+.SH SYNOPSIS
+.br
+.PP
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "template<\fBlength_t\fP C, \fBlength_t\fP R, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_DECL\fP \fBmat\fP< \fBC\fP, \fBR\fP, \fBT\fP, \fBQ\fP > \fBglm::flipud\fP (\fBmat\fP< \fBC\fP, \fBR\fP, \fBT\fP, \fBQ\fP > const &in)"
+.br
+.ti -1c
+.RI "template<\fBlength_t\fP C, \fBlength_t\fP R, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_DECL\fP \fBmat\fP< \fBC\fP, \fBR\fP, \fBT\fP, \fBQ\fP > \fBglm::fliplr\fP (\fBmat\fP< \fBC\fP, \fBR\fP, \fBT\fP, \fBQ\fP > const &in)"
+.br
+.ti -1c
+.RI "template<\fBlength_t\fP C, \fBlength_t\fP R, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_DISCARD_DECL\fP \fBvoid\fP \fBglm::qr_decompose\fP (\fBmat\fP< \fBC\fP, \fBR\fP, \fBT\fP, \fBQ\fP > const &in, \fBmat\fP<(\fBC\fP< \fBR\fP ? \fBC\fP :\fBR\fP), \fBR\fP, \fBT\fP, \fBQ\fP > &q, \fBmat\fP< \fBC\fP,(\fBC\fP< \fBR\fP ? \fBC\fP :\fBR\fP), \fBT\fP, \fBQ\fP > &\fBr\fP)"
+.br
+.ti -1c
+.RI "template<\fBlength_t\fP C, \fBlength_t\fP R, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_DISCARD_DECL\fP \fBvoid\fP \fBglm::rq_decompose\fP (\fBmat\fP< \fBC\fP, \fBR\fP, \fBT\fP, \fBQ\fP > const &in, \fBmat\fP<(\fBC\fP< \fBR\fP ? \fBC\fP :\fBR\fP), \fBR\fP, \fBT\fP, \fBQ\fP > &\fBr\fP, \fBmat\fP< \fBC\fP,(\fBC\fP< \fBR\fP ? \fBC\fP :\fBR\fP), \fBT\fP, \fBQ\fP > &q)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Include <\fBglm/gtx/matrix_factorisation\&.hpp\fP> to use the features of this extension\&.
+.PP
+Functions to factor matrices in various forms
+.SH "Function Documentation"
+.PP 
+.SS "template<\fBlength_t\fP C, \fBlength_t\fP R, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_DECL\fP \fBmat\fP< \fBC\fP, \fBR\fP, \fBT\fP, \fBQ\fP > glm::fliplr (\fBmat\fP< \fBC\fP, \fBR\fP, \fBT\fP, \fBQ\fP > const & in)"
+Flips the matrix columns right and left\&.
+.PP
+From GLM_GTX_matrix_factorisation extension\&. 
+.SS "template<\fBlength_t\fP C, \fBlength_t\fP R, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_DECL\fP \fBmat\fP< \fBC\fP, \fBR\fP, \fBT\fP, \fBQ\fP > glm::flipud (\fBmat\fP< \fBC\fP, \fBR\fP, \fBT\fP, \fBQ\fP > const & in)"
+Flips the matrix rows up and down\&.
+.PP
+From GLM_GTX_matrix_factorisation extension\&. 
+.SS "template<\fBlength_t\fP C, \fBlength_t\fP R, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_DISCARD_DECL\fP \fBvoid\fP glm::qr_decompose (\fBmat\fP< \fBC\fP, \fBR\fP, \fBT\fP, \fBQ\fP > const & in, \fBmat\fP<(\fBC\fP< \fBR\fP ? \fBC\fP :\fBR\fP), \fBR\fP, \fBT\fP, \fBQ\fP > & q, \fBmat\fP< \fBC\fP,(\fBC\fP< \fBR\fP ? \fBC\fP :\fBR\fP), \fBT\fP, \fBQ\fP > & r)"
+Performs QR factorisation of a matrix\&. Returns 2 matrices, q and r, such that the columns of q are orthonormal and span the same subspace than those of the input matrix, r is an upper triangular matrix, and q*r=in\&. Given an n-by-m input matrix, q has dimensions min(n,m)-by-m, and r has dimensions n-by-min(n,m)\&.
+.PP
+From GLM_GTX_matrix_factorisation extension\&. 
+.SS "template<\fBlength_t\fP C, \fBlength_t\fP R, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_DISCARD_DECL\fP \fBvoid\fP glm::rq_decompose (\fBmat\fP< \fBC\fP, \fBR\fP, \fBT\fP, \fBQ\fP > const & in, \fBmat\fP<(\fBC\fP< \fBR\fP ? \fBC\fP :\fBR\fP), \fBR\fP, \fBT\fP, \fBQ\fP > & r, \fBmat\fP< \fBC\fP,(\fBC\fP< \fBR\fP ? \fBC\fP :\fBR\fP), \fBT\fP, \fBQ\fP > & q)"
+Performs RQ factorisation of a matrix\&. Returns 2 matrices, r and q, such that r is an upper triangular matrix, the rows of q are orthonormal and span the same subspace than those of the input matrix, and r*q=in\&. Note that in the context of RQ factorisation, the diagonal is seen as starting in the lower-right corner of the matrix, instead of the usual upper-left\&. Given an n-by-m input matrix, r has dimensions min(n,m)-by-m, and q has dimensions n-by-min(n,m)\&.
+.PP
+From GLM_GTX_matrix_factorisation extension\&. 
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

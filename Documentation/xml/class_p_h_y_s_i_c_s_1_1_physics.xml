@@ -2,7 +2,7 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.11.0" xml:lang="en-US">
   <compounddef id="class_p_h_y_s_i_c_s_1_1_physics" kind="class" language="C++" prot="public" abstract="yes">
     <compoundname>PHYSICS::Physics</compoundname>
-    <derivedcompoundref refid="class_physics___object" prot="public" virt="non-virtual">Physics_Object</derivedcompoundref>
+    <derivedcompoundref refid="class_p_h_y_s_i_c_s_1_1_physics___object" prot="public" virt="non-virtual">PHYSICS::Physics_Object</derivedcompoundref>
     <includes refid="_p_h_y_s_i_c_s___m_a_n_a_g_e_r_8h" local="no">PHYSICS_MANAGER.h</includes>
     <sectiondef kind="public-static-attrib">
       <memberdef kind="variable" id="class_p_h_y_s_i_c_s_1_1_physics_1a81c440ad35439919c2b592788c69e87a" prot="public" static="yes" mutable="no">
@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="UPRISE_ENGINE/PHYSICS_MANAGER.h" line="9" column="21" bodyfile="UPRISE_ENGINE/PHYSICS_MANAGER.h" bodystart="9" bodyend="-1"/>
+        <location file="UPRISE_ENGINE/PHYSICS_MANAGER.h" line="12" column="21" bodyfile="UPRISE_ENGINE/PHYSICS_MANAGER.h" bodystart="12" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -27,14 +27,80 @@
         <argsstring>()=0</argsstring>
         <name>UpdatePhysics</name>
         <qualifiedname>PHYSICS::Physics::UpdatePhysics</qualifiedname>
-        <reimplementedby refid="class_physics___object_1ae7793edfd30939a0567c895e8fb27c61">UpdatePhysics</reimplementedby>
+        <reimplementedby refid="class_p_h_y_s_i_c_s_1_1_physics___object_1a3085002c60270a33e6379a31c215c425">UpdatePhysics</reimplementedby>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="UPRISE_ENGINE/PHYSICS_MANAGER.h" line="11" column="14"/>
+        <location file="UPRISE_ENGINE/PHYSICS_MANAGER.h" line="14" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="class_p_h_y_s_i_c_s_1_1_physics_1ad1c30615810e79b7e8feb850a1fffc12" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool PHYSICS::Physics::OverlapOnAxis</definition>
+        <argsstring>(__m128 *a, __m128 *b, __m128 axis)</argsstring>
+        <name>OverlapOnAxis</name>
+        <qualifiedname>PHYSICS::Physics::OverlapOnAxis</qualifiedname>
+        <param>
+          <type>__m128 *</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>__m128 *</type>
+          <declname>b</declname>
+        </param>
+        <param>
+          <type>__m128</type>
+          <declname>axis</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="UPRISE_ENGINE/PHYSICS_MANAGER.h" line="16" column="6" bodyfile="UPRISE_ENGINE/PHYSICS_MANAGER.h" bodystart="16" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="class_p_h_y_s_i_c_s_1_1_physics_1a1ddab566889036f69fe0b601b841419c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool PHYSICS::Physics::intersect</definition>
+        <argsstring>(Physics_Object *selfobj, Physics_Object *otherobj)</argsstring>
+        <name>intersect</name>
+        <qualifiedname>PHYSICS::Physics::intersect</qualifiedname>
+        <param>
+          <type><ref refid="class_p_h_y_s_i_c_s_1_1_physics___object" kindref="compound">Physics_Object</ref> *</type>
+          <declname>selfobj</declname>
+        </param>
+        <param>
+          <type><ref refid="class_p_h_y_s_i_c_s_1_1_physics___object" kindref="compound">Physics_Object</ref> *</type>
+          <declname>otherobj</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="UPRISE_ENGINE/PHYSICS_MANAGER.h" line="149" column="6" bodyfile="UPRISE_ENGINE/PHYSICS_MANAGER.cpp" bodystart="35" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="class_p_h_y_s_i_c_s_1_1_physics_1af1edbb62c428e2c5b1a2eb6da4f0e140" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void PHYSICS::Physics::updateBox</definition>
+        <argsstring>(Physics_Object *self)</argsstring>
+        <name>updateBox</name>
+        <qualifiedname>PHYSICS::Physics::updateBox</qualifiedname>
+        <param>
+          <type><ref refid="class_p_h_y_s_i_c_s_1_1_physics___object" kindref="compound">Physics_Object</ref> *</type>
+          <declname>self</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="UPRISE_ENGINE/PHYSICS_MANAGER.h" line="152" column="6" bodyfile="UPRISE_ENGINE/PHYSICS_MANAGER.cpp" bodystart="111" bodyend="155"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -50,7 +116,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="UPRISE_ENGINE/PHYSICS_MANAGER.h" line="12" column="13" bodyfile="UPRISE_ENGINE/PHYSICS_MANAGER.cpp" bodystart="8" bodyend="25"/>
+        <location file="UPRISE_ENGINE/PHYSICS_MANAGER.h" line="15" column="13" bodyfile="UPRISE_ENGINE/PHYSICS_MANAGER.cpp" bodystart="11" bodyend="30"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -63,16 +129,19 @@
         <link refid="class_p_h_y_s_i_c_s_1_1_physics"/>
       </node>
       <node id="2">
-        <label>Physics_Object</label>
-        <link refid="class_physics___object"/>
+        <label>PHYSICS::Physics_Object</label>
+        <link refid="class_p_h_y_s_i_c_s_1_1_physics___object"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
     </inheritancegraph>
-    <location file="UPRISE_ENGINE/PHYSICS_MANAGER.h" line="7" column="1" bodyfile="UPRISE_ENGINE/PHYSICS_MANAGER.h" bodystart="7" bodyend="13"/>
+    <location file="UPRISE_ENGINE/PHYSICS_MANAGER.h" line="10" column="1" bodyfile="UPRISE_ENGINE/PHYSICS_MANAGER.h" bodystart="10" bodyend="153"/>
     <listofallmembers>
+      <member refid="class_p_h_y_s_i_c_s_1_1_physics_1a1ddab566889036f69fe0b601b841419c" prot="public" virt="non-virtual"><scope>PHYSICS::Physics</scope><name>intersect</name></member>
+      <member refid="class_p_h_y_s_i_c_s_1_1_physics_1ad1c30615810e79b7e8feb850a1fffc12" prot="public" virt="non-virtual"><scope>PHYSICS::Physics</scope><name>OverlapOnAxis</name></member>
       <member refid="class_p_h_y_s_i_c_s_1_1_physics_1a81c440ad35439919c2b592788c69e87a" prot="public" virt="non-virtual"><scope>PHYSICS::Physics</scope><name>physicsobjects</name></member>
       <member refid="class_p_h_y_s_i_c_s_1_1_physics_1a36869748a68551608a42de1046ff6fa5" prot="public" virt="non-virtual"><scope>PHYSICS::Physics</scope><name>UpdateAllPhysics</name></member>
+      <member refid="class_p_h_y_s_i_c_s_1_1_physics_1af1edbb62c428e2c5b1a2eb6da4f0e140" prot="public" virt="non-virtual"><scope>PHYSICS::Physics</scope><name>updateBox</name></member>
       <member refid="class_p_h_y_s_i_c_s_1_1_physics_1a76287e2c69f3cecf9b58087825f03fa4" prot="public" virt="pure-virtual"><scope>PHYSICS::Physics</scope><name>UpdatePhysics</name></member>
     </listofallmembers>
   </compounddef>

@@ -1,0 +1,303 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_tracy__lz4hc_8hpp_source" xml:lang="en-US">
+<title>tracy_lz4hc.hpp</title>
+<indexterm><primary>adhed/common/tracy_lz4hc.hpp</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 <emphasis role="comment">/*</emphasis>
+2 <emphasis role="comment">&#32;&#32;&#32;LZ4&#32;HC&#32;-&#32;High&#32;Compression&#32;Mode&#32;of&#32;LZ4</emphasis>
+3 <emphasis role="comment">&#32;&#32;&#32;Header&#32;File</emphasis>
+4 <emphasis role="comment">&#32;&#32;&#32;Copyright&#32;(C)&#32;2011-2020,&#32;Yann&#32;Collet.</emphasis>
+5 <emphasis role="comment">&#32;&#32;&#32;BSD&#32;2-Clause&#32;License&#32;(http://www.opensource.org/licenses/bsd-license.php)</emphasis>
+6 <emphasis role="comment"></emphasis>
+7 <emphasis role="comment">&#32;&#32;&#32;Redistribution&#32;and&#32;use&#32;in&#32;source&#32;and&#32;binary&#32;forms,&#32;with&#32;or&#32;without</emphasis>
+8 <emphasis role="comment">&#32;&#32;&#32;modification,&#32;are&#32;permitted&#32;provided&#32;that&#32;the&#32;following&#32;conditions&#32;are</emphasis>
+9 <emphasis role="comment">&#32;&#32;&#32;met:</emphasis>
+10 <emphasis role="comment"></emphasis>
+11 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;*&#32;Redistributions&#32;of&#32;source&#32;code&#32;must&#32;retain&#32;the&#32;above&#32;copyright</emphasis>
+12 <emphasis role="comment">&#32;&#32;&#32;notice,&#32;this&#32;list&#32;of&#32;conditions&#32;and&#32;the&#32;following&#32;disclaimer.</emphasis>
+13 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;*&#32;Redistributions&#32;in&#32;binary&#32;form&#32;must&#32;reproduce&#32;the&#32;above</emphasis>
+14 <emphasis role="comment">&#32;&#32;&#32;copyright&#32;notice,&#32;this&#32;list&#32;of&#32;conditions&#32;and&#32;the&#32;following&#32;disclaimer</emphasis>
+15 <emphasis role="comment">&#32;&#32;&#32;in&#32;the&#32;documentation&#32;and/or&#32;other&#32;materials&#32;provided&#32;with&#32;the</emphasis>
+16 <emphasis role="comment">&#32;&#32;&#32;distribution.</emphasis>
+17 <emphasis role="comment"></emphasis>
+18 <emphasis role="comment">&#32;&#32;&#32;THIS&#32;SOFTWARE&#32;IS&#32;PROVIDED&#32;BY&#32;THE&#32;COPYRIGHT&#32;HOLDERS&#32;AND&#32;CONTRIBUTORS</emphasis>
+19 <emphasis role="comment">&#32;&#32;&#32;&quot;AS&#32;IS&quot;&#32;AND&#32;ANY&#32;EXPRESS&#32;OR&#32;IMPLIED&#32;WARRANTIES,&#32;INCLUDING,&#32;BUT&#32;NOT</emphasis>
+20 <emphasis role="comment">&#32;&#32;&#32;LIMITED&#32;TO,&#32;THE&#32;IMPLIED&#32;WARRANTIES&#32;OF&#32;MERCHANTABILITY&#32;AND&#32;FITNESS&#32;FOR</emphasis>
+21 <emphasis role="comment">&#32;&#32;&#32;A&#32;PARTICULAR&#32;PURPOSE&#32;ARE&#32;DISCLAIMED.&#32;IN&#32;NO&#32;EVENT&#32;SHALL&#32;THE&#32;COPYRIGHT</emphasis>
+22 <emphasis role="comment">&#32;&#32;&#32;OWNER&#32;OR&#32;CONTRIBUTORS&#32;BE&#32;LIABLE&#32;FOR&#32;ANY&#32;DIRECT,&#32;INDIRECT,&#32;INCIDENTAL,</emphasis>
+23 <emphasis role="comment">&#32;&#32;&#32;SPECIAL,&#32;EXEMPLARY,&#32;OR&#32;CONSEQUENTIAL&#32;DAMAGES&#32;(INCLUDING,&#32;BUT&#32;NOT</emphasis>
+24 <emphasis role="comment">&#32;&#32;&#32;LIMITED&#32;TO,&#32;PROCUREMENT&#32;OF&#32;SUBSTITUTE&#32;GOODS&#32;OR&#32;SERVICES;&#32;LOSS&#32;OF&#32;USE,</emphasis>
+25 <emphasis role="comment">&#32;&#32;&#32;DATA,&#32;OR&#32;PROFITS;&#32;OR&#32;BUSINESS&#32;INTERRUPTION)&#32;HOWEVER&#32;CAUSED&#32;AND&#32;ON&#32;ANY</emphasis>
+26 <emphasis role="comment">&#32;&#32;&#32;THEORY&#32;OF&#32;LIABILITY,&#32;WHETHER&#32;IN&#32;CONTRACT,&#32;STRICT&#32;LIABILITY,&#32;OR&#32;TORT</emphasis>
+27 <emphasis role="comment">&#32;&#32;&#32;(INCLUDING&#32;NEGLIGENCE&#32;OR&#32;OTHERWISE)&#32;ARISING&#32;IN&#32;ANY&#32;WAY&#32;OUT&#32;OF&#32;THE&#32;USE</emphasis>
+28 <emphasis role="comment">&#32;&#32;&#32;OF&#32;THIS&#32;SOFTWARE,&#32;EVEN&#32;IF&#32;ADVISED&#32;OF&#32;THE&#32;POSSIBILITY&#32;OF&#32;SUCH&#32;DAMAGE.</emphasis>
+29 <emphasis role="comment"></emphasis>
+30 <emphasis role="comment">&#32;&#32;&#32;You&#32;can&#32;contact&#32;the&#32;author&#32;at&#32;:</emphasis>
+31 <emphasis role="comment">&#32;&#32;&#32;-&#32;LZ4&#32;source&#32;repository&#32;:&#32;https://github.com/lz4/lz4</emphasis>
+32 <emphasis role="comment">&#32;&#32;&#32;-&#32;LZ4&#32;public&#32;forum&#32;:&#32;https://groups.google.com/forum/#!forum/lz4c</emphasis>
+33 <emphasis role="comment">*/</emphasis>
+34 <emphasis role="preprocessor">#ifndef&#32;TRACY_LZ4_HC_H_19834876238432</emphasis>
+35 <emphasis role="preprocessor">#define&#32;TRACY_LZ4_HC_H_19834876238432</emphasis>
+36 
+37 <emphasis role="comment">/*&#32;---&#32;Dependency&#32;---&#32;*/</emphasis>
+38 <emphasis role="comment">/*&#32;note&#32;:&#32;lz4hc&#32;requires&#32;lz4.h/lz4.c&#32;for&#32;compilation&#32;*/</emphasis>
+39 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_tracy__lz4_8hpp">tracy_lz4.hpp</link>&quot;</emphasis>&#32;&#32;&#32;<emphasis role="comment">/*&#32;stddef,&#32;LZ4LIB_API,&#32;LZ4_DEPRECATED&#32;*/</emphasis>
+40 
+41 
+42 <emphasis role="comment">/*&#32;---&#32;Useful&#32;constants&#32;---&#32;*/</emphasis>
+43 <emphasis role="preprocessor">#define&#32;LZ4HC_CLEVEL_MIN&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;3</emphasis>
+44 <emphasis role="preprocessor">#define&#32;LZ4HC_CLEVEL_DEFAULT&#32;&#32;&#32;&#32;&#32;9</emphasis>
+45 <emphasis role="preprocessor">#define&#32;LZ4HC_CLEVEL_OPT_MIN&#32;&#32;&#32;&#32;10</emphasis>
+46 <emphasis role="preprocessor">#define&#32;LZ4HC_CLEVEL_MAX&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;12</emphasis>
+47 
+48 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespacetracy">tracy</link>
+49 {
+50 
+51 <emphasis role="comment">/*-************************************</emphasis>
+52 <emphasis role="comment">&#32;*&#32;&#32;Block&#32;Compression</emphasis>
+53 <emphasis role="comment">&#32;**************************************/</emphasis>
+64 <link linkend="_tracy__lz4_8hpp_1a00a61e1435005f8a621edf4bbe0ef844">LZ4LIB_API</link>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespacetracy_1a4e87171d4c749f822537b5b8654a5b32">LZ4_compress_HC</link>&#32;(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a2a98ddb6f79ec1048ff9e15cdd2422ba">src</link>,&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a85e59cd56e10d0a7f49ab199f277d486">dst</link>,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespacetracy_1a25898e59ed2b01d5fe4fd29c5d7e5548">srcSize</link>,&#32;<emphasis role="keywordtype">int</emphasis>&#32;dstCapacity,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespacetracy_1ae9384d0b6ed466b253e08e117fb05971">compressionLevel</link>);
+65 
+66 
+67 <emphasis role="comment">/*&#32;Note&#32;:</emphasis>
+68 <emphasis role="comment">&#32;*&#32;&#32;&#32;Decompression&#32;functions&#32;are&#32;provided&#32;within&#32;&quot;lz4.h&quot;&#32;(BSD&#32;license)</emphasis>
+69 <emphasis role="comment">&#32;*/</emphasis>
+70 
+71 
+77 <link linkend="_tracy__lz4_8hpp_1a00a61e1435005f8a621edf4bbe0ef844">LZ4LIB_API</link>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespacetracy_1a3dec3ce3b1998693a4f9abc863925a91">LZ4_sizeofStateHC</link>(<emphasis role="keywordtype">void</emphasis>);
+78 <link linkend="_tracy__lz4_8hpp_1a00a61e1435005f8a621edf4bbe0ef844">LZ4LIB_API</link>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespacetracy_1ad1e1d2b4d6980817f53a6b580eb6c5de">LZ4_compress_HC_extStateHC</link>(<emphasis role="keywordtype">void</emphasis>*&#32;stateHC,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a2a98ddb6f79ec1048ff9e15cdd2422ba">src</link>,&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a85e59cd56e10d0a7f49ab199f277d486">dst</link>,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespacetracy_1a25898e59ed2b01d5fe4fd29c5d7e5548">srcSize</link>,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespacetracy_1af4f6a3f76a73fbcb17b02b14a304dcec">maxDstSize</link>,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespacetracy_1ae9384d0b6ed466b253e08e117fb05971">compressionLevel</link>);
+79 
+80 
+89 <link linkend="_tracy__lz4_8hpp_1a00a61e1435005f8a621edf4bbe0ef844">LZ4LIB_API</link>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespacetracy_1a0c0a8cfd7e15baa93b7a159e377e90de">LZ4_compress_HC_destSize</link>(<emphasis role="keywordtype">void</emphasis>*&#32;stateHC,
+90 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a2a98ddb6f79ec1048ff9e15cdd2422ba">src</link>,&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a85e59cd56e10d0a7f49ab199f277d486">dst</link>,
+91 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>*&#32;srcSizePtr,&#32;<emphasis role="keywordtype">int</emphasis>&#32;targetDstSize,
+92 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespacetracy_1ae9384d0b6ed466b253e08e117fb05971">compressionLevel</link>);
+93 
+94 
+95 <emphasis role="comment">/*-************************************</emphasis>
+96 <emphasis role="comment">&#32;*&#32;&#32;Streaming&#32;Compression</emphasis>
+97 <emphasis role="comment">&#32;*&#32;&#32;Bufferless&#32;synchronous&#32;API</emphasis>
+98 <emphasis role="comment">&#32;**************************************/</emphasis>
+99 &#32;<emphasis role="keyword">typedef</emphasis>&#32;<emphasis role="keyword">union&#32;</emphasis><link linkend="_uniontracy_1_1_l_z4__stream_h_c__u">LZ4_streamHC_u</link>&#32;<link linkend="_uniontracy_1_1_l_z4__stream_h_c__u">LZ4_streamHC_t</link>;&#32;&#32;&#32;<emphasis role="comment">/*&#32;incomplete&#32;type&#32;(defined&#32;later)&#32;*/</emphasis>
+100 
+107 <link linkend="_tracy__lz4_8hpp_1a00a61e1435005f8a621edf4bbe0ef844">LZ4LIB_API</link>&#32;<link linkend="_uniontracy_1_1_l_z4__stream_h_c__u">LZ4_streamHC_t</link>*&#32;<link linkend="_namespacetracy_1a71fed9bde37461b1626e9ff6865b8c11">LZ4_createStreamHC</link>(<emphasis role="keywordtype">void</emphasis>);
+108 <link linkend="_tracy__lz4_8hpp_1a00a61e1435005f8a621edf4bbe0ef844">LZ4LIB_API</link>&#32;<emphasis role="keywordtype">int</emphasis>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1aef8f89550631532cae5dd59ed255ee10">LZ4_freeStreamHC</link>&#32;(<link linkend="_uniontracy_1_1_l_z4__stream_h_c__u">LZ4_streamHC_t</link>*&#32;streamHCPtr);
+109 
+110 <emphasis role="comment">/*</emphasis>
+111 <emphasis role="comment">&#32;&#32;These&#32;functions&#32;compress&#32;data&#32;in&#32;successive&#32;blocks&#32;of&#32;any&#32;size,</emphasis>
+112 <emphasis role="comment">&#32;&#32;using&#32;previous&#32;blocks&#32;as&#32;dictionary,&#32;to&#32;improve&#32;compression&#32;ratio.</emphasis>
+113 <emphasis role="comment">&#32;&#32;One&#32;key&#32;assumption&#32;is&#32;that&#32;previous&#32;blocks&#32;(up&#32;to&#32;64&#32;KB)&#32;remain&#32;read-accessible&#32;while&#32;compressing&#32;next&#32;blocks.</emphasis>
+114 <emphasis role="comment">&#32;&#32;There&#32;is&#32;an&#32;exception&#32;for&#32;ring&#32;buffers,&#32;which&#32;can&#32;be&#32;smaller&#32;than&#32;64&#32;KB.</emphasis>
+115 <emphasis role="comment">&#32;&#32;Ring-buffer&#32;scenario&#32;is&#32;automatically&#32;detected&#32;and&#32;handled&#32;within&#32;LZ4_compress_HC_continue().</emphasis>
+116 <emphasis role="comment"></emphasis>
+117 <emphasis role="comment">&#32;&#32;Before&#32;starting&#32;compression,&#32;state&#32;must&#32;be&#32;allocated&#32;and&#32;properly&#32;initialized.</emphasis>
+118 <emphasis role="comment">&#32;&#32;LZ4_createStreamHC()&#32;does&#32;both,&#32;though&#32;compression&#32;level&#32;is&#32;set&#32;to&#32;LZ4HC_CLEVEL_DEFAULT.</emphasis>
+119 <emphasis role="comment"></emphasis>
+120 <emphasis role="comment">&#32;&#32;Selecting&#32;the&#32;compression&#32;level&#32;can&#32;be&#32;done&#32;with&#32;LZ4_resetStreamHC_fast()&#32;(starts&#32;a&#32;new&#32;stream)</emphasis>
+121 <emphasis role="comment">&#32;&#32;or&#32;LZ4_setCompressionLevel()&#32;(anytime,&#32;between&#32;blocks&#32;in&#32;the&#32;same&#32;stream)&#32;(experimental).</emphasis>
+122 <emphasis role="comment">&#32;&#32;LZ4_resetStreamHC_fast()&#32;only&#32;works&#32;on&#32;states&#32;which&#32;have&#32;been&#32;properly&#32;initialized&#32;at&#32;least&#32;once,</emphasis>
+123 <emphasis role="comment">&#32;&#32;which&#32;is&#32;automatically&#32;the&#32;case&#32;when&#32;state&#32;is&#32;created&#32;using&#32;LZ4_createStreamHC().</emphasis>
+124 <emphasis role="comment"></emphasis>
+125 <emphasis role="comment">&#32;&#32;After&#32;reset,&#32;a&#32;first&#32;&quot;fictional&#32;block&quot;&#32;can&#32;be&#32;designated&#32;as&#32;initial&#32;dictionary,</emphasis>
+126 <emphasis role="comment">&#32;&#32;using&#32;LZ4_loadDictHC()&#32;(Optional).</emphasis>
+127 <emphasis role="comment"></emphasis>
+128 <emphasis role="comment">&#32;&#32;Invoke&#32;LZ4_compress_HC_continue()&#32;to&#32;compress&#32;each&#32;successive&#32;block.</emphasis>
+129 <emphasis role="comment">&#32;&#32;The&#32;number&#32;of&#32;blocks&#32;is&#32;unlimited.</emphasis>
+130 <emphasis role="comment">&#32;&#32;Previous&#32;input&#32;blocks,&#32;including&#32;initial&#32;dictionary&#32;when&#32;present,</emphasis>
+131 <emphasis role="comment">&#32;&#32;must&#32;remain&#32;accessible&#32;and&#32;unmodified&#32;during&#32;compression.</emphasis>
+132 <emphasis role="comment"></emphasis>
+133 <emphasis role="comment">&#32;&#32;It&apos;s&#32;allowed&#32;to&#32;update&#32;compression&#32;level&#32;anytime&#32;between&#32;blocks,</emphasis>
+134 <emphasis role="comment">&#32;&#32;using&#32;LZ4_setCompressionLevel()&#32;(experimental).</emphasis>
+135 <emphasis role="comment"></emphasis>
+136 <emphasis role="comment">&#32;&#32;&apos;dst&apos;&#32;buffer&#32;should&#32;be&#32;sized&#32;to&#32;handle&#32;worst&#32;case&#32;scenarios</emphasis>
+137 <emphasis role="comment">&#32;&#32;(see&#32;LZ4_compressBound(),&#32;it&#32;ensures&#32;compression&#32;success).</emphasis>
+138 <emphasis role="comment">&#32;&#32;In&#32;case&#32;of&#32;failure,&#32;the&#32;API&#32;does&#32;not&#32;guarantee&#32;recovery,</emphasis>
+139 <emphasis role="comment">&#32;&#32;so&#32;the&#32;state&#32;_must_&#32;be&#32;reset.</emphasis>
+140 <emphasis role="comment">&#32;&#32;To&#32;ensure&#32;compression&#32;success</emphasis>
+141 <emphasis role="comment">&#32;&#32;whenever&#32;`dst`&#32;buffer&#32;size&#32;cannot&#32;be&#32;made&#32;&gt;=&#32;LZ4_compressBound(),</emphasis>
+142 <emphasis role="comment">&#32;&#32;consider&#32;using&#32;LZ4_compress_HC_continue_destSize().</emphasis>
+143 <emphasis role="comment"></emphasis>
+144 <emphasis role="comment">&#32;&#32;Whenever&#32;previous&#32;input&#32;blocks&#32;can&apos;t&#32;be&#32;preserved&#32;unmodified&#32;in-place&#32;during&#32;compression&#32;of&#32;next&#32;blocks,</emphasis>
+145 <emphasis role="comment">&#32;&#32;it&apos;s&#32;possible&#32;to&#32;copy&#32;the&#32;last&#32;blocks&#32;into&#32;a&#32;more&#32;stable&#32;memory&#32;space,&#32;using&#32;LZ4_saveDictHC().</emphasis>
+146 <emphasis role="comment">&#32;&#32;Return&#32;value&#32;of&#32;LZ4_saveDictHC()&#32;is&#32;the&#32;size&#32;of&#32;dictionary&#32;effectively&#32;saved&#32;into&#32;&apos;safeBuffer&apos;&#32;(&lt;=&#32;64&#32;KB)</emphasis>
+147 <emphasis role="comment"></emphasis>
+148 <emphasis role="comment">&#32;&#32;After&#32;completing&#32;a&#32;streaming&#32;compression,</emphasis>
+149 <emphasis role="comment">&#32;&#32;it&apos;s&#32;possible&#32;to&#32;start&#32;a&#32;new&#32;stream&#32;of&#32;blocks,&#32;using&#32;the&#32;same&#32;LZ4_streamHC_t&#32;state,</emphasis>
+150 <emphasis role="comment">&#32;&#32;just&#32;by&#32;resetting&#32;it,&#32;using&#32;LZ4_resetStreamHC_fast().</emphasis>
+151 <emphasis role="comment">*/</emphasis>
+152 
+153 <link linkend="_tracy__lz4_8hpp_1a00a61e1435005f8a621edf4bbe0ef844">LZ4LIB_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_namespacetracy_1a92fdbd273a335e4a32887518aa6bd5f5">LZ4_resetStreamHC_fast</link>(<link linkend="_uniontracy_1_1_l_z4__stream_h_c__u">LZ4_streamHC_t</link>*&#32;streamHCPtr,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespacetracy_1ae9384d0b6ed466b253e08e117fb05971">compressionLevel</link>);&#32;&#32;&#32;<emphasis role="comment">/*&#32;v1.9.0+&#32;*/</emphasis>
+154 <link linkend="_tracy__lz4_8hpp_1a00a61e1435005f8a621edf4bbe0ef844">LZ4LIB_API</link>&#32;<emphasis role="keywordtype">int</emphasis>&#32;&#32;<link linkend="_namespacetracy_1a7956e5db23ca3910fa4c7d93453bfbd6">LZ4_loadDictHC</link>&#32;(<link linkend="_uniontracy_1_1_l_z4__stream_h_c__u">LZ4_streamHC_t</link>*&#32;streamHCPtr,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;dictionary,&#32;<emphasis role="keywordtype">int</emphasis>&#32;dictSize);
+155 
+156 <link linkend="_tracy__lz4_8hpp_1a00a61e1435005f8a621edf4bbe0ef844">LZ4LIB_API</link>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespacetracy_1af5d95fe37e2d22c12cf08968ea20728c">LZ4_compress_HC_continue</link>&#32;(<link linkend="_uniontracy_1_1_l_z4__stream_h_c__u">LZ4_streamHC_t</link>*&#32;streamHCPtr,
+157 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a2a98ddb6f79ec1048ff9e15cdd2422ba">src</link>,&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a85e59cd56e10d0a7f49ab199f277d486">dst</link>,
+158 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespacetracy_1a25898e59ed2b01d5fe4fd29c5d7e5548">srcSize</link>,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespacetracy_1af4f6a3f76a73fbcb17b02b14a304dcec">maxDstSize</link>);
+159 
+170 <link linkend="_tracy__lz4_8hpp_1a00a61e1435005f8a621edf4bbe0ef844">LZ4LIB_API</link>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespacetracy_1a3bef440274ef6a5c77796fec56d92de2">LZ4_compress_HC_continue_destSize</link>(<link linkend="_uniontracy_1_1_l_z4__stream_h_c__u">LZ4_streamHC_t</link>*&#32;LZ4_streamHCPtr,
+171 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a2a98ddb6f79ec1048ff9e15cdd2422ba">src</link>,&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a85e59cd56e10d0a7f49ab199f277d486">dst</link>,
+172 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>*&#32;srcSizePtr,&#32;<emphasis role="keywordtype">int</emphasis>&#32;targetDstSize);
+173 
+174 <link linkend="_tracy__lz4_8hpp_1a00a61e1435005f8a621edf4bbe0ef844">LZ4LIB_API</link>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespacetracy_1a0ec893d09e6d675c299bbbb16f2de878">LZ4_saveDictHC</link>&#32;(<link linkend="_uniontracy_1_1_l_z4__stream_h_c__u">LZ4_streamHC_t</link>*&#32;streamHCPtr,&#32;<emphasis role="keywordtype">char</emphasis>*&#32;safeBuffer,&#32;<emphasis role="keywordtype">int</emphasis>&#32;maxDictSize);
+175 
+176 
+177 
+178 <emphasis role="comment">/*^**********************************************</emphasis>
+179 <emphasis role="comment">&#32;*&#32;!!!!!!&#32;&#32;&#32;STATIC&#32;LINKING&#32;ONLY&#32;&#32;&#32;!!!!!!</emphasis>
+180 <emphasis role="comment">&#32;***********************************************/</emphasis>
+181 
+182 <emphasis role="comment">/*-******************************************************************</emphasis>
+183 <emphasis role="comment">&#32;*&#32;PRIVATE&#32;DEFINITIONS&#32;:</emphasis>
+184 <emphasis role="comment">&#32;*&#32;Do&#32;not&#32;use&#32;these&#32;definitions&#32;directly.</emphasis>
+185 <emphasis role="comment">&#32;*&#32;They&#32;are&#32;merely&#32;exposed&#32;to&#32;allow&#32;static&#32;allocation&#32;of&#32;`LZ4_streamHC_t`.</emphasis>
+186 <emphasis role="comment">&#32;*&#32;Declare&#32;an&#32;`LZ4_streamHC_t`&#32;directly,&#32;rather&#32;than&#32;any&#32;type&#32;below.</emphasis>
+187 <emphasis role="comment">&#32;*&#32;Even&#32;then,&#32;only&#32;do&#32;so&#32;in&#32;the&#32;context&#32;of&#32;static&#32;linking,&#32;as&#32;definitions&#32;may&#32;change&#32;between&#32;versions.</emphasis>
+188 <emphasis role="comment">&#32;********************************************************************/</emphasis>
+189 
+190 <emphasis role="preprocessor">#define&#32;LZ4HC_DICTIONARY_LOGSIZE&#32;16</emphasis>
+191 <emphasis role="preprocessor">#define&#32;LZ4HC_MAXD&#32;(1&lt;&lt;LZ4HC_DICTIONARY_LOGSIZE)</emphasis>
+192 <emphasis role="preprocessor">#define&#32;LZ4HC_MAXD_MASK&#32;(LZ4HC_MAXD&#32;-&#32;1)</emphasis>
+193 
+194 <emphasis role="preprocessor">#define&#32;LZ4HC_HASH_LOG&#32;15</emphasis>
+195 <emphasis role="preprocessor">#define&#32;LZ4HC_HASHTABLESIZE&#32;(1&#32;&lt;&lt;&#32;LZ4HC_HASH_LOG)</emphasis>
+196 <emphasis role="preprocessor">#define&#32;LZ4HC_HASH_MASK&#32;(LZ4HC_HASHTABLESIZE&#32;-&#32;1)</emphasis>
+197 
+198 
+199 <emphasis role="comment">/*&#32;Never&#32;ever&#32;use&#32;these&#32;definitions&#32;directly&#32;!</emphasis>
+200 <emphasis role="comment">&#32;*&#32;Declare&#32;or&#32;allocate&#32;an&#32;LZ4_streamHC_t&#32;instead.</emphasis>
+201 <emphasis role="comment">**/</emphasis>
+202 <emphasis role="keyword">typedef</emphasis>&#32;<emphasis role="keyword">struct&#32;</emphasis><link linkend="_structtracy_1_1_l_z4_h_c___c_ctx__internal">LZ4HC_CCtx_internal</link>&#32;<link linkend="_structtracy_1_1_l_z4_h_c___c_ctx__internal">LZ4HC_CCtx_internal</link>;
+203 <emphasis role="keyword">struct&#32;</emphasis><link linkend="_structtracy_1_1_l_z4_h_c___c_ctx__internal">LZ4HC_CCtx_internal</link>
+204 {
+205 &#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1aedd8b351158cc5c487b7a24999b89804">LZ4_u32</link>&#32;&#32;&#32;<link linkend="_structtracy_1_1_l_z4_h_c___c_ctx__internal_1a50e8f95b3fb72d21bc7bdc038fa5ba26">hashTable</link>[<link linkend="_tracy__lz4hc_8hpp_1a762ee6317dfa5bc114546ceada49bd95">LZ4HC_HASHTABLESIZE</link>];
+206 &#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1aac8db5c490d899150df4499f7eeb1262">LZ4_u16</link>&#32;&#32;&#32;<link linkend="_structtracy_1_1_l_z4_h_c___c_ctx__internal_1a765795acfbcdd483ac798d8e2f8b0365">chainTable</link>[<link linkend="_tracy__lz4hc_8hpp_1a56d9327620a01c904315d4f40e2f8e32">LZ4HC_MAXD</link>];
+207 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_namespacetracy_1a77fe2844c79f827050491f8ff5a9e8ab">LZ4_byte</link>*&#32;<link linkend="_structtracy_1_1_l_z4_h_c___c_ctx__internal_1a3d3b3c2c088532bc1b92e84bc74ce555">end</link>;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">/*&#32;next&#32;block&#32;here&#32;to&#32;continue&#32;on&#32;current&#32;prefix&#32;*/</emphasis>
+208 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_namespacetracy_1a77fe2844c79f827050491f8ff5a9e8ab">LZ4_byte</link>*&#32;<link linkend="_structtracy_1_1_l_z4_h_c___c_ctx__internal_1af14cd53ff691ad08f78cf112bb35b78f">prefixStart</link>;&#32;&#32;<emphasis role="comment">/*&#32;Indexes&#32;relative&#32;to&#32;this&#32;position&#32;*/</emphasis>
+209 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_namespacetracy_1a77fe2844c79f827050491f8ff5a9e8ab">LZ4_byte</link>*&#32;<link linkend="_structtracy_1_1_l_z4_h_c___c_ctx__internal_1ad374ef45350c47140118044c4ff81170">dictStart</link>;&#32;<emphasis role="comment">/*&#32;alternate&#32;reference&#32;for&#32;extDict&#32;*/</emphasis>
+210 &#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1aedd8b351158cc5c487b7a24999b89804">LZ4_u32</link>&#32;&#32;&#32;<link linkend="_structtracy_1_1_l_z4_h_c___c_ctx__internal_1a445469d516a4ae4e24ca311a89ab4d19">dictLimit</link>;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">/*&#32;below&#32;that&#32;point,&#32;need&#32;extDict&#32;*/</emphasis>
+211 &#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1aedd8b351158cc5c487b7a24999b89804">LZ4_u32</link>&#32;&#32;&#32;<link linkend="_structtracy_1_1_l_z4_h_c___c_ctx__internal_1a5c6417dd35d1691162e8d8c94661f6bc">lowLimit</link>;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">/*&#32;below&#32;that&#32;point,&#32;no&#32;more&#32;dict&#32;*/</emphasis>
+212 &#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1aedd8b351158cc5c487b7a24999b89804">LZ4_u32</link>&#32;&#32;&#32;<link linkend="_structtracy_1_1_l_z4_h_c___c_ctx__internal_1a4512487e1e1f29ec7de0f4c414c06e07">nextToUpdate</link>;&#32;&#32;&#32;&#32;<emphasis role="comment">/*&#32;index&#32;from&#32;which&#32;to&#32;continue&#32;dictionary&#32;update&#32;*/</emphasis>
+213 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">short</emphasis>&#32;&#32;&#32;&#32;&#32;<link linkend="_structtracy_1_1_l_z4_h_c___c_ctx__internal_1a3bd1a8e4e7e341a056c5b1075dcfe8db">compressionLevel</link>;
+214 &#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1aed8bb1cbc5fa174543e97e7d776e5a96">LZ4_i8</link>&#32;&#32;&#32;&#32;<link linkend="_structtracy_1_1_l_z4_h_c___c_ctx__internal_1a0dd9be8ab7b18714ea02255dbabe19c5">favorDecSpeed</link>;&#32;&#32;&#32;<emphasis role="comment">/*&#32;favor&#32;decompression&#32;speed&#32;if&#32;this&#32;flag&#32;set,</emphasis>
+215 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;otherwise,&#32;favor&#32;compression&#32;ratio&#32;*/</emphasis>
+216 &#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1aed8bb1cbc5fa174543e97e7d776e5a96">LZ4_i8</link>&#32;&#32;&#32;&#32;<link linkend="_structtracy_1_1_l_z4_h_c___c_ctx__internal_1ac016fd5abb68f21235dfcef96bfe3e86">dirty</link>;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">/*&#32;stream&#32;has&#32;to&#32;be&#32;fully&#32;reset&#32;if&#32;this&#32;flag&#32;is&#32;set&#32;*/</emphasis>
+217 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_structtracy_1_1_l_z4_h_c___c_ctx__internal">LZ4HC_CCtx_internal</link>*&#32;<link linkend="_structtracy_1_1_l_z4_h_c___c_ctx__internal_1a98d492de616106a81037374139664939">dictCtx</link>;
+218 };
+219 
+220 <emphasis role="preprocessor">#define&#32;LZ4_STREAMHC_MINSIZE&#32;&#32;262200&#32;&#32;</emphasis><emphasis role="comment">/*&#32;static&#32;size,&#32;for&#32;inter-version&#32;compatibility&#32;*/</emphasis><emphasis role="preprocessor"></emphasis>
+221 <emphasis role="keyword">union&#32;</emphasis><link linkend="_uniontracy_1_1_l_z4__stream_h_c__u">LZ4_streamHC_u</link>&#32;{
+222 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">char</emphasis>&#32;<link linkend="_uniontracy_1_1_l_z4__stream_h_c__u_1a743dd770a51711039ce1a88b1d52694a">minStateSize</link>[<link linkend="_tracy__lz4hc_8hpp_1a098180e73afecf79abdc16d2394d5acf">LZ4_STREAMHC_MINSIZE</link>];
+223 &#32;&#32;&#32;&#32;<link linkend="_structtracy_1_1_l_z4_h_c___c_ctx__internal">LZ4HC_CCtx_internal</link>&#32;<link linkend="_uniontracy_1_1_l_z4__stream_h_c__u_1a74b745e71db10fc7021083fbdd8abb37">internal_donotuse</link>;
+224 };&#32;<emphasis role="comment">/*&#32;previously&#32;typedef&apos;d&#32;to&#32;LZ4_streamHC_t&#32;*/</emphasis>
+225 
+226 <emphasis role="comment">/*&#32;LZ4_streamHC_t&#32;:</emphasis>
+227 <emphasis role="comment">&#32;*&#32;This&#32;structure&#32;allows&#32;static&#32;allocation&#32;of&#32;LZ4&#32;HC&#32;streaming&#32;state.</emphasis>
+228 <emphasis role="comment">&#32;*&#32;This&#32;can&#32;be&#32;used&#32;to&#32;allocate&#32;statically&#32;on&#32;stack,&#32;or&#32;as&#32;part&#32;of&#32;a&#32;larger&#32;structure.</emphasis>
+229 <emphasis role="comment">&#32;*</emphasis>
+230 <emphasis role="comment">&#32;*&#32;Such&#32;state&#32;**must**&#32;be&#32;initialized&#32;using&#32;LZ4_initStreamHC()&#32;before&#32;first&#32;use.</emphasis>
+231 <emphasis role="comment">&#32;*</emphasis>
+232 <emphasis role="comment">&#32;*&#32;Note&#32;that&#32;invoking&#32;LZ4_initStreamHC()&#32;is&#32;not&#32;required&#32;when</emphasis>
+233 <emphasis role="comment">&#32;*&#32;the&#32;state&#32;was&#32;created&#32;using&#32;LZ4_createStreamHC()&#32;(which&#32;is&#32;recommended).</emphasis>
+234 <emphasis role="comment">&#32;*&#32;Using&#32;the&#32;normal&#32;builder,&#32;a&#32;newly&#32;created&#32;state&#32;is&#32;automatically&#32;initialized.</emphasis>
+235 <emphasis role="comment">&#32;*</emphasis>
+236 <emphasis role="comment">&#32;*&#32;Static&#32;allocation&#32;shall&#32;only&#32;be&#32;used&#32;in&#32;combination&#32;with&#32;static&#32;linking.</emphasis>
+237 <emphasis role="comment">&#32;*/</emphasis>
+238 
+239 <emphasis role="comment">/*&#32;LZ4_initStreamHC()&#32;:&#32;v1.9.0+</emphasis>
+240 <emphasis role="comment">&#32;*&#32;Required&#32;before&#32;first&#32;use&#32;of&#32;a&#32;statically&#32;allocated&#32;LZ4_streamHC_t.</emphasis>
+241 <emphasis role="comment">&#32;*&#32;Before&#32;v1.9.0&#32;:&#32;use&#32;LZ4_resetStreamHC()&#32;instead</emphasis>
+242 <emphasis role="comment">&#32;*/</emphasis>
+243 <link linkend="_tracy__lz4_8hpp_1a00a61e1435005f8a621edf4bbe0ef844">LZ4LIB_API</link>&#32;<link linkend="_uniontracy_1_1_l_z4__stream_h_c__u">LZ4_streamHC_t</link>*&#32;<link linkend="_namespacetracy_1a2cca1d9022fd1807000e1fa52d85b06a">LZ4_initStreamHC</link>(<emphasis role="keywordtype">void</emphasis>*&#32;<link linkend="_glad_8h_1a7fc54503e1a1cf98d128b839ebc0b4d0">buffer</link>,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>);
+244 
+245 
+246 <emphasis role="comment">/*-************************************</emphasis>
+247 <emphasis role="comment">*&#32;&#32;Deprecated&#32;Functions</emphasis>
+248 <emphasis role="comment">**************************************/</emphasis>
+249 <emphasis role="comment">/*&#32;see&#32;lz4.h&#32;LZ4_DISABLE_DEPRECATE_WARNINGS&#32;to&#32;turn&#32;off&#32;deprecation&#32;warnings&#32;*/</emphasis>
+250 
+251 <emphasis role="comment">/*&#32;deprecated&#32;compression&#32;functions&#32;*/</emphasis>
+252 <link linkend="_tracy__lz4_8hpp_1afa2a2c9dbd9d88448d70c8fff093782b">LZ4_DEPRECATED</link>(<emphasis role="stringliteral">&quot;use&#32;LZ4_compress_HC()&#32;instead&quot;</emphasis>)&#32;<link linkend="_tracy__lz4_8hpp_1a00a61e1435005f8a621edf4bbe0ef844">LZ4LIB_API</link>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespacetracy_1a0796e784f759053e81fcb99f3f0af96d">LZ4_compressHC</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(const&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a6ffd2192cbc75d017665e95207ee36a7">source</link>,&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_namespacetracy_1a60bb39cd566f6b81dae5d465e9aa1389">dest</link>,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespacetracy_1ae9691b7ca406d95aa2992363e84c0e8b">inputSize</link>);
+253 <link linkend="_tracy__lz4_8hpp_1afa2a2c9dbd9d88448d70c8fff093782b">LZ4_DEPRECATED</link>(&quot;use&#32;<link linkend="_namespacetracy_1a4e87171d4c749f822537b5b8654a5b32">LZ4_compress_HC</link>()&#32;instead&quot;)&#32;<link linkend="_tracy__lz4_8hpp_1a00a61e1435005f8a621edf4bbe0ef844">LZ4LIB_API</link>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespacetracy_1a9f747fa364b56e745c3eae51016a1606">LZ4_compressHC_limitedOutput</link>&#32;(const&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a6ffd2192cbc75d017665e95207ee36a7">source</link>,&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_namespacetracy_1a60bb39cd566f6b81dae5d465e9aa1389">dest</link>,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespacetracy_1ae9691b7ca406d95aa2992363e84c0e8b">inputSize</link>,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespacetracy_1af9f0fd3a69aad7747a453f2e33f78537">maxOutputSize</link>);
+254 <link linkend="_tracy__lz4_8hpp_1afa2a2c9dbd9d88448d70c8fff093782b">LZ4_DEPRECATED</link>(&quot;use&#32;<link linkend="_namespacetracy_1a4e87171d4c749f822537b5b8654a5b32">LZ4_compress_HC</link>()&#32;instead&quot;)&#32;<link linkend="_tracy__lz4_8hpp_1a00a61e1435005f8a621edf4bbe0ef844">LZ4LIB_API</link>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespacetracy_1a30849ba49f6b0e4338ceacca35ae37e8">LZ4_compressHC2</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(const&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a6ffd2192cbc75d017665e95207ee36a7">source</link>,&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_namespacetracy_1a60bb39cd566f6b81dae5d465e9aa1389">dest</link>,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespacetracy_1ae9691b7ca406d95aa2992363e84c0e8b">inputSize</link>,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespacetracy_1ae9384d0b6ed466b253e08e117fb05971">compressionLevel</link>);
+255 <link linkend="_tracy__lz4_8hpp_1afa2a2c9dbd9d88448d70c8fff093782b">LZ4_DEPRECATED</link>(&quot;use&#32;<link linkend="_namespacetracy_1a4e87171d4c749f822537b5b8654a5b32">LZ4_compress_HC</link>()&#32;instead&quot;)&#32;<link linkend="_tracy__lz4_8hpp_1a00a61e1435005f8a621edf4bbe0ef844">LZ4LIB_API</link>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespacetracy_1ac4ae70125da4aa51a2db82bbd617202f">LZ4_compressHC2_limitedOutput</link>(const&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a6ffd2192cbc75d017665e95207ee36a7">source</link>,&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_namespacetracy_1a60bb39cd566f6b81dae5d465e9aa1389">dest</link>,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespacetracy_1ae9691b7ca406d95aa2992363e84c0e8b">inputSize</link>,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespacetracy_1af9f0fd3a69aad7747a453f2e33f78537">maxOutputSize</link>,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespacetracy_1ae9384d0b6ed466b253e08e117fb05971">compressionLevel</link>);
+256 <link linkend="_tracy__lz4_8hpp_1afa2a2c9dbd9d88448d70c8fff093782b">LZ4_DEPRECATED</link>(&quot;use&#32;<link linkend="_namespacetracy_1ad1e1d2b4d6980817f53a6b580eb6c5de">LZ4_compress_HC_extStateHC</link>()&#32;instead&quot;)&#32;<link linkend="_tracy__lz4_8hpp_1a00a61e1435005f8a621edf4bbe0ef844">LZ4LIB_API</link>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespacetracy_1a4ab61af211be6e87bb28928dd28fba0c">LZ4_compressHC_withStateHC</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(<emphasis role="keywordtype">void</emphasis>*&#32;state,&#32;const&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a6ffd2192cbc75d017665e95207ee36a7">source</link>,&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_namespacetracy_1a60bb39cd566f6b81dae5d465e9aa1389">dest</link>,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespacetracy_1ae9691b7ca406d95aa2992363e84c0e8b">inputSize</link>);
+257 <link linkend="_tracy__lz4_8hpp_1afa2a2c9dbd9d88448d70c8fff093782b">LZ4_DEPRECATED</link>(&quot;use&#32;<link linkend="_namespacetracy_1ad1e1d2b4d6980817f53a6b580eb6c5de">LZ4_compress_HC_extStateHC</link>()&#32;instead&quot;)&#32;<link linkend="_tracy__lz4_8hpp_1a00a61e1435005f8a621edf4bbe0ef844">LZ4LIB_API</link>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespacetracy_1a23f75722189abb10529d608e240840d0">LZ4_compressHC_limitedOutput_withStateHC</link>&#32;(<emphasis role="keywordtype">void</emphasis>*&#32;state,&#32;const&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a6ffd2192cbc75d017665e95207ee36a7">source</link>,&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_namespacetracy_1a60bb39cd566f6b81dae5d465e9aa1389">dest</link>,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespacetracy_1ae9691b7ca406d95aa2992363e84c0e8b">inputSize</link>,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespacetracy_1af9f0fd3a69aad7747a453f2e33f78537">maxOutputSize</link>);
+258 <link linkend="_tracy__lz4_8hpp_1afa2a2c9dbd9d88448d70c8fff093782b">LZ4_DEPRECATED</link>(&quot;use&#32;<link linkend="_namespacetracy_1ad1e1d2b4d6980817f53a6b580eb6c5de">LZ4_compress_HC_extStateHC</link>()&#32;instead&quot;)&#32;<link linkend="_tracy__lz4_8hpp_1a00a61e1435005f8a621edf4bbe0ef844">LZ4LIB_API</link>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespacetracy_1a6c037fb350cdd68e5e87b637a270520d">LZ4_compressHC2_withStateHC</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(<emphasis role="keywordtype">void</emphasis>*&#32;state,&#32;const&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a6ffd2192cbc75d017665e95207ee36a7">source</link>,&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_namespacetracy_1a60bb39cd566f6b81dae5d465e9aa1389">dest</link>,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespacetracy_1ae9691b7ca406d95aa2992363e84c0e8b">inputSize</link>,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespacetracy_1ae9384d0b6ed466b253e08e117fb05971">compressionLevel</link>);
+259 <link linkend="_tracy__lz4_8hpp_1afa2a2c9dbd9d88448d70c8fff093782b">LZ4_DEPRECATED</link>(&quot;use&#32;<link linkend="_namespacetracy_1ad1e1d2b4d6980817f53a6b580eb6c5de">LZ4_compress_HC_extStateHC</link>()&#32;instead&quot;)&#32;<link linkend="_tracy__lz4_8hpp_1a00a61e1435005f8a621edf4bbe0ef844">LZ4LIB_API</link>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespacetracy_1ab1717d4f0cd7981a5e33b4d4cda3c184">LZ4_compressHC2_limitedOutput_withStateHC</link>(<emphasis role="keywordtype">void</emphasis>*&#32;state,&#32;const&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a6ffd2192cbc75d017665e95207ee36a7">source</link>,&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_namespacetracy_1a60bb39cd566f6b81dae5d465e9aa1389">dest</link>,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespacetracy_1ae9691b7ca406d95aa2992363e84c0e8b">inputSize</link>,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespacetracy_1af9f0fd3a69aad7747a453f2e33f78537">maxOutputSize</link>,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespacetracy_1ae9384d0b6ed466b253e08e117fb05971">compressionLevel</link>);
+260 <link linkend="_tracy__lz4_8hpp_1afa2a2c9dbd9d88448d70c8fff093782b">LZ4_DEPRECATED</link>(&quot;use&#32;<link linkend="_namespacetracy_1af5d95fe37e2d22c12cf08968ea20728c">LZ4_compress_HC_continue</link>()&#32;instead&quot;)&#32;<link linkend="_tracy__lz4_8hpp_1a00a61e1435005f8a621edf4bbe0ef844">LZ4LIB_API</link>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespacetracy_1a393f0449ba425f5357ea68f412895db7">LZ4_compressHC_continue</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(<link linkend="_uniontracy_1_1_l_z4__stream_h_c__u">LZ4_streamHC_t</link>*&#32;LZ4_streamHCPtr,&#32;const&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a6ffd2192cbc75d017665e95207ee36a7">source</link>,&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_namespacetracy_1a60bb39cd566f6b81dae5d465e9aa1389">dest</link>,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespacetracy_1ae9691b7ca406d95aa2992363e84c0e8b">inputSize</link>);
+261 <link linkend="_tracy__lz4_8hpp_1afa2a2c9dbd9d88448d70c8fff093782b">LZ4_DEPRECATED</link>(&quot;use&#32;<link linkend="_namespacetracy_1af5d95fe37e2d22c12cf08968ea20728c">LZ4_compress_HC_continue</link>()&#32;instead&quot;)&#32;<link linkend="_tracy__lz4_8hpp_1a00a61e1435005f8a621edf4bbe0ef844">LZ4LIB_API</link>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespacetracy_1a19500977d79caa01ec7e04f84e85be68">LZ4_compressHC_limitedOutput_continue</link>&#32;(<link linkend="_uniontracy_1_1_l_z4__stream_h_c__u">LZ4_streamHC_t</link>*&#32;LZ4_streamHCPtr,&#32;const&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a6ffd2192cbc75d017665e95207ee36a7">source</link>,&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_namespacetracy_1a60bb39cd566f6b81dae5d465e9aa1389">dest</link>,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespacetracy_1ae9691b7ca406d95aa2992363e84c0e8b">inputSize</link>,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespacetracy_1af9f0fd3a69aad7747a453f2e33f78537">maxOutputSize</link>);
+262 
+263 <emphasis role="comment">/*&#32;Obsolete&#32;streaming&#32;functions;&#32;degraded&#32;functionality;&#32;do&#32;not&#32;use!</emphasis>
+264 <emphasis role="comment">&#32;*</emphasis>
+265 <emphasis role="comment">&#32;*&#32;In&#32;order&#32;to&#32;perform&#32;streaming&#32;compression,&#32;these&#32;functions&#32;depended&#32;on&#32;data</emphasis>
+266 <emphasis role="comment">&#32;*&#32;that&#32;is&#32;no&#32;longer&#32;tracked&#32;in&#32;the&#32;state.&#32;They&#32;have&#32;been&#32;preserved&#32;as&#32;well&#32;as</emphasis>
+267 <emphasis role="comment">&#32;*&#32;possible:&#32;using&#32;them&#32;will&#32;still&#32;produce&#32;a&#32;correct&#32;output.&#32;However,&#32;use&#32;of</emphasis>
+268 <emphasis role="comment">&#32;*&#32;LZ4_slideInputBufferHC()&#32;will&#32;truncate&#32;the&#32;history&#32;of&#32;the&#32;stream,&#32;rather</emphasis>
+269 <emphasis role="comment">&#32;*&#32;than&#32;preserve&#32;a&#32;window-sized&#32;chunk&#32;of&#32;history.</emphasis>
+270 <emphasis role="comment">&#32;*/</emphasis>
+271 <emphasis role="preprocessor">#if&#32;!defined(LZ4_STATIC_LINKING_ONLY_DISABLE_MEMORY_ALLOCATION)</emphasis>
+272 <link linkend="_tracy__lz4_8hpp_1afa2a2c9dbd9d88448d70c8fff093782b">LZ4_DEPRECATED</link>(<emphasis role="stringliteral">&quot;use&#32;LZ4_createStreamHC()&#32;instead&quot;</emphasis>)&#32;<link linkend="_tracy__lz4_8hpp_1a00a61e1435005f8a621edf4bbe0ef844">LZ4LIB_API</link>&#32;<emphasis role="keywordtype">void</emphasis>*&#32;<link linkend="_namespacetracy_1ad2120e67f9eebc63622fab82c0bc8ce8">LZ4_createHC</link>&#32;(const&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_namespacetracy_1a81406fc39f666632b3c513d6e9ea433a">inputBuffer</link>);
+273 <link linkend="_tracy__lz4_8hpp_1afa2a2c9dbd9d88448d70c8fff093782b">LZ4_DEPRECATED</link>(&quot;use&#32;<link linkend="_namespacetracy_1aef8f89550631532cae5dd59ed255ee10">LZ4_freeStreamHC</link>()&#32;instead&quot;)&#32;<link linkend="_tracy__lz4_8hpp_1a00a61e1435005f8a621edf4bbe0ef844">LZ4LIB_API</link>&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;&#32;&#32;<link linkend="_namespacetracy_1a9236a738b3d07b24882a744639f66739">LZ4_freeHC</link>&#32;(<emphasis role="keywordtype">void</emphasis>*&#32;LZ4HC_Data);
+274 <emphasis role="preprocessor">#endif</emphasis>
+275 <link linkend="_tracy__lz4_8hpp_1afa2a2c9dbd9d88448d70c8fff093782b">LZ4_DEPRECATED</link>(<emphasis role="stringliteral">&quot;use&#32;LZ4_saveDictHC()&#32;instead&quot;</emphasis>)&#32;<link linkend="_tracy__lz4_8hpp_1a00a61e1435005f8a621edf4bbe0ef844">LZ4LIB_API</link>&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_namespacetracy_1ae9e21b7af334675cb981ed846cd4b8e9">LZ4_slideInputBufferHC</link>&#32;(<emphasis role="keywordtype">void</emphasis>*&#32;LZ4HC_Data);
+276 <link linkend="_tracy__lz4_8hpp_1afa2a2c9dbd9d88448d70c8fff093782b">LZ4_DEPRECATED</link>(&quot;use&#32;<link linkend="_namespacetracy_1af5d95fe37e2d22c12cf08968ea20728c">LZ4_compress_HC_continue</link>()&#32;instead&quot;)&#32;<link linkend="_tracy__lz4_8hpp_1a00a61e1435005f8a621edf4bbe0ef844">LZ4LIB_API</link>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespacetracy_1a44534557a2d1008fe9065f7bd4eab576">LZ4_compressHC2_continue</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(<emphasis role="keywordtype">void</emphasis>*&#32;LZ4HC_Data,&#32;const&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a6ffd2192cbc75d017665e95207ee36a7">source</link>,&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_namespacetracy_1a60bb39cd566f6b81dae5d465e9aa1389">dest</link>,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespacetracy_1ae9691b7ca406d95aa2992363e84c0e8b">inputSize</link>,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespacetracy_1ae9384d0b6ed466b253e08e117fb05971">compressionLevel</link>);
+277 <link linkend="_tracy__lz4_8hpp_1afa2a2c9dbd9d88448d70c8fff093782b">LZ4_DEPRECATED</link>(&quot;use&#32;<link linkend="_namespacetracy_1af5d95fe37e2d22c12cf08968ea20728c">LZ4_compress_HC_continue</link>()&#32;instead&quot;)&#32;<link linkend="_tracy__lz4_8hpp_1a00a61e1435005f8a621edf4bbe0ef844">LZ4LIB_API</link>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespacetracy_1ab8c6bec75af28b52af9d06c3149fa085">LZ4_compressHC2_limitedOutput_continue</link>&#32;(<emphasis role="keywordtype">void</emphasis>*&#32;LZ4HC_Data,&#32;const&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a6ffd2192cbc75d017665e95207ee36a7">source</link>,&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_namespacetracy_1a60bb39cd566f6b81dae5d465e9aa1389">dest</link>,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespacetracy_1ae9691b7ca406d95aa2992363e84c0e8b">inputSize</link>,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespacetracy_1af9f0fd3a69aad7747a453f2e33f78537">maxOutputSize</link>,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespacetracy_1ae9384d0b6ed466b253e08e117fb05971">compressionLevel</link>);
+278 <link linkend="_tracy__lz4_8hpp_1afa2a2c9dbd9d88448d70c8fff093782b">LZ4_DEPRECATED</link>(&quot;use&#32;<link linkend="_namespacetracy_1a71fed9bde37461b1626e9ff6865b8c11">LZ4_createStreamHC</link>()&#32;instead&quot;)&#32;<link linkend="_tracy__lz4_8hpp_1a00a61e1435005f8a621edf4bbe0ef844">LZ4LIB_API</link>&#32;<emphasis role="keywordtype">int</emphasis>&#32;&#32;&#32;<link linkend="_namespacetracy_1a9b9031595a694284d33d4c10f6ac2052">LZ4_sizeofStreamStateHC</link>(<emphasis role="keywordtype">void</emphasis>);
+279 <link linkend="_tracy__lz4_8hpp_1afa2a2c9dbd9d88448d70c8fff093782b">LZ4_DEPRECATED</link>(&quot;use&#32;<link linkend="_namespacetracy_1a2cca1d9022fd1807000e1fa52d85b06a">LZ4_initStreamHC</link>()&#32;instead&quot;)&#32;<link linkend="_tracy__lz4_8hpp_1a00a61e1435005f8a621edf4bbe0ef844">LZ4LIB_API</link>&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;&#32;&#32;<link linkend="_namespacetracy_1aef6814ea8e90e56c5d3dadaad0fd8b4b">LZ4_resetStreamStateHC</link>(<emphasis role="keywordtype">void</emphasis>*&#32;state,&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_namespacetracy_1a81406fc39f666632b3c513d6e9ea433a">inputBuffer</link>);
+280 
+281 
+282 <emphasis role="comment">/*&#32;LZ4_resetStreamHC()&#32;is&#32;now&#32;replaced&#32;by&#32;LZ4_initStreamHC().</emphasis>
+283 <emphasis role="comment">&#32;*&#32;The&#32;intention&#32;is&#32;to&#32;emphasize&#32;the&#32;difference&#32;with&#32;LZ4_resetStreamHC_fast(),</emphasis>
+284 <emphasis role="comment">&#32;*&#32;which&#32;is&#32;now&#32;the&#32;recommended&#32;function&#32;to&#32;start&#32;a&#32;new&#32;stream&#32;of&#32;blocks,</emphasis>
+285 <emphasis role="comment">&#32;*&#32;but&#32;cannot&#32;be&#32;used&#32;to&#32;initialize&#32;a&#32;memory&#32;segment&#32;containing&#32;arbitrary&#32;garbage&#32;data.</emphasis>
+286 <emphasis role="comment">&#32;*</emphasis>
+287 <emphasis role="comment">&#32;*&#32;It&#32;is&#32;recommended&#32;to&#32;switch&#32;to&#32;LZ4_initStreamHC().</emphasis>
+288 <emphasis role="comment">&#32;*&#32;LZ4_resetStreamHC()&#32;will&#32;generate&#32;deprecation&#32;warnings&#32;in&#32;a&#32;future&#32;version.</emphasis>
+289 <emphasis role="comment">&#32;*/</emphasis>
+290 <link linkend="_tracy__lz4_8hpp_1a00a61e1435005f8a621edf4bbe0ef844">LZ4LIB_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_namespacetracy_1aa5dbfea13cac9d3ab2984a72c3541dbd">LZ4_resetStreamHC</link>&#32;(<link linkend="_uniontracy_1_1_l_z4__stream_h_c__u">LZ4_streamHC_t</link>*&#32;streamHCPtr,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespacetracy_1ae9384d0b6ed466b253e08e117fb05971">compressionLevel</link>);
+291 
+292 }
+293 
+294 <emphasis role="preprocessor">#endif&#32;</emphasis><emphasis role="comment">/*&#32;LZ4_HC_H_19834876238432&#32;*/</emphasis><emphasis role="preprocessor"></emphasis>
+295 
+296 
+297 <emphasis role="comment">/*-**************************************************</emphasis>
+298 <emphasis role="comment">&#32;*&#32;!!!!!&#32;&#32;&#32;&#32;&#32;STATIC&#32;LINKING&#32;ONLY&#32;&#32;&#32;&#32;&#32;!!!!!</emphasis>
+299 <emphasis role="comment">&#32;*&#32;Following&#32;definitions&#32;are&#32;considered&#32;experimental.</emphasis>
+300 <emphasis role="comment">&#32;*&#32;They&#32;should&#32;not&#32;be&#32;linked&#32;from&#32;DLL,</emphasis>
+301 <emphasis role="comment">&#32;*&#32;as&#32;there&#32;is&#32;no&#32;guarantee&#32;of&#32;API&#32;stability&#32;yet.</emphasis>
+302 <emphasis role="comment">&#32;*&#32;Prototypes&#32;will&#32;be&#32;promoted&#32;to&#32;&quot;stable&quot;&#32;status</emphasis>
+303 <emphasis role="comment">&#32;*&#32;after&#32;successful&#32;usage&#32;in&#32;real-life&#32;scenarios.</emphasis>
+304 <emphasis role="comment">&#32;***************************************************/</emphasis>
+305 <emphasis role="preprocessor">#ifdef&#32;LZ4_HC_STATIC_LINKING_ONLY&#32;&#32;&#32;</emphasis><emphasis role="comment">/*&#32;protection&#32;macro&#32;*/</emphasis><emphasis role="preprocessor"></emphasis>
+306 <emphasis role="preprocessor">#ifndef&#32;TRACY_LZ4_HC_SLO_098092834</emphasis>
+307 <emphasis role="preprocessor">#define&#32;TRACY_LZ4_HC_SLO_098092834</emphasis>
+308 
+309 <emphasis role="preprocessor">#define&#32;LZ4_STATIC_LINKING_ONLY&#32;&#32;&#32;</emphasis><emphasis role="comment">/*&#32;LZ4LIB_STATIC_API&#32;*/</emphasis><emphasis role="preprocessor"></emphasis>
+310 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_tracy__lz4_8hpp">tracy_lz4.hpp</link>&quot;</emphasis>
+311 
+312 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespacetracy">tracy</link>
+313 {
+314 
+320 LZ4LIB_STATIC_API&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_namespacetracy_1a4e3e4421fc48c4867e3a3f8c8257f6da">LZ4_setCompressionLevel</link>(
+321 &#32;&#32;&#32;&#32;<link linkend="_uniontracy_1_1_l_z4__stream_h_c__u">LZ4_streamHC_t</link>*&#32;LZ4_streamHCPtr,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespacetracy_1ae9384d0b6ed466b253e08e117fb05971">compressionLevel</link>);
+322 
+327 LZ4LIB_STATIC_API&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_namespacetracy_1a62dd149e20c9376bf72dd8082ecad631">LZ4_favorDecompressionSpeed</link>(
+328 &#32;&#32;&#32;&#32;<link linkend="_uniontracy_1_1_l_z4__stream_h_c__u">LZ4_streamHC_t</link>*&#32;LZ4_streamHCPtr,&#32;<emphasis role="keywordtype">int</emphasis>&#32;favor);
+329 
+353 LZ4LIB_STATIC_API&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_namespacetracy_1a92fdbd273a335e4a32887518aa6bd5f5">LZ4_resetStreamHC_fast</link>(
+354 &#32;&#32;&#32;&#32;<link linkend="_uniontracy_1_1_l_z4__stream_h_c__u">LZ4_streamHC_t</link>*&#32;LZ4_streamHCPtr,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespacetracy_1ae9384d0b6ed466b253e08e117fb05971">compressionLevel</link>);
+355 
+367 LZ4LIB_STATIC_API&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespacetracy_1af119e2b2e58f351281d4b6655b098b30">LZ4_compress_HC_extStateHC_fastReset</link>&#32;(
+368 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>*&#32;state,
+369 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a2a98ddb6f79ec1048ff9e15cdd2422ba">src</link>,&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a85e59cd56e10d0a7f49ab199f277d486">dst</link>,
+370 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespacetracy_1a25898e59ed2b01d5fe4fd29c5d7e5548">srcSize</link>,&#32;<emphasis role="keywordtype">int</emphasis>&#32;dstCapacity,
+371 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespacetracy_1ae9384d0b6ed466b253e08e117fb05971">compressionLevel</link>);
+372 
+398 LZ4LIB_STATIC_API&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_namespacetracy_1ac65380907f4f7ede042cc2aabd6e1357">LZ4_attach_HC_dictionary</link>(
+399 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_uniontracy_1_1_l_z4__stream_h_c__u">LZ4_streamHC_t</link>&#32;*working_stream,
+400 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_uniontracy_1_1_l_z4__stream_h_c__u">LZ4_streamHC_t</link>&#32;*dictionary_stream);
+401 
+402 }
+403 
+404 <emphasis role="preprocessor">#endif&#32;&#32;&#32;</emphasis><emphasis role="comment">/*&#32;LZ4_HC_SLO_098092834&#32;*/</emphasis><emphasis role="preprocessor"></emphasis>
+405 <emphasis role="preprocessor">#endif&#32;&#32;&#32;</emphasis><emphasis role="comment">/*&#32;LZ4_HC_STATIC_LINKING_ONLY&#32;*/</emphasis><emphasis role="preprocessor"></emphasis>
+</programlisting></section>

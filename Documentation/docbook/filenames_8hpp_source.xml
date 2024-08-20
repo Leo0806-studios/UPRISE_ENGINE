@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_filenames_8hpp_source" xml:lang="en-US">
+<title>filenames.hpp</title>
+<indexterm><primary>adhed/libbacktrace/filenames.hpp</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 <emphasis role="comment">/*&#32;btest.c&#32;--&#32;Filename&#32;header&#32;for&#32;libbacktrace&#32;library</emphasis>
+2 <emphasis role="comment">&#32;&#32;&#32;Copyright&#32;(C)&#32;2012-2018&#32;Free&#32;Software&#32;Foundation,&#32;Inc.</emphasis>
+3 <emphasis role="comment">&#32;&#32;&#32;Written&#32;by&#32;Ian&#32;Lance&#32;Taylor,&#32;Google.</emphasis>
+4 <emphasis role="comment"></emphasis>
+5 <emphasis role="comment">Redistribution&#32;and&#32;use&#32;in&#32;source&#32;and&#32;binary&#32;forms,&#32;with&#32;or&#32;without</emphasis>
+6 <emphasis role="comment">modification,&#32;are&#32;permitted&#32;provided&#32;that&#32;the&#32;following&#32;conditions&#32;are</emphasis>
+7 <emphasis role="comment">met:</emphasis>
+8 <emphasis role="comment"></emphasis>
+9 <emphasis role="comment">&#32;&#32;&#32;&#32;(1)&#32;Redistributions&#32;of&#32;source&#32;code&#32;must&#32;retain&#32;the&#32;above&#32;copyright</emphasis>
+10 <emphasis role="comment">&#32;&#32;&#32;&#32;notice,&#32;this&#32;list&#32;of&#32;conditions&#32;and&#32;the&#32;following&#32;disclaimer.</emphasis>
+11 <emphasis role="comment"></emphasis>
+12 <emphasis role="comment">&#32;&#32;&#32;&#32;(2)&#32;Redistributions&#32;in&#32;binary&#32;form&#32;must&#32;reproduce&#32;the&#32;above&#32;copyright</emphasis>
+13 <emphasis role="comment">&#32;&#32;&#32;&#32;notice,&#32;this&#32;list&#32;of&#32;conditions&#32;and&#32;the&#32;following&#32;disclaimer&#32;in</emphasis>
+14 <emphasis role="comment">&#32;&#32;&#32;&#32;the&#32;documentation&#32;and/or&#32;other&#32;materials&#32;provided&#32;with&#32;the</emphasis>
+15 <emphasis role="comment">&#32;&#32;&#32;&#32;distribution.</emphasis>
+16 <emphasis role="comment"></emphasis>
+17 <emphasis role="comment">&#32;&#32;&#32;&#32;(3)&#32;The&#32;name&#32;of&#32;the&#32;author&#32;may&#32;not&#32;be&#32;used&#32;to</emphasis>
+18 <emphasis role="comment">&#32;&#32;&#32;&#32;endorse&#32;or&#32;promote&#32;products&#32;derived&#32;from&#32;this&#32;software&#32;without</emphasis>
+19 <emphasis role="comment">&#32;&#32;&#32;&#32;specific&#32;prior&#32;written&#32;permission.</emphasis>
+20 <emphasis role="comment"></emphasis>
+21 <emphasis role="comment">THIS&#32;SOFTWARE&#32;IS&#32;PROVIDED&#32;BY&#32;THE&#32;AUTHOR&#32;``AS&#32;IS&apos;&apos;&#32;AND&#32;ANY&#32;EXPRESS&#32;OR</emphasis>
+22 <emphasis role="comment">IMPLIED&#32;WARRANTIES,&#32;INCLUDING,&#32;BUT&#32;NOT&#32;LIMITED&#32;TO,&#32;THE&#32;IMPLIED</emphasis>
+23 <emphasis role="comment">WARRANTIES&#32;OF&#32;MERCHANTABILITY&#32;AND&#32;FITNESS&#32;FOR&#32;A&#32;PARTICULAR&#32;PURPOSE&#32;ARE</emphasis>
+24 <emphasis role="comment">DISCLAIMED.&#32;IN&#32;NO&#32;EVENT&#32;SHALL&#32;THE&#32;AUTHOR&#32;BE&#32;LIABLE&#32;FOR&#32;ANY&#32;DIRECT,</emphasis>
+25 <emphasis role="comment">INDIRECT,&#32;INCIDENTAL,&#32;SPECIAL,&#32;EXEMPLARY,&#32;OR&#32;CONSEQUENTIAL&#32;DAMAGES</emphasis>
+26 <emphasis role="comment">(INCLUDING,&#32;BUT&#32;NOT&#32;LIMITED&#32;TO,&#32;PROCUREMENT&#32;OF&#32;SUBSTITUTE&#32;GOODS&#32;OR</emphasis>
+27 <emphasis role="comment">SERVICES;&#32;LOSS&#32;OF&#32;USE,&#32;DATA,&#32;OR&#32;PROFITS;&#32;OR&#32;BUSINESS&#32;INTERRUPTION)</emphasis>
+28 <emphasis role="comment">HOWEVER&#32;CAUSED&#32;AND&#32;ON&#32;ANY&#32;THEORY&#32;OF&#32;LIABILITY,&#32;WHETHER&#32;IN&#32;CONTRACT,</emphasis>
+29 <emphasis role="comment">STRICT&#32;LIABILITY,&#32;OR&#32;TORT&#32;(INCLUDING&#32;NEGLIGENCE&#32;OR&#32;OTHERWISE)&#32;ARISING</emphasis>
+30 <emphasis role="comment">IN&#32;ANY&#32;WAY&#32;OUT&#32;OF&#32;THE&#32;USE&#32;OF&#32;THIS&#32;SOFTWARE,&#32;EVEN&#32;IF&#32;ADVISED&#32;OF&#32;THE</emphasis>
+31 <emphasis role="comment">POSSIBILITY&#32;OF&#32;SUCH&#32;DAMAGE.&#32;&#32;*/</emphasis>
+32 
+33 <emphasis role="preprocessor">#ifndef&#32;GCC_VERSION</emphasis>
+34 <emphasis role="preprocessor">#&#32;define&#32;GCC_VERSION&#32;(__GNUC__&#32;*&#32;1000&#32;+&#32;__GNUC_MINOR__)</emphasis>
+35 <emphasis role="preprocessor">#endif</emphasis>
+36 
+37 <emphasis role="preprocessor">#if&#32;(GCC_VERSION&#32;&lt;&#32;2007)</emphasis>
+38 <emphasis role="preprocessor">#&#32;define&#32;__attribute__(x)</emphasis>
+39 <emphasis role="preprocessor">#endif</emphasis>
+40 
+41 <emphasis role="preprocessor">#ifndef&#32;ATTRIBUTE_UNUSED</emphasis>
+42 <emphasis role="preprocessor">#&#32;define&#32;ATTRIBUTE_UNUSED&#32;__attribute__&#32;((__unused__))</emphasis>
+43 <emphasis role="preprocessor">#endif</emphasis>
+44 
+45 <emphasis role="preprocessor">#if&#32;defined(__MSDOS__)&#32;||&#32;defined(_WIN32)&#32;||&#32;defined(__OS2__)&#32;||&#32;defined&#32;(__CYGWIN__)</emphasis>
+46 <emphasis role="preprocessor">#&#32;define&#32;IS_DIR_SEPARATOR(c)&#32;((c)&#32;==&#32;&apos;/&apos;&#32;||&#32;(c)&#32;==&#32;&apos;\\&apos;)</emphasis>
+47 <emphasis role="preprocessor">#&#32;define&#32;HAS_DRIVE_SPEC(f)&#32;((f)[0]&#32;!=&#32;&apos;\0&apos;&#32;&amp;&amp;&#32;(f)[1]&#32;==&#32;&apos;:&apos;)</emphasis>
+48 <emphasis role="preprocessor">#&#32;define&#32;IS_ABSOLUTE_PATH(f)&#32;(IS_DIR_SEPARATOR((f)[0])&#32;||&#32;HAS_DRIVE_SPEC(f))</emphasis>
+49 <emphasis role="preprocessor">#else</emphasis>
+50 <emphasis role="preprocessor">#&#32;define&#32;IS_DIR_SEPARATOR(c)&#32;((c)&#32;==&#32;&apos;/&apos;)</emphasis>
+51 <emphasis role="preprocessor">#&#32;define&#32;IS_ABSOLUTE_PATH(f)&#32;(IS_DIR_SEPARATOR((f)[0]))</emphasis>
+52 <emphasis role="preprocessor">#endif</emphasis>
+</programlisting></section>

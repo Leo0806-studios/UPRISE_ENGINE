@@ -1,0 +1,1075 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_type__vec3_8inl_source" xml:lang="en-US">
+<title>type_vec3.inl</title>
+<indexterm><primary>adhed/glm/detail/type_vec3.inl</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 
+2 
+3 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_compute__vector__relational_8hpp">compute_vector_relational.hpp</link>&quot;</emphasis>
+4 
+5 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespaceglm">glm</link>
+6 {
+7 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;--&#32;Implicit&#32;basic&#32;constructors&#32;--</emphasis>
+8 
+9 <emphasis role="preprocessor">#&#32;&#32;&#32;if&#32;GLM_CONFIG_DEFAULTED_DEFAULT_CTOR&#32;==&#32;GLM_DISABLE</emphasis>
+10 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+11 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1acd03be6e794a7a93af332b1785c9c84b">GLM_DEFAULTED_DEFAULT_CTOR_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;::vec</link>()
+12 <emphasis role="preprocessor">#&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;if&#32;GLM_CONFIG_CTOR_INIT&#32;!=&#32;GLM_CTOR_INIT_DISABLE</emphasis>
+13 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>(0),&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>(0),&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>(0)
+14 <emphasis role="preprocessor">#&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;endif</emphasis>
+15 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{}
+16 <emphasis role="preprocessor">#&#32;&#32;&#32;endif</emphasis>
+17 
+18 <emphasis role="preprocessor">#&#32;&#32;&#32;if&#32;GLM_CONFIG_DEFAULTED_FUNCTIONS&#32;==&#32;GLM_DISABLE</emphasis>
+19 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+20 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a8d46131aebdec5adbbb66521c86d3afe">GLM_DEFAULTED_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;::vec</link>(<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+21 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>),&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>),&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>)
+22 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{}
+23 <emphasis role="preprocessor">#&#32;&#32;&#32;endif</emphasis>
+24 
+25 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+26 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;qualifier&#32;P&gt;
+27 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;::vec</link>(<link linkend="_structglm_1_1vec">vec&lt;3, T, P&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+28 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>),&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>),&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>)
+29 &#32;&#32;&#32;&#32;{}
+30 
+31 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;--&#32;Explicit&#32;basic&#32;constructors&#32;--</emphasis>
+32 
+33 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+34 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;::vec</link>(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;scalar)
+35 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>(scalar),&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>(scalar),&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>(scalar)
+36 &#32;&#32;&#32;&#32;{}
+37 
+38 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&#32;&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+39 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;::vec</link>(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;_x,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;_y,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;_z)
+40 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>(_x),&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>(_y),&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>(_z)
+41 &#32;&#32;&#32;&#32;{}
+42 
+43 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;--&#32;Conversion&#32;scalar&#32;constructors&#32;--</emphasis>
+44 
+45 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+46 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;U,&#32;qualifier&#32;P&gt;
+47 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;::vec</link>(<link linkend="_structglm_1_1vec">vec&lt;1, U, P&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+48 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>(static_cast&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&gt;(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>))
+49 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>(static_cast&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&gt;(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>))
+50 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>(static_cast&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&gt;(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>))
+51 &#32;&#32;&#32;&#32;{}
+52 
+53 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+54 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;X,&#32;<emphasis role="keyword">typename</emphasis>&#32;Y,&#32;<emphasis role="keyword">typename</emphasis>&#32;Z&gt;
+55 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;::vec</link>(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a207fd5507206d307cd63f95374fcd00d">X</link>&#32;_x,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a798e4073d613ca5ba9618e1b3253df14">Y</link>&#32;_y,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a51591cf51bdd6c1f6015532422e7770e">Z</link>&#32;_z)
+56 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>(static_cast&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&gt;(_x))
+57 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>(static_cast&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&gt;(_y))
+58 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>(static_cast&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&gt;(_z))
+59 &#32;&#32;&#32;&#32;{}
+60 
+61 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+62 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;X,&#32;<emphasis role="keyword">typename</emphasis>&#32;Y,&#32;<emphasis role="keyword">typename</emphasis>&#32;Z&gt;
+63 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;::vec</link>(<link linkend="_structglm_1_1vec">vec&lt;1, X, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;_x,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a798e4073d613ca5ba9618e1b3253df14">Y</link>&#32;_y,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a51591cf51bdd6c1f6015532422e7770e">Z</link>&#32;_z)
+64 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>(static_cast&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&gt;(_x.<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>))
+65 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>(static_cast&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&gt;(_y))
+66 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>(static_cast&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&gt;(_z))
+67 &#32;&#32;&#32;&#32;{}
+68 
+69 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+70 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;X,&#32;<emphasis role="keyword">typename</emphasis>&#32;Y,&#32;<emphasis role="keyword">typename</emphasis>&#32;Z&gt;
+71 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;::vec</link>(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a207fd5507206d307cd63f95374fcd00d">X</link>&#32;_x,&#32;<link linkend="_structglm_1_1vec">vec&lt;1, Y, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;_y,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a51591cf51bdd6c1f6015532422e7770e">Z</link>&#32;_z)
+72 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>(static_cast&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&gt;(_x))
+73 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>(static_cast&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&gt;(_y.<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>))
+74 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>(static_cast&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&gt;(_z))
+75 &#32;&#32;&#32;&#32;{}
+76 
+77 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+78 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;X,&#32;<emphasis role="keyword">typename</emphasis>&#32;Y,&#32;<emphasis role="keyword">typename</emphasis>&#32;Z&gt;
+79 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;::vec</link>(<link linkend="_structglm_1_1vec">vec&lt;1, X, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;_x,&#32;<link linkend="_structglm_1_1vec">vec&lt;1, Y, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;_y,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a51591cf51bdd6c1f6015532422e7770e">Z</link>&#32;_z)
+80 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>(static_cast&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&gt;(_x.<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>))
+81 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>(static_cast&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&gt;(_y.<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>))
+82 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>(static_cast&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&gt;(_z))
+83 &#32;&#32;&#32;&#32;{}
+84 
+85 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+86 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;X,&#32;<emphasis role="keyword">typename</emphasis>&#32;Y,&#32;<emphasis role="keyword">typename</emphasis>&#32;Z&gt;
+87 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;::vec</link>(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a207fd5507206d307cd63f95374fcd00d">X</link>&#32;_x,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a798e4073d613ca5ba9618e1b3253df14">Y</link>&#32;_y,&#32;<link linkend="_structglm_1_1vec">vec&lt;1, Z, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;_z)
+88 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>(static_cast&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&gt;(_x))
+89 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>(static_cast&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&gt;(_y))
+90 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>(static_cast&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&gt;(_z.<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>))
+91 &#32;&#32;&#32;&#32;{}
+92 
+93 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+94 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;X,&#32;<emphasis role="keyword">typename</emphasis>&#32;Y,&#32;<emphasis role="keyword">typename</emphasis>&#32;Z&gt;
+95 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;::vec</link>(<link linkend="_structglm_1_1vec">vec&lt;1, X, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;_x,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a798e4073d613ca5ba9618e1b3253df14">Y</link>&#32;_y,&#32;<link linkend="_structglm_1_1vec">vec&lt;1, Z, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;_z)
+96 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>(static_cast&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&gt;(_x.<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>))
+97 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>(static_cast&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&gt;(_y))
+98 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>(static_cast&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&gt;(_z.<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>))
+99 &#32;&#32;&#32;&#32;{}
+100 
+101 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+102 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;X,&#32;<emphasis role="keyword">typename</emphasis>&#32;Y,&#32;<emphasis role="keyword">typename</emphasis>&#32;Z&gt;
+103 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;::vec</link>(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a207fd5507206d307cd63f95374fcd00d">X</link>&#32;_x,&#32;<link linkend="_structglm_1_1vec">vec&lt;1, Y, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;_y,&#32;<link linkend="_structglm_1_1vec">vec&lt;1, Z, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;_z)
+104 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>(static_cast&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&gt;(_x))
+105 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>(static_cast&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&gt;(_y.<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>))
+106 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>(static_cast&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&gt;(_z.<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>))
+107 &#32;&#32;&#32;&#32;{}
+108 
+109 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+110 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;X,&#32;<emphasis role="keyword">typename</emphasis>&#32;Y,&#32;<emphasis role="keyword">typename</emphasis>&#32;Z&gt;
+111 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;::vec</link>(<link linkend="_structglm_1_1vec">vec&lt;1, X, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;_x,&#32;<link linkend="_structglm_1_1vec">vec&lt;1, Y, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;_y,&#32;<link linkend="_structglm_1_1vec">vec&lt;1, Z, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;_z)
+112 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>(static_cast&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&gt;(_x.<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>))
+113 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>(static_cast&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&gt;(_y.<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>))
+114 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>(static_cast&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&gt;(_z.<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>))
+115 &#32;&#32;&#32;&#32;{}
+116 
+117 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;--&#32;Conversion&#32;vector&#32;constructors&#32;--</emphasis>
+118 
+119 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+120 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;A,&#32;<emphasis role="keyword">typename</emphasis>&#32;B,&#32;qualifier&#32;P&gt;
+121 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;::vec</link>(<link linkend="_structglm_1_1vec">vec&lt;2, A, P&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;_xy,&#32;B&#32;_z)
+122 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>(static_cast&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&gt;(_xy.<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>))
+123 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>(static_cast&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&gt;(_xy.<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>))
+124 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>(static_cast&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&gt;(_z))
+125 &#32;&#32;&#32;&#32;{}
+126 
+127 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+128 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;A,&#32;<emphasis role="keyword">typename</emphasis>&#32;B,&#32;qualifier&#32;P&gt;
+129 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;::vec</link>(<link linkend="_structglm_1_1vec">vec&lt;2, A, P&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;_xy,&#32;<link linkend="_structglm_1_1vec">vec&lt;1, B, P&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;_z)
+130 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>(static_cast&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&gt;(_xy.<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>))
+131 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>(static_cast&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&gt;(_xy.<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>))
+132 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>(static_cast&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&gt;(_z.<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>))
+133 &#32;&#32;&#32;&#32;{}
+134 
+135 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+136 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;A,&#32;<emphasis role="keyword">typename</emphasis>&#32;B,&#32;qualifier&#32;P&gt;
+137 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;::vec</link>(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a955f504eccf76b4eb2489c0adab03121">A</link>&#32;_x,&#32;<link linkend="_structglm_1_1vec">vec&lt;2, B, P&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;_yz)
+138 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>(static_cast&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&gt;(_x))
+139 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>(static_cast&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&gt;(_yz.<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>))
+140 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>(static_cast&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&gt;(_yz.<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>))
+141 &#32;&#32;&#32;&#32;{}
+142 
+143 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+144 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;A,&#32;<emphasis role="keyword">typename</emphasis>&#32;B,&#32;qualifier&#32;P&gt;
+145 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;::vec</link>(<link linkend="_structglm_1_1vec">vec&lt;1, A, P&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;_x,&#32;<link linkend="_structglm_1_1vec">vec&lt;2, B, P&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;_yz)
+146 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>(static_cast&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&gt;(_x.<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>))
+147 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>(static_cast&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&gt;(_yz.<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>))
+148 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>(static_cast&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&gt;(_yz.<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>))
+149 &#32;&#32;&#32;&#32;{}
+150 
+151 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+152 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;U,&#32;qualifier&#32;P&gt;
+153 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;::vec</link>(<link linkend="_structglm_1_1vec">vec&lt;3, U, P&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+154 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>(static_cast&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&gt;(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>))
+155 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>(static_cast&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&gt;(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>))
+156 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>(static_cast&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&gt;(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>))
+157 &#32;&#32;&#32;&#32;{}
+158 
+159 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+160 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;U,&#32;qualifier&#32;P&gt;
+161 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;::vec</link>(<link linkend="_structglm_1_1vec">vec&lt;4, U, P&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+162 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>(static_cast&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&gt;(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>))
+163 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>(static_cast&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&gt;(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>))
+164 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>(static_cast&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&gt;(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>))
+165 &#32;&#32;&#32;&#32;{}
+166 
+167 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;--&#32;Component&#32;accesses&#32;--</emphasis>
+168 
+169 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+170 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;&amp;&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;::operator[]</link>(<emphasis role="keyword">typename</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;::length_type</link>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>)
+171 &#32;&#32;&#32;&#32;{
+172 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1ae83cabe58cd27cdd6170fcb1db626626">GLM_ASSERT_LENGTH</link>(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>,&#32;this-&gt;<link linkend="_glad_8h_1a011fc24f10426c01349e94a4edd4b0d5">length</link>());
+173 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">switch</emphasis>(i)
+174 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+175 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">default</emphasis>:
+176 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">case</emphasis>&#32;0:
+177 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>;
+178 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">case</emphasis>&#32;1:
+179 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>;
+180 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">case</emphasis>&#32;2:
+181 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>;
+182 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+183 &#32;&#32;&#32;&#32;}
+184 
+185 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+186 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_structglm_1_1vec_3_013_00_01_t_00_01_q_01_4_1a3b4920beb65c8c7be7fc1e2154100972">vec&lt;3, T, Q&gt;::operator[]</link>(<emphasis role="keyword">typename</emphasis>&#32;<link linkend="_structglm_1_1vec_3_013_00_01_t_00_01_q_01_4_1ab586a87f82719bfdd180336a98843257">vec&lt;3, T, Q&gt;::length_type</link>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>)<emphasis role="keyword">&#32;const</emphasis>
+187 <emphasis role="keyword">&#32;&#32;&#32;&#32;</emphasis>{
+188 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1ae83cabe58cd27cdd6170fcb1db626626">GLM_ASSERT_LENGTH</link>(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>,&#32;this-&gt;<link linkend="_glad_8h_1a011fc24f10426c01349e94a4edd4b0d5">length</link>());
+189 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">switch</emphasis>(i)
+190 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+191 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">default</emphasis>:
+192 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">case</emphasis>&#32;0:
+193 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>;
+194 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">case</emphasis>&#32;1:
+195 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>;
+196 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">case</emphasis>&#32;2:
+197 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>;
+198 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+199 &#32;&#32;&#32;&#32;}
+200 
+201 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;--&#32;Unary&#32;arithmetic&#32;operators&#32;--</emphasis>
+202 
+203 <emphasis role="preprocessor">#&#32;&#32;&#32;if&#32;GLM_CONFIG_DEFAULTED_FUNCTIONS&#32;==&#32;GLM_DISABLE</emphasis>
+204 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+205 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a8d46131aebdec5adbbb66521c86d3afe">GLM_DEFAULTED_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&amp;&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;::operator=</link>(<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+206 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+207 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>&#32;=&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x;
+208 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>&#32;=&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y;
+209 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>&#32;=&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.z;
+210 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;*<emphasis role="keyword">this</emphasis>;
+211 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+212 <emphasis role="preprocessor">#&#32;&#32;&#32;endif</emphasis>
+213 
+214 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+215 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;U&gt;
+216 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&amp;&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;::operator=</link>(<link linkend="_structglm_1_1vec">vec&lt;3, U, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+217 &#32;&#32;&#32;&#32;{
+218 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>&#32;=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x);
+219 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>&#32;=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y);
+220 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>&#32;=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.z);
+221 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;*<emphasis role="keyword">this</emphasis>;
+222 &#32;&#32;&#32;&#32;}
+223 
+224 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+225 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;U&gt;
+226 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;&amp;&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;::operator+=</link>(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1affc9cbf86b78292bdb405361761c47f5">U</link>&#32;scalar)
+227 &#32;&#32;&#32;&#32;{
+228 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>&#32;+=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(scalar);
+229 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>&#32;+=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(scalar);
+230 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>&#32;+=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(scalar);
+231 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;*<emphasis role="keyword">this</emphasis>;
+232 &#32;&#32;&#32;&#32;}
+233 
+234 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+235 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;U&gt;
+236 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;&amp;&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;::operator+=</link>(<link linkend="_structglm_1_1vec">vec&lt;1, U, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+237 &#32;&#32;&#32;&#32;{
+238 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>&#32;+=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x);
+239 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>&#32;+=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x);
+240 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>&#32;+=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x);
+241 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;*<emphasis role="keyword">this</emphasis>;
+242 &#32;&#32;&#32;&#32;}
+243 
+244 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+245 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;U&gt;
+246 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;&amp;&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;::operator+=</link>(<link linkend="_structglm_1_1vec">vec&lt;3, U, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+247 &#32;&#32;&#32;&#32;{
+248 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>&#32;+=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x);
+249 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>&#32;+=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y);
+250 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>&#32;+=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.z);
+251 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;*<emphasis role="keyword">this</emphasis>;
+252 &#32;&#32;&#32;&#32;}
+253 
+254 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+255 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;U&gt;
+256 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;&amp;&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;::operator-=</link>(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1affc9cbf86b78292bdb405361761c47f5">U</link>&#32;scalar)
+257 &#32;&#32;&#32;&#32;{
+258 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>&#32;-=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(scalar);
+259 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>&#32;-=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(scalar);
+260 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>&#32;-=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(scalar);
+261 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;*<emphasis role="keyword">this</emphasis>;
+262 &#32;&#32;&#32;&#32;}
+263 
+264 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+265 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;U&gt;
+266 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;&amp;&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;::operator-=</link>(<link linkend="_structglm_1_1vec">vec&lt;1, U, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+267 &#32;&#32;&#32;&#32;{
+268 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>&#32;-=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x);
+269 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>&#32;-=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x);
+270 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>&#32;-=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x);
+271 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;*<emphasis role="keyword">this</emphasis>;
+272 &#32;&#32;&#32;&#32;}
+273 
+274 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+275 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;U&gt;
+276 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;&amp;&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;::operator-=</link>(<link linkend="_structglm_1_1vec">vec&lt;3, U, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+277 &#32;&#32;&#32;&#32;{
+278 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>&#32;-=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x);
+279 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>&#32;-=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y);
+280 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>&#32;-=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.z);
+281 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;*<emphasis role="keyword">this</emphasis>;
+282 &#32;&#32;&#32;&#32;}
+283 
+284 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+285 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;U&gt;
+286 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;&amp;&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;::operator*=</link>(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1affc9cbf86b78292bdb405361761c47f5">U</link>&#32;scalar)
+287 &#32;&#32;&#32;&#32;{
+288 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>&#32;*=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(scalar);
+289 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>&#32;*=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(scalar);
+290 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>&#32;*=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(scalar);
+291 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;*<emphasis role="keyword">this</emphasis>;
+292 &#32;&#32;&#32;&#32;}
+293 
+294 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+295 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;U&gt;
+296 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;&amp;&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;::operator*=</link>(<link linkend="_structglm_1_1vec">vec&lt;1, U, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+297 &#32;&#32;&#32;&#32;{
+298 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>&#32;*=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x);
+299 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>&#32;*=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x);
+300 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>&#32;*=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x);
+301 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;*<emphasis role="keyword">this</emphasis>;
+302 &#32;&#32;&#32;&#32;}
+303 
+304 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+305 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;U&gt;
+306 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;&amp;&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;::operator*=</link>(<link linkend="_structglm_1_1vec">vec&lt;3, U, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+307 &#32;&#32;&#32;&#32;{
+308 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>&#32;*=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x);
+309 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>&#32;*=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y);
+310 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>&#32;*=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.z);
+311 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;*<emphasis role="keyword">this</emphasis>;
+312 &#32;&#32;&#32;&#32;}
+313 
+314 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+315 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;U&gt;
+316 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;&amp;&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;::operator/=</link>(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1affc9cbf86b78292bdb405361761c47f5">U</link>&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+317 &#32;&#32;&#32;&#32;{
+318 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>&#32;/=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>);
+319 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>&#32;/=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>);
+320 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>&#32;/=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>);
+321 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;*<emphasis role="keyword">this</emphasis>;
+322 &#32;&#32;&#32;&#32;}
+323 
+324 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+325 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;U&gt;
+326 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;&amp;&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;::operator/=</link>(<link linkend="_structglm_1_1vec">vec&lt;1, U, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+327 &#32;&#32;&#32;&#32;{
+328 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>&#32;/=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x);
+329 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>&#32;/=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x);
+330 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>&#32;/=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x);
+331 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;*<emphasis role="keyword">this</emphasis>;
+332 &#32;&#32;&#32;&#32;}
+333 
+334 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+335 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;U&gt;
+336 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;&amp;&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;::operator/=</link>(<link linkend="_structglm_1_1vec">vec&lt;3, U, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+337 &#32;&#32;&#32;&#32;{
+338 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>&#32;/=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x);
+339 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>&#32;/=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y);
+340 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>&#32;/=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.z);
+341 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;*<emphasis role="keyword">this</emphasis>;
+342 &#32;&#32;&#32;&#32;}
+343 
+344 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;--&#32;Increment&#32;and&#32;decrement&#32;operators&#32;--</emphasis>
+345 
+346 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+347 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;&amp;&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;::operator++</link>()
+348 &#32;&#32;&#32;&#32;{
+349 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;++this-&gt;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>;
+350 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;++this-&gt;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>;
+351 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;++this-&gt;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>;
+352 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;*<emphasis role="keyword">this</emphasis>;
+353 &#32;&#32;&#32;&#32;}
+354 
+355 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+356 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;&amp;&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;::operator--</link>()
+357 &#32;&#32;&#32;&#32;{
+358 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;--this-&gt;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>;
+359 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;--this-&gt;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>;
+360 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;--this-&gt;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>;
+361 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;*<emphasis role="keyword">this</emphasis>;
+362 &#32;&#32;&#32;&#32;}
+363 
+364 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+365 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;::operator++</link>(<emphasis role="keywordtype">int</emphasis>)
+366 &#32;&#32;&#32;&#32;{
+367 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;Result(*<emphasis role="keyword">this</emphasis>);
+368 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;++*<emphasis role="keyword">this</emphasis>;
+369 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;Result;
+370 &#32;&#32;&#32;&#32;}
+371 
+372 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+373 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;::operator--</link>(<emphasis role="keywordtype">int</emphasis>)
+374 &#32;&#32;&#32;&#32;{
+375 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;Result(*<emphasis role="keyword">this</emphasis>);
+376 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;--*<emphasis role="keyword">this</emphasis>;
+377 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;Result;
+378 &#32;&#32;&#32;&#32;}
+379 
+380 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;--&#32;Unary&#32;bit&#32;operators&#32;--</emphasis>
+381 
+382 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+383 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;U&gt;
+384 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;&amp;&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;::operator%=</link>(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1affc9cbf86b78292bdb405361761c47f5">U</link>&#32;scalar)
+385 &#32;&#32;&#32;&#32;{
+386 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>&#32;%=&#32;scalar;
+387 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>&#32;%=&#32;scalar;
+388 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>&#32;%=&#32;scalar;
+389 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;*<emphasis role="keyword">this</emphasis>;
+390 &#32;&#32;&#32;&#32;}
+391 
+392 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+393 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;U&gt;
+394 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;&amp;&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;::operator%=</link>(<link linkend="_structglm_1_1vec">vec&lt;1, U, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+395 &#32;&#32;&#32;&#32;{
+396 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>&#32;%=&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x;
+397 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>&#32;%=&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x;
+398 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>&#32;%=&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x;
+399 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;*<emphasis role="keyword">this</emphasis>;
+400 &#32;&#32;&#32;&#32;}
+401 
+402 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+403 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;U&gt;
+404 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;&amp;&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;::operator%=</link>(<link linkend="_structglm_1_1vec">vec&lt;3, U, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+405 &#32;&#32;&#32;&#32;{
+406 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>&#32;%=&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x;
+407 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>&#32;%=&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y;
+408 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>&#32;%=&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.z;
+409 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;*<emphasis role="keyword">this</emphasis>;
+410 &#32;&#32;&#32;&#32;}
+411 
+412 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+413 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;U&gt;
+414 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;&amp;&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;::operator&amp;=</link>(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1affc9cbf86b78292bdb405361761c47f5">U</link>&#32;scalar)
+415 &#32;&#32;&#32;&#32;{
+416 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>&#32;&amp;=&#32;scalar;
+417 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>&#32;&amp;=&#32;scalar;
+418 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>&#32;&amp;=&#32;scalar;
+419 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;*<emphasis role="keyword">this</emphasis>;
+420 &#32;&#32;&#32;&#32;}
+421 
+422 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+423 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;U&gt;
+424 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;&amp;&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;::operator&amp;=</link>(<link linkend="_structglm_1_1vec">vec&lt;1, U, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+425 &#32;&#32;&#32;&#32;{
+426 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>&#32;&amp;=&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x;
+427 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>&#32;&amp;=&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x;
+428 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>&#32;&amp;=&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x;
+429 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;*<emphasis role="keyword">this</emphasis>;
+430 &#32;&#32;&#32;&#32;}
+431 
+432 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+433 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;U&gt;
+434 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;&amp;&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;::operator&amp;=</link>(<link linkend="_structglm_1_1vec">vec&lt;3, U, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+435 &#32;&#32;&#32;&#32;{
+436 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>&#32;&amp;=&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x;
+437 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>&#32;&amp;=&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y;
+438 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>&#32;&amp;=&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.z;
+439 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;*<emphasis role="keyword">this</emphasis>;
+440 &#32;&#32;&#32;&#32;}
+441 
+442 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+443 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;U&gt;
+444 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;&amp;&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;::operator|=</link>(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1affc9cbf86b78292bdb405361761c47f5">U</link>&#32;scalar)
+445 &#32;&#32;&#32;&#32;{
+446 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>&#32;|=&#32;scalar;
+447 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>&#32;|=&#32;scalar;
+448 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>&#32;|=&#32;scalar;
+449 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;*<emphasis role="keyword">this</emphasis>;
+450 &#32;&#32;&#32;&#32;}
+451 
+452 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+453 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;U&gt;
+454 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;&amp;&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;::operator|=</link>(<link linkend="_structglm_1_1vec">vec&lt;1, U, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+455 &#32;&#32;&#32;&#32;{
+456 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>&#32;|=&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x;
+457 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>&#32;|=&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x;
+458 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>&#32;|=&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x;
+459 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;*<emphasis role="keyword">this</emphasis>;
+460 &#32;&#32;&#32;&#32;}
+461 
+462 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+463 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;U&gt;
+464 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;&amp;&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;::operator|=</link>(<link linkend="_structglm_1_1vec">vec&lt;3, U, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+465 &#32;&#32;&#32;&#32;{
+466 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>&#32;|=&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x;
+467 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>&#32;|=&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y;
+468 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>&#32;|=&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.z;
+469 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;*<emphasis role="keyword">this</emphasis>;
+470 &#32;&#32;&#32;&#32;}
+471 
+472 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+473 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;U&gt;
+474 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;&amp;&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;::operator^=</link>(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1affc9cbf86b78292bdb405361761c47f5">U</link>&#32;scalar)
+475 &#32;&#32;&#32;&#32;{
+476 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>&#32;^=&#32;scalar;
+477 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>&#32;^=&#32;scalar;
+478 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>&#32;^=&#32;scalar;
+479 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;*<emphasis role="keyword">this</emphasis>;
+480 &#32;&#32;&#32;&#32;}
+481 
+482 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+483 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;U&gt;
+484 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;&amp;&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;::operator^=</link>(<link linkend="_structglm_1_1vec">vec&lt;1, U, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+485 &#32;&#32;&#32;&#32;{
+486 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>&#32;^=&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x;
+487 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>&#32;^=&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x;
+488 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>&#32;^=&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x;
+489 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;*<emphasis role="keyword">this</emphasis>;
+490 &#32;&#32;&#32;&#32;}
+491 
+492 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+493 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;U&gt;
+494 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;&amp;&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;::operator^=</link>(<link linkend="_structglm_1_1vec">vec&lt;3, U, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+495 &#32;&#32;&#32;&#32;{
+496 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>&#32;^=&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x;
+497 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>&#32;^=&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y;
+498 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>&#32;^=&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.z;
+499 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;*<emphasis role="keyword">this</emphasis>;
+500 &#32;&#32;&#32;&#32;}
+501 
+502 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+503 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;U&gt;
+504 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;&amp;&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;::operator&lt;&lt;=</link>(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1affc9cbf86b78292bdb405361761c47f5">U</link>&#32;scalar)
+505 &#32;&#32;&#32;&#32;{
+506 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>&#32;&lt;&lt;=&#32;scalar;
+507 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>&#32;&lt;&lt;=&#32;scalar;
+508 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>&#32;&lt;&lt;=&#32;scalar;
+509 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;*<emphasis role="keyword">this</emphasis>;
+510 &#32;&#32;&#32;&#32;}
+511 
+512 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+513 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;U&gt;
+514 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;&amp;&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;::operator&lt;&lt;=</link>(<link linkend="_structglm_1_1vec">vec&lt;1, U, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+515 &#32;&#32;&#32;&#32;{
+516 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x &lt;&lt;= static_cast&lt;T&gt;</link>(v.x);
+517 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y &lt;&lt;= static_cast&lt;T&gt;</link>(v.x);
+518 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z &lt;&lt;= static_cast&lt;T&gt;</link>(v.x);
+519 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;*<emphasis role="keyword">this</emphasis>;
+520 &#32;&#32;&#32;&#32;}
+521 
+522 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+523 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;U&gt;
+524 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;&amp;&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;::operator&lt;&lt;=</link>(<link linkend="_structglm_1_1vec">vec&lt;3, U, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+525 &#32;&#32;&#32;&#32;{
+526 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x &lt;&lt;= static_cast&lt;T&gt;</link>(v.x);
+527 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y &lt;&lt;= static_cast&lt;T&gt;</link>(v.y);
+528 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z &lt;&lt;= static_cast&lt;T&gt;</link>(v.z);
+529 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;*<emphasis role="keyword">this</emphasis>;
+530 &#32;&#32;&#32;&#32;}
+531 
+532 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+533 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;U&gt;
+534 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;&amp;&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;::operator&gt;&gt;=</link>(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1affc9cbf86b78292bdb405361761c47f5">U</link>&#32;scalar)
+535 &#32;&#32;&#32;&#32;{
+536 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>&#32;&gt;&gt;=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(scalar);
+537 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>&#32;&gt;&gt;=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(scalar);
+538 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>&#32;&gt;&gt;=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(scalar);
+539 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;*<emphasis role="keyword">this</emphasis>;
+540 &#32;&#32;&#32;&#32;}
+541 
+542 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+543 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;U&gt;
+544 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;&amp;&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;::operator&gt;&gt;=</link>(<link linkend="_structglm_1_1vec">vec&lt;1, U, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+545 &#32;&#32;&#32;&#32;{
+546 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>&#32;&gt;&gt;=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x);
+547 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>&#32;&gt;&gt;=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x);
+548 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>&#32;&gt;&gt;=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x);
+549 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;*<emphasis role="keyword">this</emphasis>;
+550 &#32;&#32;&#32;&#32;}
+551 
+552 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+553 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;U&gt;
+554 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;&amp;&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;::operator&gt;&gt;=</link>(<link linkend="_structglm_1_1vec">vec&lt;3, U, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+555 &#32;&#32;&#32;&#32;{
+556 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>&#32;&gt;&gt;=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x);
+557 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>&#32;&gt;&gt;=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y);
+558 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>&#32;&gt;&gt;=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.z);
+559 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;*<emphasis role="keyword">this</emphasis>;
+560 &#32;&#32;&#32;&#32;}
+561 
+562 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;--&#32;Unary&#32;arithmetic&#32;operators&#32;--</emphasis>
+563 
+564 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+565 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<link linkend="_namespaceglm_1a809ba0dcacd43e527e0e61df2f5d1a30">operator+</link>(<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+566 &#32;&#32;&#32;&#32;{
+567 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>;
+568 &#32;&#32;&#32;&#32;}
+569 
+570 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+571 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<link linkend="_namespaceglm_1a1dfbbd88a1a43e04673684ab46d94534">operator-</link>(<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+572 &#32;&#32;&#32;&#32;{
+573 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>(
+574 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;-<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x,
+575 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;-<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y,
+576 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;-<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.z);
+577 &#32;&#32;&#32;&#32;}
+578 
+579 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;--&#32;Binary&#32;arithmetic&#32;operators&#32;--</emphasis>
+580 
+581 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+582 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<link linkend="_namespaceglm_1a809ba0dcacd43e527e0e61df2f5d1a30">operator+</link>(<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;scalar)
+583 &#32;&#32;&#32;&#32;{
+584 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>(
+585 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x&#32;+&#32;scalar,
+586 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y&#32;+&#32;scalar,
+587 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.z&#32;+&#32;scalar);
+588 &#32;&#32;&#32;&#32;}
+589 
+590 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+591 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<link linkend="_namespaceglm_1a809ba0dcacd43e527e0e61df2f5d1a30">operator+</link>(<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>,&#32;<link linkend="_structglm_1_1vec">vec&lt;1, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;scalar)
+592 &#32;&#32;&#32;&#32;{
+593 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>(
+594 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x&#32;+&#32;scalar.x,
+595 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y&#32;+&#32;scalar.x,
+596 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.z&#32;+&#32;scalar.x);
+597 &#32;&#32;&#32;&#32;}
+598 
+599 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+600 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<link linkend="_namespaceglm_1a809ba0dcacd43e527e0e61df2f5d1a30">operator+</link>(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;scalar,&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+601 &#32;&#32;&#32;&#32;{
+602 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>(
+603 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;scalar&#32;+&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x,
+604 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;scalar&#32;+&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y,
+605 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;scalar&#32;+&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.z);
+606 &#32;&#32;&#32;&#32;}
+607 
+608 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+609 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<link linkend="_namespaceglm_1a809ba0dcacd43e527e0e61df2f5d1a30">operator+</link>(<link linkend="_structglm_1_1vec">vec&lt;1, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;scalar,&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+610 &#32;&#32;&#32;&#32;{
+611 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>(
+612 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;scalar.x&#32;+&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x,
+613 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;scalar.x&#32;+&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y,
+614 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;scalar.x&#32;+&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.z);
+615 &#32;&#32;&#32;&#32;}
+616 
+617 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+618 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<link linkend="_namespaceglm_1a809ba0dcacd43e527e0e61df2f5d1a30">operator+</link>(<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>,&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>)
+619 &#32;&#32;&#32;&#32;{
+620 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>(
+621 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>.x&#32;+&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>.x,
+622 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>.y&#32;+&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>.y,
+623 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>.z&#32;+&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>.z);
+624 &#32;&#32;&#32;&#32;}
+625 
+626 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+627 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<link linkend="_namespaceglm_1a1dfbbd88a1a43e04673684ab46d94534">operator-</link>(<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;scalar)
+628 &#32;&#32;&#32;&#32;{
+629 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>(
+630 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x&#32;-&#32;scalar,
+631 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y&#32;-&#32;scalar,
+632 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.z&#32;-&#32;scalar);
+633 &#32;&#32;&#32;&#32;}
+634 
+635 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+636 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<link linkend="_namespaceglm_1a1dfbbd88a1a43e04673684ab46d94534">operator-</link>(<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>,&#32;<link linkend="_structglm_1_1vec">vec&lt;1, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;scalar)
+637 &#32;&#32;&#32;&#32;{
+638 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>(
+639 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x&#32;-&#32;scalar.x,
+640 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y&#32;-&#32;scalar.x,
+641 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.z&#32;-&#32;scalar.x);
+642 &#32;&#32;&#32;&#32;}
+643 
+644 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+645 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<link linkend="_namespaceglm_1a1dfbbd88a1a43e04673684ab46d94534">operator-</link>(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;scalar,&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+646 &#32;&#32;&#32;&#32;{
+647 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>(
+648 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;scalar&#32;-&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x,
+649 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;scalar&#32;-&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y,
+650 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;scalar&#32;-&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.z);
+651 &#32;&#32;&#32;&#32;}
+652 
+653 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+654 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<link linkend="_namespaceglm_1a1dfbbd88a1a43e04673684ab46d94534">operator-</link>(<link linkend="_structglm_1_1vec">vec&lt;1, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;scalar,&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+655 &#32;&#32;&#32;&#32;{
+656 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>(
+657 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;scalar.x&#32;-&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x,
+658 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;scalar.x&#32;-&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y,
+659 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;scalar.x&#32;-&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.z);
+660 &#32;&#32;&#32;&#32;}
+661 
+662 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+663 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<link linkend="_namespaceglm_1a1dfbbd88a1a43e04673684ab46d94534">operator-</link>(<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>,&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>)
+664 &#32;&#32;&#32;&#32;{
+665 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>(
+666 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>.x&#32;-&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>.x,
+667 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>.y&#32;-&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>.y,
+668 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>.z&#32;-&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>.z);
+669 &#32;&#32;&#32;&#32;}
+670 
+671 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+672 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<link linkend="_namespaceglm_1a059eb05d5d67f9f3482d905a80899bc6">operator*</link>(<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;scalar)
+673 &#32;&#32;&#32;&#32;{
+674 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>(
+675 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x&#32;*&#32;scalar,
+676 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y&#32;*&#32;scalar,
+677 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.z&#32;*&#32;scalar);
+678 &#32;&#32;&#32;&#32;}
+679 
+680 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+681 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<link linkend="_namespaceglm_1a059eb05d5d67f9f3482d905a80899bc6">operator*</link>(<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>,&#32;<link linkend="_structglm_1_1vec">vec&lt;1, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;scalar)
+682 &#32;&#32;&#32;&#32;{
+683 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>(
+684 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x&#32;*&#32;scalar.x,
+685 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y&#32;*&#32;scalar.x,
+686 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.z&#32;*&#32;scalar.x);
+687 &#32;&#32;&#32;&#32;}
+688 
+689 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+690 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<link linkend="_namespaceglm_1a059eb05d5d67f9f3482d905a80899bc6">operator*</link>(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;scalar,&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+691 &#32;&#32;&#32;&#32;{
+692 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>(
+693 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;scalar&#32;*&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x,
+694 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;scalar&#32;*&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y,
+695 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;scalar&#32;*&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.z);
+696 &#32;&#32;&#32;&#32;}
+697 
+698 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+699 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<link linkend="_namespaceglm_1a059eb05d5d67f9f3482d905a80899bc6">operator*</link>(<link linkend="_structglm_1_1vec">vec&lt;1, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;scalar,&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+700 &#32;&#32;&#32;&#32;{
+701 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>(
+702 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;scalar.x&#32;*&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x,
+703 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;scalar.x&#32;*&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y,
+704 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;scalar.x&#32;*&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.z);
+705 &#32;&#32;&#32;&#32;}
+706 
+707 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+708 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<link linkend="_namespaceglm_1a059eb05d5d67f9f3482d905a80899bc6">operator*</link>(<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>,&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>)
+709 &#32;&#32;&#32;&#32;{
+710 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>(
+711 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>.x&#32;*&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>.x,
+712 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>.y&#32;*&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>.y,
+713 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>.z&#32;*&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>.z);
+714 &#32;&#32;&#32;&#32;}
+715 
+716 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+717 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<link linkend="_namespaceglm_1ac9b148d6f97e69b28cad6be0cb041915">operator/</link>(<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;scalar)
+718 &#32;&#32;&#32;&#32;{
+719 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>(
+720 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x&#32;/&#32;scalar,
+721 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y&#32;/&#32;scalar,
+722 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.z&#32;/&#32;scalar);
+723 &#32;&#32;&#32;&#32;}
+724 
+725 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+726 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<link linkend="_namespaceglm_1ac9b148d6f97e69b28cad6be0cb041915">operator/</link>(<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>,&#32;<link linkend="_structglm_1_1vec">vec&lt;1, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;scalar)
+727 &#32;&#32;&#32;&#32;{
+728 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>(
+729 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x&#32;/&#32;scalar.x,
+730 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y&#32;/&#32;scalar.x,
+731 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.z&#32;/&#32;scalar.x);
+732 &#32;&#32;&#32;&#32;}
+733 
+734 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+735 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<link linkend="_namespaceglm_1ac9b148d6f97e69b28cad6be0cb041915">operator/</link>(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;scalar,&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+736 &#32;&#32;&#32;&#32;{
+737 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>(
+738 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;scalar&#32;/&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x,
+739 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;scalar&#32;/&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y,
+740 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;scalar&#32;/&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.z);
+741 &#32;&#32;&#32;&#32;}
+742 
+743 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+744 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<link linkend="_namespaceglm_1ac9b148d6f97e69b28cad6be0cb041915">operator/</link>(<link linkend="_structglm_1_1vec">vec&lt;1, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;scalar,&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+745 &#32;&#32;&#32;&#32;{
+746 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>(
+747 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;scalar.x&#32;/&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x,
+748 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;scalar.x&#32;/&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y,
+749 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;scalar.x&#32;/&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.z);
+750 &#32;&#32;&#32;&#32;}
+751 
+752 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+753 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<link linkend="_namespaceglm_1ac9b148d6f97e69b28cad6be0cb041915">operator/</link>(<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>,&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>)
+754 &#32;&#32;&#32;&#32;{
+755 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>(
+756 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>.x&#32;/&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>.x,
+757 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>.y&#32;/&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>.y,
+758 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>.z&#32;/&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>.z);
+759 &#32;&#32;&#32;&#32;}
+760 
+761 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;--&#32;Binary&#32;bit&#32;operators&#32;--</emphasis>
+762 
+763 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+764 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<link linkend="_namespaceglm_1ad13992bdf0dd6f817de965e28f4ae2bf">operator%</link>(<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;scalar)
+765 &#32;&#32;&#32;&#32;{
+766 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>(
+767 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x&#32;%&#32;scalar,
+768 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y&#32;%&#32;scalar,
+769 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.z&#32;%&#32;scalar);
+770 &#32;&#32;&#32;&#32;}
+771 
+772 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+773 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<link linkend="_namespaceglm_1ad13992bdf0dd6f817de965e28f4ae2bf">operator%</link>(<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>,&#32;<link linkend="_structglm_1_1vec">vec&lt;1, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;scalar)
+774 &#32;&#32;&#32;&#32;{
+775 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>(
+776 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x&#32;%&#32;scalar.x,
+777 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y&#32;%&#32;scalar.x,
+778 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.z&#32;%&#32;scalar.x);
+779 &#32;&#32;&#32;&#32;}
+780 
+781 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+782 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<link linkend="_namespaceglm_1ad13992bdf0dd6f817de965e28f4ae2bf">operator%</link>(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;scalar,&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+783 &#32;&#32;&#32;&#32;{
+784 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>(
+785 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;scalar&#32;%&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x,
+786 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;scalar&#32;%&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y,
+787 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;scalar&#32;%&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.z);
+788 &#32;&#32;&#32;&#32;}
+789 
+790 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+791 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<link linkend="_namespaceglm_1ad13992bdf0dd6f817de965e28f4ae2bf">operator%</link>(<link linkend="_structglm_1_1vec">vec&lt;1, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;scalar,&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+792 &#32;&#32;&#32;&#32;{
+793 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>(
+794 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;scalar.x&#32;%&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x,
+795 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;scalar.x&#32;%&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y,
+796 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;scalar.x&#32;%&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.z);
+797 &#32;&#32;&#32;&#32;}
+798 
+799 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+800 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<link linkend="_namespaceglm_1ad13992bdf0dd6f817de965e28f4ae2bf">operator%</link>(<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>,&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>)
+801 &#32;&#32;&#32;&#32;{
+802 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>(
+803 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>.x&#32;%&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>.x,
+804 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>.y&#32;%&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>.y,
+805 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>.z&#32;%&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>.z);
+806 &#32;&#32;&#32;&#32;}
+807 
+808 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+809 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<link linkend="_namespaceglm_1aabdf68ef3b7be9c9b37d01227fa55a36">operator&amp;</link>(<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;scalar)
+810 &#32;&#32;&#32;&#32;{
+811 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>(
+812 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x&#32;&amp;&#32;scalar,
+813 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y&#32;&amp;&#32;scalar,
+814 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.z&#32;&amp;&#32;scalar);
+815 &#32;&#32;&#32;&#32;}
+816 
+817 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+818 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<link linkend="_namespaceglm_1aabdf68ef3b7be9c9b37d01227fa55a36">operator&amp;</link>(<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>,&#32;<link linkend="_structglm_1_1vec">vec&lt;1, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;scalar)
+819 &#32;&#32;&#32;&#32;{
+820 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>(
+821 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x&#32;&amp;&#32;scalar.x,
+822 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y&#32;&amp;&#32;scalar.x,
+823 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.z&#32;&amp;&#32;scalar.x);
+824 &#32;&#32;&#32;&#32;}
+825 
+826 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+827 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<link linkend="_namespaceglm_1aabdf68ef3b7be9c9b37d01227fa55a36">operator&amp;</link>(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;scalar,&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+828 &#32;&#32;&#32;&#32;{
+829 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>(
+830 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;scalar&#32;&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x,
+831 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;scalar&#32;&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y,
+832 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;scalar&#32;&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.z);
+833 &#32;&#32;&#32;&#32;}
+834 
+835 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+836 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<link linkend="_namespaceglm_1aabdf68ef3b7be9c9b37d01227fa55a36">operator&amp;</link>(<link linkend="_structglm_1_1vec">vec&lt;1, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;scalar,&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+837 &#32;&#32;&#32;&#32;{
+838 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>(
+839 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;scalar.x&#32;&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x,
+840 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;scalar.x&#32;&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y,
+841 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;scalar.x&#32;&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.z);
+842 &#32;&#32;&#32;&#32;}
+843 
+844 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+845 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<link linkend="_namespaceglm_1aabdf68ef3b7be9c9b37d01227fa55a36">operator&amp;</link>(<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>,&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>)
+846 &#32;&#32;&#32;&#32;{
+847 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>(
+848 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>.x&#32;&amp;&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>.x,
+849 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>.y&#32;&amp;&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>.y,
+850 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>.z&#32;&amp;&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>.z);
+851 &#32;&#32;&#32;&#32;}
+852 
+853 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+854 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<link linkend="_namespaceglm_1a44ed37433f55f3f3247959ae7c5dd19d">operator|</link>(<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;scalar)
+855 &#32;&#32;&#32;&#32;{
+856 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>(
+857 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x&#32;|&#32;scalar,
+858 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y&#32;|&#32;scalar,
+859 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.z&#32;|&#32;scalar);
+860 &#32;&#32;&#32;&#32;}
+861 
+862 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+863 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<link linkend="_namespaceglm_1a44ed37433f55f3f3247959ae7c5dd19d">operator|</link>(<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>,&#32;<link linkend="_structglm_1_1vec">vec&lt;1, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;scalar)
+864 &#32;&#32;&#32;&#32;{
+865 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>(
+866 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x&#32;|&#32;scalar.x,
+867 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y&#32;|&#32;scalar.x,
+868 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.z&#32;|&#32;scalar.x);
+869 &#32;&#32;&#32;&#32;}
+870 
+871 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+872 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<link linkend="_namespaceglm_1a44ed37433f55f3f3247959ae7c5dd19d">operator|</link>(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;scalar,&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+873 &#32;&#32;&#32;&#32;{
+874 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>(
+875 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;scalar&#32;|&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x,
+876 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;scalar&#32;|&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y,
+877 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;scalar&#32;|&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.z);
+878 &#32;&#32;&#32;&#32;}
+879 
+880 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+881 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<link linkend="_namespaceglm_1a44ed37433f55f3f3247959ae7c5dd19d">operator|</link>(<link linkend="_structglm_1_1vec">vec&lt;1, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;scalar,&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+882 &#32;&#32;&#32;&#32;{
+883 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>(
+884 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;scalar.x&#32;|&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x,
+885 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;scalar.x&#32;|&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y,
+886 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;scalar.x&#32;|&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.z);
+887 &#32;&#32;&#32;&#32;}
+888 
+889 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+890 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<link linkend="_namespaceglm_1a44ed37433f55f3f3247959ae7c5dd19d">operator|</link>(<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>,&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>)
+891 &#32;&#32;&#32;&#32;{
+892 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>(
+893 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>.x&#32;|&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>.x,
+894 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>.y&#32;|&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>.y,
+895 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>.z&#32;|&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>.z);
+896 &#32;&#32;&#32;&#32;}
+897 
+898 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+899 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<link linkend="_namespaceglm_1a0bb25372483459213269be733f871e18">operator^</link>(<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;scalar)
+900 &#32;&#32;&#32;&#32;{
+901 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>(
+902 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x&#32;^&#32;scalar,
+903 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y&#32;^&#32;scalar,
+904 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.z&#32;^&#32;scalar);
+905 &#32;&#32;&#32;&#32;}
+906 
+907 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+908 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<link linkend="_namespaceglm_1a0bb25372483459213269be733f871e18">operator^</link>(<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>,&#32;<link linkend="_structglm_1_1vec">vec&lt;1, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;scalar)
+909 &#32;&#32;&#32;&#32;{
+910 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>(
+911 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x&#32;^&#32;scalar.x,
+912 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y&#32;^&#32;scalar.x,
+913 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.z&#32;^&#32;scalar.x);
+914 &#32;&#32;&#32;&#32;}
+915 
+916 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+917 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<link linkend="_namespaceglm_1a0bb25372483459213269be733f871e18">operator^</link>(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;scalar,&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+918 &#32;&#32;&#32;&#32;{
+919 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>(
+920 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;scalar&#32;^&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x,
+921 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;scalar&#32;^&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y,
+922 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;scalar&#32;^&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.z);
+923 &#32;&#32;&#32;&#32;}
+924 
+925 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+926 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<link linkend="_namespaceglm_1a0bb25372483459213269be733f871e18">operator^</link>(<link linkend="_structglm_1_1vec">vec&lt;1, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;scalar,&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+927 &#32;&#32;&#32;&#32;{
+928 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>(
+929 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;scalar.x&#32;^&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x,
+930 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;scalar.x&#32;^&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y,
+931 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;scalar.x&#32;^&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.z);
+932 &#32;&#32;&#32;&#32;}
+933 
+934 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+935 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<link linkend="_namespaceglm_1a0bb25372483459213269be733f871e18">operator^</link>(<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>,&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>)
+936 &#32;&#32;&#32;&#32;{
+937 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>(
+938 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>.x&#32;^&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>.x,
+939 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>.y&#32;^&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>.y,
+940 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>.z&#32;^&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>.z);
+941 &#32;&#32;&#32;&#32;}
+942 
+943 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+944 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<link linkend="_namespaceglm_1ad3cf7f0e123c67c39004344fe600e345">operator&lt;&lt;</link>(<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;scalar)
+945 &#32;&#32;&#32;&#32;{
+946 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>(
+947 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x&#32;&lt;&lt;&#32;scalar,
+948 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y&#32;&lt;&lt;&#32;scalar,
+949 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.z&#32;&lt;&lt;&#32;scalar);
+950 &#32;&#32;&#32;&#32;}
+951 
+952 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+953 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<link linkend="_namespaceglm_1ad3cf7f0e123c67c39004344fe600e345">operator&lt;&lt;</link>(<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>,&#32;<link linkend="_structglm_1_1vec">vec&lt;1, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;scalar)
+954 &#32;&#32;&#32;&#32;{
+955 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>(
+956 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x&#32;&lt;&lt;&#32;scalar.x,
+957 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y&#32;&lt;&lt;&#32;scalar.x,
+958 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.z&#32;&lt;&lt;&#32;scalar.x);
+959 &#32;&#32;&#32;&#32;}
+960 
+961 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+962 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<link linkend="_namespaceglm_1ad3cf7f0e123c67c39004344fe600e345">operator&lt;&lt;</link>(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;scalar,&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+963 &#32;&#32;&#32;&#32;{
+964 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>(
+965 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;scalar&#32;&lt;&lt;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x,
+966 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;scalar&#32;&lt;&lt;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y,
+967 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;scalar&#32;&lt;&lt;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.z);
+968 &#32;&#32;&#32;&#32;}
+969 
+970 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+971 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<link linkend="_namespaceglm_1ad3cf7f0e123c67c39004344fe600e345">operator&lt;&lt;</link>(<link linkend="_structglm_1_1vec">vec&lt;1, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;scalar,&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+972 &#32;&#32;&#32;&#32;{
+973 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>(
+974 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;scalar.x&#32;&lt;&lt;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x,
+975 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;scalar.x&#32;&lt;&lt;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y,
+976 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;scalar.x&#32;&lt;&lt;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.z);
+977 &#32;&#32;&#32;&#32;}
+978 
+979 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+980 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<link linkend="_namespaceglm_1ad3cf7f0e123c67c39004344fe600e345">operator&lt;&lt;</link>(<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>,&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>)
+981 &#32;&#32;&#32;&#32;{
+982 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>(
+983 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>.x&#32;&lt;&lt;&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>.x,
+984 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>.y&#32;&lt;&lt;&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>.y,
+985 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>.z&#32;&lt;&lt;&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>.z);
+986 &#32;&#32;&#32;&#32;}
+987 
+988 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+989 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<link linkend="_namespaceglm_1a4560e59cc4f5ddaf0ec23d1a7050b611">operator&gt;&gt;</link>(<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;scalar)
+990 &#32;&#32;&#32;&#32;{
+991 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>(
+992 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x&#32;&gt;&gt;&#32;scalar,
+993 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y&#32;&gt;&gt;&#32;scalar,
+994 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.z&#32;&gt;&gt;&#32;scalar);
+995 &#32;&#32;&#32;&#32;}
+996 
+997 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+998 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<link linkend="_namespaceglm_1a4560e59cc4f5ddaf0ec23d1a7050b611">operator&gt;&gt;</link>(<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>,&#32;<link linkend="_structglm_1_1vec">vec&lt;1, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;scalar)
+999 &#32;&#32;&#32;&#32;{
+1000 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>(
+1001 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x&#32;&gt;&gt;&#32;scalar.x,
+1002 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y&#32;&gt;&gt;&#32;scalar.x,
+1003 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.z&#32;&gt;&gt;&#32;scalar.x);
+1004 &#32;&#32;&#32;&#32;}
+1005 
+1006 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+1007 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<link linkend="_namespaceglm_1a4560e59cc4f5ddaf0ec23d1a7050b611">operator&gt;&gt;</link>(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;scalar,&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+1008 &#32;&#32;&#32;&#32;{
+1009 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>(
+1010 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;scalar&#32;&gt;&gt;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x,
+1011 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;scalar&#32;&gt;&gt;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y,
+1012 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;scalar&#32;&gt;&gt;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.z);
+1013 &#32;&#32;&#32;&#32;}
+1014 
+1015 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+1016 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<link linkend="_namespaceglm_1a4560e59cc4f5ddaf0ec23d1a7050b611">operator&gt;&gt;</link>(<link linkend="_structglm_1_1vec">vec&lt;1, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;scalar,&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+1017 &#32;&#32;&#32;&#32;{
+1018 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>(
+1019 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;scalar.x&#32;&gt;&gt;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x,
+1020 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;scalar.x&#32;&gt;&gt;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y,
+1021 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;scalar.x&#32;&gt;&gt;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.z);
+1022 &#32;&#32;&#32;&#32;}
+1023 
+1024 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+1025 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<link linkend="_namespaceglm_1a4560e59cc4f5ddaf0ec23d1a7050b611">operator&gt;&gt;</link>(<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>,&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>)
+1026 &#32;&#32;&#32;&#32;{
+1027 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>(
+1028 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>.x&#32;&gt;&gt;&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>.x,
+1029 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>.y&#32;&gt;&gt;&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>.y,
+1030 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>.z&#32;&gt;&gt;&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>.z);
+1031 &#32;&#32;&#32;&#32;}
+1032 
+1033 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+1034 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<link linkend="_namespaceglm_1afdc1f70af7c16826e06fb41664f0808b">operator~</link>(<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+1035 &#32;&#32;&#32;&#32;{
+1036 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>(
+1037 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;~<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x,
+1038 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;~<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y,
+1039 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;~<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.z);
+1040 &#32;&#32;&#32;&#32;}
+1041 
+1042 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;--&#32;Boolean&#32;operators&#32;--</emphasis>
+1043 
+1044 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+1045 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_namespaceglm_1a3a1034521aa2b584602552cfde969df4">operator==</link>(<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>,&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>)
+1046 &#32;&#32;&#32;&#32;{
+1047 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>
+1048 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structglm_1_1detail_1_1compute__equal">detail::compute_equal&lt;T, std::numeric_limits&lt;T&gt;::is_iec559</link>&gt;::call(<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>.x,&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>.x)&#32;&amp;&amp;
+1049 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structglm_1_1detail_1_1compute__equal">detail::compute_equal&lt;T, std::numeric_limits&lt;T&gt;::is_iec559</link>&gt;::call(<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>.y,&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>.y)&#32;&amp;&amp;
+1050 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structglm_1_1detail_1_1compute__equal">detail::compute_equal&lt;T, std::numeric_limits&lt;T&gt;::is_iec559</link>&gt;::call(<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>.z,&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>.z);
+1051 &#32;&#32;&#32;&#32;}
+1052 
+1053 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+1054 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_namespaceglm_1a48b18d1e2196ce32172d4ee26f02a502">operator!=</link>(<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>,&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>)
+1055 &#32;&#32;&#32;&#32;{
+1056 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;!(<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>&#32;==&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>);
+1057 &#32;&#32;&#32;&#32;}
+1058 
+1059 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;qualifier&#32;Q&gt;
+1060 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, bool, Q&gt;</link>&#32;<link linkend="_namespaceglm_1af994b530007e136104cca54e96984114">operator&amp;&amp;</link>(<link linkend="_structglm_1_1vec">vec&lt;3, bool, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>,&#32;<link linkend="_structglm_1_1vec">vec&lt;3, bool, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>)
+1061 &#32;&#32;&#32;&#32;{
+1062 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, bool, Q&gt;</link>(<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>.x&#32;&amp;&amp;&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>.x,&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>.y&#32;&amp;&amp;&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>.y,&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>.z&#32;&amp;&amp;&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>.z);
+1063 &#32;&#32;&#32;&#32;}
+1064 
+1065 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;qualifier&#32;Q&gt;
+1066 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, bool, Q&gt;</link>&#32;<link linkend="_namespaceglm_1aa1f2d6c2374ccc45b1a937bd752ce42e">operator||</link>(<link linkend="_structglm_1_1vec">vec&lt;3, bool, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>,&#32;<link linkend="_structglm_1_1vec">vec&lt;3, bool, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>)
+1067 &#32;&#32;&#32;&#32;{
+1068 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, bool, Q&gt;</link>(<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>.x&#32;||&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>.x,&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>.y&#32;||&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>.y,&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>.z&#32;||&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>.z);
+1069 &#32;&#32;&#32;&#32;}
+1070 }<emphasis role="comment">//namespace&#32;glm</emphasis>
+</programlisting></section>

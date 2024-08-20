@@ -1,0 +1,822 @@
+.TH "adhed/glm/detail/setup.hpp" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+adhed/glm/detail/setup.hpp
+.SH SYNOPSIS
+.br
+.PP
+\fR#include <cassert>\fP
+.br
+\fR#include <cstddef>\fP
+.br
+\fR#include '\&.\&./simd/platform\&.h'\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBglm::detail::is_int< T >\fP"
+.br
+.ti -1c
+.RI "struct \fBglm::detail::is_int< unsigned int >\fP"
+.br
+.ti -1c
+.RI "struct \fBglm::detail::is_int< signed int >\fP"
+.br
+.ti -1c
+.RI "struct \fBglm::detail::make_unsigned< genType >\fP"
+.br
+.ti -1c
+.RI "struct \fBglm::detail::make_unsigned< char >\fP"
+.br
+.ti -1c
+.RI "struct \fBglm::detail::make_unsigned< signed char >\fP"
+.br
+.ti -1c
+.RI "struct \fBglm::detail::make_unsigned< short >\fP"
+.br
+.ti -1c
+.RI "struct \fBglm::detail::make_unsigned< int >\fP"
+.br
+.ti -1c
+.RI "struct \fBglm::detail::make_unsigned< long >\fP"
+.br
+.ti -1c
+.RI "struct \fBglm::detail::make_unsigned< int64 >\fP"
+.br
+.ti -1c
+.RI "struct \fBglm::detail::make_unsigned< unsigned char >\fP"
+.br
+.ti -1c
+.RI "struct \fBglm::detail::make_unsigned< unsigned short >\fP"
+.br
+.ti -1c
+.RI "struct \fBglm::detail::make_unsigned< unsigned int >\fP"
+.br
+.ti -1c
+.RI "struct \fBglm::detail::make_unsigned< unsigned long >\fP"
+.br
+.ti -1c
+.RI "struct \fBglm::detail::make_unsigned< uint64 >\fP"
+.br
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI "namespace \fBglm\fP"
+.br
+.RI "\fBCore features\fP "
+.ti -1c
+.RI "namespace \fBglm::detail\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBGLM_VERSION_MAJOR\fP   1"
+.br
+.ti -1c
+.RI "#define \fBGLM_VERSION_MINOR\fP   0"
+.br
+.ti -1c
+.RI "#define \fBGLM_VERSION_PATCH\fP   0"
+.br
+.ti -1c
+.RI "#define \fBGLM_VERSION_REVISION\fP   0"
+.br
+.ti -1c
+.RI "#define \fBGLM_VERSION\fP   1000"
+.br
+.ti -1c
+.RI "#define \fBGLM_VERSION_MESSAGE\fP   'GLM: version 1\&.0\&.0'"
+.br
+.ti -1c
+.RI "#define \fBGLM_MAKE_API_VERSION\fP(variant,  major,  minor,  patch)       ((((uint32_t)(variant)) << 29\fBU\fP) | (((uint32_t)(major)) << 22\fBU\fP) | (((uint32_t)(minor)) << 12\fBU\fP) | ((uint32_t)(patch)))"
+.br
+.ti -1c
+.RI "#define \fBGLM_VERSION_COMPLETE\fP   \fBGLM_MAKE_API_VERSION\fP(0, \fBGLM_VERSION_MAJOR\fP, \fBGLM_VERSION_MINOR\fP, \fBGLM_VERSION_PATCH\fP)"
+.br
+.ti -1c
+.RI "#define \fBGLM_SETUP_INCLUDED\fP   \fBGLM_VERSION\fP"
+.br
+.ti -1c
+.RI "#define \fBGLM_GET_VERSION_VARIANT\fP(version)   ((uint32_t)(version) >> 29\fBU\fP)"
+.br
+.ti -1c
+.RI "#define \fBGLM_GET_VERSION_MAJOR\fP(version)   (((uint32_t)(version) >> 22\fBU\fP) & 0x7FU)"
+.br
+.ti -1c
+.RI "#define \fBGLM_GET_VERSION_MINOR\fP(version)   (((uint32_t)(version) >> 12\fBU\fP) & 0x3FFU)"
+.br
+.ti -1c
+.RI "#define \fBGLM_GET_VERSION_PATCH\fP(version)   ((uint32_t)(version) & 0xFFFU)"
+.br
+.ti -1c
+.RI "#define \fBGLM_DISABLE\fP   0"
+.br
+.ti -1c
+.RI "#define \fBGLM_ENABLE\fP   1"
+.br
+.ti -1c
+.RI "#define \fBGLM_MESSAGES\fP   \fBGLM_DISABLE\fP"
+.br
+.ti -1c
+.RI "#define \fBGLM_MODEL\fP   \fBGLM_MODEL_32\fP"
+.br
+.ti -1c
+.RI "#define \fBGLM_LANG_CXX98_FLAG\fP   (1 << 1)"
+.br
+.ti -1c
+.RI "#define \fBGLM_LANG_CXX03_FLAG\fP   (1 << 2)"
+.br
+.ti -1c
+.RI "#define \fBGLM_LANG_CXX0X_FLAG\fP   (1 << 3)"
+.br
+.ti -1c
+.RI "#define \fBGLM_LANG_CXX11_FLAG\fP   (1 << 4)"
+.br
+.ti -1c
+.RI "#define \fBGLM_LANG_CXX14_FLAG\fP   (1 << 5)"
+.br
+.ti -1c
+.RI "#define \fBGLM_LANG_CXX17_FLAG\fP   (1 << 6)"
+.br
+.ti -1c
+.RI "#define \fBGLM_LANG_CXX20_FLAG\fP   (1 << 7)"
+.br
+.ti -1c
+.RI "#define \fBGLM_LANG_CXXMS_FLAG\fP   (1 << 8)"
+.br
+.ti -1c
+.RI "#define \fBGLM_LANG_CXXGNU_FLAG\fP   (1 << 9)"
+.br
+.ti -1c
+.RI "#define \fBGLM_LANG_CXX98\fP   \fBGLM_LANG_CXX98_FLAG\fP"
+.br
+.ti -1c
+.RI "#define \fBGLM_LANG_CXX03\fP   (\fBGLM_LANG_CXX98\fP | \fBGLM_LANG_CXX03_FLAG\fP)"
+.br
+.ti -1c
+.RI "#define \fBGLM_LANG_CXX0X\fP   (\fBGLM_LANG_CXX03\fP | \fBGLM_LANG_CXX0X_FLAG\fP)"
+.br
+.ti -1c
+.RI "#define \fBGLM_LANG_CXX11\fP   (\fBGLM_LANG_CXX0X\fP | \fBGLM_LANG_CXX11_FLAG\fP)"
+.br
+.ti -1c
+.RI "#define \fBGLM_LANG_CXX14\fP   (\fBGLM_LANG_CXX11\fP | \fBGLM_LANG_CXX14_FLAG\fP)"
+.br
+.ti -1c
+.RI "#define \fBGLM_LANG_CXX17\fP   (\fBGLM_LANG_CXX14\fP | \fBGLM_LANG_CXX17_FLAG\fP)"
+.br
+.ti -1c
+.RI "#define \fBGLM_LANG_CXX20\fP   (\fBGLM_LANG_CXX17\fP | \fBGLM_LANG_CXX20_FLAG\fP)"
+.br
+.ti -1c
+.RI "#define \fBGLM_LANG_CXXMS\fP   \fBGLM_LANG_CXXMS_FLAG\fP"
+.br
+.ti -1c
+.RI "#define \fBGLM_LANG_CXXGNU\fP   \fBGLM_LANG_CXXGNU_FLAG\fP"
+.br
+.ti -1c
+.RI "#define \fBGLM_LANG_EXT\fP   0"
+.br
+.ti -1c
+.RI "#define \fBGLM_LANG_PLATFORM\fP   0"
+.br
+.ti -1c
+.RI "#define \fBGLM_LANG\fP   (0 | \fBGLM_LANG_EXT\fP)"
+.br
+.ti -1c
+.RI "#define \fBGLM_HAS_CXX11_STL\fP"
+.br
+.ti -1c
+.RI "#define \fBGLM_HAS_STATIC_ASSERT\fP"
+.br
+.ti -1c
+.RI "#define \fBGLM_HAS_EXTENDED_INTEGER_TYPE\fP"
+.br
+.ti -1c
+.RI "#define \fBGLM_HAS_INITIALIZER_LISTS\fP"
+.br
+.ti -1c
+.RI "#define \fBGLM_HAS_UNRESTRICTED_UNIONS\fP"
+.br
+.ti -1c
+.RI "#define \fBGLM_HAS_DEFAULTED_FUNCTIONS\fP"
+.br
+.ti -1c
+.RI "#define \fBGLM_HAS_RVALUE_REFERENCES\fP"
+.br
+.ti -1c
+.RI "#define \fBGLM_HAS_EXPLICIT_CONVERSION_OPERATORS\fP"
+.br
+.ti -1c
+.RI "#define \fBGLM_HAS_TEMPLATE_ALIASES\fP"
+.br
+.ti -1c
+.RI "#define \fBGLM_HAS_RANGE_FOR\fP"
+.br
+.ti -1c
+.RI "#define \fBGLM_HAS_ALIGNOF\fP"
+.br
+.ti -1c
+.RI "#define \fBGLM_HAS_CONSTEXPR\fP"
+.br
+.ti -1c
+.RI "#define \fBGLM_CONSTEXPR\fP"
+.br
+.ti -1c
+.RI "#define \fBGLM_HAS_IF_CONSTEXPR\fP   0"
+.br
+.ti -1c
+.RI "#define \fBGLM_IF_CONSTEXPR\fP   if"
+.br
+.ti -1c
+.RI "#define \fBGLM_NODISCARD\fP"
+.br
+.ti -1c
+.RI "#define \fBGLM_HAS_ASSIGNABLE\fP"
+.br
+.ti -1c
+.RI "#define \fBGLM_HAS_TRIVIAL_QUERIES\fP   0"
+.br
+.ti -1c
+.RI "#define \fBGLM_HAS_MAKE_SIGNED\fP"
+.br
+.ti -1c
+.RI "#define \fBGLM_HAS_BITSCAN_WINDOWS\fP   0"
+.br
+.ti -1c
+.RI "#define \fBGLM_HAS_NOEXCEPT\fP   0"
+.br
+.ti -1c
+.RI "#define \fBGLM_NOEXCEPT\fP"
+.br
+.ti -1c
+.RI "#define \fBGLM_HAS_OPENMP\fP   0"
+.br
+.ti -1c
+.RI "#define \fBGLM_CONFIG_NULLPTR\fP   \fBGLM_DISABLE\fP"
+.br
+.ti -1c
+.RI "#define \fBGLM_NULLPTR\fP   0"
+.br
+.ti -1c
+.RI "#define \fBGLM_STATIC_ASSERT\fP(\fBx\fP,  message)   \fBassert\fP(\fBx\fP)"
+.br
+.ti -1c
+.RI "#define \fBGLM_CUDA_FUNC_DEF\fP"
+.br
+.ti -1c
+.RI "#define \fBGLM_CUDA_FUNC_DECL\fP"
+.br
+.ti -1c
+.RI "#define \fBGLM_INLINE\fP   inline"
+.br
+.ti -1c
+.RI "#define \fBGLM_NEVER_INLINE\fP"
+.br
+.ti -1c
+.RI "#define \fBGLM_CTOR_DECL\fP   \fBGLM_CUDA_FUNC_DECL\fP \fBGLM_CONSTEXPR\fP"
+.br
+.ti -1c
+.RI "#define \fBGLM_FUNC_DISCARD_DECL\fP   \fBGLM_CUDA_FUNC_DECL\fP"
+.br
+.ti -1c
+.RI "#define \fBGLM_FUNC_DECL\fP   \fBGLM_NODISCARD\fP \fBGLM_CUDA_FUNC_DECL\fP"
+.br
+.ti -1c
+.RI "#define \fBGLM_FUNC_QUALIFIER\fP   \fBGLM_CUDA_FUNC_DEF\fP \fBGLM_INLINE\fP"
+.br
+.ti -1c
+.RI "#define \fBGLM_DEFAULTED_FUNC_DECL\fP   \fBGLM_FUNC_DISCARD_DECL\fP"
+.br
+.ti -1c
+.RI "#define \fBGLM_DEFAULTED_FUNC_QUALIFIER\fP   \fBGLM_FUNC_QUALIFIER\fP"
+.br
+.ti -1c
+.RI "#define \fBGLM_DEFAULTED_DEFAULT_CTOR_DECL\fP   \fBGLM_CUDA_FUNC_DECL\fP"
+.br
+.ti -1c
+.RI "#define \fBGLM_DEFAULTED_DEFAULT_CTOR_QUALIFIER\fP   \fBGLM_DEFAULTED_FUNC_QUALIFIER\fP"
+.br
+.ti -1c
+.RI "#define \fBGLM_SWIZZLE_DISABLED\fP   0"
+.br
+.ti -1c
+.RI "#define \fBGLM_SWIZZLE_OPERATOR\fP   1"
+.br
+.ti -1c
+.RI "#define \fBGLM_SWIZZLE_FUNCTION\fP   2"
+.br
+.ti -1c
+.RI "#define \fBGLM_CONFIG_SWIZZLE\fP   \fBGLM_SWIZZLE_DISABLED\fP"
+.br
+.ti -1c
+.RI "#define \fBGLM_CONFIG_UNRESTRICTED_GENTYPE\fP   \fBGLM_DISABLE\fP"
+.br
+.ti -1c
+.RI "#define \fBGLM_CONFIG_UNRESTRICTED_FLOAT\fP   \fBGLM_DISABLE\fP"
+.br
+.ti -1c
+.RI "#define \fBGLM_CLIP_CONTROL_ZO_BIT\fP   (1 << 0)"
+.br
+.ti -1c
+.RI "#define \fBGLM_CLIP_CONTROL_NO_BIT\fP   (1 << 1)"
+.br
+.ti -1c
+.RI "#define \fBGLM_CLIP_CONTROL_LH_BIT\fP   (1 << 2)"
+.br
+.ti -1c
+.RI "#define \fBGLM_CLIP_CONTROL_RH_BIT\fP   (1 << 3)"
+.br
+.ti -1c
+.RI "#define \fBGLM_CLIP_CONTROL_LH_ZO\fP   (\fBGLM_CLIP_CONTROL_LH_BIT\fP | \fBGLM_CLIP_CONTROL_ZO_BIT\fP)"
+.br
+.ti -1c
+.RI "#define \fBGLM_CLIP_CONTROL_LH_NO\fP   (\fBGLM_CLIP_CONTROL_LH_BIT\fP | \fBGLM_CLIP_CONTROL_NO_BIT\fP)"
+.br
+.ti -1c
+.RI "#define \fBGLM_CLIP_CONTROL_RH_ZO\fP   (\fBGLM_CLIP_CONTROL_RH_BIT\fP | \fBGLM_CLIP_CONTROL_ZO_BIT\fP)"
+.br
+.ti -1c
+.RI "#define \fBGLM_CLIP_CONTROL_RH_NO\fP   (\fBGLM_CLIP_CONTROL_RH_BIT\fP | \fBGLM_CLIP_CONTROL_NO_BIT\fP)"
+.br
+.ti -1c
+.RI "#define \fBGLM_CONFIG_CLIP_CONTROL\fP   \fBGLM_CLIP_CONTROL_RH_NO\fP"
+.br
+.ti -1c
+.RI "#define \fBGLM_DEPRECATED\fP"
+.br
+.ti -1c
+.RI "#define \fBGLM_ALIGNED_TYPEDEF\fP(\fBtype\fP,  \fBname\fP,  alignment)   typedef \fBtype\fP \fBname\fP"
+.br
+.ti -1c
+.RI "#define \fBGLM_EXPLICIT\fP"
+.br
+.ti -1c
+.RI "#define \fBGLM_LENGTH_INT\fP   1"
+.br
+.ti -1c
+.RI "#define \fBGLM_LENGTH_SIZE_T\fP   2"
+.br
+.ti -1c
+.RI "#define \fBGLM_CONFIG_LENGTH_TYPE\fP   \fBGLM_LENGTH_INT\fP"
+.br
+.ti -1c
+.RI "#define \fBGLM_ASSERT_LENGTH\fP(l,  max)   (\fBassert\fP ((l) >= 0 && (l) < (max)))"
+.br
+.ti -1c
+.RI "#define \fBGLM_CONFIG_CONSTEXP\fP   \fBGLM_DISABLE\fP"
+.br
+.ti -1c
+.RI "#define \fBGLM_COUNTOF\fP(arr)   sizeof(arr) / sizeof(arr[0])"
+.br
+.ti -1c
+.RI "#define \fBGLM_CONFIG_XYZW_ONLY\fP   \fBGLM_DISABLE\fP"
+.br
+.ti -1c
+.RI "#define \fBGLM_CTOR_INIT_DISABLE\fP   0"
+.br
+.ti -1c
+.RI "#define \fBGLM_CTOR_INITIALIZER_LIST\fP   1"
+.br
+.ti -1c
+.RI "#define \fBGLM_CTOR_INITIALISATION\fP   2"
+.br
+.ti -1c
+.RI "#define \fBGLM_CONFIG_CTOR_INIT\fP   \fBGLM_CTOR_INIT_DISABLE\fP"
+.br
+.ti -1c
+.RI "#define \fBGLM_CONFIG_SIMD\fP   \fBGLM_DISABLE\fP"
+.br
+.ti -1c
+.RI "#define \fBGLM_CONFIG_DEFAULTED_FUNCTIONS\fP   \fBGLM_DISABLE\fP"
+.br
+.ti -1c
+.RI "#define \fBGLM_DEFAULT\fP"
+.br
+.ti -1c
+.RI "#define \fBGLM_CONFIG_DEFAULTED_DEFAULT_CTOR\fP   \fBGLM_DISABLE\fP"
+.br
+.ti -1c
+.RI "#define \fBGLM_DEFAULT_CTOR\fP"
+.br
+.ti -1c
+.RI "#define \fBGLM_CONFIG_ALIGNED_GENTYPES\fP   \fBGLM_DISABLE\fP"
+.br
+.ti -1c
+.RI "#define \fBGLM_CONFIG_ANONYMOUS_STRUCT\fP   \fBGLM_DISABLE\fP"
+.br
+.ti -1c
+.RI "#define \fBGLM_SILENT_WARNINGS\fP   \fBGLM_ENABLE\fP"
+.br
+.ti -1c
+.RI "#define \fBGLM_HIGHP\fP   1"
+.br
+.ti -1c
+.RI "#define \fBGLM_MEDIUMP\fP   2"
+.br
+.ti -1c
+.RI "#define \fBGLM_LOWP\fP   3"
+.br
+.ti -1c
+.RI "#define \fBGLM_CONFIG_PRECISION_BOOL\fP   \fBGLM_HIGHP\fP"
+.br
+.ti -1c
+.RI "#define \fBGLM_CONFIG_PRECISION_INT\fP   \fBGLM_HIGHP\fP"
+.br
+.ti -1c
+.RI "#define \fBGLM_CONFIG_PRECISION_UINT\fP   \fBGLM_HIGHP\fP"
+.br
+.ti -1c
+.RI "#define \fBGLM_CONFIG_PRECISION_FLOAT\fP   \fBGLM_HIGHP\fP"
+.br
+.ti -1c
+.RI "#define \fBGLM_CONFIG_PRECISION_DOUBLE\fP   \fBGLM_HIGHP\fP"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef int \fBglm::length_t\fP"
+.br
+.ti -1c
+.RI "typedef unsigned int \fBglm::uint\fP"
+.br
+.ti -1c
+.RI "typedef unsigned long long \fBglm::detail::uint64\fP"
+.br
+.ti -1c
+.RI "typedef signed long long \fBglm::detail::int64\fP"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define GLM_ALIGNED_TYPEDEF( \fBtype\fP,  \fBname\fP,  alignment)   typedef \fBtype\fP \fBname\fP"
+
+.SS "#define GLM_ASSERT_LENGTH( l,  max)   (\fBassert\fP ((l) >= 0 && (l) < (max)))"
+
+.SS "#define GLM_CLIP_CONTROL_LH_BIT   (1 << 2)"
+
+.SS "#define GLM_CLIP_CONTROL_LH_NO   (\fBGLM_CLIP_CONTROL_LH_BIT\fP | \fBGLM_CLIP_CONTROL_NO_BIT\fP)"
+
+.SS "#define GLM_CLIP_CONTROL_LH_ZO   (\fBGLM_CLIP_CONTROL_LH_BIT\fP | \fBGLM_CLIP_CONTROL_ZO_BIT\fP)"
+
+.SS "#define GLM_CLIP_CONTROL_NO_BIT   (1 << 1)"
+
+.SS "#define GLM_CLIP_CONTROL_RH_BIT   (1 << 3)"
+
+.SS "#define GLM_CLIP_CONTROL_RH_NO   (\fBGLM_CLIP_CONTROL_RH_BIT\fP | \fBGLM_CLIP_CONTROL_NO_BIT\fP)"
+
+.SS "#define GLM_CLIP_CONTROL_RH_ZO   (\fBGLM_CLIP_CONTROL_RH_BIT\fP | \fBGLM_CLIP_CONTROL_ZO_BIT\fP)"
+
+.SS "#define GLM_CLIP_CONTROL_ZO_BIT   (1 << 0)"
+
+.SS "#define GLM_CONFIG_ALIGNED_GENTYPES   \fBGLM_DISABLE\fP"
+
+.SS "#define GLM_CONFIG_ANONYMOUS_STRUCT   \fBGLM_DISABLE\fP"
+
+.SS "#define GLM_CONFIG_CLIP_CONTROL   \fBGLM_CLIP_CONTROL_RH_NO\fP"
+
+.SS "#define GLM_CONFIG_CONSTEXP   \fBGLM_DISABLE\fP"
+
+.SS "#define GLM_CONFIG_CTOR_INIT   \fBGLM_CTOR_INIT_DISABLE\fP"
+
+.SS "#define GLM_CONFIG_DEFAULTED_DEFAULT_CTOR   \fBGLM_DISABLE\fP"
+
+.SS "#define GLM_CONFIG_DEFAULTED_FUNCTIONS   \fBGLM_DISABLE\fP"
+
+.SS "#define GLM_CONFIG_LENGTH_TYPE   \fBGLM_LENGTH_INT\fP"
+
+.SS "#define GLM_CONFIG_NULLPTR   \fBGLM_DISABLE\fP"
+
+.SS "#define GLM_CONFIG_PRECISION_BOOL   \fBGLM_HIGHP\fP"
+
+.SS "#define GLM_CONFIG_PRECISION_DOUBLE   \fBGLM_HIGHP\fP"
+
+.SS "#define GLM_CONFIG_PRECISION_FLOAT   \fBGLM_HIGHP\fP"
+
+.SS "#define GLM_CONFIG_PRECISION_INT   \fBGLM_HIGHP\fP"
+
+.SS "#define GLM_CONFIG_PRECISION_UINT   \fBGLM_HIGHP\fP"
+
+.SS "#define GLM_CONFIG_SIMD   \fBGLM_DISABLE\fP"
+
+.SS "#define GLM_CONFIG_SWIZZLE   \fBGLM_SWIZZLE_DISABLED\fP"
+
+.SS "#define GLM_CONFIG_UNRESTRICTED_FLOAT   \fBGLM_DISABLE\fP"
+
+.SS "#define GLM_CONFIG_UNRESTRICTED_GENTYPE   \fBGLM_DISABLE\fP"
+
+.SS "#define GLM_CONFIG_XYZW_ONLY   \fBGLM_DISABLE\fP"
+
+.SS "#define GLM_CONSTEXPR"
+
+.SS "#define GLM_COUNTOF( arr)   sizeof(arr) / sizeof(arr[0])"
+
+.SS "#define GLM_CTOR_DECL   \fBGLM_CUDA_FUNC_DECL\fP \fBGLM_CONSTEXPR\fP"
+
+.SS "#define GLM_CTOR_INIT_DISABLE   0"
+
+.SS "#define GLM_CTOR_INITIALISATION   2"
+
+.SS "#define GLM_CTOR_INITIALIZER_LIST   1"
+
+.SS "#define GLM_CUDA_FUNC_DECL"
+
+.SS "#define GLM_CUDA_FUNC_DEF"
+
+.SS "#define GLM_DEFAULT"
+
+.SS "#define GLM_DEFAULT_CTOR"
+
+.SS "#define GLM_DEFAULTED_DEFAULT_CTOR_DECL   \fBGLM_CUDA_FUNC_DECL\fP"
+
+.SS "#define GLM_DEFAULTED_DEFAULT_CTOR_QUALIFIER   \fBGLM_DEFAULTED_FUNC_QUALIFIER\fP"
+
+.SS "#define GLM_DEFAULTED_FUNC_DECL   \fBGLM_FUNC_DISCARD_DECL\fP"
+
+.SS "#define GLM_DEFAULTED_FUNC_QUALIFIER   \fBGLM_FUNC_QUALIFIER\fP"
+
+.SS "#define GLM_DEPRECATED"
+
+.SS "#define GLM_DISABLE   0"
+
+.SS "#define GLM_ENABLE   1"
+
+.SS "#define GLM_EXPLICIT"
+
+.SS "#define GLM_FUNC_DECL   \fBGLM_NODISCARD\fP \fBGLM_CUDA_FUNC_DECL\fP"
+
+.SS "#define GLM_FUNC_DISCARD_DECL   \fBGLM_CUDA_FUNC_DECL\fP"
+
+.SS "#define GLM_FUNC_QUALIFIER   \fBGLM_CUDA_FUNC_DEF\fP \fBGLM_INLINE\fP"
+
+.SS "#define GLM_GET_VERSION_MAJOR( version)   (((uint32_t)(version) >> 22\fBU\fP) & 0x7FU)"
+
+.SS "#define GLM_GET_VERSION_MINOR( version)   (((uint32_t)(version) >> 12\fBU\fP) & 0x3FFU)"
+
+.SS "#define GLM_GET_VERSION_PATCH( version)   ((uint32_t)(version) & 0xFFFU)"
+
+.SS "#define GLM_GET_VERSION_VARIANT( version)   ((uint32_t)(version) >> 29\fBU\fP)"
+
+.SS "#define GLM_HAS_ALIGNOF"
+\fBValue:\fP
+.nf
+        ((GLM_LANG & GLM_LANG_CXX0X_FLAG) && (\\
+        ((GLM_COMPILER & GLM_COMPILER_INTEL) && (GLM_COMPILER >= GLM_COMPILER_INTEL15)) || \\
+        ((GLM_COMPILER & GLM_COMPILER_VC) && (GLM_COMPILER >= GLM_COMPILER_VC14)) || \\
+        ((GLM_COMPILER & GLM_COMPILER_CUDA)) || \\
+        ((GLM_COMPILER & GLM_COMPILER_HIP))))
+.PP
+.fi
+
+.SS "#define GLM_HAS_ASSIGNABLE"
+\fBValue:\fP
+.nf
+        ((GLM_LANG & GLM_LANG_CXX0X_FLAG) && (\\
+        ((GLM_COMPILER & GLM_COMPILER_VC) && (GLM_COMPILER >= GLM_COMPILER_VC15)) || \\
+        ((GLM_COMPILER & GLM_COMPILER_GCC) && (GLM_COMPILER >= GLM_COMPILER_GCC49))))
+.PP
+.fi
+
+.SS "#define GLM_HAS_BITSCAN_WINDOWS   0"
+
+.SS "#define GLM_HAS_CONSTEXPR"
+\fBValue:\fP
+.nf
+        ((GLM_LANG & GLM_LANG_CXX0X_FLAG) && GLM_HAS_INITIALIZER_LISTS && (\\
+        ((GLM_COMPILER & GLM_COMPILER_INTEL) && (GLM_COMPILER >= GLM_COMPILER_INTEL17)) || \\
+        ((GLM_COMPILER & GLM_COMPILER_VC) && (GLM_COMPILER >= GLM_COMPILER_VC15))))
+.PP
+.fi
+
+.SS "#define GLM_HAS_CXX11_STL"
+\fBValue:\fP
+.nf
+        ((GLM_LANG & GLM_LANG_CXX0X_FLAG) && (\\
+        ((GLM_COMPILER & GLM_COMPILER_GCC) && (GLM_COMPILER >= GLM_COMPILER_GCC48)) || \\
+        ((GLM_COMPILER & GLM_COMPILER_VC) && (GLM_COMPILER >= GLM_COMPILER_VC12)) || \\
+        ((GLM_PLATFORM != GLM_PLATFORM_WINDOWS) && (GLM_COMPILER & GLM_COMPILER_INTEL) && (GLM_COMPILER >= GLM_COMPILER_INTEL15))))
+.PP
+.fi
+
+.SS "#define GLM_HAS_DEFAULTED_FUNCTIONS"
+\fBValue:\fP
+.nf
+        ((GLM_LANG & GLM_LANG_CXX0X_FLAG) && (\\
+        ((GLM_COMPILER & GLM_COMPILER_VC) && (GLM_COMPILER >= GLM_COMPILER_VC12)) || \\
+        ((GLM_COMPILER & GLM_COMPILER_INTEL)) || \\
+        (GLM_COMPILER & GLM_COMPILER_CUDA)) || \\
+        ((GLM_COMPILER & GLM_COMPILER_HIP)))
+.PP
+.fi
+
+.SS "#define GLM_HAS_EXPLICIT_CONVERSION_OPERATORS"
+\fBValue:\fP
+.nf
+        ((GLM_LANG & GLM_LANG_CXX0X_FLAG) && (\\
+        ((GLM_COMPILER & GLM_COMPILER_INTEL) && (GLM_COMPILER >= GLM_COMPILER_INTEL14)) || \\
+        ((GLM_COMPILER & GLM_COMPILER_VC) && (GLM_COMPILER >= GLM_COMPILER_VC12)) || \\
+        ((GLM_COMPILER & GLM_COMPILER_CUDA)) || \\
+        ((GLM_COMPILER & GLM_COMPILER_HIP))))
+.PP
+.fi
+
+.SS "#define GLM_HAS_EXTENDED_INTEGER_TYPE"
+\fBValue:\fP
+.nf
+        (\\
+        ((GLM_LANG & GLM_LANG_CXX0X_FLAG) && (GLM_COMPILER & GLM_COMPILER_VC)) || \\
+        ((GLM_LANG & GLM_LANG_CXX0X_FLAG) && (GLM_COMPILER & GLM_COMPILER_CUDA)) || \\
+        ((GLM_LANG & GLM_LANG_CXX0X_FLAG) && (GLM_COMPILER & GLM_COMPILER_CLANG)) || \\
+        ((GLM_COMPILER & GLM_COMPILER_HIP)))
+.PP
+.fi
+
+.SS "#define GLM_HAS_IF_CONSTEXPR   0"
+
+.SS "#define GLM_HAS_INITIALIZER_LISTS"
+\fBValue:\fP
+.nf
+        ((GLM_LANG & GLM_LANG_CXX0X_FLAG) && (\\
+        ((GLM_COMPILER & GLM_COMPILER_VC) && (GLM_COMPILER >= GLM_COMPILER_VC15)) || \\
+        ((GLM_COMPILER & GLM_COMPILER_INTEL) && (GLM_COMPILER >= GLM_COMPILER_INTEL14)) || \\
+        ((GLM_COMPILER & GLM_COMPILER_CUDA)) || \\
+        ((GLM_COMPILER & GLM_COMPILER_HIP))))
+.PP
+.fi
+
+.SS "#define GLM_HAS_MAKE_SIGNED"
+\fBValue:\fP
+.nf
+        ((GLM_LANG & GLM_LANG_CXX0X_FLAG) && (\\
+        ((GLM_COMPILER & GLM_COMPILER_VC) && (GLM_COMPILER >= GLM_COMPILER_VC12)) || \\
+        ((GLM_COMPILER & GLM_COMPILER_CUDA)) || \\
+        ((GLM_COMPILER & GLM_COMPILER_HIP))))
+.PP
+.fi
+
+.SS "#define GLM_HAS_NOEXCEPT   0"
+
+.SS "#define GLM_HAS_OPENMP   0"
+
+.SS "#define GLM_HAS_RANGE_FOR"
+\fBValue:\fP
+.nf
+        ((GLM_LANG & GLM_LANG_CXX0X_FLAG) && (\\
+        ((GLM_COMPILER & GLM_COMPILER_INTEL)) || \\
+        ((GLM_COMPILER & GLM_COMPILER_VC)) || \\
+        ((GLM_COMPILER & GLM_COMPILER_CUDA)) || \\
+        ((GLM_COMPILER & GLM_COMPILER_HIP))))
+.PP
+.fi
+
+.SS "#define GLM_HAS_RVALUE_REFERENCES"
+\fBValue:\fP
+.nf
+        ((GLM_LANG & GLM_LANG_CXX0X_FLAG) && (\\
+        ((GLM_COMPILER & GLM_COMPILER_VC)) || \\
+        ((GLM_COMPILER & GLM_COMPILER_CUDA)) || \\
+        ((GLM_COMPILER & GLM_COMPILER_HIP))))
+.PP
+.fi
+
+.SS "#define GLM_HAS_STATIC_ASSERT"
+\fBValue:\fP
+.nf
+        ((GLM_LANG & GLM_LANG_CXX0X_FLAG) && (\\
+        ((GLM_COMPILER & GLM_COMPILER_CUDA)) || \\
+        ((GLM_COMPILER & GLM_COMPILER_VC)) || \\
+        ((GLM_COMPILER & GLM_COMPILER_HIP))))
+.PP
+.fi
+
+.SS "#define GLM_HAS_TEMPLATE_ALIASES"
+\fBValue:\fP
+.nf
+        ((GLM_LANG & GLM_LANG_CXX0X_FLAG) && (\\
+        ((GLM_COMPILER & GLM_COMPILER_INTEL)) || \\
+        ((GLM_COMPILER & GLM_COMPILER_VC) && (GLM_COMPILER >= GLM_COMPILER_VC12)) || \\
+        ((GLM_COMPILER & GLM_COMPILER_CUDA)) || \\
+        ((GLM_COMPILER & GLM_COMPILER_HIP))))
+.PP
+.fi
+
+.SS "#define GLM_HAS_TRIVIAL_QUERIES   0"
+
+.SS "#define GLM_HAS_UNRESTRICTED_UNIONS"
+\fBValue:\fP
+.nf
+        (GLM_LANG & GLM_LANG_CXX0X_FLAG) && (\\
+        (GLM_COMPILER & GLM_COMPILER_VC) || \\
+        ((GLM_COMPILER & GLM_COMPILER_CUDA)) || \\
+        ((GLM_COMPILER & GLM_COMPILER_HIP)))
+.PP
+.fi
+
+.SS "#define GLM_HIGHP   1"
+
+.SS "#define GLM_IF_CONSTEXPR   if"
+
+.SS "#define GLM_INLINE   inline"
+
+.SS "#define GLM_LANG   (0 | \fBGLM_LANG_EXT\fP)"
+
+.SS "#define GLM_LANG_CXX03   (\fBGLM_LANG_CXX98\fP | \fBGLM_LANG_CXX03_FLAG\fP)"
+
+.SS "#define GLM_LANG_CXX03_FLAG   (1 << 2)"
+
+.SS "#define GLM_LANG_CXX0X   (\fBGLM_LANG_CXX03\fP | \fBGLM_LANG_CXX0X_FLAG\fP)"
+
+.SS "#define GLM_LANG_CXX0X_FLAG   (1 << 3)"
+
+.SS "#define GLM_LANG_CXX11   (\fBGLM_LANG_CXX0X\fP | \fBGLM_LANG_CXX11_FLAG\fP)"
+
+.SS "#define GLM_LANG_CXX11_FLAG   (1 << 4)"
+
+.SS "#define GLM_LANG_CXX14   (\fBGLM_LANG_CXX11\fP | \fBGLM_LANG_CXX14_FLAG\fP)"
+
+.SS "#define GLM_LANG_CXX14_FLAG   (1 << 5)"
+
+.SS "#define GLM_LANG_CXX17   (\fBGLM_LANG_CXX14\fP | \fBGLM_LANG_CXX17_FLAG\fP)"
+
+.SS "#define GLM_LANG_CXX17_FLAG   (1 << 6)"
+
+.SS "#define GLM_LANG_CXX20   (\fBGLM_LANG_CXX17\fP | \fBGLM_LANG_CXX20_FLAG\fP)"
+
+.SS "#define GLM_LANG_CXX20_FLAG   (1 << 7)"
+
+.SS "#define GLM_LANG_CXX98   \fBGLM_LANG_CXX98_FLAG\fP"
+
+.SS "#define GLM_LANG_CXX98_FLAG   (1 << 1)"
+
+.SS "#define GLM_LANG_CXXGNU   \fBGLM_LANG_CXXGNU_FLAG\fP"
+
+.SS "#define GLM_LANG_CXXGNU_FLAG   (1 << 9)"
+
+.SS "#define GLM_LANG_CXXMS   \fBGLM_LANG_CXXMS_FLAG\fP"
+
+.SS "#define GLM_LANG_CXXMS_FLAG   (1 << 8)"
+
+.SS "#define GLM_LANG_EXT   0"
+
+.SS "#define GLM_LANG_PLATFORM   0"
+
+.SS "#define GLM_LENGTH_INT   1"
+
+.SS "#define GLM_LENGTH_SIZE_T   2"
+
+.SS "#define GLM_LOWP   3"
+
+.SS "#define GLM_MAKE_API_VERSION( variant,  major,  minor,  patch)       ((((uint32_t)(variant)) << 29\fBU\fP) | (((uint32_t)(major)) << 22\fBU\fP) | (((uint32_t)(minor)) << 12\fBU\fP) | ((uint32_t)(patch)))"
+
+.SS "#define GLM_MEDIUMP   2"
+
+.SS "#define GLM_MESSAGES   \fBGLM_DISABLE\fP"
+
+.SS "#define GLM_MODEL   \fBGLM_MODEL_32\fP"
+
+.SS "#define GLM_NEVER_INLINE"
+
+.SS "#define GLM_NODISCARD"
+
+.SS "#define GLM_NOEXCEPT"
+
+.SS "#define GLM_NULLPTR   0"
+
+.SS "#define GLM_SETUP_INCLUDED   \fBGLM_VERSION\fP"
+
+.SS "#define GLM_SILENT_WARNINGS   \fBGLM_ENABLE\fP"
+
+.SS "#define GLM_STATIC_ASSERT( \fBx\fP,  message)   \fBassert\fP(\fBx\fP)"
+
+.SS "#define GLM_SWIZZLE_DISABLED   0"
+
+.SS "#define GLM_SWIZZLE_FUNCTION   2"
+
+.SS "#define GLM_SWIZZLE_OPERATOR   1"
+
+.SS "#define GLM_VERSION   1000"
+
+.SS "#define GLM_VERSION_COMPLETE   \fBGLM_MAKE_API_VERSION\fP(0, \fBGLM_VERSION_MAJOR\fP, \fBGLM_VERSION_MINOR\fP, \fBGLM_VERSION_PATCH\fP)"
+
+.SS "#define GLM_VERSION_MAJOR   1"
+
+.SS "#define GLM_VERSION_MESSAGE   'GLM: version 1\&.0\&.0'"
+
+.SS "#define GLM_VERSION_MINOR   0"
+
+.SS "#define GLM_VERSION_PATCH   0"
+
+.SS "#define GLM_VERSION_REVISION   0"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

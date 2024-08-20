@@ -222,5 +222,21 @@ class DATALINK;
 class IMPORTANT {
 public:
     static DATALINK* DATA;
+    static int GameObj_count;
 };
+#ifndef _OVERLOADLOCK_
+#define _OVERLOADLOCK_
+
+#define MEM_PROFILE 1;
+#if MEM_PROFILE ==1
+void* operator new(std::size_t count);
+
+void operator delete(void* ptr);
+
+#endif
+#endif // !1
+void PLTADD(const char* name, int val);
+void PLTREM(const char* name, int val);
+#define GOP PLTADD("GameobjCount",IMPORTANT::GameObj_count);  IMPORTANT::GameObj_count++;PLTADD("GameobjCount",IMPORTANT::GameObj_count);
+#define GOM PLTREM("GameobjCount",IMPORTANT::GameObj_count); IMPORTANT::GameObj_count--;PLTREM("GameobjCount",IMPORTANT::GameObj_count);
 #endif // _PCH_

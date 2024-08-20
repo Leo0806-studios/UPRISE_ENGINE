@@ -6,7 +6,7 @@
 #include "RENDER_MATERIAL.h"
 #include "RENDER_MATERIAL.h"
 #include "RENDER_SHADER_UTILLS.h"
-std::unordered_map<ConfigFile::ConfigType, std::unordered_map <std::string, std::shared_ptr<ConfigFile>>> CORE::ConfigLoader::ConfigDatabase;
+std::shared_ptr< std::unordered_map<ConfigFile::ConfigType, std::unordered_map <std::string, std::shared_ptr<ConfigFile>>> > CORE::ConfigLoader::ConfigDatabase;
 SettingsFile CORE::ConfigLoader::LoadSettingsFile(const char* path)
 {
     return SettingsFile();
@@ -40,7 +40,7 @@ void CORE::ConfigLoader::LoadConfigFiles(const std::filesystem::path path)
             }
         }
     }
-    std::cout << CORE::ConfigLoader::ConfigDatabase.size();
+    std::cout << CORE::ConfigLoader::ConfigDatabase->size();
     TrPrE(ctx)
 }
 
@@ -69,19 +69,19 @@ std::shared_ptr<ConfigFile> CORE::ConfigLoader::LoadCOnfigFile(const char* path)
     //    Data.push_back(path.get<std::string>());
 
     //}
-    if (ConnfigType == ConfigFile::ConfigType::Building) { std::shared_ptr<ConfigFile> ret = std::make_shared<Buidling>(Buidling(Name, Modelpath, Texturepaths, ConnfigType, Data));CORE::ConfigLoader::ConfigDatabase[ConfigFile::ConfigType::Building][Name]=ret; TrPrE(ctx) return ret; }
-    if (ConnfigType == ConfigFile::ConfigType::Vehicle) { std::shared_ptr<ConfigFile> ret = std::make_shared<Vehicle>(Vehicle(Name, Modelpath, Texturepaths, ConnfigType, Data)); CORE::ConfigLoader::ConfigDatabase[ConfigFile::ConfigType::Vehicle][Name] = ret; TrPrE(ctx) return ret;}
-    if (ConnfigType == ConfigFile::ConfigType::Projectile) { std::shared_ptr<ConfigFile> ret = std::make_shared<Projectile>(Projectile(Name, Modelpath, Texturepaths, ConnfigType, Data)); CORE::ConfigLoader::ConfigDatabase[ConfigFile::ConfigType::Projectile][Name] = ret; TrPrE(ctx) return ret;}
-    if (ConnfigType == ConfigFile::ConfigType::Particle) { std::shared_ptr<ConfigFile> ret = std::make_shared<Particle>(Particle(Name, Modelpath, Texturepaths, ConnfigType, Data)); CORE::ConfigLoader::ConfigDatabase[ConfigFile::ConfigType::Particle][Name] = ret; TrPrE(ctx) return ret;}
-    if (ConnfigType == ConfigFile::ConfigType::Island) { std::shared_ptr<ConfigFile> ret = std::make_shared<Island>(Island(Name, Modelpath, Texturepaths, ConnfigType, Data)); CORE::ConfigLoader::ConfigDatabase[ConfigFile::ConfigType::Island][Name] = ret; TrPrE(ctx) return ret;}
-    if (ConnfigType == ConfigFile::ConfigType::AiObject) { std::shared_ptr<ConfigFile> ret = std::make_shared<AiObject>(AiObject(Name, Modelpath, Texturepaths, ConnfigType, Data)); CORE::ConfigLoader::ConfigDatabase[ConfigFile::ConfigType::AiObject][Name] = ret; TrPrE(ctx) return ret;}
-    if (ConnfigType == ConfigFile::ConfigType::Global) { std::shared_ptr<ConfigFile> ret = std::make_shared<Global>(Global(Name, Modelpath, Texturepaths, ConnfigType, Data)); CORE::ConfigLoader::ConfigDatabase[ConfigFile::ConfigType::Global][Name] = ret; TrPrE(ctx) return ret;}
-    if (ConnfigType == ConfigFile::ConfigType::Manager) { std::shared_ptr<ConfigFile> ret = std::make_shared<Manager>(Manager(Name, Modelpath, Texturepaths, ConnfigType, Data)); CORE::ConfigLoader::ConfigDatabase[ConfigFile::ConfigType::Manager][Name] = ret; TrPrE(ctx) return ret;}
-    if (ConnfigType == ConfigFile::ConfigType::VertexShader) { std::shared_ptr<ConfigFile> ret = std::make_shared<VertexShader>(VertexShader(Name, Modelpath, Texturepaths, ConnfigType, Data)); CORE::ConfigLoader::ConfigDatabase[ConfigFile::ConfigType::VertexShader][Name] = ret; TrPrE(ctx) return ret;}
-    if (ConnfigType == ConfigFile::ConfigType::FragmentShader) { std::shared_ptr<ConfigFile> ret = std::make_shared<FragmentShader>(FragmentShader(Name, Modelpath, Texturepaths, ConnfigType, Data)); CORE::ConfigLoader::ConfigDatabase[ConfigFile::ConfigType::FragmentShader][Name] = ret; TrPrE(ctx) return ret;}
-    if (ConnfigType == ConfigFile::ConfigType::GeometryShader) { std::shared_ptr<ConfigFile> ret = std::make_shared<GeometryShader>(GeometryShader(Name, Modelpath, Texturepaths, ConnfigType, Data)); CORE::ConfigLoader::ConfigDatabase[ConfigFile::ConfigType::GeometryShader][Name] = ret; TrPrE(ctx) return ret;}
-    if (ConnfigType == ConfigFile::ConfigType::ComputeShader) { std::shared_ptr<ConfigFile> ret = std::make_shared<ComputeShader>(ComputeShader(Name, Modelpath, Texturepaths, ConnfigType, Data)); CORE::ConfigLoader::ConfigDatabase[ConfigFile::ConfigType::ComputeShader][Name] = ret; TrPrE(ctx) return ret;}
-    if (ConnfigType == ConfigFile::ConfigType::Material) { std::shared_ptr<ConfigFile> ret = std::make_shared<Material>(Material(Name, Modelpath, Texturepaths, ConnfigType, Data)); CORE::ConfigLoader::ConfigDatabase[ConfigFile::ConfigType::Material][Name] = ret; TrPrE(ctx) return ret;}
+    if (ConnfigType == ConfigFile::ConfigType::ConfigType_Building) { std::shared_ptr<ConfigFile> ret = std::make_shared<Building>(Building(Name, Modelpath, Texturepaths, ConnfigType, Data));CORE::ConfigLoader::ConfigDatabase->operator[](ConfigFile::ConfigType::ConfigType_Building)[Name]=ret; TrPrE(ctx) return ret; }
+    if (ConnfigType == ConfigFile::ConfigType::Vehicle) { std::shared_ptr<ConfigFile> ret = std::make_shared<Vehicle>(Vehicle(Name, Modelpath, Texturepaths, ConnfigType, Data)); CORE::ConfigLoader::ConfigDatabase->operator[](ConfigFile::ConfigType::Vehicle)[Name] = ret; TrPrE(ctx) return ret;}
+    if (ConnfigType == ConfigFile::ConfigType::Projectile) { std::shared_ptr<ConfigFile> ret = std::make_shared<Projectile>(Projectile(Name, Modelpath, Texturepaths, ConnfigType, Data)); CORE::ConfigLoader::ConfigDatabase->operator[](ConfigFile::ConfigType::Projectile)[Name] = ret; TrPrE(ctx) return ret;}
+    if (ConnfigType == ConfigFile::ConfigType::Particle) { std::shared_ptr<ConfigFile> ret = std::make_shared<Particle>(Particle(Name, Modelpath, Texturepaths, ConnfigType, Data)); CORE::ConfigLoader::ConfigDatabase->operator[](ConfigFile::ConfigType::Particle)[Name] = ret; TrPrE(ctx) return ret;}
+    if (ConnfigType == ConfigFile::ConfigType::Island) { std::shared_ptr<ConfigFile> ret = std::make_shared<Island>(Island(Name, Modelpath, Texturepaths, ConnfigType, Data)); CORE::ConfigLoader::ConfigDatabase->operator[](ConfigFile::ConfigType::Island)[Name] = ret; TrPrE(ctx) return ret;}
+    if (ConnfigType == ConfigFile::ConfigType::AiObject) { std::shared_ptr<ConfigFile> ret = std::make_shared<AiObject>(AiObject(Name, Modelpath, Texturepaths, ConnfigType, Data)); CORE::ConfigLoader::ConfigDatabase->operator[](ConfigFile::ConfigType::AiObject)[Name] = ret; TrPrE(ctx) return ret;}
+    if (ConnfigType == ConfigFile::ConfigType::Global) { std::shared_ptr<ConfigFile> ret = std::make_shared<Global>(Global(Name, Modelpath, Texturepaths, ConnfigType, Data)); CORE::ConfigLoader::ConfigDatabase->operator[](ConfigFile::ConfigType::Global)[Name] = ret; TrPrE(ctx) return ret;}
+    if (ConnfigType == ConfigFile::ConfigType::Manager) { std::shared_ptr<ConfigFile> ret = std::make_shared<Manager>(Manager(Name, Modelpath, Texturepaths, ConnfigType, Data)); CORE::ConfigLoader::ConfigDatabase->operator[](ConfigFile::ConfigType::Manager)[Name] = ret; TrPrE(ctx) return ret;}
+    if (ConnfigType == ConfigFile::ConfigType::VertexShader) { std::shared_ptr<ConfigFile> ret = std::make_shared<VertexShader>(VertexShader(Name, Modelpath, Texturepaths, ConnfigType, Data)); CORE::ConfigLoader::ConfigDatabase->operator[](ConfigFile::ConfigType::VertexShader)[Name] = ret; TrPrE(ctx) return ret;}
+    if (ConnfigType == ConfigFile::ConfigType::FragmentShader) { std::shared_ptr<ConfigFile> ret = std::make_shared<FragmentShader>(FragmentShader(Name, Modelpath, Texturepaths, ConnfigType, Data)); CORE::ConfigLoader::ConfigDatabase->operator[](ConfigFile::ConfigType::FragmentShader)[Name] = ret; TrPrE(ctx) return ret;}
+    if (ConnfigType == ConfigFile::ConfigType::GeometryShader) { std::shared_ptr<ConfigFile> ret = std::make_shared<GeometryShader>(GeometryShader(Name, Modelpath, Texturepaths, ConnfigType, Data)); CORE::ConfigLoader::ConfigDatabase->operator[](ConfigFile::ConfigType::GeometryShader)[Name] = ret; TrPrE(ctx) return ret;}
+    if (ConnfigType == ConfigFile::ConfigType::ComputeShader) { std::shared_ptr<ConfigFile> ret = std::make_shared<ComputeShader>(ComputeShader(Name, Modelpath, Texturepaths, ConnfigType, Data)); CORE::ConfigLoader::ConfigDatabase->operator[](ConfigFile::ConfigType::ComputeShader)[Name] = ret; TrPrE(ctx) return ret;}
+    if (ConnfigType == ConfigFile::ConfigType::ConfigType_Material) { std::shared_ptr<ConfigFile> ret = std::make_shared<Material>(Material(Name, Modelpath, Texturepaths, ConnfigType, Data)); CORE::ConfigLoader::ConfigDatabase->operator[](ConfigFile::ConfigType::ConfigType_Material)[Name] = ret; TrPrE(ctx) return ret;}
 }
 
 void CORE::ConfigLoader::LoadModels(const std::filesystem::path path) {
@@ -97,7 +97,7 @@ void CORE::ConfigLoader::LoadModels(const std::filesystem::path path) {
                             if (std::filesystem::is_regular_file(file.status())) {
                                 // Do something with each file
                                 PAIN::Model model = PAIN::Model(file.path().string());
-                                PAIN::Render::Modeldict[file.path().filename().string()] = std::make_shared<PAIN::Model>(model);
+                                PAIN::Render::Modeldict->operator[](file.path().filename().string()) = std::make_shared<PAIN::Model>(model);
                                 std::cout << "Found file: " << file.path().string() << std::endl;
                             }
                         }
@@ -128,16 +128,18 @@ void CORE::ConfigLoader::LoadMaterials(const std::filesystem::path path)
 {
     TrPr(ctx, __func__)
         int i = 0;
-    for (const auto material : CORE::ConfigLoader::ConfigDatabase[ConfigFile::ConfigType::Material]) {
+    for (const auto material : CORE::ConfigLoader::ConfigDatabase->operator[](ConfigFile::ConfigType::ConfigType_Material)) {
         auto a = std::dynamic_pointer_cast<Material>(material.second).get();
         if (a->ShaderCount == 2) {
-            auto oo= CORE::ConfigLoader::ConfigDatabase[ConfigFile::ConfigType::VertexShader][a->VertexShader];
-            auto aa= CORE::ConfigLoader::ConfigDatabase[ConfigFile::ConfigType::VertexShader][a->FragmentShader];
-            PAIN::Render::mats->push_back(ShaderFromCFGFile(CORE::ConfigLoader::ConfigDatabase[ConfigFile::ConfigType::VertexShader][a->VertexShader], CORE::ConfigLoader::ConfigDatabase[ConfigFile::ConfigType::FragmentShader][a->FragmentShader]));
+            auto oo= CORE::ConfigLoader::ConfigDatabase->operator[](ConfigFile::ConfigType::VertexShader)[a->VertexShader];
+            auto aa= CORE::ConfigLoader::ConfigDatabase->operator[](ConfigFile::ConfigType::VertexShader)[a->FragmentShader];
+            a->Mat_ID = PAIN::Render::mats->size();
+            PAIN::Render::mats->push_back(ShaderFromCFGFile(CORE::ConfigLoader::ConfigDatabase->operator[](ConfigFile::ConfigType::VertexShader)[a->VertexShader], CORE::ConfigLoader::ConfigDatabase->operator[](ConfigFile::ConfigType::FragmentShader)[a->FragmentShader]));
 
         }
         else if (a->ShaderCount == 3) {
-            PAIN::Render::mats->push_back(ShaderFromCFGFile(CORE::ConfigLoader::ConfigDatabase[ConfigFile::ConfigType::VertexShader][a->VertexShader], CORE::ConfigLoader::ConfigDatabase[ConfigFile::ConfigType::FragmentShader][a->FragmentShader], CORE::ConfigLoader::ConfigDatabase[ConfigFile::ConfigType::GeometryShader][a->GeometryShader]));
+            a->Mat_ID = PAIN::Render::mats->size();
+            PAIN::Render::mats->push_back(ShaderFromCFGFile(CORE::ConfigLoader::ConfigDatabase->operator[](ConfigFile::ConfigType::VertexShader)[a->VertexShader], CORE::ConfigLoader::ConfigDatabase->operator[](ConfigFile::ConfigType::FragmentShader)[a->FragmentShader], CORE::ConfigLoader::ConfigDatabase->operator[](ConfigFile::ConfigType::GeometryShader)[a->GeometryShader]));
 
 
         }
@@ -145,33 +147,56 @@ void CORE::ConfigLoader::LoadMaterials(const std::filesystem::path path)
     } 
     TrPrE(ctx)
 }
-template	<class _Ty, class _Arg>
-_Ty CORE::ConfigLoader::GameobjectFromCFGFile(std::shared_ptr<ConfigFile> CFG) {
+#define CREATE_CASE(x) case ConfigFile::ConfigType::x:
+//template	<class _Ty, class _Arg>
+std::shared_ptr<GameObject> CORE::ConfigLoader::GameobjectFromCFGFile(std::shared_ptr<ConfigFile> CFG, ConfigFile::ConfigType type) {
+    GameObject tmp;
+    switch (type) {
+        CREATE_CASE(ConfigType_Building) {
+           return std::dynamic_pointer_cast<Building>(CFG)->ref->CreateFromCFG();
+            break;
+        }
+        CREATE_CASE(Vehicle) { break; }
+        CREATE_CASE(Projectile) { break; }
+        CREATE_CASE(Particle) { break; }
+        CREATE_CASE(Island) { break; }
+        CREATE_CASE(AiObject) { break; }
+        CREATE_CASE(Global) { break; }
+        CREATE_CASE(Manager) { break; }
+        CREATE_CASE(VertexShader) { Log << "Error: Wrong ConfigType. got " << ConfigFile::toString(type); break; }
+        CREATE_CASE(FragmentShader) { Log << "Error: Wrong ConfigType. got " << ConfigFile::toString(type); break; }
+        CREATE_CASE(GeometryShader) { Log << "Error: Wrong ConfigType. got " << ConfigFile::toString(type); break; }
+        CREATE_CASE(ComputeShader) { Log << "Error: Wrong ConfigType. got " << ConfigFile::toString(type); break; }
+        CREATE_CASE(ConfigType_Material) { Log << "Error: Wrong ConfigType. got " << ConfigFile::toString(type); break; }
+        
+    }
+    
+    auto configCasted = CFG;
 
-    auto configCasted = std::dynamic_pointer_cast<_Arg>(CFG).get();
-    if (configCasted->ConfigType_ == (ConfigFile::ConfigType::VertexShader || ConfigFile::ConfigType::GeometryShader || ConfigFile::ConfigType::ComputeShader || ConfigFile::ConfigType::FragmentShader || ConfigFile::ConfigType::Material)) {
+    
+    if (configCasted->ConfigType_ == (ConfigFile::ConfigType::VertexShader || ConfigFile::ConfigType::GeometryShader || ConfigFile::ConfigType::ComputeShader || ConfigFile::ConfigType::FragmentShader || ConfigFile::ConfigType::ConfigType_Material)) {
         Log << "Error: Wrong ConfigType. got {0}.", configCasted->ConfigType_;
     }
     if (configCasted->ConfigType_ == (ConfigFile::ConfigType::AiObject || ConfigFile::ConfigType::Global || ConfigFile::ConfigType::Manager)) {
 
-        auto tmp = GameObject::CreateEmpty(TS_P_Vector3(0, 0, 0));
+        //auto tmp = GameObject::CreateEmpty(TS_P_Vector3(0, 0, 0));
         return std::make_shared<GameObject>(tmp);
     }
     else {
        // auto tmp = GameObject::Create(TS_P_Vector3(0, 0, 0), PAIN::Render::Modeldict[configCasted->Modelpath],0);
-        auto tmp = GameObject::CreateEmpty(TS_P_Vector3(0, 0, 0));
+       // auto tmp = GameObject::Create(DATATYPES::TS_P_Vector3(0,0,0),Quaternion(1,0,0,0),;
 
         return std::make_shared<GameObject>(tmp);
     }
     ;
 }
 
-template std::shared_ptr<GameObject> CORE::ConfigLoader::GameobjectFromCFGFile<std::shared_ptr<GameObject>, Buidling>(std::shared_ptr<ConfigFile> CFG);
-template std::shared_ptr<GameObject> CORE::ConfigLoader::GameobjectFromCFGFile<std::shared_ptr<GameObject>, Vehicle>(std::shared_ptr<ConfigFile> CFG);
-template std::shared_ptr<GameObject> CORE::ConfigLoader::GameobjectFromCFGFile<std::shared_ptr<GameObject>, Projectile>(std::shared_ptr<ConfigFile> CFG);
-template std::shared_ptr<GameObject> CORE::ConfigLoader::GameobjectFromCFGFile<std::shared_ptr<GameObject>, Particle>(std::shared_ptr<ConfigFile> CFG);
-template std::shared_ptr<GameObject> CORE::ConfigLoader::GameobjectFromCFGFile<std::shared_ptr<GameObject>, Island>(std::shared_ptr<ConfigFile> CFG);
-template std::shared_ptr<GameObject> CORE::ConfigLoader::GameobjectFromCFGFile<std::shared_ptr<GameObject>, AiObject>(std::shared_ptr<ConfigFile> CFG);
-template std::shared_ptr<GameObject> CORE::ConfigLoader::GameobjectFromCFGFile<std::shared_ptr<GameObject>, Global>(std::shared_ptr<ConfigFile> CFG);
-template std::shared_ptr<GameObject> CORE::ConfigLoader::GameobjectFromCFGFile<std::shared_ptr<GameObject>, Manager>(std::shared_ptr<ConfigFile> CFG);
+//template std::shared_ptr<GameObject> CORE::ConfigLoader::GameobjectFromCFGFile<std::shared_ptr<GameObject>, Buidling>(std::shared_ptr<ConfigFile> CFG);
+//template std::shared_ptr<GameObject> CORE::ConfigLoader::GameobjectFromCFGFile<std::shared_ptr<GameObject>, Vehicle>(std::shared_ptr<ConfigFile> CFG);
+//template std::shared_ptr<GameObject> CORE::ConfigLoader::GameobjectFromCFGFile<std::shared_ptr<GameObject>, Projectile>(std::shared_ptr<ConfigFile> CFG);
+//template std::shared_ptr<GameObject> CORE::ConfigLoader::GameobjectFromCFGFile<std::shared_ptr<GameObject>, Particle>(std::shared_ptr<ConfigFile> CFG);
+//template std::shared_ptr<GameObject> CORE::ConfigLoader::GameobjectFromCFGFile<std::shared_ptr<GameObject>, Island>(std::shared_ptr<ConfigFile> CFG);
+//template std::shared_ptr<GameObject> CORE::ConfigLoader::GameobjectFromCFGFile<std::shared_ptr<GameObject>, AiObject>(std::shared_ptr<ConfigFile> CFG);
+//template std::shared_ptr<GameObject> CORE::ConfigLoader::GameobjectFromCFGFile<std::shared_ptr<GameObject>, Global>(std::shared_ptr<ConfigFile> CFG);
+//template std::shared_ptr<GameObject> CORE::ConfigLoader::GameobjectFromCFGFile<std::shared_ptr<GameObject>, Manager>(std::shared_ptr<ConfigFile> CFG);
 

@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_hash_8hpp_source" xml:lang="en-US">
+<title>hash.hpp</title>
+<indexterm><primary>adhed/glm/gtx/hash.hpp</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 
+12 
+13 <emphasis role="preprocessor">#pragma&#32;once</emphasis>
+14 
+15 <emphasis role="preprocessor">#if&#32;defined(GLM_FORCE_MESSAGES)&#32;&amp;&amp;&#32;!defined(GLM_EXT_INCLUDED)</emphasis>
+16 <emphasis role="preprocessor">#&#32;&#32;&#32;ifndef&#32;GLM_ENABLE_EXPERIMENTAL</emphasis>
+17 <emphasis role="preprocessor">#&#32;&#32;&#32;&#32;&#32;&#32;&#32;pragma&#32;message(&quot;GLM:&#32;GLM_GTX_hash&#32;is&#32;an&#32;experimental&#32;extension&#32;and&#32;may&#32;change&#32;in&#32;the&#32;future.&#32;Use&#32;#define&#32;GLM_ENABLE_EXPERIMENTAL&#32;before&#32;including&#32;it,&#32;if&#32;you&#32;really&#32;want&#32;to&#32;use&#32;it.&quot;)</emphasis>
+18 <emphasis role="preprocessor">#&#32;&#32;&#32;else</emphasis>
+19 <emphasis role="preprocessor">#&#32;&#32;&#32;&#32;&#32;&#32;&#32;pragma&#32;message(&quot;GLM:&#32;GLM_GTX_hash&#32;extension&#32;included&quot;)</emphasis>
+20 <emphasis role="preprocessor">#&#32;&#32;&#32;endif</emphasis>
+21 <emphasis role="preprocessor">#endif</emphasis>
+22 
+23 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_vec2_8hpp">../vec2.hpp</link>&quot;</emphasis>
+24 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_vec3_8hpp">../vec3.hpp</link>&quot;</emphasis>
+25 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_vec4_8hpp">../vec4.hpp</link>&quot;</emphasis>
+26 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_vec1_8hpp">../gtc/vec1.hpp</link>&quot;</emphasis>
+27 
+28 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_gtc_2quaternion_8hpp">../gtc/quaternion.hpp</link>&quot;</emphasis>
+29 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_dual__quaternion_8hpp">../gtx/dual_quaternion.hpp</link>&quot;</emphasis>
+30 
+31 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_mat2x2_8hpp">../mat2x2.hpp</link>&quot;</emphasis>
+32 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_mat2x3_8hpp">../mat2x3.hpp</link>&quot;</emphasis>
+33 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_mat2x4_8hpp">../mat2x4.hpp</link>&quot;</emphasis>
+34 
+35 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_mat3x2_8hpp">../mat3x2.hpp</link>&quot;</emphasis>
+36 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_mat3x3_8hpp">../mat3x3.hpp</link>&quot;</emphasis>
+37 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_mat3x4_8hpp">../mat3x4.hpp</link>&quot;</emphasis>
+38 
+39 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_mat4x2_8hpp">../mat4x2.hpp</link>&quot;</emphasis>
+40 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_mat4x3_8hpp">../mat4x3.hpp</link>&quot;</emphasis>
+41 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_mat4x4_8hpp">../mat4x4.hpp</link>&quot;</emphasis>
+42 
+43 <emphasis role="preprocessor">#if&#32;__cplusplus&#32;&lt;&#32;201103L</emphasis>
+44 <emphasis role="preprocessor">#pragma&#32;message(&quot;GLM_GTX_hash&#32;requires&#32;C++11&#32;standard&#32;library&#32;support&quot;)</emphasis>
+45 <emphasis role="preprocessor">#endif</emphasis>
+46 
+47 <emphasis role="preprocessor">#if&#32;GLM_LANG&#32;&amp;&#32;GLM_LANG_CXX11</emphasis>
+48 <emphasis role="preprocessor">#define&#32;GLM_GTX_hash&#32;1</emphasis>
+49 <emphasis role="preprocessor">#include&#32;&lt;functional&gt;</emphasis>
+50 
+51 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespacestd">std</link>
+52 {
+53 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;glm::qualifier&#32;Q&gt;
+54 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis><link linkend="_namespacedetail_1a9dd43d16a6a490b032ceaca358755a29">hash</link>&lt;<link linkend="_namespaceglm">glm</link>::vec&lt;1,&#32;T,&#32;Q&gt;&#32;&gt;
+55 &#32;&#32;&#32;&#32;{
+56 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1ab2d052de21a70539923e9bcbf6e83a51">GLM_FUNC_DECL</link>&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;operator()(<link linkend="_structglm_1_1vec">glm::vec&lt;1, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_setup_8hpp_1a3da2160c4020143ff80a3ee6f9483b34">GLM_NOEXCEPT</link>;
+57 &#32;&#32;&#32;&#32;};
+58 
+59 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;glm::qualifier&#32;Q&gt;
+60 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis><link linkend="_namespacedetail_1a9dd43d16a6a490b032ceaca358755a29">hash</link>&lt;<link linkend="_namespaceglm">glm</link>::vec&lt;2,&#32;T,&#32;Q&gt;&#32;&gt;
+61 &#32;&#32;&#32;&#32;{
+62 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1ab2d052de21a70539923e9bcbf6e83a51">GLM_FUNC_DECL</link>&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;operator()(<link linkend="_structglm_1_1vec">glm::vec&lt;2, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_setup_8hpp_1a3da2160c4020143ff80a3ee6f9483b34">GLM_NOEXCEPT</link>;
+63 &#32;&#32;&#32;&#32;};
+64 
+65 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;glm::qualifier&#32;Q&gt;
+66 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis><link linkend="_namespacedetail_1a9dd43d16a6a490b032ceaca358755a29">hash</link>&lt;<link linkend="_namespaceglm">glm</link>::vec&lt;3,&#32;T,&#32;Q&gt;&#32;&gt;
+67 &#32;&#32;&#32;&#32;{
+68 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1ab2d052de21a70539923e9bcbf6e83a51">GLM_FUNC_DECL</link>&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;operator()(<link linkend="_structglm_1_1vec">glm::vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_setup_8hpp_1a3da2160c4020143ff80a3ee6f9483b34">GLM_NOEXCEPT</link>;
+69 &#32;&#32;&#32;&#32;};
+70 
+71 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;glm::qualifier&#32;Q&gt;
+72 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis><link linkend="_namespacedetail_1a9dd43d16a6a490b032ceaca358755a29">hash</link>&lt;<link linkend="_namespaceglm">glm</link>::vec&lt;4,&#32;T,&#32;Q&gt;&#32;&gt;
+73 &#32;&#32;&#32;&#32;{
+74 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1ab2d052de21a70539923e9bcbf6e83a51">GLM_FUNC_DECL</link>&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;operator()(<link linkend="_structglm_1_1vec">glm::vec&lt;4, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_setup_8hpp_1a3da2160c4020143ff80a3ee6f9483b34">GLM_NOEXCEPT</link>;
+75 &#32;&#32;&#32;&#32;};
+76 
+77 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;glm::qualifier&#32;Q&gt;
+78 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis><link linkend="_namespacedetail_1a9dd43d16a6a490b032ceaca358755a29">hash</link>&lt;<link linkend="_namespaceglm">glm</link>::qua&lt;T,&#32;Q&gt;&#32;&gt;
+79 &#32;&#32;&#32;&#32;{
+80 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1ab2d052de21a70539923e9bcbf6e83a51">GLM_FUNC_DECL</link>&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;operator()(<link linkend="_structglm_1_1qua">glm::qua&lt;T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;q)&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_setup_8hpp_1a3da2160c4020143ff80a3ee6f9483b34">GLM_NOEXCEPT</link>;
+81 &#32;&#32;&#32;&#32;};
+82 
+83 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;glm::qualifier&#32;Q&gt;
+84 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis><link linkend="_namespacedetail_1a9dd43d16a6a490b032ceaca358755a29">hash</link>&lt;<link linkend="_namespaceglm">glm</link>::tdualquat&lt;T,&#32;Q&gt;&#32;&gt;
+85 &#32;&#32;&#32;&#32;{
+86 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1ab2d052de21a70539923e9bcbf6e83a51">GLM_FUNC_DECL</link>&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;operator()(<link linkend="_structglm_1_1tdualquat">glm::tdualquat&lt;T,Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;q)&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_setup_8hpp_1a3da2160c4020143ff80a3ee6f9483b34">GLM_NOEXCEPT</link>;
+87 &#32;&#32;&#32;&#32;};
+88 
+89 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;glm::qualifier&#32;Q&gt;
+90 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis><link linkend="_namespacedetail_1a9dd43d16a6a490b032ceaca358755a29">hash</link>&lt;<link linkend="_namespaceglm">glm</link>::mat&lt;2,&#32;2,&#32;T,&#32;Q&gt;&#32;&gt;
+91 &#32;&#32;&#32;&#32;{
+92 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1ab2d052de21a70539923e9bcbf6e83a51">GLM_FUNC_DECL</link>&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;operator()(<link linkend="_structglm_1_1mat">glm::mat&lt;2, 2, T,Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;m)&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_setup_8hpp_1a3da2160c4020143ff80a3ee6f9483b34">GLM_NOEXCEPT</link>;
+93 &#32;&#32;&#32;&#32;};
+94 
+95 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;glm::qualifier&#32;Q&gt;
+96 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis><link linkend="_namespacedetail_1a9dd43d16a6a490b032ceaca358755a29">hash</link>&lt;<link linkend="_namespaceglm">glm</link>::mat&lt;2,&#32;3,&#32;T,&#32;Q&gt;&#32;&gt;
+97 &#32;&#32;&#32;&#32;{
+98 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1ab2d052de21a70539923e9bcbf6e83a51">GLM_FUNC_DECL</link>&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;operator()(<link linkend="_structglm_1_1mat">glm::mat&lt;2, 3, T,Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;m)&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_setup_8hpp_1a3da2160c4020143ff80a3ee6f9483b34">GLM_NOEXCEPT</link>;
+99 &#32;&#32;&#32;&#32;};
+100 
+101 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;glm::qualifier&#32;Q&gt;
+102 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis><link linkend="_namespacedetail_1a9dd43d16a6a490b032ceaca358755a29">hash</link>&lt;<link linkend="_namespaceglm">glm</link>::mat&lt;2,&#32;4,&#32;T,&#32;Q&gt;&#32;&gt;
+103 &#32;&#32;&#32;&#32;{
+104 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1ab2d052de21a70539923e9bcbf6e83a51">GLM_FUNC_DECL</link>&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;operator()(<link linkend="_structglm_1_1mat">glm::mat&lt;2, 4, T,Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;m)&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_setup_8hpp_1a3da2160c4020143ff80a3ee6f9483b34">GLM_NOEXCEPT</link>;
+105 &#32;&#32;&#32;&#32;};
+106 
+107 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;glm::qualifier&#32;Q&gt;
+108 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis><link linkend="_namespacedetail_1a9dd43d16a6a490b032ceaca358755a29">hash</link>&lt;<link linkend="_namespaceglm">glm</link>::mat&lt;3,&#32;2,&#32;T,&#32;Q&gt;&#32;&gt;
+109 &#32;&#32;&#32;&#32;{
+110 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1ab2d052de21a70539923e9bcbf6e83a51">GLM_FUNC_DECL</link>&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;operator()(<link linkend="_structglm_1_1mat">glm::mat&lt;3, 2, T,Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;m)&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_setup_8hpp_1a3da2160c4020143ff80a3ee6f9483b34">GLM_NOEXCEPT</link>;
+111 &#32;&#32;&#32;&#32;};
+112 
+113 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;glm::qualifier&#32;Q&gt;
+114 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis><link linkend="_namespacedetail_1a9dd43d16a6a490b032ceaca358755a29">hash</link>&lt;<link linkend="_namespaceglm">glm</link>::mat&lt;3,&#32;3,&#32;T,&#32;Q&gt;&#32;&gt;
+115 &#32;&#32;&#32;&#32;{
+116 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1ab2d052de21a70539923e9bcbf6e83a51">GLM_FUNC_DECL</link>&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;operator()(<link linkend="_structglm_1_1mat">glm::mat&lt;3, 3, T,Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;m)&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_setup_8hpp_1a3da2160c4020143ff80a3ee6f9483b34">GLM_NOEXCEPT</link>;
+117 &#32;&#32;&#32;&#32;};
+118 
+119 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;glm::qualifier&#32;Q&gt;
+120 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis><link linkend="_namespacedetail_1a9dd43d16a6a490b032ceaca358755a29">hash</link>&lt;<link linkend="_namespaceglm">glm</link>::mat&lt;3,&#32;4,&#32;T,&#32;Q&gt;&#32;&gt;
+121 &#32;&#32;&#32;&#32;{
+122 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1ab2d052de21a70539923e9bcbf6e83a51">GLM_FUNC_DECL</link>&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;operator()(<link linkend="_structglm_1_1mat">glm::mat&lt;3, 4, T,Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;m)&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_setup_8hpp_1a3da2160c4020143ff80a3ee6f9483b34">GLM_NOEXCEPT</link>;
+123 &#32;&#32;&#32;&#32;};
+124 
+125 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;glm::qualifier&#32;Q&gt;
+126 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis><link linkend="_namespacedetail_1a9dd43d16a6a490b032ceaca358755a29">hash</link>&lt;<link linkend="_namespaceglm">glm</link>::mat&lt;4,&#32;2,&#32;T,&#32;Q&gt;&#32;&gt;
+127 &#32;&#32;&#32;&#32;{
+128 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1ab2d052de21a70539923e9bcbf6e83a51">GLM_FUNC_DECL</link>&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;operator()(<link linkend="_structglm_1_1mat">glm::mat&lt;4, 2, T,Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;m)&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_setup_8hpp_1a3da2160c4020143ff80a3ee6f9483b34">GLM_NOEXCEPT</link>;
+129 &#32;&#32;&#32;&#32;};
+130 
+131 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;glm::qualifier&#32;Q&gt;
+132 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis><link linkend="_namespacedetail_1a9dd43d16a6a490b032ceaca358755a29">hash</link>&lt;<link linkend="_namespaceglm">glm</link>::mat&lt;4,&#32;3,&#32;T,&#32;Q&gt;&#32;&gt;
+133 &#32;&#32;&#32;&#32;{
+134 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1ab2d052de21a70539923e9bcbf6e83a51">GLM_FUNC_DECL</link>&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;operator()(<link linkend="_structglm_1_1mat">glm::mat&lt;4, 3, T,Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;m)&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_setup_8hpp_1a3da2160c4020143ff80a3ee6f9483b34">GLM_NOEXCEPT</link>;
+135 &#32;&#32;&#32;&#32;};
+136 
+137 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;glm::qualifier&#32;Q&gt;
+138 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis><link linkend="_namespacedetail_1a9dd43d16a6a490b032ceaca358755a29">hash</link>&lt;<link linkend="_namespaceglm">glm</link>::mat&lt;4,&#32;4,&#32;T,&#32;Q&gt;&#32;&gt;
+139 &#32;&#32;&#32;&#32;{
+140 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1ab2d052de21a70539923e9bcbf6e83a51">GLM_FUNC_DECL</link>&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;operator()(<link linkend="_structglm_1_1mat">glm::mat&lt;4, 4, T,Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;m)&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_setup_8hpp_1a3da2160c4020143ff80a3ee6f9483b34">GLM_NOEXCEPT</link>;
+141 &#32;&#32;&#32;&#32;};
+142 }&#32;<emphasis role="comment">//&#32;namespace&#32;std</emphasis>
+143 
+144 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_hash_8inl">hash.inl</link>&quot;</emphasis>
+145 
+146 <emphasis role="preprocessor">#endif&#32;</emphasis><emphasis role="comment">//GLM_LANG&#32;&amp;&#32;GLM_LANG_CXX11</emphasis>
+</programlisting></section>

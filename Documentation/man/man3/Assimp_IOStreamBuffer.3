@@ -1,0 +1,229 @@
+.TH "Assimp::IOStreamBuffer< T >" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Assimp::IOStreamBuffer< T >
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fR#include <IOStreamBuffer\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBIOStreamBuffer\fP (size_t cache=4096 *4096)"
+.br
+.RI "The class constructor\&. "
+.ti -1c
+.RI "\fB~IOStreamBuffer\fP ()"
+.br
+.RI "The class destructor\&. "
+.ti -1c
+.RI "bool \fBopen\fP (\fBIOStream\fP *\fBstream\fP)"
+.br
+.RI "Will open the cached access for a given stream\&. "
+.ti -1c
+.RI "bool \fBclose\fP ()"
+.br
+.RI "Will close the cached access\&. "
+.ti -1c
+.RI "size_t \fBsize\fP () const"
+.br
+.RI "Returns the file-size\&. "
+.ti -1c
+.RI "size_t \fBcacheSize\fP () const"
+.br
+.RI "Returns the cache size\&. "
+.ti -1c
+.RI "bool \fBreadNextBlock\fP ()"
+.br
+.RI "Will read the next block\&. "
+.ti -1c
+.RI "size_t \fBgetNumBlocks\fP () const"
+.br
+.RI "Returns the number of blocks to read\&. "
+.ti -1c
+.RI "size_t \fBgetCurrentBlockIndex\fP () const"
+.br
+.RI "Returns the current block index\&. "
+.ti -1c
+.RI "size_t \fBgetFilePos\fP () const"
+.br
+.RI "Returns the current file pos\&. "
+.ti -1c
+.RI "bool \fBgetNextDataLine\fP (std::vector< \fBT\fP > &\fBbuffer\fP, \fBT\fP continuationToken)"
+.br
+.RI "Will read the next line\&. "
+.ti -1c
+.RI "bool \fBgetNextLine\fP (std::vector< \fBT\fP > &\fBbuffer\fP)"
+.br
+.RI "Will read the next line ascii or binary end line char\&. "
+.ti -1c
+.RI "bool \fBgetNextBlock\fP (std::vector< \fBT\fP > &\fBbuffer\fP)"
+.br
+.RI "Will read the next block\&. "
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.SS "template<class \fBT\fP>
+.br
+class Assimp::IOStreamBuffer< T >"Implementation of a cached stream buffer\&. 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "template<class \fBT\fP > \fBAI_FORCE_INLINE\fP \fBAssimp::IOStreamBuffer\fP< \fBT\fP >::IOStreamBuffer (size_t cache = \fR4096 * 4096\fP)"
+
+.PP
+The class constructor\&. 
+.SS "template<class \fBT\fP > \fBAI_FORCE_INLINE\fP \fBAssimp::IOStreamBuffer\fP< \fBT\fP >::~\fBIOStreamBuffer\fP ()"
+
+.PP
+The class destructor\&. 
+.SH "Member Function Documentation"
+.PP 
+.SS "template<class \fBT\fP > \fBAI_FORCE_INLINE\fP size_t \fBAssimp::IOStreamBuffer\fP< \fBT\fP >::cacheSize () const"
+
+.PP
+Returns the cache size\&. 
+.PP
+\fBReturns\fP
+.RS 4
+The cache size\&. 
+.RE
+.PP
+
+.SS "template<class \fBT\fP > \fBAI_FORCE_INLINE\fP bool \fBAssimp::IOStreamBuffer\fP< \fBT\fP >::close ()"
+
+.PP
+Will close the cached access\&. 
+.PP
+\fBReturns\fP
+.RS 4
+true if successful\&. 
+.RE
+.PP
+
+.SS "template<class \fBT\fP > \fBAI_FORCE_INLINE\fP size_t \fBAssimp::IOStreamBuffer\fP< \fBT\fP >::getCurrentBlockIndex () const"
+
+.PP
+Returns the current block index\&. 
+.PP
+\fBReturns\fP
+.RS 4
+The current block index\&. 
+.RE
+.PP
+
+.SS "template<class \fBT\fP > \fBAI_FORCE_INLINE\fP size_t \fBAssimp::IOStreamBuffer\fP< \fBT\fP >::getFilePos () const"
+
+.PP
+Returns the current file pos\&. 
+.PP
+\fBReturns\fP
+.RS 4
+The current file pos\&. 
+.RE
+.PP
+
+.SS "template<class \fBT\fP > \fBAI_FORCE_INLINE\fP bool \fBAssimp::IOStreamBuffer\fP< \fBT\fP >::getNextBlock (std::vector< \fBT\fP > & buffer)"
+
+.PP
+Will read the next block\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIbuffer\fP The buffer for the next block\&. 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+true if successful\&. 
+.RE
+.PP
+
+.SS "template<class \fBT\fP > \fBAI_FORCE_INLINE\fP bool \fBAssimp::IOStreamBuffer\fP< \fBT\fP >::getNextDataLine (std::vector< \fBT\fP > & buffer, \fBT\fP continuationToken)"
+
+.PP
+Will read the next line\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIbuffer\fP The buffer for the next line\&. 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+true if successful\&. 
+.RE
+.PP
+
+.SS "template<class \fBT\fP > \fBAI_FORCE_INLINE\fP bool \fBAssimp::IOStreamBuffer\fP< \fBT\fP >::getNextLine (std::vector< \fBT\fP > & buffer)"
+
+.PP
+Will read the next line ascii or binary end line char\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIbuffer\fP The buffer for the next line\&. 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+true if successful\&. 
+.RE
+.PP
+
+.SS "template<class \fBT\fP > \fBAI_FORCE_INLINE\fP size_t \fBAssimp::IOStreamBuffer\fP< \fBT\fP >::getNumBlocks () const"
+
+.PP
+Returns the number of blocks to read\&. 
+.PP
+\fBReturns\fP
+.RS 4
+The number of blocks\&. 
+.RE
+.PP
+
+.SS "template<class \fBT\fP > \fBAI_FORCE_INLINE\fP bool \fBAssimp::IOStreamBuffer\fP< \fBT\fP >::open (\fBIOStream\fP * stream)"
+
+.PP
+Will open the cached access for a given stream\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIstream\fP The stream to cache\&. 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+true if successful\&. 
+.RE
+.PP
+
+.SS "template<class \fBT\fP > \fBAI_FORCE_INLINE\fP bool \fBAssimp::IOStreamBuffer\fP< \fBT\fP >::readNextBlock ()"
+
+.PP
+Will read the next block\&. 
+.PP
+\fBReturns\fP
+.RS 4
+true if successful\&. 
+.RE
+.PP
+
+.SS "template<class \fBT\fP > \fBAI_FORCE_INLINE\fP size_t \fBAssimp::IOStreamBuffer\fP< \fBT\fP >\fB::size\fP () const"
+
+.PP
+Returns the file-size\&. 
+.PP
+\fBReturns\fP
+.RS 4
+The file-size\&. 
+.RE
+.PP
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

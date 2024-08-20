@@ -1,0 +1,213 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_assimp_1_1_blob_i_o_stream" xml:lang="en-US">
+<title>Assimp::BlobIOStream Class Reference</title>
+<indexterm><primary>Assimp::BlobIOStream</primary></indexterm>
+<para>
+<computeroutput>#include &lt;BlobIOSystem.h&gt;</computeroutput>
+</para>
+<para>Inheritance diagram for Assimp::BlobIOStream:    <informalfigure>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="0" fileref="class_assimp_1_1_blob_i_o_stream.png"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </informalfigure>
+</para>
+<simplesect>
+    <title>Public Member Functions    </title>
+        <itemizedlist>
+            <listitem><para><link linkend="_class_assimp_1_1_blob_i_o_stream_1a8f35d99f46306fe8e7b7fb02d8b09f38">BlobIOStream</link> (<link linkend="_class_assimp_1_1_blob_i_o_system">BlobIOSystem</link> *creator, const std::string &amp;file, size_t initial=4096)</para>
+
+<para>The class constructor with all needed parameters. </para>
+</listitem>
+            <listitem><para><link linkend="_class_assimp_1_1_blob_i_o_stream_1a12c18de13363e35ee9a08550fcfbc41f">~BlobIOStream</link> () override</para>
+
+<para>The class destructor. </para>
+</listitem>
+            <listitem><para><link linkend="_structai_export_data_blob">aiExportDataBlob</link> * <link linkend="_class_assimp_1_1_blob_i_o_stream_1ae81d57b624c32b519d6049394d5aa1cb">GetBlob</link> ()</para>
+</listitem>
+            <listitem><para>size_t <link linkend="_class_assimp_1_1_blob_i_o_stream_1af7c647f5fee4cf0f34efdb637b08a6a3">Read</link> (<link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> *, size_t, size_t) override</para>
+
+<para>Read from the file. </para>
+</listitem>
+            <listitem><para>size_t <link linkend="_class_assimp_1_1_blob_i_o_stream_1a4ee82399ab9d8ea7d099311ca8daae31">Write</link> (const <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> *pvBuffer, size_t pSize, size_t pCount) override</para>
+
+<para>Write to the file. </para>
+</listitem>
+            <listitem><para><link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link> <link linkend="_class_assimp_1_1_blob_i_o_stream_1ac9438feded7e3d11fe884a5c8bf58e01">Seek</link> (size_t pOffset, <link linkend="_types_8h_1ac50fbaa57d78776ca99e42104d9b2786">aiOrigin</link> pOrigin) override</para>
+
+<para>Set the read/write cursor of the file. </para>
+</listitem>
+            <listitem><para>size_t <link linkend="_class_assimp_1_1_blob_i_o_stream_1ade466c822b6f0930c2744eb4ac799a4d">Tell</link> () const override</para>
+
+<para>Get the current position of the read/write cursor. </para>
+</listitem>
+            <listitem><para>size_t <link linkend="_class_assimp_1_1_blob_i_o_stream_1a5381f03b7609df4883ce2b1d1e30b61f">FileSize</link> () const override</para>
+
+<para>Returns filesize Returns the filesize. </para>
+</listitem>
+            <listitem><para><link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> <link linkend="_class_assimp_1_1_blob_i_o_stream_1a586a52bd8dbadb1ea579f80bbaad68bd">Flush</link> () override</para>
+
+<para>Flush the contents of the file buffer (for writers) See fflush() for more details. </para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+Public Member Functions inherited from <link linkend="_class_assimp_1_1_i_o_stream">Assimp::IOStream</link>        <itemizedlist>
+            <listitem><para>virtual <link linkend="_class_assimp_1_1_i_o_stream_1ae4c9bcff461dba7e26631e691ad8ed2f">~IOStream</link> ()</para>
+
+<para>Destructor. Deleting the object closes the underlying file, alternatively you may use <link linkend="_class_assimp_1_1_i_o_system_1a8c334d60f04bceeb6bd0157d21723f3e">IOSystem::Close()</link> to release the file. </para>
+</listitem>
+        </itemizedlist>
+<simplesect>
+    <title>Additional Inherited Members    </title>
+Protected Member Functions inherited from <link linkend="_class_assimp_1_1_i_o_stream">Assimp::IOStream</link>        <itemizedlist>
+            <listitem><para><link linkend="_class_assimp_1_1_i_o_stream_1a0be5cf1642597edeffe5360025ddf50f">IOStream</link> () <link linkend="_defs_8h_1ae032f18edd69bf6ba935ef9feb025a96">AI_NO_EXCEPT</link></para>
+
+<para>class <link linkend="_class_assimp_1_1_i_o_stream">IOStream</link> </para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para>Redirect <link linkend="_class_assimp_1_1_i_o_stream">IOStream</link> to a blob </para>
+</section>
+<section>
+<title>Constructor &amp; Destructor Documentation</title>
+<anchor xml:id="_class_assimp_1_1_blob_i_o_stream_1a8f35d99f46306fe8e7b7fb02d8b09f38"/><section>
+    <title>BlobIOStream()</title>
+<indexterm><primary>BlobIOStream</primary><secondary>Assimp::BlobIOStream</secondary></indexterm>
+<indexterm><primary>Assimp::BlobIOStream</primary><secondary>BlobIOStream</secondary></indexterm>
+<para><computeroutput>Assimp::BlobIOStream::BlobIOStream (<link linkend="_class_assimp_1_1_blob_i_o_system">BlobIOSystem</link> * creator, const std::string &amp; file, size_t initial = <computeroutput>4096</computeroutput>
+)<computeroutput>[inline]</computeroutput></computeroutput></para><para>
+
+<para>The class constructor with all needed parameters. </para>
+</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>creator</entry><entry>
+<para>Pointer to the creator instance </para>
+</entry>
+                            </row>
+                            <row>
+<entry>file</entry><entry>
+<para>The filename </para>
+</entry>
+                            </row>
+                            <row>
+<entry>initial</entry><entry>
+<para>The initial size </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                </para>
+</section>
+<anchor xml:id="_class_assimp_1_1_blob_i_o_stream_1a12c18de13363e35ee9a08550fcfbc41f"/><section>
+    <title>~BlobIOStream()</title>
+<indexterm><primary>~BlobIOStream</primary><secondary>Assimp::BlobIOStream</secondary></indexterm>
+<indexterm><primary>Assimp::BlobIOStream</primary><secondary>~BlobIOStream</secondary></indexterm>
+<para><computeroutput>Assimp::BlobIOStream::~BlobIOStream ( )<computeroutput>[override]</computeroutput></computeroutput></para><para>
+
+<para>The class destructor. </para>
+</para>
+</section>
+</section>
+<section>
+<title>Member Function Documentation</title>
+<anchor xml:id="_class_assimp_1_1_blob_i_o_stream_1a5381f03b7609df4883ce2b1d1e30b61f"/><section>
+    <title>FileSize()</title>
+<indexterm><primary>FileSize</primary><secondary>Assimp::BlobIOStream</secondary></indexterm>
+<indexterm><primary>Assimp::BlobIOStream</primary><secondary>FileSize</secondary></indexterm>
+<para><computeroutput>size_t Assimp::BlobIOStream::FileSize ( ) const<computeroutput>[inline]</computeroutput>, <computeroutput>[override]</computeroutput>, <computeroutput>[virtual]</computeroutput></computeroutput></para><para>
+
+<para>Returns filesize Returns the filesize. </para>
+</para>
+<para>
+Implements <link linkend="_class_assimp_1_1_i_o_stream_1aaa01183d197fb714f28d6c611b6fa058">Assimp::IOStream</link>.</para>
+</section>
+<anchor xml:id="_class_assimp_1_1_blob_i_o_stream_1a586a52bd8dbadb1ea579f80bbaad68bd"/><section>
+    <title>Flush()</title>
+<indexterm><primary>Flush</primary><secondary>Assimp::BlobIOStream</secondary></indexterm>
+<indexterm><primary>Assimp::BlobIOStream</primary><secondary>Flush</secondary></indexterm>
+<para><computeroutput><link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> Assimp::BlobIOStream::Flush ( )<computeroutput>[inline]</computeroutput>, <computeroutput>[override]</computeroutput>, <computeroutput>[virtual]</computeroutput></computeroutput></para><para>
+
+<para>Flush the contents of the file buffer (for writers) See fflush() for more details. </para>
+</para>
+<para>
+Implements <link linkend="_class_assimp_1_1_i_o_stream_1a7c19952446ece90924b246f087417899">Assimp::IOStream</link>.</para>
+</section>
+<anchor xml:id="_class_assimp_1_1_blob_i_o_stream_1ae81d57b624c32b519d6049394d5aa1cb"/><section>
+    <title>GetBlob()</title>
+<indexterm><primary>GetBlob</primary><secondary>Assimp::BlobIOStream</secondary></indexterm>
+<indexterm><primary>Assimp::BlobIOStream</primary><secondary>GetBlob</secondary></indexterm>
+<para><computeroutput><link linkend="_structai_export_data_blob">aiExportDataBlob</link> * Assimp::BlobIOStream::GetBlob ( )<computeroutput>[inline]</computeroutput></computeroutput></para></section>
+<anchor xml:id="_class_assimp_1_1_blob_i_o_stream_1af7c647f5fee4cf0f34efdb637b08a6a3"/><section>
+    <title>Read()</title>
+<indexterm><primary>Read</primary><secondary>Assimp::BlobIOStream</secondary></indexterm>
+<indexterm><primary>Assimp::BlobIOStream</primary><secondary>Read</secondary></indexterm>
+<para><computeroutput>size_t Assimp::BlobIOStream::Read (<link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> * pvBuffer, size_t pSize, size_t pCount)<computeroutput>[inline]</computeroutput>, <computeroutput>[override]</computeroutput>, <computeroutput>[virtual]</computeroutput></computeroutput></para><para>
+
+<para>Read from the file. </para>
+</para>
+
+<para>See fread() for more details This fails for write-only files </para>
+<para>
+Implements <link linkend="_class_assimp_1_1_i_o_stream_1ae376f641020989d61863b9c6f55c7abf">Assimp::IOStream</link>.</para>
+</section>
+<anchor xml:id="_class_assimp_1_1_blob_i_o_stream_1ac9438feded7e3d11fe884a5c8bf58e01"/><section>
+    <title>Seek()</title>
+<indexterm><primary>Seek</primary><secondary>Assimp::BlobIOStream</secondary></indexterm>
+<indexterm><primary>Assimp::BlobIOStream</primary><secondary>Seek</secondary></indexterm>
+<para><computeroutput><link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link> Assimp::BlobIOStream::Seek (size_t pOffset, <link linkend="_types_8h_1ac50fbaa57d78776ca99e42104d9b2786">aiOrigin</link> pOrigin)<computeroutput>[inline]</computeroutput>, <computeroutput>[override]</computeroutput>, <computeroutput>[virtual]</computeroutput></computeroutput></para><para>
+
+<para>Set the read/write cursor of the file. </para>
+</para>
+
+<para>Note that the offset is <emphasis>negative</emphasis> for aiOrigin_END. See fseek() for more details </para>
+<para>
+Implements <link linkend="_class_assimp_1_1_i_o_stream_1a5ed0dddf418ab08cf3fc21f3f3032220">Assimp::IOStream</link>.</para>
+</section>
+<anchor xml:id="_class_assimp_1_1_blob_i_o_stream_1ade466c822b6f0930c2744eb4ac799a4d"/><section>
+    <title>Tell()</title>
+<indexterm><primary>Tell</primary><secondary>Assimp::BlobIOStream</secondary></indexterm>
+<indexterm><primary>Assimp::BlobIOStream</primary><secondary>Tell</secondary></indexterm>
+<para><computeroutput>size_t Assimp::BlobIOStream::Tell ( ) const<computeroutput>[inline]</computeroutput>, <computeroutput>[override]</computeroutput>, <computeroutput>[virtual]</computeroutput></computeroutput></para><para>
+
+<para>Get the current position of the read/write cursor. </para>
+</para>
+
+<para>See ftell() for more details </para>
+<para>
+Implements <link linkend="_class_assimp_1_1_i_o_stream_1a316ac6cd16b5a493d1313f792c806194">Assimp::IOStream</link>.</para>
+</section>
+<anchor xml:id="_class_assimp_1_1_blob_i_o_stream_1a4ee82399ab9d8ea7d099311ca8daae31"/><section>
+    <title>Write()</title>
+<indexterm><primary>Write</primary><secondary>Assimp::BlobIOStream</secondary></indexterm>
+<indexterm><primary>Assimp::BlobIOStream</primary><secondary>Write</secondary></indexterm>
+<para><computeroutput>size_t Assimp::BlobIOStream::Write (const <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> * pvBuffer, size_t pSize, size_t pCount)<computeroutput>[inline]</computeroutput>, <computeroutput>[override]</computeroutput>, <computeroutput>[virtual]</computeroutput></computeroutput></para><para>
+
+<para>Write to the file. </para>
+</para>
+
+<para>See fwrite() for more details This fails for read-only files </para>
+<para>
+Implements <link linkend="_class_assimp_1_1_i_o_stream_1ad0ca4aae1b8c4d00db391ac3a4171f7b">Assimp::IOStream</link>.</para>
+</section>
+<para>
+The documentation for this class was generated from the following file:</para>
+adhed/assimp/<link linkend="__blob_i_o_system_8h">BlobIOSystem.h</link></section>
+</section>

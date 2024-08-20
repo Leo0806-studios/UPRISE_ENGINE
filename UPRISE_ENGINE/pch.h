@@ -10,6 +10,7 @@
 
 #include "tracy/Tracy.hpp"
 #include "tracy/TracyC.h"
+//#include "tracy/TracyOpenGL.hpp"
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 #define symLoad GetProcAddress 
@@ -151,7 +152,7 @@ namespace CORE {
 class fact {
 public:
     static VEC(std::shared_ptr<CORE::Behaviour>) inst;
-    static VEC(std::any) anys;
+    //static VEC(std::any) anys;
     //static std::function<std::unique_ptr<Behaviour>()> CreatorFunc;
     using  CreatorFunc = std::function<std::shared_ptr<CORE::Behaviour>()>;
 
@@ -208,4 +209,56 @@ public:
 //            });
 //    }
 //};
+
+class DATALINK;
+enum GameMode {
+    GameMode_Paused,
+    GameMode_Play,
+    GameMode_Stoped
+};
+class IMPORTANT {
+public:
+   static DATALINK* LINK;
+   static  const WCHAR* addrs;
+   static HINSTANCE handle; ;
+   typedef void (*create)();
+   typedef void(*print)();
+   typedef void(*externFuction)(DATALINK* DATA);
+   typedef DATALINK* (*GetDatabase)();
+   typedef void(*SetDatabase)(DATALINK*);
+   typedef void(*BEHAVIOUR_UPDATE)();
+   typedef void(*BEHAVIOUR_UPDATE_AWAKE)();
+   typedef void(*BEHAVIOUR_UPDATE_START)();
+   typedef void(*PHYSICS_UPDATE)();
+   typedef void(*DRAW_EDITOR)();
+   typedef void(*STOP)();
+
+   //static test* inst = NULL;
+
+  static create CREATE;
+  static print PRINT;
+  static externFuction Function;
+  static SetDatabase Set;
+  static GetDatabase Get;
+  static BEHAVIOUR_UPDATE B_Up;
+  static BEHAVIOUR_UPDATE_AWAKE B_Up_A;
+  static BEHAVIOUR_UPDATE_START B_Up_S;
+  static PHYSICS_UPDATE P_Up;
+  static DRAW_EDITOR D_E;
+  static STOP Stop;
+  static GameMode mode;
+  
+};
+#ifndef _OVERLOADLOCK_
+#define _OVERLOADLOCK_
+
+#define MEM_PROFILE 1;
+#if MEM_PROFILE ==1
+void* operator new(std::size_t count);
+
+void operator delete(void* ptr);
+
+#endif
+#endif // !1
+
 #endif // _PCH_

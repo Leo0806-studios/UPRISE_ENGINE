@@ -1,0 +1,84 @@
+.TH "packages/directxtk12_uwp.2024.6.5.1/include/DDSTextureLoader.h" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+packages/directxtk12_uwp.2024.6.5.1/include/DDSTextureLoader.h
+.SH SYNOPSIS
+.br
+.PP
+\fR#include <d3d12\&.h>\fP
+.br
+\fR#include <cstddef>\fP
+.br
+\fR#include <cstdint>\fP
+.br
+\fR#include <memory>\fP
+.br
+\fR#include <vector>\fP
+.br
+
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI "namespace \fBDirectX\fP"
+.br
+.ti -1c
+.RI "namespace \fBDirectX::DX12\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBDDS_ALPHA_MODE_DEFINED\fP"
+.br
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBDirectX::DDS_ALPHA_MODE\fP : uint32_t { \fBDirectX::DDS_ALPHA_MODE_UNKNOWN\fP = 0, \fBDirectX::DDS_ALPHA_MODE_STRAIGHT\fP = 1, \fBDirectX::DDS_ALPHA_MODE_PREMULTIPLIED\fP = 2, \fBDirectX::DDS_ALPHA_MODE_OPAQUE\fP = 3, \fBDirectX::DDS_ALPHA_MODE_CUSTOM\fP = 4, \fBDirectX::DDS_ALPHA_MODE_UNKNOWN\fP = 0, \fBDirectX::DDS_ALPHA_MODE_STRAIGHT\fP = 1, \fBDirectX::DDS_ALPHA_MODE_PREMULTIPLIED\fP = 2, \fBDirectX::DDS_ALPHA_MODE_OPAQUE\fP = 3, \fBDirectX::DDS_ALPHA_MODE_CUSTOM\fP = 4 }"
+.br
+.ti -1c
+.RI "enum \fBDirectX::DX12::DDS_LOADER_FLAGS\fP : uint32_t { \fBDirectX::DX12::DDS_LOADER_DEFAULT\fP = 0, \fBDirectX::DX12::DDS_LOADER_FORCE_SRGB\fP = 0x1, \fBDirectX::DX12::DDS_LOADER_IGNORE_SRGB\fP = 0x2, \fBDirectX::DX12::DDS_LOADER_MIP_AUTOGEN\fP = 0x8, \fBDirectX::DX12::DDS_LOADER_MIP_RESERVE\fP = 0x10, \fBDirectX::DX12::DDS_LOADER_DEFAULT\fP = 0, \fBDirectX::DX12::DDS_LOADER_FORCE_SRGB\fP = 0x1, \fBDirectX::DX12::DDS_LOADER_IGNORE_SRGB\fP = 0x2, \fBDirectX::DX12::DDS_LOADER_MIP_AUTOGEN\fP = 0x8, \fBDirectX::DX12::DDS_LOADER_MIP_RESERVE\fP = 0x10 }"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "HRESULT __cdecl \fBDirectX::LoadDDSTextureFromMemory\fP (_In_ \fBID3D12Device\fP *d3dDevice, _In_reads_bytes_(ddsDataSize) const uint8_t *ddsData, size_t ddsDataSize, _Outptr_ \fBID3D12Resource\fP **\fBtexture\fP, std::vector< \fBD3D12_SUBRESOURCE_DATA\fP > &subresources, size_t maxsize=0, _Out_opt_ \fBDDS_ALPHA_MODE\fP *alphaMode=nullptr, _Out_opt_ bool *isCubeMap=nullptr)"
+.br
+.ti -1c
+.RI "HRESULT __cdecl \fBDirectX::LoadDDSTextureFromFile\fP (_In_ \fBID3D12Device\fP *d3dDevice, _In_z_ const wchar_t *szFileName, _Outptr_ \fBID3D12Resource\fP **\fBtexture\fP, std::unique_ptr< uint8_t[]> &ddsData, std::vector< \fBD3D12_SUBRESOURCE_DATA\fP > &subresources, size_t maxsize=0, _Out_opt_ \fBDDS_ALPHA_MODE\fP *alphaMode=nullptr, _Out_opt_ bool *isCubeMap=nullptr)"
+.br
+.ti -1c
+.RI "HRESULT __cdecl \fBDirectX::CreateDDSTextureFromMemory\fP (_In_ \fBID3D12Device\fP *device, \fBResourceUploadBatch\fP &resourceUpload, _In_reads_bytes_(ddsDataSize) const uint8_t *ddsData, size_t ddsDataSize, _Outptr_ \fBID3D12Resource\fP **\fBtexture\fP, bool generateMipsIfMissing=false, size_t maxsize=0, _Out_opt_ \fBDDS_ALPHA_MODE\fP *alphaMode=nullptr, _Out_opt_ bool *isCubeMap=nullptr)"
+.br
+.ti -1c
+.RI "HRESULT __cdecl \fBDirectX::CreateDDSTextureFromFile\fP (_In_ \fBID3D12Device\fP *device, \fBResourceUploadBatch\fP &resourceUpload, _In_z_ const wchar_t *szFileName, _Outptr_ \fBID3D12Resource\fP **\fBtexture\fP, bool generateMipsIfMissing=false, size_t maxsize=0, _Out_opt_ \fBDDS_ALPHA_MODE\fP *alphaMode=nullptr, _Out_opt_ bool *isCubeMap=nullptr)"
+.br
+.ti -1c
+.RI "HRESULT __cdecl \fBDirectX::LoadDDSTextureFromMemoryEx\fP (_In_ \fBID3D12Device\fP *d3dDevice, _In_reads_bytes_(ddsDataSize) const uint8_t *ddsData, size_t ddsDataSize, size_t maxsize, \fBD3D12_RESOURCE_FLAGS\fP resFlags, \fBDDS_LOADER_FLAGS\fP loadFlags, _Outptr_ \fBID3D12Resource\fP **\fBtexture\fP, std::vector< \fBD3D12_SUBRESOURCE_DATA\fP > &subresources, _Out_opt_ \fBDDS_ALPHA_MODE\fP *alphaMode=nullptr, _Out_opt_ bool *isCubeMap=nullptr)"
+.br
+.ti -1c
+.RI "HRESULT __cdecl \fBDirectX::LoadDDSTextureFromFileEx\fP (_In_ \fBID3D12Device\fP *d3dDevice, _In_z_ const wchar_t *szFileName, size_t maxsize, \fBD3D12_RESOURCE_FLAGS\fP resFlags, \fBDDS_LOADER_FLAGS\fP loadFlags, _Outptr_ \fBID3D12Resource\fP **\fBtexture\fP, std::unique_ptr< uint8_t[]> &ddsData, std::vector< \fBD3D12_SUBRESOURCE_DATA\fP > &subresources, _Out_opt_ \fBDDS_ALPHA_MODE\fP *alphaMode=nullptr, _Out_opt_ bool *isCubeMap=nullptr)"
+.br
+.ti -1c
+.RI "HRESULT __cdecl \fBDirectX::CreateDDSTextureFromMemoryEx\fP (_In_ \fBID3D12Device\fP *device, \fBResourceUploadBatch\fP &resourceUpload, _In_reads_bytes_(ddsDataSize) const uint8_t *ddsData, size_t ddsDataSize, size_t maxsize, \fBD3D12_RESOURCE_FLAGS\fP resFlags, \fBDDS_LOADER_FLAGS\fP loadFlags, _Outptr_ \fBID3D12Resource\fP **\fBtexture\fP, _Out_opt_ \fBDDS_ALPHA_MODE\fP *alphaMode=nullptr, _Out_opt_ bool *isCubeMap=nullptr)"
+.br
+.ti -1c
+.RI "HRESULT __cdecl \fBDirectX::CreateDDSTextureFromFileEx\fP (_In_ \fBID3D12Device\fP *device, \fBResourceUploadBatch\fP &resourceUpload, _In_z_ const wchar_t *szFileName, size_t maxsize, \fBD3D12_RESOURCE_FLAGS\fP resFlags, \fBDDS_LOADER_FLAGS\fP loadFlags, _Outptr_ \fBID3D12Resource\fP **\fBtexture\fP, _Out_opt_ \fBDDS_ALPHA_MODE\fP *alphaMode=nullptr, _Out_opt_ bool *isCubeMap=nullptr)"
+.br
+.ti -1c
+.RI "\fBDirectX::DX12::DEFINE_ENUM_FLAG_OPERATORS\fP (\fBDDS_LOADER_FLAGS\fP)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define DDS_ALPHA_MODE_DEFINED"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

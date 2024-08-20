@@ -1,4 +1,4 @@
-.TH "PAIN::Shader" 3 "Version 0.0.0.1" "My Project" \" -*- nroff -*-
+.TH "PAIN::Shader" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -13,6 +13,12 @@ PAIN::Shader
 .in +1c
 .ti -1c
 .RI "\fBShader\fP (const char *vertexPath, const char *fragmentPath)"
+.br
+.ti -1c
+.RI "\fBShader\fP (std::shared_ptr< \fBVertexShader\fP > vertexshader, std::shared_ptr< \fBFragmentShader\fP > frgmentshader)"
+.br
+.ti -1c
+.RI "\fBShader\fP (\fBVertexShader\fP vertexshader, \fBFragmentShader\fP frgmentshader, \fBGeometryShader\fP geometryshader)"
 .br
 .ti -1c
 .RI "\fBShader\fP ()"
@@ -66,77 +72,346 @@ PAIN::Shader
 .in -1c
 .SH "Detailed Description"
 .PP 
-Definition at line \fB57\fP of file \fBRENDER_SHADER_UTILLS\&.h\fP\&.
+Definition at line \fB58\fP of file \fBRENDER_SHADER_UTILLS\&.h\fP\&.
 .SH "Constructor & Destructor Documentation"
 .PP 
 .SS "PAIN::Shader::Shader (const char * vertexPath, const char * fragmentPath)"
 
 .PP
 Definition at line \fB9\fP of file \fBRENDER_SHADER_UTILLS\&.cpp\fP\&.
-.SS "PAIN::Shader::Shader ()"
+.nf
+10     {
+11         // 1\&. retrieve the vertex/fragment source code from filePath
+12         std::string vertexCode;
+13         std::string fragmentCode;
+14         std::ifstream vShaderFile;
+15         std::ifstream fShaderFile;
+16         // ensure ifstream objects can throw exceptions:
+17         vShaderFile\&.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+18         fShaderFile\&.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+19         try
+20         {
+21             // open files
+22             vShaderFile\&.open(vertexPath);
+23             fShaderFile\&.open(fragmentPath);
+24             std::stringstream vShaderStream, fShaderStream;
+25             // read file's buffer contents into streams
+26             vShaderStream << vShaderFile\&.rdbuf();
+27             fShaderStream << fShaderFile\&.rdbuf();
+28             // close file handlers
+29             vShaderFile\&.close();
+30             fShaderFile\&.close();
+31             // convert stream into string
+32             vertexCode = vShaderStream\&.str();
+33             fragmentCode = fShaderStream\&.str();
+34         }
+35         catch (std::ifstream::failure& e)
+36         {
+37             std::cout << "ERROR::SHADER::FILE_NOT_SUCCESSFULLY_READ: " << e\&.what() << std::endl;
+38         }
+39         const char* vShaderCode = vertexCode\&.c_str();
+40         const char* fShaderCode = fragmentCode\&.c_str();
+41         // 2\&. compile shaders
+42         unsigned int vertex, fragment;
+43         // vertex shader
+44         vertex = glCreateShader(GL_VERTEX_SHADER);
+45         glShaderSource(vertex, 1, &vShaderCode, NULL);
+46         glCompileShader(vertex);
+47         checkCompileErrors(vertex, "VERTEX");
+48         // fragment Shader
+49         fragment = glCreateShader(GL_FRAGMENT_SHADER);
+50         glShaderSource(fragment, 1, &fShaderCode, NULL);
+51         glCompileShader(fragment);
+52         checkCompileErrors(fragment, "FRAGMENT");
+53         // shader Program
+54         ID = glCreateProgram();
+55         glAttachShader(ID, vertex);
+56         glAttachShader(ID, fragment);
+57         glLinkProgram(ID);
+58         checkCompileErrors(ID, "PROGRAM");
+59         // delete the shaders as they're linked into our program now and no longer necessary
+60         glDeleteShader(vertex);
+61         glDeleteShader(fragment);
+62 
+63     }
+.PP
+.fi
+
+.PP
+References \fBID\fP\&.
+.SS "PAIN::Shader::Shader (std::shared_ptr< \fBVertexShader\fP > vertexshader, std::shared_ptr< \fBFragmentShader\fP > frgmentshader)"
 
 .PP
 Definition at line \fB65\fP of file \fBRENDER_SHADER_UTILLS\&.cpp\fP\&.
+.nf
+66      {
+67          const char* vShaderCode = vertexshader\->ShaderCode\&.c_str();
+68          const char* fShaderCode = frgmentshader\->ShaderCode\&.c_str();
+69          // 2\&. compile shaders
+70          unsigned int vertex, fragment;
+71          // vertex shader
+72          vertex = glCreateShader(GL_VERTEX_SHADER);
+73          glShaderSource(vertex, 1, &vShaderCode, NULL);
+74          glCompileShader(vertex);
+75          checkCompileErrors(vertex, "VERTEX");
+76          // fragment Shader
+77          fragment = glCreateShader(GL_FRAGMENT_SHADER);
+78          glShaderSource(fragment, 1, &fShaderCode, NULL);
+79          glCompileShader(fragment);
+80          checkCompileErrors(fragment, "FRAGMENT");
+81          // shader Program
+82          ID = glCreateProgram();
+83          glAttachShader(ID, vertex);
+84          glAttachShader(ID, fragment);
+85          glLinkProgram(ID);
+86          checkCompileErrors(ID, "PROGRAM");
+87          // delete the shaders as they're linked into our program now and no longer necessary
+88          glDeleteShader(vertex);
+89          glDeleteShader(fragment);
+90      }
+.PP
+.fi
+
+.PP
+References \fBID\fP\&.
+.SS "PAIN::Shader::Shader (\fBVertexShader\fP vertexshader, \fBFragmentShader\fP frgmentshader, \fBGeometryShader\fP geometryshader)"
+
+.PP
+Definition at line \fB92\fP of file \fBRENDER_SHADER_UTILLS\&.cpp\fP\&.
+.nf
+93      {
+94          const char* vShaderCode = vertexshader\&.ShaderCode\&.c_str();
+95          const char* fShaderCode = frgmentshader\&.ShaderCode\&.c_str();
+96          const char* gshderCode = geometryshader\&.ShaderCode\&.c_str();
+97          // 2\&. compile shaders
+98          unsigned int vertex, fragment,geometry;
+99          // vertex shader
+100          vertex = glCreateShader(GL_VERTEX_SHADER);
+101          glShaderSource(vertex, 1, &vShaderCode, NULL);
+102          glCompileShader(vertex);
+103          checkCompileErrors(vertex, "VERTEX");
+104          // fragment Shader
+105          fragment = glCreateShader(GL_FRAGMENT_SHADER);
+106          glShaderSource(fragment, 1, &fShaderCode, NULL);
+107          glCompileShader(fragment);
+108          checkCompileErrors(fragment, "FRAGMENT");
+109          //geometry Shder
+110          geometry = glCreateShader(GL_GEOMETRY_SHADER);
+111          glShaderSource(geometry, 1, &gshderCode, NULL);
+112          glCompileShader(geometry);
+113          checkCompileErrors(geometry, "GEOMETRY");
+114          // shader Program
+115          ID = glCreateProgram();
+116          glAttachShader(ID, vertex);
+117          glAttachShader(ID, fragment);
+118          glAttachShader(ID, geometry);
+119          glLinkProgram(ID);
+120          checkCompileErrors(ID, "PROGRAM");
+121          // delete the shaders as they're linked into our program now and no longer necessary
+122          glDeleteShader(vertex);
+123          glDeleteShader(fragment);
+124          glDeleteShader(geometry);
+125      }
+.PP
+.fi
+
+.PP
+References \fBID\fP, \fBFragmentShader::ShaderCode\fP, \fBGeometryShader::ShaderCode\fP, and \fBVertexShader::ShaderCode\fP\&.
+.SS "PAIN::Shader::Shader ()"
+
+.PP
+Definition at line \fB127\fP of file \fBRENDER_SHADER_UTILLS\&.cpp\fP\&.
+.nf
+128      {
+129      }
+.PP
+.fi
+
 .SH "Member Function Documentation"
 .PP 
 .SS "void PAIN::Shader::setBool (const std::string & name, bool value) const"
 
 .PP
-Definition at line \fB80\fP of file \fBRENDER_SHADER_UTILLS\&.cpp\fP\&.
+Definition at line \fB142\fP of file \fBRENDER_SHADER_UTILLS\&.cpp\fP\&.
+.nf
+143     {
+144         glUniform1i(glGetUniformLocation(ID, name\&.c_str()), (int)value);
+145     }
+.PP
+.fi
+
+.PP
+References \fBID\fP\&.
 .SS "void PAIN::Shader::setFloat (const std::string & name, float value) const"
 
 .PP
-Definition at line \fB94\fP of file \fBRENDER_SHADER_UTILLS\&.cpp\fP\&.
+Definition at line \fB156\fP of file \fBRENDER_SHADER_UTILLS\&.cpp\fP\&.
+.nf
+157     {
+158         glUniform1f(glGetUniformLocation(ID, name\&.c_str()), value);
+159     }
+.PP
+.fi
+
+.PP
+References \fBID\fP\&.
+.PP
+Referenced by \fBPAIN::Mesh::Draw()\fP, and \fBPAIN::Mesh::Draw()\fP\&.
 .SS "void PAIN::Shader::setInt (const std::string & name, int value) const"
 
 .PP
-Definition at line \fB87\fP of file \fBRENDER_SHADER_UTILLS\&.cpp\fP\&.
+Definition at line \fB149\fP of file \fBRENDER_SHADER_UTILLS\&.cpp\fP\&.
+.nf
+150     {
+151         glUniform1i(glGetUniformLocation(ID, name\&.c_str()), value);
+152     }
+.PP
+.fi
+
+.PP
+References \fBID\fP\&.
 .SS "void PAIN::Shader::setMat2 (const std::string & name, const glm::mat2 & mat) const"
 
 .PP
-Definition at line \fB137\fP of file \fBRENDER_SHADER_UTILLS\&.cpp\fP\&.
+Definition at line \fB199\fP of file \fBRENDER_SHADER_UTILLS\&.cpp\fP\&.
+.nf
+200     {
+201         glUniformMatrix2fv(glGetUniformLocation(ID, name\&.c_str()), 1, GL_FALSE, &mat[0][0]);
+202     }
+.PP
+.fi
+
+.PP
+References \fBID\fP\&.
 .SS "void PAIN::Shader::setMat3 (const std::string & name, const glm::mat3 & mat) const"
 
 .PP
-Definition at line \fB144\fP of file \fBRENDER_SHADER_UTILLS\&.cpp\fP\&.
+Definition at line \fB206\fP of file \fBRENDER_SHADER_UTILLS\&.cpp\fP\&.
+.nf
+207     {
+208         glUniformMatrix3fv(glGetUniformLocation(ID, name\&.c_str()), 1, GL_FALSE, &mat[0][0]);
+209     }
+.PP
+.fi
+
+.PP
+References \fBID\fP\&.
 .SS "void PAIN::Shader::setMat4 (const std::string & name, const glm::mat4 & mat) const"
 
 .PP
-Definition at line \fB151\fP of file \fBRENDER_SHADER_UTILLS\&.cpp\fP\&.
+Definition at line \fB213\fP of file \fBRENDER_SHADER_UTILLS\&.cpp\fP\&.
+.nf
+214     {
+215         glUniformMatrix4fv(glGetUniformLocation(ID, name\&.c_str()), 1, GL_FALSE, &mat[0][0]);
+216     }
+.PP
+.fi
+
+.PP
+References \fBID\fP\&.
+.PP
+Referenced by \fBPAIN::Material::DrawObj()\fP, and \fBPAIN::TerrainModel::DrawObj()\fP\&.
 .SS "void PAIN::Shader::setVec2 (const std::string & name, const glm::vec2 & value) const"
 
 .PP
-Definition at line \fB101\fP of file \fBRENDER_SHADER_UTILLS\&.cpp\fP\&.
+Definition at line \fB163\fP of file \fBRENDER_SHADER_UTILLS\&.cpp\fP\&.
+.nf
+164     {
+165         glUniform2fv(glGetUniformLocation(ID, name\&.c_str()), 1, &value[0]);
+166     }
+.PP
+.fi
+
+.PP
+References \fBID\fP\&.
 .SS "void PAIN::Shader::setVec2 (const std::string & name, float x, float y) const"
 
 .PP
-Definition at line \fB106\fP of file \fBRENDER_SHADER_UTILLS\&.cpp\fP\&.
+Definition at line \fB168\fP of file \fBRENDER_SHADER_UTILLS\&.cpp\fP\&.
+.nf
+169     {
+170         glUniform2f(glGetUniformLocation(ID, name\&.c_str()), x, y);
+171     }
+.PP
+.fi
+
+.PP
+References \fBID\fP\&.
 .SS "void PAIN::Shader::setVec3 (const std::string & name, const glm::vec3 & value) const"
 
 .PP
-Definition at line \fB113\fP of file \fBRENDER_SHADER_UTILLS\&.cpp\fP\&.
+Definition at line \fB175\fP of file \fBRENDER_SHADER_UTILLS\&.cpp\fP\&.
+.nf
+176     {
+177         glUniform3fv(glGetUniformLocation(ID, name\&.c_str()), 1, &value[0]);
+178     }
+.PP
+.fi
+
+.PP
+References \fBID\fP\&.
 .SS "void PAIN::Shader::setVec3 (const std::string & name, float x, float y, float z) const"
 
 .PP
-Definition at line \fB118\fP of file \fBRENDER_SHADER_UTILLS\&.cpp\fP\&.
+Definition at line \fB180\fP of file \fBRENDER_SHADER_UTILLS\&.cpp\fP\&.
+.nf
+181     {
+182         glUniform3f(glGetUniformLocation(ID, name\&.c_str()), x, y, z);
+183     }
+.PP
+.fi
+
+.PP
+References \fBID\fP\&.
 .SS "void PAIN::Shader::setVec4 (const std::string & name, const glm::vec4 & value) const"
 
 .PP
-Definition at line \fB125\fP of file \fBRENDER_SHADER_UTILLS\&.cpp\fP\&.
+Definition at line \fB187\fP of file \fBRENDER_SHADER_UTILLS\&.cpp\fP\&.
+.nf
+188     {
+189         glUniform4fv(glGetUniformLocation(ID, name\&.c_str()), 1, &value[0]);
+190     }
+.PP
+.fi
+
+.PP
+References \fBID\fP\&.
 .SS "void PAIN::Shader::setVec4 (const std::string & name, float x, float y, float z, float w) const"
 
 .PP
-Definition at line \fB130\fP of file \fBRENDER_SHADER_UTILLS\&.cpp\fP\&.
+Definition at line \fB192\fP of file \fBRENDER_SHADER_UTILLS\&.cpp\fP\&.
+.nf
+193     {
+194         glUniform4f(glGetUniformLocation(ID, name\&.c_str()), x, y, z, w);
+195     }
+.PP
+.fi
+
+.PP
+References \fBID\fP\&.
 .SS "void PAIN::Shader::use () const"
 
 .PP
-Definition at line \fB72\fP of file \fBRENDER_SHADER_UTILLS\&.cpp\fP\&.
+Definition at line \fB134\fP of file \fBRENDER_SHADER_UTILLS\&.cpp\fP\&.
+.nf
+135     {
+136         glUseProgram(ID);
+137     }
+.PP
+.fi
+
+.PP
+References \fBID\fP\&.
+.PP
+Referenced by \fBPAIN::Material::DrawObj()\fP\&.
 .SH "Member Data Documentation"
 .PP 
 .SS "unsigned int PAIN::Shader::ID"
 
 .PP
-Definition at line \fB60\fP of file \fBRENDER_SHADER_UTILLS\&.h\fP\&.
+Definition at line \fB61\fP of file \fBRENDER_SHADER_UTILLS\&.h\fP\&.
+.PP
+Referenced by \fBsetBool()\fP, \fBsetFloat()\fP, \fBsetInt()\fP, \fBsetMat2()\fP, \fBsetMat3()\fP, \fBsetMat4()\fP, \fBsetVec2()\fP, \fBsetVec2()\fP, \fBsetVec3()\fP, \fBsetVec3()\fP, \fBsetVec4()\fP, \fBsetVec4()\fP, \fBShader()\fP, \fBShader()\fP, \fBShader()\fP, and \fBuse()\fP\&.
 
 .SH "Author"
 .PP 

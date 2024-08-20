@@ -1,0 +1,1143 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_d3dx12__check__feature__support_8h_source" xml:lang="en-US">
+<title>d3dx12_check_feature_support.h</title>
+<indexterm><primary>adhed/d3dx12_check_feature_support.h</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 <emphasis role="comment">//*********************************************************</emphasis>
+2 <emphasis role="comment">//</emphasis>
+3 <emphasis role="comment">//&#32;Copyright&#32;(c)&#32;Microsoft&#32;Corporation.</emphasis>
+4 <emphasis role="comment">//&#32;Licensed&#32;under&#32;the&#32;MIT&#32;License&#32;(MIT).</emphasis>
+5 <emphasis role="comment">//</emphasis>
+6 <emphasis role="comment">//*********************************************************</emphasis>
+7 
+8 <emphasis role="preprocessor">#pragma&#32;once</emphasis>
+9 
+10 <emphasis role="preprocessor">#ifndef&#32;__cplusplus</emphasis>
+11 <emphasis role="preprocessor">#error&#32;D3DX12&#32;requires&#32;C++</emphasis>
+12 <emphasis role="preprocessor">#endif</emphasis>
+13 
+14 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_d3d12_8h">d3d12.h</link>&quot;</emphasis>
+15 
+16 <emphasis role="comment">//================================================================================================</emphasis>
+17 <emphasis role="comment">//&#32;D3DX12&#32;Check&#32;Feature&#32;Support</emphasis>
+18 <emphasis role="comment">//================================================================================================</emphasis>
+19 
+20 <emphasis role="preprocessor">#include&#32;&lt;vector&gt;</emphasis>
+21 
+22 <emphasis role="keyword">class&#32;</emphasis><link linkend="_class_c_d3_d_x12_feature_support">CD3DX12FeatureSupport</link>
+23 {
+24 <emphasis role="keyword">public</emphasis>:&#32;<emphasis role="comment">//&#32;Function&#32;declaration</emphasis>
+25 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Default&#32;constructor&#32;that&#32;creates&#32;an&#32;empty&#32;object</emphasis>
+26 &#32;&#32;&#32;&#32;<link linkend="_class_c_d3_d_x12_feature_support_1a28fe72f5da170920ae1ec25090ca7e60">CD3DX12FeatureSupport</link>()&#32;<emphasis role="keyword">noexcept</emphasis>;
+27 
+28 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Initialize&#32;data&#32;from&#32;the&#32;given&#32;device</emphasis>
+29 &#32;&#32;&#32;&#32;HRESULT&#32;<link linkend="_class_c_d3_d_x12_feature_support_1aac274058f83fe783b157bc6b9faee593">Init</link>(<link linkend="_interface_i_d3_d12_device">ID3D12Device</link>*&#32;pDevice);
+30 
+31 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Retreives&#32;the&#32;status&#32;of&#32;the&#32;object.&#32;If&#32;an&#32;error&#32;occurred&#32;in&#32;the&#32;initialization&#32;process,&#32;the&#32;function&#32;returns&#32;the&#32;error&#32;code.</emphasis>
+32 &#32;&#32;&#32;&#32;HRESULT&#32;<link linkend="_class_c_d3_d_x12_feature_support_1a20db8b495b449cd1f14b89e5af734c90">GetStatus</link>()&#32;const&#32;noexcept&#32;{&#32;<emphasis role="keywordflow">return</emphasis>&#32;m_hStatus;&#32;}
+33 
+34 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Getter&#32;functions&#32;for&#32;each&#32;feature&#32;class</emphasis>
+35 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;D3D12_OPTIONS</emphasis>
+36 &#32;&#32;&#32;&#32;BOOL&#32;<link linkend="_class_c_d3_d_x12_feature_support_1aca0a4d97915cf181124c3f561b03bb92">DoublePrecisionFloatShaderOps</link>()&#32;const&#32;noexcept;
+37 &#32;&#32;&#32;&#32;BOOL&#32;<link linkend="_class_c_d3_d_x12_feature_support_1a8d3ee7887eb89d0c8dc0566b0418355b">OutputMergerLogicOp</link>()&#32;const&#32;noexcept;
+38 &#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1a53df6e8781fb4069b912999058c73986">D3D12_SHADER_MIN_PRECISION_SUPPORT</link>&#32;<link linkend="_class_c_d3_d_x12_feature_support_1a8817b091e50aabe8c255685f7c8d9f65">MinPrecisionSupport</link>()&#32;const&#32;noexcept;
+39 &#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1a3207d36b6a1a24b6f2cef02001976768">D3D12_TILED_RESOURCES_TIER</link>&#32;<link linkend="_class_c_d3_d_x12_feature_support_1a621bba3779e013f196899290e8402702">TiledResourcesTier</link>()&#32;const&#32;noexcept;
+40 &#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1ad5d5f7dc232e7a524aa995288cfb0cf9">D3D12_RESOURCE_BINDING_TIER</link>&#32;<link linkend="_class_c_d3_d_x12_feature_support_1a8e35e0467475ca8e364fa7988b50602b">ResourceBindingTier</link>()&#32;const&#32;noexcept;
+41 &#32;&#32;&#32;&#32;BOOL&#32;<link linkend="_class_c_d3_d_x12_feature_support_1ab8d82aa8dd49873ed695756dfd314654">PSSpecifiedStencilRefSupported</link>()&#32;const&#32;noexcept;
+42 &#32;&#32;&#32;&#32;BOOL&#32;<link linkend="_class_c_d3_d_x12_feature_support_1a3dd01533c2cb6bb95f4c056d243e28f5">TypedUAVLoadAdditionalFormats</link>()&#32;const&#32;noexcept;
+43 &#32;&#32;&#32;&#32;BOOL&#32;<link linkend="_class_c_d3_d_x12_feature_support_1a953faf117ee1e85022728da87e10deac">ROVsSupported</link>()&#32;const&#32;noexcept;
+44 &#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1a50b5cfedcca55703fc2606b02e6e7742">D3D12_CONSERVATIVE_RASTERIZATION_TIER</link>&#32;<link linkend="_class_c_d3_d_x12_feature_support_1a63a756f9da9fcbdb18339ba064999256">ConservativeRasterizationTier</link>()&#32;const&#32;noexcept;
+45 &#32;&#32;&#32;&#32;BOOL&#32;<link linkend="_class_c_d3_d_x12_feature_support_1a589e21eb98eba15cbaed1a5199e9f189">StandardSwizzle64KBSupported</link>()&#32;const&#32;noexcept;
+46 &#32;&#32;&#32;&#32;BOOL&#32;<link linkend="_class_c_d3_d_x12_feature_support_1a568b2a93f16b2373817f63e554ec5389">CrossAdapterRowMajorTextureSupported</link>()&#32;const&#32;noexcept;
+47 &#32;&#32;&#32;&#32;BOOL&#32;<link linkend="_class_c_d3_d_x12_feature_support_1ac4e566d86ec487dff36665ac7b1a75d3">VPAndRTArrayIndexFromAnyShaderFeedingRasterizerSupportedWithoutGSEmulation</link>()&#32;const&#32;noexcept;
+48 &#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1af8478646eaaa078bfae4a463cbd83c6f">D3D12_RESOURCE_HEAP_TIER</link>&#32;<link linkend="_class_c_d3_d_x12_feature_support_1a42bddbfe07fb0175ac577b42ad715e79">ResourceHeapTier</link>()&#32;const&#32;noexcept;
+49 &#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1aec339dc0db70dde58f9516dafe861b25">D3D12_CROSS_NODE_SHARING_TIER</link>&#32;<link linkend="_class_c_d3_d_x12_feature_support_1ae43439819c0a2099254651d4add3e293">CrossNodeSharingTier</link>()&#32;const&#32;noexcept;
+50 &#32;&#32;&#32;&#32;UINT&#32;<link linkend="_class_c_d3_d_x12_feature_support_1afb147278bd249e008b9a581abab6d183">MaxGPUVirtualAddressBitsPerResource</link>()&#32;const&#32;noexcept;
+51 
+52 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;FEATURE_LEVELS</emphasis>
+53 &#32;&#32;&#32;&#32;<link linkend="_d3dcommon_8h_1a0f50a7ff750d026b8ce1927b5fb4e612">D3D_FEATURE_LEVEL</link>&#32;<link linkend="_class_c_d3_d_x12_feature_support_1ae3533dac213f3c7821f27561bfa1940a">MaxSupportedFeatureLevel</link>()&#32;const&#32;noexcept;
+54 
+55 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;FORMAT_SUPPORT</emphasis>
+56 &#32;&#32;&#32;&#32;HRESULT&#32;<link linkend="_class_c_d3_d_x12_feature_support_1a70de0d49018b0c367863aac85ca6c423">FormatSupport</link>(<link linkend="_dxgiformat_8h_1a6a9cbc7eff00c7ec769e4e6c3b2cb3bc">DXGI_FORMAT</link>&#32;Format,&#32;<link linkend="_d3d12_8idl_1a20e5cd3507bd063e2762bd998c0a865a">D3D12_FORMAT_SUPPORT1</link>&amp;&#32;Support1,&#32;<link linkend="_d3d12_8idl_1aa6bbe7b9c21143148ef484835c418cce">D3D12_FORMAT_SUPPORT2</link>&amp;&#32;Support2)&#32;const;
+57 
+58 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;MUTLTISAMPLE_QUALITY_LEVELS</emphasis>
+59 &#32;&#32;&#32;&#32;HRESULT&#32;<link linkend="_class_c_d3_d_x12_feature_support_1aec3eef94e2fdc53420ad300794ef322e">MultisampleQualityLevels</link>(<link linkend="_dxgiformat_8h_1a6a9cbc7eff00c7ec769e4e6c3b2cb3bc">DXGI_FORMAT</link>&#32;Format,&#32;UINT&#32;SampleCount,&#32;<link linkend="_d3d12_8idl_1aedef74890a49033b7ee6f7617dd3b7ef">D3D12_MULTISAMPLE_QUALITY_LEVEL_FLAGS</link>&#32;<link linkend="_d3d12video_8idl_1a0f13369e90615467efef16a95da68009">Flags</link>,&#32;UINT&amp;&#32;NumQualityLevels)&#32;const;
+60 
+61 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;FORMAT_INFO</emphasis>
+62 &#32;&#32;&#32;&#32;HRESULT&#32;<link linkend="_class_c_d3_d_x12_feature_support_1a1e6beb3f6f3180af485dfce1963f5d5d">FormatInfo</link>(<link linkend="_dxgiformat_8h_1a6a9cbc7eff00c7ec769e4e6c3b2cb3bc">DXGI_FORMAT</link>&#32;Format,&#32;UINT8&amp;&#32;PlaneCount)&#32;const;
+63 
+64 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;GPU_VIRTUAL_ADDRESS_SUPPORT</emphasis>
+65 &#32;&#32;&#32;&#32;UINT&#32;<link linkend="_class_c_d3_d_x12_feature_support_1af049c865a5cfe0058cd2ffb66ae65192">MaxGPUVirtualAddressBitsPerProcess</link>()&#32;const&#32;noexcept;
+66 
+67 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;SHADER_MODEL</emphasis>
+68 &#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1a21f0019196f1c16b2e7c4e644f6be43c">D3D_SHADER_MODEL</link>&#32;<link linkend="_class_c_d3_d_x12_feature_support_1a8b3f1ab48f6a81be2967f37ef90a4dda">HighestShaderModel</link>()&#32;const&#32;noexcept;
+69 
+70 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;D3D12_OPTIONS1</emphasis>
+71 &#32;&#32;&#32;&#32;BOOL&#32;<link linkend="_class_c_d3_d_x12_feature_support_1a434146f3169a59f7a8ed55ce94b32e25">WaveOps</link>()&#32;const&#32;noexcept;
+72 &#32;&#32;&#32;&#32;UINT&#32;<link linkend="_class_c_d3_d_x12_feature_support_1ab6a42e8af8593f6f3e586ce360489946">WaveLaneCountMin</link>()&#32;const&#32;noexcept;
+73 &#32;&#32;&#32;&#32;UINT&#32;<link linkend="_class_c_d3_d_x12_feature_support_1a51d3bc686646a2ea9006a4f54e254b56">WaveLaneCountMax</link>()&#32;const&#32;noexcept;
+74 &#32;&#32;&#32;&#32;UINT&#32;<link linkend="_class_c_d3_d_x12_feature_support_1a136496559d3b03f2eb1484c2c2e5468d">TotalLaneCount</link>()&#32;const&#32;noexcept;
+75 &#32;&#32;&#32;&#32;BOOL&#32;<link linkend="_class_c_d3_d_x12_feature_support_1abb029ea975ad78649c2818eabea924e7">ExpandedComputeResourceStates</link>()&#32;const&#32;noexcept;
+76 &#32;&#32;&#32;&#32;BOOL&#32;<link linkend="_class_c_d3_d_x12_feature_support_1a550982e0cdb4de0cbb86fe10cc966f8f">Int64ShaderOps</link>()&#32;const&#32;noexcept;
+77 
+78 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;PROTECTED_RESOURCE_SESSION_SUPPORT</emphasis>
+79 &#32;&#32;&#32;&#32;<link linkend="_interfaceenum">D3D12_PROTECTED_RESOURCE_SESSION_SUPPORT_FLAGS</link>&#32;<link linkend="_class_c_d3_d_x12_feature_support_1a7108952390c6e3cb907bf46cdc4aff40">ProtectedResourceSessionSupport</link>(UINT&#32;NodeIndex&#32;=&#32;0)&#32;const;
+80 
+81 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;ROOT_SIGNATURE</emphasis>
+82 &#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1a25204ebbbf90620e59b6efbf6dd03b48">D3D_ROOT_SIGNATURE_VERSION</link>&#32;<link linkend="_class_c_d3_d_x12_feature_support_1adc06ad759b86bcd14b920dd060f1f5a8">HighestRootSignatureVersion</link>()&#32;const&#32;noexcept;
+83 
+84 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;ARCHITECTURE1</emphasis>
+85 &#32;&#32;&#32;&#32;BOOL&#32;<link linkend="_class_c_d3_d_x12_feature_support_1a2517a2d51bf513e2f9ca83a94c56e08d">TileBasedRenderer</link>(UINT&#32;NodeIndex&#32;=&#32;0)&#32;const;
+86 &#32;&#32;&#32;&#32;BOOL&#32;<link linkend="_class_c_d3_d_x12_feature_support_1ad84d43993c8bd09c9911297f752ed740">UMA</link>(UINT&#32;NodeIndex&#32;=&#32;0)&#32;const;
+87 &#32;&#32;&#32;&#32;BOOL&#32;<link linkend="_class_c_d3_d_x12_feature_support_1aff2ba44b7e73463f77694f066e11b7c1">CacheCoherentUMA</link>(UINT&#32;NodeIndex&#32;=&#32;0)&#32;const;
+88 &#32;&#32;&#32;&#32;BOOL&#32;<link linkend="_class_c_d3_d_x12_feature_support_1af71f03053f4dd49a9784782b5706122b">IsolatedMMU</link>(UINT&#32;NodeIndex&#32;=&#32;0)&#32;const;
+89 
+90 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;D3D12_OPTIONS2</emphasis>
+91 &#32;&#32;&#32;&#32;BOOL&#32;<link linkend="_class_c_d3_d_x12_feature_support_1a05e94897196648d8152ff00f7a3ebcee">DepthBoundsTestSupported</link>()&#32;const&#32;noexcept;
+92 &#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1a9e177d99f020998f4358abe02c9de1cc">D3D12_PROGRAMMABLE_SAMPLE_POSITIONS_TIER</link>&#32;<link linkend="_class_c_d3_d_x12_feature_support_1a9292455b253de21f5de47011281be74b">ProgrammableSamplePositionsTier</link>()&#32;const&#32;noexcept;
+93 
+94 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;SHADER_CACHE</emphasis>
+95 &#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1ae300d9622c1fc8e1429bdc869900b7b1">D3D12_SHADER_CACHE_SUPPORT_FLAGS</link>&#32;<link linkend="_class_c_d3_d_x12_feature_support_1a7773ee7f6ba29b475266ba9ee08f9a92">ShaderCacheSupportFlags</link>()&#32;const&#32;noexcept;
+96 
+97 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;COMMAND_QUEUE_PRIORITY</emphasis>
+98 &#32;&#32;&#32;&#32;BOOL&#32;<link linkend="_class_c_d3_d_x12_feature_support_1aa05d1241b30848faf332fe54a5789f61">CommandQueuePrioritySupported</link>(<link linkend="_d3d12_8idl_1a58071dee5aa123a722f372cc643c7333">D3D12_COMMAND_LIST_TYPE</link>&#32;CommandListType,&#32;UINT&#32;Priority);
+99 
+100 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;D3D12_OPTIONS3</emphasis>
+101 &#32;&#32;&#32;&#32;BOOL&#32;<link linkend="_class_c_d3_d_x12_feature_support_1ae48a14d3309f224380aaeddd683ab9de">CopyQueueTimestampQueriesSupported</link>()&#32;const&#32;noexcept;
+102 &#32;&#32;&#32;&#32;BOOL&#32;<link linkend="_class_c_d3_d_x12_feature_support_1aac1d06c313d2c37128a9b2c4a2937e12">CastingFullyTypedFormatSupported</link>()&#32;const&#32;noexcept;
+103 &#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1af490f2b67fa97414815a710cfd65d82b">D3D12_COMMAND_LIST_SUPPORT_FLAGS</link>&#32;<link linkend="_class_c_d3_d_x12_feature_support_1aac5d25234e946c8d057e2a17781da96c">WriteBufferImmediateSupportFlags</link>()&#32;const&#32;noexcept;
+104 &#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1aac0da5cd21d8b86df01f668a546a3a9c">D3D12_VIEW_INSTANCING_TIER</link>&#32;<link linkend="_class_c_d3_d_x12_feature_support_1a4046d48ec6f21a50d2e0ec22a58b5f80">ViewInstancingTier</link>()&#32;const&#32;noexcept;
+105 &#32;&#32;&#32;&#32;BOOL&#32;<link linkend="_class_c_d3_d_x12_feature_support_1a8a96f3a01bfa9b2154911c0032d03cd5">BarycentricsSupported</link>()&#32;const&#32;noexcept;
+106 
+107 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;EXISTING_HEAPS</emphasis>
+108 &#32;&#32;&#32;&#32;BOOL&#32;<link linkend="_class_c_d3_d_x12_feature_support_1a57f6b5ac7f966660a7f08c793f2f2f3a">ExistingHeapsSupported</link>()&#32;const&#32;noexcept;
+109 
+110 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;D3D12_OPTIONS4</emphasis>
+111 &#32;&#32;&#32;&#32;BOOL&#32;<link linkend="_class_c_d3_d_x12_feature_support_1a856939b9a1287397a4fbba030cc6b74c">MSAA64KBAlignedTextureSupported</link>()&#32;const&#32;noexcept;
+112 &#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1a22610e4cb66a31e2f9dd697fe5d31c3b">D3D12_SHARED_RESOURCE_COMPATIBILITY_TIER</link>&#32;<link linkend="_class_c_d3_d_x12_feature_support_1a6ef76b44266e7df2bd76430ac7b7c2ac">SharedResourceCompatibilityTier</link>()&#32;const&#32;noexcept;
+113 &#32;&#32;&#32;&#32;BOOL&#32;<link linkend="_class_c_d3_d_x12_feature_support_1a17a316fd28ae93bf06ab075ca7f3be45">Native16BitShaderOpsSupported</link>()&#32;const&#32;noexcept;
+114 
+115 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;SERIALIZATION</emphasis>
+116 &#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1a15ed0d6c8a409e7c92f26b5de6628d93">D3D12_HEAP_SERIALIZATION_TIER</link>&#32;<link linkend="_class_c_d3_d_x12_feature_support_1a71cafc34dd7eee6724af388d0756e432">HeapSerializationTier</link>(UINT&#32;NodeIndex&#32;=&#32;0)&#32;const;
+117 
+118 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;CROSS_NODE</emphasis>
+119 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;CrossNodeSharingTier&#32;handled&#32;in&#32;D3D12Options</emphasis>
+120 &#32;&#32;&#32;&#32;BOOL&#32;<link linkend="_class_c_d3_d_x12_feature_support_1a8ee73eda5571b0ec830ed024c28fe5ae">CrossNodeAtomicShaderInstructions</link>()&#32;const&#32;noexcept;
+121 
+122 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;D3D12_OPTIONS5</emphasis>
+123 &#32;&#32;&#32;&#32;BOOL&#32;<link linkend="_class_c_d3_d_x12_feature_support_1a2a5301bfb84e95eb7266e9237156cc8f">SRVOnlyTiledResourceTier3</link>()&#32;const&#32;noexcept;
+124 &#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1aa91bb280c9c2e6550b803cbd8ea0be15">D3D12_RENDER_PASS_TIER</link>&#32;<link linkend="_class_c_d3_d_x12_feature_support_1a1e6d5be696d34983af10f035b5246cb8">RenderPassesTier</link>()&#32;const&#32;noexcept;
+125 &#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1a2996add16064436ebb97188936bd215e">D3D12_RAYTRACING_TIER</link>&#32;<link linkend="_class_c_d3_d_x12_feature_support_1a0a3415ec207529b5ce158fbf74d4ee1a">RaytracingTier</link>()&#32;const&#32;noexcept;
+126 
+127 <emphasis role="preprocessor">#if&#32;defined(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;4)</emphasis>
+128 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;DISPLAYABLE</emphasis>
+129 &#32;&#32;&#32;&#32;BOOL&#32;DisplayableTexture()&#32;const&#32;noexcept;
+130 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;SharedResourceCompatibilityTier&#32;handled&#32;in&#32;D3D12Options4</emphasis>
+131 <emphasis role="preprocessor">#endif</emphasis>
+132 
+133 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;D3D12_OPTIONS6</emphasis>
+134 &#32;&#32;&#32;&#32;BOOL&#32;<link linkend="_class_c_d3_d_x12_feature_support_1a68caff0915a2311185d9fa3ea2f2f0b5">AdditionalShadingRatesSupported</link>()&#32;const&#32;noexcept;
+135 &#32;&#32;&#32;&#32;BOOL&#32;<link linkend="_class_c_d3_d_x12_feature_support_1a211deafad5825209df6050e0671b0868">PerPrimitiveShadingRateSupportedWithViewportIndexing</link>()&#32;const&#32;noexcept;
+136 &#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1a70207b0d13be11dc8d36384e52ffaa42">D3D12_VARIABLE_SHADING_RATE_TIER</link>&#32;<link linkend="_class_c_d3_d_x12_feature_support_1a2038e3e9872a6b9f68b1984f2534341f">VariableShadingRateTier</link>()&#32;const&#32;noexcept;
+137 &#32;&#32;&#32;&#32;UINT&#32;<link linkend="_class_c_d3_d_x12_feature_support_1a514da1db8247e528224408fac1681a7f">ShadingRateImageTileSize</link>()&#32;const&#32;noexcept;
+138 &#32;&#32;&#32;&#32;BOOL&#32;<link linkend="_class_c_d3_d_x12_feature_support_1a070e16e5cb167f9ac5d18d94c00583df">BackgroundProcessingSupported</link>()&#32;const&#32;noexcept;
+139 
+140 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;QUERY_META_COMMAND</emphasis>
+141 &#32;&#32;&#32;&#32;HRESULT&#32;<link linkend="_class_c_d3_d_x12_feature_support_1ab6468edc5f55b02e8be03cf318280269">QueryMetaCommand</link>(<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___q_u_e_r_y___m_e_t_a___c_o_m_m_a_n_d">D3D12_FEATURE_DATA_QUERY_META_COMMAND</link>&amp;&#32;dQueryMetaCommand)&#32;const;
+142 
+143 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;D3D12_OPTIONS7</emphasis>
+144 &#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1ada579ed7a37e4a851eafc99a15c83f41">D3D12_MESH_SHADER_TIER</link>&#32;<link linkend="_class_c_d3_d_x12_feature_support_1a9662beebc9565e98073265d6a7f98fbd">MeshShaderTier</link>()&#32;const&#32;noexcept;
+145 &#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1ab2d772c234a7d9f9395000c35336b08a">D3D12_SAMPLER_FEEDBACK_TIER</link>&#32;<link linkend="_class_c_d3_d_x12_feature_support_1a3486b1a51fb3ca1dc144934e92289b2b">SamplerFeedbackTier</link>()&#32;const&#32;noexcept;
+146 
+147 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;PROTECTED_RESOURCE_SESSION_TYPE_COUNT</emphasis>
+148 &#32;&#32;&#32;&#32;UINT&#32;<link linkend="_class_c_d3_d_x12_feature_support_1ad1b713ec7fef869c6cdf1c5662fbaf73">ProtectedResourceSessionTypeCount</link>(UINT&#32;NodeIndex&#32;=&#32;0)&#32;const;
+149 
+150 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;PROTECTED_RESOURCE_SESSION_TYPES</emphasis>
+151 &#32;&#32;&#32;&#32;<link linkend="_namespacestd">std</link>::vector&lt;GUID&gt;&#32;<link linkend="_class_c_d3_d_x12_feature_support_1ae1bc306ea63b457afee9f5590bc20023">ProtectedResourceSessionTypes</link>(UINT&#32;NodeIndex&#32;=&#32;0)&#32;const;
+152 
+153 <emphasis role="preprocessor">#if&#32;defined(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;3)</emphasis>
+154 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;D3D12_OPTIONS8</emphasis>
+155 &#32;&#32;&#32;&#32;BOOL&#32;UnalignedBlockTexturesSupported()&#32;const&#32;noexcept;
+156 
+157 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;D3D12_OPTIONS9</emphasis>
+158 &#32;&#32;&#32;&#32;BOOL&#32;MeshShaderPipelineStatsSupported()&#32;const&#32;noexcept;
+159 &#32;&#32;&#32;&#32;BOOL&#32;MeshShaderSupportsFullRangeRenderTargetArrayIndex()&#32;const&#32;noexcept;
+160 &#32;&#32;&#32;&#32;BOOL&#32;AtomicInt64OnTypedResourceSupported()&#32;const&#32;noexcept;
+161 &#32;&#32;&#32;&#32;BOOL&#32;AtomicInt64OnGroupSharedSupported()&#32;const&#32;noexcept;
+162 &#32;&#32;&#32;&#32;BOOL&#32;DerivativesInMeshAndAmplificationShadersSupported()&#32;const&#32;noexcept;
+163 &#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1a5798ec97f9b5c01ac649511e855afd9f">D3D12_WAVE_MMA_TIER</link>&#32;WaveMMATier()&#32;const&#32;noexcept;
+164 <emphasis role="preprocessor">#endif</emphasis>
+165 
+166 <emphasis role="preprocessor">#if&#32;defined(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;4)</emphasis>
+167 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;D3D12_OPTIONS10</emphasis>
+168 &#32;&#32;&#32;&#32;BOOL&#32;VariableRateShadingSumCombinerSupported()&#32;const&#32;noexcept;
+169 &#32;&#32;&#32;&#32;BOOL&#32;MeshShaderPerPrimitiveShadingRateSupported()&#32;const&#32;noexcept;
+170 
+171 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;D3D12_OPTIONS11</emphasis>
+172 &#32;&#32;&#32;&#32;BOOL&#32;AtomicInt64OnDescriptorHeapResourceSupported()&#32;const&#32;noexcept;
+173 <emphasis role="preprocessor">#endif</emphasis>
+174 
+175 <emphasis role="preprocessor">#if&#32;defined(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;600)</emphasis>
+176 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;D3D12_OPTIONS12</emphasis>
+177 &#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1aa5047539f468953dfcaf787b1931a3cb">D3D12_TRI_STATE</link>&#32;MSPrimitivesPipelineStatisticIncludesCulledPrimitives()&#32;const&#32;noexcept;
+178 &#32;&#32;&#32;&#32;BOOL&#32;EnhancedBarriersSupported()&#32;const&#32;noexcept;
+179 &#32;&#32;&#32;&#32;BOOL&#32;RelaxedFormatCastingSupported()&#32;const&#32;noexcept;
+180 <emphasis role="preprocessor">#endif</emphasis>
+181 
+182 <emphasis role="preprocessor">#if&#32;defined(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;602)</emphasis>
+183 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;D3D12_OPTIONS13</emphasis>
+184 &#32;&#32;&#32;&#32;BOOL&#32;UnrestrictedBufferTextureCopyPitchSupported()&#32;const&#32;noexcept;
+185 &#32;&#32;&#32;&#32;BOOL&#32;UnrestrictedVertexElementAlignmentSupported()&#32;const&#32;noexcept;
+186 &#32;&#32;&#32;&#32;BOOL&#32;InvertedViewportHeightFlipsYSupported()&#32;const&#32;noexcept;
+187 &#32;&#32;&#32;&#32;BOOL&#32;InvertedViewportDepthFlipsZSupported()&#32;const&#32;noexcept;
+188 &#32;&#32;&#32;&#32;BOOL&#32;TextureCopyBetweenDimensionsSupported()&#32;const&#32;noexcept;
+189 &#32;&#32;&#32;&#32;BOOL&#32;AlphaBlendFactorSupported()&#32;const&#32;noexcept;
+190 <emphasis role="preprocessor">#endif</emphasis>
+191 
+192 <emphasis role="preprocessor">#if&#32;defined(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;606)</emphasis>
+193 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;D3D12_OPTIONS14</emphasis>
+194 &#32;&#32;&#32;&#32;BOOL&#32;AdvancedTextureOpsSupported()&#32;const&#32;noexcept;
+195 &#32;&#32;&#32;&#32;BOOL&#32;WriteableMSAATexturesSupported()&#32;const&#32;noexcept;
+196 &#32;&#32;&#32;&#32;BOOL&#32;IndependentFrontAndBackStencilRefMaskSupported()&#32;const&#32;noexcept;
+197 
+198 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;D3D12_OPTIONS15</emphasis>
+199 &#32;&#32;&#32;&#32;BOOL&#32;TriangleFanSupported()&#32;const&#32;noexcept;
+200 &#32;&#32;&#32;&#32;BOOL&#32;DynamicIndexBufferStripCutSupported()&#32;const&#32;noexcept;
+201 <emphasis role="preprocessor">#endif</emphasis>
+202 
+203 <emphasis role="preprocessor">#if&#32;defined(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;608)</emphasis>
+204 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;D3D12_OPTIONS16</emphasis>
+205 &#32;&#32;&#32;&#32;BOOL&#32;DynamicDepthBiasSupported()&#32;const&#32;noexcept;
+206 <emphasis role="preprocessor">#endif</emphasis>
+207 <emphasis role="preprocessor">#if&#32;defined(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;609)</emphasis>
+208 &#32;&#32;&#32;&#32;BOOL&#32;GPUUploadHeapSupported()&#32;const&#32;noexcept;
+209 
+210 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;D3D12_OPTIONS17</emphasis>
+211 &#32;&#32;&#32;&#32;BOOL&#32;NonNormalizedCoordinateSamplersSupported()&#32;const&#32;noexcept;
+212 &#32;&#32;&#32;&#32;BOOL&#32;ManualWriteTrackingResourceSupported()&#32;const&#32;noexcept;
+213 
+214 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;D3D12_OPTIONS18</emphasis>
+215 &#32;&#32;&#32;&#32;BOOL&#32;RenderPassesValid()&#32;const&#32;noexcept;
+216 <emphasis role="preprocessor">#endif</emphasis>
+217 
+218 <emphasis role="preprocessor">#if&#32;defined(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;610)</emphasis>
+219 &#32;&#32;&#32;&#32;BOOL&#32;MismatchingOutputDimensionsSupported()&#32;const&#32;noexcept;
+220 &#32;&#32;&#32;&#32;UINT&#32;SupportedSampleCountsWithNoOutputs()&#32;const&#32;noexcept;
+221 &#32;&#32;&#32;&#32;BOOL&#32;PointSamplingAddressesNeverRoundUp()&#32;const&#32;noexcept;
+222 &#32;&#32;&#32;&#32;BOOL&#32;RasterizerDesc2Supported()&#32;const&#32;noexcept;
+223 &#32;&#32;&#32;&#32;BOOL&#32;NarrowQuadrilateralLinesSupported()&#32;const&#32;noexcept;
+224 &#32;&#32;&#32;&#32;BOOL&#32;AnisoFilterWithPointMipSupported()&#32;const&#32;noexcept;
+225 &#32;&#32;&#32;&#32;UINT&#32;MaxSamplerDescriptorHeapSize()&#32;const&#32;noexcept;
+226 &#32;&#32;&#32;&#32;UINT&#32;MaxSamplerDescriptorHeapSizeWithStaticSamplers()&#32;const&#32;noexcept;
+227 &#32;&#32;&#32;&#32;UINT&#32;MaxViewDescriptorHeapSize()&#32;const&#32;noexcept;
+228 <emphasis role="preprocessor">#endif</emphasis>
+229 
+230 <emphasis role="preprocessor">#if&#32;defined(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;611)</emphasis>
+231 &#32;&#32;&#32;&#32;BOOL&#32;ComputeOnlyWriteWatchSupported()&#32;const&#32;noexcept;
+232 <emphasis role="preprocessor">#endif</emphasis>
+233 
+234 <emphasis role="preprocessor">#if&#32;defined(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;612)</emphasis>
+235 &#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1ad1a68a5f8f7d22769956aceba682422f">D3D12_EXECUTE_INDIRECT_TIER</link>&#32;ExecuteIndirectTier()&#32;const&#32;noexcept;
+236 &#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1a25092853bbc226bf2d5c754de4ede5e9">D3D12_WORK_GRAPHS_TIER</link>&#32;WorkGraphsTier()&#32;const&#32;noexcept;
+237 <emphasis role="preprocessor">#endif</emphasis>
+238 
+239 <emphasis role="keyword">private</emphasis>:&#32;<emphasis role="comment">//&#32;Private&#32;structs&#32;and&#32;helpers&#32;declaration</emphasis>
+240 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis>ProtectedResourceSessionTypesLocal&#32;:&#32;<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___p_r_o_t_e_c_t_e_d___r_e_s_o_u_r_c_e___s_e_s_s_i_o_n___t_y_p_e_s">D3D12_FEATURE_DATA_PROTECTED_RESOURCE_SESSION_TYPES</link>
+241 &#32;&#32;&#32;&#32;{
+242 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::vector&lt;GUID&gt;&#32;TypeVec;
+243 &#32;&#32;&#32;&#32;};
+244 
+245 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Helper&#32;function&#32;to&#32;decide&#32;the&#32;highest&#32;shader&#32;model&#32;supported&#32;by&#32;the&#32;system</emphasis>
+246 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Stores&#32;the&#32;result&#32;in&#32;m_dShaderModel</emphasis>
+247 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Must&#32;be&#32;updated&#32;whenever&#32;a&#32;new&#32;shader&#32;model&#32;is&#32;added&#32;to&#32;the&#32;d3d12.h&#32;header</emphasis>
+248 &#32;&#32;&#32;&#32;HRESULT&#32;QueryHighestShaderModel();
+249 
+250 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Helper&#32;function&#32;to&#32;decide&#32;the&#32;highest&#32;root&#32;signature&#32;supported</emphasis>
+251 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Must&#32;be&#32;updated&#32;whenever&#32;a&#32;new&#32;root&#32;signature&#32;version&#32;is&#32;added&#32;to&#32;the&#32;d3d12.h&#32;header</emphasis>
+252 &#32;&#32;&#32;&#32;HRESULT&#32;QueryHighestRootSignatureVersion();
+253 
+254 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Helper&#32;funcion&#32;to&#32;decide&#32;the&#32;highest&#32;feature&#32;level</emphasis>
+255 &#32;&#32;&#32;&#32;HRESULT&#32;QueryHighestFeatureLevel();
+256 
+257 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Helper&#32;function&#32;to&#32;initialize&#32;local&#32;protected&#32;resource&#32;session&#32;types&#32;structs</emphasis>
+258 &#32;&#32;&#32;&#32;HRESULT&#32;QueryProtectedResourceSessionTypes(UINT&#32;NodeIndex,&#32;UINT&#32;Count);
+259 
+260 <emphasis role="keyword">private</emphasis>:&#32;<emphasis role="comment">//&#32;Member&#32;data</emphasis>
+261 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Pointer&#32;to&#32;the&#32;underlying&#32;device</emphasis>
+262 &#32;&#32;&#32;&#32;<link linkend="_interface_i_d3_d12_device">ID3D12Device</link>*&#32;m_pDevice;
+263 
+264 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Stores&#32;the&#32;error&#32;code&#32;from&#32;initialization</emphasis>
+265 &#32;&#32;&#32;&#32;HRESULT&#32;m_hStatus;
+266 
+267 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Feature&#32;support&#32;data&#32;structs</emphasis>
+268 &#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___d3_d12___o_p_t_i_o_n_s">D3D12_FEATURE_DATA_D3D12_OPTIONS</link>&#32;m_dOptions;
+269 &#32;&#32;&#32;&#32;<link linkend="_d3dcommon_8h_1a0f50a7ff750d026b8ce1927b5fb4e612">D3D_FEATURE_LEVEL</link>&#32;m_eMaxFeatureLevel;
+270 &#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___g_p_u___v_i_r_t_u_a_l___a_d_d_r_e_s_s___s_u_p_p_o_r_t">D3D12_FEATURE_DATA_GPU_VIRTUAL_ADDRESS_SUPPORT</link>&#32;m_dGPUVASupport;
+271 &#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___s_h_a_d_e_r___m_o_d_e_l">D3D12_FEATURE_DATA_SHADER_MODEL</link>&#32;m_dShaderModel;
+272 &#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___d3_d12___o_p_t_i_o_n_s1">D3D12_FEATURE_DATA_D3D12_OPTIONS1</link>&#32;m_dOptions1;
+273 &#32;&#32;&#32;&#32;std::vector&lt;D3D12_FEATURE_DATA_PROTECTED_RESOURCE_SESSION_SUPPORT&gt;&#32;m_dProtectedResourceSessionSupport;
+274 &#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___r_o_o_t___s_i_g_n_a_t_u_r_e">D3D12_FEATURE_DATA_ROOT_SIGNATURE</link>&#32;m_dRootSignature;
+275 &#32;&#32;&#32;&#32;std::vector&lt;D3D12_FEATURE_DATA_ARCHITECTURE1&gt;&#32;m_dArchitecture1;
+276 &#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___d3_d12___o_p_t_i_o_n_s2">D3D12_FEATURE_DATA_D3D12_OPTIONS2</link>&#32;m_dOptions2;
+277 &#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1ab7add0cd9680124890583f456e2ecd9b">D3D12_FEATURE_DATA_SHADER_CACHE</link>&#32;m_dShaderCache;
+278 &#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___c_o_m_m_a_n_d___q_u_e_u_e___p_r_i_o_r_i_t_y">D3D12_FEATURE_DATA_COMMAND_QUEUE_PRIORITY</link>&#32;m_dCommandQueuePriority;
+279 &#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1af07633930d76741946b37d29ec90fc68">D3D12_FEATURE_DATA_D3D12_OPTIONS3</link>&#32;m_dOptions3;
+280 &#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___e_x_i_s_t_i_n_g___h_e_a_p_s">D3D12_FEATURE_DATA_EXISTING_HEAPS</link>&#32;m_dExistingHeaps;
+281 &#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___d3_d12___o_p_t_i_o_n_s4">D3D12_FEATURE_DATA_D3D12_OPTIONS4</link>&#32;m_dOptions4;
+282 &#32;&#32;&#32;&#32;std::vector&lt;D3D12_FEATURE_DATA_SERIALIZATION&gt;&#32;m_dSerialization;&#32;<emphasis role="comment">//&#32;Cat2&#32;NodeIndex</emphasis>
+283 &#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___c_r_o_s_s___n_o_d_e">D3D12_FEATURE_DATA_CROSS_NODE</link>&#32;m_dCrossNode;
+284 &#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___d3_d12___o_p_t_i_o_n_s5">D3D12_FEATURE_DATA_D3D12_OPTIONS5</link>&#32;m_dOptions5;
+285 <emphasis role="preprocessor">#if&#32;defined(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;4)</emphasis>
+286 &#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___d_i_s_p_l_a_y_a_b_l_e">D3D12_FEATURE_DATA_DISPLAYABLE</link>&#32;m_dDisplayable;
+287 <emphasis role="preprocessor">#endif</emphasis>
+288 &#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___d3_d12___o_p_t_i_o_n_s6">D3D12_FEATURE_DATA_D3D12_OPTIONS6</link>&#32;m_dOptions6;
+289 &#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___d3_d12___o_p_t_i_o_n_s7">D3D12_FEATURE_DATA_D3D12_OPTIONS7</link>&#32;m_dOptions7;
+290 &#32;&#32;&#32;&#32;std::vector&lt;D3D12_FEATURE_DATA_PROTECTED_RESOURCE_SESSION_TYPE_COUNT&gt;&#32;m_dProtectedResourceSessionTypeCount;&#32;<emphasis role="comment">//&#32;Cat2&#32;NodeIndex</emphasis>
+291 &#32;&#32;&#32;&#32;std::vector&lt;ProtectedResourceSessionTypesLocal&gt;&#32;m_dProtectedResourceSessionTypes;&#32;<emphasis role="comment">//&#32;Cat3</emphasis>
+292 <emphasis role="preprocessor">#if&#32;defined(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;3)</emphasis>
+293 &#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___d3_d12___o_p_t_i_o_n_s8">D3D12_FEATURE_DATA_D3D12_OPTIONS8</link>&#32;m_dOptions8;
+294 &#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___d3_d12___o_p_t_i_o_n_s9">D3D12_FEATURE_DATA_D3D12_OPTIONS9</link>&#32;m_dOptions9;
+295 <emphasis role="preprocessor">#endif</emphasis>
+296 <emphasis role="preprocessor">#if&#32;defined(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;4)</emphasis>
+297 &#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___d3_d12___o_p_t_i_o_n_s10">D3D12_FEATURE_DATA_D3D12_OPTIONS10</link>&#32;m_dOptions10;
+298 &#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___d3_d12___o_p_t_i_o_n_s11">D3D12_FEATURE_DATA_D3D12_OPTIONS11</link>&#32;m_dOptions11;
+299 <emphasis role="preprocessor">#endif</emphasis>
+300 <emphasis role="preprocessor">#if&#32;defined(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;600)</emphasis>
+301 &#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___d3_d12___o_p_t_i_o_n_s12">D3D12_FEATURE_DATA_D3D12_OPTIONS12</link>&#32;m_dOptions12;
+302 <emphasis role="preprocessor">#endif</emphasis>
+303 <emphasis role="preprocessor">#if&#32;defined(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;602)</emphasis>
+304 &#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___d3_d12___o_p_t_i_o_n_s13">D3D12_FEATURE_DATA_D3D12_OPTIONS13</link>&#32;m_dOptions13;
+305 <emphasis role="preprocessor">#endif</emphasis>
+306 <emphasis role="preprocessor">#if&#32;defined(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;606)</emphasis>
+307 &#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___d3_d12___o_p_t_i_o_n_s14">D3D12_FEATURE_DATA_D3D12_OPTIONS14</link>&#32;m_dOptions14;
+308 &#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___d3_d12___o_p_t_i_o_n_s15">D3D12_FEATURE_DATA_D3D12_OPTIONS15</link>&#32;m_dOptions15;
+309 <emphasis role="preprocessor">#endif</emphasis>
+310 <emphasis role="preprocessor">#if&#32;defined(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;608)</emphasis>
+311 &#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___d3_d12___o_p_t_i_o_n_s16">D3D12_FEATURE_DATA_D3D12_OPTIONS16</link>&#32;m_dOptions16;
+312 <emphasis role="preprocessor">#endif</emphasis>
+313 <emphasis role="preprocessor">#if&#32;defined(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;609)</emphasis>
+314 &#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___d3_d12___o_p_t_i_o_n_s17">D3D12_FEATURE_DATA_D3D12_OPTIONS17</link>&#32;m_dOptions17;
+315 <emphasis role="preprocessor">#endif</emphasis>
+316 <emphasis role="preprocessor">#if&#32;defined(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;609)</emphasis>
+317 &#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___d3_d12___o_p_t_i_o_n_s18">D3D12_FEATURE_DATA_D3D12_OPTIONS18</link>&#32;m_dOptions18;
+318 <emphasis role="preprocessor">#endif</emphasis>
+319 <emphasis role="preprocessor">#if&#32;defined(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;610)</emphasis>
+320 &#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___d3_d12___o_p_t_i_o_n_s19">D3D12_FEATURE_DATA_D3D12_OPTIONS19</link>&#32;m_dOptions19;
+321 <emphasis role="preprocessor">#endif</emphasis>
+322 <emphasis role="preprocessor">#if&#32;defined(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;611)</emphasis>
+323 &#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___d3_d12___o_p_t_i_o_n_s20">D3D12_FEATURE_DATA_D3D12_OPTIONS20</link>&#32;m_dOptions20;
+324 <emphasis role="preprocessor">#endif</emphasis>
+325 <emphasis role="preprocessor">#if&#32;defined(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;612)</emphasis>
+326 &#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___d3_d12___o_p_t_i_o_n_s21">D3D12_FEATURE_DATA_D3D12_OPTIONS21</link>&#32;m_dOptions21;
+327 <emphasis role="preprocessor">#endif</emphasis>
+328 };
+329 
+330 <emphasis role="comment">//&#32;Implementations&#32;for&#32;CD3DX12FeatureSupport&#32;functions</emphasis>
+331 
+332 <emphasis role="comment">//&#32;Macro&#32;to&#32;set&#32;up&#32;a&#32;getter&#32;function&#32;for&#32;each&#32;entry&#32;in&#32;feature&#32;support&#32;data</emphasis>
+333 <emphasis role="comment">//&#32;The&#32;getter&#32;function&#32;will&#32;have&#32;the&#32;same&#32;name&#32;as&#32;the&#32;feature&#32;option&#32;name</emphasis>
+334 <emphasis role="preprocessor">#define&#32;FEATURE_SUPPORT_GET(RETTYPE,FEATURE,OPTION)&#32;\</emphasis>
+335 <emphasis role="preprocessor">inline&#32;RETTYPE&#32;CD3DX12FeatureSupport::OPTION()&#32;const&#32;noexcept&#32;\</emphasis>
+336 <emphasis role="preprocessor">{&#32;\</emphasis>
+337 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;return&#32;FEATURE.OPTION;&#32;\</emphasis>
+338 <emphasis role="preprocessor">}</emphasis>
+339 
+340 <emphasis role="comment">//&#32;Macro&#32;to&#32;set&#32;up&#32;a&#32;getter&#32;function&#32;for&#32;each&#32;entry&#32;in&#32;feature&#32;support&#32;data</emphasis>
+341 <emphasis role="comment">//&#32;Also&#32;specifies&#32;the&#32;name&#32;for&#32;the&#32;function&#32;which&#32;can&#32;be&#32;different&#32;from&#32;the&#32;feature&#32;name</emphasis>
+342 <emphasis role="preprocessor">#define&#32;FEATURE_SUPPORT_GET_NAME(RETTYPE,FEATURE,OPTION,NAME)&#32;\</emphasis>
+343 <emphasis role="preprocessor">inline&#32;RETTYPE&#32;CD3DX12FeatureSupport::NAME()&#32;const&#32;noexcept&#32;\</emphasis>
+344 <emphasis role="preprocessor">{\</emphasis>
+345 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;return&#32;FEATURE.OPTION;&#32;\</emphasis>
+346 <emphasis role="preprocessor">}</emphasis>
+347 
+348 <emphasis role="comment">//&#32;Macro&#32;to&#32;set&#32;up&#32;a&#32;getter&#32;function&#32;for&#32;feature&#32;data&#32;indexed&#32;by&#32;the&#32;graphics&#32;node&#32;ID</emphasis>
+349 <emphasis role="comment">//&#32;The&#32;default&#32;parameter&#32;is&#32;0,&#32;or&#32;the&#32;first&#32;availabe&#32;graphics&#32;device&#32;node</emphasis>
+350 <emphasis role="preprocessor">#define&#32;FEATURE_SUPPORT_GET_NODE_INDEXED(RETTYPE,FEATURE,OPTION)&#32;\</emphasis>
+351 <emphasis role="preprocessor">inline&#32;RETTYPE&#32;CD3DX12FeatureSupport::OPTION(UINT&#32;NodeIndex)&#32;const&#32;\</emphasis>
+352 <emphasis role="preprocessor">{\</emphasis>
+353 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;return&#32;FEATURE[NodeIndex].OPTION;&#32;\</emphasis>
+354 <emphasis role="preprocessor">}</emphasis>
+355 
+356 <emphasis role="comment">//&#32;Macro&#32;to&#32;set&#32;up&#32;a&#32;getter&#32;function&#32;for&#32;feature&#32;data&#32;indexed&#32;by&#32;NodeIndex</emphasis>
+357 <emphasis role="comment">//&#32;Allows&#32;a&#32;custom&#32;name&#32;for&#32;the&#32;getter&#32;function</emphasis>
+358 <emphasis role="preprocessor">#define&#32;FEATURE_SUPPORT_GET_NODE_INDEXED_NAME(RETTYPE,FEATURE,OPTION,NAME)&#32;\</emphasis>
+359 <emphasis role="preprocessor">inline&#32;RETTYPE&#32;CD3DX12FeatureSupport::NAME(UINT&#32;NodeIndex)&#32;const&#32;\</emphasis>
+360 <emphasis role="preprocessor">{\</emphasis>
+361 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;return&#32;FEATURE[NodeIndex].OPTION;&#32;\</emphasis>
+362 <emphasis role="preprocessor">}</emphasis>
+363 
+364 <emphasis role="keyword">inline</emphasis>&#32;<link linkend="_class_c_d3_d_x12_feature_support_1a28fe72f5da170920ae1ec25090ca7e60">CD3DX12FeatureSupport::CD3DX12FeatureSupport</link>()&#32;noexcept
+365 :&#32;m_pDevice(<emphasis role="keywordtype">nullptr</emphasis>)
+366 ,&#32;m_hStatus(E_INVALIDARG)
+367 ,&#32;m_dOptions{}
+368 ,&#32;m_eMaxFeatureLevel{}
+369 ,&#32;m_dGPUVASupport{}
+370 ,&#32;m_dShaderModel{}
+371 ,&#32;m_dOptions1{}
+372 ,&#32;m_dRootSignature{}
+373 ,&#32;m_dOptions2{}
+374 ,&#32;m_dShaderCache{}
+375 ,&#32;m_dCommandQueuePriority{}
+376 ,&#32;m_dOptions3{}
+377 ,&#32;m_dExistingHeaps{}
+378 ,&#32;m_dOptions4{}
+379 ,&#32;m_dCrossNode{}
+380 ,&#32;m_dOptions5{}
+381 <emphasis role="preprocessor">#if&#32;defined(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;4)</emphasis>
+382 ,&#32;m_dDisplayable{}
+383 <emphasis role="preprocessor">#endif</emphasis>
+384 ,&#32;m_dOptions6{}
+385 ,&#32;m_dOptions7{}
+386 <emphasis role="preprocessor">#if&#32;defined(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;3)</emphasis>
+387 ,&#32;m_dOptions8{}
+388 ,&#32;m_dOptions9{}
+389 <emphasis role="preprocessor">#endif</emphasis>
+390 <emphasis role="preprocessor">#if&#32;defined(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;4)</emphasis>
+391 ,&#32;m_dOptions10{}
+392 ,&#32;m_dOptions11{}
+393 <emphasis role="preprocessor">#endif</emphasis>
+394 <emphasis role="preprocessor">#if&#32;defined(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;600)</emphasis>
+395 ,&#32;m_dOptions12{}
+396 <emphasis role="preprocessor">#endif</emphasis>
+397 <emphasis role="preprocessor">#if&#32;defined(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;602)</emphasis>
+398 ,&#32;m_dOptions13{}
+399 <emphasis role="preprocessor">#endif</emphasis>
+400 <emphasis role="preprocessor">#if&#32;defined(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;606)</emphasis>
+401 ,&#32;m_dOptions14{}
+402 ,&#32;m_dOptions15{}
+403 <emphasis role="preprocessor">#endif</emphasis>
+404 <emphasis role="preprocessor">#if&#32;defined(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;608)</emphasis>
+405 ,&#32;m_dOptions16{}
+406 <emphasis role="preprocessor">#endif</emphasis>
+407 <emphasis role="preprocessor">#if&#32;defined(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;609)</emphasis>
+408 ,&#32;m_dOptions17{}
+409 <emphasis role="preprocessor">#endif</emphasis>
+410 <emphasis role="preprocessor">#if&#32;defined&#32;(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;609)</emphasis>
+411 ,&#32;m_dOptions18{}
+412 <emphasis role="preprocessor">#endif</emphasis>
+413 <emphasis role="preprocessor">#if&#32;defined&#32;(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;610)</emphasis>
+414 ,&#32;m_dOptions19{}
+415 <emphasis role="preprocessor">#endif</emphasis>
+416 <emphasis role="preprocessor">#if&#32;defined&#32;(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;611)</emphasis>
+417 ,&#32;m_dOptions20{}
+418 <emphasis role="preprocessor">#endif</emphasis>
+419 <emphasis role="preprocessor">#if&#32;defined&#32;(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;612)</emphasis>
+420 ,&#32;m_dOptions21{}
+421 <emphasis role="preprocessor">#endif</emphasis>
+422 {}
+423 
+424 <emphasis role="keyword">inline</emphasis>&#32;HRESULT&#32;<link linkend="_class_c_d3_d_x12_feature_support_1aac274058f83fe783b157bc6b9faee593">CD3DX12FeatureSupport::Init</link>(<link linkend="_interface_i_d3_d12_device">ID3D12Device</link>*&#32;pDevice)
+425 {
+426 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(!pDevice)
+427 &#32;&#32;&#32;&#32;{
+428 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_hStatus&#32;=&#32;E_INVALIDARG;
+429 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;m_hStatus;
+430 &#32;&#32;&#32;&#32;}
+431 
+432 &#32;&#32;&#32;&#32;m_pDevice&#32;=&#32;pDevice;
+433 
+434 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Initialize&#32;static&#32;feature&#32;support&#32;data&#32;structures</emphasis>
+435 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(FAILED(m_pDevice-&gt;<link linkend="_interface_i_d3_d12_device_1ac153e691a412af4f7419342d72646205">CheckFeatureSupport</link>(<link linkend="_d3d12_8idl_1afc1de2554dd6479bbcafe262ae95e36ca39b4eaf575a892697ea06377de3ee253">D3D12_FEATURE_D3D12_OPTIONS</link>,&#32;&amp;m_dOptions,&#32;<emphasis role="keyword">sizeof</emphasis>(m_dOptions))))
+436 &#32;&#32;&#32;&#32;{
+437 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_dOptions&#32;=&#32;{};
+438 &#32;&#32;&#32;&#32;}
+439 
+440 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(FAILED(m_pDevice-&gt;<link linkend="_interface_i_d3_d12_device_1ac153e691a412af4f7419342d72646205">CheckFeatureSupport</link>(<link linkend="_d3d12_8idl_1afc1de2554dd6479bbcafe262ae95e36ca89acf7eb0eb07ec9e9a439a8f663ece7">D3D12_FEATURE_GPU_VIRTUAL_ADDRESS_SUPPORT</link>,&#32;&amp;m_dGPUVASupport,&#32;<emphasis role="keyword">sizeof</emphasis>(m_dGPUVASupport))))
+441 &#32;&#32;&#32;&#32;{
+442 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_dGPUVASupport&#32;=&#32;{};
+443 &#32;&#32;&#32;&#32;}
+444 
+445 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(FAILED(m_pDevice-&gt;<link linkend="_interface_i_d3_d12_device_1ac153e691a412af4f7419342d72646205">CheckFeatureSupport</link>(<link linkend="_d3d12_8idl_1afc1de2554dd6479bbcafe262ae95e36cac62b720b025b69ea53492b19ab731a0f">D3D12_FEATURE_D3D12_OPTIONS1</link>,&#32;&amp;m_dOptions1,&#32;<emphasis role="keyword">sizeof</emphasis>(m_dOptions1))))
+446 &#32;&#32;&#32;&#32;{
+447 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_dOptions1&#32;=&#32;{};
+448 &#32;&#32;&#32;&#32;}
+449 
+450 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(FAILED(m_pDevice-&gt;<link linkend="_interface_i_d3_d12_device_1ac153e691a412af4f7419342d72646205">CheckFeatureSupport</link>(<link linkend="_d3d12_8idl_1afc1de2554dd6479bbcafe262ae95e36ca3c6efda10ca282fd1d81275bd8655c52">D3D12_FEATURE_D3D12_OPTIONS2</link>,&#32;&amp;m_dOptions2,&#32;<emphasis role="keyword">sizeof</emphasis>(m_dOptions2))))
+451 &#32;&#32;&#32;&#32;{
+452 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_dOptions2&#32;=&#32;{};
+453 &#32;&#32;&#32;&#32;}
+454 
+455 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(FAILED(m_pDevice-&gt;<link linkend="_interface_i_d3_d12_device_1ac153e691a412af4f7419342d72646205">CheckFeatureSupport</link>(<link linkend="_d3d12_8idl_1afc1de2554dd6479bbcafe262ae95e36ca4031625487754402c3ac3017036a1e21">D3D12_FEATURE_SHADER_CACHE</link>,&#32;&amp;m_dShaderCache,&#32;<emphasis role="keyword">sizeof</emphasis>(m_dShaderCache))))
+456 &#32;&#32;&#32;&#32;{
+457 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_dShaderCache&#32;=&#32;{};
+458 &#32;&#32;&#32;&#32;}
+459 
+460 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(FAILED(m_pDevice-&gt;<link linkend="_interface_i_d3_d12_device_1ac153e691a412af4f7419342d72646205">CheckFeatureSupport</link>(<link linkend="_d3d12_8idl_1afc1de2554dd6479bbcafe262ae95e36ca53ad77d622aafacac95488d8ad13ada6">D3D12_FEATURE_D3D12_OPTIONS3</link>,&#32;&amp;m_dOptions3,&#32;<emphasis role="keyword">sizeof</emphasis>(m_dOptions3))))
+461 &#32;&#32;&#32;&#32;{
+462 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_dOptions3&#32;=&#32;{};
+463 &#32;&#32;&#32;&#32;}
+464 
+465 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(FAILED(m_pDevice-&gt;<link linkend="_interface_i_d3_d12_device_1ac153e691a412af4f7419342d72646205">CheckFeatureSupport</link>(<link linkend="_d3d12_8idl_1afc1de2554dd6479bbcafe262ae95e36ca470fe6999bdff0ebc729fa0c719de713">D3D12_FEATURE_EXISTING_HEAPS</link>,&#32;&amp;m_dExistingHeaps,&#32;<emphasis role="keyword">sizeof</emphasis>(m_dExistingHeaps))))
+466 &#32;&#32;&#32;&#32;{
+467 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_dExistingHeaps&#32;=&#32;{};
+468 &#32;&#32;&#32;&#32;}
+469 
+470 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(FAILED(m_pDevice-&gt;<link linkend="_interface_i_d3_d12_device_1ac153e691a412af4f7419342d72646205">CheckFeatureSupport</link>(<link linkend="_d3d12_8idl_1afc1de2554dd6479bbcafe262ae95e36ca888203719f0e1d6ad5fead490de08167">D3D12_FEATURE_D3D12_OPTIONS4</link>,&#32;&amp;m_dOptions4,&#32;<emphasis role="keyword">sizeof</emphasis>(m_dOptions4))))
+471 &#32;&#32;&#32;&#32;{
+472 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_dOptions4&#32;=&#32;{};
+473 &#32;&#32;&#32;&#32;}
+474 
+475 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(FAILED(m_pDevice-&gt;<link linkend="_interface_i_d3_d12_device_1ac153e691a412af4f7419342d72646205">CheckFeatureSupport</link>(<link linkend="_d3d12_8idl_1afc1de2554dd6479bbcafe262ae95e36caceb550d5cdbc650627fe6decdd850a5c">D3D12_FEATURE_CROSS_NODE</link>,&#32;&amp;m_dCrossNode,&#32;<emphasis role="keyword">sizeof</emphasis>(m_dCrossNode))))
+476 &#32;&#32;&#32;&#32;{
+477 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_dCrossNode&#32;=&#32;{};
+478 &#32;&#32;&#32;&#32;}
+479 
+480 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(FAILED(m_pDevice-&gt;<link linkend="_interface_i_d3_d12_device_1ac153e691a412af4f7419342d72646205">CheckFeatureSupport</link>(<link linkend="_d3d12_8idl_1afc1de2554dd6479bbcafe262ae95e36caf6773b04858b7c0fdfd654855765e3c8">D3D12_FEATURE_D3D12_OPTIONS5</link>,&#32;&amp;m_dOptions5,&#32;<emphasis role="keyword">sizeof</emphasis>(m_dOptions5))))
+481 &#32;&#32;&#32;&#32;{
+482 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_dOptions5&#32;=&#32;{};
+483 &#32;&#32;&#32;&#32;}
+484 
+485 <emphasis role="preprocessor">#if&#32;defined(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;4)</emphasis>
+486 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(FAILED(m_pDevice-&gt;<link linkend="_interface_i_d3_d12_device_1ac153e691a412af4f7419342d72646205">CheckFeatureSupport</link>(<link linkend="_d3d12_8idl_1afc1de2554dd6479bbcafe262ae95e36ca1744840bdde31d9df6c0041e075c5ad5">D3D12_FEATURE_DISPLAYABLE</link>,&#32;&amp;m_dDisplayable,&#32;<emphasis role="keyword">sizeof</emphasis>(m_dDisplayable))))
+487 &#32;&#32;&#32;&#32;{
+488 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_dDisplayable&#32;=&#32;{};
+489 &#32;&#32;&#32;&#32;}
+490 <emphasis role="preprocessor">#endif</emphasis>
+491 
+492 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(FAILED(m_pDevice-&gt;<link linkend="_interface_i_d3_d12_device_1ac153e691a412af4f7419342d72646205">CheckFeatureSupport</link>(<link linkend="_d3d12_8idl_1afc1de2554dd6479bbcafe262ae95e36ca58b68cbdeb1235c7148b7df1d51e8856">D3D12_FEATURE_D3D12_OPTIONS6</link>,&#32;&amp;m_dOptions6,&#32;<emphasis role="keyword">sizeof</emphasis>(m_dOptions6))))
+493 &#32;&#32;&#32;&#32;{
+494 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_dOptions6&#32;=&#32;{};
+495 &#32;&#32;&#32;&#32;}
+496 
+497 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(FAILED(m_pDevice-&gt;<link linkend="_interface_i_d3_d12_device_1ac153e691a412af4f7419342d72646205">CheckFeatureSupport</link>(<link linkend="_d3d12_8idl_1afc1de2554dd6479bbcafe262ae95e36ca66964c386e1dd39664d19b73328f8e31">D3D12_FEATURE_D3D12_OPTIONS7</link>,&#32;&amp;m_dOptions7,&#32;<emphasis role="keyword">sizeof</emphasis>(m_dOptions7))))
+498 &#32;&#32;&#32;&#32;{
+499 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_dOptions7&#32;=&#32;{};
+500 &#32;&#32;&#32;&#32;}
+501 
+502 <emphasis role="preprocessor">#if&#32;defined(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;3)</emphasis>
+503 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(FAILED(m_pDevice-&gt;<link linkend="_interface_i_d3_d12_device_1ac153e691a412af4f7419342d72646205">CheckFeatureSupport</link>(<link linkend="_d3d12_8idl_1afc1de2554dd6479bbcafe262ae95e36ca032425880a0ffde363166f47fe4bc41f">D3D12_FEATURE_D3D12_OPTIONS8</link>,&#32;&amp;m_dOptions8,&#32;<emphasis role="keyword">sizeof</emphasis>(m_dOptions8))))
+504 &#32;&#32;&#32;&#32;{
+505 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_dOptions8&#32;=&#32;{};
+506 &#32;&#32;&#32;&#32;}
+507 
+508 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(FAILED(m_pDevice-&gt;<link linkend="_interface_i_d3_d12_device_1ac153e691a412af4f7419342d72646205">CheckFeatureSupport</link>(<link linkend="_d3d12_8idl_1afc1de2554dd6479bbcafe262ae95e36ca02c9c72b9d72c9c8a0d95b667ee8304b">D3D12_FEATURE_D3D12_OPTIONS9</link>,&#32;&amp;m_dOptions9,&#32;<emphasis role="keyword">sizeof</emphasis>(m_dOptions9))))
+509 &#32;&#32;&#32;&#32;{
+510 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_dOptions9&#32;=&#32;{};
+511 &#32;&#32;&#32;&#32;}
+512 <emphasis role="preprocessor">#endif</emphasis>
+513 
+514 <emphasis role="preprocessor">#if&#32;defined(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;4)</emphasis>
+515 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(FAILED(m_pDevice-&gt;<link linkend="_interface_i_d3_d12_device_1ac153e691a412af4f7419342d72646205">CheckFeatureSupport</link>(<link linkend="_d3d12_8idl_1afc1de2554dd6479bbcafe262ae95e36caf995367831dc579d886a08edc47b2ebe">D3D12_FEATURE_D3D12_OPTIONS10</link>,&#32;&amp;m_dOptions10,&#32;<emphasis role="keyword">sizeof</emphasis>(m_dOptions10))))
+516 &#32;&#32;&#32;&#32;{
+517 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_dOptions10&#32;=&#32;{};
+518 &#32;&#32;&#32;&#32;}
+519 
+520 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(FAILED(m_pDevice-&gt;<link linkend="_interface_i_d3_d12_device_1ac153e691a412af4f7419342d72646205">CheckFeatureSupport</link>(<link linkend="_d3d12_8idl_1afc1de2554dd6479bbcafe262ae95e36ca7f9a90958315fd68ff473c57c39e58f3">D3D12_FEATURE_D3D12_OPTIONS11</link>,&#32;&amp;m_dOptions11,&#32;<emphasis role="keyword">sizeof</emphasis>(m_dOptions11))))
+521 &#32;&#32;&#32;&#32;{
+522 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_dOptions11&#32;=&#32;{};
+523 &#32;&#32;&#32;&#32;}
+524 <emphasis role="preprocessor">#endif</emphasis>
+525 
+526 <emphasis role="preprocessor">#if&#32;defined(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;600)</emphasis>
+527 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(FAILED(m_pDevice-&gt;<link linkend="_interface_i_d3_d12_device_1ac153e691a412af4f7419342d72646205">CheckFeatureSupport</link>(<link linkend="_d3d12_8idl_1afc1de2554dd6479bbcafe262ae95e36ca9ed686f09eabff1f1a82d0a512315d8e">D3D12_FEATURE_D3D12_OPTIONS12</link>,&#32;&amp;m_dOptions12,&#32;<emphasis role="keyword">sizeof</emphasis>(m_dOptions12))))
+528 &#32;&#32;&#32;&#32;{
+529 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_dOptions12&#32;=&#32;{};
+530 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_dOptions12.MSPrimitivesPipelineStatisticIncludesCulledPrimitives&#32;=&#32;D3D12_TRI_STATE::D3D12_TRI_STATE_UNKNOWN;
+531 &#32;&#32;&#32;&#32;}
+532 <emphasis role="preprocessor">#endif</emphasis>
+533 
+534 <emphasis role="preprocessor">#if&#32;defined(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;602)</emphasis>
+535 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(FAILED(m_pDevice-&gt;<link linkend="_interface_i_d3_d12_device_1ac153e691a412af4f7419342d72646205">CheckFeatureSupport</link>(<link linkend="_d3d12_8idl_1afc1de2554dd6479bbcafe262ae95e36ca6bdeb65d4b29492ef98294de55a37cb6">D3D12_FEATURE_D3D12_OPTIONS13</link>,&#32;&amp;m_dOptions13,&#32;<emphasis role="keyword">sizeof</emphasis>(m_dOptions13))))
+536 &#32;&#32;&#32;&#32;{
+537 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_dOptions13&#32;=&#32;{};
+538 &#32;&#32;&#32;&#32;}
+539 <emphasis role="preprocessor">#endif</emphasis>
+540 
+541 <emphasis role="preprocessor">#if&#32;defined(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;606)</emphasis>
+542 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(FAILED(m_pDevice-&gt;<link linkend="_interface_i_d3_d12_device_1ac153e691a412af4f7419342d72646205">CheckFeatureSupport</link>(<link linkend="_d3d12_8idl_1afc1de2554dd6479bbcafe262ae95e36caf9f95363428fae5855e97f593c9fa126">D3D12_FEATURE_D3D12_OPTIONS14</link>,&#32;&amp;m_dOptions14,&#32;<emphasis role="keyword">sizeof</emphasis>(m_dOptions14))))
+543 &#32;&#32;&#32;&#32;{
+544 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_dOptions14&#32;=&#32;{};
+545 &#32;&#32;&#32;&#32;}
+546 
+547 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(FAILED(m_pDevice-&gt;<link linkend="_interface_i_d3_d12_device_1ac153e691a412af4f7419342d72646205">CheckFeatureSupport</link>(<link linkend="_d3d12_8idl_1afc1de2554dd6479bbcafe262ae95e36ca87575e28e8381e610642abf99fd55933">D3D12_FEATURE_D3D12_OPTIONS15</link>,&#32;&amp;m_dOptions15,&#32;<emphasis role="keyword">sizeof</emphasis>(m_dOptions15))))
+548 &#32;&#32;&#32;&#32;{
+549 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_dOptions15&#32;=&#32;{};
+550 &#32;&#32;&#32;&#32;}
+551 <emphasis role="preprocessor">#endif</emphasis>
+552 
+553 <emphasis role="preprocessor">#if&#32;defined(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;608)</emphasis>
+554 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(FAILED(m_pDevice-&gt;<link linkend="_interface_i_d3_d12_device_1ac153e691a412af4f7419342d72646205">CheckFeatureSupport</link>(<link linkend="_d3d12_8idl_1afc1de2554dd6479bbcafe262ae95e36ca2be367ef958b695a21e44cfc5b7d2072">D3D12_FEATURE_D3D12_OPTIONS16</link>,&#32;&amp;m_dOptions16,&#32;<emphasis role="keyword">sizeof</emphasis>(m_dOptions16))))
+555 &#32;&#32;&#32;&#32;{
+556 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_dOptions16&#32;=&#32;{};
+557 &#32;&#32;&#32;&#32;}
+558 <emphasis role="preprocessor">#endif</emphasis>
+559 
+560 <emphasis role="preprocessor">#if&#32;defined(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;609)</emphasis>
+561 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(FAILED(m_pDevice-&gt;<link linkend="_interface_i_d3_d12_device_1ac153e691a412af4f7419342d72646205">CheckFeatureSupport</link>(<link linkend="_d3d12_8idl_1afc1de2554dd6479bbcafe262ae95e36caadcf6bc32c58dd9beaa2b55a803177ea">D3D12_FEATURE_D3D12_OPTIONS17</link>,&#32;&amp;m_dOptions17,&#32;<emphasis role="keyword">sizeof</emphasis>(m_dOptions17))))
+562 &#32;&#32;&#32;&#32;{
+563 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_dOptions17&#32;=&#32;{};
+564 &#32;&#32;&#32;&#32;}
+565 
+566 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(FAILED(m_pDevice-&gt;<link linkend="_interface_i_d3_d12_device_1ac153e691a412af4f7419342d72646205">CheckFeatureSupport</link>(<link linkend="_d3d12_8idl_1afc1de2554dd6479bbcafe262ae95e36ca3501fdcff61941b9a4b656d245c6b2fa">D3D12_FEATURE_D3D12_OPTIONS18</link>,&#32;&amp;m_dOptions18,&#32;<emphasis role="keyword">sizeof</emphasis>(m_dOptions18))))
+567 &#32;&#32;&#32;&#32;{
+568 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_dOptions18.RenderPassesValid&#32;=&#32;<emphasis role="keyword">false</emphasis>;
+569 &#32;&#32;&#32;&#32;}
+570 <emphasis role="preprocessor">#endif</emphasis>
+571 
+572 <emphasis role="preprocessor">#if&#32;defined(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;610)</emphasis>
+573 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(FAILED(m_pDevice-&gt;<link linkend="_interface_i_d3_d12_device_1ac153e691a412af4f7419342d72646205">CheckFeatureSupport</link>(<link linkend="_d3d12_8idl_1afc1de2554dd6479bbcafe262ae95e36caa6ed15bb0ffa7b4e64e89197b6a8e03c">D3D12_FEATURE_D3D12_OPTIONS19</link>,&#32;&amp;m_dOptions19,&#32;<emphasis role="keyword">sizeof</emphasis>(m_dOptions19))))
+574 &#32;&#32;&#32;&#32;{
+575 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_dOptions19&#32;=&#32;{};
+576 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_dOptions19.SupportedSampleCountsWithNoOutputs&#32;=&#32;1;
+577 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_dOptions19.MaxSamplerDescriptorHeapSize&#32;=&#32;<link linkend="_d3d12_8idl_1a324764ab048c631fb92687831320ea1e">D3D12_MAX_SHADER_VISIBLE_SAMPLER_HEAP_SIZE</link>;
+578 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_dOptions19.MaxSamplerDescriptorHeapSizeWithStaticSamplers&#32;=&#32;<link linkend="_d3d12_8idl_1a324764ab048c631fb92687831320ea1e">D3D12_MAX_SHADER_VISIBLE_SAMPLER_HEAP_SIZE</link>;
+579 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_dOptions19.MaxViewDescriptorHeapSize&#32;=&#32;<link linkend="_d3d12_8idl_1a56b9e68acf7bd99d59a2a3ab600dc9bd">D3D12_MAX_SHADER_VISIBLE_DESCRIPTOR_HEAP_SIZE_TIER_1</link>;
+580 &#32;&#32;&#32;&#32;}
+581 <emphasis role="preprocessor">#endif</emphasis>
+582 
+583 <emphasis role="preprocessor">#if&#32;defined(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;611)</emphasis>
+584 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(FAILED(m_pDevice-&gt;<link linkend="_interface_i_d3_d12_device_1ac153e691a412af4f7419342d72646205">CheckFeatureSupport</link>(<link linkend="_d3d12_8idl_1afc1de2554dd6479bbcafe262ae95e36caecc6189e9229184e5954919f2b7a16d0">D3D12_FEATURE_D3D12_OPTIONS20</link>,&#32;&amp;m_dOptions20,&#32;<emphasis role="keyword">sizeof</emphasis>(m_dOptions20))))
+585 &#32;&#32;&#32;&#32;{
+586 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_dOptions20&#32;=&#32;{};
+587 &#32;&#32;&#32;&#32;}
+588 <emphasis role="preprocessor">#endif</emphasis>
+589 
+590 <emphasis role="preprocessor">#if&#32;defined(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;612)</emphasis>
+591 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(FAILED(m_pDevice-&gt;<link linkend="_interface_i_d3_d12_device_1ac153e691a412af4f7419342d72646205">CheckFeatureSupport</link>(<link linkend="_d3d12_8idl_1afc1de2554dd6479bbcafe262ae95e36caf397038ce9fddd6f2259eb8302b3cc00">D3D12_FEATURE_D3D12_OPTIONS21</link>,&#32;&amp;m_dOptions21,&#32;<emphasis role="keyword">sizeof</emphasis>(m_dOptions21))))
+592 &#32;&#32;&#32;&#32;{
+593 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_dOptions21&#32;=&#32;{};
+594 &#32;&#32;&#32;&#32;}
+595 <emphasis role="preprocessor">#endif</emphasis>
+596 
+597 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Initialize&#32;per-node&#32;feature&#32;support&#32;data&#32;structures</emphasis>
+598 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;UINT&#32;uNodeCount&#32;=&#32;m_pDevice-&gt;<link linkend="_interface_i_d3_d12_device_1abfdb0595bce339e57784fbf116a250c8">GetNodeCount</link>();
+599 &#32;&#32;&#32;&#32;m_dProtectedResourceSessionSupport.resize(uNodeCount);
+600 &#32;&#32;&#32;&#32;m_dArchitecture1.resize(uNodeCount);
+601 &#32;&#32;&#32;&#32;m_dSerialization.resize(uNodeCount);
+602 &#32;&#32;&#32;&#32;m_dProtectedResourceSessionTypeCount.resize(uNodeCount);
+603 &#32;&#32;&#32;&#32;m_dProtectedResourceSessionTypes.resize(uNodeCount);
+604 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(UINT&#32;NodeIndex&#32;=&#32;0;&#32;NodeIndex&#32;&lt;&#32;uNodeCount;&#32;NodeIndex++)
+605 &#32;&#32;&#32;&#32;{
+606 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_dProtectedResourceSessionSupport[NodeIndex].NodeIndex&#32;=&#32;NodeIndex;
+607 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(FAILED(m_pDevice-&gt;<link linkend="_interface_i_d3_d12_device_1ac153e691a412af4f7419342d72646205">CheckFeatureSupport</link>(<link linkend="_d3d12_8idl_1afc1de2554dd6479bbcafe262ae95e36cabd1848413a7ddfa6938c46afacd3978a">D3D12_FEATURE_PROTECTED_RESOURCE_SESSION_SUPPORT</link>,&#32;&amp;m_dProtectedResourceSessionSupport[NodeIndex],&#32;<emphasis role="keyword">sizeof</emphasis>(m_dProtectedResourceSessionSupport[NodeIndex]))))
+608 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+609 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_dProtectedResourceSessionSupport[NodeIndex].Support&#32;=&#32;D3D12_PROTECTED_RESOURCE_SESSION_SUPPORT_FLAG_NONE;
+610 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+611 
+612 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_dArchitecture1[NodeIndex].NodeIndex&#32;=&#32;NodeIndex;
+613 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(FAILED(m_pDevice-&gt;<link linkend="_interface_i_d3_d12_device_1ac153e691a412af4f7419342d72646205">CheckFeatureSupport</link>(<link linkend="_d3d12_8idl_1afc1de2554dd6479bbcafe262ae95e36ca7d8a13572004612b6679bce20784c1ac">D3D12_FEATURE_ARCHITECTURE1</link>,&#32;&amp;m_dArchitecture1[NodeIndex],&#32;<emphasis role="keyword">sizeof</emphasis>(m_dArchitecture1[NodeIndex]))))
+614 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+615 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___a_r_c_h_i_t_e_c_t_u_r_e">D3D12_FEATURE_DATA_ARCHITECTURE</link>&#32;dArchLocal&#32;=&#32;{};
+616 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;dArchLocal.<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___a_r_c_h_i_t_e_c_t_u_r_e_1ad60ce2445c725d2a2e772aa73e71dd5f">NodeIndex</link>&#32;=&#32;NodeIndex;
+617 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(FAILED(m_pDevice-&gt;<link linkend="_interface_i_d3_d12_device_1ac153e691a412af4f7419342d72646205">CheckFeatureSupport</link>(<link linkend="_d3d12_8idl_1afc1de2554dd6479bbcafe262ae95e36ca57d328557ca0db91d6a84ce539e376c9">D3D12_FEATURE_ARCHITECTURE</link>,&#32;&amp;dArchLocal,&#32;<emphasis role="keyword">sizeof</emphasis>(dArchLocal))))
+618 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+619 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;dArchLocal.<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___a_r_c_h_i_t_e_c_t_u_r_e_1a8b6dc9041fa34c0a94fe855fe2045514">TileBasedRenderer</link>&#32;=&#32;<emphasis role="keyword">false</emphasis>;
+620 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;dArchLocal.<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___a_r_c_h_i_t_e_c_t_u_r_e_1ad379f631a29591ad5545ce5f5676eb81">UMA</link>&#32;=&#32;<emphasis role="keyword">false</emphasis>;
+621 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;dArchLocal.<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___a_r_c_h_i_t_e_c_t_u_r_e_1a1ba7fa045f7217586fef1f4c5b9f4d02">CacheCoherentUMA</link>&#32;=&#32;<emphasis role="keyword">false</emphasis>;
+622 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+623 
+624 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_dArchitecture1[NodeIndex].TileBasedRenderer&#32;=&#32;dArchLocal.<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___a_r_c_h_i_t_e_c_t_u_r_e_1a8b6dc9041fa34c0a94fe855fe2045514">TileBasedRenderer</link>;
+625 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_dArchitecture1[NodeIndex].UMA&#32;=&#32;dArchLocal.<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___a_r_c_h_i_t_e_c_t_u_r_e_1ad379f631a29591ad5545ce5f5676eb81">UMA</link>;
+626 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_dArchitecture1[NodeIndex].CacheCoherentUMA&#32;=&#32;dArchLocal.<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___a_r_c_h_i_t_e_c_t_u_r_e_1a1ba7fa045f7217586fef1f4c5b9f4d02">CacheCoherentUMA</link>;
+627 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_dArchitecture1[NodeIndex].IsolatedMMU&#32;=&#32;<emphasis role="keyword">false</emphasis>;
+628 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+629 
+630 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_dSerialization[NodeIndex].NodeIndex&#32;=&#32;NodeIndex;
+631 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(FAILED(m_pDevice-&gt;<link linkend="_interface_i_d3_d12_device_1ac153e691a412af4f7419342d72646205">CheckFeatureSupport</link>(<link linkend="_d3d12_8idl_1afc1de2554dd6479bbcafe262ae95e36cad1090ad0a3e342582e3b20f6f0b2dea0">D3D12_FEATURE_SERIALIZATION</link>,&#32;&amp;m_dSerialization[NodeIndex],&#32;<emphasis role="keyword">sizeof</emphasis>(m_dSerialization[NodeIndex]))))
+632 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+633 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_dSerialization[NodeIndex].HeapSerializationTier&#32;=&#32;<link linkend="_d3d12_8idl_1a15ed0d6c8a409e7c92f26b5de6628d93aa7ef40f5b2e8de1fa9fc720df347fa2b">D3D12_HEAP_SERIALIZATION_TIER_0</link>;
+634 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+635 
+636 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_dProtectedResourceSessionTypeCount[NodeIndex].NodeIndex&#32;=&#32;NodeIndex;
+637 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(FAILED(m_pDevice-&gt;<link linkend="_interface_i_d3_d12_device_1ac153e691a412af4f7419342d72646205">CheckFeatureSupport</link>(<link linkend="_d3d12_8idl_1afc1de2554dd6479bbcafe262ae95e36ca8763637b32beac8119c226e6cbcdc3ab">D3D12_FEATURE_PROTECTED_RESOURCE_SESSION_TYPE_COUNT</link>,&#32;&amp;m_dProtectedResourceSessionTypeCount[NodeIndex],&#32;<emphasis role="keyword">sizeof</emphasis>(m_dProtectedResourceSessionTypeCount[NodeIndex]))))
+638 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+639 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_dProtectedResourceSessionTypeCount[NodeIndex].Count&#32;=&#32;0;
+640 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+641 
+642 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Special&#32;procedure&#32;to&#32;initialize&#32;local&#32;protected&#32;resource&#32;session&#32;types&#32;structs</emphasis>
+643 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Must&#32;wait&#32;until&#32;session&#32;type&#32;count&#32;initialized</emphasis>
+644 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;QueryProtectedResourceSessionTypes(NodeIndex,&#32;m_dProtectedResourceSessionTypeCount[NodeIndex].Count);
+645 &#32;&#32;&#32;&#32;}
+646 
+647 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Initialize&#32;features&#32;that&#32;requires&#32;highest&#32;version&#32;check</emphasis>
+648 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(FAILED(m_hStatus&#32;=&#32;QueryHighestShaderModel()))
+649 &#32;&#32;&#32;&#32;{
+650 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;m_hStatus;
+651 &#32;&#32;&#32;&#32;}
+652 
+653 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(FAILED(m_hStatus&#32;=&#32;QueryHighestRootSignatureVersion()))
+654 &#32;&#32;&#32;&#32;{
+655 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;m_hStatus;
+656 &#32;&#32;&#32;&#32;}
+657 
+658 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Initialize&#32;Feature&#32;Levels&#32;data</emphasis>
+659 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(FAILED(m_hStatus&#32;=&#32;QueryHighestFeatureLevel()))
+660 &#32;&#32;&#32;&#32;{
+661 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;m_hStatus;
+662 &#32;&#32;&#32;&#32;}
+663 
+664 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;m_hStatus;
+665 }
+666 
+667 <emphasis role="comment">//&#32;0:&#32;D3D12_OPTIONS</emphasis>
+668 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(BOOL,&#32;m_dOptions,&#32;DoublePrecisionFloatShaderOps);
+669 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(BOOL,&#32;m_dOptions,&#32;OutputMergerLogicOp);
+670 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(<link linkend="_d3d12_8idl_1a53df6e8781fb4069b912999058c73986">D3D12_SHADER_MIN_PRECISION_SUPPORT</link>,&#32;m_dOptions,&#32;MinPrecisionSupport);
+671 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(<link linkend="_d3d12_8idl_1a3207d36b6a1a24b6f2cef02001976768">D3D12_TILED_RESOURCES_TIER</link>,&#32;m_dOptions,&#32;TiledResourcesTier);
+672 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(<link linkend="_d3d12_8idl_1ad5d5f7dc232e7a524aa995288cfb0cf9">D3D12_RESOURCE_BINDING_TIER</link>,&#32;m_dOptions,&#32;ResourceBindingTier);
+673 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(BOOL,&#32;m_dOptions,&#32;PSSpecifiedStencilRefSupported);
+674 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(BOOL,&#32;m_dOptions,&#32;TypedUAVLoadAdditionalFormats);
+675 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(BOOL,&#32;m_dOptions,&#32;ROVsSupported);
+676 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(<link linkend="_d3d12_8idl_1a50b5cfedcca55703fc2606b02e6e7742">D3D12_CONSERVATIVE_RASTERIZATION_TIER</link>,&#32;m_dOptions,&#32;ConservativeRasterizationTier);
+677 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(BOOL,&#32;m_dOptions,&#32;StandardSwizzle64KBSupported);
+678 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(BOOL,&#32;m_dOptions,&#32;CrossAdapterRowMajorTextureSupported);
+679 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(BOOL,&#32;m_dOptions,&#32;VPAndRTArrayIndexFromAnyShaderFeedingRasterizerSupportedWithoutGSEmulation);
+680 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(<link linkend="_d3d12_8idl_1af8478646eaaa078bfae4a463cbd83c6f">D3D12_RESOURCE_HEAP_TIER</link>,&#32;m_dOptions,&#32;ResourceHeapTier);
+681 
+682 <emphasis role="comment">//&#32;Special&#32;procedure&#32;for&#32;handling&#32;caps&#32;that&#32;is&#32;also&#32;part&#32;of&#32;other&#32;features</emphasis>
+683 <emphasis role="keyword">inline</emphasis>&#32;<link linkend="_d3d12_8idl_1aec339dc0db70dde58f9516dafe861b25">D3D12_CROSS_NODE_SHARING_TIER</link>&#32;<link linkend="_class_c_d3_d_x12_feature_support_1ae43439819c0a2099254651d4add3e293">CD3DX12FeatureSupport::CrossNodeSharingTier</link>()&#32;const&#32;noexcept
+684 {
+685 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(m_dCrossNode.<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___c_r_o_s_s___n_o_d_e_1aba527897bb83d9193ab85f695fb31150">SharingTier</link>&#32;&gt;&#32;D3D12_CROSS_NODE_SHARING_TIER_NOT_SUPPORTED)
+686 &#32;&#32;&#32;&#32;{
+687 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;m_dCrossNode.<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___c_r_o_s_s___n_o_d_e_1aba527897bb83d9193ab85f695fb31150">SharingTier</link>;
+688 &#32;&#32;&#32;&#32;}
+689 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+690 &#32;&#32;&#32;&#32;{
+691 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;m_dOptions.<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___d3_d12___o_p_t_i_o_n_s_1ad6b64702162c1d478420535cee7cad2a">CrossNodeSharingTier</link>;
+692 &#32;&#32;&#32;&#32;}
+693 }
+694 
+695 <emphasis role="keyword">inline</emphasis>&#32;UINT&#32;<link linkend="_class_c_d3_d_x12_feature_support_1afb147278bd249e008b9a581abab6d183">CD3DX12FeatureSupport::MaxGPUVirtualAddressBitsPerResource</link>()&#32;const&#32;noexcept
+696 {
+697 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(m_dOptions.<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___d3_d12___o_p_t_i_o_n_s_1a0377c61bd9724ade2d29d3984516dc4f">MaxGPUVirtualAddressBitsPerResource</link>&#32;&gt;&#32;0)
+698 &#32;&#32;&#32;&#32;{
+699 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;m_dOptions.<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___d3_d12___o_p_t_i_o_n_s_1a0377c61bd9724ade2d29d3984516dc4f">MaxGPUVirtualAddressBitsPerResource</link>;
+700 &#32;&#32;&#32;&#32;}
+701 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+702 &#32;&#32;&#32;&#32;{
+703 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;m_dGPUVASupport.<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___g_p_u___v_i_r_t_u_a_l___a_d_d_r_e_s_s___s_u_p_p_o_r_t_1ac0d19954355026278e488e14fa2cfce0">MaxGPUVirtualAddressBitsPerResource</link>;
+704 &#32;&#32;&#32;&#32;}
+705 }
+706 
+707 <emphasis role="comment">//&#32;1:&#32;Architecture</emphasis>
+708 <emphasis role="comment">//&#32;Combined&#32;with&#32;Architecture1</emphasis>
+709 
+710 <emphasis role="comment">//&#32;2:&#32;Feature&#32;Levels</emphasis>
+711 <emphasis role="comment">//&#32;Simply&#32;returns&#32;the&#32;highest&#32;supported&#32;feature&#32;level</emphasis>
+712 <emphasis role="keyword">inline</emphasis>&#32;<link linkend="_d3dcommon_8h_1a0f50a7ff750d026b8ce1927b5fb4e612">D3D_FEATURE_LEVEL</link>&#32;<link linkend="_class_c_d3_d_x12_feature_support_1ae3533dac213f3c7821f27561bfa1940a">CD3DX12FeatureSupport::MaxSupportedFeatureLevel</link>()&#32;const&#32;noexcept
+713 {
+714 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;m_eMaxFeatureLevel;
+715 }
+716 
+717 <emphasis role="comment">//&#32;3:&#32;Feature&#32;Format&#32;Support</emphasis>
+718 <emphasis role="keyword">inline</emphasis>&#32;HRESULT&#32;<link linkend="_class_c_d3_d_x12_feature_support_1a70de0d49018b0c367863aac85ca6c423">CD3DX12FeatureSupport::FormatSupport</link>(<link linkend="_dxgiformat_8h_1a6a9cbc7eff00c7ec769e4e6c3b2cb3bc">DXGI_FORMAT</link>&#32;Format,&#32;<link linkend="_d3d12_8idl_1a20e5cd3507bd063e2762bd998c0a865a">D3D12_FORMAT_SUPPORT1</link>&amp;&#32;Support1,&#32;<link linkend="_d3d12_8idl_1aa6bbe7b9c21143148ef484835c418cce">D3D12_FORMAT_SUPPORT2</link>&amp;&#32;Support2)<emphasis role="keyword">&#32;const</emphasis>
+719 <emphasis role="keyword"></emphasis>{
+720 &#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___f_o_r_m_a_t___s_u_p_p_o_r_t">D3D12_FEATURE_DATA_FORMAT_SUPPORT</link>&#32;dFormatSupport;
+721 &#32;&#32;&#32;&#32;dFormatSupport.<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___f_o_r_m_a_t___s_u_p_p_o_r_t_1a450527420e7317dc10cdc56af9c40049">Format</link>&#32;=&#32;Format;
+722 
+723 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;It&#32;is&#32;possible&#32;that&#32;the&#32;function&#32;call&#32;returns&#32;an&#32;error</emphasis>
+724 &#32;&#32;&#32;&#32;HRESULT&#32;<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>&#32;=&#32;m_pDevice-&gt;<link linkend="_interface_i_d3_d12_device_1ac153e691a412af4f7419342d72646205">CheckFeatureSupport</link>(<link linkend="_d3d12_8idl_1afc1de2554dd6479bbcafe262ae95e36ca177201d2673bf5af8794e6102d7cca29">D3D12_FEATURE_FORMAT_SUPPORT</link>,&#32;&amp;dFormatSupport,&#32;<emphasis role="keyword">sizeof</emphasis>(<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___f_o_r_m_a_t___s_u_p_p_o_r_t">D3D12_FEATURE_DATA_FORMAT_SUPPORT</link>));
+725 
+726 &#32;&#32;&#32;&#32;Support1&#32;=&#32;dFormatSupport.<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___f_o_r_m_a_t___s_u_p_p_o_r_t_1a80574a73e6feb32c72f59effb8f6c989">Support1</link>;
+727 &#32;&#32;&#32;&#32;Support2&#32;=&#32;dFormatSupport.<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___f_o_r_m_a_t___s_u_p_p_o_r_t_1a56d9d00fc04a56bab2434a3cd2e2466e">Support2</link>;&#32;<emphasis role="comment">//&#32;Two&#32;outputs.&#32;Probably&#32;better&#32;just&#32;to&#32;take&#32;in&#32;the&#32;struct&#32;as&#32;an&#32;argument?</emphasis>
+728 
+729 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>;
+730 }
+731 
+732 <emphasis role="comment">//&#32;4:&#32;Multisample&#32;Quality&#32;Levels</emphasis>
+733 <emphasis role="keyword">inline</emphasis>&#32;HRESULT&#32;<link linkend="_class_c_d3_d_x12_feature_support_1aec3eef94e2fdc53420ad300794ef322e">CD3DX12FeatureSupport::MultisampleQualityLevels</link>(<link linkend="_dxgiformat_8h_1a6a9cbc7eff00c7ec769e4e6c3b2cb3bc">DXGI_FORMAT</link>&#32;Format,&#32;UINT&#32;SampleCount,&#32;<link linkend="_d3d12_8idl_1aedef74890a49033b7ee6f7617dd3b7ef">D3D12_MULTISAMPLE_QUALITY_LEVEL_FLAGS</link>&#32;<link linkend="_d3d12video_8idl_1a0f13369e90615467efef16a95da68009">Flags</link>,&#32;UINT&amp;&#32;NumQualityLevels)<emphasis role="keyword">&#32;const</emphasis>
+734 <emphasis role="keyword"></emphasis>{
+735 &#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___m_u_l_t_i_s_a_m_p_l_e___q_u_a_l_i_t_y___l_e_v_e_l_s">D3D12_FEATURE_DATA_MULTISAMPLE_QUALITY_LEVELS</link>&#32;dMultisampleQualityLevels;
+736 &#32;&#32;&#32;&#32;dMultisampleQualityLevels.<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___m_u_l_t_i_s_a_m_p_l_e___q_u_a_l_i_t_y___l_e_v_e_l_s_1a13b5cffdc99274ceceedb9c5f0e0f979">Format</link>&#32;=&#32;Format;
+737 &#32;&#32;&#32;&#32;dMultisampleQualityLevels.<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___m_u_l_t_i_s_a_m_p_l_e___q_u_a_l_i_t_y___l_e_v_e_l_s_1afda9c00e3eeb9203e71f2939cafbe6fa">SampleCount</link>&#32;=&#32;SampleCount;
+738 &#32;&#32;&#32;&#32;dMultisampleQualityLevels.<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___m_u_l_t_i_s_a_m_p_l_e___q_u_a_l_i_t_y___l_e_v_e_l_s_1ae3af6566dc2a3ed9dbf293ce7bb66ff4">Flags</link>&#32;=&#32;<link linkend="_d3d12video_8idl_1a0f13369e90615467efef16a95da68009">Flags</link>;
+739 
+740 &#32;&#32;&#32;&#32;HRESULT&#32;<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>&#32;=&#32;m_pDevice-&gt;<link linkend="_interface_i_d3_d12_device_1ac153e691a412af4f7419342d72646205">CheckFeatureSupport</link>(<link linkend="_d3d12_8idl_1afc1de2554dd6479bbcafe262ae95e36ca857852cf027ca0edfb6282b0a76f0f8a">D3D12_FEATURE_MULTISAMPLE_QUALITY_LEVELS</link>,&#32;&amp;dMultisampleQualityLevels,&#32;<emphasis role="keyword">sizeof</emphasis>(<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___m_u_l_t_i_s_a_m_p_l_e___q_u_a_l_i_t_y___l_e_v_e_l_s">D3D12_FEATURE_DATA_MULTISAMPLE_QUALITY_LEVELS</link>));
+741 
+742 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(SUCCEEDED(<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>))
+743 &#32;&#32;&#32;&#32;{
+744 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;NumQualityLevels&#32;=&#32;dMultisampleQualityLevels.<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___m_u_l_t_i_s_a_m_p_l_e___q_u_a_l_i_t_y___l_e_v_e_l_s_1ace58d140c470f72e0137ad39f491fa2a">NumQualityLevels</link>;
+745 &#32;&#32;&#32;&#32;}
+746 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+747 &#32;&#32;&#32;&#32;{
+748 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;NumQualityLevels&#32;=&#32;0;
+749 &#32;&#32;&#32;&#32;}
+750 
+751 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>;
+752 }
+753 
+754 <emphasis role="comment">//&#32;5:&#32;Format&#32;Info</emphasis>
+755 <emphasis role="keyword">inline</emphasis>&#32;HRESULT&#32;<link linkend="_class_c_d3_d_x12_feature_support_1a1e6beb3f6f3180af485dfce1963f5d5d">CD3DX12FeatureSupport::FormatInfo</link>(<link linkend="_dxgiformat_8h_1a6a9cbc7eff00c7ec769e4e6c3b2cb3bc">DXGI_FORMAT</link>&#32;Format,&#32;UINT8&amp;&#32;PlaneCount)<emphasis role="keyword">&#32;const</emphasis>
+756 <emphasis role="keyword"></emphasis>{
+757 &#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___f_o_r_m_a_t___i_n_f_o">D3D12_FEATURE_DATA_FORMAT_INFO</link>&#32;dFormatInfo;
+758 &#32;&#32;&#32;&#32;dFormatInfo.<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___f_o_r_m_a_t___i_n_f_o_1afb3e9c37185d7d2e1c9c4d79ecbaaa40">Format</link>&#32;=&#32;Format;
+759 
+760 &#32;&#32;&#32;&#32;HRESULT&#32;<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>&#32;=&#32;m_pDevice-&gt;<link linkend="_interface_i_d3_d12_device_1ac153e691a412af4f7419342d72646205">CheckFeatureSupport</link>(<link linkend="_d3d12_8idl_1afc1de2554dd6479bbcafe262ae95e36ca2a741f13c2ab2ad868362ea02904c614">D3D12_FEATURE_FORMAT_INFO</link>,&#32;&amp;dFormatInfo,&#32;<emphasis role="keyword">sizeof</emphasis>(<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___f_o_r_m_a_t___i_n_f_o">D3D12_FEATURE_DATA_FORMAT_INFO</link>));
+761 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(FAILED(<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>))
+762 &#32;&#32;&#32;&#32;{
+763 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;PlaneCount&#32;=&#32;0;
+764 &#32;&#32;&#32;&#32;}
+765 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+766 &#32;&#32;&#32;&#32;{
+767 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;PlaneCount&#32;=&#32;dFormatInfo.<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___f_o_r_m_a_t___i_n_f_o_1a79963daff00aa85676a4b8f8282bac56">PlaneCount</link>;
+768 &#32;&#32;&#32;&#32;}
+769 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>;
+770 }
+771 
+772 <emphasis role="comment">//&#32;6:&#32;GPU&#32;Virtual&#32;Address&#32;Support</emphasis>
+773 <emphasis role="comment">//&#32;MaxGPUVirtualAddressBitsPerResource&#32;handled&#32;in&#32;D3D12Options</emphasis>
+774 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(UINT,&#32;m_dGPUVASupport,&#32;MaxGPUVirtualAddressBitsPerProcess);
+775 
+776 <emphasis role="comment">//&#32;7:&#32;Shader&#32;Model</emphasis>
+777 <emphasis role="keyword">inline</emphasis>&#32;<link linkend="_d3d12_8idl_1a21f0019196f1c16b2e7c4e644f6be43c">D3D_SHADER_MODEL</link>&#32;<link linkend="_class_c_d3_d_x12_feature_support_1a8b3f1ab48f6a81be2967f37ef90a4dda">CD3DX12FeatureSupport::HighestShaderModel</link>()&#32;const&#32;noexcept
+778 {
+779 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;m_dShaderModel.<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___s_h_a_d_e_r___m_o_d_e_l_1abc1140e497a2322dcc12f8a83a74a3d5">HighestShaderModel</link>;
+780 }
+781 
+782 <emphasis role="comment">//&#32;8:&#32;D3D12&#32;Options1</emphasis>
+783 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(BOOL,&#32;m_dOptions1,&#32;WaveOps);
+784 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(UINT,&#32;m_dOptions1,&#32;WaveLaneCountMin);
+785 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(UINT,&#32;m_dOptions1,&#32;WaveLaneCountMax);
+786 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(UINT,&#32;m_dOptions1,&#32;TotalLaneCount);
+787 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(BOOL,&#32;m_dOptions1,&#32;ExpandedComputeResourceStates);
+788 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(BOOL,&#32;m_dOptions1,&#32;Int64ShaderOps);
+789 
+790 <emphasis role="comment">//&#32;10:&#32;Protected&#32;Resource&#32;Session&#32;Support</emphasis>
+791 <emphasis role="keyword">inline</emphasis>&#32;<link linkend="_interfaceenum">D3D12_PROTECTED_RESOURCE_SESSION_SUPPORT_FLAGS</link>&#32;<link linkend="_class_c_d3_d_x12_feature_support_1a7108952390c6e3cb907bf46cdc4aff40">CD3DX12FeatureSupport::ProtectedResourceSessionSupport</link>(UINT&#32;NodeIndex)<emphasis role="keyword">&#32;const</emphasis>
+792 <emphasis role="keyword"></emphasis>{
+793 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;m_dProtectedResourceSessionSupport[NodeIndex].Support;
+794 }
+795 
+796 <emphasis role="comment">//&#32;12:&#32;Root&#32;Signature</emphasis>
+797 <emphasis role="keyword">inline</emphasis>&#32;<link linkend="_d3d12_8idl_1a25204ebbbf90620e59b6efbf6dd03b48">D3D_ROOT_SIGNATURE_VERSION</link>&#32;<link linkend="_class_c_d3_d_x12_feature_support_1adc06ad759b86bcd14b920dd060f1f5a8">CD3DX12FeatureSupport::HighestRootSignatureVersion</link>()&#32;const&#32;noexcept
+798 {
+799 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;m_dRootSignature.<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___r_o_o_t___s_i_g_n_a_t_u_r_e_1a8c0dcf8d26da0546bd2e4b7c759597f7">HighestVersion</link>;
+800 }
+801 
+802 <emphasis role="comment">//&#32;16:&#32;Architecture1</emphasis>
+803 <emphasis role="comment">//&#32;Same&#32;data&#32;fields&#32;can&#32;be&#32;queried&#32;from&#32;m_dArchitecture</emphasis>
+804 <link linkend="_d3dx12__check__feature__support_8h_1a3e19937ef979bb11c916dbe22ed67154">FEATURE_SUPPORT_GET_NODE_INDEXED</link>(BOOL,&#32;m_dArchitecture1,&#32;TileBasedRenderer);
+805 <link linkend="_d3dx12__check__feature__support_8h_1a3e19937ef979bb11c916dbe22ed67154">FEATURE_SUPPORT_GET_NODE_INDEXED</link>(BOOL,&#32;m_dArchitecture1,&#32;UMA);
+806 <link linkend="_d3dx12__check__feature__support_8h_1a3e19937ef979bb11c916dbe22ed67154">FEATURE_SUPPORT_GET_NODE_INDEXED</link>(BOOL,&#32;m_dArchitecture1,&#32;CacheCoherentUMA);
+807 <link linkend="_d3dx12__check__feature__support_8h_1a3e19937ef979bb11c916dbe22ed67154">FEATURE_SUPPORT_GET_NODE_INDEXED</link>(BOOL,&#32;m_dArchitecture1,&#32;IsolatedMMU);
+808 
+809 <emphasis role="comment">//&#32;18:&#32;D3D12&#32;Options2</emphasis>
+810 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(BOOL,&#32;m_dOptions2,&#32;DepthBoundsTestSupported);
+811 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(<link linkend="_d3d12_8idl_1a9e177d99f020998f4358abe02c9de1cc">D3D12_PROGRAMMABLE_SAMPLE_POSITIONS_TIER</link>,&#32;m_dOptions2,&#32;ProgrammableSamplePositionsTier);
+812 
+813 <emphasis role="comment">//&#32;19:&#32;Shader&#32;Cache</emphasis>
+814 <link linkend="_d3dx12__check__feature__support_8h_1a0e5166723c831efe95af204fde1c7fb7">FEATURE_SUPPORT_GET_NAME</link>(<link linkend="_d3d12_8idl_1ae300d9622c1fc8e1429bdc869900b7b1">D3D12_SHADER_CACHE_SUPPORT_FLAGS</link>,&#32;m_dShaderCache,&#32;SupportFlags,&#32;ShaderCacheSupportFlags);
+815 
+816 <emphasis role="comment">//&#32;20:&#32;Command&#32;Queue&#32;Priority</emphasis>
+817 <emphasis role="keyword">inline</emphasis>&#32;BOOL&#32;<link linkend="_class_c_d3_d_x12_feature_support_1aa05d1241b30848faf332fe54a5789f61">CD3DX12FeatureSupport::CommandQueuePrioritySupported</link>(<link linkend="_d3d12_8idl_1a58071dee5aa123a722f372cc643c7333">D3D12_COMMAND_LIST_TYPE</link>&#32;CommandListType,&#32;UINT&#32;Priority)
+818 {
+819 &#32;&#32;&#32;&#32;m_dCommandQueuePriority.<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___c_o_m_m_a_n_d___q_u_e_u_e___p_r_i_o_r_i_t_y_1aab61e94a71a6bddfd171cc85cfb8477f">CommandListType</link>&#32;=&#32;CommandListType;
+820 &#32;&#32;&#32;&#32;m_dCommandQueuePriority.<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___c_o_m_m_a_n_d___q_u_e_u_e___p_r_i_o_r_i_t_y_1a2d42fd7a3a9512fe87f6fd1742cb88aa">Priority</link>&#32;=&#32;Priority;
+821 
+822 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(FAILED(m_pDevice-&gt;<link linkend="_interface_i_d3_d12_device_1ac153e691a412af4f7419342d72646205">CheckFeatureSupport</link>(<link linkend="_d3d12_8idl_1afc1de2554dd6479bbcafe262ae95e36ca630ad4d74f0cb1a2aef48ccaffcff8a2">D3D12_FEATURE_COMMAND_QUEUE_PRIORITY</link>,&#32;&amp;m_dCommandQueuePriority,&#32;<emphasis role="keyword">sizeof</emphasis>(<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___c_o_m_m_a_n_d___q_u_e_u_e___p_r_i_o_r_i_t_y">D3D12_FEATURE_DATA_COMMAND_QUEUE_PRIORITY</link>))))
+823 &#32;&#32;&#32;&#32;{
+824 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">false</emphasis>;
+825 &#32;&#32;&#32;&#32;}
+826 
+827 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;m_dCommandQueuePriority.<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___c_o_m_m_a_n_d___q_u_e_u_e___p_r_i_o_r_i_t_y_1a8911292f705868ec3f52c6dd7ddf5b14">PriorityForTypeIsSupported</link>;
+828 }
+829 
+830 <emphasis role="comment">//&#32;21:&#32;D3D12&#32;Options3</emphasis>
+831 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(BOOL,&#32;m_dOptions3,&#32;CopyQueueTimestampQueriesSupported);
+832 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(BOOL,&#32;m_dOptions3,&#32;CastingFullyTypedFormatSupported);
+833 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(<link linkend="_d3d12_8idl_1af490f2b67fa97414815a710cfd65d82b">D3D12_COMMAND_LIST_SUPPORT_FLAGS</link>,&#32;m_dOptions3,&#32;WriteBufferImmediateSupportFlags);
+834 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(<link linkend="_d3d12_8idl_1aac0da5cd21d8b86df01f668a546a3a9c">D3D12_VIEW_INSTANCING_TIER</link>,&#32;m_dOptions3,&#32;ViewInstancingTier);
+835 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(BOOL,&#32;m_dOptions3,&#32;BarycentricsSupported);
+836 
+837 <emphasis role="comment">//&#32;22:&#32;Existing&#32;Heaps</emphasis>
+838 <link linkend="_d3dx12__check__feature__support_8h_1a0e5166723c831efe95af204fde1c7fb7">FEATURE_SUPPORT_GET_NAME</link>(BOOL,&#32;m_dExistingHeaps,&#32;Supported,&#32;ExistingHeapsSupported);
+839 
+840 <emphasis role="comment">//&#32;23:&#32;D3D12&#32;Options4</emphasis>
+841 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(BOOL,&#32;m_dOptions4,&#32;MSAA64KBAlignedTextureSupported);
+842 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(<link linkend="_d3d12_8idl_1a22610e4cb66a31e2f9dd697fe5d31c3b">D3D12_SHARED_RESOURCE_COMPATIBILITY_TIER</link>,&#32;m_dOptions4,&#32;SharedResourceCompatibilityTier);
+843 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(BOOL,&#32;m_dOptions4,&#32;Native16BitShaderOpsSupported);
+844 
+845 <emphasis role="comment">//&#32;24:&#32;Serialization</emphasis>
+846 <link linkend="_d3dx12__check__feature__support_8h_1a3e19937ef979bb11c916dbe22ed67154">FEATURE_SUPPORT_GET_NODE_INDEXED</link>(<link linkend="_d3d12_8idl_1a15ed0d6c8a409e7c92f26b5de6628d93">D3D12_HEAP_SERIALIZATION_TIER</link>,&#32;m_dSerialization,&#32;HeapSerializationTier);
+847 
+848 <emphasis role="comment">//&#32;25:&#32;Cross&#32;Node</emphasis>
+849 <emphasis role="comment">//&#32;CrossNodeSharingTier&#32;handled&#32;in&#32;D3D12Options</emphasis>
+850 <link linkend="_d3dx12__check__feature__support_8h_1a0e5166723c831efe95af204fde1c7fb7">FEATURE_SUPPORT_GET_NAME</link>(BOOL,&#32;m_dCrossNode,&#32;AtomicShaderInstructions,&#32;CrossNodeAtomicShaderInstructions);
+851 
+852 <emphasis role="comment">//&#32;27:&#32;D3D12&#32;Options5</emphasis>
+853 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(BOOL,&#32;m_dOptions5,&#32;SRVOnlyTiledResourceTier3);
+854 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(<link linkend="_d3d12_8idl_1aa91bb280c9c2e6550b803cbd8ea0be15">D3D12_RENDER_PASS_TIER</link>,&#32;m_dOptions5,&#32;RenderPassesTier);
+855 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(<link linkend="_d3d12_8idl_1a2996add16064436ebb97188936bd215e">D3D12_RAYTRACING_TIER</link>,&#32;m_dOptions5,&#32;RaytracingTier);
+856 
+857 <emphasis role="preprocessor">#if&#32;defined(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;4)</emphasis>
+858 <emphasis role="comment">//&#32;28:&#32;Displayable</emphasis>
+859 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(BOOL,&#32;m_dDisplayable,&#32;DisplayableTexture);
+860 <emphasis role="comment">//&#32;SharedResourceCompatibilityTier&#32;handled&#32;in&#32;D3D12Options4</emphasis>
+861 <emphasis role="preprocessor">#endif</emphasis>
+862 
+863 <emphasis role="comment">//&#32;30:&#32;D3D12&#32;Options6</emphasis>
+864 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(BOOL,&#32;m_dOptions6,&#32;AdditionalShadingRatesSupported);
+865 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(BOOL,&#32;m_dOptions6,&#32;PerPrimitiveShadingRateSupportedWithViewportIndexing);
+866 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(<link linkend="_d3d12_8idl_1a70207b0d13be11dc8d36384e52ffaa42">D3D12_VARIABLE_SHADING_RATE_TIER</link>,&#32;m_dOptions6,&#32;VariableShadingRateTier);
+867 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(UINT,&#32;m_dOptions6,&#32;ShadingRateImageTileSize);
+868 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(BOOL,&#32;m_dOptions6,&#32;BackgroundProcessingSupported);
+869 
+870 <emphasis role="comment">//&#32;31:&#32;Query&#32;Meta&#32;Command</emphasis>
+871 <emphasis role="comment">//&#32;Keep&#32;the&#32;original&#32;call&#32;routine</emphasis>
+872 <emphasis role="keyword">inline</emphasis>&#32;HRESULT&#32;<link linkend="_class_c_d3_d_x12_feature_support_1ab6468edc5f55b02e8be03cf318280269">CD3DX12FeatureSupport::QueryMetaCommand</link>(<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___q_u_e_r_y___m_e_t_a___c_o_m_m_a_n_d">D3D12_FEATURE_DATA_QUERY_META_COMMAND</link>&amp;&#32;dQueryMetaCommand)<emphasis role="keyword">&#32;const</emphasis>
+873 <emphasis role="keyword"></emphasis>{
+874 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;m_pDevice-&gt;<link linkend="_interface_i_d3_d12_device_1ac153e691a412af4f7419342d72646205">CheckFeatureSupport</link>(<link linkend="_d3d12_8idl_1afc1de2554dd6479bbcafe262ae95e36ca4c019a289a5cf0bee8bb9942bad34b73">D3D12_FEATURE_QUERY_META_COMMAND</link>,&#32;&amp;dQueryMetaCommand,&#32;<emphasis role="keyword">sizeof</emphasis>(<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___q_u_e_r_y___m_e_t_a___c_o_m_m_a_n_d">D3D12_FEATURE_DATA_QUERY_META_COMMAND</link>));
+875 }
+876 
+877 <emphasis role="comment">//&#32;32:&#32;D3D12&#32;Options7</emphasis>
+878 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(<link linkend="_d3d12_8idl_1ada579ed7a37e4a851eafc99a15c83f41">D3D12_MESH_SHADER_TIER</link>,&#32;m_dOptions7,&#32;MeshShaderTier);
+879 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(<link linkend="_d3d12_8idl_1ab2d772c234a7d9f9395000c35336b08a">D3D12_SAMPLER_FEEDBACK_TIER</link>,&#32;m_dOptions7,&#32;SamplerFeedbackTier);
+880 
+881 <emphasis role="comment">//&#32;33:&#32;Protected&#32;Resource&#32;Session&#32;Type&#32;Count</emphasis>
+882 <link linkend="_d3dx12__check__feature__support_8h_1a193b4020a2598e6470d745cbb3ac3079">FEATURE_SUPPORT_GET_NODE_INDEXED_NAME</link>(UINT,&#32;m_dProtectedResourceSessionTypeCount,&#32;Count,&#32;ProtectedResourceSessionTypeCount);
+883 
+884 <emphasis role="comment">//&#32;34:&#32;Protected&#32;Resource&#32;Session&#32;Types</emphasis>
+885 <link linkend="_d3dx12__check__feature__support_8h_1a193b4020a2598e6470d745cbb3ac3079">FEATURE_SUPPORT_GET_NODE_INDEXED_NAME</link>(std::vector&lt;GUID&gt;,&#32;m_dProtectedResourceSessionTypes,&#32;TypeVec,&#32;ProtectedResourceSessionTypes);
+886 
+887 <emphasis role="preprocessor">#if&#32;defined(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;3)</emphasis>
+888 <emphasis role="comment">//&#32;36:&#32;Options8</emphasis>
+889 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(BOOL,&#32;m_dOptions8,&#32;UnalignedBlockTexturesSupported);
+890 
+891 <emphasis role="comment">//&#32;37:&#32;Options9</emphasis>
+892 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(BOOL,&#32;m_dOptions9,&#32;MeshShaderPipelineStatsSupported);
+893 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(BOOL,&#32;m_dOptions9,&#32;MeshShaderSupportsFullRangeRenderTargetArrayIndex);
+894 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(BOOL,&#32;m_dOptions9,&#32;AtomicInt64OnTypedResourceSupported);
+895 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(BOOL,&#32;m_dOptions9,&#32;AtomicInt64OnGroupSharedSupported);
+896 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(BOOL,&#32;m_dOptions9,&#32;DerivativesInMeshAndAmplificationShadersSupported);
+897 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(<link linkend="_d3d12_8idl_1a5798ec97f9b5c01ac649511e855afd9f">D3D12_WAVE_MMA_TIER</link>,&#32;m_dOptions9,&#32;WaveMMATier);
+898 <emphasis role="preprocessor">#endif</emphasis>
+899 
+900 <emphasis role="preprocessor">#if&#32;defined(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;4)</emphasis>
+901 <emphasis role="comment">//&#32;39:&#32;Options10</emphasis>
+902 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(BOOL,&#32;m_dOptions10,&#32;VariableRateShadingSumCombinerSupported);
+903 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(BOOL,&#32;m_dOptions10,&#32;MeshShaderPerPrimitiveShadingRateSupported);
+904 
+905 <emphasis role="comment">//&#32;40:&#32;Options11</emphasis>
+906 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(BOOL,&#32;m_dOptions11,&#32;AtomicInt64OnDescriptorHeapResourceSupported);
+907 <emphasis role="preprocessor">#endif</emphasis>
+908 
+909 <emphasis role="preprocessor">#if&#32;defined(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;600)</emphasis>
+910 <emphasis role="comment">//&#32;41:&#32;Options12</emphasis>
+911 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(<link linkend="_d3d12_8idl_1aa5047539f468953dfcaf787b1931a3cb">D3D12_TRI_STATE</link>,&#32;m_dOptions12,&#32;MSPrimitivesPipelineStatisticIncludesCulledPrimitives);
+912 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(BOOL,&#32;m_dOptions12,&#32;EnhancedBarriersSupported);
+913 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(BOOL,&#32;m_dOptions12,&#32;RelaxedFormatCastingSupported);
+914 <emphasis role="preprocessor">#endif</emphasis>
+915 
+916 <emphasis role="preprocessor">#if&#32;defined(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;602)</emphasis>
+917 <emphasis role="comment">//&#32;42:&#32;Options13</emphasis>
+918 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(BOOL,&#32;m_dOptions13,&#32;UnrestrictedBufferTextureCopyPitchSupported);
+919 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(BOOL,&#32;m_dOptions13,&#32;UnrestrictedVertexElementAlignmentSupported);
+920 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(BOOL,&#32;m_dOptions13,&#32;InvertedViewportHeightFlipsYSupported);
+921 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(BOOL,&#32;m_dOptions13,&#32;InvertedViewportDepthFlipsZSupported);
+922 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(BOOL,&#32;m_dOptions13,&#32;TextureCopyBetweenDimensionsSupported);
+923 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(BOOL,&#32;m_dOptions13,&#32;AlphaBlendFactorSupported);
+924 <emphasis role="preprocessor">#endif</emphasis>
+925 
+926 <emphasis role="preprocessor">#if&#32;defined(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;606)</emphasis>
+927 <emphasis role="comment">//&#32;43:&#32;Options14</emphasis>
+928 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(BOOL,&#32;m_dOptions14,&#32;AdvancedTextureOpsSupported);
+929 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(BOOL,&#32;m_dOptions14,&#32;WriteableMSAATexturesSupported);
+930 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(BOOL,&#32;m_dOptions14,&#32;IndependentFrontAndBackStencilRefMaskSupported);
+931 
+932 <emphasis role="comment">//&#32;44:&#32;Options15</emphasis>
+933 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(BOOL,&#32;m_dOptions15,&#32;TriangleFanSupported);
+934 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(BOOL,&#32;m_dOptions15,&#32;DynamicIndexBufferStripCutSupported);
+935 <emphasis role="preprocessor">#endif</emphasis>
+936 
+937 <emphasis role="preprocessor">#if&#32;defined(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;608)</emphasis>
+938 <emphasis role="comment">//&#32;45:&#32;Options16</emphasis>
+939 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(BOOL,&#32;m_dOptions16,&#32;DynamicDepthBiasSupported);
+940 <emphasis role="preprocessor">#endif</emphasis>
+941 <emphasis role="preprocessor">#if&#32;defined(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;609)</emphasis>
+942 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(BOOL,&#32;m_dOptions16,&#32;GPUUploadHeapSupported);
+943 
+944 <emphasis role="comment">//&#32;46:&#32;Options17</emphasis>
+945 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(BOOL,&#32;m_dOptions17,&#32;NonNormalizedCoordinateSamplersSupported);
+946 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(BOOL,&#32;m_dOptions17,&#32;ManualWriteTrackingResourceSupported);
+947 
+948 <emphasis role="comment">//&#32;47:&#32;Option18</emphasis>
+949 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(BOOL,&#32;m_dOptions18,&#32;RenderPassesValid);
+950 <emphasis role="preprocessor">#endif</emphasis>
+951 
+952 <emphasis role="preprocessor">#if&#32;defined(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;610)</emphasis>
+953 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(BOOL,&#32;m_dOptions19,&#32;MismatchingOutputDimensionsSupported);
+954 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(UINT,&#32;m_dOptions19,&#32;SupportedSampleCountsWithNoOutputs);
+955 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(BOOL,&#32;m_dOptions19,&#32;PointSamplingAddressesNeverRoundUp);
+956 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(BOOL,&#32;m_dOptions19,&#32;RasterizerDesc2Supported);
+957 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(BOOL,&#32;m_dOptions19,&#32;NarrowQuadrilateralLinesSupported);
+958 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(BOOL,&#32;m_dOptions19,&#32;AnisoFilterWithPointMipSupported);
+959 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(UINT,&#32;m_dOptions19,&#32;MaxSamplerDescriptorHeapSize);
+960 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(UINT,&#32;m_dOptions19,&#32;MaxSamplerDescriptorHeapSizeWithStaticSamplers);
+961 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(UINT,&#32;m_dOptions19,&#32;MaxViewDescriptorHeapSize);
+962 <emphasis role="preprocessor">#endif</emphasis>
+963 
+964 <emphasis role="preprocessor">#if&#32;defined(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;611)</emphasis>
+965 <emphasis role="comment">//&#32;49:&#32;Options20</emphasis>
+966 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(BOOL,&#32;m_dOptions20,&#32;ComputeOnlyWriteWatchSupported);
+967 <emphasis role="preprocessor">#endif</emphasis>
+968 
+969 <emphasis role="preprocessor">#if&#32;defined(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;612)</emphasis>
+970 <emphasis role="comment">//&#32;50:&#32;Options21</emphasis>
+971 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(<link linkend="_d3d12_8idl_1ad1a68a5f8f7d22769956aceba682422f">D3D12_EXECUTE_INDIRECT_TIER</link>,&#32;m_dOptions21,&#32;ExecuteIndirectTier);
+972 <link linkend="_d3dx12__check__feature__support_8h_1a843b63993b918c13b1819edd86a7fb56">FEATURE_SUPPORT_GET</link>(<link linkend="_d3d12_8idl_1a25092853bbc226bf2d5c754de4ede5e9">D3D12_WORK_GRAPHS_TIER</link>,&#32;m_dOptions21,&#32;WorkGraphsTier);
+973 <emphasis role="preprocessor">#endif</emphasis>
+974 
+975 <emphasis role="comment">//&#32;Helper&#32;function&#32;to&#32;decide&#32;the&#32;highest&#32;shader&#32;model&#32;supported&#32;by&#32;the&#32;system</emphasis>
+976 <emphasis role="comment">//&#32;Stores&#32;the&#32;result&#32;in&#32;m_dShaderModel</emphasis>
+977 <emphasis role="comment">//&#32;Must&#32;be&#32;updated&#32;whenever&#32;a&#32;new&#32;shader&#32;model&#32;is&#32;added&#32;to&#32;the&#32;d3d12.h&#32;header</emphasis>
+978 <emphasis role="keyword">inline</emphasis>&#32;HRESULT&#32;CD3DX12FeatureSupport::QueryHighestShaderModel()
+979 {
+980 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Check&#32;support&#32;in&#32;descending&#32;order</emphasis>
+981 &#32;&#32;&#32;&#32;HRESULT&#32;<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>;
+982 
+983 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_d3d12_8idl_1a21f0019196f1c16b2e7c4e644f6be43c">D3D_SHADER_MODEL</link>&#32;allModelVersions[]&#32;=
+984 &#32;&#32;&#32;&#32;{
+985 <emphasis role="preprocessor">#if&#32;defined(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;612)</emphasis>
+986 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1a21f0019196f1c16b2e7c4e644f6be43ca1ca99f9d4706ca3c6d682aeac5d72e15">D3D_SHADER_MODEL_6_9</link>,
+987 <emphasis role="preprocessor">#endif</emphasis>
+988 <emphasis role="preprocessor">#if&#32;defined(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;606)</emphasis>
+989 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1a21f0019196f1c16b2e7c4e644f6be43caa07f4e1c57b7b1785f3456050c193c0c">D3D_SHADER_MODEL_6_8</link>,
+990 <emphasis role="preprocessor">#endif</emphasis>
+991 <emphasis role="preprocessor">#if&#32;defined(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;3)</emphasis>
+992 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1a21f0019196f1c16b2e7c4e644f6be43ca199cc0963927548a69cbbd54e196d0e4">D3D_SHADER_MODEL_6_7</link>,
+993 <emphasis role="preprocessor">#endif</emphasis>
+994 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1a21f0019196f1c16b2e7c4e644f6be43ca7d6099a7e5aeeae0166b17c07460545f">D3D_SHADER_MODEL_6_6</link>,
+995 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1a21f0019196f1c16b2e7c4e644f6be43ca8471d458111162a2c5d8c0b74d466853">D3D_SHADER_MODEL_6_5</link>,
+996 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1a21f0019196f1c16b2e7c4e644f6be43ca44cbecddbd936a6583bda6dc0df384f7">D3D_SHADER_MODEL_6_4</link>,
+997 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1a21f0019196f1c16b2e7c4e644f6be43cabafcbcc1ed724a074c9b3f129e044aff">D3D_SHADER_MODEL_6_3</link>,
+998 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1a21f0019196f1c16b2e7c4e644f6be43ca92fccb5df5afd21a28244a52a98ecd2d">D3D_SHADER_MODEL_6_2</link>,
+999 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1a21f0019196f1c16b2e7c4e644f6be43ca4929c474053362dcc129157f87a23952">D3D_SHADER_MODEL_6_1</link>,
+1000 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1a21f0019196f1c16b2e7c4e644f6be43caac2377961badf7fecd2e98fdc6d90929">D3D_SHADER_MODEL_6_0</link>,
+1001 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1a21f0019196f1c16b2e7c4e644f6be43cac67d19b46cfdfec15007334e135070a2">D3D_SHADER_MODEL_5_1</link>
+1002 &#32;&#32;&#32;&#32;};
+1003 &#32;&#32;&#32;&#32;<emphasis role="keyword">constexpr</emphasis>&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;numModelVersions&#32;=&#32;<emphasis role="keyword">sizeof</emphasis>(allModelVersions)&#32;/&#32;<emphasis role="keyword">sizeof</emphasis>(<link linkend="_d3d12_8idl_1a21f0019196f1c16b2e7c4e644f6be43c">D3D_SHADER_MODEL</link>);
+1004 
+1005 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;=&#32;0;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;&lt;&#32;numModelVersions;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>++)
+1006 &#32;&#32;&#32;&#32;{
+1007 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_dShaderModel.<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___s_h_a_d_e_r___m_o_d_e_l_1abc1140e497a2322dcc12f8a83a74a3d5">HighestShaderModel</link>&#32;=&#32;allModelVersions[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>];
+1008 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>&#32;=&#32;m_pDevice-&gt;<link linkend="_interface_i_d3_d12_device_1ac153e691a412af4f7419342d72646205">CheckFeatureSupport</link>(<link linkend="_d3d12_8idl_1afc1de2554dd6479bbcafe262ae95e36ca4271c43ac8efc7cce0201d13872b9e7d">D3D12_FEATURE_SHADER_MODEL</link>,&#32;&amp;m_dShaderModel,&#32;<emphasis role="keyword">sizeof</emphasis>(<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___s_h_a_d_e_r___m_o_d_e_l">D3D12_FEATURE_DATA_SHADER_MODEL</link>));
+1009 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>&#32;!=&#32;E_INVALIDARG)
+1010 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+1011 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Indicates&#32;that&#32;the&#32;version&#32;is&#32;recognizable&#32;by&#32;the&#32;runtime&#32;and&#32;stored&#32;in&#32;the&#32;struct</emphasis>
+1012 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Also&#32;terminate&#32;on&#32;unexpected&#32;error&#32;code</emphasis>
+1013 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(FAILED(<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>))
+1014 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+1015 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_dShaderModel.<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___s_h_a_d_e_r___m_o_d_e_l_1abc1140e497a2322dcc12f8a83a74a3d5">HighestShaderModel</link>&#32;=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="_d3d12_8idl_1a21f0019196f1c16b2e7c4e644f6be43c">D3D_SHADER_MODEL</link><emphasis role="keyword">&gt;</emphasis>(0);
+1016 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+1017 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>;
+1018 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+1019 &#32;&#32;&#32;&#32;}
+1020 
+1021 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Shader&#32;model&#32;may&#32;not&#32;be&#32;supported.&#32;Continue&#32;the&#32;rest&#32;initializations</emphasis>
+1022 &#32;&#32;&#32;&#32;m_dShaderModel.<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___s_h_a_d_e_r___m_o_d_e_l_1abc1140e497a2322dcc12f8a83a74a3d5">HighestShaderModel</link>&#32;=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="_d3d12_8idl_1a21f0019196f1c16b2e7c4e644f6be43c">D3D_SHADER_MODEL</link><emphasis role="keyword">&gt;</emphasis>(0);
+1023 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;S_OK;
+1024 }
+1025 
+1026 <emphasis role="comment">//&#32;Helper&#32;function&#32;to&#32;decide&#32;the&#32;highest&#32;root&#32;signature&#32;supported</emphasis>
+1027 <emphasis role="comment">//&#32;Must&#32;be&#32;updated&#32;whenever&#32;a&#32;new&#32;root&#32;signature&#32;version&#32;is&#32;added&#32;to&#32;the&#32;d3d12.h&#32;header</emphasis>
+1028 <emphasis role="keyword">inline</emphasis>&#32;HRESULT&#32;CD3DX12FeatureSupport::QueryHighestRootSignatureVersion()
+1029 {
+1030 &#32;&#32;&#32;&#32;HRESULT&#32;<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>;
+1031 
+1032 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_d3d12_8idl_1a25204ebbbf90620e59b6efbf6dd03b48">D3D_ROOT_SIGNATURE_VERSION</link>&#32;allRootSignatureVersions[]&#32;=
+1033 &#32;&#32;&#32;&#32;{
+1034 <emphasis role="preprocessor">#if&#32;defined(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;609)</emphasis>
+1035 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1a25204ebbbf90620e59b6efbf6dd03b48afc62a0b1118eb764f884e82a8921206c">D3D_ROOT_SIGNATURE_VERSION_1_2</link>,
+1036 <emphasis role="preprocessor">#endif</emphasis>
+1037 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1a25204ebbbf90620e59b6efbf6dd03b48a9b802c1ac806d88016f61bc79e461e9a">D3D_ROOT_SIGNATURE_VERSION_1_1</link>,
+1038 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1a25204ebbbf90620e59b6efbf6dd03b48a243a279997e8380d89831073b55a58e5">D3D_ROOT_SIGNATURE_VERSION_1_0</link>,
+1039 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1a25204ebbbf90620e59b6efbf6dd03b48a6f3935987e770a51ab36247232d6f289">D3D_ROOT_SIGNATURE_VERSION_1</link>,
+1040 &#32;&#32;&#32;&#32;};
+1041 &#32;&#32;&#32;&#32;<emphasis role="keyword">constexpr</emphasis>&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;numRootSignatureVersions&#32;=&#32;<emphasis role="keyword">sizeof</emphasis>(allRootSignatureVersions)&#32;/&#32;<emphasis role="keyword">sizeof</emphasis>(<link linkend="_d3d12_8idl_1a25204ebbbf90620e59b6efbf6dd03b48">D3D_ROOT_SIGNATURE_VERSION</link>);
+1042 
+1043 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;=&#32;0;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;&lt;&#32;numRootSignatureVersions;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>++)
+1044 &#32;&#32;&#32;&#32;{
+1045 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_dRootSignature.<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___r_o_o_t___s_i_g_n_a_t_u_r_e_1a8c0dcf8d26da0546bd2e4b7c759597f7">HighestVersion</link>&#32;=&#32;allRootSignatureVersions[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>];
+1046 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>&#32;=&#32;m_pDevice-&gt;<link linkend="_interface_i_d3_d12_device_1ac153e691a412af4f7419342d72646205">CheckFeatureSupport</link>(<link linkend="_d3d12_8idl_1afc1de2554dd6479bbcafe262ae95e36ca9fabb91211ff869976ce74d5f8e5a7de">D3D12_FEATURE_ROOT_SIGNATURE</link>,&#32;&amp;m_dRootSignature,&#32;<emphasis role="keyword">sizeof</emphasis>(<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___r_o_o_t___s_i_g_n_a_t_u_r_e">D3D12_FEATURE_DATA_ROOT_SIGNATURE</link>));
+1047 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>&#32;!=&#32;E_INVALIDARG)
+1048 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+1049 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(FAILED(<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>))
+1050 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+1051 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_dRootSignature.<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___r_o_o_t___s_i_g_n_a_t_u_r_e_1a8c0dcf8d26da0546bd2e4b7c759597f7">HighestVersion</link>&#32;=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="_d3d12_8idl_1a25204ebbbf90620e59b6efbf6dd03b48">D3D_ROOT_SIGNATURE_VERSION</link><emphasis role="keyword">&gt;</emphasis>(0);
+1052 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+1053 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;If&#32;succeeded,&#32;the&#32;highest&#32;version&#32;is&#32;already&#32;written&#32;into&#32;the&#32;member&#32;struct</emphasis>
+1054 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>;
+1055 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+1056 &#32;&#32;&#32;&#32;}
+1057 
+1058 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;No&#32;version&#32;left.&#32;Set&#32;to&#32;invalid&#32;value&#32;and&#32;continue.</emphasis>
+1059 &#32;&#32;&#32;&#32;m_dRootSignature.<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___r_o_o_t___s_i_g_n_a_t_u_r_e_1a8c0dcf8d26da0546bd2e4b7c759597f7">HighestVersion</link>&#32;=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="_d3d12_8idl_1a25204ebbbf90620e59b6efbf6dd03b48">D3D_ROOT_SIGNATURE_VERSION</link><emphasis role="keyword">&gt;</emphasis>(0);
+1060 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;S_OK;
+1061 }
+1062 
+1063 <emphasis role="comment">//&#32;Helper&#32;funcion&#32;to&#32;decide&#32;the&#32;highest&#32;feature&#32;level</emphasis>
+1064 <emphasis role="keyword">inline</emphasis>&#32;HRESULT&#32;CD3DX12FeatureSupport::QueryHighestFeatureLevel()
+1065 {
+1066 &#32;&#32;&#32;&#32;HRESULT&#32;<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>;
+1067 
+1068 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Check&#32;against&#32;a&#32;list&#32;of&#32;all&#32;feature&#32;levels&#32;present&#32;in&#32;d3dcommon.h</emphasis>
+1069 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Needs&#32;to&#32;be&#32;updated&#32;for&#32;future&#32;feature&#32;levels</emphasis>
+1070 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_d3dcommon_8h_1a0f50a7ff750d026b8ce1927b5fb4e612">D3D_FEATURE_LEVEL</link>&#32;allLevels[]&#32;=
+1071 &#32;&#32;&#32;&#32;{
+1072 <emphasis role="preprocessor">#if&#32;defined(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;3)</emphasis>
+1073 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3dcommon_8h_1a0f50a7ff750d026b8ce1927b5fb4e612a94180e22efa188ae222f394b2e03a0af">D3D_FEATURE_LEVEL_12_2</link>,
+1074 <emphasis role="preprocessor">#endif</emphasis>
+1075 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3dcommon_8h_1a0f50a7ff750d026b8ce1927b5fb4e612ad32c93e75de42404ec78ce9ceeecd69a">D3D_FEATURE_LEVEL_12_1</link>,
+1076 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3dcommon_8h_1a0f50a7ff750d026b8ce1927b5fb4e612ad6d11a072cbdbf33162113a82404f701">D3D_FEATURE_LEVEL_12_0</link>,
+1077 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3dcommon_8h_1a0f50a7ff750d026b8ce1927b5fb4e612add9fe7e59ccfbe226549e0fbad1f882b">D3D_FEATURE_LEVEL_11_1</link>,
+1078 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3dcommon_8h_1a0f50a7ff750d026b8ce1927b5fb4e612ad799c69dff9fa9f113ce3d9be70316cc">D3D_FEATURE_LEVEL_11_0</link>,
+1079 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3dcommon_8h_1a0f50a7ff750d026b8ce1927b5fb4e612ab9ac7a21483b57ad92205c09d86e299a">D3D_FEATURE_LEVEL_10_1</link>,
+1080 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3dcommon_8h_1a0f50a7ff750d026b8ce1927b5fb4e612a11aaf46bed9886c43814b049d0c31b37">D3D_FEATURE_LEVEL_10_0</link>,
+1081 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3dcommon_8h_1a0f50a7ff750d026b8ce1927b5fb4e612ab3678abd22966ba8c0f5b0cbaefe585d">D3D_FEATURE_LEVEL_9_3</link>,
+1082 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3dcommon_8h_1a0f50a7ff750d026b8ce1927b5fb4e612aa9def1dc3c941131dc11a0fb2a0472b1">D3D_FEATURE_LEVEL_9_2</link>,
+1083 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3dcommon_8h_1a0f50a7ff750d026b8ce1927b5fb4e612a335b90fc3cce21f36681f59a6858ebf6">D3D_FEATURE_LEVEL_9_1</link>,
+1084 <emphasis role="preprocessor">#if&#32;defined(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;5)</emphasis>
+1085 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3dcommon_8h_1a0f50a7ff750d026b8ce1927b5fb4e612abfa724580184289d919595c1ee9110e2">D3D_FEATURE_LEVEL_1_0_CORE</link>,
+1086 <emphasis role="preprocessor">#endif</emphasis>
+1087 <emphasis role="preprocessor">#if&#32;defined(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;611)</emphasis>
+1088 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3dcommon_8h_1a0f50a7ff750d026b8ce1927b5fb4e612a986693d40a51377035a0fcd716d1a6c3">D3D_FEATURE_LEVEL_1_0_GENERIC</link>
+1089 <emphasis role="preprocessor">#endif</emphasis>
+1090 &#32;&#32;&#32;&#32;};
+1091 
+1092 &#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___f_e_a_t_u_r_e___l_e_v_e_l_s">D3D12_FEATURE_DATA_FEATURE_LEVELS</link>&#32;dFeatureLevel;
+1093 &#32;&#32;&#32;&#32;dFeatureLevel.<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___f_e_a_t_u_r_e___l_e_v_e_l_s_1a390ac235d74bf5ec620f27b0861aa140">NumFeatureLevels</link>&#32;=&#32;<emphasis role="keyword">static_cast&lt;</emphasis>UINT<emphasis role="keyword">&gt;</emphasis>(<emphasis role="keyword">sizeof</emphasis>(allLevels)&#32;/&#32;<emphasis role="keyword">sizeof</emphasis>(<link linkend="_d3dcommon_8h_1a0f50a7ff750d026b8ce1927b5fb4e612">D3D_FEATURE_LEVEL</link>));
+1094 &#32;&#32;&#32;&#32;dFeatureLevel.<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___f_e_a_t_u_r_e___l_e_v_e_l_s_1a06fdad3ca90256cb3164050350ebb66a">pFeatureLevelsRequested</link>&#32;=&#32;allLevels;
+1095 
+1096 &#32;&#32;&#32;&#32;<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>&#32;=&#32;m_pDevice-&gt;<link linkend="_interface_i_d3_d12_device_1ac153e691a412af4f7419342d72646205">CheckFeatureSupport</link>(<link linkend="_d3d12_8idl_1afc1de2554dd6479bbcafe262ae95e36ca1fefc20e6b77a552c35594d79449a775">D3D12_FEATURE_FEATURE_LEVELS</link>,&#32;&amp;dFeatureLevel,&#32;<emphasis role="keyword">sizeof</emphasis>(<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___f_e_a_t_u_r_e___l_e_v_e_l_s">D3D12_FEATURE_DATA_FEATURE_LEVELS</link>));
+1097 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(SUCCEEDED(<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>))
+1098 &#32;&#32;&#32;&#32;{
+1099 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_eMaxFeatureLevel&#32;=&#32;dFeatureLevel.<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___f_e_a_t_u_r_e___l_e_v_e_l_s_1a12cb3e332818d5a0fce0f9500bb9511a">MaxSupportedFeatureLevel</link>;
+1100 &#32;&#32;&#32;&#32;}
+1101 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+1102 &#32;&#32;&#32;&#32;{
+1103 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_eMaxFeatureLevel&#32;=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="_d3dcommon_8h_1a0f50a7ff750d026b8ce1927b5fb4e612">D3D_FEATURE_LEVEL</link><emphasis role="keyword">&gt;</emphasis>(0);
+1104 
+1105 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>&#32;==&#32;DXGI_ERROR_UNSUPPORTED)
+1106 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+1107 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Indicates&#32;that&#32;none&#32;supported.&#32;Continue&#32;initialization</emphasis>
+1108 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>&#32;=&#32;S_OK;
+1109 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+1110 &#32;&#32;&#32;&#32;}
+1111 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>;
+1112 }
+1113 
+1114 <emphasis role="comment">//&#32;Helper&#32;function&#32;to&#32;initialize&#32;local&#32;protected&#32;resource&#32;session&#32;types&#32;structs</emphasis>
+1115 <emphasis role="keyword">inline</emphasis>&#32;HRESULT&#32;CD3DX12FeatureSupport::QueryProtectedResourceSessionTypes(UINT&#32;NodeIndex,&#32;UINT&#32;Count)
+1116 {
+1117 &#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&amp;&#32;CurrentPRSTypes&#32;=&#32;m_dProtectedResourceSessionTypes[NodeIndex];
+1118 &#32;&#32;&#32;&#32;CurrentPRSTypes.NodeIndex&#32;=&#32;NodeIndex;
+1119 &#32;&#32;&#32;&#32;CurrentPRSTypes.Count&#32;=&#32;Count;
+1120 &#32;&#32;&#32;&#32;CurrentPRSTypes.TypeVec.resize(CurrentPRSTypes.Count);
+1121 &#32;&#32;&#32;&#32;CurrentPRSTypes.pTypes&#32;=&#32;CurrentPRSTypes.TypeVec.data();
+1122 
+1123 &#32;&#32;&#32;&#32;HRESULT&#32;<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>&#32;=&#32;m_pDevice-&gt;<link linkend="_interface_i_d3_d12_device_1ac153e691a412af4f7419342d72646205">CheckFeatureSupport</link>(<link linkend="_d3d12_8idl_1afc1de2554dd6479bbcafe262ae95e36ca9cad0fd0dd2a6e9a8c3c7c8bf9d1481d">D3D12_FEATURE_PROTECTED_RESOURCE_SESSION_TYPES</link>,&#32;&amp;m_dProtectedResourceSessionTypes[NodeIndex],&#32;<emphasis role="keyword">sizeof</emphasis>(<link linkend="_struct_d3_d12___f_e_a_t_u_r_e___d_a_t_a___p_r_o_t_e_c_t_e_d___r_e_s_o_u_r_c_e___s_e_s_s_i_o_n___t_y_p_e_s">D3D12_FEATURE_DATA_PROTECTED_RESOURCE_SESSION_TYPES</link>));
+1124 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(FAILED(<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>))
+1125 &#32;&#32;&#32;&#32;{
+1126 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Resize&#32;TypeVec&#32;to&#32;empty</emphasis>
+1127 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;CurrentPRSTypes.TypeVec.clear();
+1128 &#32;&#32;&#32;&#32;}
+1129 
+1130 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>;
+1131 }
+1132 
+1133 <emphasis role="preprocessor">#undef&#32;FEATURE_SUPPORT_GET</emphasis>
+1134 <emphasis role="preprocessor">#undef&#32;FEATURE_SUPPORT_GET_NAME</emphasis>
+1135 <emphasis role="preprocessor">#undef&#32;FEATURE_SUPPORT_GET_NODE_INDEXED</emphasis>
+1136 <emphasis role="preprocessor">#undef&#32;FEATURE_SUPPORT_GET_NODE_INDEXED_NAME</emphasis>
+1137 
+1138 <emphasis role="comment">//&#32;end&#32;CD3DX12FeatureSupport</emphasis>
+</programlisting></section>

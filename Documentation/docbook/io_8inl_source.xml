@@ -1,0 +1,456 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_io_8inl_source" xml:lang="en-US">
+<title>io.inl</title>
+<indexterm><primary>adhed/glm/gtx/io.inl</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 
+3 
+4 <emphasis role="preprocessor">#include&#32;&lt;iomanip&gt;</emphasis>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;std::fixed,&#32;std::setfill&lt;&gt;,&#32;std::setprecision,&#32;std::right,&#32;std::setw</emphasis>
+5 <emphasis role="preprocessor">#include&#32;&lt;ostream&gt;</emphasis>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;std::basic_ostream&lt;&gt;</emphasis>
+6 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_matrix__access_8hpp">../gtc/matrix_access.hpp</link>&quot;</emphasis>&#32;<emphasis role="comment">//&#32;glm::col,&#32;glm::row</emphasis>
+7 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_type__trait_8hpp">../gtx/type_trait.hpp</link>&quot;</emphasis>&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;glm::type&lt;&gt;</emphasis>
+8 
+9 <emphasis role="preprocessor">#if&#32;GLM_COMPILER&#32;&amp;&#32;GLM_COMPILER_CLANG</emphasis>
+10 <emphasis role="preprocessor">#&#32;&#32;&#32;pragma&#32;clang&#32;diagnostic&#32;push</emphasis>
+11 <emphasis role="preprocessor">#&#32;&#32;&#32;pragma&#32;clang&#32;diagnostic&#32;ignored&#32;&quot;-Wpadded&quot;</emphasis>
+12 <emphasis role="preprocessor">#&#32;&#32;&#32;pragma&#32;clang&#32;diagnostic&#32;ignored&#32;&quot;-Wshorten-64-to-32&quot;</emphasis>
+13 <emphasis role="preprocessor">#&#32;&#32;&#32;pragma&#32;clang&#32;diagnostic&#32;ignored&#32;&quot;-Wglobal-constructors&quot;</emphasis>
+14 <emphasis role="preprocessor">#endif</emphasis>
+15 
+16 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespaceglm">glm</link>{
+17 <emphasis role="keyword">namespace&#32;</emphasis>io
+18 {
+19 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;CTy&gt;
+20 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_classglm_1_1io_1_1format__punct_1ae56e7a14fac2516658837281b9da4659">format_punct&lt;CTy&gt;::format_punct</link>(<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>)
+21 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;<link linkend="_namespacestd">std</link>::locale::facet(<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>)
+22 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;formatted(true)
+23 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;<link linkend="_structglm_1_1io_1_1precision">precision</link>(3)
+24 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;<link linkend="_structglm_1_1io_1_1width">width</link>(1&#32;+&#32;4&#32;+&#32;1&#32;+&#32;<link linkend="_structglm_1_1io_1_1precision">precision</link>)
+25 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;separator(<emphasis role="stringliteral">&apos;,&apos;</emphasis>)
+26 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;delim_left(<emphasis role="stringliteral">&apos;[&apos;</emphasis>)
+27 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;delim_right(<emphasis role="stringliteral">&apos;]&apos;</emphasis>)
+28 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;space(<emphasis role="stringliteral">&apos;&#32;&apos;</emphasis>)
+29 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;newline(<emphasis role="stringliteral">&apos;\n&apos;</emphasis>)
+30 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;<link linkend="_structglm_1_1io_1_1order">order</link>(<link linkend="_namespaceglm_1_1io_1a3497781803fe594a37177e05ab2a795faab661780f7f081ee11c34be9b0742229">column_major</link>)
+31 &#32;&#32;&#32;&#32;{}
+32 
+33 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;CTy&gt;
+34 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_classglm_1_1io_1_1format__punct_1ae56e7a14fac2516658837281b9da4659">format_punct&lt;CTy&gt;::format_punct</link>(<link linkend="_classglm_1_1io_1_1format__punct">format_punct</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>)
+35 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;<link linkend="_namespacestd">std</link>::locale::facet(0)
+36 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;formatted(<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>.formatted)
+37 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;<link linkend="_structglm_1_1io_1_1precision">precision</link>(<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>.<link linkend="_structglm_1_1io_1_1precision">precision</link>)
+38 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;<link linkend="_structglm_1_1io_1_1width">width</link>(<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>.<link linkend="_structglm_1_1io_1_1width">width</link>)
+39 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;separator(<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>.separator)
+40 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;delim_left(<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>.delim_left)
+41 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;delim_right(<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>.delim_right)
+42 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;space(<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>.space)
+43 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;newline(<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>.newline)
+44 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;<link linkend="_structglm_1_1io_1_1order">order</link>(<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>.<link linkend="_structglm_1_1io_1_1order">order</link>)
+45 &#32;&#32;&#32;&#32;{}
+46 
+47 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;CTy&gt;&#32;std::locale::id&#32;<link linkend="_classglm_1_1io_1_1format__punct">format_punct&lt;CTy&gt;::id</link>;
+48 
+49 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;CTy,&#32;<emphasis role="keyword">typename</emphasis>&#32;CTr&gt;
+50 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_classglm_1_1io_1_1basic__state__saver_1ab31652b0b7f2a24fa8f9fda2505de356">basic_state_saver&lt;CTy, CTr&gt;::basic_state_saver</link>(std::basic_ios&lt;CTy,&#32;CTr&gt;&amp;&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>)
+51 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;state_(<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>)
+52 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;flags_(<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>.<link linkend="_glad_8h_1ac7ba7d3cce3d19ca020e056b37231289">flags</link>())
+53 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;precision_(<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>.<link linkend="_structglm_1_1io_1_1precision">precision</link>())
+54 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;width_(<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>.<link linkend="_structglm_1_1io_1_1width">width</link>())
+55 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;fill_(<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>.fill())
+56 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;locale_(<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>.getloc())
+57 &#32;&#32;&#32;&#32;{}
+58 
+59 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;CTy,&#32;<emphasis role="keyword">typename</emphasis>&#32;CTr&gt;
+60 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_classglm_1_1io_1_1basic__state__saver_1ad89569bbaec5d7fe08d40dbac5abbb53">basic_state_saver&lt;CTy, CTr&gt;::~basic_state_saver</link>()
+61 &#32;&#32;&#32;&#32;{
+62 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;state_.imbue(locale_);
+63 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;state_.fill(fill_);
+64 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;state_.width(width_);
+65 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;state_.precision(precision_);
+66 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;state_.flags(flags_);
+67 &#32;&#32;&#32;&#32;}
+68 
+69 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;CTy,&#32;<emphasis role="keyword">typename</emphasis>&#32;CTr&gt;
+70 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_classglm_1_1io_1_1basic__format__saver_1a9688fa6dce0c32285527df2336ca9127">basic_format_saver&lt;CTy, CTr&gt;::basic_format_saver</link>(std::basic_ios&lt;CTy,&#32;CTr&gt;&amp;&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>)
+71 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;bss_(<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>)
+72 &#32;&#32;&#32;&#32;{
+73 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>.imbue(std::locale(<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>.getloc(),&#32;<emphasis role="keyword">new</emphasis>&#32;<link linkend="_classglm_1_1io_1_1format__punct">format_punct&lt;CTy&gt;</link>(get_facet&lt;<link linkend="_classglm_1_1io_1_1format__punct">format_punct&lt;CTy&gt;</link>&#32;&gt;(<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>))));
+74 &#32;&#32;&#32;&#32;}
+75 
+76 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;CTy,&#32;<emphasis role="keyword">typename</emphasis>&#32;CTr&gt;
+77 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>
+78 &#32;&#32;&#32;&#32;<link linkend="_classglm_1_1io_1_1basic__format__saver_1a49d58d91548a071d5f660c74ca88979b">basic_format_saver&lt;CTy, CTr&gt;::~basic_format_saver</link>()
+79 &#32;&#32;&#32;&#32;{}
+80 
+81 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;precision::precision(<emphasis role="keywordtype">unsigned</emphasis>&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>)
+82 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>(<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>)
+83 &#32;&#32;&#32;&#32;{}
+84 
+85 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;width::width(<emphasis role="keywordtype">unsigned</emphasis>&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>)
+86 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>(<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>)
+87 &#32;&#32;&#32;&#32;{}
+88 
+89 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;CTy&gt;
+90 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_structglm_1_1io_1_1delimeter_1a5c1db62fae08a4c96eaf336781a4b53d">delimeter&lt;CTy&gt;::delimeter</link>(CTy&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>,&#32;CTy&#32;<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>,&#32;CTy&#32;c)
+91 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>()
+92 &#32;&#32;&#32;&#32;{
+93 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>[0]&#32;=&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>;
+94 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>[1]&#32;=&#32;<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>;
+95 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>[2]&#32;=&#32;c;
+96 &#32;&#32;&#32;&#32;}
+97 
+98 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_structglm_1_1io_1_1order_1a06813d404c975865fdd3a77146268a1f">order::order</link>(<link linkend="_namespaceglm_1_1io_1a3497781803fe594a37177e05ab2a795f">order_type</link>&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>)
+99 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>(<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>)
+100 &#32;&#32;&#32;&#32;{}
+101 
+102 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;FTy,&#32;<emphasis role="keyword">typename</emphasis>&#32;CTy,&#32;<emphasis role="keyword">typename</emphasis>&#32;CTr&gt;
+103 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;FTy&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_namespaceglm_1_1io_1a7c6f4eda7e7d16cdf24a2ba4809b107c">get_facet</link>(std::basic_ios&lt;CTy,&#32;CTr&gt;&amp;&#32;ios)
+104 &#32;&#32;&#32;&#32;{
+105 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(!std::has_facet&lt;FTy&gt;(ios.getloc()))
+106 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ios.imbue(std::locale(ios.getloc(),&#32;<emphasis role="keyword">new</emphasis>&#32;FTy));
+107 
+108 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;std::use_facet&lt;FTy&gt;(ios.getloc());
+109 &#32;&#32;&#32;&#32;}
+110 
+111 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;CTy,&#32;<emphasis role="keyword">typename</emphasis>&#32;CTr&gt;
+112 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;std::basic_ios&lt;CTy,&#32;CTr&gt;&amp;&#32;<link linkend="_namespaceglm_1_1io_1a05207ede58f2b3657b594dfa593ad4f3">formatted</link>(std::basic_ios&lt;CTy,&#32;CTr&gt;&amp;&#32;ios)
+113 &#32;&#32;&#32;&#32;{
+114 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const_cast&lt;</emphasis><link linkend="_classglm_1_1io_1_1format__punct">format_punct&lt;CTy&gt;</link>&amp;<emphasis role="keyword">&gt;</emphasis>(get_facet&lt;format_punct&lt;CTy&gt;&#32;&gt;(ios)).<link linkend="_classglm_1_1io_1_1format__punct_1ab28088e6eef03fe4222fa8a5dd95288e">formatted</link>&#32;=&#32;<emphasis role="keyword">true</emphasis>;
+115 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;ios;
+116 &#32;&#32;&#32;&#32;}
+117 
+118 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;CTy,&#32;<emphasis role="keyword">typename</emphasis>&#32;CTr&gt;
+119 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;std::basic_ios&lt;CTy,&#32;CTr&gt;&amp;&#32;<link linkend="_namespaceglm_1_1io_1a0ac8ad223ac49d7455f367efa93a193b">unformatted</link>(std::basic_ios&lt;CTy,&#32;CTr&gt;&amp;&#32;ios)
+120 &#32;&#32;&#32;&#32;{
+121 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const_cast&lt;</emphasis><link linkend="_classglm_1_1io_1_1format__punct">format_punct&lt;CTy&gt;</link>&amp;<emphasis role="keyword">&gt;</emphasis>(get_facet&lt;format_punct&lt;CTy&gt;&#32;&gt;(ios)).<link linkend="_classglm_1_1io_1_1format__punct_1ab28088e6eef03fe4222fa8a5dd95288e">formatted</link>&#32;=&#32;<emphasis role="keyword">false</emphasis>;
+122 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;ios;
+123 &#32;&#32;&#32;&#32;}
+124 
+125 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;CTy,&#32;<emphasis role="keyword">typename</emphasis>&#32;CTr&gt;
+126 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;std::basic_ostream&lt;CTy,&#32;CTr&gt;&amp;&#32;<link linkend="_namespaceglm_1_1io_1ad49d9a893511841d7927c9c4c8c2c715">operator&lt;&lt;</link>(std::basic_ostream&lt;CTy,&#32;CTr&gt;&amp;&#32;os,&#32;<link linkend="_structglm_1_1io_1_1precision">precision</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>)
+127 &#32;&#32;&#32;&#32;{
+128 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const_cast&lt;</emphasis><link linkend="_classglm_1_1io_1_1format__punct">format_punct&lt;CTy&gt;</link>&amp;<emphasis role="keyword">&gt;</emphasis>(get_facet&lt;format_punct&lt;CTy&gt;&#32;&gt;(os)).<link linkend="_classglm_1_1io_1_1format__punct_1a5a15d396b7c963df9dec5e124236dc02">precision</link>&#32;=&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>.value;
+129 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;os;
+130 &#32;&#32;&#32;&#32;}
+131 
+132 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;CTy,&#32;<emphasis role="keyword">typename</emphasis>&#32;CTr&gt;
+133 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;std::basic_ostream&lt;CTy,&#32;CTr&gt;&amp;&#32;<link linkend="_namespaceglm_1_1io_1ad49d9a893511841d7927c9c4c8c2c715">operator&lt;&lt;</link>(std::basic_ostream&lt;CTy,&#32;CTr&gt;&amp;&#32;os,&#32;<link linkend="_structglm_1_1io_1_1width">width</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>)
+134 &#32;&#32;&#32;&#32;{
+135 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const_cast&lt;</emphasis><link linkend="_classglm_1_1io_1_1format__punct">format_punct&lt;CTy&gt;</link>&amp;<emphasis role="keyword">&gt;</emphasis>(get_facet&lt;format_punct&lt;CTy&gt;&#32;&gt;(os)).<link linkend="_classglm_1_1io_1_1format__punct_1a95d32ca2330bbf7c50d3e066b7a851db">width</link>&#32;=&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>.value;
+136 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;os;
+137 &#32;&#32;&#32;&#32;}
+138 
+139 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;CTy,&#32;<emphasis role="keyword">typename</emphasis>&#32;CTr&gt;
+140 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;&#32;std::basic_ostream&lt;CTy,&#32;CTr&gt;&amp;&#32;<link linkend="_namespaceglm_1_1io_1ad49d9a893511841d7927c9c4c8c2c715">operator&lt;&lt;</link>(std::basic_ostream&lt;CTy,&#32;CTr&gt;&amp;&#32;os,&#32;<link linkend="_structglm_1_1io_1_1delimeter">delimeter&lt;CTy&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>)
+141 &#32;&#32;&#32;&#32;{
+142 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_classglm_1_1io_1_1format__punct">format_punct&lt;CTy&gt;</link>&#32;&amp;&#32;fmt(<emphasis role="keyword">const_cast&lt;</emphasis><link linkend="_classglm_1_1io_1_1format__punct">format_punct&lt;CTy&gt;</link>&amp;<emphasis role="keyword">&gt;</emphasis>(get_facet&lt;<link linkend="_classglm_1_1io_1_1format__punct">format_punct&lt;CTy&gt;</link>&#32;&gt;(os)));
+143 
+144 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fmt.<link linkend="_classglm_1_1io_1_1format__punct_1ab1beed331269a39b06d17d02cf727d7c">delim_left</link>&#32;&#32;=&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>.value[0];
+145 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fmt.<link linkend="_classglm_1_1io_1_1format__punct_1a62fb1280404360463ec5af7144aa0949">delim_right</link>&#32;=&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>.value[1];
+146 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fmt.<link linkend="_classglm_1_1io_1_1format__punct_1ac561eb04fc2a1282ef38ea15f8e640ee">separator</link>&#32;&#32;&#32;=&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>.value[2];
+147 
+148 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;os;
+149 &#32;&#32;&#32;&#32;}
+150 
+151 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;CTy,&#32;<emphasis role="keyword">typename</emphasis>&#32;CTr&gt;
+152 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;std::basic_ostream&lt;CTy,&#32;CTr&gt;&amp;&#32;<link linkend="_namespaceglm_1_1io_1ad49d9a893511841d7927c9c4c8c2c715">operator&lt;&lt;</link>(std::basic_ostream&lt;CTy,&#32;CTr&gt;&amp;&#32;os,&#32;<link linkend="_structglm_1_1io_1_1order">order</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>)
+153 &#32;&#32;&#32;&#32;{
+154 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const_cast&lt;</emphasis><link linkend="_classglm_1_1io_1_1format__punct">format_punct&lt;CTy&gt;</link>&amp;<emphasis role="keyword">&gt;</emphasis>(get_facet&lt;format_punct&lt;CTy&gt;&#32;&gt;(os)).<link linkend="_classglm_1_1io_1_1format__punct_1a9de1f3b7120a036ec0ab394d2036d0aa">order</link>&#32;=&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>.value;
+155 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;os;
+156 &#32;&#32;&#32;&#32;}
+157 }&#32;<emphasis role="comment">//&#32;namespace&#32;io</emphasis>
+158 
+159 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespacedetail">detail</link>
+160 {
+161 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;CTy,&#32;<emphasis role="keyword">typename</emphasis>&#32;CTr,&#32;<emphasis role="keyword">typename</emphasis>&#32;V&gt;
+162 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;std::basic_ostream&lt;CTy,&#32;CTr&gt;&amp;
+163 &#32;&#32;&#32;&#32;<link linkend="_namespaceglm_1_1detail_1a4af1e1de552e2db1f55604ed4594ac52">print_vector_on</link>(std::basic_ostream&lt;CTy,&#32;CTr&gt;&amp;&#32;os,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1af40a326b23c68a27cebe60f16634a2cb">V</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>)
+164 &#32;&#32;&#32;&#32;{
+165 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">typename</emphasis>&#32;std::basic_ostream&lt;CTy,&#32;CTr&gt;::sentry&#32;<emphasis role="keyword">const</emphasis>&#32;cerberus(os);
+166 
+167 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(cerberus)
+168 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+169 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_classglm_1_1io_1_1format__punct">io::format_punct&lt;CTy&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;fmt(<link linkend="_namespaceglm_1_1io_1a7c6f4eda7e7d16cdf24a2ba4809b107c">io::get_facet</link>&lt;<link linkend="_classglm_1_1io_1_1format__punct">io::format_punct&lt;CTy&gt;</link>&#32;&gt;(os));
+170 
+171 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespaceglm_1a090a0de2260835bee80e71a702492ed9">length_t</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_group__gtx__range_1gaf2831875a8cee7cc000abadba2aa1265">components</link>(<link linkend="_structglm_1_1type">type&lt;V&gt;::components</link>);
+172 
+173 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(fmt.<link linkend="_classglm_1_1io_1_1format__punct_1ab28088e6eef03fe4222fa8a5dd95288e">formatted</link>)
+174 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+175 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_classglm_1_1io_1_1basic__state__saver">io::basic_state_saver&lt;CTy&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&#32;bss(os);
+176 
+177 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;os&#32;&lt;&lt;&#32;std::fixed&#32;&lt;&lt;&#32;std::right&#32;&lt;&lt;&#32;std::setprecision(static_cast&lt;std::streamsize&gt;(fmt.<link linkend="_classglm_1_1io_1_1format__punct_1a5a15d396b7c963df9dec5e124236dc02">precision</link>))&#32;&lt;&lt;&#32;std::setfill(fmt.<link linkend="_classglm_1_1io_1_1format__punct_1adf9a915938727793de1daca07dcdfa4e">space</link>)&#32;&lt;&lt;&#32;fmt.<link linkend="_classglm_1_1io_1_1format__punct_1ab1beed331269a39b06d17d02cf727d7c">delim_left</link>;
+178 
+179 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>(<link linkend="_namespaceglm_1a090a0de2260835bee80e71a702492ed9">length_t</link>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>(0);&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;&lt;&#32;<link linkend="_group__gtx__range_1gaf2831875a8cee7cc000abadba2aa1265">components</link>;&#32;++<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>)
+180 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+181 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;os&#32;&lt;&lt;&#32;std::setw(static_cast&lt;int&gt;(fmt.<link linkend="_classglm_1_1io_1_1format__punct_1a95d32ca2330bbf7c50d3e066b7a851db">width</link>))&#32;&lt;&lt;&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>];
+182 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(<link linkend="_group__gtx__range_1gaf2831875a8cee7cc000abadba2aa1265">components</link>-1&#32;!=&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>)
+183 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;os&#32;&lt;&lt;&#32;fmt.<link linkend="_classglm_1_1io_1_1format__punct_1ac561eb04fc2a1282ef38ea15f8e640ee">separator</link>;
+184 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+185 
+186 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;os&#32;&lt;&lt;&#32;fmt.<link linkend="_classglm_1_1io_1_1format__punct_1a62fb1280404360463ec5af7144aa0949">delim_right</link>;
+187 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+188 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+189 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+190 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>(<link linkend="_namespaceglm_1a090a0de2260835bee80e71a702492ed9">length_t</link>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>(0);&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;&lt;&#32;<link linkend="_group__gtx__range_1gaf2831875a8cee7cc000abadba2aa1265">components</link>;&#32;++<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>)
+191 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+192 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;os&#32;&lt;&lt;&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>];
+193 
+194 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(<link linkend="_group__gtx__range_1gaf2831875a8cee7cc000abadba2aa1265">components</link>-1&#32;!=&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>)
+195 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;os&#32;&lt;&lt;&#32;fmt.<link linkend="_classglm_1_1io_1_1format__punct_1adf9a915938727793de1daca07dcdfa4e">space</link>;
+196 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+197 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+198 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+199 
+200 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;os;
+201 &#32;&#32;&#32;&#32;}
+202 }<emphasis role="comment">//namespace&#32;detail</emphasis>
+203 
+204 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;CTy,&#32;<emphasis role="keyword">typename</emphasis>&#32;CTr,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+205 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;std::basic_ostream&lt;CTy,CTr&gt;&amp;&#32;<link linkend="_namespaceglm_1ad3cf7f0e123c67c39004344fe600e345">operator&lt;&lt;</link>(std::basic_ostream&lt;CTy,CTr&gt;&amp;&#32;os,&#32;<link linkend="_structglm_1_1qua">qua&lt;T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>)
+206 &#32;&#32;&#32;&#32;{
+207 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_namespaceglm_1_1detail_1a4af1e1de552e2db1f55604ed4594ac52">detail::print_vector_on</link>(os,&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>);
+208 &#32;&#32;&#32;&#32;}
+209 
+210 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;CTy,&#32;<emphasis role="keyword">typename</emphasis>&#32;CTr,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+211 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;std::basic_ostream&lt;CTy,CTr&gt;&amp;&#32;<link linkend="_namespaceglm_1ad3cf7f0e123c67c39004344fe600e345">operator&lt;&lt;</link>(std::basic_ostream&lt;CTy,CTr&gt;&amp;&#32;os,&#32;<link linkend="_structglm_1_1vec">vec&lt;1, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>)
+212 &#32;&#32;&#32;&#32;{
+213 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_namespaceglm_1_1detail_1a4af1e1de552e2db1f55604ed4594ac52">detail::print_vector_on</link>(os,&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>);
+214 &#32;&#32;&#32;&#32;}
+215 
+216 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;CTy,&#32;<emphasis role="keyword">typename</emphasis>&#32;CTr,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+217 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;std::basic_ostream&lt;CTy,CTr&gt;&amp;&#32;<link linkend="_namespaceglm_1ad3cf7f0e123c67c39004344fe600e345">operator&lt;&lt;</link>(std::basic_ostream&lt;CTy,CTr&gt;&amp;&#32;os,&#32;<link linkend="_structglm_1_1vec">vec&lt;2, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>)
+218 &#32;&#32;&#32;&#32;{
+219 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_namespaceglm_1_1detail_1a4af1e1de552e2db1f55604ed4594ac52">detail::print_vector_on</link>(os,&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>);
+220 &#32;&#32;&#32;&#32;}
+221 
+222 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;CTy,&#32;<emphasis role="keyword">typename</emphasis>&#32;CTr,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+223 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;std::basic_ostream&lt;CTy,CTr&gt;&amp;&#32;<link linkend="_namespaceglm_1ad3cf7f0e123c67c39004344fe600e345">operator&lt;&lt;</link>(std::basic_ostream&lt;CTy,CTr&gt;&amp;&#32;os,&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>)
+224 &#32;&#32;&#32;&#32;{
+225 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_namespaceglm_1_1detail_1a4af1e1de552e2db1f55604ed4594ac52">detail::print_vector_on</link>(os,&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>);
+226 &#32;&#32;&#32;&#32;}
+227 
+228 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;CTy,&#32;<emphasis role="keyword">typename</emphasis>&#32;CTr,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+229 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;std::basic_ostream&lt;CTy,CTr&gt;&amp;&#32;<link linkend="_namespaceglm_1ad3cf7f0e123c67c39004344fe600e345">operator&lt;&lt;</link>(std::basic_ostream&lt;CTy,CTr&gt;&amp;&#32;os,&#32;<link linkend="_structglm_1_1vec">vec&lt;4, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>)
+230 &#32;&#32;&#32;&#32;{
+231 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_namespaceglm_1_1detail_1a4af1e1de552e2db1f55604ed4594ac52">detail::print_vector_on</link>(os,&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>);
+232 &#32;&#32;&#32;&#32;}
+233 
+234 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespacedetail">detail</link>
+235 {
+236 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;CTy,&#32;<emphasis role="keyword">typename</emphasis>&#32;CTr,&#32;<emphasis role="keyword">template</emphasis>&lt;length_t,&#32;length_t,&#32;<emphasis role="keyword">typename</emphasis>,&#32;qualifier&gt;&#32;<emphasis role="keyword">class&#32;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a52037c938e3c1b126c6277da5ca689d0">M</link>,&#32;<link linkend="_namespaceglm_1a090a0de2260835bee80e71a702492ed9">length_t</link>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1ac4cf4b2ab929bd23951a8676eeac086b">C</link>,&#32;<link linkend="_namespaceglm_1a090a0de2260835bee80e71a702492ed9">length_t</link>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a5c71a5e59a53413cd6c270266d63b031">R</link>,&#32;<emphasis role="keyword">typename</emphasis>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>,&#32;qualifier&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1acbcee443d6d55cb8600b3f240f5cf907">Q</link>&gt;
+237 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;std::basic_ostream&lt;CTy,&#32;CTr&gt;&amp;&#32;<link linkend="_namespaceglm_1_1detail_1a632a0d81dbc7385dffb5daad14cb9b70">print_matrix_on</link>(std::basic_ostream&lt;CTy,&#32;CTr&gt;&amp;&#32;os,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a52037c938e3c1b126c6277da5ca689d0">M&lt;C, R, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>)
+238 &#32;&#32;&#32;&#32;{
+239 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">typename</emphasis>&#32;std::basic_ostream&lt;CTy,CTr&gt;::sentry&#32;<emphasis role="keyword">const</emphasis>&#32;cerberus(os);
+240 
+241 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(cerberus)
+242 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+243 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_classglm_1_1io_1_1format__punct">io::format_punct&lt;CTy&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;fmt(<link linkend="_namespaceglm_1_1io_1a7c6f4eda7e7d16cdf24a2ba4809b107c">io::get_facet</link>&lt;<link linkend="_classglm_1_1io_1_1format__punct">io::format_punct&lt;CTy&gt;</link>&#32;&gt;(os));
+244 
+245 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespaceglm_1a090a0de2260835bee80e71a702492ed9">length_t</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;cols(<link linkend="_structglm_1_1type">type</link>&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a52037c938e3c1b126c6277da5ca689d0">M&lt;C, R, T, Q&gt;</link>&#32;&gt;::cols);
+246 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespaceglm_1a090a0de2260835bee80e71a702492ed9">length_t</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;rows(<link linkend="_structglm_1_1type">type</link>&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a52037c938e3c1b126c6277da5ca689d0">M&lt;C, R, T, Q&gt;</link>&#32;&gt;::rows);
+247 
+248 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(fmt.<link linkend="_classglm_1_1io_1_1format__punct_1ab28088e6eef03fe4222fa8a5dd95288e">formatted</link>)
+249 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+250 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;os&#32;&lt;&lt;&#32;fmt.<link linkend="_classglm_1_1io_1_1format__punct_1a8ddf8abdb0ebbdbb7eca08d7a777956e">newline</link>&#32;&lt;&lt;&#32;fmt.<link linkend="_classglm_1_1io_1_1format__punct_1ab1beed331269a39b06d17d02cf727d7c">delim_left</link>;
+251 
+252 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">switch</emphasis>(fmt.<link linkend="_classglm_1_1io_1_1format__punct_1a9de1f3b7120a036ec0ab394d2036d0aa">order</link>)
+253 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+254 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">case</emphasis>&#32;<link linkend="_namespaceglm_1_1io_1a3497781803fe594a37177e05ab2a795faab661780f7f081ee11c34be9b0742229">io::column_major</link>:
+255 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+256 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>(<link linkend="_namespaceglm_1a090a0de2260835bee80e71a702492ed9">length_t</link>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>(0);&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;&lt;&#32;rows;&#32;++<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>)
+257 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+258 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(0&#32;!=&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>)
+259 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;os&#32;&lt;&lt;&#32;fmt.<link linkend="_classglm_1_1io_1_1format__punct_1adf9a915938727793de1daca07dcdfa4e">space</link>;
+260 
+261 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;os&#32;&lt;&lt;&#32;<link linkend="_group__gtc__matrix__access_1ga259e5ebd0f31ec3f83440f8cae7f5dba">row</link>(<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>);
+262 
+263 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(rows-1&#32;!=&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>)
+264 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;os&#32;&lt;&lt;&#32;fmt.<link linkend="_classglm_1_1io_1_1format__punct_1a8ddf8abdb0ebbdbb7eca08d7a777956e">newline</link>;
+265 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+266 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+267 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">break</emphasis>;
+268 
+269 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">case</emphasis>&#32;<link linkend="_namespaceglm_1_1io_1a3497781803fe594a37177e05ab2a795fad080bb2f932ea4078fd0fc10ea1c991c">io::row_major</link>:
+270 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+271 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>(<link linkend="_namespaceglm_1a090a0de2260835bee80e71a702492ed9">length_t</link>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>(0);&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;&lt;&#32;cols;&#32;++<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>)
+272 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+273 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(0&#32;!=&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>)
+274 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;os&#32;&lt;&lt;&#32;fmt.<link linkend="_classglm_1_1io_1_1format__punct_1adf9a915938727793de1daca07dcdfa4e">space</link>;
+275 
+276 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;os&#32;&lt;&lt;&#32;<link linkend="_group__gtc__matrix__access_1ga96022eb0d3fae39d89fc7a954e59b374">column</link>(<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>);
+277 
+278 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(cols-1&#32;!=&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>)
+279 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;os&#32;&lt;&lt;&#32;fmt.<link linkend="_classglm_1_1io_1_1format__punct_1a8ddf8abdb0ebbdbb7eca08d7a777956e">newline</link>;
+280 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+281 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+282 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">break</emphasis>;
+283 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+284 
+285 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;os&#32;&lt;&lt;&#32;fmt.<link linkend="_classglm_1_1io_1_1format__punct_1a62fb1280404360463ec5af7144aa0949">delim_right</link>;
+286 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+287 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+288 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+289 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">switch</emphasis>&#32;(fmt.<link linkend="_classglm_1_1io_1_1format__punct_1a9de1f3b7120a036ec0ab394d2036d0aa">order</link>)
+290 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+291 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">case</emphasis>&#32;<link linkend="_namespaceglm_1_1io_1a3497781803fe594a37177e05ab2a795faab661780f7f081ee11c34be9b0742229">io::column_major</link>:
+292 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+293 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>(<link linkend="_namespaceglm_1a090a0de2260835bee80e71a702492ed9">length_t</link>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>(0);&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;&lt;&#32;cols;&#32;++<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>)
+294 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+295 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;os&#32;&lt;&lt;&#32;<link linkend="_group__gtc__matrix__access_1ga96022eb0d3fae39d89fc7a954e59b374">column</link>(<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>);
+296 
+297 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(cols&#32;-&#32;1&#32;!=&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>)
+298 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;os&#32;&lt;&lt;&#32;fmt.<link linkend="_classglm_1_1io_1_1format__punct_1adf9a915938727793de1daca07dcdfa4e">space</link>;
+299 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+300 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+301 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">break</emphasis>;
+302 
+303 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">case</emphasis>&#32;<link linkend="_namespaceglm_1_1io_1a3497781803fe594a37177e05ab2a795fad080bb2f932ea4078fd0fc10ea1c991c">io::row_major</link>:
+304 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+305 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(<link linkend="_namespaceglm_1a090a0de2260835bee80e71a702492ed9">length_t</link>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>(0);&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;&lt;&#32;rows;&#32;++<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>)
+306 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+307 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;os&#32;&lt;&lt;&#32;<link linkend="_group__gtc__matrix__access_1ga259e5ebd0f31ec3f83440f8cae7f5dba">row</link>(<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>);
+308 
+309 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(rows-1&#32;!=&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>)
+310 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;os&#32;&lt;&lt;&#32;fmt.<link linkend="_classglm_1_1io_1_1format__punct_1adf9a915938727793de1daca07dcdfa4e">space</link>;
+311 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+312 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+313 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">break</emphasis>;
+314 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+315 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+316 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+317 
+318 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;os;
+319 &#32;&#32;&#32;&#32;}
+320 }<emphasis role="comment">//namespace&#32;detail</emphasis>
+321 
+322 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;CTy,&#32;<emphasis role="keyword">typename</emphasis>&#32;CTr,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+323 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;std::basic_ostream&lt;CTy,CTr&gt;&amp;&#32;<link linkend="_namespaceglm_1ad3cf7f0e123c67c39004344fe600e345">operator&lt;&lt;</link>(std::basic_ostream&lt;CTy,CTr&gt;&amp;&#32;os,&#32;<link linkend="_structglm_1_1mat">mat&lt;2, 2, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>)
+324 &#32;&#32;&#32;&#32;{
+325 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_namespaceglm_1_1detail_1a632a0d81dbc7385dffb5daad14cb9b70">detail::print_matrix_on</link>(os,&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>);
+326 &#32;&#32;&#32;&#32;}
+327 
+328 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;CTy,&#32;<emphasis role="keyword">typename</emphasis>&#32;CTr,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+329 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;std::basic_ostream&lt;CTy,CTr&gt;&amp;&#32;<link linkend="_namespaceglm_1ad3cf7f0e123c67c39004344fe600e345">operator&lt;&lt;</link>(std::basic_ostream&lt;CTy,CTr&gt;&amp;&#32;os,&#32;<link linkend="_structglm_1_1mat">mat&lt;2, 3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>)
+330 &#32;&#32;&#32;&#32;{
+331 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_namespaceglm_1_1detail_1a632a0d81dbc7385dffb5daad14cb9b70">detail::print_matrix_on</link>(os,&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>);
+332 &#32;&#32;&#32;&#32;}
+333 
+334 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;CTy,&#32;<emphasis role="keyword">typename</emphasis>&#32;CTr,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+335 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;std::basic_ostream&lt;CTy,CTr&gt;&amp;&#32;<link linkend="_namespaceglm_1ad3cf7f0e123c67c39004344fe600e345">operator&lt;&lt;</link>(std::basic_ostream&lt;CTy,CTr&gt;&amp;&#32;os,&#32;<link linkend="_structglm_1_1mat">mat&lt;2, 4, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>)
+336 &#32;&#32;&#32;&#32;{
+337 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_namespaceglm_1_1detail_1a632a0d81dbc7385dffb5daad14cb9b70">detail::print_matrix_on</link>(os,&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>);
+338 &#32;&#32;&#32;&#32;}
+339 
+340 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;CTy,&#32;<emphasis role="keyword">typename</emphasis>&#32;CTr,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+341 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;std::basic_ostream&lt;CTy,CTr&gt;&amp;&#32;<link linkend="_namespaceglm_1ad3cf7f0e123c67c39004344fe600e345">operator&lt;&lt;</link>(std::basic_ostream&lt;CTy,CTr&gt;&amp;&#32;os,&#32;<link linkend="_structglm_1_1mat">mat&lt;3, 2, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>)
+342 &#32;&#32;&#32;&#32;{
+343 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_namespaceglm_1_1detail_1a632a0d81dbc7385dffb5daad14cb9b70">detail::print_matrix_on</link>(os,&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>);
+344 &#32;&#32;&#32;&#32;}
+345 
+346 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;CTy,&#32;<emphasis role="keyword">typename</emphasis>&#32;CTr,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+347 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;std::basic_ostream&lt;CTy,CTr&gt;&amp;&#32;<link linkend="_namespaceglm_1ad3cf7f0e123c67c39004344fe600e345">operator&lt;&lt;</link>(std::basic_ostream&lt;CTy,CTr&gt;&amp;&#32;os,&#32;<link linkend="_structglm_1_1mat">mat&lt;3, 3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>)
+348 &#32;&#32;&#32;&#32;{
+349 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_namespaceglm_1_1detail_1a632a0d81dbc7385dffb5daad14cb9b70">detail::print_matrix_on</link>(os,&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>);
+350 &#32;&#32;&#32;&#32;}
+351 
+352 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;CTy,&#32;<emphasis role="keyword">typename</emphasis>&#32;CTr,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+353 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;std::basic_ostream&lt;CTy,CTr&gt;&#32;&amp;&#32;<link linkend="_namespaceglm_1ad3cf7f0e123c67c39004344fe600e345">operator&lt;&lt;</link>(std::basic_ostream&lt;CTy,CTr&gt;&amp;&#32;os,&#32;<link linkend="_structglm_1_1mat">mat&lt;3, 4, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>)
+354 &#32;&#32;&#32;&#32;{
+355 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_namespaceglm_1_1detail_1a632a0d81dbc7385dffb5daad14cb9b70">detail::print_matrix_on</link>(os,&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>);
+356 &#32;&#32;&#32;&#32;}
+357 
+358 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;CTy,&#32;<emphasis role="keyword">typename</emphasis>&#32;CTr,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+359 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;std::basic_ostream&lt;CTy,CTr&gt;&#32;&amp;&#32;<link linkend="_namespaceglm_1ad3cf7f0e123c67c39004344fe600e345">operator&lt;&lt;</link>(std::basic_ostream&lt;CTy,CTr&gt;&amp;&#32;os,&#32;<link linkend="_structglm_1_1mat">mat&lt;4, 2, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>)
+360 &#32;&#32;&#32;&#32;{
+361 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_namespaceglm_1_1detail_1a632a0d81dbc7385dffb5daad14cb9b70">detail::print_matrix_on</link>(os,&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>);
+362 &#32;&#32;&#32;&#32;}
+363 
+364 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;CTy,&#32;<emphasis role="keyword">typename</emphasis>&#32;CTr,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+365 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;std::basic_ostream&lt;CTy,CTr&gt;&#32;&amp;&#32;<link linkend="_namespaceglm_1ad3cf7f0e123c67c39004344fe600e345">operator&lt;&lt;</link>(std::basic_ostream&lt;CTy,CTr&gt;&amp;&#32;os,&#32;<link linkend="_structglm_1_1mat">mat&lt;4, 3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>)
+366 &#32;&#32;&#32;&#32;{
+367 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_namespaceglm_1_1detail_1a632a0d81dbc7385dffb5daad14cb9b70">detail::print_matrix_on</link>(os,&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>);
+368 &#32;&#32;&#32;&#32;}
+369 
+370 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;CTy,&#32;<emphasis role="keyword">typename</emphasis>&#32;CTr,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+371 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;std::basic_ostream&lt;CTy,CTr&gt;&#32;&amp;&#32;<link linkend="_namespaceglm_1ad3cf7f0e123c67c39004344fe600e345">operator&lt;&lt;</link>(std::basic_ostream&lt;CTy,CTr&gt;&amp;&#32;os,&#32;<link linkend="_structglm_1_1mat">mat&lt;4, 4, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>)
+372 &#32;&#32;&#32;&#32;{
+373 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_namespaceglm_1_1detail_1a632a0d81dbc7385dffb5daad14cb9b70">detail::print_matrix_on</link>(os,&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>);
+374 &#32;&#32;&#32;&#32;}
+375 
+376 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespacedetail">detail</link>
+377 {
+378 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;CTy,&#32;<emphasis role="keyword">typename</emphasis>&#32;CTr,&#32;<emphasis role="keyword">template</emphasis>&lt;length_t,&#32;length_t,&#32;<emphasis role="keyword">typename</emphasis>,&#32;qualifier&gt;&#32;<emphasis role="keyword">class&#32;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a52037c938e3c1b126c6277da5ca689d0">M</link>,&#32;<link linkend="_namespaceglm_1a090a0de2260835bee80e71a702492ed9">length_t</link>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1ac4cf4b2ab929bd23951a8676eeac086b">C</link>,&#32;<link linkend="_namespaceglm_1a090a0de2260835bee80e71a702492ed9">length_t</link>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a5c71a5e59a53413cd6c270266d63b031">R</link>,&#32;<emphasis role="keyword">typename</emphasis>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>,&#32;qualifier&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1acbcee443d6d55cb8600b3f240f5cf907">Q</link>&gt;
+379 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;std::basic_ostream&lt;CTy,&#32;CTr&gt;&amp;&#32;<link linkend="_namespaceglm_1_1detail_1a3c351b2a2b581ef976645155b195a4fe">print_matrix_pair_on</link>(std::basic_ostream&lt;CTy,&#32;CTr&gt;&amp;&#32;os,&#32;std::pair&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a52037c938e3c1b126c6277da5ca689d0">M&lt;C, R, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a52037c938e3c1b126c6277da5ca689d0">M&lt;C, R, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&gt;&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>)
+380 &#32;&#32;&#32;&#32;{
+381 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">typename</emphasis>&#32;std::basic_ostream&lt;CTy,CTr&gt;::sentry&#32;<emphasis role="keyword">const</emphasis>&#32;cerberus(os);
+382 
+383 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(cerberus)
+384 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+385 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_classglm_1_1io_1_1format__punct">io::format_punct&lt;CTy&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;fmt(<link linkend="_namespaceglm_1_1io_1a7c6f4eda7e7d16cdf24a2ba4809b107c">io::get_facet</link>&lt;<link linkend="_classglm_1_1io_1_1format__punct">io::format_punct&lt;CTy&gt;</link>&#32;&gt;(os));
+386 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a52037c938e3c1b126c6277da5ca689d0">M&lt;C, R, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;ml(<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>.first);
+387 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a52037c938e3c1b126c6277da5ca689d0">M&lt;C, R, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;mr(<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>.second);
+388 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespaceglm_1a090a0de2260835bee80e71a702492ed9">length_t</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;cols(<link linkend="_structglm_1_1type">type</link>&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a52037c938e3c1b126c6277da5ca689d0">M&lt;C, R, T, Q&gt;</link>&#32;&gt;::cols);
+389 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespaceglm_1a090a0de2260835bee80e71a702492ed9">length_t</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;rows(<link linkend="_structglm_1_1type">type</link>&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a52037c938e3c1b126c6277da5ca689d0">M&lt;C, R, T, Q&gt;</link>&#32;&gt;::rows);
+390 
+391 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(fmt.<link linkend="_classglm_1_1io_1_1format__punct_1ab28088e6eef03fe4222fa8a5dd95288e">formatted</link>)
+392 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+393 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;os&#32;&lt;&lt;&#32;fmt.<link linkend="_classglm_1_1io_1_1format__punct_1a8ddf8abdb0ebbdbb7eca08d7a777956e">newline</link>&#32;&lt;&lt;&#32;fmt.<link linkend="_classglm_1_1io_1_1format__punct_1ab1beed331269a39b06d17d02cf727d7c">delim_left</link>;
+394 
+395 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">switch</emphasis>(fmt.<link linkend="_classglm_1_1io_1_1format__punct_1a9de1f3b7120a036ec0ab394d2036d0aa">order</link>)
+396 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+397 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">case</emphasis>&#32;<link linkend="_namespaceglm_1_1io_1a3497781803fe594a37177e05ab2a795faab661780f7f081ee11c34be9b0742229">io::column_major</link>:
+398 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+399 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>(<link linkend="_namespaceglm_1a090a0de2260835bee80e71a702492ed9">length_t</link>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>(0);&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;&lt;&#32;rows;&#32;++<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>)
+400 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+401 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(0&#32;!=&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>)
+402 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;os&#32;&lt;&lt;&#32;fmt.<link linkend="_classglm_1_1io_1_1format__punct_1adf9a915938727793de1daca07dcdfa4e">space</link>;
+403 
+404 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;os&#32;&lt;&lt;&#32;<link linkend="_group__gtc__matrix__access_1ga259e5ebd0f31ec3f83440f8cae7f5dba">row</link>(ml,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>)&#32;&lt;&lt;&#32;((rows-1&#32;!=&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>)&#32;?&#32;fmt.<link linkend="_classglm_1_1io_1_1format__punct_1adf9a915938727793de1daca07dcdfa4e">space</link>&#32;:&#32;fmt.<link linkend="_classglm_1_1io_1_1format__punct_1a62fb1280404360463ec5af7144aa0949">delim_right</link>)&#32;&lt;&lt;&#32;fmt.<link linkend="_classglm_1_1io_1_1format__punct_1adf9a915938727793de1daca07dcdfa4e">space</link>&#32;&lt;&lt;&#32;((0&#32;!=&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>)&#32;?&#32;fmt.<link linkend="_classglm_1_1io_1_1format__punct_1adf9a915938727793de1daca07dcdfa4e">space</link>&#32;:&#32;fmt.<link linkend="_classglm_1_1io_1_1format__punct_1ab1beed331269a39b06d17d02cf727d7c">delim_left</link>)&#32;&lt;&lt;&#32;<link linkend="_group__gtc__matrix__access_1ga259e5ebd0f31ec3f83440f8cae7f5dba">row</link>(mr,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>);
+405 
+406 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(rows-1&#32;!=&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>)
+407 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;os&#32;&lt;&lt;&#32;fmt.<link linkend="_classglm_1_1io_1_1format__punct_1a8ddf8abdb0ebbdbb7eca08d7a777956e">newline</link>;
+408 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+409 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+410 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">break</emphasis>;
+411 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">case</emphasis>&#32;<link linkend="_namespaceglm_1_1io_1a3497781803fe594a37177e05ab2a795fad080bb2f932ea4078fd0fc10ea1c991c">io::row_major</link>:
+412 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+413 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>(<link linkend="_namespaceglm_1a090a0de2260835bee80e71a702492ed9">length_t</link>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>(0);&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;&lt;&#32;cols;&#32;++<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>)
+414 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+415 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(0&#32;!=&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>)
+416 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;os&#32;&lt;&lt;&#32;fmt.<link linkend="_classglm_1_1io_1_1format__punct_1adf9a915938727793de1daca07dcdfa4e">space</link>;
+417 
+418 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;os&#32;&lt;&lt;&#32;<link linkend="_group__gtc__matrix__access_1ga96022eb0d3fae39d89fc7a954e59b374">column</link>(ml,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>)&#32;&lt;&lt;&#32;((cols-1&#32;!=&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>)&#32;?&#32;fmt.<link linkend="_classglm_1_1io_1_1format__punct_1adf9a915938727793de1daca07dcdfa4e">space</link>&#32;:&#32;fmt.<link linkend="_classglm_1_1io_1_1format__punct_1a62fb1280404360463ec5af7144aa0949">delim_right</link>)&#32;&lt;&lt;&#32;fmt.<link linkend="_classglm_1_1io_1_1format__punct_1adf9a915938727793de1daca07dcdfa4e">space</link>&#32;&lt;&lt;&#32;((0&#32;!=&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>)&#32;?&#32;fmt.<link linkend="_classglm_1_1io_1_1format__punct_1adf9a915938727793de1daca07dcdfa4e">space</link>&#32;:&#32;fmt.<link linkend="_classglm_1_1io_1_1format__punct_1ab1beed331269a39b06d17d02cf727d7c">delim_left</link>)&#32;&lt;&lt;&#32;<link linkend="_group__gtc__matrix__access_1ga96022eb0d3fae39d89fc7a954e59b374">column</link>(mr,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>);
+419 
+420 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(cols-1&#32;!=&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>)
+421 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;os&#32;&lt;&lt;&#32;fmt.<link linkend="_classglm_1_1io_1_1format__punct_1a8ddf8abdb0ebbdbb7eca08d7a777956e">newline</link>;
+422 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+423 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+424 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">break</emphasis>;
+425 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+426 
+427 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;os&#32;&lt;&lt;&#32;fmt.<link linkend="_classglm_1_1io_1_1format__punct_1a62fb1280404360463ec5af7144aa0949">delim_right</link>;
+428 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+429 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+430 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+431 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;os&#32;&lt;&lt;&#32;ml&#32;&lt;&lt;&#32;fmt.<link linkend="_classglm_1_1io_1_1format__punct_1adf9a915938727793de1daca07dcdfa4e">space</link>&#32;&lt;&lt;&#32;mr;
+432 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+433 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+434 
+435 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;os;
+436 &#32;&#32;&#32;&#32;}
+437 }<emphasis role="comment">//namespace&#32;detail</emphasis>
+438 
+439 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;CTy,&#32;<emphasis role="keyword">typename</emphasis>&#32;CTr,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+440 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;std::basic_ostream&lt;CTy,&#32;CTr&gt;&amp;&#32;<link linkend="_namespaceglm_1ad3cf7f0e123c67c39004344fe600e345">operator&lt;&lt;</link>(
+441 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::basic_ostream&lt;CTy,&#32;CTr&gt;&#32;&amp;&#32;os,
+442 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::pair&lt;<link linkend="_structglm_1_1mat">mat&lt;4, 4, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>,
+443 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structglm_1_1mat">mat&lt;4, 4, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&gt;&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>)
+444 &#32;&#32;&#32;&#32;{
+445 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_namespaceglm_1_1detail_1a3c351b2a2b581ef976645155b195a4fe">detail::print_matrix_pair_on</link>(os,&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>);
+446 &#32;&#32;&#32;&#32;}
+447 }<emphasis role="comment">//namespace&#32;glm</emphasis>
+448 
+449 <emphasis role="preprocessor">#if&#32;GLM_COMPILER&#32;&amp;&#32;GLM_COMPILER_CLANG</emphasis>
+450 <emphasis role="preprocessor">#&#32;&#32;&#32;pragma&#32;clang&#32;diagnostic&#32;pop</emphasis>
+451 <emphasis role="preprocessor">#endif</emphasis>
+452 
+</programlisting></section>

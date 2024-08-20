@@ -1,0 +1,132 @@
+.TH "Assimp::Vertex" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Assimp::Vertex
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fR#include <Vertex\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBVertex\fP ()"
+.br
+.ti -1c
+.RI "\fBVertex\fP (const \fBaiMesh\fP *msh, unsigned int idx)"
+.br
+.ti -1c
+.RI "\fBVertex\fP (const \fBaiAnimMesh\fP *msh, unsigned int idx)"
+.br
+.ti -1c
+.RI "\fBVertex\fP & \fBoperator+=\fP (const \fBVertex\fP &\fBv\fP)"
+.br
+.ti -1c
+.RI "\fBVertex\fP & \fBoperator\-=\fP (const \fBVertex\fP &\fBv\fP)"
+.br
+.ti -1c
+.RI "\fBVertex\fP & \fBoperator*=\fP (\fBai_real\fP \fBv\fP)"
+.br
+.ti -1c
+.RI "\fBVertex\fP & \fBoperator/=\fP (\fBai_real\fP \fBv\fP)"
+.br
+.ti -1c
+.RI "\fBvoid\fP \fBSortBack\fP (\fBaiMesh\fP *out, unsigned int idx) const"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBaiVector3D\fP \fBposition\fP"
+.br
+.ti -1c
+.RI "\fBaiVector3D\fP \fBnormal\fP"
+.br
+.ti -1c
+.RI "\fBaiVector3D\fP \fBtangent\fP"
+.br
+.ti -1c
+.RI "\fBaiVector3D\fP \fBbitangent\fP"
+.br
+.ti -1c
+.RI "\fBaiVector3D\fP \fBtexcoords\fP [\fBAI_MAX_NUMBER_OF_TEXTURECOORDS\fP]"
+.br
+.ti -1c
+.RI "\fBaiColor4D\fP \fBcolors\fP [\fBAI_MAX_NUMBER_OF_COLOR_SETS\fP]"
+.br
+.in -1c
+.SS "Friends"
+
+.in +1c
+.ti -1c
+.RI "\fBVertex\fP \fBoperator+\fP (const \fBVertex\fP &\fBv0\fP, const \fBVertex\fP &\fBv1\fP)"
+.br
+.ti -1c
+.RI "\fBVertex\fP \fBoperator\-\fP (const \fBVertex\fP &\fBv0\fP, const \fBVertex\fP &\fBv1\fP)"
+.br
+.ti -1c
+.RI "\fBVertex\fP \fBoperator*\fP (const \fBVertex\fP &\fBv0\fP, \fBai_real\fP \fBf\fP)"
+.br
+.ti -1c
+.RI "\fBVertex\fP \fBoperator/\fP (const \fBVertex\fP &\fBv0\fP, \fBai_real\fP \fBf\fP)"
+.br
+.ti -1c
+.RI "\fBVertex\fP \fBoperator*\fP (\fBai_real\fP \fBf\fP, const \fBVertex\fP &\fBv0\fP)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Intermediate description a vertex with all possible components\&. Defines a full set of operators, so you may use such a '\fBVertex\fP' in basic arithmetic\&. All operators are applied to \fIall\fP vertex components equally\&. This is useful for stuff like interpolation or subdivision, but won't work if special handling is required for some vertex components\&. 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "Assimp::Vertex::Vertex ()\fR [inline]\fP"
+
+.SS "Assimp::Vertex::Vertex (const \fBaiMesh\fP * msh, unsigned int idx)\fR [inline]\fP, \fR [explicit]\fP"
+Extract a particular vertex from a mesh and interleave all components 
+.SS "Assimp::Vertex::Vertex (const \fBaiAnimMesh\fP * msh, unsigned int idx)\fR [inline]\fP, \fR [explicit]\fP"
+Extract a particular vertex from a anim mesh and interleave all components 
+.SH "Member Function Documentation"
+.PP 
+.SS "\fBVertex\fP & Assimp::Vertex::operator*= (\fBai_real\fP v)\fR [inline]\fP"
+
+.SS "\fBVertex\fP & Assimp::Vertex::operator+= (const \fBVertex\fP & v)\fR [inline]\fP"
+
+.SS "\fBVertex\fP & Assimp::Vertex::operator\-= (const \fBVertex\fP & v)\fR [inline]\fP"
+
+.SS "\fBVertex\fP & Assimp::Vertex::operator/= (\fBai_real\fP v)\fR [inline]\fP"
+
+.SS "\fBvoid\fP Assimp::Vertex::SortBack (\fBaiMesh\fP * out, unsigned int idx) const\fR [inline]\fP"
+Convert back to non-interleaved storage 
+.SH "Friends And Related Symbol Documentation"
+.PP 
+.SS "\fBVertex\fP operator* (\fBai_real\fP f, const \fBVertex\fP & v0)\fR [friend]\fP"
+
+.SS "\fBVertex\fP operator* (const \fBVertex\fP & v0, \fBai_real\fP f)\fR [friend]\fP"
+
+.SS "\fBVertex\fP operator+ (const \fBVertex\fP & v0, const \fBVertex\fP & v1)\fR [friend]\fP"
+
+.SS "\fBVertex\fP operator\- (const \fBVertex\fP & v0, const \fBVertex\fP & v1)\fR [friend]\fP"
+
+.SS "\fBVertex\fP operator/ (const \fBVertex\fP & v0, \fBai_real\fP f)\fR [friend]\fP"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "\fBaiVector3D\fP Assimp::Vertex::bitangent"
+
+.SS "\fBaiColor4D\fP Assimp::Vertex::colors[\fBAI_MAX_NUMBER_OF_COLOR_SETS\fP]"
+
+.SS "\fBaiVector3D\fP Assimp::Vertex::normal"
+
+.SS "\fBaiVector3D\fP Assimp::Vertex::position"
+
+.SS "\fBaiVector3D\fP Assimp::Vertex::tangent"
+
+.SS "\fBaiVector3D\fP Assimp::Vertex::texcoords[\fBAI_MAX_NUMBER_OF_TEXTURECOORDS\fP]"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

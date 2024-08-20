@@ -16,6 +16,8 @@
 <simplesect>
     <title>Public Member Functions    </title>
         <itemizedlist>
+            <listitem><para><link linkend="_class_terrain_1a9ec9e4f83e05ffa1c6c6713ca7b7bee1">COPY</link> (<link linkend="_class_terrain">Terrain</link>, <link linkend="_class_terrain_1afad291d4ef96ee39388b698deca20289">Data</link>=<link linkend="_class_terrain___data">Terrain_Data</link>();)</para>
+</listitem>
             <listitem><para>void <link linkend="_class_terrain_1a588b14e98249a3603c335263167956d8">Update</link> () override</para>
 </listitem>
             <listitem><para>void <link linkend="_class_terrain_1ad31dbec1dc58d9315da822b14f00478d">Awake</link> () override</para>
@@ -31,6 +33,12 @@ Public Member Functions inherited from <link linkend="_class_c_o_r_e_1_1_behavio
 </listitem>
             <listitem><para><link linkend="_class_c_o_r_e_1_1_behaviour_1aa54ab7738a17169baec807df01de3b37">Behaviour</link> (<link linkend="_class_game_object">GameObject</link> *oobj, std::shared_ptr&lt; <link linkend="_class_c_o_r_e_1_1_behaviour">CORE::Behaviour</link> &gt; trans)</para>
 </listitem>
+            <listitem><para>virtual std::shared_ptr&lt; <link linkend="_class_c_o_r_e_1_1_behaviour">CORE::Behaviour</link> &gt; <link linkend="_class_c_o_r_e_1_1_behaviour_1a376fa39b0a3a9cb7c982e1c61df75ab8">Copy</link> ()=0</para>
+</listitem>
+            <listitem><para>virtual std::shared_ptr&lt; <link linkend="_class_c_o_r_e_1_1_behaviour">CORE::Behaviour</link> &gt; <link linkend="_class_c_o_r_e_1_1_behaviour_1a791cbaf9d8be99cea24d78b80177a555">DeepCopy</link> ()=0</para>
+</listitem>
+            <listitem><para>virtual void <link linkend="_class_c_o_r_e_1_1_behaviour_1af939526e780e260523e321d27507c974">EditorWindow</link> ()=0</para>
+</listitem>
         </itemizedlist>
 <simplesect>
     <title>Public Attributes    </title>
@@ -45,6 +53,8 @@ Public Attributes inherited from <link linkend="_class_c_o_r_e_1_1_behaviour">CO
             <listitem><para>std::shared_ptr&lt; <link linkend="_class_transform">Transform</link> &gt; <link linkend="_class_c_o_r_e_1_1_behaviour_1ae391aa7c5a9610782ae94b6bf0eeadcc">TRANSFORM</link></para>
 </listitem>
             <listitem><para>std::shared_ptr&lt; <link linkend="_class_c_o_r_e_1_1_behaviour">CORE::Behaviour</link> &gt; <link linkend="_class_c_o_r_e_1_1_behaviour_1ae2fac71708ace730352621fd312a96e4">transf</link></para>
+</listitem>
+            <listitem><para>std::string <link linkend="_class_c_o_r_e_1_1_behaviour_1ae22a1897f4fc705c26b77a667ea2e5e5">compname</link></para>
 </listitem>
             <listitem><para>UUID <link linkend="_class_c_o_r_e_1_1_behaviour_1a941e395674b18126684c0128001f0caf">uuID</link></para>
 </listitem>
@@ -77,45 +87,38 @@ Static Public Attributes inherited from <link linkend="_class_c_o_r_e_1_1_behavi
 </listitem>
         </itemizedlist>
 <section>
-<title>Detailed Description</title>
-<para>
-Definition at line <link linkend="__t_e_r_r_a_i_n_8h_source_1l00007">7</link> of file <link linkend="__t_e_r_r_a_i_n_8h_source">TERRAIN.h</link>.</para>
-</section>
-<section>
 <title>Member Function Documentation</title>
 <anchor xml:id="_class_terrain_1ad31dbec1dc58d9315da822b14f00478d"/><section>
     <title>Awake()</title>
 <indexterm><primary>Awake</primary><secondary>Terrain</secondary></indexterm>
 <indexterm><primary>Terrain</primary><secondary>Awake</secondary></indexterm>
 <para><computeroutput>void Terrain::Awake ( )<computeroutput>[override]</computeroutput>, <computeroutput>[virtual]</computeroutput></computeroutput></para><para>
-Implements <link linkend="_class_c_o_r_e_1_1_behaviour_1ae7e766196b986d52c572c4dd792bd3b3">CORE::Behaviour</link>.</para>
-<para>
-Definition at line <link linkend="__t_e_r_r_a_i_n_8cpp_source_1l00007">7</link> of file <link linkend="__t_e_r_r_a_i_n_8cpp_source">TERRAIN.cpp</link>.</para>
+Reimplemented from <link linkend="_class_c_o_r_e_1_1_behaviour_1a9ee42bf018b419d29c80bdd3aa7b277d">CORE::Behaviour</link>.</para>
 </section>
+<anchor xml:id="_class_terrain_1a9ec9e4f83e05ffa1c6c6713ca7b7bee1"/><section>
+    <title>COPY()</title>
+<indexterm><primary>COPY</primary><secondary>Terrain</secondary></indexterm>
+<indexterm><primary>Terrain</primary><secondary>COPY</secondary></indexterm>
+<para><computeroutput>Terrain::COPY (<link linkend="_class_terrain">Terrain</link> , <link linkend="_class_terrain_1afad291d4ef96ee39388b698deca20289">Data</link>  = <computeroutput><link linkend="_class_terrain___data">Terrain_Data</link>();</computeroutput>
+)</computeroutput></para></section>
 <anchor xml:id="_class_terrain_1a389f6ed268c3497a7ab8cb8554ccb4e6"/><section>
     <title>GenerateData()</title>
 <indexterm><primary>GenerateData</primary><secondary>Terrain</secondary></indexterm>
 <indexterm><primary>Terrain</primary><secondary>GenerateData</secondary></indexterm>
-<para><computeroutput>void Terrain::GenerateData ( )</computeroutput></para><para>
-Definition at line <link linkend="__t_e_r_r_a_i_n_8cpp_source_1l00015">15</link> of file <link linkend="__t_e_r_r_a_i_n_8cpp_source">TERRAIN.cpp</link>.</para>
-</section>
+<para><computeroutput>void Terrain::GenerateData ( )</computeroutput></para></section>
 <anchor xml:id="_class_terrain_1a3c932ccb16e899a0059da6f9533fe9d1"/><section>
     <title>Start()</title>
 <indexterm><primary>Start</primary><secondary>Terrain</secondary></indexterm>
 <indexterm><primary>Terrain</primary><secondary>Start</secondary></indexterm>
 <para><computeroutput>void Terrain::Start ( )<computeroutput>[override]</computeroutput>, <computeroutput>[virtual]</computeroutput></computeroutput></para><para>
-Implements <link linkend="_class_c_o_r_e_1_1_behaviour_1ac59e412c02f55fd077bc9b3f543e2b1a">CORE::Behaviour</link>.</para>
-<para>
-Definition at line <link linkend="__t_e_r_r_a_i_n_8cpp_source_1l00011">11</link> of file <link linkend="__t_e_r_r_a_i_n_8cpp_source">TERRAIN.cpp</link>.</para>
+Reimplemented from <link linkend="_class_c_o_r_e_1_1_behaviour_1a11a25e6600baa3c5a6924c33b0b86071">CORE::Behaviour</link>.</para>
 </section>
 <anchor xml:id="_class_terrain_1a588b14e98249a3603c335263167956d8"/><section>
     <title>Update()</title>
 <indexterm><primary>Update</primary><secondary>Terrain</secondary></indexterm>
 <indexterm><primary>Terrain</primary><secondary>Update</secondary></indexterm>
 <para><computeroutput>void Terrain::Update ( )<computeroutput>[override]</computeroutput>, <computeroutput>[virtual]</computeroutput></computeroutput></para><para>
-Implements <link linkend="_class_c_o_r_e_1_1_behaviour_1ae5a866762abca2dfabff14209306059a">CORE::Behaviour</link>.</para>
-<para>
-Definition at line <link linkend="__t_e_r_r_a_i_n_8cpp_source_1l00003">3</link> of file <link linkend="__t_e_r_r_a_i_n_8cpp_source">TERRAIN.cpp</link>.</para>
+Reimplemented from <link linkend="_class_c_o_r_e_1_1_behaviour_1a4a0de0e3555170c221503bf59ea1ef49">CORE::Behaviour</link>.</para>
 </section>
 </section>
 <section>
@@ -124,9 +127,7 @@ Definition at line <link linkend="__t_e_r_r_a_i_n_8cpp_source_1l00003">3</link> 
     <title>Data</title>
 <indexterm><primary>Data</primary><secondary>Terrain</secondary></indexterm>
 <indexterm><primary>Terrain</primary><secondary>Data</secondary></indexterm>
-<para><computeroutput><link linkend="_class_terrain___data">Terrain_Data</link> Terrain::Data</computeroutput></para><para>
-Definition at line <link linkend="__t_e_r_r_a_i_n_8h_source_1l00009">9</link> of file <link linkend="__t_e_r_r_a_i_n_8h_source">TERRAIN.h</link>.</para>
-</section>
+<para><computeroutput><link linkend="_class_terrain___data">Terrain_Data</link> Terrain::Data</computeroutput></para></section>
 <para>
 The documentation for this class was generated from the following files:</para>
 UPRISE_ENGINE/<link linkend="__t_e_r_r_a_i_n_8h">TERRAIN.h</link>UPRISE_ENGINE/<link linkend="__t_e_r_r_a_i_n_8cpp">TERRAIN.cpp</link></section>

@@ -1,4 +1,4 @@
-.TH "CORE::Input" 3 "Version 0.0.0.1" "My Project" \" -*- nroff -*-
+.TH "CORE::Input" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -7,7 +7,7 @@ CORE::Input
 .br
 .PP
 .PP
-\fR#include <INPUT\&.h>\fP
+\fR#include <C_INPUT\&.h>\fP
 .SS "Public Types"
 
 .in +1c
@@ -32,7 +32,7 @@ CORE::Input
 .RI "static int \fBGetKey\fP (int key)"
 .br
 .ti -1c
-.RI "static \fBMouseMode\fP \fBSetMouseMode\fP (\fBMouseMode\fP mode)"
+.RI "static \fBMouseMode\fP \fBSetMouseMode\fP (\fBMouseMode\fP \fBmode\fP)"
 .br
 .ti -1c
 .RI "static void \fBmouse_callback\fP (GLFWwindow *window, double xpos, double ypos)"
@@ -53,7 +53,7 @@ CORE::Input
 .in -1c
 .SH "Detailed Description"
 .PP 
-Definition at line \fB49\fP of file \fBINPUT\&.h\fP\&.
+Definition at line \fB49\fP of file \fBC_INPUT\&.h\fP\&.
 .SH "Member Enumeration Documentation"
 .PP 
 .SS "enum \fBCORE::Input::MouseMode\fP"
@@ -66,45 +66,131 @@ Definition at line \fB49\fP of file \fBINPUT\&.h\fP\&.
 .TP
 \fB\fIMouseFree \fP\fP
 .PP
-Definition at line \fB56\fP of file \fBINPUT\&.h\fP\&.
+Definition at line \fB56\fP of file \fBC_INPUT\&.h\fP\&.
+.nf
+56                        {
+57             MouseLocked,
+58             MouseFree
+59         };
+.PP
+.fi
+
 .SH "Constructor & Destructor Documentation"
 .PP 
 .SS "CORE::Input::Input ()"
 
 .PP
-Definition at line \fB5\fP of file \fBINPUT\&.cpp\fP\&.
+Definition at line \fB7\fP of file \fBC_INPUT\&.cpp\fP\&.
+.nf
+7 {}
+.PP
+.fi
+
 .SS "CORE::Input::Input (GLFWwindow * Window)"
 
 .PP
-Definition at line \fB6\fP of file \fBINPUT\&.cpp\fP\&.
+Definition at line \fB8\fP of file \fBC_INPUT\&.cpp\fP\&.
+.nf
+8                                     {
+9     TrPr(ctx, __func__)
+10      winow = Window; 
+11     TrPrE(ctx);
+12  }
+.PP
+.fi
+
+.PP
+References \fBTrPr\fP, and \fBTrPrE\fP\&.
 .SH "Member Function Documentation"
 .PP 
 .SS "int CORE::Input::GetKey (int key)\fR [static]\fP"
 
 .PP
-Definition at line \fB9\fP of file \fBINPUT\&.cpp\fP\&.
+Definition at line \fB15\fP of file \fBC_INPUT\&.cpp\fP\&.
+.nf
+15                              {
+16 
+17     return glfwGetKey(winow, key);
+18 
+19 }
+.PP
+.fi
+
+.PP
+Referenced by \fBmain()\fP, \fBprocessInput()\fP, \fBTeleport::Update()\fP, and \fBTest::Update()\fP\&.
 .SS "void CORE::Input::Init (GLFWwindow * Window)\fR [static]\fP"
 
 .PP
-Definition at line \fB39\fP of file \fBINPUT\&.cpp\fP\&.
+Definition at line \fB52\fP of file \fBC_INPUT\&.cpp\fP\&.
+.nf
+53 {
+54     TrPr(ctx, __func__)
+55     winow = Window;
+56     glfwSetCursorPosCallback(winow, mouse_callback);
+57     TrPrE(ctx);
+58 }
+.PP
+.fi
+
+.PP
+References \fBTrPr\fP, and \fBTrPrE\fP\&.
+.PP
+Referenced by \fBCORE::Startup::Start_Systems()\fP\&.
 .SS "void CORE::Input::mouse_callback (GLFWwindow * window, double xpos, double ypos)\fR [static]\fP"
 
 .PP
-Definition at line \fB31\fP of file \fBINPUT\&.cpp\fP\&.
+Definition at line \fB42\fP of file \fBC_INPUT\&.cpp\fP\&.
+.nf
+43 {
+44     TrPr(ctx, __func__)
+45     MousePosition\&.y = ypos;
+46     MousePosition\&.x = xpos;
+47     TrPrE(ctx);
+48 }
+.PP
+.fi
+
+.PP
+References \fBTrPr\fP, and \fBTrPrE\fP\&.
 .SS "\fBCORE::Input::MouseMode\fP CORE::Input::SetMouseMode (\fBMouseMode\fP mode)\fR [static]\fP"
 
 .PP
-Definition at line \fB14\fP of file \fBINPUT\&.cpp\fP\&.
+Definition at line \fB21\fP of file \fBC_INPUT\&.cpp\fP\&.
+.nf
+22 {
+23     TrPr(ctx, __func__)
+24     switch (mode) {
+25     case MouseFree:{
+26         glfwSetInputMode(winow, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+27         TrPrE(ctx);
+28         return MouseFree;
+29             break;
+30         }
+31     case MouseLocked: {
+32         glfwSetInputMode(winow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+33         TrPrE(ctx);
+34         return MouseLocked;
+35         break;
+36     }
+37     }
+38     TrPrE(ctx);
+39     return MouseMode();
+40 }
+.PP
+.fi
+
+.PP
+References \fBmode\fP, \fBTrPr\fP, and \fBTrPrE\fP\&.
 .SH "Member Data Documentation"
 .PP 
 .SS "\fBTS_P_Vector2\fP CORE::Input::MousePosition\fR [static]\fP"
 
 .PP
-Definition at line \fB65\fP of file \fBINPUT\&.h\fP\&.
+Definition at line \fB65\fP of file \fBC_INPUT\&.h\fP\&.
 .SS "GLFWwindow * CORE::Input::winow\fR [static]\fP"
 
 .PP
-Definition at line \fB60\fP of file \fBINPUT\&.h\fP\&.
+Definition at line \fB60\fP of file \fBC_INPUT\&.h\fP\&.
 
 .SH "Author"
 .PP 

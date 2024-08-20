@@ -24,13 +24,13 @@
 		static UUID UUID;
 		GameObject* oobj = nullptr;
 
-		DATATYPES::TS_P_Vector3 Position;
+		DATATYPES::TSPVector3 Position;
 		DATATYPES::Quaternion rotation;
-		DATATYPES::TS_P_Vector3 Vec3Rotation;
-		DATATYPES::TS_P_Vector3 forward;
-		DATATYPES::TS_P_Vector3 up;
-		DATATYPES::TS_P_Vector3 right;
-		void SetRotation(DATATYPES::TS_P_Vector3 vec);
+		DATATYPES::TSPVector3 Vec3Rotation;
+		DATATYPES::TSPVector3 forward;
+		DATATYPES::TSPVector3 up;
+		DATATYPES::TSPVector3 right;
+		void SetRotation(DATATYPES::TSPVector3 vec);
 		void SetRotation(DATATYPES::Quaternion quat);
 		//DATATYPES::TS_P_Vector3 Rotation;;
 		void Update()override;
@@ -44,6 +44,6 @@
 	};
 	//static Registrar<Transform> transform("Transform");
 
-#define ADDROTATION(X,Y,Z) TRANSFORM->SetRotation(DATATYPES::TS_P_Vector3(pos->Vec3Rotation.x+(X), pos->Vec3Rotation.y+(Y), pos->Vec3Rotation.z +(Z)));
+#define ADDROTATION(X,Y,Z) TRANSFORM->SetRotation(DATATYPES::TSPVector3(pos->Vec3Rotation.x+(X), pos->Vec3Rotation.y+(Y), pos->Vec3Rotation.z +(Z)));
 
 #endif // !_TRANSFORM_

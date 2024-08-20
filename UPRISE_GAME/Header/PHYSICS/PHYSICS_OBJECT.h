@@ -14,9 +14,9 @@ namespace PHYSICS {
 }
 struct  TS_P_Collider_box
 {
-	using TS_P_Vector3 = DATATYPES::TS_P_Vector3;
+	using TS_P_Vector3 = DATATYPES::TSPVector3;
 	bool isTrigger;
-	DATATYPES::TS_P_Vector3 Origin;
+	DATATYPES::TSPVector3 Origin;
 	TS_P_Vector3 bounds;
 	TS_P_Vector3 a;
 	TS_P_Vector3 b;

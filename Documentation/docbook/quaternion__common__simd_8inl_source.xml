@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_quaternion__common__simd_8inl_source" xml:lang="en-US">
+<title>quaternion_common_simd.inl</title>
+<indexterm><primary>adhed/glm/ext/quaternion_common_simd.inl</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 <emphasis role="preprocessor">#if&#32;GLM_ARCH&#32;&amp;&#32;GLM_ARCH_SSE2_BIT</emphasis>
+2 
+3 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespaceglm">glm</link>{
+4 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespacedetail">detail</link>
+5 {
+6 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;qualifier&#32;Q&gt;
+7 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis>compute_dot&lt;qua&lt;float,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1acbcee443d6d55cb8600b3f240f5cf907">Q</link>&gt;,&#32;float,&#32;true&gt;
+8 &#32;&#32;&#32;&#32;{
+9 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<emphasis role="keywordtype">float</emphasis>&#32;call(qua&lt;float,&#32;Q&gt;&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;qua&lt;float,&#32;Q&gt;&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>)
+10 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+11 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;_mm_cvtss_f32(glm_vec1_dot(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>.data,&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>.data));
+12 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+13 &#32;&#32;&#32;&#32;};
+14 }<emphasis role="comment">//namespace&#32;detail</emphasis>
+15 }<emphasis role="comment">//namespace&#32;glm</emphasis>
+16 
+17 <emphasis role="preprocessor">#endif</emphasis><emphasis role="comment">//GLM_ARCH&#32;&amp;&#32;GLM_ARCH_SSE2_BIT</emphasis>
+18 
+</programlisting></section>

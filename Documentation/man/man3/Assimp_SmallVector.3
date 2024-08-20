@@ -1,0 +1,172 @@
+.TH "Assimp::SmallVector< T, Capacity >" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Assimp::SmallVector< T, Capacity > \- Small vector with inplace storage\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fR#include <SmallVector\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBSmallVector\fP ()"
+.br
+.RI "The default class constructor\&. "
+.ti -1c
+.RI "\fB~SmallVector\fP ()"
+.br
+.RI "The class destructor\&. "
+.ti -1c
+.RI "\fBvoid\fP \fBpush_back\fP (const \fBT\fP &item)"
+.br
+.RI "Will push a new item\&. The capacity will grow in case of a too small capacity\&. "
+.ti -1c
+.RI "\fBvoid\fP \fBresize\fP (size_t newSize)"
+.br
+.RI "Will resize the vector\&. "
+.ti -1c
+.RI "size_t \fBsize\fP () const"
+.br
+.RI "Returns the current size of the vector\&. "
+.ti -1c
+.RI "\fBT\fP * \fBbegin\fP ()"
+.br
+.RI "Returns a pointer to the first item\&. "
+.ti -1c
+.RI "\fBT\fP * \fBend\fP ()"
+.br
+.RI "Returns a pointer to the end\&. "
+.ti -1c
+.RI "\fBT\fP * \fBbegin\fP () const"
+.br
+.RI "Returns a const pointer to the first item\&. "
+.ti -1c
+.RI "\fBT\fP * \fBend\fP () const"
+.br
+.RI "Returns a const pointer to the end\&. "
+.ti -1c
+.RI "\fBSmallVector\fP (const \fBSmallVector\fP &)=delete"
+.br
+.ti -1c
+.RI "\fBSmallVector\fP (\fBSmallVector\fP &&)=delete"
+.br
+.ti -1c
+.RI "\fBSmallVector\fP & \fBoperator=\fP (const \fBSmallVector\fP &)=delete"
+.br
+.ti -1c
+.RI "\fBSmallVector\fP & \fBoperator=\fP (\fBSmallVector\fP &&)=delete"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.SS "template<typename \fBT\fP, unsigned int Capacity>
+.br
+class Assimp::SmallVector< T, Capacity >"Small vector with inplace storage\&. 
+
+Reduces heap allocations when list is shorter\&. It uses a small array for a dedicated size\&. When the growing gets bigger than this small cache a dynamic growing algorithm will be used\&. 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "template<typename \fBT\fP , unsigned int Capacity> \fBAssimp::SmallVector\fP< \fBT\fP, Capacity >::SmallVector ()\fR [inline]\fP"
+
+.PP
+The default class constructor\&. 
+.SS "template<typename \fBT\fP , unsigned int Capacity> \fBAssimp::SmallVector\fP< \fBT\fP, Capacity >::~\fBSmallVector\fP ()\fR [inline]\fP"
+
+.PP
+The class destructor\&. 
+.SS "template<typename \fBT\fP , unsigned int Capacity> \fBAssimp::SmallVector\fP< \fBT\fP, Capacity >::SmallVector (const \fBSmallVector\fP< \fBT\fP, Capacity > & )\fR [delete]\fP"
+
+.SS "template<typename \fBT\fP , unsigned int Capacity> \fBAssimp::SmallVector\fP< \fBT\fP, Capacity >::SmallVector (\fBSmallVector\fP< \fBT\fP, Capacity > && )\fR [delete]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "template<typename \fBT\fP , unsigned int Capacity> \fBT\fP * \fBAssimp::SmallVector\fP< \fBT\fP, Capacity >::begin ()\fR [inline]\fP"
+
+.PP
+Returns a pointer to the first item\&. 
+.PP
+\fBReturns\fP
+.RS 4
+The first item as a pointer\&. 
+.RE
+.PP
+
+.SS "template<typename \fBT\fP , unsigned int Capacity> \fBT\fP * \fBAssimp::SmallVector\fP< \fBT\fP, Capacity >::begin () const\fR [inline]\fP"
+
+.PP
+Returns a const pointer to the first item\&. 
+.PP
+\fBReturns\fP
+.RS 4
+The first item as a const pointer\&. 
+.RE
+.PP
+
+.SS "template<typename \fBT\fP , unsigned int Capacity> \fBT\fP * \fBAssimp::SmallVector\fP< \fBT\fP, Capacity >\fB::end\fP ()\fR [inline]\fP"
+
+.PP
+Returns a pointer to the end\&. 
+.PP
+\fBReturns\fP
+.RS 4
+The end as a pointer\&. 
+.RE
+.PP
+
+.SS "template<typename \fBT\fP , unsigned int Capacity> \fBT\fP * \fBAssimp::SmallVector\fP< \fBT\fP, Capacity >\fB::end\fP () const\fR [inline]\fP"
+
+.PP
+Returns a const pointer to the end\&. 
+.PP
+\fBReturns\fP
+.RS 4
+The end as a const pointer\&. 
+.RE
+.PP
+
+.SS "template<typename \fBT\fP , unsigned int Capacity> \fBSmallVector\fP & \fBAssimp::SmallVector\fP< \fBT\fP, Capacity >::operator= (const \fBSmallVector\fP< \fBT\fP, Capacity > & )\fR [delete]\fP"
+
+.SS "template<typename \fBT\fP , unsigned int Capacity> \fBSmallVector\fP & \fBAssimp::SmallVector\fP< \fBT\fP, Capacity >::operator= (\fBSmallVector\fP< \fBT\fP, Capacity > && )\fR [delete]\fP"
+
+.SS "template<typename \fBT\fP , unsigned int Capacity> \fBvoid\fP \fBAssimp::SmallVector\fP< \fBT\fP, Capacity >::push_back (const \fBT\fP & item)\fR [inline]\fP"
+
+.PP
+Will push a new item\&. The capacity will grow in case of a too small capacity\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIitem\fP [in] The item to push at the end of the vector\&. 
+.RE
+.PP
+
+.SS "template<typename \fBT\fP , unsigned int Capacity> \fBvoid\fP \fBAssimp::SmallVector\fP< \fBT\fP, Capacity >::resize (size_t newSize)\fR [inline]\fP"
+
+.PP
+Will resize the vector\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fInewSize\fP [in] The new size\&. 
+.RE
+.PP
+
+.SS "template<typename \fBT\fP , unsigned int Capacity> size_t \fBAssimp::SmallVector\fP< \fBT\fP, Capacity >\fB::size\fP () const\fR [inline]\fP"
+
+.PP
+Returns the current size of the vector\&. 
+.PP
+\fBReturns\fP
+.RS 4
+The current size\&. 
+.RE
+.PP
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

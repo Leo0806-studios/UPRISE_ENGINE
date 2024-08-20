@@ -11,7 +11,7 @@ class Test :public CORE::Behaviour {
 
 public:
 	DATATYPES::Quaternion quat;
-	DATATYPES::TS_P_Vector3 rrot = DATATYPES::TS_P_Vector3(0,0,0);
+	DATATYPES::TSPVector3 rrot = DATATYPES::TSPVector3(0,0,0);
 	int i = 0;
 
 	Test() {}

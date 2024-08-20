@@ -1,0 +1,439 @@
+.TH "Assimp::BaseImporter" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Assimp::BaseImporter
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fR#include <BaseImporter\&.h>\fP
+.SS "Public Types"
+
+.in +1c
+.ti -1c
+.RI "enum \fBTextFileMode\fP { \fBALLOW_EMPTY\fP, \fBFORBID_EMPTY\fP }"
+.br
+.RI "Enum to define, if empty files are ok or not\&. "
+.in -1c
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBBaseImporter\fP () \fBAI_NO_EXCEPT\fP"
+.br
+.ti -1c
+.RI "virtual \fB~BaseImporter\fP ()"
+.br
+.ti -1c
+.RI "virtual bool \fBCanRead\fP (const std::string &pFile, \fBIOSystem\fP *pIOHandler, bool checkSig) const =0"
+.br
+.ti -1c
+.RI "\fBaiScene\fP * \fBReadFile\fP (\fBImporter\fP *pImp, const std::string &pFile, \fBIOSystem\fP *pIOHandler)"
+.br
+.ti -1c
+.RI "const std::string & \fBGetErrorText\fP () const"
+.br
+.ti -1c
+.RI "const std::exception_ptr & \fBGetException\fP () const"
+.br
+.ti -1c
+.RI "virtual \fBvoid\fP \fBSetupProperties\fP (const \fBImporter\fP *pImp)"
+.br
+.ti -1c
+.RI "virtual const \fBaiImporterDesc\fP * \fBGetInfo\fP () const =0"
+.br
+.ti -1c
+.RI "\fBvoid\fP \fBSetFileScale\fP (double scale)"
+.br
+.ti -1c
+.RI "\fBvoid\fP \fBGetExtensionList\fP (std::set< std::string > &extensions)"
+.br
+.in -1c
+.SS "Static Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "static bool \fBSearchFileHeaderForToken\fP (\fBIOSystem\fP *pIOSystem, const std::string &file, const char **tokens, std::size_t numTokens, unsigned int searchBytes=200, bool tokensSol=false, bool noAlphaBeforeTokens=false)"
+.br
+.ti -1c
+.RI "static bool \fBSimpleExtensionCheck\fP (const std::string &pFile, const char *ext0, const char *ext1=nullptr, const char *ext2=nullptr)"
+.br
+.RI "Check whether a file has a specific file extension\&. "
+.ti -1c
+.RI "static std::string \fBGetExtension\fP (const std::string &pFile)"
+.br
+.RI "Extract file extension from a string\&. "
+.ti -1c
+.RI "static bool \fBCheckMagicToken\fP (\fBIOSystem\fP *pIOHandler, const std::string &pFile, const \fBvoid\fP *magic, std::size_t num, unsigned int \fBoffset\fP=0, unsigned int \fBsize\fP=4)"
+.br
+.RI "Check whether a file starts with one or more magic tokens\&. "
+.ti -1c
+.RI "static \fBvoid\fP \fBConvertToUTF8\fP (std::vector< char > &\fBdata\fP)"
+.br
+.ti -1c
+.RI "static \fBvoid\fP \fBConvertUTF8toISO8859_1\fP (std::string &\fBdata\fP)"
+.br
+.ti -1c
+.RI "static \fBvoid\fP \fBTextFileToBuffer\fP (\fBIOStream\fP *\fBstream\fP, std::vector< char > &\fBdata\fP, \fBTextFileMode\fP \fBmode\fP=\fBFORBID_EMPTY\fP)"
+.br
+.ti -1c
+.RI "template<typename \fBT\fP > static \fBAI_FORCE_INLINE\fP \fBvoid\fP \fBCopyVector\fP (std::vector< \fBT\fP > &vec, \fBT\fP *&out, unsigned int &outLength)"
+.br
+.ti -1c
+.RI "template<typename \fBT\fP > static \fBAI_FORCE_INLINE\fP \fBvoid\fP \fBCopyVector\fP (std::vector< std::unique_ptr< \fBT\fP > > &vec, \fBT\fP **&out, unsigned int &outLength)"
+.br
+.in -1c
+.SS "Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "virtual \fBvoid\fP \fBInternReadFile\fP (const std::string &pFile, \fBaiScene\fP *pScene, \fBIOSystem\fP *pIOHandler)=0"
+.br
+.in -1c
+.SS "Protected Attributes"
+
+.in +1c
+.ti -1c
+.RI "double \fBimporterScale\fP = 1\&.0"
+.br
+.ti -1c
+.RI "double \fBfileScale\fP = 1\&.0"
+.br
+.ti -1c
+.RI "std::string \fBm_ErrorText\fP"
+.br
+.RI "Error description in case there was one\&. "
+.ti -1c
+.RI "std::exception_ptr \fBm_Exception\fP"
+.br
+.RI "The exception, in case there was one\&. "
+.ti -1c
+.RI "\fBProgressHandler\fP * \fBm_progress\fP"
+.br
+.RI "Currently set progress handler\&. "
+.in -1c
+.SS "Friends"
+
+.in +1c
+.ti -1c
+.RI "class \fBImporter\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+FOR IMPORTER PLUGINS ONLY: The \fBBaseImporter\fP defines a common interface for all importer worker classes\&.
+.PP
+The interface defines two functions: \fBCanRead()\fP is used to check if the importer can handle the format of the given file\&. If an implementation of this function returns true, the importer then calls \fBReadFile()\fP which imports the given file\&. ReadFile is not overridable, it just calls \fBInternReadFile()\fP and catches any ImportErrorException that might occur\&. 
+.SH "Member Enumeration Documentation"
+.PP 
+.SS "\fBenum\fP \fBAssimp::BaseImporter::TextFileMode\fP"
+
+.PP
+Enum to define, if empty files are ok or not\&. 
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIALLOW_EMPTY \fP\fP
+.TP
+\fB\fIFORBID_EMPTY \fP\fP
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "Assimp::BaseImporter::BaseImporter ()"
+Constructor to be privately used by \fBImporter\fP 
+.SS "virtual Assimp::BaseImporter::~BaseImporter ()\fR [virtual]\fP"
+Destructor, private as well 
+.SH "Member Function Documentation"
+.PP 
+.SS "virtual bool Assimp::BaseImporter::CanRead (const std::string & pFile, \fBIOSystem\fP * pIOHandler, bool checkSig) const\fR [pure virtual]\fP"
+Returns whether the class can handle the format of the given file\&.
+.PP
+The implementation is expected to perform a full check of the file structure, possibly searching the first bytes of the file for magic identifiers or keywords\&.
+.PP
+\fBParameters\fP
+.RS 4
+\fIpFile\fP Path and file name of the file to be examined\&. 
+.br
+\fIpIOHandler\fP The IO handler to use for accessing any file\&. 
+.br
+\fIcheckSig\fP Legacy; do not use\&. 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+true if the class can read this file, false if not or if unsure\&. 
+.RE
+.PP
+
+.SS "static bool Assimp::BaseImporter::CheckMagicToken (\fBIOSystem\fP * pIOHandler, const std::string & pFile, const \fBvoid\fP * magic, std::size_t num, unsigned int offset = \fR0\fP, unsigned int size = \fR4\fP)\fR [static]\fP"
+
+.PP
+Check whether a file starts with one or more magic tokens\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIpFile\fP Input file 
+.br
+\fIpIOHandler\fP IO system to be used 
+.br
+\fImagic\fP n magic tokens @params num Size of magic 
+.br
+\fIoffset\fP Offset from file start where tokens are located 
+.br
+\fISize\fP of one token, in bytes\&. Maximally 16 bytes\&. 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+true if one of the given tokens was found
+.RE
+.PP
+\fBNote\fP
+.RS 4
+For convenience, the check is also performed for the byte-swapped variant of all tokens (big endian)\&. Only for tokens of size 2,4\&. 
+.RE
+.PP
+
+.SS "static \fBvoid\fP Assimp::BaseImporter::ConvertToUTF8 (std::vector< char > & data)\fR [static]\fP"
+An utility for all text file loaders\&. It converts a file to our UTF8 character set\&. Errors are reported, but ignored\&.
+.PP
+\fBParameters\fP
+.RS 4
+\fIdata\fP File buffer to be converted to UTF8 data\&. The buffer is resized as appropriate\&. 
+.RE
+.PP
+
+.SS "static \fBvoid\fP Assimp::BaseImporter::ConvertUTF8toISO8859_1 (std::string & data)\fR [static]\fP"
+An utility for all text file loaders\&. It converts a file from our UTF8 character set back to ISO-8859-1\&. Errors are reported, but ignored\&.
+.PP
+\fBParameters\fP
+.RS 4
+\fIdata\fP File buffer to be converted from UTF8 to ISO-8859-1\&. The buffer is resized as appropriate\&. 
+.RE
+.PP
+
+.SS "template<typename \fBT\fP > static \fBAI_FORCE_INLINE\fP \fBvoid\fP Assimp::BaseImporter::CopyVector (std::vector< std::unique_ptr< \fBT\fP > > & vec, \fBT\fP **& out, unsigned int & outLength)\fR [inline]\fP, \fR [static]\fP"
+Utility function to move a std::vector of unique_ptrs into a \fBaiScene\fP array 
+.PP
+\fBParameters\fP
+.RS 4
+\fIvec\fP The vector of unique_ptrs to be moved 
+.br
+\fIout\fP The output pointer to the allocated array\&. 
+.br
+\fInumOut\fP The output count of elements copied\&. 
+.RE
+.PP
+
+.SS "template<typename \fBT\fP > static \fBAI_FORCE_INLINE\fP \fBvoid\fP Assimp::BaseImporter::CopyVector (std::vector< \fBT\fP > & vec, \fBT\fP *& out, unsigned int & outLength)\fR [inline]\fP, \fR [static]\fP"
+Utility function to move a std::vector into a \fBaiScene\fP array 
+.PP
+\fBParameters\fP
+.RS 4
+\fIvec\fP The vector to be moved 
+.br
+\fIout\fP The output pointer to the allocated array\&. 
+.br
+\fInumOut\fP The output count of elements copied\&. 
+.RE
+.PP
+
+.SS "const std::string & Assimp::BaseImporter::GetErrorText () const\fR [inline]\fP"
+Returns the error description of the last error that occurred\&. If the error is due to a std::exception, this will return the message\&. Exceptions can also be accessed with \fBGetException()\fP\&. 
+.PP
+\fBReturns\fP
+.RS 4
+A description of the last error that occurred\&. An empty string if there was no error\&. 
+.RE
+.PP
+
+.SS "const std::exception_ptr & Assimp::BaseImporter::GetException () const\fR [inline]\fP"
+Returns the exception of the last exception that occurred\&. Note: Exceptions are not the only source of error details, so GetErrorText should be consulted too\&. 
+.PP
+\fBReturns\fP
+.RS 4
+The last exception that occurred\&. 
+.RE
+.PP
+
+.SS "static std::string Assimp::BaseImporter::GetExtension (const std::string & pFile)\fR [static]\fP"
+
+.PP
+Extract file extension from a string\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIpFile\fP Input file 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+Extension without trailing dot, all lowercase 
+.RE
+.PP
+
+.SS "\fBvoid\fP Assimp::BaseImporter::GetExtensionList (std::set< std::string > & extensions)"
+Called by \fBImporter::GetExtensionList\fP for each loaded importer\&. Take the extension list contained in the structure returned by \fBGetInfo\fP and insert all file extensions into the given set\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIextension\fP set to collect file extensions in 
+.RE
+.PP
+
+.SS "virtual const \fBaiImporterDesc\fP * Assimp::BaseImporter::GetInfo () const\fR [pure virtual]\fP"
+Called by \fBImporter::GetImporterInfo\fP to get a description of some loader features\&. Importers must provide this information\&. 
+.SS "virtual \fBvoid\fP Assimp::BaseImporter::InternReadFile (const std::string & pFile, \fBaiScene\fP * pScene, \fBIOSystem\fP * pIOHandler)\fR [protected]\fP, \fR [pure virtual]\fP"
+Imports the given file into the given scene structure\&. The function is expected to throw an ImportErrorException if there is an error\&. If it terminates normally, the data in \fBaiScene\fP is expected to be correct\&. Override this function to implement the actual importing\&. 
+.br
+ The output scene must meet the following requirements:
+.br
+ 
+.PD 0
+.IP "\(bu" 2
+At least a root node must be there, even if its only purpose is to reference one mesh\&. 
+.IP "\(bu" 2
+\fBaiMesh::mPrimitiveTypes\fP may be 0\&. The types of primitives in the mesh are determined automatically in this case\&. 
+.IP "\(bu" 2
+the vertex data is stored in a pseudo-indexed 'verbose' format\&. In fact this means that every vertex that is referenced by a face is unique\&. Or the other way round: a vertex index may not occur twice in a single \fBaiMesh\fP\&. 
+.IP "\(bu" 2
+\fBaiAnimation::mDuration\fP may be -1\&. \fBAssimp\fP determines the length of the animation automatically in this case as the length of the longest animation channel\&. 
+.IP "\(bu" 2
+\fBaiMesh::mBitangents\fP may be nullptr if tangents and normals are given\&. In this case bitangents are computed as the cross product between normal and tangent\&. 
+.IP "\(bu" 2
+There needn't be a material\&. If none is there a default material is generated\&. However, it is recommended practice for loaders to generate a default material for yourself that matches the default material setting for the file format better than \fBAssimp\fP's generic default material\&. Note that default materials \fIshould\fP be named AI_DEFAULT_MATERIAL_NAME if they're just color-shaded or AI_DEFAULT_TEXTURED_MATERIAL_NAME if they define a (dummy) texture\&.  
+.PP
+If the AI_SCENE_FLAGS_INCOMPLETE-Flag is \fBnot\fP set:
+.PD 0
+.IP "\(bu" 2
+at least one mesh must be there 
+.IP "\(bu" 2
+there may be no meshes with 0 vertices or faces 
+.PP
+This won't be checked (except by the validation step): \fBAssimp\fP will crash if one of the conditions is not met!
+.PP
+\fBParameters\fP
+.RS 4
+\fIpFile\fP Path of the file to be imported\&. 
+.br
+\fIpScene\fP The scene object to hold the imported data\&. nullptr is not a valid parameter\&. 
+.br
+\fIpIOHandler\fP The IO handler to use for any file access\&. nullptr is not a valid parameter\&. 
+.RE
+.PP
+
+.SS "\fBaiScene\fP * Assimp::BaseImporter::ReadFile (\fBImporter\fP * pImp, const std::string & pFile, \fBIOSystem\fP * pIOHandler)"
+Imports the given file and returns the imported data\&. If the import succeeds, ownership of the data is transferred to the caller\&. If the import fails, nullptr is returned\&. The function takes care that any partially constructed data is destroyed beforehand\&.
+.PP
+\fBParameters\fP
+.RS 4
+\fIpImp\fP \fBImporter\fP object hosting this loader\&. 
+.br
+\fIpFile\fP Path of the file to be imported\&. 
+.br
+\fIpIOHandler\fP IO-Handler used to open this and possible other files\&. 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+The imported data or nullptr if failed\&. If it failed a human-readable error description can be retrieved by calling \fBGetErrorText()\fP
+.RE
+.PP
+\fBNote\fP
+.RS 4
+This function is not intended to be overridden\&. Implement \fBInternReadFile()\fP to do the import\&. If an exception is thrown somewhere in \fBInternReadFile()\fP, this function will catch it and transform it into a suitable response to the caller\&. 
+.RE
+.PP
+
+.SS "static bool Assimp::BaseImporter::SearchFileHeaderForToken (\fBIOSystem\fP * pIOSystem, const std::string & file, const char ** tokens, std::size_t numTokens, unsigned int searchBytes = \fR200\fP, bool tokensSol = \fRfalse\fP, bool noAlphaBeforeTokens = \fRfalse\fP)\fR [static]\fP"
+A utility for \fBCanRead()\fP\&.
+.PP
+The function searches the header of a file for a specific token and returns true if this token is found\&. This works for text files only\&. There is a rudimentary handling of UNICODE files\&. The comparison is case independent\&.
+.PP
+\fBParameters\fP
+.RS 4
+\fIpIOSystem\fP IO System to work with 
+.br
+\fIfile\fP File name of the file 
+.br
+\fItokens\fP List of tokens to search for 
+.br
+\fInumTokens\fP Size of the token array 
+.br
+\fIsearchBytes\fP Number of bytes to be searched for the tokens\&. 
+.RE
+.PP
+
+.SS "\fBvoid\fP Assimp::BaseImporter::SetFileScale (double scale)\fR [inline]\fP"
+Will be called only by scale process when scaling is requested\&. 
+.SS "virtual \fBvoid\fP Assimp::BaseImporter::SetupProperties (const \fBImporter\fP * pImp)\fR [virtual]\fP"
+Called prior to \fBReadFile()\fP\&. The function is a request to the importer to update its configuration basing on the \fBImporter\fP's configuration property list\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIpImp\fP \fBImporter\fP instance 
+.RE
+.PP
+
+.SS "static bool Assimp::BaseImporter::SimpleExtensionCheck (const std::string & pFile, const char * ext0, const char * ext1 = \fRnullptr\fP, const char * ext2 = \fRnullptr\fP)\fR [static]\fP"
+
+.PP
+Check whether a file has a specific file extension\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIpFile\fP Input file 
+.br
+\fIext0\fP Extension to check for\&. Lowercase characters only, no dot! 
+.br
+\fIext1\fP Optional second extension 
+.br
+\fIext2\fP Optional third extension 
+.RE
+.PP
+\fBNote\fP
+.RS 4
+Case-insensitive 
+.RE
+.PP
+
+.SS "static \fBvoid\fP Assimp::BaseImporter::TextFileToBuffer (\fBIOStream\fP * stream, std::vector< char > & data, \fBTextFileMode\fP mode = \fR\fBFORBID_EMPTY\fP\fP)\fR [static]\fP"
+Utility for text file loaders which copies the contents of the file into a memory buffer and converts it to our UTF8 representation\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIstream\fP Stream to read from\&. 
+.br
+\fIdata\fP Output buffer to be resized and filled with the converted text file data\&. The buffer is terminated with a binary 0\&. 
+.br
+\fImode\fP Whether it is OK to load empty text files\&. 
+.RE
+.PP
+
+.SH "Friends And Related Symbol Documentation"
+.PP 
+.SS "friend class \fBImporter\fP\fR [friend]\fP"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "double Assimp::BaseImporter::fileScale = 1\&.0\fR [protected]\fP"
+
+.SS "double Assimp::BaseImporter::importerScale = 1\&.0\fR [protected]\fP"
+
+.SS "std::string Assimp::BaseImporter::m_ErrorText\fR [protected]\fP"
+
+.PP
+Error description in case there was one\&. 
+.SS "std::exception_ptr Assimp::BaseImporter::m_Exception\fR [protected]\fP"
+
+.PP
+The exception, in case there was one\&. 
+.SS "\fBProgressHandler\fP* Assimp::BaseImporter::m_progress\fR [protected]\fP"
+
+.PP
+Currently set progress handler\&. 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

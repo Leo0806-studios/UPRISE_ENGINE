@@ -1,0 +1,596 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_cimport_8h_source" xml:lang="en-US">
+<title>cimport.h</title>
+<indexterm><primary>adhed/assimp/cimport.h</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 <emphasis role="comment">/*</emphasis>
+2 <emphasis role="comment">---------------------------------------------------------------------------</emphasis>
+3 <emphasis role="comment">Open&#32;Asset&#32;Import&#32;Library&#32;(assimp)</emphasis>
+4 <emphasis role="comment">---------------------------------------------------------------------------</emphasis>
+5 <emphasis role="comment"></emphasis>
+6 <emphasis role="comment">Copyright&#32;(c)&#32;2006-2022,&#32;assimp&#32;team</emphasis>
+7 <emphasis role="comment"></emphasis>
+8 <emphasis role="comment">All&#32;rights&#32;reserved.</emphasis>
+9 <emphasis role="comment"></emphasis>
+10 <emphasis role="comment">Redistribution&#32;and&#32;use&#32;of&#32;this&#32;software&#32;in&#32;source&#32;and&#32;binary&#32;forms,</emphasis>
+11 <emphasis role="comment">with&#32;or&#32;without&#32;modification,&#32;are&#32;permitted&#32;provided&#32;that&#32;the&#32;following</emphasis>
+12 <emphasis role="comment">conditions&#32;are&#32;met:</emphasis>
+13 <emphasis role="comment"></emphasis>
+14 <emphasis role="comment">*&#32;Redistributions&#32;of&#32;source&#32;code&#32;must&#32;retain&#32;the&#32;above</emphasis>
+15 <emphasis role="comment">&#32;&#32;copyright&#32;notice,&#32;this&#32;list&#32;of&#32;conditions&#32;and&#32;the</emphasis>
+16 <emphasis role="comment">&#32;&#32;following&#32;disclaimer.</emphasis>
+17 <emphasis role="comment"></emphasis>
+18 <emphasis role="comment">*&#32;Redistributions&#32;in&#32;binary&#32;form&#32;must&#32;reproduce&#32;the&#32;above</emphasis>
+19 <emphasis role="comment">&#32;&#32;copyright&#32;notice,&#32;this&#32;list&#32;of&#32;conditions&#32;and&#32;the</emphasis>
+20 <emphasis role="comment">&#32;&#32;following&#32;disclaimer&#32;in&#32;the&#32;documentation&#32;and/or&#32;other</emphasis>
+21 <emphasis role="comment">&#32;&#32;materials&#32;provided&#32;with&#32;the&#32;distribution.</emphasis>
+22 <emphasis role="comment"></emphasis>
+23 <emphasis role="comment">*&#32;Neither&#32;the&#32;name&#32;of&#32;the&#32;assimp&#32;team,&#32;nor&#32;the&#32;names&#32;of&#32;its</emphasis>
+24 <emphasis role="comment">&#32;&#32;contributors&#32;may&#32;be&#32;used&#32;to&#32;endorse&#32;or&#32;promote&#32;products</emphasis>
+25 <emphasis role="comment">&#32;&#32;derived&#32;from&#32;this&#32;software&#32;without&#32;specific&#32;prior</emphasis>
+26 <emphasis role="comment">&#32;&#32;written&#32;permission&#32;of&#32;the&#32;assimp&#32;team.</emphasis>
+27 <emphasis role="comment"></emphasis>
+28 <emphasis role="comment">THIS&#32;SOFTWARE&#32;IS&#32;PROVIDED&#32;BY&#32;THE&#32;COPYRIGHT&#32;HOLDERS&#32;AND&#32;CONTRIBUTORS</emphasis>
+29 <emphasis role="comment">&quot;AS&#32;IS&quot;&#32;AND&#32;ANY&#32;EXPRESS&#32;OR&#32;IMPLIED&#32;WARRANTIES,&#32;INCLUDING,&#32;BUT&#32;NOT</emphasis>
+30 <emphasis role="comment">LIMITED&#32;TO,&#32;THE&#32;IMPLIED&#32;WARRANTIES&#32;OF&#32;MERCHANTABILITY&#32;AND&#32;FITNESS&#32;FOR</emphasis>
+31 <emphasis role="comment">A&#32;PARTICULAR&#32;PURPOSE&#32;ARE&#32;DISCLAIMED.&#32;IN&#32;NO&#32;EVENT&#32;SHALL&#32;THE&#32;COPYRIGHT</emphasis>
+32 <emphasis role="comment">OWNER&#32;OR&#32;CONTRIBUTORS&#32;BE&#32;LIABLE&#32;FOR&#32;ANY&#32;DIRECT,&#32;INDIRECT,&#32;INCIDENTAL,</emphasis>
+33 <emphasis role="comment">SPECIAL,&#32;EXEMPLARY,&#32;OR&#32;CONSEQUENTIAL&#32;DAMAGES&#32;(INCLUDING,&#32;BUT&#32;NOT</emphasis>
+34 <emphasis role="comment">LIMITED&#32;TO,&#32;PROCUREMENT&#32;OF&#32;SUBSTITUTE&#32;GOODS&#32;OR&#32;SERVICES;&#32;LOSS&#32;OF&#32;USE,</emphasis>
+35 <emphasis role="comment">DATA,&#32;OR&#32;PROFITS;&#32;OR&#32;BUSINESS&#32;INTERRUPTION)&#32;HOWEVER&#32;CAUSED&#32;AND&#32;ON&#32;ANY</emphasis>
+36 <emphasis role="comment">THEORY&#32;OF&#32;LIABILITY,&#32;WHETHER&#32;IN&#32;CONTRACT,&#32;STRICT&#32;LIABILITY,&#32;OR&#32;TORT</emphasis>
+37 <emphasis role="comment">(INCLUDING&#32;NEGLIGENCE&#32;OR&#32;OTHERWISE)&#32;ARISING&#32;IN&#32;ANY&#32;WAY&#32;OUT&#32;OF&#32;THE&#32;USE</emphasis>
+38 <emphasis role="comment">OF&#32;THIS&#32;SOFTWARE,&#32;EVEN&#32;IF&#32;ADVISED&#32;OF&#32;THE&#32;POSSIBILITY&#32;OF&#32;SUCH&#32;DAMAGE.</emphasis>
+39 <emphasis role="comment">---------------------------------------------------------------------------</emphasis>
+40 <emphasis role="comment">*/</emphasis>
+41 
+45 <emphasis role="preprocessor">#pragma&#32;once</emphasis>
+46 <emphasis role="preprocessor">#ifndef&#32;AI_ASSIMP_H_INC</emphasis>
+47 <emphasis role="preprocessor">#define&#32;AI_ASSIMP_H_INC</emphasis>
+48 
+49 <emphasis role="preprocessor">#ifdef&#32;__GNUC__</emphasis>
+50 <emphasis role="preprocessor">#pragma&#32;GCC&#32;system_header</emphasis>
+51 <emphasis role="preprocessor">#endif</emphasis>
+52 
+53 <emphasis role="preprocessor">#include&#32;&lt;<link linkend="_importerdesc_8h">assimp/importerdesc.h</link>&gt;</emphasis>
+54 <emphasis role="preprocessor">#include&#32;&lt;<link linkend="_types_8h">assimp/types.h</link>&gt;</emphasis>
+55 
+56 <emphasis role="preprocessor">#ifdef&#32;__cplusplus</emphasis>
+57 <emphasis role="keyword">extern</emphasis>&#32;<emphasis role="stringliteral">&quot;C&quot;</emphasis>&#32;{
+58 <emphasis role="preprocessor">#endif</emphasis>
+59 
+60 <emphasis role="keyword">struct&#32;</emphasis><link linkend="_structai_scene">aiScene</link>;
+61 <emphasis role="keyword">struct&#32;</emphasis><link linkend="_structai_file_i_o">aiFileIO</link>;
+62 
+63 <emphasis role="keyword">typedef</emphasis>&#32;<link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link>&#32;(*<link linkend="_cimport_8h_1a8de903c645dbd8b4f4446c62afa4101b">aiLogStreamCallback</link>)(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*&#32;<emphasis role="comment">/*&#32;message&#32;*/</emphasis>,&#32;<emphasis role="keywordtype">char</emphasis>&#32;*&#32;<emphasis role="comment">/*&#32;user&#32;*/</emphasis>);
+64 
+65 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+71 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+72 <emphasis role="keyword">struct&#32;</emphasis><link linkend="_structai_log_stream">aiLogStream</link>&#32;{
+74 &#32;&#32;&#32;&#32;<link linkend="_cimport_8h_1a8de903c645dbd8b4f4446c62afa4101b">aiLogStreamCallback</link>&#32;<link linkend="_structai_log_stream_1ac73ae46eee54ba0f920d6abb97c33e97">callback</link>;
+75 
+77 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">char</emphasis>&#32;*<link linkend="_structai_log_stream_1a3382042e4171a6dd5a71d7f98741f86e">user</link>;
+78 };
+79 
+80 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+90 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+91 <emphasis role="keyword">struct&#32;</emphasis><link linkend="_structai_property_store">aiPropertyStore</link>&#32;{
+92 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">char</emphasis>&#32;<link linkend="_structai_property_store_1a53e97983bdbe38c596c7879555dc42a3">sentinel</link>;
+93 };
+94 
+96 <emphasis role="keyword">typedef</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_cimport_8h_1aaf9b3b6ed742722b3d0bbff0f4621691">aiBool</link>;
+97 
+98 <emphasis role="preprocessor">#define&#32;AI_FALSE&#32;0</emphasis>
+99 <emphasis role="preprocessor">#define&#32;AI_TRUE&#32;1</emphasis>
+100 
+101 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+117 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_scene">aiScene</link>&#32;*<link linkend="_cimport_8h_1a5b07b5b6589ad33033c2d456cd95da2b">aiImportFile</link>(
+118 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*pFile,
+119 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;pFlags);
+120 
+121 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+142 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_scene">aiScene</link>&#32;*<link linkend="_cimport_8h_1a5345c1c24a0e4b71fff9b485adb11e00">aiImportFileEx</link>(
+143 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*pFile,
+144 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;pFlags,
+145 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_file_i_o">aiFileIO</link>&#32;*pFS);
+146 
+147 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+163 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_scene">aiScene</link>&#32;*<link linkend="_cimport_8h_1a7060b00dbb8a17fa117526f9e0daa139">aiImportFileExWithProperties</link>(
+164 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*pFile,
+165 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;pFlags,
+166 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_file_i_o">aiFileIO</link>&#32;*pFS,
+167 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_property_store">aiPropertyStore</link>&#32;*pProps);
+168 
+169 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+200 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_scene">aiScene</link>&#32;*<link linkend="_cimport_8h_1ae6c501bf96d364eec7105560787105ff">aiImportFileFromMemory</link>(
+201 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*<link linkend="_d3d12video_8idl_1adebbca472aa0dd274a8ec93e30ddfcd1">pBuffer</link>,
+202 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;pLength,
+203 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;pFlags,
+204 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*pHint);
+205 
+206 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+234 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_scene">aiScene</link>&#32;*<link linkend="_cimport_8h_1a5d8236ae1116d5140a40b65bfd01a145">aiImportFileFromMemoryWithProperties</link>(
+235 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*<link linkend="_d3d12video_8idl_1adebbca472aa0dd274a8ec93e30ddfcd1">pBuffer</link>,
+236 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;pLength,
+237 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;pFlags,
+238 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*pHint,
+239 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_property_store">aiPropertyStore</link>&#32;*pProps);
+240 
+241 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+256 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_scene">aiScene</link>&#32;*<link linkend="_cimport_8h_1af18a83214bad29e8582c7d2ac7be3f14">aiApplyPostProcessing</link>(
+257 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_scene">aiScene</link>&#32;*pScene,
+258 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;pFlags);
+259 
+260 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+280 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_log_stream">aiLogStream</link>&#32;<link linkend="_cimport_8h_1ad7e375d7b134ec590e812ad1f50eab94">aiGetPredefinedLogStream</link>(
+281 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1aa8c1788fd9d096036c9e3b6cfe4b1301">C_ENUM</link>&#32;<link linkend="_types_8h_1ae4271f61a7c06cd4770fc3e11f58f9c6">aiDefaultLogStream</link>&#32;pStreams,
+282 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*file);
+283 
+284 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+294 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1a75c5aa6027cb059e63b3dda005c9c149">aiAttachLogStream</link>(
+295 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_log_stream">aiLogStream</link>&#32;*<link linkend="_glad_8h_1ad02d2488127e1cf9a27262c4ee30ba85">stream</link>);
+296 
+297 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+304 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1a54a7485c9422348b2f20adcbd192ed64">aiEnableVerboseLogging</link>(<link linkend="_cimport_8h_1aaf9b3b6ed742722b3d0bbff0f4621691">aiBool</link>&#32;d);
+305 
+306 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+315 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<link linkend="_defs_8h_1aa8c1788fd9d096036c9e3b6cfe4b1301">C_ENUM</link>&#32;<link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link>&#32;<link linkend="_cimport_8h_1a98ad05bb95e8f8157a97c133812a1597">aiDetachLogStream</link>(
+316 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_log_stream">aiLogStream</link>&#32;*<link linkend="_glad_8h_1ad02d2488127e1cf9a27262c4ee30ba85">stream</link>);
+317 
+318 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+326 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1a8f1fe2e8ccc5f93484098114ae7071bf">aiDetachAllLogStreams</link>(<emphasis role="keywordtype">void</emphasis>);
+327 
+328 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+334 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1a9d360f95be3deb87f40abf25d4c047dc">aiReleaseImport</link>(
+335 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_scene">aiScene</link>&#32;*pScene);
+336 
+337 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+344 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*<link linkend="_cimport_8h_1a512bfa5aca8613168d8c5246e09b3935">aiGetErrorString</link>(<emphasis role="keywordtype">void</emphasis>);
+345 
+346 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+353 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<link linkend="_cimport_8h_1aaf9b3b6ed742722b3d0bbff0f4621691">aiBool</link>&#32;<link linkend="_cimport_8h_1adf7ad488ca981fc8800e48e35ddc49e9">aiIsExtensionSupported</link>(
+354 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*szExtension);
+355 
+356 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+364 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1a99cec86f7950963c0c9ecda87a2e07e2">aiGetExtensionList</link>(
+365 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_string">aiString</link>&#32;*szOut);
+366 
+367 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+372 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1acf5b67b3700dc01b5f847ad077895e59">aiGetMemoryRequirements</link>(
+373 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_scene">aiScene</link>&#32;*pIn,
+374 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_memory_info">aiMemoryInfo</link>&#32;*in);
+375 
+376 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+382 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_property_store">aiPropertyStore</link>&#32;*<link linkend="_cimport_8h_1a1c142eb7bcb709482d97a63d4ce6f809">aiCreatePropertyStore</link>(<emphasis role="keywordtype">void</emphasis>);
+383 
+384 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+388 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1a579dddd75dbba5621c235df780ffc3e6">aiReleasePropertyStore</link>(<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_property_store">aiPropertyStore</link>&#32;*p);
+389 
+390 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+402 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1a77fe5bf63f5b7811b10fb1ea072cd995">aiSetImportPropertyInteger</link>(
+403 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_property_store">aiPropertyStore</link>&#32;*store,
+404 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*szName,
+405 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>);
+406 
+407 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+419 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1a7a3fdb2a587ce72c66182b87465d664d">aiSetImportPropertyFloat</link>(
+420 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_property_store">aiPropertyStore</link>&#32;*store,
+421 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*szName,
+422 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1af221f9bbc3e0dc43a46efaaac6dab067">ai_real</link>&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>);
+423 
+424 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+436 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1a0c6f78241e9ec7b2470d193858baf22d">aiSetImportPropertyString</link>(
+437 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_property_store">aiPropertyStore</link>&#32;*store,
+438 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*szName,
+439 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_string">aiString</link>&#32;*st);
+440 
+441 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+453 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1a9c55a41ee04a8bf624d2a735eebf4c87">aiSetImportPropertyMatrix</link>(
+454 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_property_store">aiPropertyStore</link>&#32;*store,
+455 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*szName,
+456 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_matrix4x4">aiMatrix4x4</link>&#32;*mat);
+457 
+458 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+464 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1a6fa70de0a410d942b75102d605d700f3">aiCreateQuaternionFromMatrix</link>(
+465 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_quaternion">aiQuaternion</link>&#32;*quat,
+466 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_matrix3x3">aiMatrix3x3</link>&#32;*mat);
+467 
+468 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+478 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1a59f68c25251aefbd560582cfe39b9287">aiDecomposeMatrix</link>(
+479 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_matrix4x4">aiMatrix4x4</link>&#32;*mat,
+480 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&#32;*scaling,
+481 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_quaternion">aiQuaternion</link>&#32;*rotation,
+482 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&#32;*position);
+483 
+484 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+488 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1a884f06d627cc76df36c9b4ba67801997">aiTransposeMatrix4</link>(
+489 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_matrix4x4">aiMatrix4x4</link>&#32;*mat);
+490 
+491 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+495 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1af4b7283f4fab57fe71d5ba2efa65e620">aiTransposeMatrix3</link>(
+496 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_matrix3x3">aiMatrix3x3</link>&#32;*mat);
+497 
+498 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+503 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1a3b4fbac8311e9a41c558a0d0798a3e04">aiTransformVecByMatrix3</link>(
+504 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&#32;*vec,
+505 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_matrix3x3">aiMatrix3x3</link>&#32;*mat);
+506 
+507 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+512 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1ae5fedd4e5296d335c3afd51cca4f180e">aiTransformVecByMatrix4</link>(
+513 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&#32;*vec,
+514 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_matrix4x4">aiMatrix4x4</link>&#32;*mat);
+515 
+516 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+521 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1addcc9b42dd7afac376679bc66a98fb4e">aiMultiplyMatrix4</link>(
+522 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_matrix4x4">aiMatrix4x4</link>&#32;*<link linkend="_glad_8h_1a85e59cd56e10d0a7f49ab199f277d486">dst</link>,
+523 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_matrix4x4">aiMatrix4x4</link>&#32;*<link linkend="_glad_8h_1a2a98ddb6f79ec1048ff9e15cdd2422ba">src</link>);
+524 
+525 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+530 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1a756317f04e6b1f1fdbda294a0fc9d8b2">aiMultiplyMatrix3</link>(
+531 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_matrix3x3">aiMatrix3x3</link>&#32;*<link linkend="_glad_8h_1a85e59cd56e10d0a7f49ab199f277d486">dst</link>,
+532 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_matrix3x3">aiMatrix3x3</link>&#32;*<link linkend="_glad_8h_1a2a98ddb6f79ec1048ff9e15cdd2422ba">src</link>);
+533 
+534 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+538 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1a1e1bf11ec19f8be587c767f3910384ee">aiIdentityMatrix3</link>(
+539 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_matrix3x3">aiMatrix3x3</link>&#32;*mat);
+540 
+541 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+545 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1ae7af650c79ce312146d55c46f3484508">aiIdentityMatrix4</link>(
+546 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_matrix4x4">aiMatrix4x4</link>&#32;*mat);
+547 
+548 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+552 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_cimport_8h_1a0052bf974030e06a5f6b2a4c5d2c5d0d">aiGetImportFormatCount</link>(<emphasis role="keywordtype">void</emphasis>);
+553 
+554 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+561 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_importer_desc">aiImporterDesc</link>&#32;*<link linkend="_cimport_8h_1adcab8dc8878d51852201153fe6ee3e23">aiGetImportFormatDescription</link>(<emphasis role="keywordtype">size_t</emphasis>&#32;pIndex);
+562 
+563 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+570 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_cimport_8h_1afdacb5f39a783fd63acb60f662aea88f">aiVector2AreEqual</link>(
+571 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector2_d">aiVector2D</link>&#32;*<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>,
+572 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector2_d">aiVector2D</link>&#32;*<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>);
+573 
+574 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+582 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_cimport_8h_1a303ee3d48123b4db9c2d3cdcf290d9dd">aiVector2AreEqualEpsilon</link>(
+583 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector2_d">aiVector2D</link>&#32;*<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>,
+584 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector2_d">aiVector2D</link>&#32;*<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>,
+585 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">float</emphasis>&#32;epsilon);
+586 
+587 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+592 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1aa19faec79505e0b382d43744d0422787">aiVector2Add</link>(
+593 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector2_d">aiVector2D</link>&#32;*<link linkend="_glad_8h_1a85e59cd56e10d0a7f49ab199f277d486">dst</link>,
+594 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector2_d">aiVector2D</link>&#32;*<link linkend="_glad_8h_1a2a98ddb6f79ec1048ff9e15cdd2422ba">src</link>);
+595 
+596 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+601 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1a960a22e7f4332ef0d2821c50c2a546e0">aiVector2Subtract</link>(
+602 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector2_d">aiVector2D</link>&#32;*<link linkend="_glad_8h_1a85e59cd56e10d0a7f49ab199f277d486">dst</link>,
+603 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector2_d">aiVector2D</link>&#32;*<link linkend="_glad_8h_1a2a98ddb6f79ec1048ff9e15cdd2422ba">src</link>);
+604 
+605 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+610 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1ab87d1ab7266e612681ce68cbbbdc742b">aiVector2Scale</link>(
+611 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector2_d">aiVector2D</link>&#32;*<link linkend="_glad_8h_1a85e59cd56e10d0a7f49ab199f277d486">dst</link>,
+612 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">float</emphasis>&#32;s);
+613 
+614 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+620 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1a6590a0c15d493f42328252794552957a">aiVector2SymMul</link>(
+621 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector2_d">aiVector2D</link>&#32;*<link linkend="_glad_8h_1a85e59cd56e10d0a7f49ab199f277d486">dst</link>,
+622 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector2_d">aiVector2D</link>&#32;*other);
+623 
+624 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+629 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1ac5745147ee76fa3e9b328d3e07d3c02e">aiVector2DivideByScalar</link>(
+630 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector2_d">aiVector2D</link>&#32;*<link linkend="_glad_8h_1a85e59cd56e10d0a7f49ab199f277d486">dst</link>,
+631 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">float</emphasis>&#32;s);
+632 
+633 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+639 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1a4860e0daf82b2258ed9981a1daf054d9">aiVector2DivideByVector</link>(
+640 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector2_d">aiVector2D</link>&#32;*<link linkend="_glad_8h_1a85e59cd56e10d0a7f49ab199f277d486">dst</link>,
+641 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector2_d">aiVector2D</link>&#32;*<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>);
+642 
+643 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+647 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">float</emphasis>&#32;<link linkend="_cimport_8h_1a59ba56a20ca296d89f18365dbc1151a8">aiVector2Length</link>(
+648 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector2_d">aiVector2D</link>&#32;*<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>);
+649 
+650 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+654 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">float</emphasis>&#32;<link linkend="_cimport_8h_1ad8de74c8402b2811410795baa916c55b">aiVector2SquareLength</link>(
+655 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector2_d">aiVector2D</link>&#32;*<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>);
+656 
+657 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+661 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1a435e92ce27e5b2dd702757d498d61259">aiVector2Negate</link>(
+662 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector2_d">aiVector2D</link>&#32;*<link linkend="_glad_8h_1a85e59cd56e10d0a7f49ab199f277d486">dst</link>);
+663 
+664 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+670 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">float</emphasis>&#32;<link linkend="_cimport_8h_1a8b5e27ca10c6a5895f1aa12a567a1aa8">aiVector2DotProduct</link>(
+671 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector2_d">aiVector2D</link>&#32;*<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>,
+672 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector2_d">aiVector2D</link>&#32;*<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>);
+673 
+674 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+678 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1a2cf329d38b545ad0d792fc59443720f7">aiVector2Normalize</link>(
+679 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector2_d">aiVector2D</link>&#32;*<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>);
+680 
+681 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+688 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_cimport_8h_1a82b300cfbfa90e0313e3c502367d2cd0">aiVector3AreEqual</link>(
+689 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&#32;*<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>,
+690 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&#32;*<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>);
+691 
+692 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+700 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_cimport_8h_1a8ccc11c2632f826405646bd7c428633e">aiVector3AreEqualEpsilon</link>(
+701 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&#32;*<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>,
+702 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&#32;*<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>,
+703 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">float</emphasis>&#32;epsilon);
+704 
+705 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+713 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_cimport_8h_1ab039f7f0231af6cf973344f2b9071345">aiVector3LessThan</link>(
+714 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&#32;*<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>,
+715 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&#32;*<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>);
+716 
+717 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+722 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1a043069a04f234039695b248c904f710d">aiVector3Add</link>(
+723 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&#32;*<link linkend="_glad_8h_1a85e59cd56e10d0a7f49ab199f277d486">dst</link>,
+724 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&#32;*<link linkend="_glad_8h_1a2a98ddb6f79ec1048ff9e15cdd2422ba">src</link>);
+725 
+726 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+731 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1addbab9671fbac4f81ec07dad443e725f">aiVector3Subtract</link>(
+732 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&#32;*<link linkend="_glad_8h_1a85e59cd56e10d0a7f49ab199f277d486">dst</link>,
+733 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&#32;*<link linkend="_glad_8h_1a2a98ddb6f79ec1048ff9e15cdd2422ba">src</link>);
+734 
+735 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+740 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1a465a1c389160c99113e9250b8b5b0fc4">aiVector3Scale</link>(
+741 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&#32;*<link linkend="_glad_8h_1a85e59cd56e10d0a7f49ab199f277d486">dst</link>,
+742 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">float</emphasis>&#32;s);
+743 
+744 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+750 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1a71009f6853344a64199d3ccc2be523d2">aiVector3SymMul</link>(
+751 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&#32;*<link linkend="_glad_8h_1a85e59cd56e10d0a7f49ab199f277d486">dst</link>,
+752 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&#32;*other);
+753 
+754 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+759 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1aba79aeb9d678f5a5f175565cd3bd8997">aiVector3DivideByScalar</link>(
+760 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&#32;*<link linkend="_glad_8h_1a85e59cd56e10d0a7f49ab199f277d486">dst</link>,
+761 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">float</emphasis>&#32;s);
+762 
+763 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+769 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1abdec89c729a8f85be791af243b4d1c52">aiVector3DivideByVector</link>(
+770 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&#32;*<link linkend="_glad_8h_1a85e59cd56e10d0a7f49ab199f277d486">dst</link>,
+771 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&#32;*<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>);
+772 
+773 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+777 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">float</emphasis>&#32;<link linkend="_cimport_8h_1a3064f3b9e38e94edabdb6359d3972d6d">aiVector3Length</link>(
+778 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&#32;*<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>);
+779 
+780 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+784 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">float</emphasis>&#32;<link linkend="_cimport_8h_1af18a359694c6cbf1c074d3447a6838ed">aiVector3SquareLength</link>(
+785 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&#32;*<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>);
+786 
+787 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+791 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1a8f6e6d6b4a4596775dfe165e2b32dcdc">aiVector3Negate</link>(
+792 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&#32;*<link linkend="_glad_8h_1a85e59cd56e10d0a7f49ab199f277d486">dst</link>);
+793 
+794 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+800 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">float</emphasis>&#32;<link linkend="_cimport_8h_1a8ab27d289a4a383d97105b72c98c277c">aiVector3DotProduct</link>(
+801 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&#32;*<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>,
+802 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&#32;*<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>);
+803 
+804 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+811 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1a2a14800504f7548ee93ca406025e187b">aiVector3CrossProduct</link>(
+812 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&#32;*<link linkend="_glad_8h_1a85e59cd56e10d0a7f49ab199f277d486">dst</link>,
+813 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&#32;*<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>,
+814 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&#32;*<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>);
+815 
+816 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+820 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1abcdd1e68af302f6505d6cb2c0063b158">aiVector3Normalize</link>(
+821 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&#32;*<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>);
+822 
+823 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+827 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1a623783417aac17ea9e1453d05f3f06b0">aiVector3NormalizeSafe</link>(
+828 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&#32;*<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>);
+829 
+830 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+835 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1a9a50bb28963ae12b229b1a0e2e8f72fe">aiVector3RotateByQuaternion</link>(
+836 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&#32;*<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>,
+837 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_quaternion">aiQuaternion</link>&#32;*q);
+838 
+839 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+844 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1a3c08715c4cff3156db831d1c168ad75c">aiMatrix3FromMatrix4</link>(
+845 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_matrix3x3">aiMatrix3x3</link>&#32;*<link linkend="_glad_8h_1a85e59cd56e10d0a7f49ab199f277d486">dst</link>,
+846 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_matrix4x4">aiMatrix4x4</link>&#32;*mat);
+847 
+848 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+853 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1a210e38de6e4840f51df0b4609d9e6f3b">aiMatrix3FromQuaternion</link>(
+854 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_matrix3x3">aiMatrix3x3</link>&#32;*mat,
+855 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_quaternion">aiQuaternion</link>&#32;*q);
+856 
+857 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+864 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_cimport_8h_1a110da1b8c6b45f2b3952608e22accf95">aiMatrix3AreEqual</link>(
+865 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_matrix3x3">aiMatrix3x3</link>&#32;*<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>,
+866 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_matrix3x3">aiMatrix3x3</link>&#32;*<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>);
+867 
+868 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+876 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_cimport_8h_1a4aa00973c551b9e152796e4f366beefb">aiMatrix3AreEqualEpsilon</link>(
+877 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_matrix3x3">aiMatrix3x3</link>&#32;*<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>,
+878 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_matrix3x3">aiMatrix3x3</link>&#32;*<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>,
+879 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">float</emphasis>&#32;epsilon);
+880 
+881 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+885 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1a908df55e96d0325cdc11cb4046b3924e">aiMatrix3Inverse</link>(
+886 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_matrix3x3">aiMatrix3x3</link>&#32;*mat);
+887 
+888 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+892 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">float</emphasis>&#32;<link linkend="_cimport_8h_1ac6216a1aeaa9bb0113c55babfcfe718a">aiMatrix3Determinant</link>(
+893 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_matrix3x3">aiMatrix3x3</link>&#32;*mat);
+894 
+895 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+900 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1ab92b0b84fe56833684bf0a6daa09375a">aiMatrix3RotationZ</link>(
+901 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_matrix3x3">aiMatrix3x3</link>&#32;*mat,
+902 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">float</emphasis>&#32;angle);
+903 
+904 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+910 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1af9aa9c1b191f70daedf197830f3ebceb">aiMatrix3FromRotationAroundAxis</link>(
+911 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_matrix3x3">aiMatrix3x3</link>&#32;*mat,
+912 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&#32;*axis,
+913 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">float</emphasis>&#32;angle);
+914 
+915 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+920 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1a629bb259d1fb0d1642bca1ad193a1a15">aiMatrix3Translation</link>(
+921 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_matrix3x3">aiMatrix3x3</link>&#32;*mat,
+922 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector2_d">aiVector2D</link>&#32;*translation);
+923 
+924 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+930 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1a6cbf731a617e671036daf330b8a24d11">aiMatrix3FromTo</link>(
+931 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_matrix3x3">aiMatrix3x3</link>&#32;*mat,
+932 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&#32;*from,
+933 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&#32;*to);
+934 
+935 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+940 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1aff9e67a646bcbee082a04f3263c3b370">aiMatrix4FromMatrix3</link>(
+941 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_matrix4x4">aiMatrix4x4</link>&#32;*<link linkend="_glad_8h_1a85e59cd56e10d0a7f49ab199f277d486">dst</link>,
+942 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_matrix3x3">aiMatrix3x3</link>&#32;*mat);
+943 
+944 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+951 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1a6862bf926075ef8f31d30bb7deebadb7">aiMatrix4FromScalingQuaternionPosition</link>(
+952 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_matrix4x4">aiMatrix4x4</link>&#32;*mat,
+953 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&#32;*scaling,
+954 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_quaternion">aiQuaternion</link>&#32;*rotation,
+955 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&#32;*position);
+956 
+957 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+962 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1ac776cef5575489668b3a6d9dc4b5b9bb">aiMatrix4Add</link>(
+963 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_matrix4x4">aiMatrix4x4</link>&#32;*<link linkend="_glad_8h_1a85e59cd56e10d0a7f49ab199f277d486">dst</link>,
+964 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_matrix4x4">aiMatrix4x4</link>&#32;*<link linkend="_glad_8h_1a2a98ddb6f79ec1048ff9e15cdd2422ba">src</link>);
+965 
+966 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+973 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_cimport_8h_1ade5fc9bc42ce480302bbc46dca0a1f71">aiMatrix4AreEqual</link>(
+974 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_matrix4x4">aiMatrix4x4</link>&#32;*<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>,
+975 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_matrix4x4">aiMatrix4x4</link>&#32;*<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>);
+976 
+977 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+985 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_cimport_8h_1a1cb3dc49cf49438e3e119f749ebbb89a">aiMatrix4AreEqualEpsilon</link>(
+986 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_matrix4x4">aiMatrix4x4</link>&#32;*<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>,
+987 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_matrix4x4">aiMatrix4x4</link>&#32;*<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>,
+988 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">float</emphasis>&#32;epsilon);
+989 
+990 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+994 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1a9f56eae7a0ff03b6959cc3e8f49c5471">aiMatrix4Inverse</link>(
+995 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_matrix4x4">aiMatrix4x4</link>&#32;*mat);
+996 
+997 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+1002 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">float</emphasis>&#32;<link linkend="_cimport_8h_1ae7359961d377445845bf7351d16f9e24">aiMatrix4Determinant</link>(
+1003 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_matrix4x4">aiMatrix4x4</link>&#32;*mat);
+1004 
+1005 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+1011 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_cimport_8h_1a614bf7c554b73ac4fb017232e9733f7c">aiMatrix4IsIdentity</link>(
+1012 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_matrix4x4">aiMatrix4x4</link>&#32;*mat);
+1013 
+1014 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+1023 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1acde8a130e1ceddfed3f6aaef9cfbc202">aiMatrix4DecomposeIntoScalingEulerAnglesPosition</link>(
+1024 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_matrix4x4">aiMatrix4x4</link>&#32;*mat,
+1025 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&#32;*scaling,
+1026 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&#32;*rotation,
+1027 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&#32;*position);
+1028 
+1029 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+1040 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1a9b9e8095af73bbcb7ece6522d1e5afab">aiMatrix4DecomposeIntoScalingAxisAnglePosition</link>(
+1041 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_matrix4x4">aiMatrix4x4</link>&#32;*mat,
+1042 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&#32;*scaling,
+1043 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&#32;*axis,
+1044 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1af221f9bbc3e0dc43a46efaaac6dab067">ai_real</link>&#32;*angle,
+1045 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&#32;*position);
+1046 
+1047 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+1055 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1a1088673571a5d1ac3f0d350b1ec64eee">aiMatrix4DecomposeNoScaling</link>(
+1056 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_matrix4x4">aiMatrix4x4</link>&#32;*mat,
+1057 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_quaternion">aiQuaternion</link>&#32;*rotation,
+1058 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&#32;*position);
+1059 
+1060 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+1067 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1a614f4e244dcf3675caff5e58e622c724">aiMatrix4FromEulerAngles</link>(
+1068 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_matrix4x4">aiMatrix4x4</link>&#32;*mat,
+1069 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">float</emphasis>&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<emphasis role="keywordtype">float</emphasis>&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>,&#32;<emphasis role="keywordtype">float</emphasis>&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>);
+1070 
+1071 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+1076 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1abd32525a685798f943c0d0879c6803f2">aiMatrix4RotationX</link>(
+1077 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_matrix4x4">aiMatrix4x4</link>&#32;*mat,
+1078 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">float</emphasis>&#32;angle);
+1079 
+1080 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+1085 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1a32ee0305287cd9acb71aee20a9f7dc26">aiMatrix4RotationY</link>(
+1086 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_matrix4x4">aiMatrix4x4</link>&#32;*mat,
+1087 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">float</emphasis>&#32;angle);
+1088 
+1089 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+1094 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1a522a8d4f06df87bad085a0ca52ae9b3a">aiMatrix4RotationZ</link>(
+1095 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_matrix4x4">aiMatrix4x4</link>&#32;*mat,
+1096 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">float</emphasis>&#32;angle);
+1097 
+1098 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+1104 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1a55c1f4c9f5a9e390be747e4d32ea01bd">aiMatrix4FromRotationAroundAxis</link>(
+1105 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_matrix4x4">aiMatrix4x4</link>&#32;*mat,
+1106 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&#32;*axis,
+1107 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">float</emphasis>&#32;angle);
+1108 
+1109 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+1114 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1acf1e51b238c89a591697b7c7b042a3e5">aiMatrix4Translation</link>(
+1115 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_matrix4x4">aiMatrix4x4</link>&#32;*mat,
+1116 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&#32;*translation);
+1117 
+1118 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+1123 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1ad817fd02b90bc03d272bbf70d1c475be">aiMatrix4Scaling</link>(
+1124 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_matrix4x4">aiMatrix4x4</link>&#32;*mat,
+1125 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&#32;*scaling);
+1126 
+1127 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+1133 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1adca34cb6c417e5f93facb179ee15b792">aiMatrix4FromTo</link>(
+1134 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_matrix4x4">aiMatrix4x4</link>&#32;*mat,
+1135 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&#32;*from,
+1136 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&#32;*to);
+1137 
+1138 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+1145 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1a5b91f777352483e071565305439ddc58">aiQuaternionFromEulerAngles</link>(
+1146 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_quaternion">aiQuaternion</link>&#32;*q,
+1147 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">float</emphasis>&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<emphasis role="keywordtype">float</emphasis>&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>,&#32;<emphasis role="keywordtype">float</emphasis>&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>);
+1148 
+1149 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+1155 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1a4905af66bbbc89a94b8ecd991404f27a">aiQuaternionFromAxisAngle</link>(
+1156 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_quaternion">aiQuaternion</link>&#32;*q,
+1157 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&#32;*axis,
+1158 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">float</emphasis>&#32;angle);
+1159 
+1160 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+1166 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1a40f1e286c016046d93b898a615a50d1d">aiQuaternionFromNormalizedQuaternion</link>(
+1167 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_quaternion">aiQuaternion</link>&#32;*q,
+1168 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&#32;*<link linkend="_glad_8h_1a66b8b19bdb6fb36da1c1baacf84f6750">normalized</link>);
+1169 
+1170 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+1177 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_cimport_8h_1ac0c4d303f2bc7a2c709c77b37ff8642e">aiQuaternionAreEqual</link>(
+1178 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_quaternion">aiQuaternion</link>&#32;*<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>,
+1179 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_quaternion">aiQuaternion</link>&#32;*<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>);
+1180 
+1181 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+1189 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_cimport_8h_1acfe60c5a39046c23735f56efb3fd2599">aiQuaternionAreEqualEpsilon</link>(
+1190 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_quaternion">aiQuaternion</link>&#32;*<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>,
+1191 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_quaternion">aiQuaternion</link>&#32;*<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>,
+1192 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">float</emphasis>&#32;epsilon);
+1193 
+1194 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+1198 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1a688b5b7f8c0ea71ee69cca9760363b85">aiQuaternionNormalize</link>(
+1199 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_quaternion">aiQuaternion</link>&#32;*q);
+1200 
+1201 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+1206 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1a7f95379c84b89a71039ef7d2f1f48ade">aiQuaternionConjugate</link>(
+1207 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_quaternion">aiQuaternion</link>&#32;*q);
+1208 
+1209 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+1214 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1a68b266354ba787b887edbb2197d5ec38">aiQuaternionMultiply</link>(
+1215 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_quaternion">aiQuaternion</link>&#32;*<link linkend="_glad_8h_1a85e59cd56e10d0a7f49ab199f277d486">dst</link>,
+1216 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_quaternion">aiQuaternion</link>&#32;*q);
+1217 
+1218 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------</emphasis>
+1225 <link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_cimport_8h_1a737dbdbfe30cf5cde4cd7ff52bd5e0ad">aiQuaternionInterpolate</link>(
+1226 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_quaternion">aiQuaternion</link>&#32;*<link linkend="_glad_8h_1a85e59cd56e10d0a7f49ab199f277d486">dst</link>,
+1227 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_quaternion">aiQuaternion</link>&#32;*<link linkend="_glad_8h_1ac55adc720a3098c1b454d2a4647f4361">start</link>,
+1228 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_quaternion">aiQuaternion</link>&#32;*<link linkend="_glad_8h_1a432111147038972f06e049e18a837002">end</link>,
+1229 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">float</emphasis>&#32;factor);
+1230 
+1231 <emphasis role="preprocessor">#ifdef&#32;__cplusplus</emphasis>
+1232 }
+1233 <emphasis role="preprocessor">#endif</emphasis>
+1234 
+1235 <emphasis role="preprocessor">#endif&#32;</emphasis><emphasis role="comment">//&#32;AI_ASSIMP_H_INC</emphasis>
+</programlisting></section>

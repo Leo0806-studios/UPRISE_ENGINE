@@ -1,0 +1,839 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_assimp_1_1_base_importer" xml:lang="en-US">
+<title>Assimp::BaseImporter Class Reference</title>
+<indexterm><primary>Assimp::BaseImporter</primary></indexterm>
+<para>
+<computeroutput>#include &lt;BaseImporter.h&gt;</computeroutput>
+</para>
+<simplesect>
+    <title>Public Types    </title>
+        <itemizedlist>
+            <listitem><para>enum <link linkend="_class_assimp_1_1_base_importer_1a9fe6b47937a7c897536cac1513b65eb7">TextFileMode</link> { <link linkend="_class_assimp_1_1_base_importer_1a9fe6b47937a7c897536cac1513b65eb7af10ad62259d2e54eff440019b345e309">ALLOW_EMPTY</link>
+, <link linkend="_class_assimp_1_1_base_importer_1a9fe6b47937a7c897536cac1513b65eb7ae507341521279743797bdce9f7a21081">FORBID_EMPTY</link>
+ }</para>
+
+<para>Enum to define, if empty files are ok or not. </para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Public Member Functions    </title>
+        <itemizedlist>
+            <listitem><para><link linkend="_class_assimp_1_1_base_importer_1a699aebae893f17b5a5dd415ae7bee7f0">BaseImporter</link> () <link linkend="_defs_8h_1ae032f18edd69bf6ba935ef9feb025a96">AI_NO_EXCEPT</link></para>
+</listitem>
+            <listitem><para>virtual <link linkend="_class_assimp_1_1_base_importer_1a26c31a016f1249acac85d81ecb7fa252">~BaseImporter</link> ()</para>
+</listitem>
+            <listitem><para>virtual bool <link linkend="_class_assimp_1_1_base_importer_1a13588d3396ba5b7ed1f1cb46e0945cfd">CanRead</link> (const std::string &amp;pFile, <link linkend="_class_assimp_1_1_i_o_system">IOSystem</link> *pIOHandler, bool checkSig) const =0</para>
+</listitem>
+            <listitem><para><link linkend="_structai_scene">aiScene</link> * <link linkend="_class_assimp_1_1_base_importer_1a2f5938785f722ebde616a30160bccde1">ReadFile</link> (<link linkend="_class_assimp_1_1_importer">Importer</link> *pImp, const std::string &amp;pFile, <link linkend="_class_assimp_1_1_i_o_system">IOSystem</link> *pIOHandler)</para>
+</listitem>
+            <listitem><para>const std::string &amp; <link linkend="_class_assimp_1_1_base_importer_1a285229c6bf59116b4653944ef7087727">GetErrorText</link> () const</para>
+</listitem>
+            <listitem><para>const std::exception_ptr &amp; <link linkend="_class_assimp_1_1_base_importer_1a27198204f4ef728968df429880564d60">GetException</link> () const</para>
+</listitem>
+            <listitem><para>virtual <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> <link linkend="_class_assimp_1_1_base_importer_1ac076d9136745e898d43d9ea8f0d0c586">SetupProperties</link> (const <link linkend="_class_assimp_1_1_importer">Importer</link> *pImp)</para>
+</listitem>
+            <listitem><para>virtual const <link linkend="_structai_importer_desc">aiImporterDesc</link> * <link linkend="_class_assimp_1_1_base_importer_1aea402563e886993c7b5c0d489288fa4c">GetInfo</link> () const =0</para>
+</listitem>
+            <listitem><para><link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> <link linkend="_class_assimp_1_1_base_importer_1a11b61c90b472d900d4f7e2d2f2219dac">SetFileScale</link> (double scale)</para>
+</listitem>
+            <listitem><para><link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> <link linkend="_class_assimp_1_1_base_importer_1a7a658f1192a37e336ba98fe701918b31">GetExtensionList</link> (std::set&lt; std::string &gt; &amp;extensions)</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Static Public Member Functions    </title>
+        <itemizedlist>
+            <listitem><para>static bool <link linkend="_class_assimp_1_1_base_importer_1a234178a50ec0fb7417b614946f15f1c4">SearchFileHeaderForToken</link> (<link linkend="_class_assimp_1_1_i_o_system">IOSystem</link> *pIOSystem, const std::string &amp;file, const char **tokens, std::size_t numTokens, unsigned int searchBytes=200, bool tokensSol=false, bool noAlphaBeforeTokens=false)</para>
+</listitem>
+            <listitem><para>static bool <link linkend="_class_assimp_1_1_base_importer_1a5c89d9ba6a5c39ed8a289348be4826d3">SimpleExtensionCheck</link> (const std::string &amp;pFile, const char *ext0, const char *ext1=nullptr, const char *ext2=nullptr)</para>
+
+<para>Check whether a file has a specific file extension. </para>
+</listitem>
+            <listitem><para>static std::string <link linkend="_class_assimp_1_1_base_importer_1a25edd42695863af078d2bab65077ce6c">GetExtension</link> (const std::string &amp;pFile)</para>
+
+<para>Extract file extension from a string. </para>
+</listitem>
+            <listitem><para>static bool <link linkend="_class_assimp_1_1_base_importer_1a6b42085bed85c180f080daab395e8832">CheckMagicToken</link> (<link linkend="_class_assimp_1_1_i_o_system">IOSystem</link> *pIOHandler, const std::string &amp;pFile, const <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> *magic, std::size_t num, unsigned int <link linkend="_glad_8h_1ae1b92ae085ddef4b1cdca7d749339fb0">offset</link>=0, unsigned int <link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>=4)</para>
+
+<para>Check whether a file starts with one or more magic tokens. </para>
+</listitem>
+            <listitem><para>static <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> <link linkend="_class_assimp_1_1_base_importer_1afc318aa0eb85b73f501156a50f3eb703">ConvertToUTF8</link> (std::vector&lt; char &gt; &amp;<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>)</para>
+</listitem>
+            <listitem><para>static <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> <link linkend="_class_assimp_1_1_base_importer_1af36cd260cc2e756e95ee89d06d7c76d5">ConvertUTF8toISO8859_1</link> (std::string &amp;<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>)</para>
+</listitem>
+            <listitem><para>static <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> <link linkend="_class_assimp_1_1_base_importer_1a3a82f762127d9cb823276491fa701e3f">TextFileToBuffer</link> (<link linkend="_class_assimp_1_1_i_o_stream">IOStream</link> *<link linkend="_glad_8h_1ad02d2488127e1cf9a27262c4ee30ba85">stream</link>, std::vector&lt; char &gt; &amp;<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>, <link linkend="_class_assimp_1_1_base_importer_1a9fe6b47937a7c897536cac1513b65eb7">TextFileMode</link> <link linkend="_glad_8h_1a1e71d9c196e4683cc06c4b54d53f7ef5">mode</link>=<link linkend="_class_assimp_1_1_base_importer_1a9fe6b47937a7c897536cac1513b65eb7ae507341521279743797bdce9f7a21081">FORBID_EMPTY</link>)</para>
+</listitem>
+            <listitem><para>template&lt;typename <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link> &gt; </para><para>static <link linkend="_defs_8h_1a61d239a320b58eca56bacc46fc2c79b8">AI_FORCE_INLINE</link> <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> <link linkend="_class_assimp_1_1_base_importer_1abc1067a6780d7d6dbe457fef8abdb66a">CopyVector</link> (std::vector&lt; <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link> &gt; &amp;vec, <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link> *&amp;out, unsigned int &amp;outLength)</para>
+</listitem>
+            <listitem><para>template&lt;typename <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link> &gt; </para><para>static <link linkend="_defs_8h_1a61d239a320b58eca56bacc46fc2c79b8">AI_FORCE_INLINE</link> <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> <link linkend="_class_assimp_1_1_base_importer_1a3ce01553ca65d8cc8f1efc2174845d67">CopyVector</link> (std::vector&lt; std::unique_ptr&lt; <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link> &gt; &gt; &amp;vec, <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link> **&amp;out, unsigned int &amp;outLength)</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Protected Member Functions    </title>
+        <itemizedlist>
+            <listitem><para>virtual <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> <link linkend="_class_assimp_1_1_base_importer_1ac67d9f5ceb26353d27d6be06cccad398">InternReadFile</link> (const std::string &amp;pFile, <link linkend="_structai_scene">aiScene</link> *pScene, <link linkend="_class_assimp_1_1_i_o_system">IOSystem</link> *pIOHandler)=0</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Protected Attributes    </title>
+        <itemizedlist>
+            <listitem><para>double <link linkend="_class_assimp_1_1_base_importer_1ad5bb9d0bff964c79b625c754b3adb04c">importerScale</link> = 1.0</para>
+</listitem>
+            <listitem><para>double <link linkend="_class_assimp_1_1_base_importer_1af85971f80c5f45fef8c3a3395e4bbe14">fileScale</link> = 1.0</para>
+</listitem>
+            <listitem><para>std::string <link linkend="_class_assimp_1_1_base_importer_1abd2c9b86479c0c165e5d84d733e53373">m_ErrorText</link></para>
+
+<para>Error description in case there was one. </para>
+</listitem>
+            <listitem><para>std::exception_ptr <link linkend="_class_assimp_1_1_base_importer_1a7bf84fb733992558272add378e7d9525">m_Exception</link></para>
+
+<para>The exception, in case there was one. </para>
+</listitem>
+            <listitem><para><link linkend="_class_assimp_1_1_progress_handler">ProgressHandler</link> * <link linkend="_class_assimp_1_1_base_importer_1aeb17ba9eee14fcdfe2c6f45bf940139d">m_progress</link></para>
+
+<para>Currently set progress handler. </para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Friends    </title>
+        <itemizedlist>
+            <listitem><para>class <link linkend="_class_assimp_1_1_base_importer_1ad2d8744585dcb094644b1caed04ac9ed">Importer</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para>FOR IMPORTER PLUGINS ONLY: The <link linkend="_class_assimp_1_1_base_importer">BaseImporter</link> defines a common interface for all importer worker classes.</para>
+
+<para>The interface defines two functions: <link linkend="_class_assimp_1_1_base_importer_1a13588d3396ba5b7ed1f1cb46e0945cfd">CanRead()</link> is used to check if the importer can handle the format of the given file. If an implementation of this function returns true, the importer then calls <link linkend="_class_assimp_1_1_base_importer_1a2f5938785f722ebde616a30160bccde1">ReadFile()</link> which imports the given file. ReadFile is not overridable, it just calls <link linkend="_class_assimp_1_1_base_importer_1ac67d9f5ceb26353d27d6be06cccad398">InternReadFile()</link> and catches any ImportErrorException that might occur. </para>
+</section>
+<section>
+<title>Member Enumeration Documentation</title>
+<anchor xml:id="_class_assimp_1_1_base_importer_1a9fe6b47937a7c897536cac1513b65eb7"/><section>
+    <title>TextFileMode</title>
+<indexterm><primary>TextFileMode</primary><secondary>Assimp::BaseImporter</secondary></indexterm>
+<indexterm><primary>Assimp::BaseImporter</primary><secondary>TextFileMode</secondary></indexterm>
+<para><computeroutput><link linkend="_interfaceenum">enum</link> <link linkend="_class_assimp_1_1_base_importer_1a9fe6b47937a7c897536cac1513b65eb7">Assimp::BaseImporter::TextFileMode</link></computeroutput></para><para>
+
+<para>Enum to define, if empty files are ok or not. </para>
+</para>
+<informaltable frame="all">
+<title>Enumerator</title>
+    <tgroup cols="2" align="left" colsep="1" rowsep="1">
+      <colspec colname='c1'/>
+      <colspec colname='c2'/>
+<tbody>
+<row><entry><indexterm><primary>ALLOW_EMPTY</primary><secondary>Assimp::BaseImporter</secondary></indexterm>
+<indexterm><primary>Assimp::BaseImporter</primary><secondary>ALLOW_EMPTY</secondary></indexterm>
+<anchor xml:id="_class_assimp_1_1_base_importer_1a9fe6b47937a7c897536cac1513b65eb7af10ad62259d2e54eff440019b345e309"/>ALLOW_EMPTY</entry><entry></entry></row><row><entry><indexterm><primary>FORBID_EMPTY</primary><secondary>Assimp::BaseImporter</secondary></indexterm>
+<indexterm><primary>Assimp::BaseImporter</primary><secondary>FORBID_EMPTY</secondary></indexterm>
+<anchor xml:id="_class_assimp_1_1_base_importer_1a9fe6b47937a7c897536cac1513b65eb7ae507341521279743797bdce9f7a21081"/>FORBID_EMPTY</entry><entry></entry></row>    </tbody>
+    </tgroup>
+</informaltable>
+</section>
+</section>
+<section>
+<title>Constructor &amp; Destructor Documentation</title>
+<anchor xml:id="_class_assimp_1_1_base_importer_1a699aebae893f17b5a5dd415ae7bee7f0"/><section>
+    <title>BaseImporter()</title>
+<indexterm><primary>BaseImporter</primary><secondary>Assimp::BaseImporter</secondary></indexterm>
+<indexterm><primary>Assimp::BaseImporter</primary><secondary>BaseImporter</secondary></indexterm>
+<para><computeroutput>Assimp::BaseImporter::BaseImporter ( )</computeroutput></para>
+<para>Constructor to be privately used by <link linkend="_class_assimp_1_1_base_importer_1ad2d8744585dcb094644b1caed04ac9ed">Importer</link> </para>
+</section>
+<anchor xml:id="_class_assimp_1_1_base_importer_1a26c31a016f1249acac85d81ecb7fa252"/><section>
+    <title>~BaseImporter()</title>
+<indexterm><primary>~BaseImporter</primary><secondary>Assimp::BaseImporter</secondary></indexterm>
+<indexterm><primary>Assimp::BaseImporter</primary><secondary>~BaseImporter</secondary></indexterm>
+<para><computeroutput>virtual Assimp::BaseImporter::~BaseImporter ( )<computeroutput>[virtual]</computeroutput></computeroutput></para>
+<para>Destructor, private as well </para>
+</section>
+</section>
+<section>
+<title>Member Function Documentation</title>
+<anchor xml:id="_class_assimp_1_1_base_importer_1a13588d3396ba5b7ed1f1cb46e0945cfd"/><section>
+    <title>CanRead()</title>
+<indexterm><primary>CanRead</primary><secondary>Assimp::BaseImporter</secondary></indexterm>
+<indexterm><primary>Assimp::BaseImporter</primary><secondary>CanRead</secondary></indexterm>
+<para><computeroutput>virtual bool Assimp::BaseImporter::CanRead (const std::string &amp; pFile, <link linkend="_class_assimp_1_1_i_o_system">IOSystem</link> * pIOHandler, bool checkSig) const<computeroutput>[pure virtual]</computeroutput></computeroutput></para>
+<para>Returns whether the class can handle the format of the given file.</para>
+
+<para>The implementation is expected to perform a full check of the file structure, possibly searching the first bytes of the file for magic identifiers or keywords.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>pFile</entry><entry>
+<para>Path and file name of the file to be examined. </para>
+</entry>
+                            </row>
+                            <row>
+<entry>pIOHandler</entry><entry>
+<para>The IO handler to use for accessing any file. </para>
+</entry>
+                            </row>
+                            <row>
+<entry>checkSig</entry><entry>
+<para>Legacy; do not use. </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>true if the class can read this file, false if not or if unsure. </para>
+</formalpara>
+</para>
+</section>
+<anchor xml:id="_class_assimp_1_1_base_importer_1a6b42085bed85c180f080daab395e8832"/><section>
+    <title>CheckMagicToken()</title>
+<indexterm><primary>CheckMagicToken</primary><secondary>Assimp::BaseImporter</secondary></indexterm>
+<indexterm><primary>Assimp::BaseImporter</primary><secondary>CheckMagicToken</secondary></indexterm>
+<para><computeroutput>static bool Assimp::BaseImporter::CheckMagicToken (<link linkend="_class_assimp_1_1_i_o_system">IOSystem</link> * pIOHandler, const std::string &amp; pFile, const <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> * magic, std::size_t num, unsigned int offset = <computeroutput>0</computeroutput>
+, unsigned int size = <computeroutput>4</computeroutput>
+)<computeroutput>[static]</computeroutput></computeroutput></para><para>
+
+<para>Check whether a file starts with one or more magic tokens. </para>
+</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>pFile</entry><entry>
+<para>Input file </para>
+</entry>
+                            </row>
+                            <row>
+<entry>pIOHandler</entry><entry>
+<para>IO system to be used </para>
+</entry>
+                            </row>
+                            <row>
+<entry>magic</entry><entry>
+<para>n magic tokens @params num Size of magic </para>
+</entry>
+                            </row>
+                            <row>
+<entry>offset</entry><entry>
+<para>Offset from file start where tokens are located </para>
+</entry>
+                            </row>
+                            <row>
+<entry>Size</entry><entry>
+<para>of one token, in bytes. Maximally 16 bytes. </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>true if one of the given tokens was found</para>
+</formalpara>
+<note><title>Note</title>
+
+<para>For convenience, the check is also performed for the byte-swapped variant of all tokens (big endian). Only for tokens of size 2,4. </para>
+</note>
+</para>
+</section>
+<anchor xml:id="_class_assimp_1_1_base_importer_1afc318aa0eb85b73f501156a50f3eb703"/><section>
+    <title>ConvertToUTF8()</title>
+<indexterm><primary>ConvertToUTF8</primary><secondary>Assimp::BaseImporter</secondary></indexterm>
+<indexterm><primary>Assimp::BaseImporter</primary><secondary>ConvertToUTF8</secondary></indexterm>
+<para><computeroutput>static <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> Assimp::BaseImporter::ConvertToUTF8 (std::vector&lt; char &gt; &amp; data)<computeroutput>[static]</computeroutput></computeroutput></para>
+<para>An utility for all text file loaders. It converts a file to our UTF8 character set. Errors are reported, but ignored.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>data</entry><entry>
+<para>File buffer to be converted to UTF8 data. The buffer is resized as appropriate. </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                </para>
+</section>
+<anchor xml:id="_class_assimp_1_1_base_importer_1af36cd260cc2e756e95ee89d06d7c76d5"/><section>
+    <title>ConvertUTF8toISO8859_1()</title>
+<indexterm><primary>ConvertUTF8toISO8859_1</primary><secondary>Assimp::BaseImporter</secondary></indexterm>
+<indexterm><primary>Assimp::BaseImporter</primary><secondary>ConvertUTF8toISO8859_1</secondary></indexterm>
+<para><computeroutput>static <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> Assimp::BaseImporter::ConvertUTF8toISO8859_1 (std::string &amp; data)<computeroutput>[static]</computeroutput></computeroutput></para>
+<para>An utility for all text file loaders. It converts a file from our UTF8 character set back to ISO-8859-1. Errors are reported, but ignored.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>data</entry><entry>
+<para>File buffer to be converted from UTF8 to ISO-8859-1. The buffer is resized as appropriate. </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                </para>
+</section>
+<anchor xml:id="_class_assimp_1_1_base_importer_1a3ce01553ca65d8cc8f1efc2174845d67"/><section>
+    <title>CopyVector()<computeroutput>[1/2]</computeroutput></title>
+<indexterm><primary>CopyVector</primary><secondary>Assimp::BaseImporter</secondary></indexterm>
+<indexterm><primary>Assimp::BaseImporter</primary><secondary>CopyVector</secondary></indexterm>
+<computeroutput>template&lt;typename <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link> &gt; </computeroutput><para><computeroutput>static <link linkend="_defs_8h_1a61d239a320b58eca56bacc46fc2c79b8">AI_FORCE_INLINE</link> <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> Assimp::BaseImporter::CopyVector (std::vector&lt; std::unique_ptr&lt; <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link> &gt; &gt; &amp; vec, <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link> **&amp; out, unsigned int &amp; outLength)<computeroutput>[inline]</computeroutput>, <computeroutput>[static]</computeroutput></computeroutput></para>
+<para>Utility function to move a std::vector of unique_ptrs into a <link linkend="_structai_scene">aiScene</link> array 
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>vec</entry><entry>
+<para>The vector of unique_ptrs to be moved </para>
+</entry>
+                            </row>
+                            <row>
+<entry>out</entry><entry>
+<para>The output pointer to the allocated array. </para>
+</entry>
+                            </row>
+                            <row>
+<entry>numOut</entry><entry>
+<para>The output count of elements copied. </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                </para>
+</section>
+<anchor xml:id="_class_assimp_1_1_base_importer_1abc1067a6780d7d6dbe457fef8abdb66a"/><section>
+    <title>CopyVector()<computeroutput>[2/2]</computeroutput></title>
+<indexterm><primary>CopyVector</primary><secondary>Assimp::BaseImporter</secondary></indexterm>
+<indexterm><primary>Assimp::BaseImporter</primary><secondary>CopyVector</secondary></indexterm>
+<computeroutput>template&lt;typename <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link> &gt; </computeroutput><para><computeroutput>static <link linkend="_defs_8h_1a61d239a320b58eca56bacc46fc2c79b8">AI_FORCE_INLINE</link> <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> Assimp::BaseImporter::CopyVector (std::vector&lt; <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link> &gt; &amp; vec, <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link> *&amp; out, unsigned int &amp; outLength)<computeroutput>[inline]</computeroutput>, <computeroutput>[static]</computeroutput></computeroutput></para>
+<para>Utility function to move a std::vector into a <link linkend="_structai_scene">aiScene</link> array 
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>vec</entry><entry>
+<para>The vector to be moved </para>
+</entry>
+                            </row>
+                            <row>
+<entry>out</entry><entry>
+<para>The output pointer to the allocated array. </para>
+</entry>
+                            </row>
+                            <row>
+<entry>numOut</entry><entry>
+<para>The output count of elements copied. </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                </para>
+</section>
+<anchor xml:id="_class_assimp_1_1_base_importer_1a285229c6bf59116b4653944ef7087727"/><section>
+    <title>GetErrorText()</title>
+<indexterm><primary>GetErrorText</primary><secondary>Assimp::BaseImporter</secondary></indexterm>
+<indexterm><primary>Assimp::BaseImporter</primary><secondary>GetErrorText</secondary></indexterm>
+<para><computeroutput>const std::string &amp; Assimp::BaseImporter::GetErrorText ( ) const<computeroutput>[inline]</computeroutput></computeroutput></para>
+<para>Returns the error description of the last error that occurred. If the error is due to a std::exception, this will return the message. Exceptions can also be accessed with <link linkend="_class_assimp_1_1_base_importer_1a27198204f4ef728968df429880564d60">GetException()</link>. <formalpara><title>Returns</title>
+
+<para>A description of the last error that occurred. An empty string if there was no error. </para>
+</formalpara>
+</para>
+</section>
+<anchor xml:id="_class_assimp_1_1_base_importer_1a27198204f4ef728968df429880564d60"/><section>
+    <title>GetException()</title>
+<indexterm><primary>GetException</primary><secondary>Assimp::BaseImporter</secondary></indexterm>
+<indexterm><primary>Assimp::BaseImporter</primary><secondary>GetException</secondary></indexterm>
+<para><computeroutput>const std::exception_ptr &amp; Assimp::BaseImporter::GetException ( ) const<computeroutput>[inline]</computeroutput></computeroutput></para>
+<para>Returns the exception of the last exception that occurred. Note: Exceptions are not the only source of error details, so GetErrorText should be consulted too. <formalpara><title>Returns</title>
+
+<para>The last exception that occurred. </para>
+</formalpara>
+</para>
+</section>
+<anchor xml:id="_class_assimp_1_1_base_importer_1a25edd42695863af078d2bab65077ce6c"/><section>
+    <title>GetExtension()</title>
+<indexterm><primary>GetExtension</primary><secondary>Assimp::BaseImporter</secondary></indexterm>
+<indexterm><primary>Assimp::BaseImporter</primary><secondary>GetExtension</secondary></indexterm>
+<para><computeroutput>static std::string Assimp::BaseImporter::GetExtension (const std::string &amp; pFile)<computeroutput>[static]</computeroutput></computeroutput></para><para>
+
+<para>Extract file extension from a string. </para>
+</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>pFile</entry><entry>
+<para>Input file </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>Extension without trailing dot, all lowercase </para>
+</formalpara>
+</para>
+</section>
+<anchor xml:id="_class_assimp_1_1_base_importer_1a7a658f1192a37e336ba98fe701918b31"/><section>
+    <title>GetExtensionList()</title>
+<indexterm><primary>GetExtensionList</primary><secondary>Assimp::BaseImporter</secondary></indexterm>
+<indexterm><primary>Assimp::BaseImporter</primary><secondary>GetExtensionList</secondary></indexterm>
+<para><computeroutput><link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> Assimp::BaseImporter::GetExtensionList (std::set&lt; std::string &gt; &amp; extensions)</computeroutput></para>
+<para>Called by <link linkend="_class_assimp_1_1_importer_1ab06927d45d5adbf909040c8f5bac1e4d">Importer::GetExtensionList</link> for each loaded importer. Take the extension list contained in the structure returned by <link linkend="_class_assimp_1_1_base_importer_1aea402563e886993c7b5c0d489288fa4c">GetInfo</link> and insert all file extensions into the given set. 
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>extension</entry><entry>
+<para>set to collect file extensions in </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                </para>
+</section>
+<anchor xml:id="_class_assimp_1_1_base_importer_1aea402563e886993c7b5c0d489288fa4c"/><section>
+    <title>GetInfo()</title>
+<indexterm><primary>GetInfo</primary><secondary>Assimp::BaseImporter</secondary></indexterm>
+<indexterm><primary>Assimp::BaseImporter</primary><secondary>GetInfo</secondary></indexterm>
+<para><computeroutput>virtual const <link linkend="_structai_importer_desc">aiImporterDesc</link> * Assimp::BaseImporter::GetInfo ( ) const<computeroutput>[pure virtual]</computeroutput></computeroutput></para>
+<para>Called by <link linkend="_class_assimp_1_1_importer_1ac791716a5c1978b73968dc7e53873e7e">Importer::GetImporterInfo</link> to get a description of some loader features. Importers must provide this information. </para>
+</section>
+<anchor xml:id="_class_assimp_1_1_base_importer_1ac67d9f5ceb26353d27d6be06cccad398"/><section>
+    <title>InternReadFile()</title>
+<indexterm><primary>InternReadFile</primary><secondary>Assimp::BaseImporter</secondary></indexterm>
+<indexterm><primary>Assimp::BaseImporter</primary><secondary>InternReadFile</secondary></indexterm>
+<para><computeroutput>virtual <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> Assimp::BaseImporter::InternReadFile (const std::string &amp; pFile, <link linkend="_structai_scene">aiScene</link> * pScene, <link linkend="_class_assimp_1_1_i_o_system">IOSystem</link> * pIOHandler)<computeroutput>[protected]</computeroutput>, <computeroutput>[pure virtual]</computeroutput></computeroutput></para>
+<para>Imports the given file into the given scene structure. The function is expected to throw an ImportErrorException if there is an error. If it terminates normally, the data in <link linkend="_structai_scene">aiScene</link> is expected to be correct. Override this function to implement the actual importing. <?linebreak?> The output scene must meet the following requirements:<?linebreak?> <itemizedlist>
+<listitem>
+
+<para>At least a root node must be there, even if its only purpose is to reference one mesh. </para>
+</listitem>
+<listitem>
+
+<para><link linkend="_structai_mesh_1a99d66ac0a444068c1b252b30265cbf53">aiMesh::mPrimitiveTypes</link> may be 0. The types of primitives in the mesh are determined automatically in this case. </para>
+</listitem>
+<listitem>
+
+<para>the vertex data is stored in a pseudo-indexed &quot;verbose&quot; format. In fact this means that every vertex that is referenced by a face is unique. Or the other way round: a vertex index may not occur twice in a single <link linkend="_structai_mesh">aiMesh</link>. </para>
+</listitem>
+<listitem>
+
+<para><link linkend="_structai_animation_1ae2bbc49320b4b75c05e23e0ab704ece7">aiAnimation::mDuration</link> may be -1. <link linkend="_namespace_assimp">Assimp</link> determines the length of the animation automatically in this case as the length of the longest animation channel. </para>
+</listitem>
+<listitem>
+
+<para><link linkend="_structai_mesh_1ab2a81bfe1731f01271ebab274a8f01c4">aiMesh::mBitangents</link> may be nullptr if tangents and normals are given. In this case bitangents are computed as the cross product between normal and tangent. </para>
+</listitem>
+<listitem>
+
+<para>There needn&apos;t be a material. If none is there a default material is generated. However, it is recommended practice for loaders to generate a default material for yourself that matches the default material setting for the file format better than <link linkend="_namespace_assimp">Assimp</link>&apos;s generic default material. Note that default materials <emphasis>should</emphasis> be named AI_DEFAULT_MATERIAL_NAME if they&apos;re just color-shaded or AI_DEFAULT_TEXTURED_MATERIAL_NAME if they define a (dummy) texture.  </para>
+</listitem>
+</itemizedlist>
+If the AI_SCENE_FLAGS_INCOMPLETE-Flag is <emphasis role="bold">not</emphasis> set:<itemizedlist>
+<listitem>
+
+<para>at least one mesh must be there </para>
+</listitem>
+<listitem>
+
+<para>there may be no meshes with 0 vertices or faces </para>
+</listitem>
+</itemizedlist>
+This won&apos;t be checked (except by the validation step): <link linkend="_namespace_assimp">Assimp</link> will crash if one of the conditions is not met!</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>pFile</entry><entry>
+<para>Path of the file to be imported. </para>
+</entry>
+                            </row>
+                            <row>
+<entry>pScene</entry><entry>
+<para>The scene object to hold the imported data. nullptr is not a valid parameter. </para>
+</entry>
+                            </row>
+                            <row>
+<entry>pIOHandler</entry><entry>
+<para>The IO handler to use for any file access. nullptr is not a valid parameter. </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                </para>
+</section>
+<anchor xml:id="_class_assimp_1_1_base_importer_1a2f5938785f722ebde616a30160bccde1"/><section>
+    <title>ReadFile()</title>
+<indexterm><primary>ReadFile</primary><secondary>Assimp::BaseImporter</secondary></indexterm>
+<indexterm><primary>Assimp::BaseImporter</primary><secondary>ReadFile</secondary></indexterm>
+<para><computeroutput><link linkend="_structai_scene">aiScene</link> * Assimp::BaseImporter::ReadFile (<link linkend="_class_assimp_1_1_importer">Importer</link> * pImp, const std::string &amp; pFile, <link linkend="_class_assimp_1_1_i_o_system">IOSystem</link> * pIOHandler)</computeroutput></para>
+<para>Imports the given file and returns the imported data. If the import succeeds, ownership of the data is transferred to the caller. If the import fails, nullptr is returned. The function takes care that any partially constructed data is destroyed beforehand.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>pImp</entry><entry>
+<para><link linkend="_class_assimp_1_1_base_importer_1ad2d8744585dcb094644b1caed04ac9ed">Importer</link> object hosting this loader. </para>
+</entry>
+                            </row>
+                            <row>
+<entry>pFile</entry><entry>
+<para>Path of the file to be imported. </para>
+</entry>
+                            </row>
+                            <row>
+<entry>pIOHandler</entry><entry>
+<para>IO-Handler used to open this and possible other files. </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>The imported data or nullptr if failed. If it failed a human-readable error description can be retrieved by calling <link linkend="_class_assimp_1_1_base_importer_1a285229c6bf59116b4653944ef7087727">GetErrorText()</link></para>
+</formalpara>
+<note><title>Note</title>
+
+<para>This function is not intended to be overridden. Implement <link linkend="_class_assimp_1_1_base_importer_1ac67d9f5ceb26353d27d6be06cccad398">InternReadFile()</link> to do the import. If an exception is thrown somewhere in <link linkend="_class_assimp_1_1_base_importer_1ac67d9f5ceb26353d27d6be06cccad398">InternReadFile()</link>, this function will catch it and transform it into a suitable response to the caller. </para>
+</note>
+</para>
+</section>
+<anchor xml:id="_class_assimp_1_1_base_importer_1a234178a50ec0fb7417b614946f15f1c4"/><section>
+    <title>SearchFileHeaderForToken()</title>
+<indexterm><primary>SearchFileHeaderForToken</primary><secondary>Assimp::BaseImporter</secondary></indexterm>
+<indexterm><primary>Assimp::BaseImporter</primary><secondary>SearchFileHeaderForToken</secondary></indexterm>
+<para><computeroutput>static bool Assimp::BaseImporter::SearchFileHeaderForToken (<link linkend="_class_assimp_1_1_i_o_system">IOSystem</link> * pIOSystem, const std::string &amp; file, const char ** tokens, std::size_t numTokens, unsigned int searchBytes = <computeroutput>200</computeroutput>
+, bool tokensSol = <computeroutput>false</computeroutput>
+, bool noAlphaBeforeTokens = <computeroutput>false</computeroutput>
+)<computeroutput>[static]</computeroutput></computeroutput></para>
+<para>A utility for <link linkend="_class_assimp_1_1_base_importer_1a13588d3396ba5b7ed1f1cb46e0945cfd">CanRead()</link>.</para>
+
+<para>The function searches the header of a file for a specific token and returns true if this token is found. This works for text files only. There is a rudimentary handling of UNICODE files. The comparison is case independent.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>pIOSystem</entry><entry>
+<para>IO System to work with </para>
+</entry>
+                            </row>
+                            <row>
+<entry>file</entry><entry>
+<para>File name of the file </para>
+</entry>
+                            </row>
+                            <row>
+<entry>tokens</entry><entry>
+<para>List of tokens to search for </para>
+</entry>
+                            </row>
+                            <row>
+<entry>numTokens</entry><entry>
+<para>Size of the token array </para>
+</entry>
+                            </row>
+                            <row>
+<entry>searchBytes</entry><entry>
+<para>Number of bytes to be searched for the tokens. </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                </para>
+</section>
+<anchor xml:id="_class_assimp_1_1_base_importer_1a11b61c90b472d900d4f7e2d2f2219dac"/><section>
+    <title>SetFileScale()</title>
+<indexterm><primary>SetFileScale</primary><secondary>Assimp::BaseImporter</secondary></indexterm>
+<indexterm><primary>Assimp::BaseImporter</primary><secondary>SetFileScale</secondary></indexterm>
+<para><computeroutput><link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> Assimp::BaseImporter::SetFileScale (double scale)<computeroutput>[inline]</computeroutput></computeroutput></para>
+<para>Will be called only by scale process when scaling is requested. </para>
+</section>
+<anchor xml:id="_class_assimp_1_1_base_importer_1ac076d9136745e898d43d9ea8f0d0c586"/><section>
+    <title>SetupProperties()</title>
+<indexterm><primary>SetupProperties</primary><secondary>Assimp::BaseImporter</secondary></indexterm>
+<indexterm><primary>Assimp::BaseImporter</primary><secondary>SetupProperties</secondary></indexterm>
+<para><computeroutput>virtual <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> Assimp::BaseImporter::SetupProperties (const <link linkend="_class_assimp_1_1_importer">Importer</link> * pImp)<computeroutput>[virtual]</computeroutput></computeroutput></para>
+<para>Called prior to <link linkend="_class_assimp_1_1_base_importer_1a2f5938785f722ebde616a30160bccde1">ReadFile()</link>. The function is a request to the importer to update its configuration basing on the <link linkend="_class_assimp_1_1_importer">Importer</link>&apos;s configuration property list. 
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>pImp</entry><entry>
+<para><link linkend="_class_assimp_1_1_importer">Importer</link> instance </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                </para>
+</section>
+<anchor xml:id="_class_assimp_1_1_base_importer_1a5c89d9ba6a5c39ed8a289348be4826d3"/><section>
+    <title>SimpleExtensionCheck()</title>
+<indexterm><primary>SimpleExtensionCheck</primary><secondary>Assimp::BaseImporter</secondary></indexterm>
+<indexterm><primary>Assimp::BaseImporter</primary><secondary>SimpleExtensionCheck</secondary></indexterm>
+<para><computeroutput>static bool Assimp::BaseImporter::SimpleExtensionCheck (const std::string &amp; pFile, const char * ext0, const char * ext1 = <computeroutput>nullptr</computeroutput>
+, const char * ext2 = <computeroutput>nullptr</computeroutput>
+)<computeroutput>[static]</computeroutput></computeroutput></para><para>
+
+<para>Check whether a file has a specific file extension. </para>
+</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>pFile</entry><entry>
+<para>Input file </para>
+</entry>
+                            </row>
+                            <row>
+<entry>ext0</entry><entry>
+<para>Extension to check for. Lowercase characters only, no dot! </para>
+</entry>
+                            </row>
+                            <row>
+<entry>ext1</entry><entry>
+<para>Optional second extension </para>
+</entry>
+                            </row>
+                            <row>
+<entry>ext2</entry><entry>
+<para>Optional third extension </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <note><title>Note</title>
+
+<para>Case-insensitive </para>
+</note>
+</para>
+</section>
+<anchor xml:id="_class_assimp_1_1_base_importer_1a3a82f762127d9cb823276491fa701e3f"/><section>
+    <title>TextFileToBuffer()</title>
+<indexterm><primary>TextFileToBuffer</primary><secondary>Assimp::BaseImporter</secondary></indexterm>
+<indexterm><primary>Assimp::BaseImporter</primary><secondary>TextFileToBuffer</secondary></indexterm>
+<para><computeroutput>static <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> Assimp::BaseImporter::TextFileToBuffer (<link linkend="_class_assimp_1_1_i_o_stream">IOStream</link> * stream, std::vector&lt; char &gt; &amp; data, <link linkend="_class_assimp_1_1_base_importer_1a9fe6b47937a7c897536cac1513b65eb7">TextFileMode</link> mode = <computeroutput><link linkend="_class_assimp_1_1_base_importer_1a9fe6b47937a7c897536cac1513b65eb7ae507341521279743797bdce9f7a21081">FORBID_EMPTY</link></computeroutput>
+)<computeroutput>[static]</computeroutput></computeroutput></para>
+<para>Utility for text file loaders which copies the contents of the file into a memory buffer and converts it to our UTF8 representation. 
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>stream</entry><entry>
+<para>Stream to read from. </para>
+</entry>
+                            </row>
+                            <row>
+<entry>data</entry><entry>
+<para>Output buffer to be resized and filled with the converted text file data. The buffer is terminated with a binary 0. </para>
+</entry>
+                            </row>
+                            <row>
+<entry>mode</entry><entry>
+<para>Whether it is OK to load empty text files. </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                </para>
+</section>
+</section>
+<section>
+<title>Friends And Related Symbol Documentation</title>
+<anchor xml:id="_class_assimp_1_1_base_importer_1ad2d8744585dcb094644b1caed04ac9ed"/><section>
+    <title>Importer</title>
+<indexterm><primary>Importer</primary><secondary>Assimp::BaseImporter</secondary></indexterm>
+<indexterm><primary>Assimp::BaseImporter</primary><secondary>Importer</secondary></indexterm>
+<para><computeroutput>friend class <link linkend="_class_assimp_1_1_importer">Importer</link><computeroutput>[friend]</computeroutput></computeroutput></para></section>
+</section>
+<section>
+<title>Member Data Documentation</title>
+<anchor xml:id="_class_assimp_1_1_base_importer_1af85971f80c5f45fef8c3a3395e4bbe14"/><section>
+    <title>fileScale</title>
+<indexterm><primary>fileScale</primary><secondary>Assimp::BaseImporter</secondary></indexterm>
+<indexterm><primary>Assimp::BaseImporter</primary><secondary>fileScale</secondary></indexterm>
+<para><computeroutput>double Assimp::BaseImporter::fileScale = 1.0<computeroutput>[protected]</computeroutput></computeroutput></para></section>
+<anchor xml:id="_class_assimp_1_1_base_importer_1ad5bb9d0bff964c79b625c754b3adb04c"/><section>
+    <title>importerScale</title>
+<indexterm><primary>importerScale</primary><secondary>Assimp::BaseImporter</secondary></indexterm>
+<indexterm><primary>Assimp::BaseImporter</primary><secondary>importerScale</secondary></indexterm>
+<para><computeroutput>double Assimp::BaseImporter::importerScale = 1.0<computeroutput>[protected]</computeroutput></computeroutput></para></section>
+<anchor xml:id="_class_assimp_1_1_base_importer_1abd2c9b86479c0c165e5d84d733e53373"/><section>
+    <title>m_ErrorText</title>
+<indexterm><primary>m_ErrorText</primary><secondary>Assimp::BaseImporter</secondary></indexterm>
+<indexterm><primary>Assimp::BaseImporter</primary><secondary>m_ErrorText</secondary></indexterm>
+<para><computeroutput>std::string Assimp::BaseImporter::m_ErrorText<computeroutput>[protected]</computeroutput></computeroutput></para><para>
+
+<para>Error description in case there was one. </para>
+</para>
+</section>
+<anchor xml:id="_class_assimp_1_1_base_importer_1a7bf84fb733992558272add378e7d9525"/><section>
+    <title>m_Exception</title>
+<indexterm><primary>m_Exception</primary><secondary>Assimp::BaseImporter</secondary></indexterm>
+<indexterm><primary>Assimp::BaseImporter</primary><secondary>m_Exception</secondary></indexterm>
+<para><computeroutput>std::exception_ptr Assimp::BaseImporter::m_Exception<computeroutput>[protected]</computeroutput></computeroutput></para><para>
+
+<para>The exception, in case there was one. </para>
+</para>
+</section>
+<anchor xml:id="_class_assimp_1_1_base_importer_1aeb17ba9eee14fcdfe2c6f45bf940139d"/><section>
+    <title>m_progress</title>
+<indexterm><primary>m_progress</primary><secondary>Assimp::BaseImporter</secondary></indexterm>
+<indexterm><primary>Assimp::BaseImporter</primary><secondary>m_progress</secondary></indexterm>
+<para><computeroutput><link linkend="_class_assimp_1_1_progress_handler">ProgressHandler</link>* Assimp::BaseImporter::m_progress<computeroutput>[protected]</computeroutput></computeroutput></para><para>
+
+<para>Currently set progress handler. </para>
+</para>
+</section>
+<para>
+The documentation for this class was generated from the following file:</para>
+adhed/assimp/<link linkend="__base_importer_8h">BaseImporter.h</link></section>
+</section>

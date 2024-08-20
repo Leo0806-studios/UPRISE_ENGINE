@@ -1,0 +1,388 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_fast__atof_8h_source" xml:lang="en-US">
+<title>fast_atof.h</title>
+<indexterm><primary>adhed/assimp/fast_atof.h</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 <emphasis role="preprocessor">#pragma&#32;once</emphasis>
+2 
+3 <emphasis role="comment">//&#32;Copyright&#32;(C)&#32;2002-2007&#32;Nikolaus&#32;Gebhardt</emphasis>
+4 <emphasis role="comment">//&#32;This&#32;file&#32;is&#32;part&#32;of&#32;the&#32;&quot;Irrlicht&#32;Engine&quot;&#32;and&#32;the&#32;&quot;irrXML&quot;&#32;project.</emphasis>
+5 <emphasis role="comment">//&#32;For&#32;conditions&#32;of&#32;distribution&#32;and&#32;use,&#32;see&#32;copyright&#32;notice&#32;in&#32;irrlicht.h&#32;and&#32;irrXML.h</emphasis>
+6 
+7 <emphasis role="comment">//&#32;------------------------------------------------------------------------------------</emphasis>
+8 <emphasis role="comment">//&#32;Original&#32;description:&#32;(Schrompf)</emphasis>
+9 <emphasis role="comment">//&#32;Adapted&#32;to&#32;the&#32;ASSIMP&#32;library&#32;because&#32;the&#32;builtin&#32;atof&#32;indeed&#32;takes&#32;AGES&#32;to&#32;parse&#32;a</emphasis>
+10 <emphasis role="comment">//&#32;float&#32;inside&#32;a&#32;large&#32;string.&#32;Before&#32;parsing,&#32;it&#32;does&#32;a&#32;strlen&#32;on&#32;the&#32;given&#32;point.</emphasis>
+11 <emphasis role="comment">//&#32;Changes:</emphasis>
+12 <emphasis role="comment">//&#32;&#32;22nd&#32;October&#32;08&#32;(Aramis_acg):&#32;Added&#32;temporary&#32;cast&#32;to&#32;double,&#32;added&#32;strtoul10_64</emphasis>
+13 <emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;to&#32;ensure&#32;long&#32;numbers&#32;are&#32;handled&#32;correctly</emphasis>
+14 <emphasis role="comment">//&#32;------------------------------------------------------------------------------------</emphasis>
+15 
+16 <emphasis role="preprocessor">#pragma&#32;once</emphasis>
+17 <emphasis role="preprocessor">#ifndef&#32;FAST_A_TO_F_H_INCLUDED</emphasis>
+18 <emphasis role="preprocessor">#define&#32;FAST_A_TO_F_H_INCLUDED</emphasis>
+19 
+20 <emphasis role="preprocessor">#ifdef&#32;__GNUC__</emphasis>
+21 <emphasis role="preprocessor">#&#32;&#32;&#32;pragma&#32;GCC&#32;system_header</emphasis>
+22 <emphasis role="preprocessor">#endif</emphasis>
+23 
+24 <emphasis role="preprocessor">#include&#32;&lt;cmath&gt;</emphasis>
+25 <emphasis role="preprocessor">#include&#32;&lt;limits&gt;</emphasis>
+26 <emphasis role="preprocessor">#include&#32;&lt;stdint.h&gt;</emphasis>
+27 <emphasis role="preprocessor">#include&#32;&lt;<link linkend="_defs_8h">assimp/defs.h</link>&gt;</emphasis>
+28 
+29 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__string_comparison_8h">StringComparison.h</link>&quot;</emphasis>
+30 <emphasis role="preprocessor">#include&#32;&lt;<link linkend="__default_logger_8hpp">assimp/DefaultLogger.hpp</link>&gt;</emphasis>
+31 <emphasis role="preprocessor">#include&#32;&lt;<link linkend="__exceptional_8h">assimp/Exceptional.h</link>&gt;</emphasis>
+32 <emphasis role="preprocessor">#include&#32;&lt;<link linkend="__string_utils_8h">assimp/StringUtils.h</link>&gt;</emphasis>
+33 
+34 <emphasis role="preprocessor">#ifdef&#32;_MSC_VER</emphasis>
+35 <emphasis role="preprocessor">#&#32;&#32;include&#32;&lt;stdint.h&gt;</emphasis>
+36 <emphasis role="preprocessor">#else</emphasis>
+37 <emphasis role="preprocessor">#&#32;&#32;include&#32;&lt;<link linkend="_pstdint_8h">assimp/Compiler/pstdint.h</link>&gt;</emphasis>
+38 <emphasis role="preprocessor">#endif</emphasis>
+39 
+40 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespace_assimp">Assimp</link>&#32;{
+41 
+42 <emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">double</emphasis>&#32;<link linkend="_namespace_assimp_1a54a4f58b78bc7d84c70aad4cc5eb79d5">fast_atof_table</link>[16]&#32;=&#32;&#32;{&#32;&#32;<emphasis role="comment">//&#32;we&#32;write&#32;[16]&#32;here&#32;instead&#32;of&#32;[]&#32;to&#32;work&#32;around&#32;a&#32;swig&#32;bug</emphasis>
+43 &#32;&#32;&#32;&#32;0.0,
+44 &#32;&#32;&#32;&#32;0.1,
+45 &#32;&#32;&#32;&#32;0.01,
+46 &#32;&#32;&#32;&#32;0.001,
+47 &#32;&#32;&#32;&#32;0.0001,
+48 &#32;&#32;&#32;&#32;0.00001,
+49 &#32;&#32;&#32;&#32;0.000001,
+50 &#32;&#32;&#32;&#32;0.0000001,
+51 &#32;&#32;&#32;&#32;0.00000001,
+52 &#32;&#32;&#32;&#32;0.000000001,
+53 &#32;&#32;&#32;&#32;0.0000000001,
+54 &#32;&#32;&#32;&#32;0.00000000001,
+55 &#32;&#32;&#32;&#32;0.000000000001,
+56 &#32;&#32;&#32;&#32;0.0000000000001,
+57 &#32;&#32;&#32;&#32;0.00000000000001,
+58 &#32;&#32;&#32;&#32;0.000000000000001
+59 };
+60 
+61 
+62 <emphasis role="comment">//&#32;------------------------------------------------------------------------------------</emphasis>
+63 <emphasis role="comment">//&#32;Convert&#32;a&#32;string&#32;in&#32;decimal&#32;format&#32;to&#32;a&#32;number</emphasis>
+64 <emphasis role="comment">//&#32;------------------------------------------------------------------------------------</emphasis>
+65 <emphasis role="keyword">inline</emphasis>
+66 <emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespace_assimp_1a0b34bad3b9ad1b488391ede9b4f23c07">strtoul10</link>(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;in,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>**&#32;out=0)&#32;{
+67 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>&#32;=&#32;0;
+68 
+69 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(&#32;;;&#32;)&#32;{
+70 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(&#32;*in&#32;&lt;&#32;<emphasis role="charliteral">&apos;0&apos;</emphasis>&#32;||&#32;*in&#32;&gt;&#32;<emphasis role="charliteral">&apos;9&apos;</emphasis>&#32;)&#32;{
+71 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">break</emphasis>;
+72 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+73 
+74 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>&#32;=&#32;(&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>&#32;*&#32;10&#32;)&#32;+&#32;(&#32;*in&#32;-&#32;<emphasis role="charliteral">&apos;0&apos;</emphasis>&#32;);
+75 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;++in;
+76 &#32;&#32;&#32;&#32;}
+77 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(&#32;out&#32;)&#32;{
+78 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*out&#32;=&#32;in;
+79 &#32;&#32;&#32;&#32;}
+80 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>;
+81 }
+82 
+83 <emphasis role="comment">//&#32;------------------------------------------------------------------------------------</emphasis>
+84 <emphasis role="comment">//&#32;Convert&#32;a&#32;string&#32;in&#32;octal&#32;format&#32;to&#32;a&#32;number</emphasis>
+85 <emphasis role="comment">//&#32;------------------------------------------------------------------------------------</emphasis>
+86 <emphasis role="keyword">inline</emphasis>
+87 <emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespace_assimp_1a1c1db8ffa6363c57660b3d1d0dc8ed3f">strtoul8</link>(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;in,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>**&#32;out=0)&#32;{
+88 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>(&#32;0&#32;);
+89 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(&#32;;;&#32;)&#32;{
+90 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(&#32;*in&#32;&lt;&#32;<emphasis role="charliteral">&apos;0&apos;</emphasis>&#32;||&#32;*in&#32;&gt;&#32;<emphasis role="charliteral">&apos;7&apos;</emphasis>&#32;)&#32;{
+91 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">break</emphasis>;
+92 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+93 
+94 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>&#32;=&#32;(&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>&#32;&lt;&lt;&#32;3&#32;)&#32;+&#32;(&#32;*in&#32;-&#32;<emphasis role="charliteral">&apos;0&apos;</emphasis>&#32;);
+95 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;++in;
+96 &#32;&#32;&#32;&#32;}
+97 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(&#32;out&#32;)&#32;{
+98 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*out&#32;=&#32;in;
+99 &#32;&#32;&#32;&#32;}
+100 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>;
+101 }
+102 
+103 <emphasis role="comment">//&#32;------------------------------------------------------------------------------------</emphasis>
+104 <emphasis role="comment">//&#32;Convert&#32;a&#32;string&#32;in&#32;hex&#32;format&#32;to&#32;a&#32;number</emphasis>
+105 <emphasis role="comment">//&#32;------------------------------------------------------------------------------------</emphasis>
+106 <emphasis role="keyword">inline</emphasis>
+107 <emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespace_assimp_1a358486ae5448785a4eeb0b6d9ebe929b">strtoul16</link>(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;in,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>**&#32;out=0)&#32;{
+108 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>(&#32;0&#32;);
+109 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(&#32;;;&#32;)&#32;{
+110 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(&#32;*in&#32;&gt;=&#32;<emphasis role="charliteral">&apos;0&apos;</emphasis>&#32;&amp;&amp;&#32;*in&#32;&lt;=&#32;<emphasis role="charliteral">&apos;9&apos;</emphasis>&#32;)&#32;{
+111 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>&#32;=&#32;(&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>&#32;&lt;&lt;&#32;4u&#32;)&#32;+&#32;(&#32;*in&#32;-&#32;<emphasis role="charliteral">&apos;0&apos;</emphasis>&#32;);
+112 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}&#32;<emphasis role="keywordflow">else</emphasis>&#32;<emphasis role="keywordflow">if</emphasis>&#32;(*in&#32;&gt;=&#32;<emphasis role="charliteral">&apos;A&apos;</emphasis>&#32;&amp;&amp;&#32;*in&#32;&lt;=&#32;<emphasis role="charliteral">&apos;F&apos;</emphasis>)&#32;{
+113 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>&#32;=&#32;(&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>&#32;&lt;&lt;&#32;4u&#32;)&#32;+&#32;(&#32;*in&#32;-&#32;<emphasis role="charliteral">&apos;A&apos;</emphasis>&#32;)&#32;+&#32;10;
+114 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}&#32;<emphasis role="keywordflow">else</emphasis>&#32;<emphasis role="keywordflow">if</emphasis>&#32;(*in&#32;&gt;=&#32;<emphasis role="charliteral">&apos;a&apos;</emphasis>&#32;&amp;&amp;&#32;*in&#32;&lt;=&#32;<emphasis role="charliteral">&apos;f&apos;</emphasis>)&#32;{
+115 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>&#32;=&#32;(&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>&#32;&lt;&lt;&#32;4u&#32;)&#32;+&#32;(&#32;*in&#32;-&#32;<emphasis role="charliteral">&apos;a&apos;</emphasis>&#32;)&#32;+&#32;10;
+116 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}&#32;<emphasis role="keywordflow">else</emphasis>&#32;{
+117 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">break</emphasis>;
+118 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+119 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;++in;
+120 &#32;&#32;&#32;&#32;}
+121 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(&#32;out&#32;)&#32;{
+122 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*out&#32;=&#32;in;
+123 &#32;&#32;&#32;&#32;}
+124 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>;
+125 }
+126 
+127 <emphasis role="comment">//&#32;------------------------------------------------------------------------------------</emphasis>
+128 <emphasis role="comment">//&#32;Convert&#32;just&#32;one&#32;hex&#32;digit</emphasis>
+129 <emphasis role="comment">//&#32;Return&#32;value&#32;is&#32;UINT_MAX&#32;if&#32;the&#32;input&#32;character&#32;is&#32;not&#32;a&#32;hex&#32;digit.</emphasis>
+130 <emphasis role="comment">//&#32;------------------------------------------------------------------------------------</emphasis>
+131 <emphasis role="keyword">inline</emphasis>
+132 <emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespace_assimp_1a6bb609222363ab9ba88298597056d65f">HexDigitToDecimal</link>(<emphasis role="keywordtype">char</emphasis>&#32;in)&#32;{
+133 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;out(&#32;UINT_MAX&#32;);
+134 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(&#32;in&#32;&gt;=&#32;<emphasis role="charliteral">&apos;0&apos;</emphasis>&#32;&amp;&amp;&#32;in&#32;&lt;=&#32;<emphasis role="charliteral">&apos;9&apos;</emphasis>&#32;)&#32;{
+135 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;out&#32;=&#32;in&#32;-&#32;<emphasis role="charliteral">&apos;0&apos;</emphasis>;
+136 &#32;&#32;&#32;&#32;}&#32;<emphasis role="keywordflow">else</emphasis>&#32;<emphasis role="keywordflow">if</emphasis>&#32;(&#32;in&#32;&gt;=&#32;<emphasis role="charliteral">&apos;a&apos;</emphasis>&#32;&amp;&amp;&#32;in&#32;&lt;=&#32;<emphasis role="charliteral">&apos;f&apos;</emphasis>&#32;)&#32;{
+137 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;out&#32;=&#32;10u&#32;+&#32;in&#32;-&#32;<emphasis role="charliteral">&apos;a&apos;</emphasis>;
+138 &#32;&#32;&#32;&#32;}&#32;<emphasis role="keywordflow">else</emphasis>&#32;<emphasis role="keywordflow">if</emphasis>&#32;(&#32;in&#32;&gt;=&#32;<emphasis role="charliteral">&apos;A&apos;</emphasis>&#32;&amp;&amp;&#32;in&#32;&lt;=&#32;<emphasis role="charliteral">&apos;F&apos;</emphasis>&#32;)&#32;{
+139 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;out&#32;=&#32;10u&#32;+&#32;in&#32;-&#32;<emphasis role="charliteral">&apos;A&apos;</emphasis>;
+140 &#32;&#32;&#32;&#32;}
+141 
+142 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;return&#32;value&#32;is&#32;UINT_MAX&#32;if&#32;the&#32;input&#32;is&#32;not&#32;a&#32;hex&#32;digit</emphasis>
+143 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;out;
+144 }
+145 
+146 <emphasis role="comment">//&#32;------------------------------------------------------------------------------------</emphasis>
+147 <emphasis role="comment">//&#32;Convert&#32;a&#32;hex-encoded&#32;octet&#32;(2&#32;characters,&#32;i.e.&#32;df&#32;or&#32;1a).</emphasis>
+148 <emphasis role="comment">//&#32;------------------------------------------------------------------------------------</emphasis>
+149 <emphasis role="keyword">inline</emphasis>
+150 uint8_t&#32;<link linkend="_namespace_assimp_1a50f9e78be9d92b2140273c577d24ff47">HexOctetToDecimal</link>(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;in)&#32;{
+151 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;((uint8_t)<link linkend="_namespace_assimp_1a6bb609222363ab9ba88298597056d65f">HexDigitToDecimal</link>(in[0])&lt;&lt;4)+(uint8_t)<link linkend="_namespace_assimp_1a6bb609222363ab9ba88298597056d65f">HexDigitToDecimal</link>(in[1]);
+152 }
+153 
+154 <emphasis role="comment">//&#32;------------------------------------------------------------------------------------</emphasis>
+155 <emphasis role="comment">//&#32;signed&#32;variant&#32;of&#32;strtoul10</emphasis>
+156 <emphasis role="comment">//&#32;------------------------------------------------------------------------------------</emphasis>
+157 <emphasis role="keyword">inline</emphasis>
+158 <emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespace_assimp_1a6712580fbbfe4f27e13815abf8e2a0e0">strtol10</link>(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;in,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>**&#32;out=0)&#32;{
+159 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;inv&#32;=&#32;(*in==<emphasis role="charliteral">&apos;-&apos;</emphasis>);
+160 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(&#32;inv&#32;||&#32;*in&#32;==&#32;<emphasis role="charliteral">&apos;+&apos;</emphasis>&#32;)&#32;{
+161 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;++in;
+162 &#32;&#32;&#32;&#32;}
+163 
+164 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>&#32;=&#32;<link linkend="_namespace_assimp_1a0b34bad3b9ad1b488391ede9b4f23c07">strtoul10</link>(in,out);
+165 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(inv)&#32;{
+166 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>&#32;=&#32;-<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>;
+167 &#32;&#32;&#32;&#32;}
+168 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>;
+169 }
+170 
+171 <emphasis role="comment">//&#32;------------------------------------------------------------------------------------</emphasis>
+172 <emphasis role="comment">//&#32;Parse&#32;a&#32;C++-like&#32;integer&#32;literal&#32;-&#32;hex&#32;and&#32;oct&#32;prefixes.</emphasis>
+173 <emphasis role="comment">//&#32;0xNNNN&#32;-&#32;hex</emphasis>
+174 <emphasis role="comment">//&#32;0NNN&#32;&#32;&#32;-&#32;oct</emphasis>
+175 <emphasis role="comment">//&#32;NNN&#32;&#32;&#32;&#32;-&#32;dec</emphasis>
+176 <emphasis role="comment">//&#32;------------------------------------------------------------------------------------</emphasis>
+177 <emphasis role="keyword">inline</emphasis>
+178 <emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_namespace_assimp_1a90b8b671fcfb5f9c2c1be40056cdef27">strtoul_cppstyle</link>(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;in,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>**&#32;out=0)&#32;{
+179 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(<emphasis role="charliteral">&apos;0&apos;</emphasis>&#32;==&#32;in[0])&#32;{
+180 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="charliteral">&apos;x&apos;</emphasis>&#32;==&#32;in[1]&#32;?&#32;<link linkend="_namespace_assimp_1a358486ae5448785a4eeb0b6d9ebe929b">strtoul16</link>(in+2,out)&#32;:&#32;<link linkend="_namespace_assimp_1a1c1db8ffa6363c57660b3d1d0dc8ed3f">strtoul8</link>(in+1,out);
+181 &#32;&#32;&#32;&#32;}
+182 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_namespace_assimp_1a0b34bad3b9ad1b488391ede9b4f23c07">strtoul10</link>(in,&#32;out);
+183 }
+184 
+185 <emphasis role="comment">//&#32;------------------------------------------------------------------------------------</emphasis>
+186 <emphasis role="comment">//&#32;Special&#32;version&#32;of&#32;the&#32;function,&#32;providing&#32;higher&#32;accuracy&#32;and&#32;safety</emphasis>
+187 <emphasis role="comment">//&#32;It&#32;is&#32;mainly&#32;used&#32;by&#32;fast_atof&#32;to&#32;prevent&#32;ugly&#32;and&#32;unwanted&#32;integer&#32;overflows.</emphasis>
+188 <emphasis role="comment">//&#32;------------------------------------------------------------------------------------</emphasis>
+189 <emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;ExceptionType&#32;=&#32;DeadlyImportError&gt;
+190 <emphasis role="keyword">inline</emphasis>
+191 uint64_t&#32;<link linkend="_namespace_assimp_1a0ceec2f2e3cbdd050b3a44a9384f4d0f">strtoul10_64</link>(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;in,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>**&#32;out=0,&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>*&#32;max_inout=0)&#32;{
+192 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;cur&#32;=&#32;0;
+193 &#32;&#32;&#32;&#32;uint64_t&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>&#32;=&#32;0;
+194 
+195 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(&#32;*in&#32;&lt;&#32;<emphasis role="charliteral">&apos;0&apos;</emphasis>&#32;||&#32;*in&#32;&gt;&#32;<emphasis role="charliteral">&apos;9&apos;</emphasis>&#32;)&#32;{
+196 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;The&#32;string&#32;is&#32;known&#32;to&#32;be&#32;bad,&#32;so&#32;don&apos;t&#32;risk&#32;printing&#32;the&#32;whole&#32;thing.</emphasis>
+197 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">throw</emphasis>&#32;ExceptionType(<emphasis role="stringliteral">&quot;The&#32;string&#32;\&quot;&quot;</emphasis>,&#32;<link linkend="__string_utils_8h_1ac93475a8288137104522606ff477c4db">ai_str_toprintable</link>(in,&#32;(<emphasis role="keywordtype">int</emphasis>)strlen(in)),&#32;<emphasis role="stringliteral">&quot;\&quot;&#32;cannot&#32;be&#32;converted&#32;into&#32;a&#32;value.&quot;</emphasis>&#32;);
+198 &#32;&#32;&#32;&#32;}
+199 
+200 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(&#32;;;&#32;)&#32;{
+201 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(&#32;*in&#32;&lt;&#32;<emphasis role="charliteral">&apos;0&apos;</emphasis>&#32;||&#32;*in&#32;&gt;&#32;<emphasis role="charliteral">&apos;9&apos;</emphasis>&#32;)&#32;{
+202 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">break</emphasis>;
+203 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+204 
+205 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;uint64_t&#32;new_value&#32;=&#32;(&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>&#32;*&#32;(uint64_t)&#32;10&#32;)&#32;+&#32;(&#32;(uint64_t)&#32;(&#32;*in&#32;-&#32;<emphasis role="charliteral">&apos;0&apos;</emphasis>&#32;)&#32;);
+206 
+207 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;numeric&#32;overflow,&#32;we&#32;rely&#32;on&#32;you</emphasis>
+208 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(&#32;new_value&#32;&lt;&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>&#32;)&#32;{
+209 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__logger_8hpp_1ae2042ef82dfa543c7f03ae9766067552">ASSIMP_LOG_WARN</link>(&#32;<emphasis role="stringliteral">&quot;Converting&#32;the&#32;string&#32;\&quot;&quot;</emphasis>,&#32;in,&#32;<emphasis role="stringliteral">&quot;\&quot;&#32;into&#32;a&#32;value&#32;resulted&#32;in&#32;overflow.&quot;</emphasis>&#32;);
+210 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;0;
+211 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+212 
+213 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>&#32;=&#32;new_value;
+214 
+215 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;++in;
+216 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;++cur;
+217 
+218 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(max_inout&#32;&amp;&amp;&#32;*max_inout&#32;==&#32;cur)&#32;{
+219 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(out)&#32;{&#32;<emphasis role="comment">/*&#32;skip&#32;to&#32;end&#32;*/</emphasis>
+220 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">while</emphasis>&#32;(&#32;*in&#32;&gt;=&#32;<emphasis role="charliteral">&apos;0&apos;</emphasis>&#32;&amp;&amp;&#32;*in&#32;&lt;=&#32;<emphasis role="charliteral">&apos;9&apos;</emphasis>&#32;)&#32;{
+221 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;++in;
+222 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+223 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*out&#32;=&#32;in;
+224 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+225 
+226 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>;
+227 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+228 &#32;&#32;&#32;&#32;}
+229 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(&#32;out&#32;)&#32;{
+230 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*out&#32;=&#32;in;
+231 &#32;&#32;&#32;&#32;}
+232 
+233 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(&#32;max_inout&#32;)&#32;{
+234 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*max_inout&#32;=&#32;cur;
+235 &#32;&#32;&#32;&#32;}
+236 
+237 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>;
+238 }
+239 
+240 <emphasis role="comment">//&#32;------------------------------------------------------------------------------------</emphasis>
+241 <emphasis role="comment">//&#32;signed&#32;variant&#32;of&#32;strtoul10_64</emphasis>
+242 <emphasis role="comment">//&#32;------------------------------------------------------------------------------------</emphasis>
+243 <emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;ExceptionType&#32;=&#32;DeadlyImportError&gt;
+244 <emphasis role="keyword">inline</emphasis>
+245 int64_t&#32;<link linkend="_namespace_assimp_1aa68dc5728b1b75a6010fc11e189a1f94">strtol10_64</link>(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;in,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>**&#32;out&#32;=&#32;0,&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>*&#32;max_inout&#32;=&#32;0)&#32;{
+246 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;inv&#32;=&#32;(*in&#32;==&#32;<emphasis role="charliteral">&apos;-&apos;</emphasis>);
+247 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(&#32;inv&#32;||&#32;*in&#32;==&#32;<emphasis role="charliteral">&apos;+&apos;</emphasis>&#32;)&#32;{
+248 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;++in;
+249 &#32;&#32;&#32;&#32;}
+250 
+251 &#32;&#32;&#32;&#32;int64_t&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>&#32;=&#32;<link linkend="_namespace_assimp_1a0ceec2f2e3cbdd050b3a44a9384f4d0f">strtoul10_64&lt;ExceptionType&gt;</link>(in,&#32;out,&#32;max_inout);
+252 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(inv)&#32;{
+253 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>&#32;=&#32;-<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>;
+254 &#32;&#32;&#32;&#32;}
+255 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>;
+256 }
+257 
+258 <emphasis role="comment">//&#32;Number&#32;of&#32;relevant&#32;decimals&#32;for&#32;floating-point&#32;parsing.</emphasis>
+259 <emphasis role="preprocessor">#define&#32;AI_FAST_ATOF_RELAVANT_DECIMALS&#32;15</emphasis>
+260 
+261 <emphasis role="comment">//&#32;------------------------------------------------------------------------------------</emphasis>
+264 <emphasis role="comment">//&#32;If&#32;you&#32;find&#32;any&#32;bugs,&#32;please&#32;send&#32;them&#32;to&#32;me,&#32;niko&#32;(at)&#32;irrlicht3d.org.</emphasis>
+265 <emphasis role="comment">//&#32;------------------------------------------------------------------------------------</emphasis>
+266 <emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;Real,&#32;<emphasis role="keyword">typename</emphasis>&#32;ExceptionType&#32;=&#32;DeadlyImportError&gt;
+267 <emphasis role="keyword">inline</emphasis>
+268 <emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_namespace_assimp_1a4b486541edb9e5bdda47cb9e73f9e877">fast_atoreal_move</link>(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;c,&#32;Real&amp;&#32;out,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;check_comma&#32;=&#32;<emphasis role="keyword">true</emphasis>)&#32;{
+269 &#32;&#32;&#32;&#32;Real&#32;<link linkend="_glad_8h_1ae29c29480f1260cc37ad71203904ea4d">f</link>&#32;=&#32;0;
+270 
+271 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;inv&#32;=&#32;(*c&#32;==&#32;<emphasis role="charliteral">&apos;-&apos;</emphasis>);
+272 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(inv&#32;||&#32;*c&#32;==&#32;<emphasis role="charliteral">&apos;+&apos;</emphasis>)&#32;{
+273 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;++c;
+274 &#32;&#32;&#32;&#32;}
+275 
+276 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;((c[0]&#32;==&#32;<emphasis role="charliteral">&apos;N&apos;</emphasis>&#32;||&#32;c[0]&#32;==&#32;<emphasis role="charliteral">&apos;n&apos;</emphasis>)&#32;&amp;&amp;&#32;<link linkend="_namespace_assimp_1a5718d462fef0070afea1d4ac4e65d4d8">ASSIMP_strincmp</link>(c,&#32;<emphasis role="stringliteral">&quot;nan&quot;</emphasis>,&#32;3)&#32;==&#32;0)&#32;{
+277 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;out&#32;=&#32;std::numeric_limits&lt;Real&gt;::quiet_NaN();
+278 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;c&#32;+=&#32;3;
+279 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;c;
+280 &#32;&#32;&#32;&#32;}
+281 
+282 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;((c[0]&#32;==&#32;<emphasis role="charliteral">&apos;I&apos;</emphasis>&#32;||&#32;c[0]&#32;==&#32;<emphasis role="charliteral">&apos;i&apos;</emphasis>)&#32;&amp;&amp;&#32;<link linkend="_namespace_assimp_1a5718d462fef0070afea1d4ac4e65d4d8">ASSIMP_strincmp</link>(c,&#32;<emphasis role="stringliteral">&quot;inf&quot;</emphasis>,&#32;3)&#32;==&#32;0)&#32;{
+283 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;out&#32;=&#32;std::numeric_limits&lt;Real&gt;::infinity();
+284 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(inv)&#32;{
+285 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;out&#32;=&#32;-out;
+286 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+287 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;c&#32;+=&#32;3;
+288 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;((c[0]&#32;==&#32;<emphasis role="charliteral">&apos;I&apos;</emphasis>&#32;||&#32;c[0]&#32;==&#32;<emphasis role="charliteral">&apos;i&apos;</emphasis>)&#32;&amp;&amp;&#32;<link linkend="_namespace_assimp_1a5718d462fef0070afea1d4ac4e65d4d8">ASSIMP_strincmp</link>(c,&#32;<emphasis role="stringliteral">&quot;inity&quot;</emphasis>,&#32;5)&#32;==&#32;0)&#32;{
+289 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;c&#32;+=&#32;5;
+290 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+291 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;c;
+292 &#32;&#32;&#32;&#32;&#32;}
+293 
+294 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(!(c[0]&#32;&gt;=&#32;<emphasis role="charliteral">&apos;0&apos;</emphasis>&#32;&amp;&amp;&#32;c[0]&#32;&lt;=&#32;<emphasis role="charliteral">&apos;9&apos;</emphasis>)&#32;&amp;&amp;
+295 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;!((c[0]&#32;==&#32;<emphasis role="charliteral">&apos;.&apos;</emphasis>&#32;||&#32;(check_comma&#32;&amp;&amp;&#32;c[0]&#32;==&#32;<emphasis role="charliteral">&apos;,&apos;</emphasis>))&#32;&amp;&amp;&#32;c[1]&#32;&gt;=&#32;<emphasis role="charliteral">&apos;0&apos;</emphasis>&#32;&amp;&amp;&#32;c[1]&#32;&lt;=&#32;<emphasis role="charliteral">&apos;9&apos;</emphasis>))&#32;{
+296 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;The&#32;string&#32;is&#32;known&#32;to&#32;be&#32;bad,&#32;so&#32;don&apos;t&#32;risk&#32;printing&#32;the&#32;whole&#32;thing.</emphasis>
+297 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">throw</emphasis>&#32;ExceptionType(<emphasis role="stringliteral">&quot;Cannot&#32;parse&#32;string&#32;\&quot;&quot;</emphasis>,&#32;<link linkend="__string_utils_8h_1ac93475a8288137104522606ff477c4db">ai_str_toprintable</link>(c,&#32;(<emphasis role="keywordtype">int</emphasis>)strlen(c)),
+298 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;\&quot;&#32;as&#32;a&#32;real&#32;number:&#32;does&#32;not&#32;start&#32;with&#32;digit&#32;&quot;</emphasis>
+299 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;or&#32;decimal&#32;point&#32;followed&#32;by&#32;digit.&quot;</emphasis>);
+300 &#32;&#32;&#32;&#32;}
+301 
+302 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(*c&#32;!=&#32;<emphasis role="charliteral">&apos;.&apos;</emphasis>&#32;&amp;&amp;&#32;(!&#32;check_comma&#32;||&#32;c[0]&#32;!=&#32;<emphasis role="charliteral">&apos;,&apos;</emphasis>))&#32;{
+303 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1ae29c29480f1260cc37ad71203904ea4d">f</link>&#32;=&#32;<emphasis role="keyword">static_cast&lt;</emphasis>Real<emphasis role="keyword">&gt;</emphasis>(&#32;<link linkend="_namespace_assimp_1a0ceec2f2e3cbdd050b3a44a9384f4d0f">strtoul10_64&lt;ExceptionType&gt;</link>&#32;(&#32;c,&#32;&amp;c)&#32;);
+304 &#32;&#32;&#32;&#32;}
+305 
+306 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;((*c&#32;==&#32;<emphasis role="charliteral">&apos;.&apos;</emphasis>&#32;||&#32;(check_comma&#32;&amp;&amp;&#32;c[0]&#32;==&#32;<emphasis role="charliteral">&apos;,&apos;</emphasis>))&#32;&amp;&amp;&#32;c[1]&#32;&gt;=&#32;<emphasis role="charliteral">&apos;0&apos;</emphasis>&#32;&amp;&amp;&#32;c[1]&#32;&lt;=&#32;<emphasis role="charliteral">&apos;9&apos;</emphasis>)&#32;{
+307 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;++c;
+308 
+309 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;NOTE:&#32;The&#32;original&#32;implementation&#32;is&#32;highly&#32;inaccurate&#32;here.&#32;The&#32;precision&#32;of&#32;a&#32;single</emphasis>
+310 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;IEEE&#32;754&#32;float&#32;is&#32;not&#32;high&#32;enough,&#32;everything&#32;behind&#32;the&#32;6th&#32;digit&#32;tends&#32;to&#32;be&#32;more</emphasis>
+311 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;inaccurate&#32;than&#32;it&#32;would&#32;need&#32;to&#32;be.&#32;Casting&#32;to&#32;double&#32;seems&#32;to&#32;solve&#32;the&#32;problem.</emphasis>
+312 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;strtol_64&#32;is&#32;used&#32;to&#32;prevent&#32;integer&#32;overflow.</emphasis>
+313 
+314 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Another&#32;fix:&#32;this&#32;tends&#32;to&#32;become&#32;0&#32;for&#32;long&#32;numbers&#32;if&#32;we&#32;don&apos;t&#32;limit&#32;the&#32;maximum</emphasis>
+315 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;number&#32;of&#32;digits&#32;to&#32;be&#32;read.&#32;AI_FAST_ATOF_RELAVANT_DECIMALS&#32;can&#32;be&#32;a&#32;value&#32;between</emphasis>
+316 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;1&#32;and&#32;15.</emphasis>
+317 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;diff&#32;=&#32;<link linkend="_fast__atof_8h_1ad5c925e60f317772de6318066b4daa6a">AI_FAST_ATOF_RELAVANT_DECIMALS</link>;
+318 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;pl&#32;=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><emphasis role="keywordtype">double</emphasis><emphasis role="keyword">&gt;</emphasis>(&#32;<link linkend="_namespace_assimp_1a0ceec2f2e3cbdd050b3a44a9384f4d0f">strtoul10_64&lt;ExceptionType&gt;</link>&#32;(&#32;c,&#32;&amp;c,&#32;&amp;diff&#32;));
+319 
+320 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;pl&#32;*=&#32;<link linkend="_namespace_assimp_1a54a4f58b78bc7d84c70aad4cc5eb79d5">fast_atof_table</link>[diff];
+321 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1ae29c29480f1260cc37ad71203904ea4d">f</link>&#32;+=&#32;<emphasis role="keyword">static_cast&lt;</emphasis>Real<emphasis role="keyword">&gt;</emphasis>(&#32;pl&#32;);
+322 &#32;&#32;&#32;&#32;}
+323 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;For&#32;backwards&#32;compatibility:&#32;eat&#32;trailing&#32;dots,&#32;but&#32;not&#32;trailing&#32;commas.</emphasis>
+324 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>&#32;<emphasis role="keywordflow">if</emphasis>&#32;(*c&#32;==&#32;<emphasis role="charliteral">&apos;.&apos;</emphasis>)&#32;{
+325 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;++c;
+326 &#32;&#32;&#32;&#32;}
+327 
+328 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;A&#32;major&#32;&apos;E&apos;&#32;must&#32;be&#32;allowed.&#32;Necessary&#32;for&#32;proper&#32;reading&#32;of&#32;some&#32;DXF&#32;files.</emphasis>
+329 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Thanks&#32;to&#32;Zhao&#32;Lei&#32;to&#32;point&#32;out&#32;that&#32;this&#32;if()&#32;must&#32;be&#32;outside&#32;the&#32;if&#32;(*c&#32;==&#32;&apos;.&apos;&#32;..)</emphasis>
+330 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(*c&#32;==&#32;<emphasis role="charliteral">&apos;e&apos;</emphasis>&#32;||&#32;*c&#32;==&#32;<emphasis role="charliteral">&apos;E&apos;</emphasis>)&#32;{
+331 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;++c;
+332 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">bool</emphasis>&#32;einv&#32;=&#32;(*c==<emphasis role="charliteral">&apos;-&apos;</emphasis>);
+333 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(einv&#32;||&#32;*c==<emphasis role="charliteral">&apos;+&apos;</emphasis>)&#32;{
+334 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;++c;
+335 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+336 
+337 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;The&#32;reason&#32;float&#32;constants&#32;are&#32;used&#32;here&#32;is&#32;that&#32;we&apos;ve&#32;seen&#32;cases&#32;where&#32;compilers</emphasis>
+338 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;would&#32;perform&#32;such&#32;casts&#32;on&#32;compile-time&#32;constants&#32;at&#32;runtime,&#32;which&#32;would&#32;be</emphasis>
+339 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;bad&#32;considering&#32;how&#32;frequently&#32;fast_atoreal_move&lt;float&gt;&#32;is&#32;called&#32;in&#32;Assimp.</emphasis>
+340 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Real&#32;exp&#32;=&#32;<emphasis role="keyword">static_cast&lt;</emphasis>Real<emphasis role="keyword">&gt;</emphasis>(&#32;<link linkend="_namespace_assimp_1a0ceec2f2e3cbdd050b3a44a9384f4d0f">strtoul10_64&lt;ExceptionType&gt;</link>(c,&#32;&amp;c)&#32;);
+341 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(einv)&#32;{
+342 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;exp&#32;=&#32;-exp;
+343 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+344 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1ae29c29480f1260cc37ad71203904ea4d">f</link>&#32;*=&#32;std::pow(<emphasis role="keyword">static_cast&lt;</emphasis>Real<emphasis role="keyword">&gt;</emphasis>(10.0),&#32;exp);
+345 &#32;&#32;&#32;&#32;}
+346 
+347 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(inv)&#32;{
+348 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1ae29c29480f1260cc37ad71203904ea4d">f</link>&#32;=&#32;-<link linkend="_glad_8h_1ae29c29480f1260cc37ad71203904ea4d">f</link>;
+349 &#32;&#32;&#32;&#32;}
+350 &#32;&#32;&#32;&#32;out&#32;=&#32;<link linkend="_glad_8h_1ae29c29480f1260cc37ad71203904ea4d">f</link>;
+351 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;c;
+352 }
+353 
+354 <emphasis role="comment">//&#32;------------------------------------------------------------------------------------</emphasis>
+355 <emphasis role="comment">//&#32;The&#32;same&#32;but&#32;more&#32;human.</emphasis>
+356 <emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;ExceptionType&#32;=&#32;DeadlyImportError&gt;
+357 <emphasis role="keyword">inline</emphasis>
+358 <link linkend="_defs_8h_1af221f9bbc3e0dc43a46efaaac6dab067">ai_real</link>&#32;<link linkend="_namespace_assimp_1a5528fa5dfe30cfbb445f48b469649ec8">fast_atof</link>(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;c)&#32;{
+359 &#32;&#32;&#32;&#32;<link linkend="_defs_8h_1af221f9bbc3e0dc43a46efaaac6dab067">ai_real</link>&#32;ret(0.0);
+360 &#32;&#32;&#32;&#32;<link linkend="_namespace_assimp_1a4b486541edb9e5bdda47cb9e73f9e877">fast_atoreal_move&lt;ai_real, ExceptionType&gt;</link>(c,&#32;ret);
+361 
+362 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;ret;
+363 }
+364 
+365 <emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;ExceptionType&#32;=&#32;DeadlyImportError&gt;
+366 <emphasis role="keyword">inline</emphasis>
+367 <link linkend="_defs_8h_1af221f9bbc3e0dc43a46efaaac6dab067">ai_real</link>&#32;<link linkend="_namespace_assimp_1a5528fa5dfe30cfbb445f48b469649ec8">fast_atof</link>(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;c,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>**&#32;cout)&#32;{
+368 &#32;&#32;&#32;&#32;<link linkend="_defs_8h_1af221f9bbc3e0dc43a46efaaac6dab067">ai_real</link>&#32;ret(0.0);
+369 &#32;&#32;&#32;&#32;*cout&#32;=&#32;<link linkend="_namespace_assimp_1a4b486541edb9e5bdda47cb9e73f9e877">fast_atoreal_move&lt;ai_real, ExceptionType&gt;</link>(c,&#32;ret);
+370 
+371 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;ret;
+372 }
+373 
+374 <emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;ExceptionType&#32;=&#32;DeadlyImportError&gt;
+375 <emphasis role="keyword">inline</emphasis>
+376 <link linkend="_defs_8h_1af221f9bbc3e0dc43a46efaaac6dab067">ai_real</link>&#32;<link linkend="_namespace_assimp_1a5528fa5dfe30cfbb445f48b469649ec8">fast_atof</link>(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>**&#32;inout)&#32;{
+377 &#32;&#32;&#32;&#32;<link linkend="_defs_8h_1af221f9bbc3e0dc43a46efaaac6dab067">ai_real</link>&#32;ret(0.0);
+378 &#32;&#32;&#32;&#32;*inout&#32;=&#32;<link linkend="_namespace_assimp_1a4b486541edb9e5bdda47cb9e73f9e877">fast_atoreal_move&lt;ai_real, ExceptionType&gt;</link>(*inout,&#32;ret);
+379 
+380 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;ret;
+381 }
+382 
+383 }&#32;
+384 
+385 <emphasis role="preprocessor">#endif&#32;</emphasis><emphasis role="comment">//&#32;FAST_A_TO_F_H_INCLUDED</emphasis>
+</programlisting></section>

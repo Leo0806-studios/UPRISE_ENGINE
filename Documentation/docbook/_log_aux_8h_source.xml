@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="__log_aux_8h_source" xml:lang="en-US">
+<title>LogAux.h</title>
+<indexterm><primary>adhed/assimp/LogAux.h</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 <emphasis role="comment">/*</emphasis>
+2 <emphasis role="comment">Open&#32;Asset&#32;Import&#32;Library&#32;(assimp)</emphasis>
+3 <emphasis role="comment">----------------------------------------------------------------------</emphasis>
+4 <emphasis role="comment"></emphasis>
+5 <emphasis role="comment">Copyright&#32;(c)&#32;2006-2022,&#32;assimp&#32;team</emphasis>
+6 <emphasis role="comment"></emphasis>
+7 <emphasis role="comment">All&#32;rights&#32;reserved.</emphasis>
+8 <emphasis role="comment"></emphasis>
+9 <emphasis role="comment">Redistribution&#32;and&#32;use&#32;of&#32;this&#32;software&#32;in&#32;source&#32;and&#32;binary&#32;forms,</emphasis>
+10 <emphasis role="comment">with&#32;or&#32;without&#32;modification,&#32;are&#32;permitted&#32;provided&#32;that&#32;the</emphasis>
+11 <emphasis role="comment">following&#32;conditions&#32;are&#32;met:</emphasis>
+12 <emphasis role="comment"></emphasis>
+13 <emphasis role="comment">*&#32;Redistributions&#32;of&#32;source&#32;code&#32;must&#32;retain&#32;the&#32;above</emphasis>
+14 <emphasis role="comment">&#32;&#32;copyright&#32;notice,&#32;this&#32;list&#32;of&#32;conditions&#32;and&#32;the</emphasis>
+15 <emphasis role="comment">&#32;&#32;following&#32;disclaimer.</emphasis>
+16 <emphasis role="comment"></emphasis>
+17 <emphasis role="comment">*&#32;Redistributions&#32;in&#32;binary&#32;form&#32;must&#32;reproduce&#32;the&#32;above</emphasis>
+18 <emphasis role="comment">&#32;&#32;copyright&#32;notice,&#32;this&#32;list&#32;of&#32;conditions&#32;and&#32;the</emphasis>
+19 <emphasis role="comment">&#32;&#32;following&#32;disclaimer&#32;in&#32;the&#32;documentation&#32;and/or&#32;other</emphasis>
+20 <emphasis role="comment">&#32;&#32;materials&#32;provided&#32;with&#32;the&#32;distribution.</emphasis>
+21 <emphasis role="comment"></emphasis>
+22 <emphasis role="comment">*&#32;Neither&#32;the&#32;name&#32;of&#32;the&#32;assimp&#32;team,&#32;nor&#32;the&#32;names&#32;of&#32;its</emphasis>
+23 <emphasis role="comment">&#32;&#32;contributors&#32;may&#32;be&#32;used&#32;to&#32;endorse&#32;or&#32;promote&#32;products</emphasis>
+24 <emphasis role="comment">&#32;&#32;derived&#32;from&#32;this&#32;software&#32;without&#32;specific&#32;prior</emphasis>
+25 <emphasis role="comment">&#32;&#32;written&#32;permission&#32;of&#32;the&#32;assimp&#32;team.</emphasis>
+26 <emphasis role="comment"></emphasis>
+27 <emphasis role="comment">THIS&#32;SOFTWARE&#32;IS&#32;PROVIDED&#32;BY&#32;THE&#32;COPYRIGHT&#32;HOLDERS&#32;AND&#32;CONTRIBUTORS</emphasis>
+28 <emphasis role="comment">&quot;AS&#32;IS&quot;&#32;AND&#32;ANY&#32;EXPRESS&#32;OR&#32;IMPLIED&#32;WARRANTIES,&#32;INCLUDING,&#32;BUT&#32;NOT</emphasis>
+29 <emphasis role="comment">LIMITED&#32;TO,&#32;THE&#32;IMPLIED&#32;WARRANTIES&#32;OF&#32;MERCHANTABILITY&#32;AND&#32;FITNESS&#32;FOR</emphasis>
+30 <emphasis role="comment">A&#32;PARTICULAR&#32;PURPOSE&#32;ARE&#32;DISCLAIMED.&#32;IN&#32;NO&#32;EVENT&#32;SHALL&#32;THE&#32;COPYRIGHT</emphasis>
+31 <emphasis role="comment">OWNER&#32;OR&#32;CONTRIBUTORS&#32;BE&#32;LIABLE&#32;FOR&#32;ANY&#32;DIRECT,&#32;INDIRECT,&#32;INCIDENTAL,</emphasis>
+32 <emphasis role="comment">SPECIAL,&#32;EXEMPLARY,&#32;OR&#32;CONSEQUENTIAL&#32;DAMAGES&#32;(INCLUDING,&#32;BUT&#32;NOT</emphasis>
+33 <emphasis role="comment">LIMITED&#32;TO,&#32;PROCUREMENT&#32;OF&#32;SUBSTITUTE&#32;GOODS&#32;OR&#32;SERVICES;&#32;LOSS&#32;OF&#32;USE,</emphasis>
+34 <emphasis role="comment">DATA,&#32;OR&#32;PROFITS;&#32;OR&#32;BUSINESS&#32;INTERRUPTION)&#32;HOWEVER&#32;CAUSED&#32;AND&#32;ON&#32;ANY</emphasis>
+35 <emphasis role="comment">THEORY&#32;OF&#32;LIABILITY,&#32;WHETHER&#32;IN&#32;CONTRACT,&#32;STRICT&#32;LIABILITY,&#32;OR&#32;TORT</emphasis>
+36 <emphasis role="comment">(INCLUDING&#32;NEGLIGENCE&#32;OR&#32;OTHERWISE)&#32;ARISING&#32;IN&#32;ANY&#32;WAY&#32;OUT&#32;OF&#32;THE&#32;USE</emphasis>
+37 <emphasis role="comment">OF&#32;THIS&#32;SOFTWARE,&#32;EVEN&#32;IF&#32;ADVISED&#32;OF&#32;THE&#32;POSSIBILITY&#32;OF&#32;SUCH&#32;DAMAGE.</emphasis>
+38 <emphasis role="comment"></emphasis>
+39 <emphasis role="comment">----------------------------------------------------------------------</emphasis>
+40 <emphasis role="comment">*/</emphasis>
+41 
+45 <emphasis role="preprocessor">#pragma&#32;once</emphasis>
+46 <emphasis role="preprocessor">#ifndef&#32;INCLUDED_AI_LOGAUX_H</emphasis>
+47 <emphasis role="preprocessor">#define&#32;INCLUDED_AI_LOGAUX_H</emphasis>
+48 
+49 <emphasis role="preprocessor">#ifdef&#32;__GNUC__</emphasis>
+50 <emphasis role="preprocessor">#&#32;&#32;&#32;pragma&#32;GCC&#32;system_header</emphasis>
+51 <emphasis role="preprocessor">#endif</emphasis>
+52 
+53 <emphasis role="preprocessor">#include&#32;&lt;<link linkend="__tiny_formatter_8h">assimp/TinyFormatter.h</link>&gt;</emphasis>
+54 <emphasis role="preprocessor">#include&#32;&lt;<link linkend="__exceptional_8h">assimp/Exceptional.h</link>&gt;</emphasis>
+55 <emphasis role="preprocessor">#include&#32;&lt;<link linkend="__default_logger_8hpp">assimp/DefaultLogger.hpp</link>&gt;</emphasis>
+56 
+57 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespace_assimp">Assimp</link>&#32;{
+58 
+61 <emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">class</emphasis>&#32;TDeriving&gt;
+62 <emphasis role="keyword">class&#32;</emphasis><link linkend="_class_assimp_1_1_log_functions">LogFunctions</link>&#32;{
+63 <emphasis role="keyword">public</emphasis>:
+64 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;------------------------------------------------------------------------------------------------</emphasis>
+65 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>...&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&gt;
+66 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_assimp_1_1_log_functions_1a152406e61f24c27bd2c20ecb4b3cf143">ThrowException</link>(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&amp;&amp;...&#32;args)
+67 &#32;&#32;&#32;&#32;{
+68 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">throw</emphasis>&#32;<link linkend="_class_deadly_import_error">DeadlyImportError</link>(Prefix(),&#32;std::forward&lt;T&gt;(args)...);
+69 &#32;&#32;&#32;&#32;}
+70 
+71 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;------------------------------------------------------------------------------------------------</emphasis>
+72 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>...&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&gt;
+73 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_assimp_1_1_log_functions_1a077d37ba3a8303542248cccff3b3d332">LogWarn</link>(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&amp;&amp;...&#32;args)&#32;{
+74 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(!<link linkend="_class_assimp_1_1_default_logger_1abebc7ee702a2a2dde765e771948400c6">DefaultLogger::isNullLogger</link>())&#32;{
+75 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__logger_8hpp_1ae2042ef82dfa543c7f03ae9766067552">ASSIMP_LOG_WARN</link>(Prefix(),&#32;std::forward&lt;T&gt;(args)...);
+76 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+77 &#32;&#32;&#32;&#32;}
+78 
+79 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;------------------------------------------------------------------------------------------------</emphasis>
+80 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>...&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&gt;
+81 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_assimp_1_1_log_functions_1a4f0f372bc912ff87a7340b29e2d9dec0">LogError</link>(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&amp;&amp;...&#32;args)&#32;&#32;{
+82 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(!<link linkend="_class_assimp_1_1_default_logger_1abebc7ee702a2a2dde765e771948400c6">DefaultLogger::isNullLogger</link>())&#32;{
+83 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__logger_8hpp_1af9c5f9debd2b062dec87a32121cf12dd">ASSIMP_LOG_ERROR</link>(Prefix(),&#32;std::forward&lt;T&gt;(args)...);
+84 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+85 &#32;&#32;&#32;&#32;}
+86 
+87 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;------------------------------------------------------------------------------------------------</emphasis>
+88 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>...&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&gt;
+89 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_assimp_1_1_log_functions_1ab66b363e82aade628aff56e7a05854c4">LogInfo</link>(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&amp;&amp;...&#32;args)&#32;&#32;{
+90 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(!<link linkend="_class_assimp_1_1_default_logger_1abebc7ee702a2a2dde765e771948400c6">DefaultLogger::isNullLogger</link>())&#32;{
+91 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__logger_8hpp_1a02b8b6684736711bfc07e74805d314bd">ASSIMP_LOG_INFO</link>(Prefix(),&#32;std::forward&lt;T&gt;(args)...);
+92 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+93 &#32;&#32;&#32;&#32;}
+94 
+95 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;------------------------------------------------------------------------------------------------</emphasis>
+96 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>...&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&gt;
+97 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_assimp_1_1_log_functions_1aab00c04699f94932eb8561a0cd2382e4">LogDebug</link>(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&amp;&amp;...&#32;args)&#32;&#32;{
+98 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(!<link linkend="_class_assimp_1_1_default_logger_1abebc7ee702a2a2dde765e771948400c6">DefaultLogger::isNullLogger</link>())&#32;{
+99 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__logger_8hpp_1a1a20dc2c2ad4ba28557c1c53375589c9">ASSIMP_LOG_DEBUG</link>(Prefix(),&#32;std::forward&lt;T&gt;(args)...);
+100 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+101 &#32;&#32;&#32;&#32;}
+102 
+103 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;------------------------------------------------------------------------------------------------</emphasis>
+104 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>...&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&gt;
+105 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_assimp_1_1_log_functions_1a952b0df256d133fb4bf6ebfa6bc3203b">LogVerboseDebug</link>(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&amp;&amp;...&#32;args)&#32;&#32;{
+106 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(!<link linkend="_class_assimp_1_1_default_logger_1abebc7ee702a2a2dde765e771948400c6">DefaultLogger::isNullLogger</link>())&#32;{
+107 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__logger_8hpp_1a2e93a38394c31960fa5a2f51a7c32da9">ASSIMP_LOG_VERBOSE_DEBUG</link>(Prefix(),&#32;std::forward&lt;T&gt;(args)...);
+108 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+109 &#32;&#32;&#32;&#32;}
+110 
+111 <emphasis role="keyword">private</emphasis>:
+112 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;Prefix();
+113 };
+114 
+115 }&#32;<emphasis role="comment">//&#32;!&#32;Assimp</emphasis>
+116 
+117 <emphasis role="preprocessor">#endif&#32;</emphasis><emphasis role="comment">//&#32;INCLUDED_AI_LOGAUX_H</emphasis>
+</programlisting></section>

@@ -1,4 +1,4 @@
-.TH "Terrain" 3 "Version 0.0.0.1" "My Project" \" -*- nroff -*-
+.TH "Terrain" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -13,6 +13,9 @@ Inherits \fBCORE::Behaviour\fP\&.
 .SS "Public Member Functions"
 
 .in +1c
+.ti -1c
+.RI "\fBCOPY\fP (\fBTerrain\fP, \fBData\fP=\fBTerrain_Data\fP();)"
+.br
 .ti -1c
 .RI "void \fBUpdate\fP () override"
 .br
@@ -35,6 +38,15 @@ Public Member Functions inherited from \fBCORE::Behaviour\fP
 .ti -1c
 .RI "\fBBehaviour\fP (\fBGameObject\fP *oobj, std::shared_ptr< \fBCORE::Behaviour\fP > trans)"
 .br
+.ti -1c
+.RI "virtual std::shared_ptr< \fBCORE::Behaviour\fP > \fBCopy\fP ()=0"
+.br
+.ti -1c
+.RI "virtual std::shared_ptr< \fBCORE::Behaviour\fP > \fBDeepCopy\fP ()=0"
+.br
+.ti -1c
+.RI "virtual void \fBEditorWindow\fP ()=0"
+.br
 .in -1c
 .SS "Public Attributes"
 
@@ -54,6 +66,9 @@ Public Attributes inherited from \fBCORE::Behaviour\fP
 .br
 .ti -1c
 .RI "std::shared_ptr< \fBCORE::Behaviour\fP > \fBtransf\fP"
+.br
+.ti -1c
+.RI "std::string \fBcompname\fP"
 .br
 .ti -1c
 .RI "UUID \fBuuID\fP"
@@ -107,31 +122,57 @@ Definition at line \fB7\fP of file \fBTERRAIN\&.h\fP\&.
 .SS "void Terrain::Awake ()\fR [override]\fP, \fR [virtual]\fP"
 
 .PP
-Implements \fBCORE::Behaviour\fP\&.
+Reimplemented from \fBCORE::Behaviour\fP\&.
 .PP
-Definition at line \fB7\fP of file \fBTERRAIN\&.cpp\fP\&.
+Definition at line \fB8\fP of file \fBTERRAIN\&.cpp\fP\&.
+.nf
+9 {
+10 }
+.PP
+.fi
+
+.SS "Terrain::COPY (\fBTerrain\fP , \fBData\fP  = \fR\fBTerrain_Data\fP();\fP)"
+
 .SS "void Terrain::GenerateData ()"
 
 .PP
-Definition at line \fB15\fP of file \fBTERRAIN\&.cpp\fP\&.
+Definition at line \fB16\fP of file \fBTERRAIN\&.cpp\fP\&.
+.nf
+17 {
+18 }
+.PP
+.fi
+
 .SS "void Terrain::Start ()\fR [override]\fP, \fR [virtual]\fP"
 
 .PP
-Implements \fBCORE::Behaviour\fP\&.
+Reimplemented from \fBCORE::Behaviour\fP\&.
 .PP
-Definition at line \fB11\fP of file \fBTERRAIN\&.cpp\fP\&.
+Definition at line \fB12\fP of file \fBTERRAIN\&.cpp\fP\&.
+.nf
+13 {
+14 }
+.PP
+.fi
+
 .SS "void Terrain::Update ()\fR [override]\fP, \fR [virtual]\fP"
 
 .PP
-Implements \fBCORE::Behaviour\fP\&.
+Reimplemented from \fBCORE::Behaviour\fP\&.
 .PP
-Definition at line \fB3\fP of file \fBTERRAIN\&.cpp\fP\&.
+Definition at line \fB4\fP of file \fBTERRAIN\&.cpp\fP\&.
+.nf
+5 {
+6 }
+.PP
+.fi
+
 .SH "Member Data Documentation"
 .PP 
 .SS "\fBTerrain_Data\fP Terrain::Data"
 
 .PP
-Definition at line \fB9\fP of file \fBTERRAIN\&.h\fP\&.
+Definition at line \fB12\fP of file \fBTERRAIN\&.h\fP\&.
 
 .SH "Author"
 .PP 

@@ -21,7 +21,7 @@ public:
 		COPY(Camera, Log << "DONT"; throw(std::exception()))
 		DEEP_COPY(Camera, Log << "DONT"; throw(std::exception()))
 		DATATYPES::Quaternion quat;
-	DATATYPES::TS_P_Vector3 rrot = DATATYPES::TS_P_Vector3(0, 0, 0);
+	DATATYPES::TSPVector3 rrot = DATATYPES::TSPVector3(0, 0, 0);
 	static UUID UUID;
 
 	Camera(std::shared_ptr<Transform> tr);

@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="__source1_8f90_source" xml:lang="en-US">
+<title>Source1.f90</title>
+<indexterm><primary>UPRISE_MATH/Source1.f90</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered"><anchor xml:id="__source1_8f90_source_1l00001"/>00001 <emphasis role="comment">!&#32;mathlib.f90</emphasis>
+<anchor xml:id="__source1_8f90_source_1l00002"/><link linkend="_namespacemathlib">00002</link> <emphasis role="keyword">module</emphasis>&#32;<link linkend="_namespacemathlib">mathlib</link>
+<anchor xml:id="__source1_8f90_source_1l00003"/>00003 &#32;use,&#32;<emphasis role="keywordtype">intrinsic</emphasis>&#32;::&#32;iso_c_binding
+<anchor xml:id="__source1_8f90_source_1l00004"/>00004 &#32;&#32;<emphasis role="keywordtype">implicit&#32;none</emphasis>
+<anchor xml:id="__source1_8f90_source_1l00005"/>00005 <emphasis role="keyword">contains</emphasis>
+<anchor xml:id="__source1_8f90_source_1l00006"/>00006 
+<anchor xml:id="__source1_8f90_source_1l00007"/><link linkend="_namespacemathlib_1a4fcf9dc6f6ab176d040f091c74a44148">00007</link> &#32;&#32;<emphasis role="keyword">function&#32;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1a3484337eb62912d41969dfebb103c382">dot_product</link>(a,&#32;b,&#32;n)&#32;<emphasis role="keyword">result</emphasis>(dp)&#32;<emphasis role="keyword">bind(C,&#32;name=&quot;dot_product&quot;)</emphasis>
+<anchor xml:id="__source1_8f90_source_1l00008"/>00008 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">integer</emphasis>,&#32;<emphasis role="keywordtype">intent(in)</emphasis>&#32;::&#32;n
+<anchor xml:id="__source1_8f90_source_1l00009"/>00009 <emphasis role="keywordtype">&#32;&#32;&#32;&#32;real</emphasis>,&#32;<emphasis role="keywordtype">intent(in)</emphasis>&#32;::&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>(n),&#32;<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>(n)
+<anchor xml:id="__source1_8f90_source_1l00010"/>00010 <emphasis role="keywordtype">&#32;&#32;&#32;&#32;real</emphasis>&#32;::&#32;dp
+<anchor xml:id="__source1_8f90_source_1l00011"/>00011 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">integer</emphasis>&#32;::&#32;i
+<anchor xml:id="__source1_8f90_source_1l00012"/>00012 
+<anchor xml:id="__source1_8f90_source_1l00013"/>00013 &#32;&#32;&#32;&#32;dp&#32;=&#32;0.0
+<anchor xml:id="__source1_8f90_source_1l00014"/>00014 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">do</emphasis>&#32;i&#32;=&#32;1,&#32;n
+<anchor xml:id="__source1_8f90_source_1l00015"/>00015 &#32;&#32;&#32;&#32;&#32;&#32;dp&#32;=&#32;dp&#32;+&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>(i)&#32;*&#32;<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>(i)
+<anchor xml:id="__source1_8f90_source_1l00016"/>00016 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;end&#32;do</emphasis>
+<anchor xml:id="__source1_8f90_source_1l00017"/>00017 &#32;&#32;<emphasis role="keyword">end&#32;function&#32;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1a3484337eb62912d41969dfebb103c382">dot_product</link>
+<anchor xml:id="__source1_8f90_source_1l00018"/>00018 
+<anchor xml:id="__source1_8f90_source_1l00019"/><link linkend="_namespacemathlib_1a53050956cef8e4ffca6103aef9a2bba3">00019</link> &#32;&#32;<emphasis role="keyword">function&#32;</emphasis><link linkend="_namespacemathlib_1a53050956cef8e4ffca6103aef9a2bba3">cross_product</link>(a,&#32;b)&#32;<emphasis role="keyword">result</emphasis>(c)
+<anchor xml:id="__source1_8f90_source_1l00020"/>00020 <emphasis role="keywordtype">&#32;&#32;&#32;&#32;real</emphasis>,&#32;<emphasis role="keywordtype">intent(in)</emphasis>&#32;::&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>(3),&#32;<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>(3)
+<anchor xml:id="__source1_8f90_source_1l00021"/>00021 <emphasis role="keywordtype">&#32;&#32;&#32;&#32;real</emphasis>&#32;::&#32;c(3)
+<anchor xml:id="__source1_8f90_source_1l00022"/>00022 
+<anchor xml:id="__source1_8f90_source_1l00023"/>00023 &#32;&#32;&#32;&#32;c(1)&#32;=&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>(2)&#32;*&#32;<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>(3)&#32;-&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>(3)&#32;*&#32;<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>(2)
+<anchor xml:id="__source1_8f90_source_1l00024"/>00024 &#32;&#32;&#32;&#32;c(2)&#32;=&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>(3)&#32;*&#32;<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>(1)&#32;-&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>(1)&#32;*&#32;<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>(3)
+<anchor xml:id="__source1_8f90_source_1l00025"/>00025 &#32;&#32;&#32;&#32;c(3)&#32;=&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>(1)&#32;*&#32;<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>(2)&#32;-&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>(2)&#32;*&#32;<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>(1)
+<anchor xml:id="__source1_8f90_source_1l00026"/>00026 &#32;&#32;<emphasis role="keyword">end&#32;function&#32;</emphasis><link linkend="_namespacemathlib_1a53050956cef8e4ffca6103aef9a2bba3">cross_product</link>
+<anchor xml:id="__source1_8f90_source_1l00027"/>00027 
+<anchor xml:id="__source1_8f90_source_1l00028"/><link linkend="_namespacemathlib_1a5c50735c39dd9a36dc49d8de83d31e5b">00028</link> &#32;&#32;<emphasis role="keyword">function&#32;</emphasis><link linkend="_namespacemathlib_1a5c50735c39dd9a36dc49d8de83d31e5b">matrix_multiply</link>(a,&#32;b,&#32;m,&#32;n,&#32;p)&#32;<emphasis role="keyword">result</emphasis>(c)
+<anchor xml:id="__source1_8f90_source_1l00029"/>00029 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">integer</emphasis>,&#32;<emphasis role="keywordtype">intent(in)</emphasis>&#32;::&#32;m,&#32;n,&#32;p
+<anchor xml:id="__source1_8f90_source_1l00030"/>00030 <emphasis role="keywordtype">&#32;&#32;&#32;&#32;real</emphasis>,&#32;<emphasis role="keywordtype">intent(in)</emphasis>&#32;::&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>(m,&#32;n),&#32;<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>(n,&#32;p)
+<anchor xml:id="__source1_8f90_source_1l00031"/>00031 <emphasis role="keywordtype">&#32;&#32;&#32;&#32;real</emphasis>&#32;::&#32;c(m,&#32;p)
+<anchor xml:id="__source1_8f90_source_1l00032"/>00032 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">integer</emphasis>&#32;::&#32;i,&#32;j,&#32;k
+<anchor xml:id="__source1_8f90_source_1l00033"/>00033 
+<anchor xml:id="__source1_8f90_source_1l00034"/>00034 &#32;&#32;&#32;&#32;c&#32;=&#32;0.0
+<anchor xml:id="__source1_8f90_source_1l00035"/>00035 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">do</emphasis>&#32;i&#32;=&#32;1,&#32;m
+<anchor xml:id="__source1_8f90_source_1l00036"/>00036 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">do</emphasis>&#32;j&#32;=&#32;1,&#32;p
+<anchor xml:id="__source1_8f90_source_1l00037"/>00037 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">do</emphasis>&#32;k&#32;=&#32;1,&#32;n
+<anchor xml:id="__source1_8f90_source_1l00038"/>00038 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;c(i,&#32;j)&#32;=&#32;c(i,&#32;j)&#32;+&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>(i,&#32;k)&#32;*&#32;<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>(k,&#32;j)
+<anchor xml:id="__source1_8f90_source_1l00039"/>00039 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;end&#32;do</emphasis>
+<anchor xml:id="__source1_8f90_source_1l00040"/>00040 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;&#32;&#32;end&#32;do</emphasis>
+<anchor xml:id="__source1_8f90_source_1l00041"/>00041 <emphasis role="keywordflow">&#32;&#32;&#32;&#32;end&#32;do</emphasis>
+<anchor xml:id="__source1_8f90_source_1l00042"/>00042 &#32;&#32;<emphasis role="keyword">end&#32;function&#32;</emphasis><link linkend="_namespacemathlib_1a5c50735c39dd9a36dc49d8de83d31e5b">matrix_multiply</link>
+<anchor xml:id="__source1_8f90_source_1l00043"/>00043 
+<anchor xml:id="__source1_8f90_source_1l00044"/>00044 <emphasis role="keyword">end&#32;module&#32;</emphasis><link linkend="_namespacemathlib">mathlib</link>
+</programlisting></section>

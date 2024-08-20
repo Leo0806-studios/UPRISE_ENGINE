@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_directxtk12__uwp_82024_86_85_81_2include_2_d_d_s_texture_loader_8h" xml:lang="en-US">
+<title>packages/directxtk12_uwp.2024.6.5.1/include/DDSTextureLoader.h File Reference</title>
+<indexterm><primary>packages/directxtk12_uwp.2024.6.5.1/include/DDSTextureLoader.h</primary></indexterm>
+<programlisting linenumbering="unnumbered">#include &lt;d3d12.h&gt;<?linebreak?>#include &lt;cstddef&gt;<?linebreak?>#include &lt;cstdint&gt;<?linebreak?>#include &lt;memory&gt;<?linebreak?>#include &lt;vector&gt;<?linebreak?></programlisting><simplesect>
+    <title>Namespaces    </title>
+        <itemizedlist>
+            <listitem><para>namespace <link linkend="_namespace_direct_x">DirectX</link></para>
+</listitem>
+            <listitem><para>namespace <link linkend="_namespace_direct_x_1_1_d_x12">DirectX::DX12</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Macros    </title>
+        <itemizedlist>
+            <listitem><para>#define <link linkend="_directxtk12__uwp_82024_86_85_81_2include_2_d_d_s_texture_loader_8h_1a36723582a4cf6288de2f2d06cb5ec1cc">DDS_ALPHA_MODE_DEFINED</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Enumerations    </title>
+        <itemizedlist>
+            <listitem><para>enum <link linkend="_namespace_direct_x_1ad9bfc0ef068aff1dbb3382ba00fd6c45">DirectX::DDS_ALPHA_MODE</link> : uint32_t { <?linebreak?><link linkend="_namespace_direct_x_1ad9bfc0ef068aff1dbb3382ba00fd6c45a7ebbd3c5fdf8fd6632734abb07938ec2">DirectX::DDS_ALPHA_MODE_UNKNOWN</link> = 0
+, <link linkend="_namespace_direct_x_1ad9bfc0ef068aff1dbb3382ba00fd6c45ae07fec1e50d4aa8f12c464007bea138c">DirectX::DDS_ALPHA_MODE_STRAIGHT</link> = 1
+, <link linkend="_namespace_direct_x_1ad9bfc0ef068aff1dbb3382ba00fd6c45a924111da3310e31067afb4ec5a8e31d9">DirectX::DDS_ALPHA_MODE_PREMULTIPLIED</link> = 2
+, <link linkend="_namespace_direct_x_1ad9bfc0ef068aff1dbb3382ba00fd6c45a996b4f17613c8db87949f1b3ce7c86e5">DirectX::DDS_ALPHA_MODE_OPAQUE</link> = 3
+, <?linebreak?><link linkend="_namespace_direct_x_1ad9bfc0ef068aff1dbb3382ba00fd6c45a31c6b8403cd5c018919727d7919bf656">DirectX::DDS_ALPHA_MODE_CUSTOM</link> = 4
+, <link linkend="_namespace_direct_x_1ad9bfc0ef068aff1dbb3382ba00fd6c45a7ebbd3c5fdf8fd6632734abb07938ec2">DirectX::DDS_ALPHA_MODE_UNKNOWN</link> = 0
+, <link linkend="_namespace_direct_x_1ad9bfc0ef068aff1dbb3382ba00fd6c45ae07fec1e50d4aa8f12c464007bea138c">DirectX::DDS_ALPHA_MODE_STRAIGHT</link> = 1
+, <link linkend="_namespace_direct_x_1ad9bfc0ef068aff1dbb3382ba00fd6c45a924111da3310e31067afb4ec5a8e31d9">DirectX::DDS_ALPHA_MODE_PREMULTIPLIED</link> = 2
+, <?linebreak?><link linkend="_namespace_direct_x_1ad9bfc0ef068aff1dbb3382ba00fd6c45a996b4f17613c8db87949f1b3ce7c86e5">DirectX::DDS_ALPHA_MODE_OPAQUE</link> = 3
+, <link linkend="_namespace_direct_x_1ad9bfc0ef068aff1dbb3382ba00fd6c45a31c6b8403cd5c018919727d7919bf656">DirectX::DDS_ALPHA_MODE_CUSTOM</link> = 4
+ }</para>
+</listitem>
+            <listitem><para>enum <link linkend="_namespace_direct_x_1_1_d_x12_1a2e7b122eb8b009b5699ac89d0a212d3a">DirectX::DX12::DDS_LOADER_FLAGS</link> : uint32_t { <?linebreak?><link linkend="_namespace_direct_x_1_1_d_x12_1a2e7b122eb8b009b5699ac89d0a212d3aa562812306ed245adbbbd70d4fcf419b7">DirectX::DX12::DDS_LOADER_DEFAULT</link> = 0
+, <link linkend="_namespace_direct_x_1_1_d_x12_1a2e7b122eb8b009b5699ac89d0a212d3aaffaa2ec1913ba10c6b3727c888ce0f10">DirectX::DX12::DDS_LOADER_FORCE_SRGB</link> = 0x1
+, <link linkend="_namespace_direct_x_1_1_d_x12_1a2e7b122eb8b009b5699ac89d0a212d3aa7b511b7d5f463a96f85faeb120c6899d">DirectX::DX12::DDS_LOADER_IGNORE_SRGB</link> = 0x2
+, <link linkend="_namespace_direct_x_1_1_d_x12_1a2e7b122eb8b009b5699ac89d0a212d3aa80b9eca7402209597e5042257e1c82af">DirectX::DX12::DDS_LOADER_MIP_AUTOGEN</link> = 0x8
+, <?linebreak?><link linkend="_namespace_direct_x_1_1_d_x12_1a2e7b122eb8b009b5699ac89d0a212d3aa7eb3f1742b2350c467f44b209b5343ea">DirectX::DX12::DDS_LOADER_MIP_RESERVE</link> = 0x10
+, <link linkend="_namespace_direct_x_1_1_d_x12_1a2e7b122eb8b009b5699ac89d0a212d3aa562812306ed245adbbbd70d4fcf419b7">DirectX::DX12::DDS_LOADER_DEFAULT</link> = 0
+, <link linkend="_namespace_direct_x_1_1_d_x12_1a2e7b122eb8b009b5699ac89d0a212d3aaffaa2ec1913ba10c6b3727c888ce0f10">DirectX::DX12::DDS_LOADER_FORCE_SRGB</link> = 0x1
+, <link linkend="_namespace_direct_x_1_1_d_x12_1a2e7b122eb8b009b5699ac89d0a212d3aa7b511b7d5f463a96f85faeb120c6899d">DirectX::DX12::DDS_LOADER_IGNORE_SRGB</link> = 0x2
+, <?linebreak?><link linkend="_namespace_direct_x_1_1_d_x12_1a2e7b122eb8b009b5699ac89d0a212d3aa80b9eca7402209597e5042257e1c82af">DirectX::DX12::DDS_LOADER_MIP_AUTOGEN</link> = 0x8
+, <link linkend="_namespace_direct_x_1_1_d_x12_1a2e7b122eb8b009b5699ac89d0a212d3aa7eb3f1742b2350c467f44b209b5343ea">DirectX::DX12::DDS_LOADER_MIP_RESERVE</link> = 0x10
+ }</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Functions    </title>
+        <itemizedlist>
+            <listitem><para>HRESULT __cdecl <link linkend="_namespace_direct_x_1a6eb6d7178c62bca3f0fb1f3a921d1e28">DirectX::LoadDDSTextureFromMemory</link> (_In_ <link linkend="_interface_i_d3_d12_device">ID3D12Device</link> *d3dDevice, _In_reads_bytes_(ddsDataSize) const uint8_t *ddsData, size_t ddsDataSize, _Outptr_ <link linkend="_interface_i_d3_d12_resource">ID3D12Resource</link> **<link linkend="_glad_8h_1ab21590c4736d1459a5a0674a42b5a655">texture</link>, std::vector&lt; <link linkend="_d3d12_8idl_1a072d5f038136878079147a50e137e25e">D3D12_SUBRESOURCE_DATA</link> &gt; &amp;subresources, size_t maxsize=0, _Out_opt_ <link linkend="_namespace_direct_x_1ad9bfc0ef068aff1dbb3382ba00fd6c45">DDS_ALPHA_MODE</link> *alphaMode=nullptr, _Out_opt_ bool *isCubeMap=nullptr)</para>
+</listitem>
+            <listitem><para>HRESULT __cdecl <link linkend="_namespace_direct_x_1adeeb9c4175ecbaeb481bb72f0d3b7043">DirectX::LoadDDSTextureFromFile</link> (_In_ <link linkend="_interface_i_d3_d12_device">ID3D12Device</link> *d3dDevice, _In_z_ const wchar_t *szFileName, _Outptr_ <link linkend="_interface_i_d3_d12_resource">ID3D12Resource</link> **<link linkend="_glad_8h_1ab21590c4736d1459a5a0674a42b5a655">texture</link>, std::unique_ptr&lt; uint8_t[]&gt; &amp;ddsData, std::vector&lt; <link linkend="_d3d12_8idl_1a072d5f038136878079147a50e137e25e">D3D12_SUBRESOURCE_DATA</link> &gt; &amp;subresources, size_t maxsize=0, _Out_opt_ <link linkend="_namespace_direct_x_1ad9bfc0ef068aff1dbb3382ba00fd6c45">DDS_ALPHA_MODE</link> *alphaMode=nullptr, _Out_opt_ bool *isCubeMap=nullptr)</para>
+</listitem>
+            <listitem><para>HRESULT __cdecl <link linkend="_namespace_direct_x_1aabb84cad361b0ac3afd85f7d7789c430">DirectX::CreateDDSTextureFromMemory</link> (_In_ <link linkend="_interface_i_d3_d12_device">ID3D12Device</link> *device, <link linkend="_class_direct_x_1_1_resource_upload_batch">ResourceUploadBatch</link> &amp;resourceUpload, _In_reads_bytes_(ddsDataSize) const uint8_t *ddsData, size_t ddsDataSize, _Outptr_ <link linkend="_interface_i_d3_d12_resource">ID3D12Resource</link> **<link linkend="_glad_8h_1ab21590c4736d1459a5a0674a42b5a655">texture</link>, bool generateMipsIfMissing=false, size_t maxsize=0, _Out_opt_ <link linkend="_namespace_direct_x_1ad9bfc0ef068aff1dbb3382ba00fd6c45">DDS_ALPHA_MODE</link> *alphaMode=nullptr, _Out_opt_ bool *isCubeMap=nullptr)</para>
+</listitem>
+            <listitem><para>HRESULT __cdecl <link linkend="_namespace_direct_x_1a02a7e27e6d8dae58f368674ebdc66fb8">DirectX::CreateDDSTextureFromFile</link> (_In_ <link linkend="_interface_i_d3_d12_device">ID3D12Device</link> *device, <link linkend="_class_direct_x_1_1_resource_upload_batch">ResourceUploadBatch</link> &amp;resourceUpload, _In_z_ const wchar_t *szFileName, _Outptr_ <link linkend="_interface_i_d3_d12_resource">ID3D12Resource</link> **<link linkend="_glad_8h_1ab21590c4736d1459a5a0674a42b5a655">texture</link>, bool generateMipsIfMissing=false, size_t maxsize=0, _Out_opt_ <link linkend="_namespace_direct_x_1ad9bfc0ef068aff1dbb3382ba00fd6c45">DDS_ALPHA_MODE</link> *alphaMode=nullptr, _Out_opt_ bool *isCubeMap=nullptr)</para>
+</listitem>
+            <listitem><para>HRESULT __cdecl <link linkend="_namespace_direct_x_1a6e40a12244f395ab2e9f88e814fecbc9">DirectX::LoadDDSTextureFromMemoryEx</link> (_In_ <link linkend="_interface_i_d3_d12_device">ID3D12Device</link> *d3dDevice, _In_reads_bytes_(ddsDataSize) const uint8_t *ddsData, size_t ddsDataSize, size_t maxsize, <link linkend="_d3d12_8idl_1a6b39131a2c1f6a2d37c4e993830531e4">D3D12_RESOURCE_FLAGS</link> resFlags, <link linkend="_namespace_direct_x_1_1_d_x12_1a2e7b122eb8b009b5699ac89d0a212d3a">DDS_LOADER_FLAGS</link> loadFlags, _Outptr_ <link linkend="_interface_i_d3_d12_resource">ID3D12Resource</link> **<link linkend="_glad_8h_1ab21590c4736d1459a5a0674a42b5a655">texture</link>, std::vector&lt; <link linkend="_d3d12_8idl_1a072d5f038136878079147a50e137e25e">D3D12_SUBRESOURCE_DATA</link> &gt; &amp;subresources, _Out_opt_ <link linkend="_namespace_direct_x_1ad9bfc0ef068aff1dbb3382ba00fd6c45">DDS_ALPHA_MODE</link> *alphaMode=nullptr, _Out_opt_ bool *isCubeMap=nullptr)</para>
+</listitem>
+            <listitem><para>HRESULT __cdecl <link linkend="_namespace_direct_x_1a350b01c4d3053d1548dc5a9d118ead70">DirectX::LoadDDSTextureFromFileEx</link> (_In_ <link linkend="_interface_i_d3_d12_device">ID3D12Device</link> *d3dDevice, _In_z_ const wchar_t *szFileName, size_t maxsize, <link linkend="_d3d12_8idl_1a6b39131a2c1f6a2d37c4e993830531e4">D3D12_RESOURCE_FLAGS</link> resFlags, <link linkend="_namespace_direct_x_1_1_d_x12_1a2e7b122eb8b009b5699ac89d0a212d3a">DDS_LOADER_FLAGS</link> loadFlags, _Outptr_ <link linkend="_interface_i_d3_d12_resource">ID3D12Resource</link> **<link linkend="_glad_8h_1ab21590c4736d1459a5a0674a42b5a655">texture</link>, std::unique_ptr&lt; uint8_t[]&gt; &amp;ddsData, std::vector&lt; <link linkend="_d3d12_8idl_1a072d5f038136878079147a50e137e25e">D3D12_SUBRESOURCE_DATA</link> &gt; &amp;subresources, _Out_opt_ <link linkend="_namespace_direct_x_1ad9bfc0ef068aff1dbb3382ba00fd6c45">DDS_ALPHA_MODE</link> *alphaMode=nullptr, _Out_opt_ bool *isCubeMap=nullptr)</para>
+</listitem>
+            <listitem><para>HRESULT __cdecl <link linkend="_namespace_direct_x_1adfaf1fe3e790a3c3e586259731d0c281">DirectX::CreateDDSTextureFromMemoryEx</link> (_In_ <link linkend="_interface_i_d3_d12_device">ID3D12Device</link> *device, <link linkend="_class_direct_x_1_1_resource_upload_batch">ResourceUploadBatch</link> &amp;resourceUpload, _In_reads_bytes_(ddsDataSize) const uint8_t *ddsData, size_t ddsDataSize, size_t maxsize, <link linkend="_d3d12_8idl_1a6b39131a2c1f6a2d37c4e993830531e4">D3D12_RESOURCE_FLAGS</link> resFlags, <link linkend="_namespace_direct_x_1_1_d_x12_1a2e7b122eb8b009b5699ac89d0a212d3a">DDS_LOADER_FLAGS</link> loadFlags, _Outptr_ <link linkend="_interface_i_d3_d12_resource">ID3D12Resource</link> **<link linkend="_glad_8h_1ab21590c4736d1459a5a0674a42b5a655">texture</link>, _Out_opt_ <link linkend="_namespace_direct_x_1ad9bfc0ef068aff1dbb3382ba00fd6c45">DDS_ALPHA_MODE</link> *alphaMode=nullptr, _Out_opt_ bool *isCubeMap=nullptr)</para>
+</listitem>
+            <listitem><para>HRESULT __cdecl <link linkend="_namespace_direct_x_1abd158533219957e85f0efa7b36345504">DirectX::CreateDDSTextureFromFileEx</link> (_In_ <link linkend="_interface_i_d3_d12_device">ID3D12Device</link> *device, <link linkend="_class_direct_x_1_1_resource_upload_batch">ResourceUploadBatch</link> &amp;resourceUpload, _In_z_ const wchar_t *szFileName, size_t maxsize, <link linkend="_d3d12_8idl_1a6b39131a2c1f6a2d37c4e993830531e4">D3D12_RESOURCE_FLAGS</link> resFlags, <link linkend="_namespace_direct_x_1_1_d_x12_1a2e7b122eb8b009b5699ac89d0a212d3a">DDS_LOADER_FLAGS</link> loadFlags, _Outptr_ <link linkend="_interface_i_d3_d12_resource">ID3D12Resource</link> **<link linkend="_glad_8h_1ab21590c4736d1459a5a0674a42b5a655">texture</link>, _Out_opt_ <link linkend="_namespace_direct_x_1ad9bfc0ef068aff1dbb3382ba00fd6c45">DDS_ALPHA_MODE</link> *alphaMode=nullptr, _Out_opt_ bool *isCubeMap=nullptr)</para>
+</listitem>
+            <listitem><para><link linkend="_namespace_direct_x_1_1_d_x12_1ab039dbc1416f762e1a6ea65957f31c66">DirectX::DX12::DEFINE_ENUM_FLAG_OPERATORS</link> (<link linkend="_namespace_direct_x_1_1_d_x12_1a2e7b122eb8b009b5699ac89d0a212d3a">DDS_LOADER_FLAGS</link>)</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Macro Definition Documentation</title>
+<anchor xml:id="_directxtk12__uwp_82024_86_85_81_2include_2_d_d_s_texture_loader_8h_1a36723582a4cf6288de2f2d06cb5ec1cc"/><section>
+    <title>DDS_ALPHA_MODE_DEFINED</title>
+<indexterm><primary>DDS_ALPHA_MODE_DEFINED</primary><secondary>DDSTextureLoader.h</secondary></indexterm>
+<indexterm><primary>DDSTextureLoader.h</primary><secondary>DDS_ALPHA_MODE_DEFINED</secondary></indexterm>
+<para><computeroutput>#define DDS_ALPHA_MODE_DEFINED</computeroutput></para></section>
+</section>
+</section>

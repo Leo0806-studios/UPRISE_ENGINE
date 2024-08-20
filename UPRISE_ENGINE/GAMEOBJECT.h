@@ -66,10 +66,10 @@ class Transform;
 			return *this;
 		}
 
-		static std::shared_ptr<GameObject> Create(DATATYPES::TS_P_Vector3 pos, void* mesh,int materialID);
-		static shared_ptr<GameObject> Create(DATATYPES::TS_P_Vector3 pos,Quaternion rot, std::shared_ptr<COMPONENTS::_Mesh> mesh,int materialID);
-		static GameObject CreateEmpty(DATATYPES::TS_P_Vector3 pos);
-		static GameObject CreateCamera(DATATYPES::TS_P_Vector3 pos, Quaternion rot);
+		static std::shared_ptr<GameObject> Create(DATATYPES::TSPVector3 pos, void* mesh,int materialID);
+		static shared_ptr<GameObject> Create(DATATYPES::TSPVector3 pos,Quaternion rot, std::shared_ptr<COMPONENTS::_Mesh> mesh,int materialID);
+		static GameObject CreateEmpty(DATATYPES::TSPVector3 pos);
+		static GameObject CreateCamera(DATATYPES::TSPVector3 pos, Quaternion rot);
 
 
 		//void AddComponent(void* component);
@@ -92,7 +92,7 @@ class Transform;
 			uuids.push_back(arg.UUID);
 
 			auto aaa = arg;
-			aaa.gameobject = this;
+			aaa.Game_Object = this;
 			//aaa.transf = behaviours[1];
 			aaa.TRANSFORM = TrAnSfOrM;
 			//using name = decltype(_Ty);
@@ -128,7 +128,7 @@ class Transform;
 			}
 			uuids.push_back(arg.UUID);
 			auto aa = (_Ty*)component;
-			aa->gameobject = this;
+			aa->Game_Object = this;
 			//using name = decltype(_Ty);
 			 std::string nm= typeid(_Ty).name();
 			 aa->compname = nm;

@@ -1,0 +1,222 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_packages_2directxtk12__uwp_82024_86_85_81_2include_2postprocess_8h_source" xml:lang="en-US">
+<title>PostProcess.h</title>
+<indexterm><primary>packages/directxtk12_uwp.2024.6.5.1/include/PostProcess.h</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 <emphasis role="comment">//--------------------------------------------------------------------------------------</emphasis>
+2 <emphasis role="comment">//&#32;File:&#32;PostProcess.h</emphasis>
+3 <emphasis role="comment">//</emphasis>
+4 <emphasis role="comment">//&#32;Copyright&#32;(c)&#32;Microsoft&#32;Corporation.</emphasis>
+5 <emphasis role="comment">//&#32;Licensed&#32;under&#32;the&#32;MIT&#32;License.</emphasis>
+6 <emphasis role="comment">//</emphasis>
+7 <emphasis role="comment">//&#32;http://go.microsoft.com/fwlink/?LinkID=615561</emphasis>
+8 <emphasis role="comment">//--------------------------------------------------------------------------------------</emphasis>
+9 
+10 <emphasis role="preprocessor">#pragma&#32;once</emphasis>
+11 
+12 <emphasis role="preprocessor">#ifdef&#32;_GAMING_XBOX_SCARLETT</emphasis>
+13 <emphasis role="preprocessor">#include&#32;&lt;d3d12_xs.h&gt;</emphasis>
+14 <emphasis role="preprocessor">#elif&#32;(defined(_XBOX_ONE)&#32;&amp;&amp;&#32;defined(_TITLE))&#32;||&#32;defined(_GAMING_XBOX)</emphasis>
+15 <emphasis role="preprocessor">#include&#32;&lt;d3d12_x.h&gt;</emphasis>
+16 <emphasis role="preprocessor">#elif&#32;defined(USING_DIRECTX_HEADERS)</emphasis>
+17 <emphasis role="preprocessor">#include&#32;&lt;directx/d3d12.h&gt;</emphasis>
+18 <emphasis role="preprocessor">#include&#32;&lt;dxguids/dxguids.h&gt;</emphasis>
+19 <emphasis role="preprocessor">#else</emphasis>
+20 <emphasis role="preprocessor">#include&#32;&lt;<link linkend="_d3d12_8h">d3d12.h</link>&gt;</emphasis>
+21 <emphasis role="preprocessor">#endif</emphasis>
+22 
+23 <emphasis role="preprocessor">#include&#32;&lt;memory&gt;</emphasis>
+24 
+25 <emphasis role="preprocessor">#include&#32;&lt;DirectXMath.h&gt;</emphasis>
+26 
+27 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_directxtk12__uwp_82024_86_85_81_2include_2_render_target_state_8h">RenderTargetState.h</link>&quot;</emphasis>
+28 
+29 
+30 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespace_direct_x">DirectX</link>
+31 {
+32 &#32;&#32;&#32;&#32;<emphasis role="keyword">inline</emphasis>&#32;<emphasis role="keyword">namespace&#32;</emphasis>DX12
+33 &#32;&#32;&#32;&#32;{
+34 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//------------------------------------------------------------------------------</emphasis>
+35 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Abstract&#32;interface&#32;representing&#32;a&#32;post-process&#32;pass</emphasis>
+36 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">class&#32;</emphasis><link linkend="_class_direct_x_1_1_d_x12_1_1_i_post_process">IPostProcess</link>
+37 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+38 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">public</emphasis>:
+39 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">virtual</emphasis>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_post_process_1a88d7426b2bcbd31d8543ed2a92bb9403">~IPostProcess</link>()&#32;=&#32;<emphasis role="keywordflow">default</emphasis>;
+40 
+41 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_post_process_1ac0a1d3172aebe33e7a281461ca1d5437">IPostProcess</link>(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_post_process">IPostProcess</link>&amp;)&#32;=&#32;<emphasis role="keyword">delete</emphasis>;
+42 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_post_process">IPostProcess</link>&amp;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_post_process_1abf2d8d22ffba95bad598b9145d4fc41a">operator=</link>(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_post_process">IPostProcess</link>&amp;)&#32;=&#32;<emphasis role="keyword">delete</emphasis>;
+43 
+44 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">virtual</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_post_process_1a082ac1a25e3f4ea45101b50999bbb3f8">Process</link>(_In_&#32;<link linkend="_interface_i_d3_d12_graphics_command_list">ID3D12GraphicsCommandList</link>*&#32;commandList)&#32;=&#32;0;
+45 
+46 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">protected</emphasis>:
+47 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_post_process_1af22622d3da9ccb795b93de730316da3c">IPostProcess</link>()&#32;=&#32;<emphasis role="keywordflow">default</emphasis>;
+48 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_post_process_1a287f201fdfeaae729e0ede71006236dd">IPostProcess</link>(<link linkend="_class_direct_x_1_1_d_x12_1_1_i_post_process">IPostProcess</link>&amp;&amp;)&#32;=&#32;<emphasis role="keywordflow">default</emphasis>;
+49 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_post_process">IPostProcess</link>&amp;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_post_process_1a501cfda19e0c3a407ac34e18036ba1d0">operator=</link>(<link linkend="_class_direct_x_1_1_d_x12_1_1_i_post_process">IPostProcess</link>&amp;&amp;)&#32;=&#32;<emphasis role="keywordflow">default</emphasis>;
+50 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+51 
+52 
+53 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//------------------------------------------------------------------------------</emphasis>
+54 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Basic&#32;post-process</emphasis>
+55 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">class&#32;</emphasis><link linkend="_class_direct_x_1_1_d_x12_1_1_basic_post_process">BasicPostProcess</link>&#32;:&#32;<emphasis role="keyword">public</emphasis>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_post_process">IPostProcess</link>
+56 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+57 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">public</emphasis>:
+58 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">enum</emphasis>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_post_process_1af42a50e9b058ad4b64b92035266e421a">Effect</link>&#32;:&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>
+59 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+60 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_post_process_1af42a50e9b058ad4b64b92035266e421aa667a47696ec56d700f40db3188b20e1b">Copy</link>,
+61 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_post_process_1af42a50e9b058ad4b64b92035266e421aa4a8229456f30f803aa9f9a1b5a803230">Monochrome</link>,
+62 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_post_process_1af42a50e9b058ad4b64b92035266e421aa61bb655ce7c9a182033e4ed825107206">Sepia</link>,
+63 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_post_process_1af42a50e9b058ad4b64b92035266e421aa3afc654383bfbd7acf9e20dc1f468113">DownScale_2x2</link>,
+64 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_post_process_1af42a50e9b058ad4b64b92035266e421aafa671e2d3398b597056b9aab48b9a4e4">DownScale_4x4</link>,
+65 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_post_process_1af42a50e9b058ad4b64b92035266e421aa2358de1c9ada03c8619f3cff0733cd13">GaussianBlur_5x5</link>,
+66 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_post_process_1af42a50e9b058ad4b64b92035266e421aa3726e65521f4d3ff30a6d59bf5333edb">BloomExtract</link>,
+67 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_post_process_1af42a50e9b058ad4b64b92035266e421aae412f30d62a536e38bb159b37add8eb5">BloomBlur</link>,
+68 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_post_process_1af42a50e9b058ad4b64b92035266e421aab89a2478cf2df0d9337f9088597e7e87">Effect_Max</link>
+69 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+70 
+71 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_post_process_1a32aa61d9a5d431baff7d199460c840dc">BasicPostProcess</link>(_In_&#32;<link linkend="_interface_i_d3_d12_device">ID3D12Device</link>*&#32;device,&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_class_direct_x_1_1_render_target_state">RenderTargetState</link>&amp;&#32;rtState,&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_post_process_1af42a50e9b058ad4b64b92035266e421a">Effect</link>&#32;fx);
+72 
+73 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_post_process_1a65d062963fd050933e408fcb586710cb">BasicPostProcess</link>(<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_post_process">BasicPostProcess</link>&amp;&amp;)&#32;noexcept;
+74 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_post_process">BasicPostProcess</link>&amp;&#32;operator=&#32;(<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_post_process">BasicPostProcess</link>&amp;&amp;)&#32;noexcept;
+75 
+76 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_post_process">BasicPostProcess</link>(<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_post_process">BasicPostProcess</link>&#32;const&amp;)&#32;=&#32;delete;
+77 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_post_process">BasicPostProcess</link>&amp;&#32;operator=&#32;(<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_post_process">BasicPostProcess</link>&#32;const&amp;)&#32;=&#32;delete;
+78 
+79 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;~<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_post_process">BasicPostProcess</link>()&#32;override;
+80 
+81 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;IPostProcess&#32;methods.</emphasis>
+82 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_post_process_1aa272a21f122e5766d527e938b19fe594">Process</link>(_In_&#32;<link linkend="_interface_i_d3_d12_graphics_command_list">ID3D12GraphicsCommandList</link>*&#32;commandList)&#32;override;
+83 
+84 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Properties</emphasis>
+85 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_post_process_1a2fd7b7947dced7ed6237724d5e4f4fbe">SetSourceTexture</link>(<link linkend="_struct_d3_d12___g_p_u___d_e_s_c_r_i_p_t_o_r___h_a_n_d_l_e">D3D12_GPU_DESCRIPTOR_HANDLE</link>&#32;srvDescriptor,&#32;_In_opt_&#32;<link linkend="_interface_i_d3_d12_resource">ID3D12Resource</link>*&#32;resource);
+86 
+87 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Sets&#32;multiplier&#32;for&#32;GaussianBlur_5x5</emphasis>
+88 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_post_process_1a0eb82b2e4a8e774c1728ec1ed7dc54bb">SetGaussianParameter</link>(<emphasis role="keywordtype">float</emphasis>&#32;multiplier);
+89 
+90 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Sets&#32;parameters&#32;for&#32;BloomExtract</emphasis>
+91 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_post_process_1a6170038b07b074b09d8be6ceaf35f8ce">SetBloomExtractParameter</link>(<emphasis role="keywordtype">float</emphasis>&#32;threshold);
+92 
+93 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Sets&#32;parameters&#32;for&#32;BloomBlur</emphasis>
+94 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_post_process_1a20138db4e3d8f10f42efedf1da48387e">SetBloomBlurParameters</link>(<emphasis role="keywordtype">bool</emphasis>&#32;horizontal,&#32;<emphasis role="keywordtype">float</emphasis>&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>,&#32;<emphasis role="keywordtype">float</emphasis>&#32;brightness);
+95 
+96 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;private:
+97 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Private&#32;implementation.</emphasis>
+98 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;class&#32;Impl;
+99 
+100 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacestd">std</link>::unique_ptr&lt;Impl&gt;&#32;pImpl;
+101 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+102 
+103 
+104 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//------------------------------------------------------------------------------</emphasis>
+105 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Dual-texure&#32;post-process</emphasis>
+106 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;class&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_dual_post_process">DualPostProcess</link>&#32;:&#32;public&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_post_process">IPostProcess</link>
+107 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+108 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">public</emphasis>:
+109 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">enum</emphasis>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_dual_post_process_1ad0d5b1c14ee72c3bae2d3feac303a72d">Effect</link>&#32;:&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>
+110 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+111 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Merge,
+112 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;BloomCombine,
+113 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_post_process_1af42a50e9b058ad4b64b92035266e421aab89a2478cf2df0d9337f9088597e7e87">Effect_Max</link>
+114 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+115 
+116 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_dual_post_process_1a0694778e1a8b5448dac80cc8e8bcc608">DualPostProcess</link>(_In_&#32;<link linkend="_interface_i_d3_d12_device">ID3D12Device</link>*&#32;device,&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_class_direct_x_1_1_render_target_state">RenderTargetState</link>&amp;&#32;rtState,&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_dual_post_process_1ad0d5b1c14ee72c3bae2d3feac303a72d">Effect</link>&#32;fx);
+117 
+118 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_dual_post_process_1a4e124d23630980af282de7605de599a3">DualPostProcess</link>(<link linkend="_class_direct_x_1_1_d_x12_1_1_dual_post_process">DualPostProcess</link>&amp;&amp;)&#32;noexcept;
+119 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_dual_post_process">DualPostProcess</link>&amp;&#32;operator=&#32;(<link linkend="_class_direct_x_1_1_d_x12_1_1_dual_post_process">DualPostProcess</link>&amp;&amp;)&#32;noexcept;
+120 
+121 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_dual_post_process">DualPostProcess</link>(<link linkend="_class_direct_x_1_1_d_x12_1_1_dual_post_process">DualPostProcess</link>&#32;const&amp;)&#32;=&#32;delete;
+122 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_dual_post_process">DualPostProcess</link>&amp;&#32;operator=&#32;(<link linkend="_class_direct_x_1_1_d_x12_1_1_dual_post_process">DualPostProcess</link>&#32;const&amp;)&#32;=&#32;delete;
+123 
+124 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;~<link linkend="_class_direct_x_1_1_d_x12_1_1_dual_post_process">DualPostProcess</link>()&#32;override;
+125 
+126 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;IPostProcess&#32;methods.</emphasis>
+127 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_post_process_1aa272a21f122e5766d527e938b19fe594">Process</link>(_In_&#32;<link linkend="_interface_i_d3_d12_graphics_command_list">ID3D12GraphicsCommandList</link>*&#32;commandList)&#32;override;
+128 
+129 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Properties</emphasis>
+130 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_post_process_1a2fd7b7947dced7ed6237724d5e4f4fbe">SetSourceTexture</link>(<link linkend="_struct_d3_d12___g_p_u___d_e_s_c_r_i_p_t_o_r___h_a_n_d_l_e">D3D12_GPU_DESCRIPTOR_HANDLE</link>&#32;srvDescriptor);
+131 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;SetSourceTexture2(<link linkend="_struct_d3_d12___g_p_u___d_e_s_c_r_i_p_t_o_r___h_a_n_d_l_e">D3D12_GPU_DESCRIPTOR_HANDLE</link>&#32;srvDescriptor);
+132 
+133 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Sets&#32;parameters&#32;for&#32;Merge</emphasis>
+134 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;SetMergeParameters(<emphasis role="keywordtype">float</emphasis>&#32;weight1,&#32;<emphasis role="keywordtype">float</emphasis>&#32;weight2);
+135 
+136 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Sets&#32;parameters&#32;for&#32;BloomCombine</emphasis>
+137 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;SetBloomCombineParameters(<emphasis role="keywordtype">float</emphasis>&#32;bloom,&#32;<emphasis role="keywordtype">float</emphasis>&#32;base,&#32;<emphasis role="keywordtype">float</emphasis>&#32;bloomSaturation,&#32;<emphasis role="keywordtype">float</emphasis>&#32;baseSaturation);
+138 
+139 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;private:
+140 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Private&#32;implementation.</emphasis>
+141 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;class&#32;Impl;
+142 
+143 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacestd">std</link>::unique_ptr&lt;Impl&gt;&#32;pImpl;
+144 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+145 
+146 
+147 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//------------------------------------------------------------------------------</emphasis>
+148 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Tone-map&#32;post-process</emphasis>
+149 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;class&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_tone_map_post_process">ToneMapPostProcess</link>&#32;:&#32;public&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_post_process">IPostProcess</link>
+150 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+151 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">public</emphasis>:
+152 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Tone-mapping&#32;operator</emphasis>
+153 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">enum</emphasis>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_tone_map_post_process_1aa784bf364f3b2527da3f88c870a0d8d0">Operator</link>&#32;:&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>
+154 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+155 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;None,&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Pass-through</emphasis>
+156 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Saturate,&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Clamp&#32;[0,1]</emphasis>
+157 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Reinhard,&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;x/(1+x)</emphasis>
+158 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ACESFilmic,
+159 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Operator_Max
+160 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+161 
+162 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Electro-Optical&#32;Transfer&#32;Function&#32;(EOTF)</emphasis>
+163 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">enum</emphasis>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_tone_map_post_process_1a7b5aacd2f2a69b5f89de0c5782ed93a8">TransferFunction</link>&#32;:&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>
+164 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+165 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Linear,&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Pass-through</emphasis>
+166 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;SRGB,&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;sRGB&#32;(Rec.709&#32;and&#32;approximate&#32;sRGB&#32;display&#32;curve)</emphasis>
+167 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ST2084,&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;HDR10&#32;(Rec.2020&#32;color&#32;primaries&#32;and&#32;ST.2084&#32;display&#32;curve)</emphasis>
+168 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;TransferFunction_Max
+169 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+170 
+171 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Color&#32;Rotation&#32;Transform&#32;for&#32;HDR10</emphasis>
+172 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">enum</emphasis>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_tone_map_post_process_1ae717ad5c038c81888891bfffdedbbe9f">ColorPrimaryRotation</link>&#32;:&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>
+173 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+174 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;HDTV_to_UHDTV,&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Rec.709&#32;to&#32;Rec.2020</emphasis>
+175 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;DCI_P3_D65_to_UHDTV,&#32;<emphasis role="comment">//&#32;DCI-P3-D65&#32;(a.k.a&#32;Display&#32;P3&#32;or&#32;P3D65)&#32;to&#32;Rec.2020</emphasis>
+176 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;HDTV_to_DCI_P3_D65,&#32;&#32;<emphasis role="comment">//&#32;Rec.709&#32;to&#32;DCI-P3-D65&#32;(a.k.a&#32;Display&#32;P3&#32;or&#32;P3D65)</emphasis>
+177 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+178 
+179 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_tone_map_post_process_1aefe58d7ffa2238079daec313a9d2667e">ToneMapPostProcess</link>(_In_&#32;<link linkend="_interface_i_d3_d12_device">ID3D12Device</link>*&#32;device,&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_class_direct_x_1_1_render_target_state">RenderTargetState</link>&amp;&#32;rtState,
+180 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_tone_map_post_process_1aa784bf364f3b2527da3f88c870a0d8d0">Operator</link>&#32;<link linkend="_tracy__lz4hc_8cpp_1a853ce719be9725860615b4ec1f7f23a9">op</link>,&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_tone_map_post_process_1a7b5aacd2f2a69b5f89de0c5782ed93a8">TransferFunction</link>&#32;<link linkend="_glad_8h_1a18ae3ab36a07e388833b568cfdfa90c8">func</link>
+181 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;#<emphasis role="keywordflow">if</emphasis>&#32;(defined(_XBOX_ONE)&#32;&amp;&amp;&#32;defined(_TITLE))&#32;||&#32;defined(_GAMING_XBOX)
+182 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;mrt&#32;=&#32;<emphasis role="keyword">false</emphasis>
+183 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;#endif
+184 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;);
+185 
+186 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_tone_map_post_process_1a8455a4ae54f579a6baf3800ecdd46b3e">ToneMapPostProcess</link>(<link linkend="_class_direct_x_1_1_d_x12_1_1_tone_map_post_process">ToneMapPostProcess</link>&amp;&amp;)&#32;noexcept;
+187 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_tone_map_post_process">ToneMapPostProcess</link>&amp;&#32;operator=&#32;(<link linkend="_class_direct_x_1_1_d_x12_1_1_tone_map_post_process">ToneMapPostProcess</link>&amp;&amp;)&#32;noexcept;
+188 
+189 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_tone_map_post_process">ToneMapPostProcess</link>(<link linkend="_class_direct_x_1_1_d_x12_1_1_tone_map_post_process">ToneMapPostProcess</link>&#32;const&amp;)&#32;=&#32;delete;
+190 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_tone_map_post_process">ToneMapPostProcess</link>&amp;&#32;operator=&#32;(<link linkend="_class_direct_x_1_1_d_x12_1_1_tone_map_post_process">ToneMapPostProcess</link>&#32;const&amp;)&#32;=&#32;delete;
+191 
+192 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;~<link linkend="_class_direct_x_1_1_d_x12_1_1_tone_map_post_process">ToneMapPostProcess</link>()&#32;override;
+193 
+194 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;IPostProcess&#32;methods.</emphasis>
+195 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_post_process_1aa272a21f122e5766d527e938b19fe594">Process</link>(_In_&#32;<link linkend="_interface_i_d3_d12_graphics_command_list">ID3D12GraphicsCommandList</link>*&#32;commandList)&#32;override;
+196 
+197 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Properties</emphasis>
+198 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;SetHDRSourceTexture(<link linkend="_struct_d3_d12___g_p_u___d_e_s_c_r_i_p_t_o_r___h_a_n_d_l_e">D3D12_GPU_DESCRIPTOR_HANDLE</link>&#32;srvDescriptor);
+199 
+200 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Sets&#32;the&#32;Color&#32;Rotation&#32;Transform&#32;for&#32;HDR10&#32;signal&#32;output</emphasis>
+201 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;SetColorRotation(<link linkend="_class_direct_x_1_1_d_x12_1_1_tone_map_post_process_1ae717ad5c038c81888891bfffdedbbe9f">ColorPrimaryRotation</link>&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>);
+202 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;SetColorRotation(CXMMATRIX&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>);
+203 
+204 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Sets&#32;exposure&#32;value&#32;for&#32;LDR&#32;tonemap&#32;operators</emphasis>
+205 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;SetExposure(<emphasis role="keywordtype">float</emphasis>&#32;exposureValue);
+206 
+207 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Sets&#32;ST.2084&#32;parameter&#32;for&#32;how&#32;bright&#32;white&#32;should&#32;be&#32;in&#32;nits</emphasis>
+208 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;SetST2084Parameter(<emphasis role="keywordtype">float</emphasis>&#32;paperWhiteNits);
+209 
+210 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;private:
+211 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Private&#32;implementation.</emphasis>
+212 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;class&#32;Impl;
+213 
+214 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacestd">std</link>::unique_ptr&lt;Impl&gt;&#32;pImpl;
+215 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+216 &#32;&#32;&#32;&#32;}
+217 }
+</programlisting></section>

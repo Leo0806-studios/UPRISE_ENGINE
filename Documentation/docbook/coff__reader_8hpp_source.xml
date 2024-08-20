@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_coff__reader_8hpp_source" xml:lang="en-US">
+<title>coff_reader.hpp</title>
+<indexterm><primary>BLINK/source/coff_reader.hpp</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 
+6 <emphasis role="preprocessor">#pragma&#32;once</emphasis>
+7 
+8 <emphasis role="preprocessor">#include&#32;&lt;filesystem&gt;</emphasis>
+9 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_scoped__handle_8hpp">scoped_handle.hpp</link>&quot;</emphasis>
+10 
+11 <emphasis role="keyword">union&#32;</emphasis><link linkend="_union_c_o_f_f___h_e_a_d_e_r">COFF_HEADER</link>
+12 {
+13 &#32;&#32;&#32;&#32;<emphasis role="keyword">constexpr</emphasis>&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keyword">const</emphasis>&#32;uint8_t&#32;<link linkend="_union_c_o_f_f___h_e_a_d_e_r_1ae9827322ebb1ad32da2334dae000b161">bigobj_classid</link>[16]&#32;=&#32;{
+14 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;0xc7,&#32;0xa1,&#32;0xba,&#32;0xd1,&#32;0xee,&#32;0xba,&#32;0xa9,&#32;0x4b,
+15 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;0xaf,&#32;0x20,&#32;0xfa,&#32;0xf6,&#32;0x6a,&#32;0xa4,&#32;0xdc,&#32;0xb8,
+16 &#32;&#32;&#32;&#32;};
+17 
+18 &#32;&#32;&#32;&#32;<emphasis role="comment">//This&#32;is&#32;actually&#32;a&#32;16byte&#32;UUID</emphasis>
+19 &#32;&#32;&#32;&#32;<emphasis role="keyword">static_assert</emphasis>(<emphasis role="keyword">sizeof</emphasis>(<link linkend="_union_c_o_f_f___h_e_a_d_e_r_1ae9827322ebb1ad32da2334dae000b161">bigobj_classid</link>)&#32;==&#32;<emphasis role="keyword">sizeof</emphasis>(CLSID));
+20 
+21 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_union_c_o_f_f___h_e_a_d_e_r_1a9a99bf56629ee0e0ebb53639afc08ccd">is_extended</link>()<emphasis role="keyword">&#32;const&#32;</emphasis>{
+22 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_union_c_o_f_f___h_e_a_d_e_r_1a81123bf2a004a215480aa3f8ec7a6fa2">bigobj</link>.Sig1&#32;==&#32;0x0000&#32;&amp;&amp;&#32;<link linkend="_union_c_o_f_f___h_e_a_d_e_r_1a81123bf2a004a215480aa3f8ec7a6fa2">bigobj</link>.Sig2&#32;==&#32;0xFFFF&#32;&amp;&amp;&#32;memcmp(&amp;<link linkend="_union_c_o_f_f___h_e_a_d_e_r_1a81123bf2a004a215480aa3f8ec7a6fa2">bigobj</link>.ClassID,&#32;<link linkend="_union_c_o_f_f___h_e_a_d_e_r_1ae9827322ebb1ad32da2334dae000b161">bigobj_classid</link>,&#32;<emphasis role="keyword">sizeof</emphasis>(CLSID))&#32;==&#32;0&#32;;
+23 &#32;&#32;&#32;&#32;}
+24 
+25 &#32;&#32;&#32;&#32;IMAGE_FILE_HEADER&#32;<link linkend="_union_c_o_f_f___h_e_a_d_e_r_1a02b4514229b307fd0d660e9f16deb93f">obj</link>;
+26 &#32;&#32;&#32;&#32;ANON_OBJECT_HEADER_BIGOBJ&#32;<link linkend="_union_c_o_f_f___h_e_a_d_e_r_1a81123bf2a004a215480aa3f8ec7a6fa2">bigobj</link>;
+27 };
+28 
+29 <link linkend="_structscoped__handle">scoped_handle</link>&#32;<link linkend="_coff__reader_8hpp_1ab0ccc64977c1afb25636e0cc7658a1aa">open_coff_file</link>(<emphasis role="keyword">const</emphasis>&#32;std::filesystem::path&#32;&amp;path,&#32;<link linkend="_union_c_o_f_f___h_e_a_d_e_r">COFF_HEADER</link>&#32;&amp;header);
+</programlisting></section>

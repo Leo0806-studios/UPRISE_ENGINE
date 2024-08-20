@@ -1,0 +1,72 @@
+.TH "adhed/assimp/texture.h" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+adhed/assimp/texture.h \- Defines texture helper structures for the library\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+\fR#include <assimp/types\&.h>\fP
+.br
+\fR#include '\&./Compiler/pushpack1\&.h'\fP
+.br
+\fR#include '\&./Compiler/poppack1\&.h'\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBaiTexel\fP"
+.br
+.RI "Helper structure to represent a texel in a ARGB8888 format\&. "
+.ti -1c
+.RI "struct \fBaiTexture\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBAI_TEXTURE_H_INC\fP"
+.br
+.ti -1c
+.RI "#define \fBAI_EMBEDDED_TEXNAME_PREFIX\fP   '*'"
+.br
+.ti -1c
+.RI "#define \fBAI_MAKE_EMBEDDED_TEXNAME\fP(_n_)   \fBAI_EMBEDDED_TEXNAME_PREFIX\fP # _n_"
+.br
+.ti -1c
+.RI "#define \fBHINTMAXTEXTURELEN\fP   9"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "\fBstruct\fP \fBaiTexel\fP \fBPACK_STRUCT\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Defines texture helper structures for the library\&. 
+
+Used for file formats which embed their textures into the model file\&. Supported are both normal textures, which are stored as uncompressed pixels, and 'compressed' textures, which are stored in a file format such as PNG or TGA\&. 
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define AI_EMBEDDED_TEXNAME_PREFIX   '*'"
+\fBAI_MAKE_EMBEDDED_TEXNAME\fP 
+.SS "#define AI_MAKE_EMBEDDED_TEXNAME( _n_)   \fBAI_EMBEDDED_TEXNAME_PREFIX\fP # _n_"
+Used to build the reserved path name used by the material system to reference textures that are embedded into their corresponding model files\&. The parameter specifies the index of the texture (zero-based, in the \fBaiScene::mTextures\fP array) 
+.SS "#define AI_TEXTURE_H_INC"
+
+.SS "#define HINTMAXTEXTURELEN   9"
+
+.SH "Variable Documentation"
+.PP 
+.SS "\fBstruct\fP \fBaiTexel\fP PACK_STRUCT"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

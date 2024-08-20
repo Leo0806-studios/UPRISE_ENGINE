@@ -1,0 +1,63 @@
+.TH "adhed/libbacktrace/backtrace.hpp" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+adhed/libbacktrace/backtrace.hpp
+.SH SYNOPSIS
+.br
+.PP
+\fR#include <stddef\&.h>\fP
+.br
+\fR#include <stdint\&.h>\fP
+.br
+\fR#include <stdio\&.h>\fP
+.br
+
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI "namespace \fBtracy\fP"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef \fBvoid\fP(* \fBtracy::backtrace_error_callback\fP) (\fBvoid\fP *\fBdata\fP, const char *msg, int errnum)"
+.br
+.ti -1c
+.RI "typedef int(* \fBtracy::backtrace_full_callback\fP) (\fBvoid\fP *\fBdata\fP, uintptr_t pc, uintptr_t lowaddr, const char *filename, int lineno, const char *\fBfunction\fP)"
+.br
+.ti -1c
+.RI "typedef int(* \fBtracy::backtrace_simple_callback\fP) (\fBvoid\fP *\fBdata\fP, uintptr_t pc)"
+.br
+.ti -1c
+.RI "typedef \fBvoid\fP(* \fBtracy::backtrace_syminfo_callback\fP) (\fBvoid\fP *\fBdata\fP, uintptr_t pc, const char *symname, uintptr_t symval, uintptr_t symsize)"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBstruct\fP \fBbacktrace_state\fP * \fBtracy::backtrace_create_state\fP (const char *filename, int threaded, \fBbacktrace_error_callback\fP error_callback, \fBvoid\fP *\fBdata\fP)"
+.br
+.ti -1c
+.RI "int \fBtracy::backtrace_full\fP (\fBstruct\fP \fBbacktrace_state\fP *state, int skip, \fBbacktrace_full_callback\fP callback, \fBbacktrace_error_callback\fP error_callback, \fBvoid\fP *\fBdata\fP)"
+.br
+.ti -1c
+.RI "int \fBtracy::backtrace_simple\fP (\fBstruct\fP \fBbacktrace_state\fP *state, int skip, \fBbacktrace_simple_callback\fP callback, \fBbacktrace_error_callback\fP error_callback, \fBvoid\fP *\fBdata\fP)"
+.br
+.ti -1c
+.RI "\fBvoid\fP \fBtracy::backtrace_print\fP (\fBstruct\fP \fBbacktrace_state\fP *state, int skip, FILE *)"
+.br
+.ti -1c
+.RI "int \fBtracy::backtrace_pcinfo\fP (\fBstruct\fP \fBbacktrace_state\fP *state, uintptr_t pc, \fBbacktrace_full_callback\fP callback, \fBbacktrace_error_callback\fP error_callback, \fBvoid\fP *\fBdata\fP)"
+.br
+.ti -1c
+.RI "int \fBtracy::backtrace_syminfo\fP (\fBstruct\fP \fBbacktrace_state\fP *state, uintptr_t addr, \fBbacktrace_syminfo_callback\fP callback, \fBbacktrace_error_callback\fP error_callback, \fBvoid\fP *\fBdata\fP)"
+.br
+.in -1c
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

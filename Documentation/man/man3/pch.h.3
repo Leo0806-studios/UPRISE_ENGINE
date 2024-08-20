@@ -1,4 +1,4 @@
-.TH "UPRISE_ENGINE/pch.h" 3 "Version 0.0.0.1" "My Project" \" -*- nroff -*-
+.TH "UPRISE_ENGINE/pch.h" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -68,6 +68,14 @@ UPRISE_ENGINE/pch.h
 .br
 \fR#include <assimp/postprocess\&.h>\fP
 .br
+\fR#include 'imgui\&.h'\fP
+.br
+\fR#include 'imgui_impl_glfw\&.h'\fP
+.br
+\fR#include 'imgui_impl_opengl3\&.h'\fP
+.br
+\fR#include 'imgui_stdlib\&.h'\fP
+.br
 
 .SS "Classes"
 
@@ -78,10 +86,23 @@ UPRISE_ENGINE/pch.h
 .ti -1c
 .RI "struct \fBEqualTo\fP"
 .br
+.ti -1c
+.RI "class \fBfact\fP"
+.br
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI "namespace \fBCORE\fP"
+.br
 .in -1c
 .SS "Macros"
 
 .in +1c
+.ti -1c
+.RI "#define \fBDEBUG_Engine\fP"
+.br
 .ti -1c
 .RI "#define \fBWIN32_LEAN_AND_MEAN\fP"
 .br
@@ -93,6 +114,21 @@ UPRISE_ENGINE/pch.h
 .br
 .ti -1c
 .RI "#define \fBGameObject_\fP   std::shared_ptr<\fBGameObject\fP>"
+.br
+.ti -1c
+.RI "#define \fBComponent_\fP   std::shared_ptr<\fBCORE::Behaviour\fP>"
+.br
+.ti -1c
+.RI "#define \fBVEC\fP(\fBX\fP)   std::vector<\fBX\fP>"
+.br
+.ti -1c
+.RI "#define \fBTrPr\fP(\fBV\fP,  \fBN\fP)   TracyCZoneN(\fBV\fP, \fBN\fP, true);"
+.br
+.ti -1c
+.RI "#define \fBTrPrE\fP(\fBV\fP)   TracyCZoneEnd(\fBV\fP);"
+.br
+.ti -1c
+.RI "#define \fBgloblist\fP"
 .br
 .in -1c
 .SS "Typedefs"
@@ -117,35 +153,102 @@ UPRISE_ENGINE/pch.h
 .SS "#define _assimp_"
 
 .PP
-Definition at line \fB58\fP of file \fBpch\&.h\fP\&.
+Definition at line \fB68\fP of file \fBpch\&.h\fP\&.
+.SS "#define Component_   std::shared_ptr<\fBCORE::Behaviour\fP>"
+
+.PP
+Definition at line \fB133\fP of file \fBpch\&.h\fP\&.
+.SS "#define DEBUG_Engine"
+
+.PP
+Definition at line \fB9\fP of file \fBpch\&.h\fP\&.
 .SS "#define GameObject_   std::shared_ptr<\fBGameObject\fP>"
 
 .PP
-Definition at line \fB117\fP of file \fBpch\&.h\fP\&.
+Definition at line \fB132\fP of file \fBpch\&.h\fP\&.
+.PP
+Referenced by \fBbb()\fP, and \fBprocessInput()\fP\&.
+.SS "#define globlist"
+
+.PP
+Definition at line \fB147\fP of file \fBpch\&.h\fP\&.
 .SS "#define symLoad   GetProcAddress"
 
 .PP
-Definition at line \fB13\fP of file \fBpch\&.h\fP\&.
+Definition at line \fB15\fP of file \fBpch\&.h\fP\&.
+.PP
+Referenced by \fBCallCSharpFunction()\fP\&.
+.SS "#define TrPr( \fBV\fP,  \fBN\fP)   TracyCZoneN(\fBV\fP, \fBN\fP, true);"
+
+.PP
+Definition at line \fB136\fP of file \fBpch\&.h\fP\&.
+.PP
+Referenced by \fBCOMPONENTS::_Mesh::_Mesh()\fP, \fBCORE::Filehandler::ApplicationPath()\fP, \fBCORE::Behaviour::Behaviour()\fP, \fBPAIN::Render_Camera::Create()\fP, \fBCORE::Scene::FindObjectByName()\fP, \fBCORE::Scene::FindObjectByUUID()\fP, \fBPAIN::Render_Camera::GetViewMatrix()\fP, \fBCORE::Input::Init()\fP, \fBCORE::Input::Input()\fP, \fBPHYSICS::Physics::intersect()\fP, \fBCORE::ConfigLoader::LoadCOnfigFile()\fP, \fBCORE::ConfigLoader::LoadConfigFiles()\fP, \fBCORE::ConfigLoader::LoadMaterials()\fP, \fBCORE::ConfigLoader::LoadModels()\fP, \fBDebug::Logger::log()\fP, \fBDebug::Logger::log()\fP, \fBDebug::Logger::LogError()\fP, \fBDebug::Logger::LogError()\fP, \fBDebug::Logger::LogExeption()\fP, \fBDebug::Logger::LogWarning()\fP, \fBPAIN::Model::Model()\fP, \fBCORE::Input::mouse_callback()\fP, \fBDATATYPES::TS_P_Vector3::Normalized()\fP, \fBDATATYPES::TS_P_Vector3::operator __m128()\fP, \fBDATATYPES::TS_P_Vector3::operator*()\fP, \fBDATATYPES::TS_P_Vector3::operator*()\fP, \fBTS_P_Vector2::operator*()\fP, \fBTS_P_Vector2::operator*()\fP, \fBDATATYPES::TS_P_Vector3::operator+()\fP, \fBTS_P_Vector2::operator+()\fP, \fBDATATYPES::TS_P_Vector3::operator\-()\fP, \fBTS_P_Vector2::operator\-()\fP, \fBDATATYPES::TS_P_Vector3::operator/()\fP, \fBDATATYPES::TS_P_Vector3::operator/()\fP, \fBTS_P_Vector2::operator/()\fP, \fBTS_P_Vector2::operator/()\fP, \fBDATATYPES::TS_P_Vector3::operator=()\fP, \fBDATATYPES::TS_P_Vector3::point()\fP, \fBPHYSICS::RayCast()\fP, \fBPHYSICS::RayCast()\fP, \fBPHYSICS::RayCast()\fP, \fBCORE::Input::SetMouseMode()\fP, \fBCORE::Behaviour::updateAll()\fP, \fBCORE::Behaviour::updateAllAWAKE()\fP, \fBPHYSICS::Physics::UpdateAllPhysics()\fP, \fBCORE::Behaviour::updateAllSTART()\fP, and \fBPHYSICS::Physics::updateBox()\fP\&.
+.SS "#define TrPrE( \fBV\fP)   TracyCZoneEnd(\fBV\fP);"
+
+.PP
+Definition at line \fB137\fP of file \fBpch\&.h\fP\&.
+.PP
+Referenced by \fBCORE::Filehandler::ApplicationPath()\fP, \fBCORE::Behaviour::Behaviour()\fP, \fBPAIN::Render_Camera::Create()\fP, \fBCORE::Scene::FindObjectByName()\fP, \fBCORE::Scene::FindObjectByUUID()\fP, \fBPAIN::Render_Camera::GetViewMatrix()\fP, \fBCORE::Input::Init()\fP, \fBCORE::Input::Input()\fP, \fBPHYSICS::Physics::intersect()\fP, \fBCORE::ConfigLoader::LoadCOnfigFile()\fP, \fBCORE::ConfigLoader::LoadConfigFiles()\fP, \fBCORE::ConfigLoader::LoadMaterials()\fP, \fBCORE::ConfigLoader::LoadModels()\fP, \fBDebug::Logger::log()\fP, \fBDebug::Logger::log()\fP, \fBDebug::Logger::LogError()\fP, \fBDebug::Logger::LogError()\fP, \fBDebug::Logger::LogExeption()\fP, \fBDebug::Logger::LogWarning()\fP, \fBPAIN::Model::Model()\fP, \fBCORE::Input::mouse_callback()\fP, \fBDATATYPES::TS_P_Vector3::Normalized()\fP, \fBDATATYPES::TS_P_Vector3::operator __m128()\fP, \fBDATATYPES::TS_P_Vector3::operator*()\fP, \fBDATATYPES::TS_P_Vector3::operator*()\fP, \fBTS_P_Vector2::operator*()\fP, \fBTS_P_Vector2::operator*()\fP, \fBDATATYPES::TS_P_Vector3::operator+()\fP, \fBTS_P_Vector2::operator+()\fP, \fBDATATYPES::TS_P_Vector3::operator\-()\fP, \fBTS_P_Vector2::operator\-()\fP, \fBDATATYPES::TS_P_Vector3::operator/()\fP, \fBDATATYPES::TS_P_Vector3::operator/()\fP, \fBTS_P_Vector2::operator/()\fP, \fBTS_P_Vector2::operator/()\fP, \fBDATATYPES::TS_P_Vector3::operator=()\fP, \fBDATATYPES::TS_P_Vector3::point()\fP, \fBPHYSICS::RayCast()\fP, \fBPHYSICS::RayCast()\fP, \fBPHYSICS::RayCast()\fP, \fBCORE::Input::SetMouseMode()\fP, \fBCORE::Behaviour::updateAll()\fP, \fBCORE::Behaviour::updateAllAWAKE()\fP, \fBPHYSICS::Physics::UpdateAllPhysics()\fP, \fBCORE::Behaviour::updateAllSTART()\fP, and \fBPHYSICS::Physics::updateBox()\fP\&.
+.SS "#define VEC( \fBX\fP)   std::vector<\fBX\fP>"
+
+.PP
+Definition at line \fB134\fP of file \fBpch\&.h\fP\&.
 .SS "#define WIN32_LEAN_AND_MEAN"
 
 .PP
-Definition at line \fB11\fP of file \fBpch\&.h\fP\&.
+Definition at line \fB13\fP of file \fBpch\&.h\fP\&.
 .SH "Typedef Documentation"
 .PP 
 .SS "using \fBTypeInfoRef\fP = std::reference_wrapper<const std::type_info>"
 
 .PP
-Definition at line \fB91\fP of file \fBpch\&.h\fP\&.
+Definition at line \fB106\fP of file \fBpch\&.h\fP\&.
 .SH "Function Documentation"
 .PP 
 .SS "template<class _Ty , class _Arg > _Ty CallCSharpFunction (const WCHAR * patrh, char * functionName, _Arg argument)"
 
 .PP
-Definition at line \fB109\fP of file \fBpch\&.h\fP\&.
+Definition at line \fB124\fP of file \fBpch\&.h\fP\&.
+.nf
+124                                                                             {
+125     const WCHAR* addrs = L"C:\\\\Users\\\\leo08\\\\source\\\\repos\\\\Neuer Ordner(2)\\\\NativeLibrary\\\\bin\\\\release\\\\net8\&.0\\\\win \- x64\\\\publish";
+126     HINSTANCE handle = LoadLibrary(patrh);
+127     typedef _Ty((*externFuction)(_Arg));
+128     externFuction Function = (externFuction)symLoad(handle, functionName);
+129     _Ty result = Function(argument);
+130     return result;
+131 }
+.PP
+.fi
+
+.PP
+References \fBaddrs\fP, \fBFunction\fP, \fBhandle\fP, \fBL\fP, and \fBsymLoad\fP\&.
+.PP
+Referenced by \fBTerrain_Data::LoadHeightmap()\fP\&.
 .SS "void ThrowIfFailed (HRESULT hr)\fR [inline]\fP"
 
 .PP
-Definition at line \fB73\fP of file \fBpch\&.h\fP\&.
+Definition at line \fB88\fP of file \fBpch\&.h\fP\&.
+.nf
+90 {
+91 
+92 
+93     if (FAILED(hr))
+94 
+95 
+96     {
+97 
+98 
+99         throw std::exception();
+100 
+101 
+102     }
+103 
+104 }
+.PP
+.fi
+
 .SH "Author"
 .PP 
 Generated automatically by Doxygen for My Project from the source code\&.

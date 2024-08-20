@@ -1,0 +1,195 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_io_8hpp_source" xml:lang="en-US">
+<title>io.hpp</title>
+<indexterm><primary>adhed/glm/gtx/io.hpp</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 
+19 
+20 <emphasis role="preprocessor">#pragma&#32;once</emphasis>
+21 
+22 <emphasis role="comment">//&#32;Dependency:</emphasis>
+23 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_glm_8hpp">../glm.hpp</link>&quot;</emphasis>
+24 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_gtx_2quaternion_8hpp">../gtx/quaternion.hpp</link>&quot;</emphasis>
+25 
+26 <emphasis role="preprocessor">#ifndef&#32;GLM_ENABLE_EXPERIMENTAL</emphasis>
+27 <emphasis role="preprocessor">#&#32;&#32;&#32;error&#32;&quot;GLM:&#32;GLM_GTX_io&#32;is&#32;an&#32;experimental&#32;extension&#32;and&#32;may&#32;change&#32;in&#32;the&#32;future.&#32;Use&#32;#define&#32;GLM_ENABLE_EXPERIMENTAL&#32;before&#32;including&#32;it,&#32;if&#32;you&#32;really&#32;want&#32;to&#32;use&#32;it.&quot;</emphasis>
+28 <emphasis role="preprocessor">#elif&#32;GLM_MESSAGES&#32;==&#32;GLM_ENABLE&#32;&amp;&amp;&#32;!defined(GLM_EXT_INCLUDED)</emphasis>
+29 <emphasis role="preprocessor">#&#32;&#32;&#32;pragma&#32;message(&quot;GLM:&#32;GLM_GTX_io&#32;extension&#32;included&quot;)</emphasis>
+30 <emphasis role="preprocessor">#endif</emphasis>
+31 
+32 <emphasis role="preprocessor">#if&#32;GLM_COMPILER&#32;&amp;&#32;GLM_COMPILER_CLANG</emphasis>
+33 <emphasis role="preprocessor">#&#32;&#32;&#32;pragma&#32;clang&#32;diagnostic&#32;push</emphasis>
+34 <emphasis role="preprocessor">#&#32;&#32;&#32;pragma&#32;clang&#32;diagnostic&#32;ignored&#32;&quot;-Wpadded&quot;</emphasis>
+35 <emphasis role="preprocessor">#&#32;&#32;&#32;pragma&#32;clang&#32;diagnostic&#32;ignored&#32;&quot;-Wshorten-64-to-32&quot;</emphasis>
+36 <emphasis role="preprocessor">#&#32;&#32;&#32;pragma&#32;clang&#32;diagnostic&#32;ignored&#32;&quot;-Wglobal-constructors&quot;</emphasis>
+37 <emphasis role="preprocessor">#endif</emphasis>
+38 
+39 <emphasis role="preprocessor">#include&#32;&lt;iosfwd&gt;</emphasis>&#32;&#32;<emphasis role="comment">//&#32;std::basic_ostream&lt;&gt;&#32;(fwd)</emphasis>
+40 <emphasis role="preprocessor">#include&#32;&lt;locale&gt;</emphasis>&#32;&#32;<emphasis role="comment">//&#32;std::locale,&#32;std::locale::facet,&#32;std::locale::id</emphasis>
+41 <emphasis role="preprocessor">#include&#32;&lt;utility&gt;</emphasis>&#32;<emphasis role="comment">//&#32;std::pair&lt;&gt;</emphasis>
+42 
+43 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespaceglm">glm</link>
+44 {
+47 
+48 &#32;&#32;&#32;&#32;<emphasis role="keyword">namespace&#32;</emphasis>io
+49 &#32;&#32;&#32;&#32;{
+50 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">enum</emphasis>&#32;<link linkend="_namespaceglm_1_1io_1a3497781803fe594a37177e05ab2a795f">order_type</link>&#32;{&#32;<link linkend="_namespaceglm_1_1io_1a3497781803fe594a37177e05ab2a795faab661780f7f081ee11c34be9b0742229">column_major</link>,&#32;<link linkend="_namespaceglm_1_1io_1a3497781803fe594a37177e05ab2a795fad080bb2f932ea4078fd0fc10ea1c991c">row_major</link>};
+51 
+52 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;CTy&gt;
+53 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">class&#32;</emphasis><link linkend="_classglm_1_1io_1_1format__punct">format_punct</link>&#32;:&#32;<emphasis role="keyword">public</emphasis>&#32;std::locale::facet
+54 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+55 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">typedef</emphasis>&#32;CTy&#32;char_type;
+56 
+57 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">public</emphasis>:
+58 
+59 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;std::locale::id&#32;<link linkend="_classglm_1_1io_1_1format__punct_1a763f60aeaecec9290917ed1d83b79838">id</link>;
+60 
+61 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_classglm_1_1io_1_1format__punct_1ab28088e6eef03fe4222fa8a5dd95288e">formatted</link>;
+62 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;&#32;&#32;<link linkend="_classglm_1_1io_1_1format__punct_1a5a15d396b7c963df9dec5e124236dc02">precision</link>;
+63 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;&#32;&#32;<link linkend="_classglm_1_1io_1_1format__punct_1a95d32ca2330bbf7c50d3e066b7a851db">width</link>;
+64 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;char_type&#32;&#32;<link linkend="_classglm_1_1io_1_1format__punct_1ac561eb04fc2a1282ef38ea15f8e640ee">separator</link>;
+65 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;char_type&#32;&#32;<link linkend="_classglm_1_1io_1_1format__punct_1ab1beed331269a39b06d17d02cf727d7c">delim_left</link>;
+66 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;char_type&#32;&#32;<link linkend="_classglm_1_1io_1_1format__punct_1a62fb1280404360463ec5af7144aa0949">delim_right</link>;
+67 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;char_type&#32;&#32;<link linkend="_classglm_1_1io_1_1format__punct_1adf9a915938727793de1daca07dcdfa4e">space</link>;
+68 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;char_type&#32;&#32;<link linkend="_classglm_1_1io_1_1format__punct_1a8ddf8abdb0ebbdbb7eca08d7a777956e">newline</link>;
+69 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespaceglm_1_1io_1a3497781803fe594a37177e05ab2a795f">order_type</link>&#32;<link linkend="_classglm_1_1io_1_1format__punct_1a9de1f3b7120a036ec0ab394d2036d0aa">order</link>;
+70 
+71 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a364212a7fa4148cd960bd919442c4fc8">GLM_FUNC_DISCARD_DECL</link>&#32;<emphasis role="keyword">explicit</emphasis>&#32;<link linkend="_classglm_1_1io_1_1format__punct_1ae56e7a14fac2516658837281b9da4659">format_punct</link>(<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>&#32;=&#32;0);
+72 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a364212a7fa4148cd960bd919442c4fc8">GLM_FUNC_DISCARD_DECL</link>&#32;<emphasis role="keyword">explicit</emphasis>&#32;<link linkend="_classglm_1_1io_1_1format__punct_1ae56e7a14fac2516658837281b9da4659">format_punct</link>(<link linkend="_classglm_1_1io_1_1format__punct">format_punct</link>&#32;<emphasis role="keyword">const</emphasis>&amp;);
+73 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+74 
+75 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;CTy,&#32;<emphasis role="keyword">typename</emphasis>&#32;CTr&#32;=&#32;std::<emphasis role="keywordtype">char</emphasis>_traits&lt;CTy&gt;&#32;&gt;
+76 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">class&#32;</emphasis><link linkend="_classglm_1_1io_1_1basic__state__saver">basic_state_saver</link>&#32;{
+77 
+78 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">public</emphasis>:
+79 
+80 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a364212a7fa4148cd960bd919442c4fc8">GLM_FUNC_DISCARD_DECL</link>&#32;<emphasis role="keyword">explicit</emphasis>&#32;<link linkend="_classglm_1_1io_1_1basic__state__saver_1ab31652b0b7f2a24fa8f9fda2505de356">basic_state_saver</link>(std::basic_ios&lt;CTy,CTr&gt;&amp;);
+81 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a364212a7fa4148cd960bd919442c4fc8">GLM_FUNC_DISCARD_DECL</link>&#32;<link linkend="_classglm_1_1io_1_1basic__state__saver_1ad89569bbaec5d7fe08d40dbac5abbb53">~basic_state_saver</link>();
+82 
+83 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">private</emphasis>:
+84 
+85 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;typedef&#32;::std::basic_ios&lt;CTy,CTr&gt;&#32;&#32;&#32;&#32;&#32;&#32;state_type;
+86 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">typedef</emphasis>&#32;<emphasis role="keyword">typename</emphasis>&#32;state_type::char_type&#32;char_type;
+87 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">typedef</emphasis>&#32;::std::ios_base::fmtflags&#32;&#32;&#32;&#32;&#32;&#32;flags_type;
+88 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">typedef</emphasis>&#32;::std::streamsize&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;streamsize_type;
+89 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">typedef</emphasis>&#32;::std::locale&#32;<emphasis role="keyword">const</emphasis>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;locale_type;
+90 
+91 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;state_type&amp;&#32;&#32;&#32;&#32;&#32;state_;
+92 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;flags_type&#32;&#32;&#32;&#32;&#32;&#32;flags_;
+93 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;streamsize_type&#32;precision_;
+94 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;streamsize_type&#32;width_;
+95 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;char_type&#32;&#32;&#32;&#32;&#32;&#32;&#32;fill_;
+96 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;locale_type&#32;&#32;&#32;&#32;&#32;locale_;
+97 
+98 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1ab2d052de21a70539923e9bcbf6e83a51">GLM_FUNC_DECL</link>&#32;<link linkend="_classglm_1_1io_1_1basic__state__saver">basic_state_saver</link>&amp;&#32;operator=(<link linkend="_classglm_1_1io_1_1basic__state__saver">basic_state_saver</link>&#32;<emphasis role="keyword">const</emphasis>&amp;);
+99 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+100 
+101 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">typedef</emphasis>&#32;<link linkend="_classglm_1_1io_1_1basic__state__saver">basic_state_saver&lt;char&gt;</link>&#32;&#32;&#32;&#32;&#32;<link linkend="_namespaceglm_1_1io_1a84d63ac771c3125d38f144dc15234764">state_saver</link>;
+102 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">typedef</emphasis>&#32;<link linkend="_classglm_1_1io_1_1basic__state__saver">basic_state_saver&lt;wchar_t&gt;</link>&#32;<link linkend="_namespaceglm_1_1io_1a7a46501fc459c05fa3dc0f2bcbf3e92f">wstate_saver</link>;
+103 
+104 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;CTy,&#32;<emphasis role="keyword">typename</emphasis>&#32;CTr&#32;=&#32;std::<emphasis role="keywordtype">char</emphasis>_traits&lt;CTy&gt;&#32;&gt;
+105 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">class&#32;</emphasis><link linkend="_classglm_1_1io_1_1basic__format__saver">basic_format_saver</link>
+106 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+107 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">public</emphasis>:
+108 
+109 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a364212a7fa4148cd960bd919442c4fc8">GLM_FUNC_DISCARD_DECL</link>&#32;<emphasis role="keyword">explicit</emphasis>&#32;<link linkend="_classglm_1_1io_1_1basic__format__saver_1a9688fa6dce0c32285527df2336ca9127">basic_format_saver</link>(std::basic_ios&lt;CTy,CTr&gt;&amp;);
+110 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a364212a7fa4148cd960bd919442c4fc8">GLM_FUNC_DISCARD_DECL</link>&#32;<link linkend="_classglm_1_1io_1_1basic__format__saver_1a49d58d91548a071d5f660c74ca88979b">~basic_format_saver</link>();
+111 
+112 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">private</emphasis>:
+113 
+114 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_classglm_1_1io_1_1basic__state__saver">basic_state_saver&lt;CTy&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&#32;bss_;
+115 
+116 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1ab2d052de21a70539923e9bcbf6e83a51">GLM_FUNC_DECL</link>&#32;<link linkend="_classglm_1_1io_1_1basic__format__saver">basic_format_saver</link>&amp;&#32;operator=(<link linkend="_classglm_1_1io_1_1basic__format__saver">basic_format_saver</link>&#32;<emphasis role="keyword">const</emphasis>&amp;);
+117 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+118 
+119 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">typedef</emphasis>&#32;<link linkend="_classglm_1_1io_1_1basic__format__saver">basic_format_saver&lt;char&gt;</link>&#32;&#32;&#32;&#32;&#32;<link linkend="_namespaceglm_1_1io_1afdc168a994ef9e9ca4295578e9097495">format_saver</link>;
+120 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">typedef</emphasis>&#32;<link linkend="_classglm_1_1io_1_1basic__format__saver">basic_format_saver&lt;wchar_t&gt;</link>&#32;<link linkend="_namespaceglm_1_1io_1a6229ca888648a0ff823eb120f61de481">wformat_saver</link>;
+121 
+122 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis><link linkend="_structglm_1_1io_1_1precision">precision</link>
+123 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+124 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<link linkend="_structglm_1_1io_1_1precision_1a43da772dff9a209768c63f1220d52074">value</link>;
+125 
+126 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a364212a7fa4148cd960bd919442c4fc8">GLM_FUNC_DISCARD_DECL</link>&#32;<emphasis role="keyword">explicit</emphasis>&#32;<link linkend="_namespaceglm_1a5b22621db82c5e825eb9329228667536">precision</link>(<emphasis role="keywordtype">unsigned</emphasis>);
+127 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+128 
+129 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis><link linkend="_structglm_1_1io_1_1width">width</link>
+130 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+131 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<link linkend="_structglm_1_1io_1_1width_1a6bf1338eb947811d36ec93bd2e9b8425">value</link>;
+132 
+133 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a364212a7fa4148cd960bd919442c4fc8">GLM_FUNC_DISCARD_DECL</link>&#32;<emphasis role="keyword">explicit</emphasis>&#32;<link linkend="_glad_8h_1a6879d830f164725df67adeeabca3ea47">width</link>(<emphasis role="keywordtype">unsigned</emphasis>);
+134 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+135 
+136 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;CTy&gt;
+137 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis><link linkend="_structglm_1_1io_1_1delimeter">delimeter</link>
+138 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+139 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;CTy&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>[3];
+140 
+141 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a364212a7fa4148cd960bd919442c4fc8">GLM_FUNC_DISCARD_DECL</link>&#32;<emphasis role="keyword">explicit</emphasis>&#32;<link linkend="_structglm_1_1io_1_1delimeter_1a5c1db62fae08a4c96eaf336781a4b53d">delimeter</link>(CTy&#32;<emphasis role="comment">/*&#32;left&#32;*/</emphasis>,&#32;CTy&#32;<emphasis role="comment">/*&#32;right&#32;*/</emphasis>,&#32;CTy&#32;<emphasis role="comment">/*&#32;separator&#32;*/</emphasis>&#32;=&#32;<emphasis role="charliteral">&apos;,&apos;</emphasis>);
+142 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+143 
+144 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis><link linkend="_structglm_1_1io_1_1order">order</link>
+145 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+146 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespaceglm_1_1io_1a3497781803fe594a37177e05ab2a795f">order_type</link>&#32;<link linkend="_structglm_1_1io_1_1order_1aa8788dd0568bacd081d02bd5aca9889b">value</link>;
+147 
+148 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a364212a7fa4148cd960bd919442c4fc8">GLM_FUNC_DISCARD_DECL</link>&#32;<emphasis role="keyword">explicit</emphasis>&#32;<link linkend="_structglm_1_1io_1_1order_1a06813d404c975865fdd3a77146268a1f">order</link>(<link linkend="_namespaceglm_1_1io_1a3497781803fe594a37177e05ab2a795f">order_type</link>);
+149 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+150 
+151 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;functions,&#32;inlined&#32;(inline)</emphasis>
+152 
+153 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;FTy,&#32;<emphasis role="keyword">typename</emphasis>&#32;CTy,&#32;<emphasis role="keyword">typename</emphasis>&#32;CTr&gt;
+154 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;FTy&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_namespaceglm_1_1io_1a7c6f4eda7e7d16cdf24a2ba4809b107c">get_facet</link>(std::basic_ios&lt;CTy,CTr&gt;&amp;);
+155 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;FTy,&#32;<emphasis role="keyword">typename</emphasis>&#32;CTy,&#32;<emphasis role="keyword">typename</emphasis>&#32;CTr&gt;
+156 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::basic_ios&lt;CTy,CTr&gt;&amp;&#32;<link linkend="_namespaceglm_1_1io_1a05207ede58f2b3657b594dfa593ad4f3">formatted</link>(std::basic_ios&lt;CTy,CTr&gt;&amp;);
+157 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;FTy,&#32;<emphasis role="keyword">typename</emphasis>&#32;CTy,&#32;<emphasis role="keyword">typename</emphasis>&#32;CTr&gt;
+158 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::basic_ios&lt;CTy,CTr&gt;&amp;&#32;<link linkend="_namespaceglm_1_1io_1a0ac8ad223ac49d7455f367efa93a193b">unformatted</link>(std::basic_ios&lt;CTy,CTr&gt;&amp;);
+159 
+160 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;CTy,&#32;<emphasis role="keyword">typename</emphasis>&#32;CTr&gt;
+161 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::basic_ostream&lt;CTy,&#32;CTr&gt;&amp;&#32;<link linkend="_namespaceglm_1_1io_1ad49d9a893511841d7927c9c4c8c2c715">operator&lt;&lt;</link>(std::basic_ostream&lt;CTy,&#32;CTr&gt;&amp;,&#32;<link linkend="_structglm_1_1io_1_1precision">precision</link>&#32;<emphasis role="keyword">const</emphasis>&amp;);
+162 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;CTy,&#32;<emphasis role="keyword">typename</emphasis>&#32;CTr&gt;
+163 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::basic_ostream&lt;CTy,&#32;CTr&gt;&amp;&#32;<link linkend="_namespaceglm_1_1io_1ad49d9a893511841d7927c9c4c8c2c715">operator&lt;&lt;</link>(std::basic_ostream&lt;CTy,&#32;CTr&gt;&amp;,&#32;<link linkend="_structglm_1_1io_1_1width">width</link>&#32;<emphasis role="keyword">const</emphasis>&amp;);
+164 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;CTy,&#32;<emphasis role="keyword">typename</emphasis>&#32;CTr&gt;
+165 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::basic_ostream&lt;CTy,&#32;CTr&gt;&amp;&#32;<link linkend="_namespaceglm_1_1io_1ad49d9a893511841d7927c9c4c8c2c715">operator&lt;&lt;</link>(std::basic_ostream&lt;CTy,&#32;CTr&gt;&amp;,&#32;<link linkend="_structglm_1_1io_1_1delimeter">delimeter&lt;CTy&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;);
+166 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;CTy,&#32;<emphasis role="keyword">typename</emphasis>&#32;CTr&gt;
+167 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::basic_ostream&lt;CTy,&#32;CTr&gt;&amp;&#32;<link linkend="_namespaceglm_1_1io_1ad49d9a893511841d7927c9c4c8c2c715">operator&lt;&lt;</link>(std::basic_ostream&lt;CTy,&#32;CTr&gt;&amp;,&#32;<link linkend="_structglm_1_1io_1_1order">order</link>&#32;<emphasis role="keyword">const</emphasis>&amp;);
+168 &#32;&#32;&#32;&#32;}<emphasis role="comment">//namespace&#32;io</emphasis>
+169 
+170 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;CTy,&#32;<emphasis role="keyword">typename</emphasis>&#32;CTr,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+171 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a364212a7fa4148cd960bd919442c4fc8">GLM_FUNC_DISCARD_DECL</link>&#32;std::basic_ostream&lt;CTy,CTr&gt;&amp;&#32;<link linkend="_namespaceglm_1ad3cf7f0e123c67c39004344fe600e345">operator&lt;&lt;</link>(std::basic_ostream&lt;CTy,CTr&gt;&amp;,&#32;<link linkend="_structglm_1_1qua">qua&lt;T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;);
+172 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;CTy,&#32;<emphasis role="keyword">typename</emphasis>&#32;CTr,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+173 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a364212a7fa4148cd960bd919442c4fc8">GLM_FUNC_DISCARD_DECL</link>&#32;std::basic_ostream&lt;CTy,CTr&gt;&amp;&#32;<link linkend="_namespaceglm_1ad3cf7f0e123c67c39004344fe600e345">operator&lt;&lt;</link>(std::basic_ostream&lt;CTy,CTr&gt;&amp;,&#32;<link linkend="_structglm_1_1vec">vec&lt;1, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;);
+174 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;CTy,&#32;<emphasis role="keyword">typename</emphasis>&#32;CTr,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+175 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a364212a7fa4148cd960bd919442c4fc8">GLM_FUNC_DISCARD_DECL</link>&#32;std::basic_ostream&lt;CTy,CTr&gt;&amp;&#32;<link linkend="_namespaceglm_1ad3cf7f0e123c67c39004344fe600e345">operator&lt;&lt;</link>(std::basic_ostream&lt;CTy,CTr&gt;&amp;,&#32;<link linkend="_structglm_1_1vec">vec&lt;2, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;);
+176 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;CTy,&#32;<emphasis role="keyword">typename</emphasis>&#32;CTr,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+177 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a364212a7fa4148cd960bd919442c4fc8">GLM_FUNC_DISCARD_DECL</link>&#32;std::basic_ostream&lt;CTy,CTr&gt;&amp;&#32;<link linkend="_namespaceglm_1ad3cf7f0e123c67c39004344fe600e345">operator&lt;&lt;</link>(std::basic_ostream&lt;CTy,CTr&gt;&amp;,&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;);
+178 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;CTy,&#32;<emphasis role="keyword">typename</emphasis>&#32;CTr,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+179 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a364212a7fa4148cd960bd919442c4fc8">GLM_FUNC_DISCARD_DECL</link>&#32;std::basic_ostream&lt;CTy,CTr&gt;&amp;&#32;<link linkend="_namespaceglm_1ad3cf7f0e123c67c39004344fe600e345">operator&lt;&lt;</link>(std::basic_ostream&lt;CTy,CTr&gt;&amp;,&#32;<link linkend="_structglm_1_1vec">vec&lt;4, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;);
+180 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;CTy,&#32;<emphasis role="keyword">typename</emphasis>&#32;CTr,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+181 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a364212a7fa4148cd960bd919442c4fc8">GLM_FUNC_DISCARD_DECL</link>&#32;std::basic_ostream&lt;CTy,CTr&gt;&amp;&#32;<link linkend="_namespaceglm_1ad3cf7f0e123c67c39004344fe600e345">operator&lt;&lt;</link>(std::basic_ostream&lt;CTy,CTr&gt;&amp;,&#32;<link linkend="_structglm_1_1mat">mat&lt;2, 2, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;);
+182 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;CTy,&#32;<emphasis role="keyword">typename</emphasis>&#32;CTr,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+183 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a364212a7fa4148cd960bd919442c4fc8">GLM_FUNC_DISCARD_DECL</link>&#32;std::basic_ostream&lt;CTy,CTr&gt;&amp;&#32;<link linkend="_namespaceglm_1ad3cf7f0e123c67c39004344fe600e345">operator&lt;&lt;</link>(std::basic_ostream&lt;CTy,CTr&gt;&amp;,&#32;<link linkend="_structglm_1_1mat">mat&lt;2, 3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;);
+184 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;CTy,&#32;<emphasis role="keyword">typename</emphasis>&#32;CTr,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+185 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a364212a7fa4148cd960bd919442c4fc8">GLM_FUNC_DISCARD_DECL</link>&#32;std::basic_ostream&lt;CTy,CTr&gt;&amp;&#32;<link linkend="_namespaceglm_1ad3cf7f0e123c67c39004344fe600e345">operator&lt;&lt;</link>(std::basic_ostream&lt;CTy,CTr&gt;&amp;,&#32;<link linkend="_structglm_1_1mat">mat&lt;2, 4, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;);
+186 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;CTy,&#32;<emphasis role="keyword">typename</emphasis>&#32;CTr,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+187 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a364212a7fa4148cd960bd919442c4fc8">GLM_FUNC_DISCARD_DECL</link>&#32;std::basic_ostream&lt;CTy,CTr&gt;&amp;&#32;<link linkend="_namespaceglm_1ad3cf7f0e123c67c39004344fe600e345">operator&lt;&lt;</link>(std::basic_ostream&lt;CTy,CTr&gt;&amp;,&#32;<link linkend="_structglm_1_1mat">mat&lt;3, 2, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;);
+188 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;CTy,&#32;<emphasis role="keyword">typename</emphasis>&#32;CTr,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+189 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a364212a7fa4148cd960bd919442c4fc8">GLM_FUNC_DISCARD_DECL</link>&#32;std::basic_ostream&lt;CTy,CTr&gt;&amp;&#32;<link linkend="_namespaceglm_1ad3cf7f0e123c67c39004344fe600e345">operator&lt;&lt;</link>(std::basic_ostream&lt;CTy,CTr&gt;&amp;,&#32;<link linkend="_structglm_1_1mat">mat&lt;3, 3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;);
+190 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;CTy,&#32;<emphasis role="keyword">typename</emphasis>&#32;CTr,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+191 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a364212a7fa4148cd960bd919442c4fc8">GLM_FUNC_DISCARD_DECL</link>&#32;std::basic_ostream&lt;CTy,CTr&gt;&amp;&#32;<link linkend="_namespaceglm_1ad3cf7f0e123c67c39004344fe600e345">operator&lt;&lt;</link>(std::basic_ostream&lt;CTy,CTr&gt;&amp;,&#32;<link linkend="_structglm_1_1mat">mat&lt;3, 4, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;);
+192 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;CTy,&#32;<emphasis role="keyword">typename</emphasis>&#32;CTr,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+193 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a364212a7fa4148cd960bd919442c4fc8">GLM_FUNC_DISCARD_DECL</link>&#32;std::basic_ostream&lt;CTy,CTr&gt;&amp;&#32;<link linkend="_namespaceglm_1ad3cf7f0e123c67c39004344fe600e345">operator&lt;&lt;</link>(std::basic_ostream&lt;CTy,CTr&gt;&amp;,&#32;<link linkend="_structglm_1_1mat">mat&lt;4, 2, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;);
+194 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;CTy,&#32;<emphasis role="keyword">typename</emphasis>&#32;CTr,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+195 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a364212a7fa4148cd960bd919442c4fc8">GLM_FUNC_DISCARD_DECL</link>&#32;std::basic_ostream&lt;CTy,CTr&gt;&amp;&#32;<link linkend="_namespaceglm_1ad3cf7f0e123c67c39004344fe600e345">operator&lt;&lt;</link>(std::basic_ostream&lt;CTy,CTr&gt;&amp;,&#32;<link linkend="_structglm_1_1mat">mat&lt;4, 3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;);
+196 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;CTy,&#32;<emphasis role="keyword">typename</emphasis>&#32;CTr,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+197 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a364212a7fa4148cd960bd919442c4fc8">GLM_FUNC_DISCARD_DECL</link>&#32;std::basic_ostream&lt;CTy,CTr&gt;&amp;&#32;<link linkend="_namespaceglm_1ad3cf7f0e123c67c39004344fe600e345">operator&lt;&lt;</link>(std::basic_ostream&lt;CTy,CTr&gt;&amp;,&#32;<link linkend="_structglm_1_1mat">mat&lt;4, 4, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;);
+198 
+199 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;CTy,&#32;<emphasis role="keyword">typename</emphasis>&#32;CTr,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+200 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a364212a7fa4148cd960bd919442c4fc8">GLM_FUNC_DISCARD_DECL</link>&#32;std::basic_ostream&lt;CTy,CTr&gt;&#32;&amp;&#32;<link linkend="_namespaceglm_1ad3cf7f0e123c67c39004344fe600e345">operator&lt;&lt;</link>(std::basic_ostream&lt;CTy,CTr&gt;&#32;&amp;,
+201 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::pair&lt;<link linkend="_structglm_1_1mat">mat&lt;4, 4, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>,&#32;<link linkend="_structglm_1_1mat">mat&lt;4, 4, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&gt;&#32;<emphasis role="keyword">const</emphasis>&amp;);
+202 
+204 }<emphasis role="comment">//namespace&#32;glm</emphasis>
+205 
+206 <emphasis role="preprocessor">#if&#32;GLM_COMPILER&#32;&amp;&#32;GLM_COMPILER_CLANG</emphasis>
+207 <emphasis role="preprocessor">#&#32;&#32;&#32;pragma&#32;clang&#32;diagnostic&#32;pop</emphasis>
+208 <emphasis role="preprocessor">#endif</emphasis>
+209 
+210 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_io_8inl">io.inl</link>&quot;</emphasis>
+</programlisting></section>

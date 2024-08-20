@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_pdb__reader_8hpp_source" xml:lang="en-US">
+<title>pdb_reader.hpp</title>
+<indexterm><primary>BLINK/source/pdb_reader.hpp</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 
+6 <emphasis role="preprocessor">#pragma&#32;once</emphasis>
+7 
+8 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_msf__reader_8hpp">msf_reader.hpp</link>&quot;</emphasis>
+9 <emphasis role="preprocessor">#include&#32;&lt;filesystem&gt;</emphasis>
+10 <emphasis role="preprocessor">#include&#32;&lt;unordered_map&gt;</emphasis>
+11 
+12 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespaceblink">blink</link>
+13 {
+17 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis><link linkend="_structblink_1_1guid">guid</link>
+18 &#32;&#32;&#32;&#32;{
+19 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uint32_t&#32;<link linkend="_structblink_1_1guid_1a661c9d96e27a94c805f78df327f3829c">data1</link>;
+20 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uint32_t&#32;<link linkend="_structblink_1_1guid_1a434265f281e1e76079376269f1213641">data2</link>;
+21 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uint32_t&#32;<link linkend="_structblink_1_1guid_1aee43b87796e1aaf61af872a4b56448b4">data3</link>;
+22 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uint32_t&#32;<link linkend="_structblink_1_1guid_1a3eaf190d73fe19dfbd9cae0ba6a6f4b0">data4</link>;
+23 
+24 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_structblink_1_1guid_1a0c78be23e2ae64b838abd172ad5abae3">operator==</link>(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_structblink_1_1guid">guid</link>&#32;&amp;other)&#32;{&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structblink_1_1guid_1a661c9d96e27a94c805f78df327f3829c">data1</link>&#32;==&#32;other.<link linkend="_structblink_1_1guid_1a661c9d96e27a94c805f78df327f3829c">data1</link>&#32;&amp;&amp;&#32;<link linkend="_structblink_1_1guid_1a434265f281e1e76079376269f1213641">data2</link>&#32;==&#32;other.<link linkend="_structblink_1_1guid_1a434265f281e1e76079376269f1213641">data2</link>&#32;&amp;&amp;&#32;<link linkend="_structblink_1_1guid_1aee43b87796e1aaf61af872a4b56448b4">data3</link>&#32;==&#32;other.<link linkend="_structblink_1_1guid_1aee43b87796e1aaf61af872a4b56448b4">data3</link>&#32;&amp;&amp;&#32;<link linkend="_structblink_1_1guid_1a3eaf190d73fe19dfbd9cae0ba6a6f4b0">data4</link>&#32;==&#32;other.<link linkend="_structblink_1_1guid_1a3eaf190d73fe19dfbd9cae0ba6a6f4b0">data4</link>;&#32;}
+25 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_structblink_1_1guid_1aab6bc80edc151377e2c3185b8cb2dc54">operator!=</link>(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_structblink_1_1guid">guid</link>&#32;&amp;other)&#32;{&#32;<emphasis role="keywordflow">return</emphasis>&#32;!<link linkend="_structblink_1_1guid_1a0c78be23e2ae64b838abd172ad5abae3">operator==</link>(other);&#32;}
+26 &#32;&#32;&#32;&#32;};
+27 
+28 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis><link linkend="_structblink_1_1source__file__indices">source_file_indices</link>
+29 &#32;&#32;&#32;&#32;{
+30 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;module&#32;=&#32;0;
+31 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_structblink_1_1source__file__indices_1a90900380ec62c69e9e9846380a63791e">file</link>&#32;=&#32;0;
+32 &#32;&#32;&#32;&#32;};
+33 
+34 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis><link linkend="_structblink_1_1path__hash">path_hash</link>
+35 &#32;&#32;&#32;&#32;{
+36 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::size_t&#32;<link linkend="_structblink_1_1path__hash_1a5f907f0a15c9fc171c4b06787ddf3346">operator()</link>(<emphasis role="keyword">const</emphasis>&#32;std::filesystem::path&#32;&amp;path)<emphasis role="keyword">&#32;const&#32;</emphasis>{
+37 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::string&#32;str(path.u8string());
+38 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(std::size_t&#32;<link linkend="_glad_8h_1a57f14e05b1900f16a2da82ade47d0c6d">index</link>&#32;=&#32;0;&#32;<link linkend="_glad_8h_1a57f14e05b1900f16a2da82ade47d0c6d">index</link>&#32;&lt;&#32;str.size();&#32;++<link linkend="_glad_8h_1a57f14e05b1900f16a2da82ade47d0c6d">index</link>)&#32;{
+39 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;str[<link linkend="_glad_8h_1a57f14e05b1900f16a2da82ade47d0c6d">index</link>]&#32;|=&#32;0x20;&#32;<emphasis role="comment">//&#32;fast&#32;tolower()</emphasis>
+40 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+41 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;std::hash&lt;std::string&gt;{}(str);
+42 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+43 &#32;&#32;&#32;&#32;};
+44 
+45 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis><link linkend="_structblink_1_1path__comp">path_comp</link>
+46 &#32;&#32;&#32;&#32;{
+47 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_structblink_1_1path__comp_1af66027a5b2babe868fa30d8048c29c7c">operator() </link>(<emphasis role="keyword">const</emphasis>&#32;std::filesystem::path&amp;&#32;lhs,&#32;<emphasis role="keyword">const</emphasis>&#32;std::filesystem::path&amp;&#32;rhs)<emphasis role="keyword">&#32;const&#32;</emphasis>{
+48 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;_stricmp(lhs.u8string().c_str(),&#32;rhs.u8string().c_str())&#32;==&#32;0;
+49 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+50 &#32;&#32;&#32;&#32;};
+51 
+52 &#32;&#32;&#32;&#32;<emphasis role="keyword">typedef</emphasis>&#32;std::unordered_map&lt;std::filesystem::path,&#32;source_file_indices,&#32;path_hash,&#32;path_comp&gt;&#32;<link linkend="_namespaceblink_1aff35637d5fc21bb93e2a572c9a66d1aa">source_file_map</link>;
+53 
+57 &#32;&#32;&#32;&#32;<emphasis role="keyword">class&#32;</emphasis><link linkend="_classblink_1_1pdb__reader">pdb_reader</link>&#32;:&#32;<emphasis role="keyword">public</emphasis>&#32;<link linkend="_classblink_1_1msf__reader">msf_reader</link>
+58 &#32;&#32;&#32;&#32;{
+59 &#32;&#32;&#32;&#32;<emphasis role="keyword">public</emphasis>:
+64 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">explicit</emphasis>&#32;<link linkend="_classblink_1_1pdb__reader_1a898d4278df99b3a73bb1caf8f763f01e">pdb_reader</link>(<emphasis role="keyword">const</emphasis>&#32;std::string&#32;&amp;path);
+65 
+69 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_classblink_1_1pdb__reader_1a03ba4a2224e4c35d28bdb6cf3df114e8">version</link>()<emphasis role="keyword">&#32;const&#32;</emphasis>{&#32;<emphasis role="keywordflow">return</emphasis>&#32;_version;&#32;}
+73 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_classblink_1_1pdb__reader_1a28703ada8ae0e83ec93831a977d6af86">timestamp</link>()<emphasis role="keyword">&#32;const&#32;</emphasis>{&#32;<emphasis role="keywordflow">return</emphasis>&#32;_timestamp;&#32;}
+77 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structblink_1_1guid">guid</link>&#32;<link linkend="_classblink_1_1pdb__reader_1a86dda908e0a88d9195b9e6a895244fd1">guid</link>()<emphasis role="keyword">&#32;const&#32;</emphasis>{&#32;<emphasis role="keywordflow">return</emphasis>&#32;_guid;&#32;}
+78 
+79 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">using&#32;</emphasis><link linkend="_classblink_1_1msf__reader_1af151d1f84574fcbf5c0f838c481edb66">msf_reader::stream</link>;
+84 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::vector&lt;char&gt;&#32;<link linkend="_classblink_1_1pdb__reader_1aa3a9d747a7471ded4e47b73c7157236f">stream</link>(<emphasis role="keyword">const</emphasis>&#32;std::string&#32;&amp;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>)
+85 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+86 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;it&#32;=&#32;_named_streams.find(<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>);
+87 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(it&#32;==&#32;_named_streams.end())
+88 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;{};
+89 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_classblink_1_1msf__reader_1af151d1f84574fcbf5c0f838c481edb66">msf_reader::stream</link>(it-&gt;second);
+90 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+91 
+95 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_classblink_1_1pdb__reader_1a7a5baef30673829119ada838d3f857cd">read_symbol_table</link>(uint8_t&#32;*image_base,&#32;std::unordered_map&lt;std::string,&#32;void&#32;*&gt;&#32;&amp;symbols);
+99 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_classblink_1_1pdb__reader_1a1b8d3558b2a8e24844adddd8e82a5c67">read_object_files</link>(std::vector&lt;std::filesystem::path&gt;&#32;&amp;object_files);
+103 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_classblink_1_1pdb__reader_1a6140108c45c0b6b5327ca8a13a91c3b3">read_source_files</link>(std::vector&lt;std::vector&lt;std::filesystem::path&gt;&gt;&#32;&amp;source_files,&#32;<link linkend="_namespaceblink_1aff35637d5fc21bb93e2a572c9a66d1aa">source_file_map</link>&#32;&amp;file_map);
+104 
+108 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_classblink_1_1pdb__reader_1a3c5c576d8483311370fd4888b7353428">read_link_info</link>(std::filesystem::path&#32;&amp;cwd,&#32;std::string&#32;&amp;cmd);
+112 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_classblink_1_1pdb__reader_1a150f3c8b1c879863926b7e00e7de51de">read_name_hash_table</link>(std::unordered_map&lt;uint32_t,&#32;std::string&gt;&#32;&amp;names);
+113 
+114 &#32;&#32;&#32;&#32;<emphasis role="keyword">private</emphasis>:
+115 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;_version&#32;=&#32;0,&#32;_timestamp&#32;=&#32;0;
+116 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis><link linkend="_structblink_1_1guid">guid</link>&#32;_guid&#32;=&#32;{};
+117 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::unordered_map&lt;std::string,&#32;unsigned&#32;int&gt;&#32;_named_streams;
+118 &#32;&#32;&#32;&#32;};
+119 
+123 &#32;&#32;&#32;&#32;<emphasis role="keyword">class&#32;</emphasis><link linkend="_classblink_1_1stream__reader">stream_reader</link>
+124 &#32;&#32;&#32;&#32;{
+125 &#32;&#32;&#32;&#32;<emphasis role="keyword">public</emphasis>:
+126 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_classblink_1_1stream__reader_1ab4100f6aaae0c3b2c8ef41afa04527f4">stream_reader</link>()&#32;=&#32;<emphasis role="keywordflow">default</emphasis>;
+127 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_classblink_1_1stream__reader_1a3e46606403730427938876ae8d8de02a">stream_reader</link>(std::vector&lt;char&gt;&#32;&amp;&amp;<link linkend="_glad_8h_1ad02d2488127e1cf9a27262c4ee30ba85">stream</link>)&#32;:
+128 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_stream(<link linkend="_namespacestd">std</link>::move(<link linkend="_glad_8h_1ad02d2488127e1cf9a27262c4ee30ba85">stream</link>))&#32;{}
+129 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_classblink_1_1stream__reader_1a9a73e40310d09ad2c5fd59b881e66cf7">stream_reader</link>(<emphasis role="keyword">const</emphasis>&#32;std::vector&lt;char&gt;&#32;&amp;<link linkend="_glad_8h_1ad02d2488127e1cf9a27262c4ee30ba85">stream</link>)&#32;:
+130 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_stream(<link linkend="_glad_8h_1ad02d2488127e1cf9a27262c4ee30ba85">stream</link>)&#32;{}
+131 
+135 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_classblink_1_1stream__reader_1af2915866b483a2f32cb0cb7fb2cba541">size</link>()<emphasis role="keyword">&#32;const&#32;</emphasis>{&#32;<emphasis role="keywordflow">return</emphasis>&#32;_stream.size();&#32;}
+139 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_classblink_1_1stream__reader_1ae5c79c32b7aaa0548e1910f268a91ec0">tell</link>()<emphasis role="keyword">&#32;const&#32;</emphasis>{&#32;<emphasis role="keywordflow">return</emphasis>&#32;_stream_offset;&#32;}
+140 
+144 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&#32;&lt;<emphasis role="keyword">typename</emphasis>&#32;T&#32;=&#32;<emphasis role="keywordtype">char</emphasis>&gt;
+145 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;*<link linkend="_classblink_1_1stream__reader_1aedf070ee90c6aae4ced3a109fc428eec">data</link>(<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1ae1b92ae085ddef4b1cdca7d749339fb0">offset</link>&#32;=&#32;0)&#32;{&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">reinterpret_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;*<emphasis role="keyword">&gt;</emphasis>(_stream.data()&#32;+&#32;_stream_offset&#32;+&#32;<link linkend="_glad_8h_1ae1b92ae085ddef4b1cdca7d749339fb0">offset</link>);&#32;}
+146 
+151 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_classblink_1_1stream__reader_1af7c171ce646c6c41bb1975ae289a34d4">skip</link>(<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>)&#32;{&#32;_stream_offset&#32;+=&#32;<link linkend="_classblink_1_1stream__reader_1af2915866b483a2f32cb0cb7fb2cba541">size</link>;&#32;}
+156 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_classblink_1_1stream__reader_1a209b68456d537d707e97b1e51ca19cad">seek</link>(<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1ae1b92ae085ddef4b1cdca7d749339fb0">offset</link>)&#32;{&#32;_stream_offset&#32;=&#32;<link linkend="_glad_8h_1ae1b92ae085ddef4b1cdca7d749339fb0">offset</link>;&#32;}
+157 
+162 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_classblink_1_1stream__reader_1a8bd9230de12b1ab13917f385c9e75029">align</link>(<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_classblink_1_1stream__reader_1a8bd9230de12b1ab13917f385c9e75029">align</link>)
+163 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+164 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(_stream_offset&#32;%&#32;<link linkend="_classblink_1_1stream__reader_1a8bd9230de12b1ab13917f385c9e75029">align</link>&#32;!=&#32;0)
+165 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_classblink_1_1stream__reader_1af7c171ce646c6c41bb1975ae289a34d4">skip</link>(<link linkend="_classblink_1_1stream__reader_1a8bd9230de12b1ab13917f385c9e75029">align</link>&#32;-&#32;_stream_offset&#32;%&#32;<link linkend="_classblink_1_1stream__reader_1a8bd9230de12b1ab13917f385c9e75029">align</link>);
+166 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+167 
+173 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_classblink_1_1stream__reader_1afa619835beb3934d27ff4e79ff77aa69">read</link>(<emphasis role="keywordtype">void</emphasis>&#32;*<link linkend="_glad_8h_1a7fc54503e1a1cf98d128b839ebc0b4d0">buffer</link>,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>)
+174 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+175 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(_stream_offset&#32;&gt;=&#32;_stream.size())
+176 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;0;
+177 
+178 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>&#32;=&#32;std::min(_stream.size()&#32;-&#32;_stream_offset,&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>);
+179 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::memcpy(<link linkend="_glad_8h_1a7fc54503e1a1cf98d128b839ebc0b4d0">buffer</link>,&#32;_stream.data()&#32;+&#32;_stream_offset,&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>);
+180 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_stream_offset&#32;+=&#32;<link linkend="_classblink_1_1stream__reader_1af2915866b483a2f32cb0cb7fb2cba541">size</link>;
+181 
+182 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_classblink_1_1stream__reader_1af2915866b483a2f32cb0cb7fb2cba541">size</link>;
+183 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+187 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&#32;&lt;<emphasis role="keyword">typename</emphasis>&#32;T&gt;
+188 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;&amp;<link linkend="_classblink_1_1stream__reader_1ab15b7bf7b93fef5ece1fd0d4cfab12dc">read</link>()
+189 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+190 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_stream_offset&#32;+=&#32;<emphasis role="keyword">sizeof</emphasis>(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>);
+191 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;*<emphasis role="keyword">reinterpret_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;*<emphasis role="keyword">&gt;</emphasis>(_stream.data()&#32;+&#32;_stream_offset&#32;-&#32;<emphasis role="keyword">sizeof</emphasis>(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>));
+192 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+193 
+197 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::string_view&#32;<link linkend="_classblink_1_1stream__reader_1a496465116140abc80032ab95d5c628a1">read_string</link>()
+198 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+199 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::string_view&#32;<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>(_stream.data()&#32;+&#32;_stream_offset);
+200 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_stream_offset&#32;+=&#32;<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>.size()&#32;+&#32;1;
+201 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>;
+202 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+203 
+204 &#32;&#32;&#32;&#32;<emphasis role="keyword">private</emphasis>:
+205 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;_stream_offset&#32;=&#32;0;
+206 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::vector&lt;char&gt;&#32;_stream;
+207 &#32;&#32;&#32;&#32;};
+208 
+212 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&#32;&lt;<emphasis role="keyword">typename</emphasis>&#32;L&gt;
+213 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_namespaceblink_1af23d33ba7b1dae17d8011e1d467d9837">parse_code_view_records</link>(<link linkend="_classblink_1_1stream__reader">stream_reader</link>&#32;&amp;<link linkend="_glad_8h_1ad02d2488127e1cf9a27262c4ee30ba85">stream</link>,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1a011fc24f10426c01349e94a4edd4b0d5">length</link>,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>&#32;callback,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;alignment&#32;=&#32;1)
+214 &#32;&#32;&#32;&#32;{
+215 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1a432111147038972f06e049e18a837002">end</link>&#32;=&#32;<link linkend="_glad_8h_1ad02d2488127e1cf9a27262c4ee30ba85">stream</link>.tell()&#32;+&#32;<link linkend="_glad_8h_1a011fc24f10426c01349e94a4edd4b0d5">length</link>;
+216 
+217 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;A&#32;list&#32;of&#32;records&#32;in&#32;CodeView&#32;format</emphasis>
+218 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">while</emphasis>&#32;(<link linkend="_glad_8h_1ad02d2488127e1cf9a27262c4ee30ba85">stream</link>.tell()&#32;&lt;&#32;<link linkend="_glad_8h_1a432111147038972f06e049e18a837002">end</link>)
+219 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+220 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Each&#32;records&#32;starts&#32;with&#32;2&#32;bytes&#32;containing&#32;the&#32;size&#32;of&#32;the&#32;record&#32;after&#32;this&#32;element</emphasis>
+221 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>&#32;=&#32;<link linkend="_glad_8h_1ad02d2488127e1cf9a27262c4ee30ba85">stream</link>.read&lt;uint16_t&gt;();
+222 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Next&#32;2&#32;bytes&#32;contain&#32;an&#32;enumeration&#32;depicting&#32;the&#32;type&#32;and&#32;format&#32;of&#32;the&#32;following&#32;data</emphasis>
+223 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;code_view_tag&#32;=&#32;<link linkend="_glad_8h_1ad02d2488127e1cf9a27262c4ee30ba85">stream</link>.read&lt;uint16_t&gt;();
+224 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;The&#32;next&#32;record&#32;is&#32;found&#32;by&#32;adding&#32;the&#32;current&#32;record&#32;size&#32;to&#32;the&#32;position&#32;of&#32;the&#32;previous&#32;size&#32;element</emphasis>
+225 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;next_record_offset&#32;=&#32;(<link linkend="_glad_8h_1ad02d2488127e1cf9a27262c4ee30ba85">stream</link>.tell()&#32;-&#32;<emphasis role="keyword">sizeof</emphasis>(<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>))&#32;+&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>;
+226 
+227 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;callback(code_view_tag);
+228 
+229 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1ad02d2488127e1cf9a27262c4ee30ba85">stream</link>.seek(next_record_offset);
+230 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1ad02d2488127e1cf9a27262c4ee30ba85">stream</link>.align(alignment);
+231 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+232 &#32;&#32;&#32;&#32;}
+233 }
+</programlisting></section>

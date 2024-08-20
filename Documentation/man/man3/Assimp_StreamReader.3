@@ -1,0 +1,237 @@
+.TH "Assimp::StreamReader< SwapEndianess, RuntimeSwitch >" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Assimp::StreamReader< SwapEndianess, RuntimeSwitch >
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fR#include <StreamReader\&.h>\fP
+.SS "Public Types"
+
+.in +1c
+.ti -1c
+.RI "using \fBdiff\fP = size_t"
+.br
+.ti -1c
+.RI "using \fBpos\fP = size_t"
+.br
+.in -1c
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBStreamReader\fP (std::shared_ptr< \fBIOStream\fP > \fBstream\fP, bool le=false)"
+.br
+.ti -1c
+.RI "\fBStreamReader\fP (\fBIOStream\fP *\fBstream\fP, bool le=false)"
+.br
+.ti -1c
+.RI "\fB~StreamReader\fP ()"
+.br
+.ti -1c
+.RI "float \fBGetF4\fP ()"
+.br
+.RI "Read a float from the stream\&. "
+.ti -1c
+.RI "double \fBGetF8\fP ()"
+.br
+.RI "Read a double from the stream\&. "
+.ti -1c
+.RI "int16_t \fBGetI2\fP ()"
+.br
+.ti -1c
+.RI "int8_t \fBGetI1\fP ()"
+.br
+.ti -1c
+.RI "int32_t \fBGetI4\fP ()"
+.br
+.ti -1c
+.RI "int64_t \fBGetI8\fP ()"
+.br
+.ti -1c
+.RI "uint16_t \fBGetU2\fP ()"
+.br
+.ti -1c
+.RI "uint8_t \fBGetU1\fP ()"
+.br
+.RI "Read a unsigned 8 bit integer from the stream\&. "
+.ti -1c
+.RI "uint32_t \fBGetU4\fP ()"
+.br
+.RI "Read an unsigned 32 bit integer from the stream\&. "
+.ti -1c
+.RI "uint64_t \fBGetU8\fP ()"
+.br
+.RI "Read a unsigned 64 bit integer from the stream\&. "
+.ti -1c
+.RI "size_t \fBGetRemainingSize\fP () const"
+.br
+.RI "Get the remaining stream size (to the end of the stream) "
+.ti -1c
+.RI "size_t \fBGetRemainingSizeToLimit\fP () const"
+.br
+.ti -1c
+.RI "\fBvoid\fP \fBIncPtr\fP (\fBintptr_t\fP plus)"
+.br
+.ti -1c
+.RI "int8_t * \fBGetPtr\fP () const"
+.br
+.ti -1c
+.RI "\fBvoid\fP \fBSetPtr\fP (int8_t *p)"
+.br
+.ti -1c
+.RI "\fBvoid\fP \fBCopyAndAdvance\fP (\fBvoid\fP *out, size_t bytes)"
+.br
+.ti -1c
+.RI "int \fBGetCurrentPos\fP () const"
+.br
+.RI "Get the current offset from the beginning of the file\&. "
+.ti -1c
+.RI "\fBvoid\fP \fBSetCurrentPos\fP (size_t \fBpos\fP)"
+.br
+.ti -1c
+.RI "unsigned int \fBSetReadLimit\fP (unsigned int _limit)"
+.br
+.ti -1c
+.RI "unsigned int \fBGetReadLimit\fP () const"
+.br
+.ti -1c
+.RI "\fBvoid\fP \fBSkipToReadLimit\fP ()"
+.br
+.ti -1c
+.RI "template<typename \fBT\fP > \fBStreamReader\fP & \fBoperator>>\fP (\fBT\fP &\fBf\fP)"
+.br
+.ti -1c
+.RI "template<typename \fBT\fP > \fBT\fP \fBGet\fP ()"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.SS "template<bool SwapEndianess = false, bool RuntimeSwitch = false>
+.br
+class Assimp::StreamReader< SwapEndianess, RuntimeSwitch >"Wrapper class around \fBIOStream\fP to allow for consistent reading of binary data in both little and big endian format\&. Don't attempt to instance the template directly\&. Use StreamReaderLE to read from a little-endian stream and StreamReaderBE to read from a BE stream\&. The class expects that the endianness of any input data is known at compile-time, which should usually be true (\fBBaseImporter::ConvertToUTF8\fP implements runtime endianness conversions for text files)\&.
+.PP
+XXX switch from unsigned int for size types to size_t? or ptrdiff_t? 
+.SH "Member Typedef Documentation"
+.PP 
+.SS "template<bool SwapEndianess = false, bool RuntimeSwitch = false> using \fBAssimp::StreamReader\fP< SwapEndianess, RuntimeSwitch >::diff = size_t"
+
+.SS "template<bool SwapEndianess = false, bool RuntimeSwitch = false> using \fBAssimp::StreamReader\fP< SwapEndianess, RuntimeSwitch >::pos = size_t"
+
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "template<bool SwapEndianess = false, bool RuntimeSwitch = false> \fBAssimp::StreamReader\fP< SwapEndianess, RuntimeSwitch >::StreamReader (std::shared_ptr< \fBIOStream\fP > stream, bool le = \fRfalse\fP)\fR [inline]\fP"
+Construction from a given stream with a well-defined endianness\&.
+.PP
+The \fBStreamReader\fP holds a permanent strong reference to the stream, which is released upon destruction\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIstream\fP Input stream\&. The stream is not restarted if its file pointer is not at 0\&. Instead, the stream reader reads from the current position to the end of the stream\&. 
+.br
+\fIle\fP If \fRRuntimeSwitch\fP is true: specifies whether the stream is in little endian byte order\&. Otherwise the endianness information is contained in the \fRSwapEndianess\fP template parameter and this parameter is meaningless\&. 
+.br
+ 
+.RE
+.PP
+
+.SS "template<bool SwapEndianess = false, bool RuntimeSwitch = false> \fBAssimp::StreamReader\fP< SwapEndianess, RuntimeSwitch >::StreamReader (\fBIOStream\fP * stream, bool le = \fRfalse\fP)\fR [inline]\fP"
+
+.SS "template<bool SwapEndianess = false, bool RuntimeSwitch = false> \fBAssimp::StreamReader\fP< SwapEndianess, RuntimeSwitch >::~\fBStreamReader\fP ()\fR [inline]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "template<bool SwapEndianess = false, bool RuntimeSwitch = false> \fBvoid\fP \fBAssimp::StreamReader\fP< SwapEndianess, RuntimeSwitch >::CopyAndAdvance (\fBvoid\fP * out, size_t bytes)\fR [inline]\fP"
+Copy n bytes to an external buffer 
+.PP
+\fBParameters\fP
+.RS 4
+\fIout\fP Destination for copying 
+.br
+\fIbytes\fP Number of bytes to copy 
+.RE
+.PP
+
+.SS "template<bool SwapEndianess = false, bool RuntimeSwitch = false> template<typename \fBT\fP > \fBT\fP \fBAssimp::StreamReader\fP< SwapEndianess, RuntimeSwitch >::Get ()\fR [inline]\fP"
+Generic read method\&. ByteSwap::Swap(T*) \fImust\fP be defined 
+.SS "template<bool SwapEndianess = false, bool RuntimeSwitch = false> int \fBAssimp::StreamReader\fP< SwapEndianess, RuntimeSwitch >::GetCurrentPos () const\fR [inline]\fP"
+
+.PP
+Get the current offset from the beginning of the file\&. 
+.SS "template<bool SwapEndianess = false, bool RuntimeSwitch = false> float \fBAssimp::StreamReader\fP< SwapEndianess, RuntimeSwitch >::GetF4 ()\fR [inline]\fP"
+
+.PP
+Read a float from the stream\&. 
+.SS "template<bool SwapEndianess = false, bool RuntimeSwitch = false> double \fBAssimp::StreamReader\fP< SwapEndianess, RuntimeSwitch >::GetF8 ()\fR [inline]\fP"
+
+.PP
+Read a double from the stream\&. 
+.SS "template<bool SwapEndianess = false, bool RuntimeSwitch = false> int8_t \fBAssimp::StreamReader\fP< SwapEndianess, RuntimeSwitch >::GetI1 ()\fR [inline]\fP"
+Read a signed 8 bit integer from the stream 
+.SS "template<bool SwapEndianess = false, bool RuntimeSwitch = false> int16_t \fBAssimp::StreamReader\fP< SwapEndianess, RuntimeSwitch >::GetI2 ()\fR [inline]\fP"
+Read a signed 16 bit integer from the stream 
+.SS "template<bool SwapEndianess = false, bool RuntimeSwitch = false> int32_t \fBAssimp::StreamReader\fP< SwapEndianess, RuntimeSwitch >::GetI4 ()\fR [inline]\fP"
+Read an signed 32 bit integer from the stream 
+.SS "template<bool SwapEndianess = false, bool RuntimeSwitch = false> int64_t \fBAssimp::StreamReader\fP< SwapEndianess, RuntimeSwitch >::GetI8 ()\fR [inline]\fP"
+Read a signed 64 bit integer from the stream 
+.SS "template<bool SwapEndianess = false, bool RuntimeSwitch = false> int8_t * \fBAssimp::StreamReader\fP< SwapEndianess, RuntimeSwitch >::GetPtr () const\fR [inline]\fP"
+Get the current file pointer 
+.SS "template<bool SwapEndianess = false, bool RuntimeSwitch = false> unsigned int \fBAssimp::StreamReader\fP< SwapEndianess, RuntimeSwitch >::GetReadLimit () const\fR [inline]\fP"
+Get the current read limit in bytes\&. Reading over this limit accidentally raises an exception\&. 
+.br
+ 
+.SS "template<bool SwapEndianess = false, bool RuntimeSwitch = false> size_t \fBAssimp::StreamReader\fP< SwapEndianess, RuntimeSwitch >::GetRemainingSize () const\fR [inline]\fP"
+
+.PP
+Get the remaining stream size (to the end of the stream) 
+.SS "template<bool SwapEndianess = false, bool RuntimeSwitch = false> size_t \fBAssimp::StreamReader\fP< SwapEndianess, RuntimeSwitch >::GetRemainingSizeToLimit () const\fR [inline]\fP"
+Get the remaining stream size (to the current read limit)\&. The return value is the remaining size of the stream if no custom read limit has been set\&. 
+.SS "template<bool SwapEndianess = false, bool RuntimeSwitch = false> uint8_t \fBAssimp::StreamReader\fP< SwapEndianess, RuntimeSwitch >::GetU1 ()\fR [inline]\fP"
+
+.PP
+Read a unsigned 8 bit integer from the stream\&. 
+.SS "template<bool SwapEndianess = false, bool RuntimeSwitch = false> uint16_t \fBAssimp::StreamReader\fP< SwapEndianess, RuntimeSwitch >::GetU2 ()\fR [inline]\fP"
+Read a unsigned 16 bit integer from the stream 
+.SS "template<bool SwapEndianess = false, bool RuntimeSwitch = false> uint32_t \fBAssimp::StreamReader\fP< SwapEndianess, RuntimeSwitch >::GetU4 ()\fR [inline]\fP"
+
+.PP
+Read an unsigned 32 bit integer from the stream\&. 
+.SS "template<bool SwapEndianess = false, bool RuntimeSwitch = false> uint64_t \fBAssimp::StreamReader\fP< SwapEndianess, RuntimeSwitch >::GetU8 ()\fR [inline]\fP"
+
+.PP
+Read a unsigned 64 bit integer from the stream\&. 
+.SS "template<bool SwapEndianess = false, bool RuntimeSwitch = false> \fBvoid\fP \fBAssimp::StreamReader\fP< SwapEndianess, RuntimeSwitch >::IncPtr (\fBintptr_t\fP plus)\fR [inline]\fP"
+Increase the file pointer (relative seeking) 
+.br
+ 
+.SS "template<bool SwapEndianess = false, bool RuntimeSwitch = false> template<typename \fBT\fP > \fBStreamReader\fP & \fBAssimp::StreamReader\fP< SwapEndianess, RuntimeSwitch >::operator>> (\fBT\fP & f)\fR [inline]\fP"
+overload operator>> and allow chaining of >> ops\&. 
+.SS "template<bool SwapEndianess = false, bool RuntimeSwitch = false> \fBvoid\fP \fBAssimp::StreamReader\fP< SwapEndianess, RuntimeSwitch >::SetCurrentPos (size_t pos)\fR [inline]\fP"
+
+.SS "template<bool SwapEndianess = false, bool RuntimeSwitch = false> \fBvoid\fP \fBAssimp::StreamReader\fP< SwapEndianess, RuntimeSwitch >::SetPtr (int8_t * p)\fR [inline]\fP"
+Set current file pointer (Get it from \fBGetPtr\fP)\&. This is if you prefer to do pointer arithmetic on your own or want to copy large chunks of data at once\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIp\fP The new pointer, which is validated against the size limit and buffer boundaries\&. 
+.RE
+.PP
+
+.SS "template<bool SwapEndianess = false, bool RuntimeSwitch = false> unsigned int \fBAssimp::StreamReader\fP< SwapEndianess, RuntimeSwitch >::SetReadLimit (unsigned int _limit)\fR [inline]\fP"
+Setup a temporary read limit
+.PP
+\fBParameters\fP
+.RS 4
+\fIlimit\fP Maximum number of bytes to be read from the beginning of the file\&. Specifying UINT_MAX resets the limit to the original end of the stream\&. Returns the previously set limit\&. 
+.RE
+.PP
+
+.SS "template<bool SwapEndianess = false, bool RuntimeSwitch = false> \fBvoid\fP \fBAssimp::StreamReader\fP< SwapEndianess, RuntimeSwitch >::SkipToReadLimit ()\fR [inline]\fP"
+Skip to the read limit in bytes\&. Reading over this limit accidentally raises an exception\&. 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

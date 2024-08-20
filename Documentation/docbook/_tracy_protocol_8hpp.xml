@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="__tracy_protocol_8hpp" xml:lang="en-US">
+<title>adhed/common/TracyProtocol.hpp File Reference</title>
+<indexterm><primary>adhed/common/TracyProtocol.hpp</primary></indexterm>
+<programlisting linenumbering="unnumbered">#include &lt;limits&gt;<?linebreak?>#include &lt;stdint.h&gt;<?linebreak?></programlisting><simplesect>
+    <title>Classes    </title>
+        <itemizedlist>
+            <listitem><para>struct <link linkend="_structtracy_1_1_server_query_packet">tracy::ServerQueryPacket</link></para>
+</listitem>
+            <listitem><para>struct <link linkend="_structtracy_1_1_welcome_flag">tracy::WelcomeFlag</link></para>
+</listitem>
+            <listitem><para>struct <link linkend="_structtracy_1_1_welcome_message">tracy::WelcomeMessage</link></para>
+</listitem>
+            <listitem><para>struct <link linkend="_structtracy_1_1_on_demand_payload_message">tracy::OnDemandPayloadMessage</link></para>
+</listitem>
+            <listitem><para>struct <link linkend="_structtracy_1_1_broadcast_message">tracy::BroadcastMessage</link></para>
+</listitem>
+            <listitem><para>struct <link linkend="_structtracy_1_1_broadcast_message__v2">tracy::BroadcastMessage_v2</link></para>
+</listitem>
+            <listitem><para>struct <link linkend="_structtracy_1_1_broadcast_message__v1">tracy::BroadcastMessage_v1</link></para>
+</listitem>
+            <listitem><para>struct <link linkend="_structtracy_1_1_broadcast_message__v0">tracy::BroadcastMessage_v0</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Namespaces    </title>
+        <itemizedlist>
+            <listitem><para>namespace <link linkend="_namespacetracy">tracy</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Typedefs    </title>
+        <itemizedlist>
+            <listitem><para>using <link linkend="_namespacetracy_1aff8c9a463640e127ff4357181700341c">tracy::lz4sz_t</link> = uint32_t</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Enumerations    </title>
+        <itemizedlist>
+            <listitem><para>enum : uint32_t { <link linkend="_namespacetracy_1a7a011e19f8e02947cfb360289e0ced2fa2ba1779d1459fc1733e3c2a237ce3448">tracy::ProtocolVersion</link> = 64
+ }</para>
+</listitem>
+            <listitem><para>enum : uint16_t { <link linkend="_namespacetracy_1a34f02a16c73d8ced08a1fc9be834d253a52202dcee77858db19b42971c23b68a1">tracy::BroadcastVersion</link> = 3
+ }</para>
+</listitem>
+            <listitem><para>enum { <link linkend="_namespacetracy_1a78972e167e822ae647899796919fd317ad822f720d8a1264fd7033ff3ce1396c3">tracy::TargetFrameSize</link> = 256 * 1024
+ }</para>
+</listitem>
+            <listitem><para>enum { <link linkend="_namespacetracy_1a911213a3f81acf83238d1e180305e192abff0bbcfa8341283eae7fb2ca575a2b4">tracy::LZ4Size</link> = Lz4CompressBound( TargetFrameSize )
+ }</para>
+</listitem>
+            <listitem><para>enum { <link linkend="_namespacetracy_1a0338abdcbbdff7123162a8a3d495e1d2a0aa572a389a2d148aceceeca8c8839e3">tracy::HandshakeShibbolethSize</link> = 8
+ }</para>
+</listitem>
+            <listitem><para>enum <link linkend="_namespacetracy_1aaaff62ab032e9f38a7862a7bccef66a5">tracy::HandshakeStatus</link> : uint8_t { <?linebreak?><link linkend="_namespacetracy_1aaaff62ab032e9f38a7862a7bccef66a5aacc2802acf82218a697d502998808479">tracy::HandshakePending</link>
+, <link linkend="_namespacetracy_1aaaff62ab032e9f38a7862a7bccef66a5a5e91660c0de8b9bb7dc8b034b7be7975">tracy::HandshakeWelcome</link>
+, <link linkend="_namespacetracy_1aaaff62ab032e9f38a7862a7bccef66a5a701655febee5e7a77da9fc23d1439851">tracy::HandshakeProtocolMismatch</link>
+, <link linkend="_namespacetracy_1aaaff62ab032e9f38a7862a7bccef66a5ab324d8aa9d2a446c026ebf84ccbc535c">tracy::HandshakeNotAvailable</link>
+, <?linebreak?><link linkend="_namespacetracy_1aaaff62ab032e9f38a7862a7bccef66a5aa86c5f52516a9bc6ad3857d2e54f157b">tracy::HandshakeDropped</link>
+ }</para>
+</listitem>
+            <listitem><para>enum { <link linkend="_namespacetracy_1a2588c6f3f5363a46de345fc76ff4a38bafe5e5911248025b7e9687b81dd6238d7">tracy::WelcomeMessageProgramNameSize</link> = 64
+ }</para>
+</listitem>
+            <listitem><para>enum { <link linkend="_namespacetracy_1a064d4a10060d8e258fd42bf043bc00b1a336c3c0f1057836489cbc798798b4654">tracy::WelcomeMessageHostInfoSize</link> = 1024
+ }</para>
+</listitem>
+            <listitem><para>enum <link linkend="_namespacetracy_1a025ed337aaeaa8d604225ac5f00510c9">tracy::ServerQuery</link> : uint8_t { <?linebreak?><link linkend="_namespacetracy_1a025ed337aaeaa8d604225ac5f00510c9aa87c99322142993d532d1fe6bc6948a6">tracy::ServerQueryTerminate</link>
+, <link linkend="_namespacetracy_1a025ed337aaeaa8d604225ac5f00510c9a61ec1f69e09117074e0c0c641b6bba1e">tracy::ServerQueryString</link>
+, <link linkend="_namespacetracy_1a025ed337aaeaa8d604225ac5f00510c9a77bdec98b704a4debcf6d832ffd3a5d2">tracy::ServerQueryThreadString</link>
+, <link linkend="_namespacetracy_1a025ed337aaeaa8d604225ac5f00510c9a74ff94704d30412689519981e9d032a8">tracy::ServerQuerySourceLocation</link>
+, <?linebreak?><link linkend="_namespacetracy_1a025ed337aaeaa8d604225ac5f00510c9a063977aeae9404845406294c2a2f24dc">tracy::ServerQueryPlotName</link>
+, <link linkend="_namespacetracy_1a025ed337aaeaa8d604225ac5f00510c9ab43b5542422e23667701355353b56f63">tracy::ServerQueryFrameName</link>
+, <link linkend="_namespacetracy_1a025ed337aaeaa8d604225ac5f00510c9aebce84410f5e82b5e2522dc5b40852ec">tracy::ServerQueryParameter</link>
+, <link linkend="_namespacetracy_1a025ed337aaeaa8d604225ac5f00510c9a846f3a713cc14538d59fc8862f476844">tracy::ServerQueryFiberName</link>
+, <?linebreak?><link linkend="_namespacetracy_1a025ed337aaeaa8d604225ac5f00510c9a833a569477b4f422df20ea55ea563cfb">tracy::ServerQueryDisconnect</link>
+, <link linkend="_namespacetracy_1a025ed337aaeaa8d604225ac5f00510c9abd5560420cd70981852103f842706712">tracy::ServerQueryCallstackFrame</link>
+, <link linkend="_namespacetracy_1a025ed337aaeaa8d604225ac5f00510c9a04fa5afc82ea75cb4d6d19b8d631e31c">tracy::ServerQueryExternalName</link>
+, <link linkend="_namespacetracy_1a025ed337aaeaa8d604225ac5f00510c9a21290363398addf0e1c632003cf3e133">tracy::ServerQuerySymbol</link>
+, <?linebreak?><link linkend="_namespacetracy_1a025ed337aaeaa8d604225ac5f00510c9a628db9371aafae667662f79e945121ca">tracy::ServerQuerySymbolCode</link>
+, <link linkend="_namespacetracy_1a025ed337aaeaa8d604225ac5f00510c9a6131f41e0f353e652ce92d9497e8949a">tracy::ServerQuerySourceCode</link>
+, <link linkend="_namespacetracy_1a025ed337aaeaa8d604225ac5f00510c9a06ef885b1dc7b19be38286bfadb852b2">tracy::ServerQueryDataTransfer</link>
+, <link linkend="_namespacetracy_1a025ed337aaeaa8d604225ac5f00510c9a8b9180810cbf7886865f47e66bdedf2e">tracy::ServerQueryDataTransferPart</link>
+ }</para>
+</listitem>
+            <listitem><para>enum { <link linkend="_namespacetracy_1a04541a25fe3f27dd9550b7e7d331a2a5aab6d3568e5564beeb24292bf88eac1d3">tracy::ServerQueryPacketSize</link> = sizeof( ServerQueryPacket )
+ }</para>
+</listitem>
+            <listitem><para>enum <link linkend="_namespacetracy_1ac06b7c2ba334baa69203a4f8ff58e440">tracy::CpuArchitecture</link> : uint8_t { <?linebreak?><link linkend="_namespacetracy_1ac06b7c2ba334baa69203a4f8ff58e440ad95d4c98a0768212d2052dd4b96c4c58">tracy::CpuArchUnknown</link>
+, <link linkend="_namespacetracy_1ac06b7c2ba334baa69203a4f8ff58e440a4f56e9b4da71d4c2a6272edd37a44329">tracy::CpuArchX86</link>
+, <link linkend="_namespacetracy_1ac06b7c2ba334baa69203a4f8ff58e440a66e33b9769e5258271d4c65e55cdc1cf">tracy::CpuArchX64</link>
+, <link linkend="_namespacetracy_1ac06b7c2ba334baa69203a4f8ff58e440aeea48605eff186e5af6c485072091bd2">tracy::CpuArchArm32</link>
+, <?linebreak?><link linkend="_namespacetracy_1ac06b7c2ba334baa69203a4f8ff58e440a7d0e5b762ec36a4167f9f5e78d3f9b88">tracy::CpuArchArm64</link>
+ }</para>
+</listitem>
+            <listitem><para>enum { <link linkend="_namespacetracy_1a9a2e93425722b6ada942ac1d657a1330ad3c6e5b3a9d601b7779661e4887bfd50">tracy::WelcomeMessageSize</link> = sizeof( WelcomeMessage )
+ }</para>
+</listitem>
+            <listitem><para>enum { <link linkend="_namespacetracy_1a896309c5474d8553673599de5eea8fa9ad98f280eadd32100c14907b005926ab5">tracy::OnDemandPayloadMessageSize</link> = sizeof( OnDemandPayloadMessage )
+ }</para>
+</listitem>
+            <listitem><para>enum { <link linkend="_namespacetracy_1a444093f710f18d34a76a1d8c4fea7472aa3bc0dfa4e5dc25fb8abcd88c3480fe7">tracy::BroadcastMessageSize</link> = sizeof( BroadcastMessage )
+ }</para>
+</listitem>
+            <listitem><para>enum { <link linkend="_namespacetracy_1adb58cb5a82f79e719f96103e06f06a20a2fb9b62e13fe95d7d390c53bd8153c1f">tracy::BroadcastMessageSize_v2</link> = sizeof( BroadcastMessage_v2 )
+ }</para>
+</listitem>
+            <listitem><para>enum { <link linkend="_namespacetracy_1aebc027335a30edd123030af21ff0eff0af192550e5c4767204ba7dc339dede6bf">tracy::BroadcastMessageSize_v1</link> = sizeof( BroadcastMessage_v1 )
+ }</para>
+</listitem>
+            <listitem><para>enum { <link linkend="_namespacetracy_1ad852a26a091032dfaf6da95d2760d214a405ce76175093c3a60b8a119c46f088b">tracy::BroadcastMessageSize_v0</link> = sizeof( BroadcastMessage_v0 )
+ }</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Functions    </title>
+        <itemizedlist>
+            <listitem><para>constexpr unsigned <link linkend="_namespacetracy_1a3ea51eb0af554ce66d04363a5c72d925">tracy::Lz4CompressBound</link> (unsigned <link linkend="_namespacetracy_1a291ec994b73ee0c8da6a36ab23aa928d">isize</link>)</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+</section>

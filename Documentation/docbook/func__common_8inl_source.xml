@@ -1,0 +1,793 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_func__common_8inl_source" xml:lang="en-US">
+<title>func_common.inl</title>
+<indexterm><primary>adhed/glm/detail/func_common.inl</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 
+3 
+4 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_vector__relational_8hpp">../vector_relational.hpp</link>&quot;</emphasis>
+5 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_compute__common_8hpp">compute_common.hpp</link>&quot;</emphasis>
+6 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_type__vec1_8hpp">type_vec1.hpp</link>&quot;</emphasis>
+7 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_type__vec2_8hpp">type_vec2.hpp</link>&quot;</emphasis>
+8 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_type__vec3_8hpp">type_vec3.hpp</link>&quot;</emphasis>
+9 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_type__vec4_8hpp">type_vec4.hpp</link>&quot;</emphasis>
+10 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="___vectorize_8hpp">_vectorize.hpp</link>&quot;</emphasis>
+11 <emphasis role="preprocessor">#include&#32;&lt;limits&gt;</emphasis>
+12 
+13 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespaceglm">glm</link>
+14 {
+15 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;min</emphasis>
+16 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;genType&gt;
+17 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;genType&#32;<link linkend="_group__core__func__common_1ga6cf8098827054a270ee36b18e30d471d">min</link>(genType&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;genType&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>)
+18 &#32;&#32;&#32;&#32;{
+19 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a6893d4a6bf0ecab00f7c73166379245a">GLM_STATIC_ASSERT</link>(std::numeric_limits&lt;genType&gt;::is_iec559&#32;||&#32;<link linkend="_setup_8hpp_1a0e15f8e785c4bb309a961b218921d1c1">GLM_CONFIG_UNRESTRICTED_FLOAT</link>&#32;||&#32;std::numeric_limits&lt;genType&gt;::is_integer,&#32;<emphasis role="stringliteral">&quot;&apos;min&apos;&#32;only&#32;accept&#32;floating-point&#32;or&#32;integer&#32;inputs&quot;</emphasis>);
+20 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;(<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>&#32;&lt;&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>)&#32;?&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>&#32;:&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>;
+21 &#32;&#32;&#32;&#32;}
+22 
+23 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;max</emphasis>
+24 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;genType&gt;
+25 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;genType&#32;<link linkend="_group__core__func__common_1gae02d42887fc5570451f880e3c624b9ac">max</link>(genType&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;genType&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>)
+26 &#32;&#32;&#32;&#32;{
+27 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a6893d4a6bf0ecab00f7c73166379245a">GLM_STATIC_ASSERT</link>(std::numeric_limits&lt;genType&gt;::is_iec559&#32;||&#32;<link linkend="_setup_8hpp_1a0e15f8e785c4bb309a961b218921d1c1">GLM_CONFIG_UNRESTRICTED_FLOAT</link>&#32;||&#32;std::numeric_limits&lt;genType&gt;::is_integer,&#32;<emphasis role="stringliteral">&quot;&apos;max&apos;&#32;only&#32;accept&#32;floating-point&#32;or&#32;integer&#32;inputs&quot;</emphasis>);
+28 
+29 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>&#32;&lt;&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>)&#32;?&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>&#32;:&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>;
+30 &#32;&#32;&#32;&#32;}
+31 
+32 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;abs</emphasis>
+33 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;&gt;
+34 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_group__core__func__common_1ga439e60a72eadecfeda2df5449c613a64">abs</link>(<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>)
+35 &#32;&#32;&#32;&#32;{
+36 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>&#32;=&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>&#32;&gt;&gt;&#32;(<emphasis role="keyword">sizeof</emphasis>(int)&#32;*&#32;8&#32;-&#32;1);
+37 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>&#32;^&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>)&#32;-&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>;
+38 &#32;&#32;&#32;&#32;}
+39 
+40 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;round</emphasis>
+41 <emphasis role="preprocessor">#&#32;&#32;&#32;if&#32;GLM_HAS_CXX11_STL</emphasis>
+42 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;using&#32;::std::round;
+43 <emphasis role="preprocessor">#&#32;&#32;&#32;else</emphasis>
+44 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;genType&gt;
+45 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;genType&#32;<link linkend="_group__core__func__common_1gaa81940d45558cd2ae07fe135e653bcfa">round</link>(genType&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>)
+46 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+47 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a6893d4a6bf0ecab00f7c73166379245a">GLM_STATIC_ASSERT</link>(std::numeric_limits&lt;genType&gt;::is_iec559&#32;||&#32;<link linkend="_setup_8hpp_1a0e15f8e785c4bb309a961b218921d1c1">GLM_CONFIG_UNRESTRICTED_FLOAT</link>,&#32;<emphasis role="stringliteral">&quot;&apos;round&apos;&#32;only&#32;accept&#32;floating-point&#32;inputs&quot;</emphasis>);
+48 
+49 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x &lt; static_cast&lt;genType&gt;</link>(0)&#32;?&#32;<emphasis role="keyword">static_cast&lt;</emphasis>genType<emphasis role="keyword">&gt;</emphasis>(int(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>&#32;-&#32;<emphasis role="keyword">static_cast&lt;</emphasis>genType<emphasis role="keyword">&gt;</emphasis>(0.5)))&#32;:&#32;<emphasis role="keyword">static_cast&lt;</emphasis>genType<emphasis role="keyword">&gt;</emphasis>(int(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>&#32;+&#32;<emphasis role="keyword">static_cast&lt;</emphasis>genType<emphasis role="keyword">&gt;</emphasis>(0.5)));
+50 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+51 <emphasis role="preprocessor">#&#32;&#32;&#32;endif</emphasis>
+52 
+53 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;trunc</emphasis>
+54 <emphasis role="preprocessor">#&#32;&#32;&#32;if&#32;GLM_HAS_CXX11_STL</emphasis>
+55 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;using&#32;::std::trunc;
+56 <emphasis role="preprocessor">#&#32;&#32;&#32;else</emphasis>
+57 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;genType&gt;
+58 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;genType&#32;<link linkend="_group__core__func__common_1ga3147679b4cd5f249c74f03906c2eb4d1">trunc</link>(genType&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>)
+59 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+60 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a6893d4a6bf0ecab00f7c73166379245a">GLM_STATIC_ASSERT</link>(std::numeric_limits&lt;genType&gt;::is_iec559&#32;||&#32;<link linkend="_setup_8hpp_1a0e15f8e785c4bb309a961b218921d1c1">GLM_CONFIG_UNRESTRICTED_FLOAT</link>,&#32;<emphasis role="stringliteral">&quot;&apos;trunc&apos;&#32;only&#32;accept&#32;floating-point&#32;inputs&quot;</emphasis>);
+61 
+62 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x &lt; static_cast&lt;genType&gt;</link>(0)&#32;?&#32;-std::floor(-<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>)&#32;:&#32;std::floor(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>);
+63 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+64 <emphasis role="preprocessor">#&#32;&#32;&#32;endif</emphasis>
+65 
+66 }<emphasis role="comment">//namespace&#32;glm</emphasis>
+67 
+68 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespaceglm">glm</link>{
+69 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespacedetail">detail</link>
+70 {
+71 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;length_t&#32;L,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;Aligned&gt;
+72 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis><link linkend="_structglm_1_1detail_1_1compute__abs__vector">compute_abs_vector</link>
+73 &#32;&#32;&#32;&#32;{
+74 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<link linkend="_structglm_1_1detail_1_1compute__abs__vector_1abe8df59907b1d291060b491bfe86b81c">call</link>(<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>)
+75 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+76 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1detail_1_1functor1">detail::functor1&lt;vec, L, T, T, Q&gt;::call</link>(abs,&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>);
+77 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+78 &#32;&#32;&#32;&#32;};
+79 
+80 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;length_t&#32;L,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;<emphasis role="keyword">typename</emphasis>&#32;U,&#32;qualifier&#32;Q,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;Aligned&gt;
+81 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis><link linkend="_structglm_1_1detail_1_1compute__mix__vector">compute_mix_vector</link>
+82 &#32;&#32;&#32;&#32;{
+83 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<link linkend="_structglm_1_1detail_1_1compute__mix__vector_1a9022c7538bcd48c018e623a6860cf473">call</link>(<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>,&#32;<link linkend="_structglm_1_1vec">vec&lt;L, U, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>)
+84 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+85 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a6893d4a6bf0ecab00f7c73166379245a">GLM_STATIC_ASSERT</link>(std::numeric_limits&lt;U&gt;::is_iec559&#32;||&#32;<link linkend="_setup_8hpp_1a0e15f8e785c4bb309a961b218921d1c1">GLM_CONFIG_UNRESTRICTED_FLOAT</link>&#32;||&#32;<link linkend="_setup_8hpp_1adfb40fae63c98b85b15b63c8e42970b8">GLM_CONFIG_UNRESTRICTED_GENTYPE</link>,&#32;<emphasis role="stringliteral">&quot;&apos;mix&apos;&#32;only&#32;accept&#32;floating-point&#32;inputs&#32;for&#32;the&#32;interpolator&#32;a&quot;</emphasis>);
+86 
+87 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>(<link linkend="_structglm_1_1vec">vec&lt;L, U, Q&gt;</link>(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>)&#32;*&#32;(<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1affc9cbf86b78292bdb405361761c47f5">U</link><emphasis role="keyword">&gt;</emphasis>(1)&#32;-&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>)&#32;+&#32;<link linkend="_structglm_1_1vec">vec&lt;L, U, Q&gt;</link>(<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>)&#32;*&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>);
+88 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+89 &#32;&#32;&#32;&#32;};
+90 
+91 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;length_t&#32;L,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;Aligned&gt;
+92 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis><link linkend="_structglm_1_1detail_1_1compute__mix__vector">compute_mix_vector</link>&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>,&#32;bool,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1acbcee443d6d55cb8600b3f240f5cf907">Q</link>,&#32;Aligned&gt;
+93 &#32;&#32;&#32;&#32;{
+94 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<link linkend="_structglm_1_1detail_1_1compute__mix__vector_3_01_l_00_01_t_00_01bool_00_01_q_00_01_aligned_01_4_1a2850f98ccacfa1425a15881ae517ce70">call</link>(<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>,&#32;<link linkend="_structglm_1_1vec">vec&lt;L, bool, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>)
+95 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+96 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;Result(0);
+97 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>(<link linkend="_namespaceglm_1a090a0de2260835bee80e71a702492ed9">length_t</link>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;=&#32;0;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;&lt;&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>.length();&#32;++<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>)
+98 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Result[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>]&#32;=&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>]&#32;?&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>]&#32;:&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>];
+99 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;Result;
+100 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+101 &#32;&#32;&#32;&#32;};
+102 
+103 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;length_t&#32;L,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;<emphasis role="keyword">typename</emphasis>&#32;U,&#32;qualifier&#32;Q,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;Aligned&gt;
+104 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis><link linkend="_structglm_1_1detail_1_1compute__mix__scalar">compute_mix_scalar</link>
+105 &#32;&#32;&#32;&#32;{
+106 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<link linkend="_structglm_1_1detail_1_1compute__mix__scalar_1a9397b0e0159e3f7e549c5ef136a51dbb">call</link>(<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1affc9cbf86b78292bdb405361761c47f5">U</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>)
+107 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+108 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a6893d4a6bf0ecab00f7c73166379245a">GLM_STATIC_ASSERT</link>(std::numeric_limits&lt;U&gt;::is_iec559&#32;||&#32;<link linkend="_setup_8hpp_1a0e15f8e785c4bb309a961b218921d1c1">GLM_CONFIG_UNRESTRICTED_FLOAT</link>&#32;||&#32;<link linkend="_setup_8hpp_1adfb40fae63c98b85b15b63c8e42970b8">GLM_CONFIG_UNRESTRICTED_GENTYPE</link>,&#32;<emphasis role="stringliteral">&quot;&apos;mix&apos;&#32;only&#32;accept&#32;floating-point&#32;inputs&#32;for&#32;the&#32;interpolator&#32;a&quot;</emphasis>);
+109 
+110 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>(<link linkend="_structglm_1_1vec">vec&lt;L, U, Q&gt;</link>(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>)&#32;*&#32;(<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1affc9cbf86b78292bdb405361761c47f5">U</link><emphasis role="keyword">&gt;</emphasis>(1)&#32;-&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>)&#32;+&#32;<link linkend="_structglm_1_1vec">vec&lt;L, U, Q&gt;</link>(<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>)&#32;*&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>);
+111 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+112 &#32;&#32;&#32;&#32;};
+113 
+114 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;length_t&#32;L,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;Aligned&gt;
+115 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis><link linkend="_structglm_1_1detail_1_1compute__mix__scalar">compute_mix_scalar</link>&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>,&#32;bool,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1acbcee443d6d55cb8600b3f240f5cf907">Q</link>,&#32;Aligned&gt;
+116 &#32;&#32;&#32;&#32;{
+117 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<link linkend="_structglm_1_1detail_1_1compute__mix__scalar_3_01_l_00_01_t_00_01bool_00_01_q_00_01_aligned_01_4_1aa4550b13f121ded668aa39a4b0fbd298">call</link>(<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>)
+118 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+119 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>&#32;?&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>&#32;:&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>;
+120 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+121 &#32;&#32;&#32;&#32;};
+122 
+123 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;<emphasis role="keyword">typename</emphasis>&#32;U&gt;
+124 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis><link linkend="_structglm_1_1detail_1_1compute__mix">compute_mix</link>
+125 &#32;&#32;&#32;&#32;{
+126 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;<link linkend="_structglm_1_1detail_1_1compute__mix_1a89407e90d0ebcd4f94f7fb425f1e7668">call</link>(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1affc9cbf86b78292bdb405361761c47f5">U</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>)
+127 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+128 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a6893d4a6bf0ecab00f7c73166379245a">GLM_STATIC_ASSERT</link>(std::numeric_limits&lt;U&gt;::is_iec559&#32;||&#32;<link linkend="_setup_8hpp_1a0e15f8e785c4bb309a961b218921d1c1">GLM_CONFIG_UNRESTRICTED_FLOAT</link>&#32;||&#32;<link linkend="_setup_8hpp_1adfb40fae63c98b85b15b63c8e42970b8">GLM_CONFIG_UNRESTRICTED_GENTYPE</link>,&#32;<emphasis role="stringliteral">&quot;&apos;mix&apos;&#32;only&#32;accept&#32;floating-point&#32;inputs&#32;for&#32;the&#32;interpolator&#32;a&quot;</emphasis>);
+129 
+130 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1affc9cbf86b78292bdb405361761c47f5">U</link><emphasis role="keyword">&gt;</emphasis>(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>)&#32;*&#32;(<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1affc9cbf86b78292bdb405361761c47f5">U</link><emphasis role="keyword">&gt;</emphasis>(1)&#32;-&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>)&#32;+&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1affc9cbf86b78292bdb405361761c47f5">U</link><emphasis role="keyword">&gt;</emphasis>(<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>)&#32;*&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>);
+131 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+132 &#32;&#32;&#32;&#32;};
+133 
+134 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T&gt;
+135 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis><link linkend="_structglm_1_1detail_1_1compute__mix">compute_mix</link>&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>,&#32;bool&gt;
+136 &#32;&#32;&#32;&#32;{
+137 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;<link linkend="_structglm_1_1detail_1_1compute__mix_3_01_t_00_01bool_01_4_1aec5813aa459cfa23835329c14e2bb00c">call</link>(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>)
+138 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+139 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>&#32;?&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>&#32;:&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>;
+140 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+141 &#32;&#32;&#32;&#32;};
+142 
+143 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;length_t&#32;L,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;isFloat,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;Aligned&gt;
+144 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis><link linkend="_structglm_1_1detail_1_1compute__sign">compute_sign</link>
+145 &#32;&#32;&#32;&#32;{
+146 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<link linkend="_structglm_1_1detail_1_1compute__sign_1ae403b704e8f237c2659dabc0e861a85b">call</link>(<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>)
+147 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+148 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>(glm::lessThan(<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>(0),&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>))&#32;-&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>(glm::lessThan(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>(0)));
+149 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+150 &#32;&#32;&#32;&#32;};
+151 
+152 <emphasis role="preprocessor">#&#32;&#32;&#32;if&#32;GLM_ARCH&#32;==&#32;GLM_ARCH_X86</emphasis>
+153 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;length_t&#32;L,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;Aligned&gt;
+154 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis>compute_sign&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1acbcee443d6d55cb8600b3f240f5cf907">Q</link>,&#32;false,&#32;Aligned&gt;
+155 &#32;&#32;&#32;&#32;{
+156 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<link linkend="_structglm_1_1detail_1_1compute__sign_1ae403b704e8f237c2659dabc0e861a85b">call</link>(<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>)
+157 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+158 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;<emphasis role="keyword">const</emphasis>&#32;Shift(<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(<emphasis role="keyword">sizeof</emphasis>(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>)&#32;*&#32;8&#32;-&#32;1));
+159 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>(<link linkend="_structglm_1_1vec">vec</link>&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1aa73214aa5f2f94f63d90bb4e3d99fe53">L</link>,&#32;<emphasis role="keyword">typename</emphasis>&#32;<link linkend="_structglm_1_1detail_1_1make__unsigned">detail::make_unsigned&lt;T&gt;::type</link>,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1acbcee443d6d55cb8600b3f240f5cf907">Q</link>&gt;(-<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>)&#32;&gt;&gt;&#32;<emphasis role="keyword">typename</emphasis>&#32;<link linkend="_structglm_1_1detail_1_1make__unsigned">detail::make_unsigned&lt;T&gt;::type</link>(Shift));
+160 
+161 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>&#32;&gt;&gt;&#32;Shift)&#32;|&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>;
+162 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+163 &#32;&#32;&#32;&#32;};
+164 <emphasis role="preprocessor">#&#32;&#32;&#32;endif</emphasis>
+165 
+166 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;length_t&#32;L,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;Aligned&gt;
+167 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis><link linkend="_structglm_1_1detail_1_1compute__floor">compute_floor</link>
+168 &#32;&#32;&#32;&#32;{
+169 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<link linkend="_structglm_1_1detail_1_1compute__floor_1ad18b7da77f5e0d2e980aab210c0f2754">call</link>(<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>)
+170 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+171 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1detail_1_1functor1">detail::functor1&lt;vec, L, T, T, Q&gt;::call</link>(std::floor,&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>);
+172 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+173 &#32;&#32;&#32;&#32;};
+174 
+175 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;length_t&#32;L,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;Aligned&gt;
+176 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis><link linkend="_structglm_1_1detail_1_1compute__ceil">compute_ceil</link>
+177 &#32;&#32;&#32;&#32;{
+178 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<link linkend="_structglm_1_1detail_1_1compute__ceil_1ab32110cf295865e7a5a225540ce55a6d">call</link>(<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>)
+179 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+180 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1detail_1_1functor1">detail::functor1&lt;vec, L, T, T, Q&gt;::call</link>(std::ceil,&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>);
+181 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+182 &#32;&#32;&#32;&#32;};
+183 
+184 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;length_t&#32;L,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;Aligned&gt;
+185 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis><link linkend="_structglm_1_1detail_1_1compute__fract">compute_fract</link>
+186 &#32;&#32;&#32;&#32;{
+187 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<link linkend="_structglm_1_1detail_1_1compute__fract_1aaafc0ecf61e411e471cdc3674ce1e65e">call</link>(<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>)
+188 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+189 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>&#32;-&#32;<link linkend="_group__core__func__common_1gac433646923ab80af6d9964f1570855d5">floor</link>(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>);
+190 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+191 &#32;&#32;&#32;&#32;};
+192 
+193 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;length_t&#32;L,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;Aligned&gt;
+194 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis><link linkend="_structglm_1_1detail_1_1compute__trunc">compute_trunc</link>
+195 &#32;&#32;&#32;&#32;{
+196 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<link linkend="_structglm_1_1detail_1_1compute__trunc_1af98366516d2d8f4538d3488da306edd4">call</link>(<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>)
+197 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+198 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1detail_1_1functor1">detail::functor1&lt;vec, L, T, T, Q&gt;::call</link>(trunc,&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>);
+199 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+200 &#32;&#32;&#32;&#32;};
+201 
+202 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;length_t&#32;L,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;Aligned&gt;
+203 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis><link linkend="_structglm_1_1detail_1_1compute__round">compute_round</link>
+204 &#32;&#32;&#32;&#32;{
+205 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<link linkend="_structglm_1_1detail_1_1compute__round_1ae4d64772e8bf352d735c7db217ab77cf">call</link>(<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>)
+206 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+207 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1detail_1_1functor1">detail::functor1&lt;vec, L, T, T, Q&gt;::call</link>(round,&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>);
+208 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+209 &#32;&#32;&#32;&#32;};
+210 
+211 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;length_t&#32;L,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;Aligned&gt;
+212 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis><link linkend="_structglm_1_1detail_1_1compute__mod">compute_mod</link>
+213 &#32;&#32;&#32;&#32;{
+214 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<link linkend="_structglm_1_1detail_1_1compute__mod_1a2c10f80c7c564d5af28a3500bed6a3bd">call</link>(<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>,&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>)
+215 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+216 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a6893d4a6bf0ecab00f7c73166379245a">GLM_STATIC_ASSERT</link>(std::numeric_limits&lt;T&gt;::is_iec559&#32;||&#32;<link linkend="_setup_8hpp_1a0e15f8e785c4bb309a961b218921d1c1">GLM_CONFIG_UNRESTRICTED_FLOAT</link>,&#32;<emphasis role="stringliteral">&quot;&apos;mod&apos;&#32;only&#32;accept&#32;floating-point&#32;inputs.&#32;Include&#32;&lt;glm/gtc/integer.hpp&gt;&#32;for&#32;integer&#32;inputs.&quot;</emphasis>);
+217 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>&#32;-&#32;<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>&#32;*&#32;<link linkend="_group__core__func__common_1gac433646923ab80af6d9964f1570855d5">floor</link>(<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>&#32;/&#32;<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>);
+218 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+219 &#32;&#32;&#32;&#32;};
+220 
+221 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;length_t&#32;L,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;Aligned&gt;
+222 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis><link linkend="_structglm_1_1detail_1_1compute__min__vector">compute_min_vector</link>
+223 &#32;&#32;&#32;&#32;{
+224 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<link linkend="_structglm_1_1detail_1_1compute__min__vector_1a8da27a66b04f12d19563a582240b1994">call</link>(<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>)
+225 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+226 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1detail_1_1functor2">detail::functor2&lt;vec, L, T, Q&gt;::call</link>(min,&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>);
+227 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+228 &#32;&#32;&#32;&#32;};
+229 
+230 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;length_t&#32;L,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;Aligned&gt;
+231 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis><link linkend="_structglm_1_1detail_1_1compute__max__vector">compute_max_vector</link>
+232 &#32;&#32;&#32;&#32;{
+233 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<link linkend="_structglm_1_1detail_1_1compute__max__vector_1aff51d175864a6ee0a73d9c2bc4229688">call</link>(<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>)
+234 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+235 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1detail_1_1functor2">detail::functor2&lt;vec, L, T, Q&gt;::call</link>(max,&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>);
+236 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+237 &#32;&#32;&#32;&#32;};
+238 
+239 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;length_t&#32;L,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;Aligned&gt;
+240 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis><link linkend="_structglm_1_1detail_1_1compute__clamp__vector">compute_clamp_vector</link>
+241 &#32;&#32;&#32;&#32;{
+242 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<link linkend="_structglm_1_1detail_1_1compute__clamp__vector_1a292679a612c941c1888330477d62dd32">call</link>(<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;minVal,&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;maxVal)
+243 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+244 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_group__core__func__common_1ga6cf8098827054a270ee36b18e30d471d">min</link>(<link linkend="_group__core__func__common_1gae02d42887fc5570451f880e3c624b9ac">max</link>(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;minVal),&#32;maxVal);
+245 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+246 &#32;&#32;&#32;&#32;};
+247 
+248 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;length_t&#32;L,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;Aligned&gt;
+249 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis><link linkend="_structglm_1_1detail_1_1compute__step__vector">compute_step_vector</link>
+250 &#32;&#32;&#32;&#32;{
+251 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<link linkend="_structglm_1_1detail_1_1compute__step__vector_1a0164d7cb03db7e6dd61a910f455e783c">call</link>(<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;edge,&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>)
+252 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+253 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_group__core__func__common_1ga6b6e0c7ecb4a5b78f929566355bb7416">mix</link>(<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>(1),&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>(0),&#32;glm::lessThan(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;edge));
+254 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+255 &#32;&#32;&#32;&#32;};
+256 
+257 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;length_t&#32;L,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;Aligned&gt;
+258 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis><link linkend="_structglm_1_1detail_1_1compute__smoothstep__vector">compute_smoothstep_vector</link>
+259 &#32;&#32;&#32;&#32;{
+260 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<link linkend="_structglm_1_1detail_1_1compute__smoothstep__vector_1ac58dfc795e6f30bfa79af2ab9cc8d810">call</link>(<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;edge0,&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;edge1,&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>)
+261 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+262 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a6893d4a6bf0ecab00f7c73166379245a">GLM_STATIC_ASSERT</link>(std::numeric_limits&lt;T&gt;::is_iec559&#32;||&#32;<link linkend="_setup_8hpp_1a0e15f8e785c4bb309a961b218921d1c1">GLM_CONFIG_UNRESTRICTED_FLOAT</link>&#32;||&#32;<link linkend="_setup_8hpp_1adfb40fae63c98b85b15b63c8e42970b8">GLM_CONFIG_UNRESTRICTED_GENTYPE</link>,&#32;<emphasis role="stringliteral">&quot;&apos;smoothstep&apos;&#32;only&#32;accept&#32;floating-point&#32;inputs&quot;</emphasis>);
+263 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&#32;tmp(<link linkend="_glad_8h_1a3878d3005eeb2d2ef414abc752ba3c9b">clamp</link>((<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>&#32;-&#32;edge0)&#32;/&#32;(edge1&#32;-&#32;edge0),&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(0),&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(1)));
+264 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;tmp&#32;*&#32;tmp&#32;*&#32;(<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(3)&#32;-&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(2)&#32;*&#32;tmp);
+265 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+266 &#32;&#32;&#32;&#32;};
+267 }<emphasis role="comment">//namespace&#32;detail</emphasis>
+268 
+269 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;genFIType&gt;
+270 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;genFIType&#32;<link linkend="_group__core__func__common_1ga439e60a72eadecfeda2df5449c613a64">abs</link>(genFIType&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>)
+271 &#32;&#32;&#32;&#32;{
+272 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1detail_1_1compute__abs">detail::compute_abs&lt;genFIType, std::numeric_limits&lt;genFIType&gt;::is_signed</link>&gt;::call(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>);
+273 &#32;&#32;&#32;&#32;}
+274 
+275 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;length_t&#32;L,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+276 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<link linkend="_group__core__func__common_1ga439e60a72eadecfeda2df5449c613a64">abs</link>(<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>)
+277 &#32;&#32;&#32;&#32;{
+278 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1detail_1_1compute__abs__vector">detail::compute_abs_vector&lt;L, T, Q, detail::is_aligned&lt;Q&gt;::value</link>&gt;::call(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>);
+279 &#32;&#32;&#32;&#32;}
+280 
+281 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;sign</emphasis>
+282 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;fast&#32;and&#32;works&#32;for&#32;any&#32;type</emphasis>
+283 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;genFIType&gt;
+284 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;genFIType&#32;<link linkend="_group__core__func__common_1ga53d6ba17a541c5d5b451e5de287d8baa">sign</link>(genFIType&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>)
+285 &#32;&#32;&#32;&#32;{
+286 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a6893d4a6bf0ecab00f7c73166379245a">GLM_STATIC_ASSERT</link>(
+287 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::numeric_limits&lt;genFIType&gt;::is_iec559&#32;||&#32;<link linkend="_setup_8hpp_1a0e15f8e785c4bb309a961b218921d1c1">GLM_CONFIG_UNRESTRICTED_FLOAT</link>&#32;||&#32;(std::numeric_limits&lt;genFIType&gt;::is_signed&#32;&amp;&amp;&#32;std::numeric_limits&lt;genFIType&gt;::is_integer),
+288 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;&apos;sign&apos;&#32;only&#32;accept&#32;signed&#32;inputs&quot;</emphasis>);
+289 
+290 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1detail_1_1compute__sign">detail::compute_sign</link>&lt;1,&#32;genFIType,&#32;<link linkend="_namespaceglm_1a36ed105b07c7746804d7fdc7cc90ff25a9d21ccd8b5a009ec7eb7677befc3bf51">defaultp</link>,
+291 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::numeric_limits&lt;genFIType&gt;::is_iec559,&#32;<link linkend="_structglm_1_1detail_1_1is__aligned">detail::is_aligned&lt;highp&gt;::value</link>&gt;::call(<link linkend="_structglm_1_1vec">vec&lt;1, genFIType&gt;</link>(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>)).x;
+292 &#32;&#32;&#32;&#32;}
+293 
+294 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;length_t&#32;L,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+295 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<link linkend="_group__core__func__common_1ga53d6ba17a541c5d5b451e5de287d8baa">sign</link>(<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>)
+296 &#32;&#32;&#32;&#32;{
+297 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a6893d4a6bf0ecab00f7c73166379245a">GLM_STATIC_ASSERT</link>(
+298 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::numeric_limits&lt;T&gt;::is_iec559&#32;||&#32;<link linkend="_setup_8hpp_1a0e15f8e785c4bb309a961b218921d1c1">GLM_CONFIG_UNRESTRICTED_FLOAT</link>&#32;||&#32;(std::numeric_limits&lt;T&gt;::is_signed&#32;&amp;&amp;&#32;std::numeric_limits&lt;T&gt;::is_integer),
+299 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;&apos;sign&apos;&#32;only&#32;accept&#32;signed&#32;inputs&quot;</emphasis>);
+300 
+301 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1detail_1_1compute__sign">detail::compute_sign&lt;L, T, Q, std::numeric_limits&lt;T&gt;::is_iec559</link>,&#32;<link linkend="_structglm_1_1detail_1_1is__aligned">detail::is_aligned&lt;Q&gt;::value</link>&gt;::call(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>);
+302 &#32;&#32;&#32;&#32;}
+303 
+304 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;floor</emphasis>
+305 &#32;&#32;&#32;&#32;using&#32;::std::floor;
+306 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;length_t&#32;L,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+307 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<link linkend="_group__core__func__common_1gac433646923ab80af6d9964f1570855d5">floor</link>(<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>)
+308 &#32;&#32;&#32;&#32;{
+309 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a6893d4a6bf0ecab00f7c73166379245a">GLM_STATIC_ASSERT</link>(std::numeric_limits&lt;T&gt;::is_iec559&#32;||&#32;<link linkend="_setup_8hpp_1a0e15f8e785c4bb309a961b218921d1c1">GLM_CONFIG_UNRESTRICTED_FLOAT</link>,&#32;<emphasis role="stringliteral">&quot;&apos;floor&apos;&#32;only&#32;accept&#32;floating-point&#32;inputs.&quot;</emphasis>);
+310 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1detail_1_1compute__floor">detail::compute_floor&lt;L, T, Q, detail::is_aligned&lt;Q&gt;::value</link>&gt;::call(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>);
+311 &#32;&#32;&#32;&#32;}
+312 
+313 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;length_t&#32;L,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+314 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<link linkend="_group__core__func__common_1ga3147679b4cd5f249c74f03906c2eb4d1">trunc</link>(<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>)
+315 &#32;&#32;&#32;&#32;{
+316 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a6893d4a6bf0ecab00f7c73166379245a">GLM_STATIC_ASSERT</link>(std::numeric_limits&lt;T&gt;::is_iec559&#32;||&#32;<link linkend="_setup_8hpp_1a0e15f8e785c4bb309a961b218921d1c1">GLM_CONFIG_UNRESTRICTED_FLOAT</link>,&#32;<emphasis role="stringliteral">&quot;&apos;trunc&apos;&#32;only&#32;accept&#32;floating-point&#32;inputs&quot;</emphasis>);
+317 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1detail_1_1compute__trunc">detail::compute_trunc&lt;L, T, Q, detail::is_aligned&lt;Q&gt;::value</link>&gt;::call(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>);
+318 &#32;&#32;&#32;&#32;}
+319 
+320 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;length_t&#32;L,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+321 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<link linkend="_group__core__func__common_1gaa81940d45558cd2ae07fe135e653bcfa">round</link>(<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>)
+322 &#32;&#32;&#32;&#32;{
+323 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a6893d4a6bf0ecab00f7c73166379245a">GLM_STATIC_ASSERT</link>(std::numeric_limits&lt;T&gt;::is_iec559&#32;||&#32;<link linkend="_setup_8hpp_1a0e15f8e785c4bb309a961b218921d1c1">GLM_CONFIG_UNRESTRICTED_FLOAT</link>,&#32;<emphasis role="stringliteral">&quot;&apos;round&apos;&#32;only&#32;accept&#32;floating-point&#32;inputs&quot;</emphasis>);
+324 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1detail_1_1compute__round">detail::compute_round&lt;L, T, Q, detail::is_aligned&lt;Q&gt;::value</link>&gt;::call(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>);
+325 &#32;&#32;&#32;&#32;}
+326 
+327 <emphasis role="comment">/*</emphasis>
+328 <emphasis role="comment">&#32;&#32;&#32;&#32;//&#32;roundEven</emphasis>
+329 <emphasis role="comment">&#32;&#32;&#32;&#32;template&lt;typename&#32;genType&gt;</emphasis>
+330 <emphasis role="comment">&#32;&#32;&#32;&#32;GLM_FUNC_QUALIFIER&#32;genType&#32;roundEven(genType&#32;const&amp;&#32;x)</emphasis>
+331 <emphasis role="comment">&#32;&#32;&#32;&#32;{</emphasis>
+332 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;GLM_STATIC_ASSERT(std::numeric_limits&lt;genType&gt;::is_iec559&#32;||&#32;GLM_CONFIG_UNRESTRICTED_FLOAT,&#32;&quot;&apos;roundEven&apos;&#32;only&#32;accept&#32;floating-point&#32;inputs&quot;);</emphasis>
+333 <emphasis role="comment"></emphasis>
+334 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;return&#32;genType(int(x&#32;+&#32;genType(int(x)&#32;%&#32;2)));</emphasis>
+335 <emphasis role="comment">&#32;&#32;&#32;&#32;}</emphasis>
+336 <emphasis role="comment">*/</emphasis>
+337 
+338 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;roundEven</emphasis>
+339 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;genType&gt;
+340 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;genType&#32;<link linkend="_group__core__func__common_1ga5e8e73db4ae54bae5292dbd8bd14e75c">roundEven</link>(genType&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>)
+341 &#32;&#32;&#32;&#32;{
+342 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a6893d4a6bf0ecab00f7c73166379245a">GLM_STATIC_ASSERT</link>(std::numeric_limits&lt;genType&gt;::is_iec559&#32;||&#32;<link linkend="_setup_8hpp_1a0e15f8e785c4bb309a961b218921d1c1">GLM_CONFIG_UNRESTRICTED_FLOAT</link>,&#32;<emphasis role="stringliteral">&quot;&apos;roundEven&apos;&#32;only&#32;accept&#32;floating-point&#32;inputs&quot;</emphasis>);
+343 
+344 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;Integer&#32;=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><emphasis role="keywordtype">int</emphasis><emphasis role="keyword">&gt;</emphasis>(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>);
+345 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;genType&#32;IntegerPart&#32;=&#32;<emphasis role="keyword">static_cast&lt;</emphasis>genType<emphasis role="keyword">&gt;</emphasis>(Integer);
+346 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;genType&#32;FractionalPart&#32;=&#32;<link linkend="_group__core__func__common_1ga8ba89e40e55ae5cdf228548f9b7639c7">fract</link>(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>);
+347 
+348 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(FractionalPart&#32;&gt;&#32;<emphasis role="keyword">static_cast&lt;</emphasis>genType<emphasis role="keyword">&gt;</emphasis>(0.5)&#32;||&#32;FractionalPart&#32;&lt;&#32;<emphasis role="keyword">static_cast&lt;</emphasis>genType<emphasis role="keyword">&gt;</emphasis>(0.5))
+349 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+350 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_group__core__func__common_1gaa81940d45558cd2ae07fe135e653bcfa">round</link>(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>);
+351 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+352 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>&#32;<emphasis role="keywordflow">if</emphasis>((Integer&#32;%&#32;2)&#32;==&#32;0)
+353 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+354 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;IntegerPart;
+355 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+356 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>&#32;<emphasis role="keywordflow">if</emphasis>(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>&#32;&lt;=&#32;<emphasis role="keyword">static_cast&lt;</emphasis>genType<emphasis role="keyword">&gt;</emphasis>(0))&#32;<emphasis role="comment">//&#32;Work&#32;around...</emphasis>
+357 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+358 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;IntegerPart&#32;-&#32;<emphasis role="keyword">static_cast&lt;</emphasis>genType<emphasis role="keyword">&gt;</emphasis>(1);
+359 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+360 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+361 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+362 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;IntegerPart&#32;+&#32;<emphasis role="keyword">static_cast&lt;</emphasis>genType<emphasis role="keyword">&gt;</emphasis>(1);
+363 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+364 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//else&#32;//&#32;Bug&#32;on&#32;MinGW&#32;4.5.2</emphasis>
+365 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//{</emphasis>
+366 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;return&#32;mix(IntegerPart&#32;+&#32;genType(-1),&#32;IntegerPart&#32;+&#32;genType(1),&#32;x&#32;&lt;=&#32;genType(0));</emphasis>
+367 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//}</emphasis>
+368 &#32;&#32;&#32;&#32;}
+369 
+370 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;length_t&#32;L,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+371 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<link linkend="_group__core__func__common_1ga5e8e73db4ae54bae5292dbd8bd14e75c">roundEven</link>(<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>)
+372 &#32;&#32;&#32;&#32;{
+373 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a6893d4a6bf0ecab00f7c73166379245a">GLM_STATIC_ASSERT</link>(std::numeric_limits&lt;T&gt;::is_iec559&#32;||&#32;<link linkend="_setup_8hpp_1a0e15f8e785c4bb309a961b218921d1c1">GLM_CONFIG_UNRESTRICTED_FLOAT</link>,&#32;<emphasis role="stringliteral">&quot;&apos;roundEven&apos;&#32;only&#32;accept&#32;floating-point&#32;inputs&quot;</emphasis>);
+374 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1detail_1_1functor1">detail::functor1&lt;vec, L, T, T, Q&gt;::call</link>(roundEven,&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>);
+375 &#32;&#32;&#32;&#32;}
+376 
+377 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;ceil</emphasis>
+378 &#32;&#32;&#32;&#32;using&#32;::std::ceil;
+379 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;length_t&#32;L,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+380 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<link linkend="_group__core__func__common_1ga7a508730e49e5cec65af435d92ee4baf">ceil</link>(<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>)
+381 &#32;&#32;&#32;&#32;{
+382 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a6893d4a6bf0ecab00f7c73166379245a">GLM_STATIC_ASSERT</link>(std::numeric_limits&lt;T&gt;::is_iec559&#32;||&#32;<link linkend="_setup_8hpp_1a0e15f8e785c4bb309a961b218921d1c1">GLM_CONFIG_UNRESTRICTED_FLOAT</link>,&#32;<emphasis role="stringliteral">&quot;&apos;ceil&apos;&#32;only&#32;accept&#32;floating-point&#32;inputs&quot;</emphasis>);
+383 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1detail_1_1compute__ceil">detail::compute_ceil&lt;L, T, Q, detail::is_aligned&lt;Q&gt;::value</link>&gt;::call(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>);
+384 &#32;&#32;&#32;&#32;}
+385 
+386 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;fract</emphasis>
+387 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;genType&gt;
+388 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;genType&#32;<link linkend="_group__core__func__common_1ga8ba89e40e55ae5cdf228548f9b7639c7">fract</link>(genType&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>)
+389 &#32;&#32;&#32;&#32;{
+390 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_group__core__func__common_1ga8ba89e40e55ae5cdf228548f9b7639c7">fract</link>(<link linkend="_structglm_1_1vec">vec&lt;1, genType&gt;</link>(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>)).x;
+391 &#32;&#32;&#32;&#32;}
+392 
+393 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;length_t&#32;L,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+394 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<link linkend="_group__core__func__common_1ga8ba89e40e55ae5cdf228548f9b7639c7">fract</link>(<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>)
+395 &#32;&#32;&#32;&#32;{
+396 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a6893d4a6bf0ecab00f7c73166379245a">GLM_STATIC_ASSERT</link>(std::numeric_limits&lt;T&gt;::is_iec559&#32;||&#32;<link linkend="_setup_8hpp_1a0e15f8e785c4bb309a961b218921d1c1">GLM_CONFIG_UNRESTRICTED_FLOAT</link>,&#32;<emphasis role="stringliteral">&quot;&apos;fract&apos;&#32;only&#32;accept&#32;floating-point&#32;inputs&quot;</emphasis>);
+397 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1detail_1_1compute__fract">detail::compute_fract&lt;L, T, Q, detail::is_aligned&lt;Q&gt;::value</link>&gt;::call(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>);
+398 &#32;&#32;&#32;&#32;}
+399 
+400 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;mod</emphasis>
+401 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;genType&gt;
+402 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;genType&#32;<link linkend="_group__core__func__common_1ga12201563ef902e3b07e0d1d7656efdb1">mod</link>(genType&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;genType&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>)
+403 &#32;&#32;&#32;&#32;{
+404 <emphasis role="preprocessor">#&#32;&#32;&#32;&#32;&#32;&#32;&#32;if&#32;(GLM_COMPILER&#32;&amp;&#32;GLM_COMPILER_CUDA)&#32;||&#32;(GLM_COMPILER&#32;&amp;&#32;GLM_COMPILER_HIP)</emphasis>
+405 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Another&#32;Cuda&#32;compiler&#32;bug&#32;https://github.com/g-truc/glm/issues/530</emphasis>
+406 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structglm_1_1vec">vec&lt;1, genType, defaultp&gt;</link>&#32;Result(<link linkend="_group__core__func__common_1ga12201563ef902e3b07e0d1d7656efdb1">mod</link>(<link linkend="_structglm_1_1vec">vec&lt;1, genType, defaultp&gt;</link>(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>),&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>));
+407 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;Result.x;
+408 <emphasis role="preprocessor">#&#32;&#32;&#32;&#32;&#32;&#32;&#32;else</emphasis>
+409 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_group__core__func__common_1ga12201563ef902e3b07e0d1d7656efdb1">mod</link>(<link linkend="_structglm_1_1vec">vec&lt;1, genType, defaultp&gt;</link>(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>),&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>).x;
+410 <emphasis role="preprocessor">#&#32;&#32;&#32;&#32;&#32;&#32;&#32;endif</emphasis>
+411 &#32;&#32;&#32;&#32;}
+412 
+413 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;length_t&#32;L,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+414 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<link linkend="_group__core__func__common_1ga12201563ef902e3b07e0d1d7656efdb1">mod</link>(<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>)
+415 &#32;&#32;&#32;&#32;{
+416 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1detail_1_1compute__mod">detail::compute_mod&lt;L, T, Q, detail::is_aligned&lt;Q&gt;::value</link>&gt;::call(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>(<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>));
+417 &#32;&#32;&#32;&#32;}
+418 
+419 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;length_t&#32;L,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+420 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<link linkend="_group__core__func__common_1ga12201563ef902e3b07e0d1d7656efdb1">mod</link>(<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>)
+421 &#32;&#32;&#32;&#32;{
+422 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1detail_1_1compute__mod">detail::compute_mod&lt;L, T, Q, detail::is_aligned&lt;Q&gt;::value</link>&gt;::call(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>);
+423 &#32;&#32;&#32;&#32;}
+424 
+425 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;modf</emphasis>
+426 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;genType&gt;
+427 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;genType&#32;<link linkend="_group__core__func__common_1ga85e33f139b8db1b39b590a5713b9e679">modf</link>(genType&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;genType&#32;&amp;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>)
+428 &#32;&#32;&#32;&#32;{
+429 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a6893d4a6bf0ecab00f7c73166379245a">GLM_STATIC_ASSERT</link>(std::numeric_limits&lt;genType&gt;::is_iec559&#32;||&#32;<link linkend="_setup_8hpp_1a0e15f8e785c4bb309a961b218921d1c1">GLM_CONFIG_UNRESTRICTED_FLOAT</link>,&#32;<emphasis role="stringliteral">&quot;&apos;modf&apos;&#32;only&#32;accept&#32;floating-point&#32;inputs&quot;</emphasis>);
+430 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;std::modf(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;&amp;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>);
+431 &#32;&#32;&#32;&#32;}
+432 
+433 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+434 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;1, T, Q&gt;</link>&#32;<link linkend="_group__core__func__common_1ga85e33f139b8db1b39b590a5713b9e679">modf</link>(<link linkend="_structglm_1_1vec">vec&lt;1, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<link linkend="_structglm_1_1vec">vec&lt;1, T, Q&gt;</link>&#32;&amp;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>)
+435 &#32;&#32;&#32;&#32;{
+436 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;1, T, Q&gt;</link>(
+437 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__core__func__common_1ga85e33f139b8db1b39b590a5713b9e679">modf</link>(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>.x,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>.x));
+438 &#32;&#32;&#32;&#32;}
+439 
+440 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+441 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;2, T, Q&gt;</link>&#32;<link linkend="_group__core__func__common_1ga85e33f139b8db1b39b590a5713b9e679">modf</link>(<link linkend="_structglm_1_1vec">vec&lt;2, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<link linkend="_structglm_1_1vec">vec&lt;2, T, Q&gt;</link>&#32;&amp;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>)
+442 &#32;&#32;&#32;&#32;{
+443 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;2, T, Q&gt;</link>(
+444 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__core__func__common_1ga85e33f139b8db1b39b590a5713b9e679">modf</link>(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>.x,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>.x),
+445 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;modf(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>.y,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>.y));
+446 &#32;&#32;&#32;&#32;}
+447 
+448 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+449 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<link linkend="_group__core__func__common_1ga85e33f139b8db1b39b590a5713b9e679">modf</link>(<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;&amp;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>)
+450 &#32;&#32;&#32;&#32;{
+451 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>(
+452 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__core__func__common_1ga85e33f139b8db1b39b590a5713b9e679">modf</link>(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>.x,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>.x),
+453 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;modf(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>.y,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>.y),
+454 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;modf(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>.z,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>.z));
+455 &#32;&#32;&#32;&#32;}
+456 
+457 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+458 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;4, T, Q&gt;</link>&#32;<link linkend="_group__core__func__common_1ga85e33f139b8db1b39b590a5713b9e679">modf</link>(<link linkend="_structglm_1_1vec">vec&lt;4, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<link linkend="_structglm_1_1vec">vec&lt;4, T, Q&gt;</link>&#32;&amp;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>)
+459 &#32;&#32;&#32;&#32;{
+460 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;4, T, Q&gt;</link>(
+461 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__core__func__common_1ga85e33f139b8db1b39b590a5713b9e679">modf</link>(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>.x,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>.x),
+462 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;modf(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>.y,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>.y),
+463 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;modf(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>.z,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>.z),
+464 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;modf(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>.w,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>.w));
+465 &#32;&#32;&#32;&#32;}
+466 
+469 &#32;&#32;&#32;&#32;<emphasis role="comment">//r&#32;=&#32;y&#32;+&#32;((x&#32;-&#32;y)&#32;&amp;&#32;((x&#32;-&#32;y)&#32;&gt;&gt;&#32;(sizeof(int)&#32;*</emphasis>
+470 &#32;&#32;&#32;&#32;<emphasis role="comment">//CHAR_BIT&#32;-&#32;1)));</emphasis>
+472 &#32;&#32;&#32;&#32;<emphasis role="comment">//r&#32;=&#32;x&#32;-&#32;((x&#32;-&#32;y)&#32;&amp;&#32;((x&#32;-&#32;y)&#32;&gt;&gt;&#32;(sizeof(int)&#32;*</emphasis>
+473 &#32;&#32;&#32;&#32;<emphasis role="comment">//CHAR_BIT&#32;-&#32;1)));</emphasis>
+474 
+475 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;min</emphasis>
+476 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;length_t&#32;L,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+477 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<link linkend="_group__core__func__common_1ga6cf8098827054a270ee36b18e30d471d">min</link>(<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>)
+478 &#32;&#32;&#32;&#32;{
+479 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a6893d4a6bf0ecab00f7c73166379245a">GLM_STATIC_ASSERT</link>(std::numeric_limits&lt;T&gt;::is_iec559&#32;||&#32;<link linkend="_setup_8hpp_1a0e15f8e785c4bb309a961b218921d1c1">GLM_CONFIG_UNRESTRICTED_FLOAT</link>&#32;||&#32;std::numeric_limits&lt;T&gt;::is_integer,&#32;<emphasis role="stringliteral">&quot;&apos;min&apos;&#32;only&#32;accept&#32;floating-point&#32;or&#32;integer&#32;inputs&quot;</emphasis>);
+480 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1detail_1_1compute__min__vector">detail::compute_min_vector&lt;L, T, Q, detail::is_aligned&lt;Q&gt;::value</link>&gt;::call(<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>,&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>(<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>));
+481 &#32;&#32;&#32;&#32;}
+482 
+483 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;length_t&#32;L,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+484 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<link linkend="_group__core__func__common_1ga6cf8098827054a270ee36b18e30d471d">min</link>(<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>,&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>)
+485 &#32;&#32;&#32;&#32;{
+486 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1detail_1_1compute__min__vector">detail::compute_min_vector&lt;L, T, Q, detail::is_aligned&lt;Q&gt;::value</link>&gt;::call(<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>,&#32;<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>);
+487 &#32;&#32;&#32;&#32;}
+488 
+489 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;max</emphasis>
+490 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;length_t&#32;L,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+491 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<link linkend="_group__core__func__common_1gae02d42887fc5570451f880e3c624b9ac">max</link>(<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>)
+492 &#32;&#32;&#32;&#32;{
+493 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a6893d4a6bf0ecab00f7c73166379245a">GLM_STATIC_ASSERT</link>(std::numeric_limits&lt;T&gt;::is_iec559&#32;||&#32;<link linkend="_setup_8hpp_1a0e15f8e785c4bb309a961b218921d1c1">GLM_CONFIG_UNRESTRICTED_FLOAT</link>&#32;||&#32;std::numeric_limits&lt;T&gt;::is_integer,&#32;<emphasis role="stringliteral">&quot;&apos;max&apos;&#32;only&#32;accept&#32;floating-point&#32;or&#32;integer&#32;inputs&quot;</emphasis>);
+494 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1detail_1_1compute__max__vector">detail::compute_max_vector&lt;L, T, Q, detail::is_aligned&lt;Q&gt;::value</link>&gt;::call(<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>,&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>(<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>));
+495 &#32;&#32;&#32;&#32;}
+496 
+497 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;length_t&#32;L,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+498 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<link linkend="_group__core__func__common_1gae02d42887fc5570451f880e3c624b9ac">max</link>(<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>,&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>)
+499 &#32;&#32;&#32;&#32;{
+500 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1detail_1_1compute__max__vector">detail::compute_max_vector&lt;L, T, Q, detail::is_aligned&lt;Q&gt;::value</link>&gt;::call(<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>,&#32;<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>);
+501 &#32;&#32;&#32;&#32;}
+502 
+503 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;clamp</emphasis>
+504 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;genType&gt;
+505 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;genType&#32;<link linkend="_glad_8h_1a3878d3005eeb2d2ef414abc752ba3c9b">clamp</link>(genType&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;genType&#32;minVal,&#32;genType&#32;maxVal)
+506 &#32;&#32;&#32;&#32;{
+507 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a6893d4a6bf0ecab00f7c73166379245a">GLM_STATIC_ASSERT</link>(std::numeric_limits&lt;genType&gt;::is_iec559&#32;||&#32;<link linkend="_setup_8hpp_1a0e15f8e785c4bb309a961b218921d1c1">GLM_CONFIG_UNRESTRICTED_FLOAT</link>&#32;||&#32;std::numeric_limits&lt;genType&gt;::is_integer,&#32;<emphasis role="stringliteral">&quot;&apos;clamp&apos;&#32;only&#32;accept&#32;floating-point&#32;or&#32;integer&#32;inputs&quot;</emphasis>);
+508 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_group__core__func__common_1ga6cf8098827054a270ee36b18e30d471d">min</link>(<link linkend="_group__core__func__common_1gae02d42887fc5570451f880e3c624b9ac">max</link>(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;minVal),&#32;maxVal);
+509 &#32;&#32;&#32;&#32;}
+510 
+511 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;length_t&#32;L,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+512 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<link linkend="_glad_8h_1a3878d3005eeb2d2ef414abc752ba3c9b">clamp</link>(<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;minVal,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;maxVal)
+513 &#32;&#32;&#32;&#32;{
+514 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a6893d4a6bf0ecab00f7c73166379245a">GLM_STATIC_ASSERT</link>(std::numeric_limits&lt;T&gt;::is_iec559&#32;||&#32;<link linkend="_setup_8hpp_1a0e15f8e785c4bb309a961b218921d1c1">GLM_CONFIG_UNRESTRICTED_FLOAT</link>&#32;||&#32;std::numeric_limits&lt;T&gt;::is_integer,&#32;<emphasis role="stringliteral">&quot;&apos;clamp&apos;&#32;only&#32;accept&#32;floating-point&#32;or&#32;integer&#32;inputs&quot;</emphasis>);
+515 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1detail_1_1compute__clamp__vector">detail::compute_clamp_vector&lt;L, T, Q, detail::is_aligned&lt;Q&gt;::value</link>&gt;::call(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>(minVal),&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>(maxVal));
+516 &#32;&#32;&#32;&#32;}
+517 
+518 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;length_t&#32;L,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+519 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<link linkend="_glad_8h_1a3878d3005eeb2d2ef414abc752ba3c9b">clamp</link>(<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;minVal,&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;maxVal)
+520 &#32;&#32;&#32;&#32;{
+521 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a6893d4a6bf0ecab00f7c73166379245a">GLM_STATIC_ASSERT</link>(std::numeric_limits&lt;T&gt;::is_iec559&#32;||&#32;<link linkend="_setup_8hpp_1a0e15f8e785c4bb309a961b218921d1c1">GLM_CONFIG_UNRESTRICTED_FLOAT</link>&#32;||&#32;std::numeric_limits&lt;T&gt;::is_integer,&#32;<emphasis role="stringliteral">&quot;&apos;clamp&apos;&#32;only&#32;accept&#32;floating-point&#32;or&#32;integer&#32;inputs&quot;</emphasis>);
+522 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1detail_1_1compute__clamp__vector">detail::compute_clamp_vector&lt;L, T, Q, detail::is_aligned&lt;Q&gt;::value</link>&gt;::call(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;minVal,&#32;maxVal);
+523 &#32;&#32;&#32;&#32;}
+524 
+525 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;genTypeT,&#32;<emphasis role="keyword">typename</emphasis>&#32;genTypeU&gt;
+526 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;genTypeT&#32;<link linkend="_group__core__func__common_1ga6b6e0c7ecb4a5b78f929566355bb7416">mix</link>(genTypeT&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;genTypeT&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>,&#32;genTypeU&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>)
+527 &#32;&#32;&#32;&#32;{
+528 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1detail_1_1compute__mix_1a89407e90d0ebcd4f94f7fb425f1e7668">detail::compute_mix&lt;genTypeT, genTypeU&gt;::call</link>(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>,&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>);
+529 &#32;&#32;&#32;&#32;}
+530 
+531 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;length_t&#32;L,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;<emphasis role="keyword">typename</emphasis>&#32;U,&#32;qualifier&#32;Q&gt;
+532 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<link linkend="_group__core__func__common_1ga6b6e0c7ecb4a5b78f929566355bb7416">mix</link>(<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1affc9cbf86b78292bdb405361761c47f5">U</link>&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>)
+533 &#32;&#32;&#32;&#32;{
+534 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1detail_1_1compute__mix__scalar">detail::compute_mix_scalar&lt;L, T, U, Q, detail::is_aligned&lt;Q&gt;::value</link>&gt;::call(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>,&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>);
+535 &#32;&#32;&#32;&#32;}
+536 
+537 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;length_t&#32;L,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;<emphasis role="keyword">typename</emphasis>&#32;U,&#32;qualifier&#32;Q&gt;
+538 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<link linkend="_group__core__func__common_1ga6b6e0c7ecb4a5b78f929566355bb7416">mix</link>(<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>,&#32;<link linkend="_structglm_1_1vec">vec&lt;L, U, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>)
+539 &#32;&#32;&#32;&#32;{
+540 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1detail_1_1compute__mix__vector">detail::compute_mix_vector&lt;L, T, U, Q, detail::is_aligned&lt;Q&gt;::value</link>&gt;::call(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>,&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>);
+541 &#32;&#32;&#32;&#32;}
+542 
+543 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;step</emphasis>
+544 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;genType&gt;
+545 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;genType&#32;<link linkend="_group__core__func__common_1ga015a1261ff23e12650211aa872863cce">step</link>(genType&#32;edge,&#32;genType&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>)
+546 &#32;&#32;&#32;&#32;{
+547 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_group__core__func__common_1ga6b6e0c7ecb4a5b78f929566355bb7416">mix</link>(<emphasis role="keyword">static_cast&lt;</emphasis>genType<emphasis role="keyword">&gt;</emphasis>(1),&#32;<emphasis role="keyword">static_cast&lt;</emphasis>genType<emphasis role="keyword">&gt;</emphasis>(0),&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>&#32;&lt;&#32;edge);
+548 &#32;&#32;&#32;&#32;}
+549 
+550 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;length_t&#32;L,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+551 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<link linkend="_group__core__func__common_1ga015a1261ff23e12650211aa872863cce">step</link>(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;edge,&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>)
+552 &#32;&#32;&#32;&#32;{
+553 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1detail_1_1compute__step__vector">detail::compute_step_vector&lt;L, T, Q, detail::is_aligned&lt;Q&gt;::value</link>&gt;::call(<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>(edge),&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>);
+554 &#32;&#32;&#32;&#32;}
+555 
+556 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;length_t&#32;L,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+557 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<link linkend="_group__core__func__common_1ga015a1261ff23e12650211aa872863cce">step</link>(<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;edge,&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>)
+558 &#32;&#32;&#32;&#32;{
+559 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1detail_1_1compute__step__vector">detail::compute_step_vector&lt;L, T, Q, detail::is_aligned&lt;Q&gt;::value</link>&gt;::call(edge,&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>);
+560 &#32;&#32;&#32;&#32;}
+561 
+562 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;smoothstep</emphasis>
+563 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;genType&gt;
+564 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;genType&#32;<link linkend="_group__core__func__common_1ga562edf7eca082cc5b7a0aaf180436daf">smoothstep</link>(genType&#32;edge0,&#32;genType&#32;edge1,&#32;genType&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>)
+565 &#32;&#32;&#32;&#32;{
+566 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a6893d4a6bf0ecab00f7c73166379245a">GLM_STATIC_ASSERT</link>(std::numeric_limits&lt;genType&gt;::is_iec559&#32;||&#32;<link linkend="_setup_8hpp_1a0e15f8e785c4bb309a961b218921d1c1">GLM_CONFIG_UNRESTRICTED_FLOAT</link>&#32;||&#32;<link linkend="_setup_8hpp_1adfb40fae63c98b85b15b63c8e42970b8">GLM_CONFIG_UNRESTRICTED_GENTYPE</link>,&#32;<emphasis role="stringliteral">&quot;&apos;smoothstep&apos;&#32;only&#32;accept&#32;floating-point&#32;inputs&quot;</emphasis>);
+567 
+568 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;genType&#32;<emphasis role="keyword">const</emphasis>&#32;tmp(<link linkend="_glad_8h_1a3878d3005eeb2d2ef414abc752ba3c9b">clamp</link>((<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>&#32;-&#32;edge0)&#32;/&#32;(edge1&#32;-&#32;edge0),&#32;genType(0),&#32;genType(1)));
+569 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;tmp&#32;*&#32;tmp&#32;*&#32;(genType(3)&#32;-&#32;genType(2)&#32;*&#32;tmp);
+570 &#32;&#32;&#32;&#32;}
+571 
+572 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;length_t&#32;L,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+573 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<link linkend="_group__core__func__common_1ga562edf7eca082cc5b7a0aaf180436daf">smoothstep</link>(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;edge0,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;edge1,&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>)
+574 &#32;&#32;&#32;&#32;{
+575 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1detail_1_1compute__smoothstep__vector">detail::compute_smoothstep_vector&lt;L, T, Q, detail::is_aligned&lt;Q&gt;::value</link>&gt;::call(<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>(edge0),&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>(edge1),&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>);
+576 &#32;&#32;&#32;&#32;}
+577 
+578 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;length_t&#32;L,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+579 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<link linkend="_group__core__func__common_1ga562edf7eca082cc5b7a0aaf180436daf">smoothstep</link>(<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;edge0,&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;edge1,&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>)
+580 &#32;&#32;&#32;&#32;{
+581 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1detail_1_1compute__smoothstep__vector">detail::compute_smoothstep_vector&lt;L, T, Q, detail::is_aligned&lt;Q&gt;::value</link>&gt;::call(edge0,&#32;edge1,&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>);
+582 &#32;&#32;&#32;&#32;}
+583 
+584 <emphasis role="preprocessor">#&#32;&#32;&#32;if&#32;GLM_HAS_CXX11_STL</emphasis>
+585 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">using&#32;</emphasis>std::isnan;
+586 <emphasis role="preprocessor">#&#32;&#32;&#32;else</emphasis>
+587 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;genType&gt;
+588 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_group__core__func__common_1ga81f85e3c56f1f559034422b357c37e21">isnan</link>(genType&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>)
+589 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+590 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a6893d4a6bf0ecab00f7c73166379245a">GLM_STATIC_ASSERT</link>(std::numeric_limits&lt;genType&gt;::is_iec559&#32;||&#32;<link linkend="_setup_8hpp_1a0e15f8e785c4bb309a961b218921d1c1">GLM_CONFIG_UNRESTRICTED_FLOAT</link>,&#32;<emphasis role="stringliteral">&quot;&apos;isnan&apos;&#32;only&#32;accept&#32;floating-point&#32;inputs&quot;</emphasis>);
+591 
+592 <emphasis role="preprocessor">#&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;if&#32;GLM_HAS_CXX11_STL</emphasis>
+593 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;std::isnan(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>);
+594 <emphasis role="preprocessor">#&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;elif&#32;GLM_COMPILER&#32;&amp;&#32;GLM_COMPILER_VC</emphasis>
+595 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;_isnan(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>)&#32;!=&#32;0;
+596 <emphasis role="preprocessor">#&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;elif&#32;GLM_COMPILER&#32;&amp;&#32;GLM_COMPILER_INTEL</emphasis>
+597 <emphasis role="preprocessor">#&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;if&#32;GLM_PLATFORM&#32;&amp;&#32;GLM_PLATFORM_WINDOWS</emphasis>
+598 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;_isnan(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>)&#32;!=&#32;0;
+599 <emphasis role="preprocessor">#&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;else</emphasis>
+600 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;return&#32;::isnan(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>)&#32;!=&#32;0;
+601 <emphasis role="preprocessor">#&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;endif</emphasis>
+602 <emphasis role="preprocessor">#&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;elif&#32;(GLM_COMPILER&#32;&amp;&#32;(GLM_COMPILER_GCC&#32;|&#32;GLM_COMPILER_CLANG))&#32;&amp;&amp;&#32;(GLM_PLATFORM&#32;&amp;&#32;GLM_PLATFORM_ANDROID)&#32;&amp;&amp;&#32;__cplusplus&#32;&lt;&#32;201103L</emphasis>
+603 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;_isnan(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>)&#32;!=&#32;0;
+604 <emphasis role="preprocessor">#&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;elif&#32;(GLM_COMPILER&#32;&amp;&#32;GLM_COMPILER_CUDA)&#32;||&#32;(GLM_COMPILER&#32;&amp;&#32;GLM_COMPILER_HIP)</emphasis>
+605 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;return&#32;::isnan(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>)&#32;!=&#32;0;
+606 <emphasis role="preprocessor">#&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;else</emphasis>
+607 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;std::isnan(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>);
+608 <emphasis role="preprocessor">#&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;endif</emphasis>
+609 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+610 <emphasis role="preprocessor">#&#32;&#32;&#32;endif</emphasis>
+611 
+612 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;length_t&#32;L,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+613 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;L, bool, Q&gt;</link>&#32;<link linkend="_group__core__func__common_1ga81f85e3c56f1f559034422b357c37e21">isnan</link>(<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+614 &#32;&#32;&#32;&#32;{
+615 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a6893d4a6bf0ecab00f7c73166379245a">GLM_STATIC_ASSERT</link>(std::numeric_limits&lt;T&gt;::is_iec559&#32;||&#32;<link linkend="_setup_8hpp_1a0e15f8e785c4bb309a961b218921d1c1">GLM_CONFIG_UNRESTRICTED_FLOAT</link>,&#32;<emphasis role="stringliteral">&quot;&apos;isnan&apos;&#32;only&#32;accept&#32;floating-point&#32;inputs&quot;</emphasis>);
+616 
+617 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structglm_1_1vec">vec&lt;L, bool, Q&gt;</link>&#32;Result(0);
+618 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(<link linkend="_namespaceglm_1a090a0de2260835bee80e71a702492ed9">length_t</link>&#32;l&#32;=&#32;0;&#32;l&#32;&lt;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.length();&#32;++l)
+619 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Result[l]&#32;=&#32;glm::isnan(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>[l]);
+620 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;Result;
+621 &#32;&#32;&#32;&#32;}
+622 
+623 <emphasis role="preprocessor">#&#32;&#32;&#32;if&#32;GLM_HAS_CXX11_STL</emphasis>
+624 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">using&#32;</emphasis>std::isinf;
+625 <emphasis role="preprocessor">#&#32;&#32;&#32;else</emphasis>
+626 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;genType&gt;
+627 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_group__core__func__common_1ga6dfda49bcedffb43ffe5d85307d732fa">isinf</link>(genType&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>)
+628 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+629 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a6893d4a6bf0ecab00f7c73166379245a">GLM_STATIC_ASSERT</link>(std::numeric_limits&lt;genType&gt;::is_iec559&#32;||&#32;<link linkend="_setup_8hpp_1a0e15f8e785c4bb309a961b218921d1c1">GLM_CONFIG_UNRESTRICTED_FLOAT</link>,&#32;<emphasis role="stringliteral">&quot;&apos;isinf&apos;&#32;only&#32;accept&#32;floating-point&#32;inputs&quot;</emphasis>);
+630 
+631 <emphasis role="preprocessor">#&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;if&#32;GLM_HAS_CXX11_STL</emphasis>
+632 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;std::isinf(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>);
+633 <emphasis role="preprocessor">#&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;elif&#32;GLM_COMPILER&#32;&amp;&#32;(GLM_COMPILER_INTEL&#32;|&#32;GLM_COMPILER_VC)</emphasis>
+634 <emphasis role="preprocessor">#&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;if(GLM_PLATFORM&#32;&amp;&#32;GLM_PLATFORM_WINDOWS)</emphasis>
+635 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;_fpclass(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>)&#32;==&#32;_FPCLASS_NINF&#32;||&#32;_fpclass(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>)&#32;==&#32;_FPCLASS_PINF;
+636 <emphasis role="preprocessor">#&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;else</emphasis>
+637 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;return&#32;::isinf(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>);
+638 <emphasis role="preprocessor">#&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;endif</emphasis>
+639 <emphasis role="preprocessor">#&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;elif&#32;GLM_COMPILER&#32;&amp;&#32;(GLM_COMPILER_GCC&#32;|&#32;GLM_COMPILER_CLANG)</emphasis>
+640 <emphasis role="preprocessor">#&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;if(GLM_PLATFORM&#32;&amp;&#32;GLM_PLATFORM_ANDROID&#32;&amp;&amp;&#32;__cplusplus&#32;&lt;&#32;201103L)</emphasis>
+641 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;_isinf(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>)&#32;!=&#32;0;
+642 <emphasis role="preprocessor">#&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;else</emphasis>
+643 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;std::isinf(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>);
+644 <emphasis role="preprocessor">#&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;endif</emphasis>
+645 <emphasis role="preprocessor">#&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;elif&#32;(GLM_COMPILER&#32;&amp;&#32;GLM_COMPILER_CUDA)&#32;||&#32;(GLM_COMPILER&#32;&amp;&#32;GLM_COMPILER_HIP)</emphasis>
+646 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;http://developer.download.nvidia.com/compute/cuda/4_2/rel/toolkit/docs/online/group__CUDA__MATH__DOUBLE_g13431dd2b40b51f9139cbb7f50c18fab.html#g13431dd2b40b51f9139cbb7f50c18fab</emphasis>
+647 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;return&#32;::isinf(<emphasis role="keywordtype">double</emphasis>(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>))&#32;!=&#32;0;
+648 <emphasis role="preprocessor">#&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;else</emphasis>
+649 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;std::isinf(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>);
+650 <emphasis role="preprocessor">#&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;endif</emphasis>
+651 &#32;&#32;&#32;&#32;}
+652 <emphasis role="preprocessor">#&#32;&#32;&#32;endif</emphasis>
+653 
+654 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;length_t&#32;L,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+655 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;L, bool, Q&gt;</link>&#32;<link linkend="_group__core__func__common_1ga6dfda49bcedffb43ffe5d85307d732fa">isinf</link>(<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+656 &#32;&#32;&#32;&#32;{
+657 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a6893d4a6bf0ecab00f7c73166379245a">GLM_STATIC_ASSERT</link>(std::numeric_limits&lt;T&gt;::is_iec559&#32;||&#32;<link linkend="_setup_8hpp_1a0e15f8e785c4bb309a961b218921d1c1">GLM_CONFIG_UNRESTRICTED_FLOAT</link>,&#32;<emphasis role="stringliteral">&quot;&apos;isinf&apos;&#32;only&#32;accept&#32;floating-point&#32;inputs&quot;</emphasis>);
+658 
+659 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structglm_1_1vec">vec&lt;L, bool, Q&gt;</link>&#32;Result(0);
+660 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(<link linkend="_namespaceglm_1a090a0de2260835bee80e71a702492ed9">length_t</link>&#32;l&#32;=&#32;0;&#32;l&#32;&lt;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.length();&#32;++l)
+661 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Result[l]&#32;=&#32;glm::isinf(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>[l]);
+662 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;Result;
+663 &#32;&#32;&#32;&#32;}
+664 
+665 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_group__core__func__common_1gaa1d88c3add475fa8f3a5163e19c6baf8">floatBitsToInt</link>(<emphasis role="keywordtype">float</emphasis>&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+666 &#32;&#32;&#32;&#32;{
+667 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">union</emphasis>
+668 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+669 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">float</emphasis>&#32;in;
+670 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;out;
+671 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}&#32;u;
+672 
+673 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;u.in&#32;=&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>;
+674 
+675 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;u.out;
+676 &#32;&#32;&#32;&#32;}
+677 
+678 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;length_t&#32;L,&#32;qualifier&#32;Q&gt;
+679 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;L, int, Q&gt;</link>&#32;<link linkend="_group__core__func__common_1gaa1d88c3add475fa8f3a5163e19c6baf8">floatBitsToInt</link>(<link linkend="_structglm_1_1vec">vec&lt;L, float, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+680 &#32;&#32;&#32;&#32;{
+681 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1detail_1_1functor1">detail::functor1&lt;vec, L, int, float, Q&gt;::call</link>(floatBitsToInt,&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>);
+682 &#32;&#32;&#32;&#32;}
+683 
+684 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_namespaceglm_1a4fd29415871152bfb5abd588334147c8">uint</link>&#32;<link linkend="_group__core__func__common_1ga1b01fa18fd2b3450f18ff43f98dfbe8b">floatBitsToUint</link>(<emphasis role="keywordtype">float</emphasis>&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+685 &#32;&#32;&#32;&#32;{
+686 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">union</emphasis>
+687 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+688 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">float</emphasis>&#32;in;
+689 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespaceglm_1a4fd29415871152bfb5abd588334147c8">uint</link>&#32;out;
+690 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}&#32;u;
+691 
+692 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;u.in&#32;=&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>;
+693 
+694 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;u.out;
+695 &#32;&#32;&#32;&#32;}
+696 
+697 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;length_t&#32;L,&#32;qualifier&#32;Q&gt;
+698 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;L, uint, Q&gt;</link>&#32;<link linkend="_group__core__func__common_1ga1b01fa18fd2b3450f18ff43f98dfbe8b">floatBitsToUint</link>(<link linkend="_structglm_1_1vec">vec&lt;L, float, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+699 &#32;&#32;&#32;&#32;{
+700 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1detail_1_1functor1">detail::functor1&lt;vec, L, uint, float, Q&gt;::call</link>(floatBitsToUint,&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>);
+701 &#32;&#32;&#32;&#32;}
+702 
+703 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<emphasis role="keywordtype">float</emphasis>&#32;<link linkend="_group__core__func__common_1ga5b7b33f0eb5a41f3bf47003bbbdc5128">intBitsToFloat</link>(<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+704 &#32;&#32;&#32;&#32;{
+705 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">union</emphasis>
+706 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+707 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;in;
+708 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">float</emphasis>&#32;out;
+709 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}&#32;u;
+710 
+711 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;u.in&#32;=&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>;
+712 
+713 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;u.out;
+714 &#32;&#32;&#32;&#32;}
+715 
+716 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;length_t&#32;L,&#32;qualifier&#32;Q&gt;
+717 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;L, float, Q&gt;</link>&#32;<link linkend="_group__core__func__common_1ga5b7b33f0eb5a41f3bf47003bbbdc5128">intBitsToFloat</link>(<link linkend="_structglm_1_1vec">vec&lt;L, int, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+718 &#32;&#32;&#32;&#32;{
+719 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1detail_1_1functor1">detail::functor1&lt;vec, L, float, int, Q&gt;::call</link>(intBitsToFloat,&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>);
+720 &#32;&#32;&#32;&#32;}
+721 
+722 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<emphasis role="keywordtype">float</emphasis>&#32;<link linkend="_group__core__func__common_1ga774bbb16abffb1644dea6a4cf0f08dac">uintBitsToFloat</link>(<link linkend="_namespaceglm_1a4fd29415871152bfb5abd588334147c8">uint</link>&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+723 &#32;&#32;&#32;&#32;{
+724 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">union</emphasis>
+725 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+726 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespaceglm_1a4fd29415871152bfb5abd588334147c8">uint</link>&#32;in;
+727 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">float</emphasis>&#32;out;
+728 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}&#32;u;
+729 
+730 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;u.in&#32;=&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>;
+731 
+732 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;u.out;
+733 &#32;&#32;&#32;&#32;}
+734 
+735 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;length_t&#32;L,&#32;qualifier&#32;Q&gt;
+736 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;L, float, Q&gt;</link>&#32;<link linkend="_group__core__func__common_1ga774bbb16abffb1644dea6a4cf0f08dac">uintBitsToFloat</link>(<link linkend="_structglm_1_1vec">vec&lt;L, uint, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+737 &#32;&#32;&#32;&#32;{
+738 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">reinterpret_cast&lt;</emphasis><link linkend="_structglm_1_1vec">vec&lt;L, float, Q&gt;</link>&amp;<emphasis role="keyword">&gt;</emphasis>(<emphasis role="keyword">const_cast&lt;</emphasis><link linkend="_structglm_1_1vec">vec&lt;L, uint, Q&gt;</link>&amp;<emphasis role="keyword">&gt;</emphasis>(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>));
+739 &#32;&#32;&#32;&#32;}
+740 
+741 <emphasis role="preprocessor">#&#32;&#32;&#32;if&#32;GLM_HAS_CXX11_STL</emphasis>
+742 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">using&#32;</emphasis>std::fma;
+743 <emphasis role="preprocessor">#&#32;&#32;&#32;else</emphasis>
+744 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;genType&gt;
+745 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;genType&#32;<link linkend="_group__core__func__common_1gad0f444d4b81cc53c3b6edf5aa25078c2">fma</link>(genType&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>,&#32;genType&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>,&#32;genType&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;c)
+746 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+747 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>&#32;*&#32;<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>&#32;+&#32;c;
+748 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+749 <emphasis role="preprocessor">#&#32;&#32;&#32;endif</emphasis>
+750 
+751 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;genType&gt;
+752 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;genType&#32;<link linkend="_group__core__func__common_1gaddf5ef73283c171730e0bcc11833fa81">frexp</link>(genType&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<emphasis role="keywordtype">int</emphasis>&amp;&#32;exp)
+753 &#32;&#32;&#32;&#32;{
+754 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a6893d4a6bf0ecab00f7c73166379245a">GLM_STATIC_ASSERT</link>(std::numeric_limits&lt;genType&gt;::is_iec559&#32;||&#32;<link linkend="_setup_8hpp_1a0e15f8e785c4bb309a961b218921d1c1">GLM_CONFIG_UNRESTRICTED_FLOAT</link>,&#32;<emphasis role="stringliteral">&quot;&apos;frexp&apos;&#32;only&#32;accept&#32;floating-point&#32;inputs&quot;</emphasis>);
+755 
+756 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;std::frexp(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;&amp;exp);
+757 &#32;&#32;&#32;&#32;}
+758 
+759 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;length_t&#32;L,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+760 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<link linkend="_group__core__func__common_1gaddf5ef73283c171730e0bcc11833fa81">frexp</link>(<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>,&#32;<link linkend="_structglm_1_1vec">vec&lt;L, int, Q&gt;</link>&amp;&#32;exp)
+761 &#32;&#32;&#32;&#32;{
+762 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a6893d4a6bf0ecab00f7c73166379245a">GLM_STATIC_ASSERT</link>(std::numeric_limits&lt;T&gt;::is_iec559&#32;||&#32;<link linkend="_setup_8hpp_1a0e15f8e785c4bb309a961b218921d1c1">GLM_CONFIG_UNRESTRICTED_FLOAT</link>,&#32;<emphasis role="stringliteral">&quot;&apos;frexp&apos;&#32;only&#32;accept&#32;floating-point&#32;inputs&quot;</emphasis>);
+763 
+764 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;Result(0);
+765 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(<link linkend="_namespaceglm_1a090a0de2260835bee80e71a702492ed9">length_t</link>&#32;l&#32;=&#32;0;&#32;l&#32;&lt;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.length();&#32;++l)
+766 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Result[l]&#32;=&#32;std::frexp(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>[l],&#32;&amp;exp[l]);
+767 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;Result;
+768 &#32;&#32;&#32;&#32;}
+769 
+770 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;genType&gt;
+771 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;genType&#32;<link linkend="_group__core__func__common_1gac3010e0a0c35a1b514540f2fb579c58c">ldexp</link>(genType&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;exp)
+772 &#32;&#32;&#32;&#32;{
+773 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a6893d4a6bf0ecab00f7c73166379245a">GLM_STATIC_ASSERT</link>(std::numeric_limits&lt;genType&gt;::is_iec559&#32;||&#32;<link linkend="_setup_8hpp_1a0e15f8e785c4bb309a961b218921d1c1">GLM_CONFIG_UNRESTRICTED_FLOAT</link>,&#32;<emphasis role="stringliteral">&quot;&apos;ldexp&apos;&#32;only&#32;accept&#32;floating-point&#32;inputs&quot;</emphasis>);
+774 
+775 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;std::ldexp(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;exp);
+776 &#32;&#32;&#32;&#32;}
+777 
+778 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;length_t&#32;L,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+779 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<link linkend="_group__core__func__common_1gac3010e0a0c35a1b514540f2fb579c58c">ldexp</link>(<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>,&#32;<link linkend="_structglm_1_1vec">vec&lt;L, int, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;exp)
+780 &#32;&#32;&#32;&#32;{
+781 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a6893d4a6bf0ecab00f7c73166379245a">GLM_STATIC_ASSERT</link>(std::numeric_limits&lt;T&gt;::is_iec559&#32;||&#32;<link linkend="_setup_8hpp_1a0e15f8e785c4bb309a961b218921d1c1">GLM_CONFIG_UNRESTRICTED_FLOAT</link>,&#32;<emphasis role="stringliteral">&quot;&apos;ldexp&apos;&#32;only&#32;accept&#32;floating-point&#32;inputs&quot;</emphasis>);
+782 
+783 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;Result(0);
+784 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(<link linkend="_namespaceglm_1a090a0de2260835bee80e71a702492ed9">length_t</link>&#32;l&#32;=&#32;0;&#32;l&#32;&lt;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.length();&#32;++l)
+785 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Result[l]&#32;=&#32;std::ldexp(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>[l],&#32;exp[l]);
+786 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;Result;
+787 &#32;&#32;&#32;&#32;}
+788 }<emphasis role="comment">//namespace&#32;glm</emphasis>
+789 
+790 <emphasis role="preprocessor">#if&#32;GLM_CONFIG_SIMD&#32;==&#32;GLM_ENABLE</emphasis>
+791 <emphasis role="preprocessor">#&#32;&#32;&#32;include&#32;&quot;<link linkend="_func__common__simd_8inl">func_common_simd.inl</link>&quot;</emphasis>
+792 <emphasis role="preprocessor">#endif</emphasis>
+</programlisting></section>

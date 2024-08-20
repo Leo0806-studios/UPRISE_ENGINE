@@ -1,0 +1,55 @@
+.TH "aiExportDataBlob" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+aiExportDataBlob
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fR#include <cexport\&.h>\fP
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "size_t \fBsize\fP"
+.br
+.RI "Size of the data in bytes\&. "
+.ti -1c
+.RI "\fBvoid\fP * \fBdata\fP"
+.br
+.RI "The data\&. "
+.ti -1c
+.RI "\fBC_STRUCT\fP \fBaiString\fP \fBname\fP"
+.br
+.ti -1c
+.RI "\fBC_STRUCT\fP \fBaiExportDataBlob\fP * \fBnext\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Describes a blob of exported scene data\&. Use \fBaiExportSceneToBlob()\fP to create a blob containing an exported scene\&. The memory referred by this structure is owned by \fBAssimp\fP\&. to free its resources\&. Don't try to free the memory on your side - it will crash for most build configurations due to conflicting heaps\&.
+.PP
+Blobs can be nested - each blob may reference another blob, which may in turn reference another blob and so on\&. This is used when exporters write more than one output file for a given \fBaiScene\fP\&. See the remarks for \fBaiExportDataBlob::name\fP for more information\&. 
+.SH "Member Data Documentation"
+.PP 
+.SS "\fBvoid\fP* aiExportDataBlob::data"
+
+.PP
+The data\&. 
+.SS "\fBC_STRUCT\fP \fBaiString\fP aiExportDataBlob::name"
+Name of the blob\&. An empty string always indicates the first (and primary) blob, which contains the actual file data\&. Any other blobs are auxiliary files produced by exporters (i\&.e\&. material files)\&. Existence of such files depends on the file format\&. Most formats don't split assets across multiple files\&.
+.PP
+If used, blob names usually contain the file extension that should be used when writing the data to disc\&.
+.PP
+The blob names generated can be influenced by setting the \fBAI_CONFIG_EXPORT_BLOB_NAME\fP export property to the name that is used for the master blob\&. All other names are typically derived from the base name, by the file format exporter\&. 
+.SS "\fBC_STRUCT\fP \fBaiExportDataBlob\fP* aiExportDataBlob::next"
+Pointer to the next blob in the chain or NULL if there is none\&. 
+.SS "size_t aiExportDataBlob::size"
+
+.PP
+Size of the data in bytes\&. 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

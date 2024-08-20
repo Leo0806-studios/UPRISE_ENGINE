@@ -1,0 +1,127 @@
+.TH "Material" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Material
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fR#include <D_CONFIGFILE\&.h>\fP
+.PP
+Inherits \fBConfigFile\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBMaterial\fP (std::string name, std::string modelpath, std::vector< std::string > texturepath, \fBConfigType\fP configType, nlohmann::json data)"
+.br
+.in -1c
+
+Public Member Functions inherited from \fBConfigFile\fP
+.in +1c
+.ti -1c
+.RI "\fBConfigFile\fP (std::string name, std::string modelpath, std::vector< std::string > texturepath, \fBConfigType\fP configType, nlohmann::json data)"
+.br
+.ti -1c
+.RI "virtual void \fBPalceholder\fP ()"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "int \fBShaderCount\fP"
+.br
+.ti -1c
+.RI "std::string \fBVertexShader\fP"
+.br
+.ti -1c
+.RI "std::string \fBFragmentShader\fP"
+.br
+.ti -1c
+.RI "std::string \fBGeometryShader\fP"
+.br
+.in -1c
+
+Public Attributes inherited from \fBConfigFile\fP
+.in +1c
+.ti -1c
+.RI "std::string \fBName\fP"
+.br
+.ti -1c
+.RI "std::string \fBModelpath\fP"
+.br
+.ti -1c
+.RI "std::vector< std::string > \fBTexturepaths\fP"
+.br
+.ti -1c
+.RI "\fBConfigType\fP \fBConfigType_\fP"
+.br
+.in -1c
+.SS "Additional Inherited Members"
+
+
+Public Types inherited from \fBConfigFile\fP
+.in +1c
+.ti -1c
+.RI "enum \fBConfigType\fP { \fBBuilding\fP, \fBVehicle\fP, \fBProjectile\fP, \fBParticle\fP, \fBIsland\fP, \fBAiObject\fP, \fBGlobal\fP, \fBManager\fP, \fBVertexShader\fP, \fBFragmentShader\fP, \fBGeometryShader\fP, \fBComputeShader\fP, \fBMaterial\fP }"
+.br
+.in -1c
+
+Static Public Member Functions inherited from \fBConfigFile\fP
+.in +1c
+.ti -1c
+.RI "static std::string \fBtoString\fP (\fBConfigType\fP type)"
+.br
+.ti -1c
+.RI "static \fBConfigType\fP \fBtoConfigType\fP (const std::string &str)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Definition at line \fB185\fP of file \fBD_CONFIGFILE\&.h\fP\&.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "Material::Material (std::string name, std::string modelpath, std::vector< std::string > texturepath, \fBConfigType\fP configType, nlohmann::json data)"
+
+.PP
+Definition at line \fB140\fP of file \fBD_CONFIGFILE\&.cpp\fP\&.
+.nf
+141       : ConfigFile(name, modelpath, texturepath, configType, data) {
+142       string s = data["ShaderCount"];
+143       ShaderCount = s\&.data()[0]\-48;
+144       VertexShader = data["VertexShader"];
+145       FragmentShader = data["FragmentShader"];
+146 
+147      // GeometryShader = Data[3];
+148   }
+.PP
+.fi
+
+.PP
+References \fBShaderCount\fP\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "std::string Material::FragmentShader"
+
+.PP
+Definition at line \fB189\fP of file \fBD_CONFIGFILE\&.h\fP\&.
+.SS "std::string Material::GeometryShader"
+
+.PP
+Definition at line \fB190\fP of file \fBD_CONFIGFILE\&.h\fP\&.
+.SS "int Material::ShaderCount"
+
+.PP
+Definition at line \fB187\fP of file \fBD_CONFIGFILE\&.h\fP\&.
+.PP
+Referenced by \fBMaterial()\fP\&.
+.SS "std::string Material::VertexShader"
+
+.PP
+Definition at line \fB188\fP of file \fBD_CONFIGFILE\&.h\fP\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

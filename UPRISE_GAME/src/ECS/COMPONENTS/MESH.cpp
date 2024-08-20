@@ -10,7 +10,7 @@ COMPONENTS::_Mesh::_Mesh(const char* pth) {
 	Model = std::make_shared<PAIN::Model>(mod);
 }
 
-COMPONENTS::_Mesh::_Mesh(std::shared_ptr<PAIN::Model> model) { TrPr(ctx, __func__) Model = model; }
+COMPONENTS::_Mesh::_Mesh(std::shared_ptr<PAIN::Model> model) { TrPr(ctx, __func__) Model = model; TrPrE(ctx); }
 GUID COMPONENTS::_Mesh::UUID = GUID_NULL;
 
 

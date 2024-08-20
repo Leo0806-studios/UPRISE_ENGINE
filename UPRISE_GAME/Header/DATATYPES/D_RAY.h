@@ -6,8 +6,8 @@
 class GameObject;
 class Ray {
 public:
-	Ray(DATATYPES::TS_P_Vector3 origin,DATATYPES::TS_P_Vector3 direction);
-	DATATYPES::TS_P_Vector3 Origin, Direction;
+	Ray(DATATYPES::TSPVector3 origin,DATATYPES::TSPVector3 direction);
+	DATATYPES::TSPVector3 Origin, Direction;
 	std::shared_ptr<GameObject> hit;
 
 };

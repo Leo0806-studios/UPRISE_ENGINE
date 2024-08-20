@@ -12,9 +12,9 @@ namespace DATATYPES {
 	struct  Mesh {
 
 	public:
-		std::vector<DATATYPES::TS_P_Vector3> Vertecies;
+		std::vector<DATATYPES::TSPVector3> Vertecies;
 		  Mesh() = default;
-		  Mesh(const std::vector < DATATYPES:: TS_P_Vector3 > & vertecies);
+		  Mesh(const std::vector < DATATYPES:: TSPVector3 > & vertecies);
 
 		  // If needed, declare and define the copy constructor and assignment operator explicitly
 		  Mesh(const Mesh& other) = default;

@@ -1,4 +1,4 @@
-.TH "CORE::Filehandler" 3 "Version 0.0.0.1" "My Project" \" -*- nroff -*-
+.TH "CORE::Filehandler" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -23,7 +23,28 @@ Definition at line \fB31\fP of file \fBCORE\&.h\fP\&.
 .SS "std::string CORE::Filehandler::ApplicationPath ()\fR [static]\fP"
 
 .PP
-Definition at line \fB4\fP of file \fBCORE\&.cpp\fP\&.
+Definition at line \fB5\fP of file \fBCORE\&.cpp\fP\&.
+.nf
+5                                             {
+6     TrPr(ctx, __func__)
+7     if (yes == false) {
+8         yes = true;
+9 
+10         //Application_Path = GetModuleFileNameA();
+11         char buffer[MAX_PATH];
+12         DWORD length = GetModuleFileNameA(NULL, buffer, MAX_PATH);
+13         Application_Path = std::string(buffer, length\-18);
+14     }
+15     TrPrE(ctx);
+16     return Application_Path;
+17 }
+.PP
+.fi
+
+.PP
+References \fBTrPr\fP, and \fBTrPrE\fP\&.
+.PP
+Referenced by \fBEDITOR::Editor::DrawEditor()\fP, and \fBmain()\fP\&.
 
 .SH "Author"
 .PP 

@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_poppack1_8h_source" xml:lang="en-US">
+<title>poppack1.h</title>
+<indexterm><primary>adhed/assimp/Compiler/poppack1.h</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 
+2 <emphasis role="comment">//&#32;===============================================================================</emphasis>
+3 <emphasis role="comment">//&#32;May&#32;be&#32;included&#32;multiple&#32;times&#32;-&#32;resets&#32;structure&#32;packing&#32;to&#32;the&#32;defaults</emphasis>
+4 <emphasis role="comment">//&#32;for&#32;all&#32;supported&#32;compilers.&#32;Reverts&#32;the&#32;changes&#32;made&#32;by&#32;#include&#32;&lt;pushpack1.h&gt;</emphasis>
+5 <emphasis role="comment">//</emphasis>
+6 <emphasis role="comment">//&#32;Currently&#32;this&#32;works&#32;on&#32;the&#32;following&#32;compilers:</emphasis>
+7 <emphasis role="comment">//&#32;MSVC&#32;7,8,9</emphasis>
+8 <emphasis role="comment">//&#32;GCC</emphasis>
+9 <emphasis role="comment">//&#32;BORLAND&#32;(complains&#32;about&#32;&apos;pack&#32;state&#32;changed&#32;but&#32;not&#32;reverted&apos;,&#32;but&#32;works)</emphasis>
+10 <emphasis role="comment">//&#32;===============================================================================</emphasis>
+11 
+12 <emphasis role="preprocessor">#ifndef&#32;AI_PUSHPACK_IS_DEFINED</emphasis>
+13 <emphasis role="preprocessor">#&#32;&#32;&#32;error&#32;pushpack1.h&#32;must&#32;be&#32;included&#32;after&#32;poppack1.h</emphasis>
+14 <emphasis role="preprocessor">#endif</emphasis>
+15 
+16 <emphasis role="comment">//&#32;reset&#32;packing&#32;to&#32;the&#32;original&#32;value</emphasis>
+17 <emphasis role="preprocessor">#if&#32;(defined(_MSC_VER)&#32;&amp;&amp;&#32;!defined(__clang__))&#32;||&#32;&#32;defined(__BORLANDC__)&#32;||&#32;defined&#32;(__BCPLUSPLUS__)</emphasis>
+18 <emphasis role="preprocessor">#&#32;&#32;&#32;pragma&#32;pack(&#32;pop&#32;)</emphasis>
+19 <emphasis role="preprocessor">#endif</emphasis>
+20 <emphasis role="preprocessor">#undef&#32;PACK_STRUCT</emphasis>
+21 
+22 <emphasis role="preprocessor">#undef&#32;AI_PUSHPACK_IS_DEFINED</emphasis>
+</programlisting></section>

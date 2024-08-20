@@ -22,11 +22,11 @@ public:
 	void Awake()override;
 	void Update()override {
 		if (CORE::Input::GetKey(Y)) {
-			TRANSFORM->Position = DATATYPES::TS_P_Vector3(0, 0, 0);
+			TRANSFORM->Position = DATATYPES::TSPVector3(0, 0, 0);
 
 		}
 		if (CORE::Input::GetKey(X)) {
-			TRANSFORM->Position = DATATYPES::TS_P_Vector3(1, 1, 1);
+			TRANSFORM->Position = DATATYPES::TSPVector3(1, 1, 1);
 
 		}
 	}

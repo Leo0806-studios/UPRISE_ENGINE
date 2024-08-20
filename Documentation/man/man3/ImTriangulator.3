@@ -1,0 +1,344 @@
+.TH "ImTriangulator" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+ImTriangulator
+.SH SYNOPSIS
+.br
+.PP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBInit\fP (const ImVec2 *points, int points_count, void *scratch_buffer)"
+.br
+.ti -1c
+.RI "void \fBGetNextTriangle\fP (unsigned int out_triangle[3])"
+.br
+.ti -1c
+.RI "void \fBBuildNodes\fP (const ImVec2 *points, int points_count)"
+.br
+.ti -1c
+.RI "void \fBBuildReflexes\fP ()"
+.br
+.ti -1c
+.RI "void \fBBuildEars\fP ()"
+.br
+.ti -1c
+.RI "void \fBFlipNodeList\fP ()"
+.br
+.ti -1c
+.RI "bool \fBIsEar\fP (int i0, int i1, int i2, const ImVec2 &v0, const ImVec2 &v1, const ImVec2 &v2) const"
+.br
+.ti -1c
+.RI "void \fBReclassifyNode\fP (\fBImTriangulatorNode\fP *node)"
+.br
+.in -1c
+.SS "Static Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "static int \fBEstimateTriangleCount\fP (int points_count)"
+.br
+.ti -1c
+.RI "static int \fBEstimateScratchBufferSize\fP (int points_count)"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "int \fB_TrianglesLeft\fP = 0"
+.br
+.ti -1c
+.RI "\fBImTriangulatorNode\fP * \fB_Nodes\fP = NULL"
+.br
+.ti -1c
+.RI "\fBImTriangulatorNodeSpan\fP \fB_Ears\fP"
+.br
+.ti -1c
+.RI "\fBImTriangulatorNodeSpan\fP \fB_Reflexes\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Definition at line \fB1759\fP of file \fBimgui_draw\&.cpp\fP\&.
+.SH "Member Function Documentation"
+.PP 
+.SS "void ImTriangulator::BuildEars ()"
+
+.PP
+Definition at line \fB1823\fP of file \fBimgui_draw\&.cpp\fP\&.
+.nf
+1824 {
+1825     ImTriangulatorNode* n1 = _Nodes;
+1826     for (int i = _TrianglesLeft; i >= 0; i\-\-, n1 = n1\->Next)
+1827     {
+1828         if (n1\->Type != ImTriangulatorNodeType_Convex)
+1829             continue;
+1830         if (!IsEar(n1\->Prev\->Index, n1\->Index, n1\->Next\->Index, n1\->Prev\->Pos, n1\->Pos, n1\->Next\->Pos))
+1831             continue;
+1832         n1\->Type = ImTriangulatorNodeType_Ear;
+1833         _Ears\&.push_back(n1);
+1834     }
+1835 }
+.PP
+.fi
+
+.PP
+References \fB_Ears\fP, \fB_Nodes\fP, \fB_TrianglesLeft\fP, \fBi\fP, \fBImTriangulatorNodeType_Convex\fP, \fBImTriangulatorNodeType_Ear\fP, \fBImTriangulatorNode::Index\fP, \fBIsEar()\fP, \fBImTriangulatorNode::Next\fP, \fBImTriangulatorNode::Pos\fP, \fBImTriangulatorNode::Prev\fP, \fBImTriangulatorNodeSpan::push_back()\fP, and \fBImTriangulatorNode::Type\fP\&.
+.PP
+Referenced by \fBGetNextTriangle()\fP, and \fBInit()\fP\&.
+.SS "void ImTriangulator::BuildNodes (const ImVec2 * points, int points_count)"
+
+.PP
+Definition at line \fB1797\fP of file \fBimgui_draw\&.cpp\fP\&.
+.nf
+1798 {
+1799     for (int i = 0; i < points_count; i++)
+1800     {
+1801         _Nodes[i]\&.Type = ImTriangulatorNodeType_Convex;
+1802         _Nodes[i]\&.Index = i;
+1803         _Nodes[i]\&.Pos = points[i];
+1804         _Nodes[i]\&.Next = _Nodes + i + 1;
+1805         _Nodes[i]\&.Prev = _Nodes + i \- 1;
+1806     }
+1807     _Nodes[0]\&.Prev = _Nodes + points_count \- 1;
+1808     _Nodes[points_count \- 1]\&.Next = _Nodes;
+1809 }
+.PP
+.fi
+
+.PP
+References \fB_Nodes\fP, \fBi\fP, \fBImTriangulatorNodeType_Convex\fP, \fBImTriangulatorNode::Index\fP, \fBImTriangulatorNode::Next\fP, \fBImTriangulatorNode::Pos\fP, \fBImTriangulatorNode::Prev\fP, and \fBImTriangulatorNode::Type\fP\&.
+.PP
+Referenced by \fBInit()\fP\&.
+.SS "void ImTriangulator::BuildReflexes ()"
+
+.PP
+Definition at line \fB1811\fP of file \fBimgui_draw\&.cpp\fP\&.
+.nf
+1812 {
+1813     ImTriangulatorNode* n1 = _Nodes;
+1814     for (int i = _TrianglesLeft; i >= 0; i\-\-, n1 = n1\->Next)
+1815     {
+1816         if (ImTriangleIsClockwise(n1\->Prev\->Pos, n1\->Pos, n1\->Next\->Pos))
+1817             continue;
+1818         n1\->Type = ImTriangulatorNodeType_Reflex;
+1819         _Reflexes\&.push_back(n1);
+1820     }
+1821 }
+.PP
+.fi
+
+.PP
+References \fB_Nodes\fP, \fB_Reflexes\fP, \fB_TrianglesLeft\fP, \fBi\fP, \fBImTriangulatorNodeType_Reflex\fP, \fBImTriangulatorNode::Next\fP, \fBImTriangulatorNode::Pos\fP, \fBImTriangulatorNode::Prev\fP, \fBImTriangulatorNodeSpan::push_back()\fP, and \fBImTriangulatorNode::Type\fP\&.
+.PP
+Referenced by \fBGetNextTriangle()\fP, and \fBInit()\fP\&.
+.SS "static int ImTriangulator::EstimateScratchBufferSize (int points_count)\fR [inline]\fP, \fR [static]\fP"
+
+.PP
+Definition at line \fB1762\fP of file \fBimgui_draw\&.cpp\fP\&.
+.nf
+1762 { return sizeof(ImTriangulatorNode) * points_count + sizeof(ImTriangulatorNode*) * points_count * 2; }
+.PP
+.fi
+
+.SS "static int ImTriangulator::EstimateTriangleCount (int points_count)\fR [inline]\fP, \fR [static]\fP"
+
+.PP
+Definition at line \fB1761\fP of file \fBimgui_draw\&.cpp\fP\&.
+.nf
+1761 { return (points_count < 3) ? 0 : points_count \- 2; }
+.PP
+.fi
+
+.PP
+Referenced by \fBInit()\fP\&.
+.SS "void ImTriangulator::FlipNodeList ()"
+
+.PP
+Definition at line \fB1874\fP of file \fBimgui_draw\&.cpp\fP\&.
+.nf
+1875 {
+1876     ImTriangulatorNode* prev = _Nodes;
+1877     ImTriangulatorNode* temp = _Nodes;
+1878     ImTriangulatorNode* current = _Nodes\->Next;
+1879     prev\->Next = prev;
+1880     prev\->Prev = prev;
+1881     while (current != _Nodes)
+1882     {
+1883         temp = current\->Next;
+1884 
+1885         current\->Next = prev;
+1886         prev\->Prev = current;
+1887         _Nodes\->Next = current;
+1888         current\->Prev = _Nodes;
+1889 
+1890         prev = current;
+1891         current = temp;
+1892     }
+1893     _Nodes = prev;
+1894 }
+.PP
+.fi
+
+.PP
+References \fB_Nodes\fP, \fBImTriangulatorNode::Next\fP, and \fBImTriangulatorNode::Prev\fP\&.
+.PP
+Referenced by \fBGetNextTriangle()\fP\&.
+.SS "void ImTriangulator::GetNextTriangle (unsigned int out_triangle[3])"
+
+.PP
+Definition at line \fB1837\fP of file \fBimgui_draw\&.cpp\fP\&.
+.nf
+1838 {
+1839     if (_Ears\&.Size == 0)
+1840     {
+1841         FlipNodeList();
+1842 
+1843         ImTriangulatorNode* node = _Nodes;
+1844         for (int i = _TrianglesLeft; i >= 0; i\-\-, node = node\->Next)
+1845             node\->Type = ImTriangulatorNodeType_Convex;
+1846         _Reflexes\&.Size = 0;
+1847         BuildReflexes();
+1848         BuildEars();
+1849 
+1850         // If we still don't have ears, it means geometry is degenerated\&.
+1851         if (_Ears\&.Size == 0)
+1852         {
+1853             // Return first triangle available, mimicking the behavior of convex fill\&.
+1854             IM_ASSERT(_TrianglesLeft > 0); // Geometry is degenerated
+1855             _Ears\&.Data[0] = _Nodes;
+1856             _Ears\&.Size    = 1;
+1857         }
+1858     }
+1859 
+1860     ImTriangulatorNode* ear = _Ears\&.Data[\-\-_Ears\&.Size];
+1861     out_triangle[0] = ear\->Prev\->Index;
+1862     out_triangle[1] = ear\->Index;
+1863     out_triangle[2] = ear\->Next\->Index;
+1864 
+1865     ear\->Unlink();
+1866     if (ear == _Nodes)
+1867         _Nodes = ear\->Next;
+1868 
+1869     ReclassifyNode(ear\->Prev);
+1870     ReclassifyNode(ear\->Next);
+1871     _TrianglesLeft\-\-;
+1872 }
+.PP
+.fi
+
+.PP
+References \fB_Ears\fP, \fB_Nodes\fP, \fB_Reflexes\fP, \fB_TrianglesLeft\fP, \fBBuildEars()\fP, \fBBuildReflexes()\fP, \fBImTriangulatorNodeSpan::Data\fP, \fBFlipNodeList()\fP, \fBi\fP, \fBImTriangulatorNodeType_Convex\fP, \fBImTriangulatorNode::Index\fP, \fBImTriangulatorNode::Next\fP, \fBImTriangulatorNode::Prev\fP, \fBReclassifyNode()\fP, \fBImTriangulatorNodeSpan::Size\fP, \fBImTriangulatorNode::Type\fP, and \fBImTriangulatorNode::Unlink()\fP\&.
+.SS "void ImTriangulator::Init (const ImVec2 * points, int points_count, void * scratch_buffer)"
+
+.PP
+Definition at line \fB1785\fP of file \fBimgui_draw\&.cpp\fP\&.
+.nf
+1786 {
+1787     IM_ASSERT(scratch_buffer != NULL && points_count >= 3);
+1788     _TrianglesLeft = EstimateTriangleCount(points_count);
+1789     _Nodes         = (ImTriangulatorNode*)scratch_buffer;                          // points_count x Node
+1790     _Ears\&.Data     = (ImTriangulatorNode**)(_Nodes + points_count);                // points_count x Node*
+1791     _Reflexes\&.Data = (ImTriangulatorNode**)(_Nodes + points_count) + points_count; // points_count x Node*
+1792     BuildNodes(points, points_count);
+1793     BuildReflexes();
+1794     BuildEars();
+1795 }
+.PP
+.fi
+
+.PP
+References \fB_Ears\fP, \fB_Nodes\fP, \fB_Reflexes\fP, \fB_TrianglesLeft\fP, \fBBuildEars()\fP, \fBBuildNodes()\fP, \fBBuildReflexes()\fP, \fBImTriangulatorNodeSpan::Data\fP, and \fBEstimateTriangleCount()\fP\&.
+.SS "bool ImTriangulator::IsEar (int i0, int i1, int i2, const ImVec2 & v0, const ImVec2 & v1, const ImVec2 & v2) const"
+
+.PP
+Definition at line \fB1897\fP of file \fBimgui_draw\&.cpp\fP\&.
+.nf
+1898 {
+1899     ImTriangulatorNode** p_end = _Reflexes\&.Data + _Reflexes\&.Size;
+1900     for (ImTriangulatorNode** p = _Reflexes\&.Data; p < p_end; p++)
+1901     {
+1902         ImTriangulatorNode* reflex = *p;
+1903         if (reflex\->Index != i0 && reflex\->Index != i1 && reflex\->Index != i2)
+1904             if (ImTriangleContainsPoint(v0, v1, v2, reflex\->Pos))
+1905                 return false;
+1906     }
+1907     return true;
+1908 }
+.PP
+.fi
+
+.PP
+References \fB_Reflexes\fP, \fBImTriangulatorNodeSpan::Data\fP, \fBImTriangleContainsPoint()\fP, \fBImTriangulatorNode::Index\fP, \fBImTriangulatorNode::Pos\fP, and \fBImTriangulatorNodeSpan::Size\fP\&.
+.PP
+Referenced by \fBBuildEars()\fP, and \fBReclassifyNode()\fP\&.
+.SS "void ImTriangulator::ReclassifyNode (\fBImTriangulatorNode\fP * node)"
+
+.PP
+Definition at line \fB1910\fP of file \fBimgui_draw\&.cpp\fP\&.
+.nf
+1911 {
+1912     // Classify node
+1913     ImTriangulatorNodeType type;
+1914     const ImTriangulatorNode* n0 = n1\->Prev;
+1915     const ImTriangulatorNode* n2 = n1\->Next;
+1916     if (!ImTriangleIsClockwise(n0\->Pos, n1\->Pos, n2\->Pos))
+1917         type = ImTriangulatorNodeType_Reflex;
+1918     else if (IsEar(n0\->Index, n1\->Index, n2\->Index, n0\->Pos, n1\->Pos, n2\->Pos))
+1919         type = ImTriangulatorNodeType_Ear;
+1920     else
+1921         type = ImTriangulatorNodeType_Convex;
+1922 
+1923     // Update lists when a type changes
+1924     if (type == n1\->Type)
+1925         return;
+1926     if (n1\->Type == ImTriangulatorNodeType_Reflex)
+1927         _Reflexes\&.find_erase_unsorted(n1\->Index);
+1928     else if (n1\->Type == ImTriangulatorNodeType_Ear)
+1929         _Ears\&.find_erase_unsorted(n1\->Index);
+1930     if (type == ImTriangulatorNodeType_Reflex)
+1931         _Reflexes\&.push_back(n1);
+1932     else if (type == ImTriangulatorNodeType_Ear)
+1933         _Ears\&.push_back(n1);
+1934     n1\->Type = type;
+1935 }
+.PP
+.fi
+
+.PP
+References \fB_Ears\fP, \fB_Reflexes\fP, \fBImTriangulatorNodeSpan::find_erase_unsorted()\fP, \fBImTriangulatorNodeType_Convex\fP, \fBImTriangulatorNodeType_Ear\fP, \fBImTriangulatorNodeType_Reflex\fP, \fBImTriangulatorNode::Index\fP, \fBIsEar()\fP, \fBImTriangulatorNode::Next\fP, \fBImTriangulatorNode::Pos\fP, \fBImTriangulatorNode::Prev\fP, \fBImTriangulatorNodeSpan::push_back()\fP, and \fBImTriangulatorNode::Type\fP\&.
+.PP
+Referenced by \fBGetNextTriangle()\fP\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "\fBImTriangulatorNodeSpan\fP ImTriangulator::_Ears"
+
+.PP
+Definition at line \fB1778\fP of file \fBimgui_draw\&.cpp\fP\&.
+.PP
+Referenced by \fBBuildEars()\fP, \fBGetNextTriangle()\fP, \fBInit()\fP, and \fBReclassifyNode()\fP\&.
+.SS "\fBImTriangulatorNode\fP* ImTriangulator::_Nodes = NULL"
+
+.PP
+Definition at line \fB1777\fP of file \fBimgui_draw\&.cpp\fP\&.
+.PP
+Referenced by \fBBuildEars()\fP, \fBBuildNodes()\fP, \fBBuildReflexes()\fP, \fBFlipNodeList()\fP, \fBGetNextTriangle()\fP, and \fBInit()\fP\&.
+.SS "\fBImTriangulatorNodeSpan\fP ImTriangulator::_Reflexes"
+
+.PP
+Definition at line \fB1779\fP of file \fBimgui_draw\&.cpp\fP\&.
+.PP
+Referenced by \fBBuildReflexes()\fP, \fBGetNextTriangle()\fP, \fBInit()\fP, \fBIsEar()\fP, and \fBReclassifyNode()\fP\&.
+.SS "int ImTriangulator::_TrianglesLeft = 0"
+
+.PP
+Definition at line \fB1776\fP of file \fBimgui_draw\&.cpp\fP\&.
+.PP
+Referenced by \fBBuildEars()\fP, \fBBuildReflexes()\fP, \fBGetNextTriangle()\fP, and \fBInit()\fP\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

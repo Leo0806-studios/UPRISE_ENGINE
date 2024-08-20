@@ -1,0 +1,169 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="__tracy_sys_power_8cpp_source" xml:lang="en-US">
+<title>TracySysPower.cpp</title>
+<indexterm><primary>adhed/client/TracySysPower.cpp</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered"><anchor xml:id="__tracy_sys_power_8cpp_source_1l00001"/>00001 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__tracy_sys_power_8hpp">TracySysPower.hpp</link>&quot;</emphasis>
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00002"/>00002 
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00003"/>00003 <emphasis role="preprocessor">#ifdef&#32;TRACY_HAS_SYSPOWER</emphasis>
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00004"/>00004 
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00005"/>00005 <emphasis role="preprocessor">#include&#32;&lt;sys/types.h&gt;</emphasis>
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00006"/>00006 <emphasis role="preprocessor">#include&#32;&lt;dirent.h&gt;</emphasis>
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00007"/>00007 <emphasis role="preprocessor">#include&#32;&lt;chrono&gt;</emphasis>
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00008"/>00008 <emphasis role="preprocessor">#include&#32;&lt;inttypes.h&gt;</emphasis>
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00009"/>00009 <emphasis role="preprocessor">#include&#32;&lt;stdio.h&gt;</emphasis>
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00010"/>00010 <emphasis role="preprocessor">#include&#32;&lt;string.h&gt;</emphasis>
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00011"/>00011 
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00012"/>00012 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__tracy_debug_8hpp">TracyDebug.hpp</link>&quot;</emphasis>
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00013"/>00013 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__tracy_profiler_8hpp">TracyProfiler.hpp</link>&quot;</emphasis>
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00014"/>00014 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__tracy_alloc_8hpp">../common/TracyAlloc.hpp</link>&quot;</emphasis>
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00015"/>00015 
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00016"/>00016 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespacetracy">tracy</link>
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00017"/>00017 {
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00018"/>00018 
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00019"/>00019 SysPower::SysPower()
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00020"/>00020 &#32;&#32;&#32;&#32;:&#32;m_domains(&#32;4&#32;)
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00021"/>00021 &#32;&#32;&#32;&#32;,&#32;m_lastTime(&#32;0&#32;)
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00022"/>00022 {
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00023"/>00023 &#32;&#32;&#32;&#32;ScanDirectory(&#32;<emphasis role="stringliteral">&quot;/sys/devices/virtual/powercap/intel-rapl&quot;</emphasis>,&#32;-1&#32;);
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00024"/>00024 }
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00025"/>00025 
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00026"/>00026 SysPower::~SysPower()
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00027"/>00027 {
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00028"/>00028 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>(&#32;<emphasis role="keyword">auto</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>&#32;:&#32;m_domains&#32;)
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00029"/>00029 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00030"/>00030 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fclose(&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.handle&#32;);
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00031"/>00031 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Do&#32;not&#32;release&#32;v.name,&#32;as&#32;it&#32;may&#32;be&#32;still&#32;needed</emphasis>
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00032"/>00032 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00033"/>00033 }
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00034"/>00034 
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00035"/>00035 <emphasis role="keywordtype">void</emphasis>&#32;SysPower::Tick()
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00036"/>00036 {
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00037"/>00037 &#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;<link linkend="_classt">t</link>&#32;=&#32;std::chrono::high_resolution_clock::now().time_since_epoch().count();
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00038"/>00038 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;<link linkend="_classt">t</link>&#32;-&#32;m_lastTime&#32;&gt;&#32;10000000&#32;)&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;10&#32;ms</emphasis>
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00039"/>00039 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00040"/>00040 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_lastTime&#32;=&#32;<link linkend="_classt">t</link>;
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00041"/>00041 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>(&#32;<emphasis role="keyword">auto</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>&#32;:&#32;m_domains&#32;)
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00042"/>00042 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00043"/>00043 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">char</emphasis>&#32;tmp[32];
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00044"/>00044 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;fread(&#32;tmp,&#32;1,&#32;32,&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.handle&#32;)&#32;&gt;&#32;0&#32;)
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00045"/>00045 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00046"/>00046 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;rewind(&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.handle&#32;);
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00047"/>00047 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;p&#32;=&#32;(uint64_t)atoll(&#32;tmp&#32;);
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00048"/>00048 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uint64_t&#32;delta;
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00049"/>00049 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;p&#32;&gt;=&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.value&#32;)
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00050"/>00050 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00051"/>00051 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;delta&#32;=&#32;p&#32;-&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.value;
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00052"/>00052 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00053"/>00053 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00054"/>00054 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00055"/>00055 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;delta&#32;=&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.overflow&#32;-&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.value&#32;+&#32;p;
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00056"/>00056 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00057"/>00057 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.value&#32;=&#32;p;
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00058"/>00058 
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00059"/>00059 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1a47bdea510ce33341f971fd506f54d0ed">TracyLfqPrepare</link>(&#32;QueueType::SysPowerReport&#32;);
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00060"/>00060 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;sysPower.time,&#32;Profiler::GetTime()&#32;);
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00061"/>00061 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;sysPower.delta,&#32;delta&#32;);
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00062"/>00062 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;sysPower.name,&#32;(uint64_t)<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.name&#32;);
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00063"/>00063 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1ad33bba2f411a92b8883a1d09904ee322">TracyLfqCommit</link>;
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00064"/>00064 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00065"/>00065 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00066"/>00066 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00067"/>00067 }
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00068"/>00068 
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00069"/>00069 <emphasis role="keywordtype">void</emphasis>&#32;SysPower::ScanDirectory(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;path,&#32;<emphasis role="keywordtype">int</emphasis>&#32;parent&#32;)
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00070"/>00070 {
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00071"/>00071 &#32;&#32;&#32;&#32;DIR*&#32;dir&#32;=&#32;opendir(&#32;path&#32;);
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00072"/>00072 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!dir&#32;)&#32;<emphasis role="keywordflow">return</emphasis>;
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00073"/>00073 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis>dirent*&#32;ent;
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00074"/>00074 &#32;&#32;&#32;&#32;uint64_t&#32;maxRange&#32;=&#32;0;
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00075"/>00075 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>;
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00076"/>00076 &#32;&#32;&#32;&#32;FILE*&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1a07fb37513c08cc03825e660c39fc34f6">handle</link>&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>;
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00077"/>00077 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">while</emphasis>(&#32;(&#32;ent&#32;=&#32;readdir(&#32;dir&#32;)&#32;)&#32;)
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00078"/>00078 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00079"/>00079 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;ent-&gt;d_type&#32;==&#32;DT_REG&#32;)
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00080"/>00080 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00081"/>00081 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;strcmp(&#32;ent-&gt;d_name,&#32;<emphasis role="stringliteral">&quot;max_energy_range_uj&quot;</emphasis>&#32;)&#32;==&#32;0&#32;)
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00082"/>00082 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00083"/>00083 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">char</emphasis>&#32;tmp[PATH_MAX];
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00084"/>00084 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;snprintf(&#32;tmp,&#32;PATH_MAX,&#32;<emphasis role="stringliteral">&quot;%s/max_energy_range_uj&quot;</emphasis>,&#32;path&#32;);
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00085"/>00085 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;FILE*&#32;<link linkend="_glad_8h_1ae29c29480f1260cc37ad71203904ea4d">f</link>&#32;=&#32;fopen(&#32;tmp,&#32;<emphasis role="stringliteral">&quot;r&quot;</emphasis>&#32;);
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00086"/>00086 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;<link linkend="_glad_8h_1ae29c29480f1260cc37ad71203904ea4d">f</link>&#32;)
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00087"/>00087 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00088"/>00088 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fscanf(&#32;<link linkend="_glad_8h_1ae29c29480f1260cc37ad71203904ea4d">f</link>,&#32;<emphasis role="stringliteral">&quot;%&quot;</emphasis>&#32;<link linkend="__u_p_r_i_s_e___e_d_i_t_o_r_2_i_m_g_u_i_2imgui__demo_8cpp_1ac582131d7a7c8ee57e73180d1714f9d5">PRIu64</link>,&#32;&amp;maxRange&#32;);
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00089"/>00089 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fclose(&#32;<link linkend="_glad_8h_1ae29c29480f1260cc37ad71203904ea4d">f</link>&#32;);
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00090"/>00090 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00091"/>00091 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00092"/>00092 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>&#32;<emphasis role="keywordflow">if</emphasis>(&#32;strcmp(&#32;ent-&gt;d_name,&#32;<emphasis role="stringliteral">&quot;name&quot;</emphasis>&#32;)&#32;==&#32;0&#32;)
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00093"/>00093 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00094"/>00094 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">char</emphasis>&#32;tmp[PATH_MAX];
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00095"/>00095 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;snprintf(&#32;tmp,&#32;PATH_MAX,&#32;<emphasis role="stringliteral">&quot;%s/name&quot;</emphasis>,&#32;path&#32;);
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00096"/>00096 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;FILE*&#32;<link linkend="_glad_8h_1ae29c29480f1260cc37ad71203904ea4d">f</link>&#32;=&#32;fopen(&#32;tmp,&#32;<emphasis role="stringliteral">&quot;r&quot;</emphasis>&#32;);
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00097"/>00097 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;<link linkend="_glad_8h_1ae29c29480f1260cc37ad71203904ea4d">f</link>&#32;)
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00098"/>00098 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00099"/>00099 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">char</emphasis>&#32;ntmp[128];
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00100"/>00100 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;fgets(&#32;ntmp,&#32;128,&#32;<link linkend="_glad_8h_1ae29c29480f1260cc37ad71203904ea4d">f</link>&#32;)&#32;)
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00101"/>00101 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00102"/>00102 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Last&#32;character&#32;is&#32;newline,&#32;skip&#32;it</emphasis>
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00103"/>00103 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;sz&#32;=&#32;strlen(&#32;ntmp&#32;)&#32;-&#32;1;
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00104"/>00104 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;parent&#32;&lt;&#32;0&#32;)
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00105"/>00105 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00106"/>00106 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>&#32;=&#32;(<emphasis role="keywordtype">char</emphasis>*)tracy_malloc(&#32;sz&#32;+&#32;1&#32;);
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00107"/>00107 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memcpy(&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>,&#32;ntmp,&#32;sz&#32;);
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00108"/>00108 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>[sz]&#32;=&#32;<emphasis role="charliteral">&apos;\0&apos;</emphasis>;
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00109"/>00109 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00110"/>00110 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00111"/>00111 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00112"/>00112 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;p&#32;=&#32;m_domains[parent];
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00113"/>00113 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;psz&#32;=&#32;strlen(&#32;p.name&#32;);
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00114"/>00114 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>&#32;=&#32;(<emphasis role="keywordtype">char</emphasis>*)tracy_malloc(&#32;psz&#32;+&#32;sz&#32;+&#32;2&#32;);
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00115"/>00115 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memcpy(&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>,&#32;p.name,&#32;psz&#32;);
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00116"/>00116 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>[psz]&#32;=&#32;<emphasis role="charliteral">&apos;:&apos;</emphasis>;
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00117"/>00117 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memcpy(&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>+psz+1,&#32;ntmp,&#32;sz&#32;);
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00118"/>00118 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>[psz+sz+1]&#32;=&#32;<emphasis role="charliteral">&apos;\0&apos;</emphasis>;
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00119"/>00119 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00120"/>00120 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00121"/>00121 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fclose(&#32;<link linkend="_glad_8h_1ae29c29480f1260cc37ad71203904ea4d">f</link>&#32;);
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00122"/>00122 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00123"/>00123 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00124"/>00124 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>&#32;<emphasis role="keywordflow">if</emphasis>(&#32;strcmp(&#32;ent-&gt;d_name,&#32;<emphasis role="stringliteral">&quot;energy_uj&quot;</emphasis>&#32;)&#32;==&#32;0&#32;)
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00125"/>00125 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00126"/>00126 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">char</emphasis>&#32;tmp[PATH_MAX];
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00127"/>00127 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;snprintf(&#32;tmp,&#32;PATH_MAX,&#32;<emphasis role="stringliteral">&quot;%s/energy_uj&quot;</emphasis>,&#32;path&#32;);
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00128"/>00128 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1a07fb37513c08cc03825e660c39fc34f6">handle</link>&#32;=&#32;fopen(&#32;tmp,&#32;<emphasis role="stringliteral">&quot;r&quot;</emphasis>&#32;);
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00129"/>00129 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00130"/>00130 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00131"/>00131 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>&#32;&amp;&amp;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1a07fb37513c08cc03825e660c39fc34f6">handle</link>&#32;&amp;&amp;&#32;maxRange&#32;&gt;&#32;0&#32;)&#32;<emphasis role="keywordflow">break</emphasis>;
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00132"/>00132 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00133"/>00133 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>&#32;&amp;&amp;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1a07fb37513c08cc03825e660c39fc34f6">handle</link>&#32;&amp;&amp;&#32;maxRange&#32;&gt;&#32;0&#32;)
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00134"/>00134 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00135"/>00135 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;parent&#32;=&#32;(int)m_domains.size();
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00136"/>00136 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Domain*&#32;domain&#32;=&#32;m_domains.push_next();
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00137"/>00137 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;domain-&gt;value&#32;=&#32;0;
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00138"/>00138 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;domain-&gt;overflow&#32;=&#32;maxRange;
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00139"/>00139 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;domain-&gt;handle&#32;=&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1a07fb37513c08cc03825e660c39fc34f6">handle</link>;
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00140"/>00140 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;domain-&gt;name&#32;=&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>;
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00141"/>00141 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__tracy_debug_8hpp_1a10a67c5ce6f5b8f18164b27cd55c75e8">TracyDebug</link>(&#32;<emphasis role="stringliteral">&quot;Power&#32;domain&#32;id&#32;%i,&#32;%s&#32;found&#32;at&#32;%s\n&quot;</emphasis>,&#32;parent,&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>,&#32;path&#32;);
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00142"/>00142 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00143"/>00143 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00144"/>00144 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00145"/>00145 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>&#32;)&#32;tracy_free(&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>&#32;);
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00146"/>00146 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1a07fb37513c08cc03825e660c39fc34f6">handle</link>&#32;)&#32;fclose(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1a07fb37513c08cc03825e660c39fc34f6">handle</link>&#32;);
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00147"/>00147 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00148"/>00148 
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00149"/>00149 &#32;&#32;&#32;&#32;rewinddir(&#32;dir&#32;);
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00150"/>00150 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">while</emphasis>(&#32;(&#32;ent&#32;=&#32;readdir(&#32;dir&#32;)&#32;)&#32;)
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00151"/>00151 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00152"/>00152 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;ent-&gt;d_type&#32;==&#32;DT_DIR&#32;&amp;&amp;&#32;strncmp(&#32;ent-&gt;d_name,&#32;<emphasis role="stringliteral">&quot;intel-rapl:&quot;</emphasis>,&#32;11&#32;)&#32;==&#32;0&#32;)
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00153"/>00153 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00154"/>00154 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">char</emphasis>&#32;tmp[PATH_MAX];
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00155"/>00155 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;snprintf(&#32;tmp,&#32;PATH_MAX,&#32;<emphasis role="stringliteral">&quot;%s/%s&quot;</emphasis>,&#32;path,&#32;ent-&gt;d_name&#32;);
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00156"/>00156 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ScanDirectory(&#32;tmp,&#32;parent&#32;);
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00157"/>00157 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00158"/>00158 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00159"/>00159 &#32;&#32;&#32;&#32;closedir(&#32;dir&#32;);
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00160"/>00160 }
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00161"/>00161 
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00162"/>00162 }
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00163"/>00163 
+<anchor xml:id="__tracy_sys_power_8cpp_source_1l00164"/>00164 <emphasis role="preprocessor">#endif</emphasis>
+</programlisting></section>

@@ -1,4 +1,4 @@
-.TH "ConfigFile" 3 "Version 0.0.0.1" "My Project" \" -*- nroff -*-
+.TH "ConfigFile" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -7,21 +7,21 @@ ConfigFile
 .br
 .PP
 .PP
-\fR#include <CONFIGFILE\&.h>\fP
+\fR#include <D_CONFIGFILE\&.h>\fP
 .PP
-Inherited by \fBAiObject\fP, \fBBuidling\fP, \fBGlobal\fP, \fBIsland\fP, \fBManager\fP, \fBParticle\fP, \fBProjectile\fP, and \fBVehicle\fP\&.
+Inherited by \fBAiObject\fP, \fBBuidling\fP, \fBComputeShader\fP, \fBFragmentShader\fP, \fBGeometryShader\fP, \fBGlobal\fP, \fBIsland\fP, \fBManager\fP, \fBMaterial\fP, \fBParticle\fP, \fBProjectile\fP, \fBVehicle\fP, and \fBVertexShader\fP\&.
 .SS "Public Types"
 
 .in +1c
 .ti -1c
-.RI "enum \fBConfigType\fP { \fBBuilding\fP, \fBVehicle\fP, \fBProjectile\fP, \fBParticle\fP, \fBIsland\fP, \fBAiObject\fP, \fBGlobal\fP, \fBManager\fP }"
+.RI "enum \fBConfigType\fP { \fBBuilding\fP, \fBVehicle\fP, \fBProjectile\fP, \fBParticle\fP, \fBIsland\fP, \fBAiObject\fP, \fBGlobal\fP, \fBManager\fP, \fBVertexShader\fP, \fBFragmentShader\fP, \fBGeometryShader\fP, \fBComputeShader\fP, \fBMaterial\fP }"
 .br
 .in -1c
 .SS "Public Member Functions"
 
 .in +1c
 .ti -1c
-.RI "\fBConfigFile\fP (std::string name, std::string modelpath, std::vector< std::string > texturepath, \fBConfigType\fP configType, std::vector< std::string > data)"
+.RI "\fBConfigFile\fP (std::string name, std::string modelpath, std::vector< std::string > texturepath, \fBConfigType\fP configType, nlohmann::json data)"
 .br
 .ti -1c
 .RI "virtual void \fBPalceholder\fP ()"
@@ -52,13 +52,10 @@ Inherited by \fBAiObject\fP, \fBBuidling\fP, \fBGlobal\fP, \fBIsland\fP, \fBMana
 .ti -1c
 .RI "\fBConfigType\fP \fBConfigType_\fP"
 .br
-.ti -1c
-.RI "std::vector< std::string > \fBData\fP"
-.br
 .in -1c
 .SH "Detailed Description"
 .PP 
-Definition at line \fB12\fP of file \fBCONFIGFILE\&.h\fP\&.
+Definition at line \fB12\fP of file \fBD_CONFIGFILE\&.h\fP\&.
 .SH "Member Enumeration Documentation"
 .PP 
 .SS "enum \fBConfigFile::ConfigType\fP"
@@ -82,50 +79,149 @@ Definition at line \fB12\fP of file \fBCONFIGFILE\&.h\fP\&.
 \fB\fIGlobal \fP\fP
 .TP
 \fB\fIManager \fP\fP
+.TP
+\fB\fIVertexShader \fP\fP
+.TP
+\fB\fIFragmentShader \fP\fP
+.TP
+\fB\fIGeometryShader \fP\fP
+.TP
+\fB\fIComputeShader \fP\fP
+.TP
+\fB\fIMaterial \fP\fP
 .PP
-Definition at line \fB15\fP of file \fBCONFIGFILE\&.h\fP\&.
+Definition at line \fB18\fP of file \fBD_CONFIGFILE\&.h\fP\&.
+.nf
+18                     {
+19         Building,
+20         Vehicle,
+21         Projectile,
+22         Particle,
+23         Island,
+24         AiObject,
+25         Global,
+26         Manager,
+27         VertexShader,
+28         FragmentShader,
+29         GeometryShader,
+30         ComputeShader,
+31         Material
+32     };
+.PP
+.fi
+
 .SH "Constructor & Destructor Documentation"
 .PP 
-.SS "ConfigFile::ConfigFile (std::string name, std::string modelpath, std::vector< std::string > texturepath, \fBConfigType\fP configType, std::vector< std::string > data)"
+.SS "ConfigFile::ConfigFile (std::string name, std::string modelpath, std::vector< std::string > texturepath, \fBConfigType\fP configType, nlohmann::json data)"
 
 .PP
-Definition at line \fB3\fP of file \fBCONFIGFILE\&.cpp\fP\&.
+Definition at line \fB5\fP of file \fBD_CONFIGFILE\&.cpp\fP\&.
+.nf
+6 {
+7     Name = name;
+8     Modelpath = modelpath;
+9     Texturepaths = texturepath;
+10     ConfigType_ = configType;
+11     //Data = data;
+12 }
+.PP
+.fi
+
+.PP
+References \fBConfigType_\fP, \fBModelpath\fP, \fBName\fP, and \fBTexturepaths\fP\&.
 .SH "Member Function Documentation"
 .PP 
 .SS "virtual void ConfigFile::Palceholder ()\fR [inline]\fP, \fR [virtual]\fP"
 
 .PP
-Definition at line \fB56\fP of file \fBCONFIGFILE\&.h\fP\&.
+Definition at line \fB74\fP of file \fBD_CONFIGFILE\&.h\fP\&.
+.nf
+74 {};
+.PP
+.fi
+
 .SS "static \fBConfigType\fP ConfigFile::toConfigType (const std::string & str)\fR [inline]\fP, \fR [static]\fP"
 
 .PP
-Definition at line \fB39\fP of file \fBCONFIGFILE\&.h\fP\&.
+Definition at line \fB52\fP of file \fBD_CONFIGFILE\&.h\fP\&.
+.nf
+52                                                          {
+53         if (str == "Building") return Building;
+54         if (str == "Vehicle") return Vehicle;
+55         if (str == "Projectile") return Projectile;
+56         if (str == "Particle") return Particle;
+57         if (str == "Island") return Island;
+58         if (str == "AiObject") return AiObject;
+59         if (str == "Global") return Global;
+60         if (str == "Manager") return Manager;
+61         if (str == "VertexShader")return VertexShader;
+62         if (str == "FragmentShader")return FragmentShader;
+63         if (str == "GeometryShader")return GeometryShader;
+64         if (str == "ComputeShader")return ComputeShader;
+65         if (str == "Material") return Material;
+66         throw std::invalid_argument("Unknown ConfigType: " + str);
+67     }
+.PP
+.fi
+
+.PP
+References \fBAiObject\fP, \fBBuilding\fP, \fBComputeShader\fP, \fBFragmentShader\fP, \fBGeometryShader\fP, \fBGlobal\fP, \fBIsland\fP, \fBManager\fP, \fBMaterial\fP, \fBParticle\fP, \fBProjectile\fP, \fBVehicle\fP, and \fBVertexShader\fP\&.
+.PP
+Referenced by \fBCORE::ConfigLoader::LoadCOnfigFile()\fP\&.
 .SS "static std::string ConfigFile::toString (\fBConfigType\fP type)\fR [inline]\fP, \fR [static]\fP"
 
 .PP
-Definition at line \fB25\fP of file \fBCONFIGFILE\&.h\fP\&.
+Definition at line \fB33\fP of file \fBD_CONFIGFILE\&.h\fP\&.
+.nf
+33                                                {
+34         switch (type) {
+35         case Building: return "Building";
+36         case Vehicle: return "Vehicle";
+37         case Projectile: return "Projectile";
+38         case Particle: return "Particle";
+39         case Island: return "Island";
+40         case AiObject: return "AiObject";
+41         case Global: return "Global";
+42         case Manager: return "Manager";
+43         case VertexShader: return "VertexShader";
+44         case FragmentShader: return "FragmentShader";
+45         case GeometryShader: return "GeometryShader";
+46         case ComputeShader: return "ComputeShader";
+47         case Material: return "Material";
+48         default: return "Unknown";
+49         }
+50     }
+.PP
+.fi
+
+.PP
+References \fBAiObject\fP, \fBBuilding\fP, \fBComputeShader\fP, \fBFragmentShader\fP, \fBGeometryShader\fP, \fBGlobal\fP, \fBIsland\fP, \fBManager\fP, \fBMaterial\fP, \fBParticle\fP, \fBProjectile\fP, \fBVehicle\fP, and \fBVertexShader\fP\&.
 .SH "Member Data Documentation"
 .PP 
 .SS "\fBConfigType\fP ConfigFile::ConfigType_"
 
 .PP
-Definition at line \fB54\fP of file \fBCONFIGFILE\&.h\fP\&.
-.SS "std::vector<std::string> ConfigFile::Data"
-
+Definition at line \fB72\fP of file \fBD_CONFIGFILE\&.h\fP\&.
 .PP
-Definition at line \fB55\fP of file \fBCONFIGFILE\&.h\fP\&.
+Referenced by \fBConfigFile()\fP\&.
 .SS "std::string ConfigFile::Modelpath"
 
 .PP
-Definition at line \fB52\fP of file \fBCONFIGFILE\&.h\fP\&.
+Definition at line \fB70\fP of file \fBD_CONFIGFILE\&.h\fP\&.
+.PP
+Referenced by \fBConfigFile()\fP\&.
 .SS "std::string ConfigFile::Name"
 
 .PP
-Definition at line \fB51\fP of file \fBCONFIGFILE\&.h\fP\&.
+Definition at line \fB69\fP of file \fBD_CONFIGFILE\&.h\fP\&.
+.PP
+Referenced by \fBConfigFile()\fP\&.
 .SS "std::vector<std::string> ConfigFile::Texturepaths"
 
 .PP
-Definition at line \fB53\fP of file \fBCONFIGFILE\&.h\fP\&.
+Definition at line \fB71\fP of file \fBD_CONFIGFILE\&.h\fP\&.
+.PP
+Referenced by \fBConfigFile()\fP\&.
 
 .SH "Author"
 .PP 

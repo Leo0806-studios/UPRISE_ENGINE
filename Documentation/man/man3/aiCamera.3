@@ -1,0 +1,124 @@
+.TH "aiCamera" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+aiCamera
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fR#include <camera\&.h>\fP
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBC_STRUCT\fP \fBaiString\fP \fBmName\fP"
+.br
+.ti -1c
+.RI "\fBC_STRUCT\fP \fBaiVector3D\fP \fBmPosition\fP"
+.br
+.ti -1c
+.RI "\fBC_STRUCT\fP \fBaiVector3D\fP \fBmUp\fP"
+.br
+.ti -1c
+.RI "\fBC_STRUCT\fP \fBaiVector3D\fP \fBmLookAt\fP"
+.br
+.ti -1c
+.RI "float \fBmHorizontalFOV\fP"
+.br
+.ti -1c
+.RI "float \fBmClipPlaneNear\fP"
+.br
+.ti -1c
+.RI "float \fBmClipPlaneFar\fP"
+.br
+.ti -1c
+.RI "float \fBmAspect\fP"
+.br
+.ti -1c
+.RI "float \fBmOrthographicWidth\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Helper structure to describe a virtual camera\&.
+.PP
+Cameras have a representation in the node graph and can be animated\&. An important aspect is that the camera itself is also part of the scene-graph\&. This means, any values such as the look-at vector are not \fIabsolute\fP, they're \fBrelative\fP to the coordinate system defined by the node which corresponds to the camera\&. This allows for camera animations\&. For static cameras parameters like the 'look-at' or 'up' vectors are usually specified directly in \fBaiCamera\fP, but beware, they could also be encoded in the node transformation\&. The following (pseudo)code sample shows how to do it: 
+.br
+
+.br
+ 
+.PP
+.nf
+// Get the camera matrix for a camera at a specific time
+// if the node hierarchy for the camera does not contain
+// at least one animated node this is a static computation
+get\-camera\-matrix (node sceneRoot, camera cam) : matrix
+{
+   node   cnd = find\-node\-for\-camera(cam)
+   matrix cmt = identity()
+
+   // as usual \- get the absolute camera transformation for this frame
+   for each node nd in hierarchy from sceneRoot to cnd
+     matrix cur
+     if (is\-animated(nd))
+        cur = eval\-animation(nd)
+     else cur = nd\->mTransformation;
+     cmt = mult\-matrices( cmt, cur )
+   end for
+
+   // now multiply with the camera's own local transform
+   cam = mult\-matrices (cam, get\-camera\-matrix(cmt) )
+}
+
+.fi
+.PP
+.PP
+\fBNote\fP
+.RS 4
+some file formats (such as 3DS, ASE) export a 'target point' - the point the camera is looking at (it can even be animated)\&. \fBAssimp\fP writes the target point as a subnode of the camera's main node, called '<camName>\&.Target'\&. However this is just additional information then the transformation tracks of the camera main node make the camera already look in the right direction\&. 
+.RE
+.PP
+
+.SH "Member Data Documentation"
+.PP 
+.SS "float aiCamera::mAspect"
+Screen aspect ratio\&.
+.PP
+This is the ration between the width and the height of the screen\&. Typical values are 4/3, 1/2 or 1/1\&. This value is 0 if the aspect ratio is not defined in the source file\&. 0 is also the default value\&. 
+.SS "float aiCamera::mClipPlaneFar"
+Distance of the far clipping plane from the camera\&.
+.PP
+The far clipping plane must, of course, be further away than the near clipping plane\&. The default value is 1000\&.f\&. The ratio between the near and the far plane should not be too large (between 1000-10000 should be ok) to avoid floating-point inaccuracies which could lead to z-fighting\&. 
+.SS "float aiCamera::mClipPlaneNear"
+Distance of the near clipping plane from the camera\&.
+.PP
+The value may not be 0\&.f (for arithmetic reasons to prevent a division through zero)\&. The default value is 0\&.1f\&. 
+.SS "float aiCamera::mHorizontalFOV"
+Horizontal field of view angle, in radians\&.
+.PP
+The field of view angle is the angle between the center line of the screen and the left or right border\&. The default value is 1/4PI\&. 
+.SS "\fBC_STRUCT\fP \fBaiVector3D\fP aiCamera::mLookAt"
+'LookAt' - vector of the camera coordinate system relative to the coordinate space defined by the corresponding node\&.
+.PP
+This is the viewing direction of the user\&. The default value is 0|0|1\&. The vector may be normalized, but it needn't\&. 
+.SS "\fBC_STRUCT\fP \fBaiString\fP aiCamera::mName"
+The name of the camera\&.
+.PP
+There must be a node in the scenegraph with the same name\&. This node specifies the position of the camera in the scene hierarchy and can be animated\&. 
+.SS "float aiCamera::mOrthographicWidth"
+Half horizontal orthographic width, in scene units\&.
+.PP
+The orthographic width specifies the half width of the orthographic view box\&. If non-zero the camera is orthographic and the mAspect should define to the ratio between the orthographic width and height and mHorizontalFOV should be set to 0\&. The default value is 0 (not orthographic)\&. 
+.SS "\fBC_STRUCT\fP \fBaiVector3D\fP aiCamera::mPosition"
+Position of the camera relative to the coordinate space defined by the corresponding node\&.
+.PP
+The default value is 0|0|0\&. 
+.SS "\fBC_STRUCT\fP \fBaiVector3D\fP aiCamera::mUp"
+'Up' - vector of the camera coordinate system relative to the coordinate space defined by the corresponding node\&.
+.PP
+The 'right' vector of the camera coordinate system is the cross product of the up and lookAt vectors\&. The default value is 0|1|0\&. The vector may be normalized, but it needn't\&. 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

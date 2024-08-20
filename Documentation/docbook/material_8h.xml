@@ -1,0 +1,1447 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_material_8h" xml:lang="en-US">
+<title>adhed/assimp/material.h File Reference</title>
+<indexterm><primary>adhed/assimp/material.h</primary></indexterm>
+<para>
+
+<para>Defines the material system of the library. </para>
+ 
+</para>
+<programlisting linenumbering="unnumbered">#include &lt;assimp/types.h&gt;<?linebreak?>#include &quot;./Compiler/pushpack1.h&quot;<?linebreak?>#include &quot;./Compiler/poppack1.h&quot;<?linebreak?></programlisting><simplesect>
+    <title>Classes    </title>
+        <itemizedlist>
+            <listitem><para>struct <link linkend="_structai_u_v_transform">aiUVTransform</link></para>
+
+<para>Defines how an UV channel is transformed. </para>
+</listitem>
+            <listitem><para>struct <link linkend="_structai_material">aiMaterial</link></para>
+
+<para>Data structure for a material. </para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Macros    </title>
+        <itemizedlist>
+            <listitem><para>#define <link linkend="_material_8h_1abf76a603ad84c28e2ab359690fc2e2a2">AI_MATERIAL_H_INC</link></para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1a33e111ac1601d2f4225dc135fbb48d20">AI_DEFAULT_MATERIAL_NAME</link>&#160;&#160;&#160;&quot;DefaultMaterial&quot;</para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1aad2af35b67a721641993230edf019b47">AI_TEXTURE_TYPE_MAX</link>&#160;&#160;&#160;<link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a5012d291ed3b5fc6f4ebba375b5fa74a">aiTextureType_TRANSMISSION</link></para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1a204a0a39264125e160bd8fb2117f06e9">AI_MATKEY_NAME</link>&#160;&#160;&#160;&quot;?mat.name&quot;, 0, 0</para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1acbf2a89c0a149ae8727c451756038261">AI_MATKEY_TWOSIDED</link>&#160;&#160;&#160;&quot;$mat.twosided&quot;, 0, 0</para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1a0f7ec9923cf262ba5b74d3c52bc588a1">AI_MATKEY_SHADING_MODEL</link>&#160;&#160;&#160;&quot;$mat.shadingm&quot;, 0, 0</para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1a9e1f48a181e0d275a1d24031bc62d8df">AI_MATKEY_ENABLE_WIREFRAME</link>&#160;&#160;&#160;&quot;$mat.wireframe&quot;, 0, 0</para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1a7e4425c7ac9ca7fc5dfd57069a0839dc">AI_MATKEY_BLEND_FUNC</link>&#160;&#160;&#160;&quot;$mat.blend&quot;, 0, 0</para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1a6f5fa84f7ac0a41a1a860edf1904070a">AI_MATKEY_OPACITY</link>&#160;&#160;&#160;&quot;$mat.opacity&quot;, 0, 0</para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1aec4b15bb56f25baf7434fb2eec4b3cd1">AI_MATKEY_TRANSPARENCYFACTOR</link>&#160;&#160;&#160;&quot;$mat.transparencyfactor&quot;, 0, 0</para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1ad7b83413141c34520c8237989f03ff97">AI_MATKEY_BUMPSCALING</link>&#160;&#160;&#160;&quot;$mat.bumpscaling&quot;, 0, 0</para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1aeb1edba2c1e099a0a7055a82cabc9e87">AI_MATKEY_SHININESS</link>&#160;&#160;&#160;&quot;$mat.shininess&quot;, 0, 0</para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1ab6d31302ff56e9fcf9c38e10f806f9a3">AI_MATKEY_REFLECTIVITY</link>&#160;&#160;&#160;&quot;$mat.reflectivity&quot;, 0, 0</para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1a8cbc5193d8836369d9bf9907628d4f4d">AI_MATKEY_SHININESS_STRENGTH</link>&#160;&#160;&#160;&quot;$mat.shinpercent&quot;, 0, 0</para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1a0ae62b692c409cdc82a1ab111fc27017">AI_MATKEY_REFRACTI</link>&#160;&#160;&#160;&quot;$mat.refracti&quot;, 0, 0</para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1a08fcffadf01a260cc23bf52ae4fe5cfa">AI_MATKEY_COLOR_DIFFUSE</link>&#160;&#160;&#160;&quot;$clr.diffuse&quot;, 0, 0</para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1a9eafa221e27df9699e0eb00eb1a3066b">AI_MATKEY_COLOR_AMBIENT</link>&#160;&#160;&#160;&quot;$clr.ambient&quot;, 0, 0</para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1aafddb672f0dec60f818090e34edf9470">AI_MATKEY_COLOR_SPECULAR</link>&#160;&#160;&#160;&quot;$clr.specular&quot;, 0, 0</para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1abba65fc970242f5b9ea522a1d70aecb0">AI_MATKEY_COLOR_EMISSIVE</link>&#160;&#160;&#160;&quot;$clr.emissive&quot;, 0, 0</para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1af13855becf821e81e6b6f9d14fee9102">AI_MATKEY_COLOR_TRANSPARENT</link>&#160;&#160;&#160;&quot;$clr.transparent&quot;, 0, 0</para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1a5c99b4bae9e84aa25d350885aa0e10f6">AI_MATKEY_COLOR_REFLECTIVE</link>&#160;&#160;&#160;&quot;$clr.reflective&quot;, 0, 0</para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1a4bb3a224b20fa437fe06b2b562181320">AI_MATKEY_GLOBAL_BACKGROUND_IMAGE</link>&#160;&#160;&#160;&quot;?bg.global&quot;, 0, 0</para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1a0d6a1f56cd2d459fe8290ad70e833673">AI_MATKEY_GLOBAL_SHADERLANG</link>&#160;&#160;&#160;&quot;?sh.lang&quot;, 0, 0</para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1aeafb498f233e6b3514bdf7ae75022128">AI_MATKEY_SHADER_VERTEX</link>&#160;&#160;&#160;&quot;?sh.vs&quot;, 0, 0</para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1ae89de5585c3c922bbb48f87480515ba7">AI_MATKEY_SHADER_FRAGMENT</link>&#160;&#160;&#160;&quot;?sh.fs&quot;, 0, 0</para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1a4cfa61b76e9e363ee69281187da9e812">AI_MATKEY_SHADER_GEO</link>&#160;&#160;&#160;&quot;?sh.gs&quot;, 0, 0</para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1abf174cf7895c4a25887c95e0dd5046be">AI_MATKEY_SHADER_TESSELATION</link>&#160;&#160;&#160;&quot;?sh.ts&quot;, 0, 0</para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1a64209b3aaf9e41e0c6fc3c5d4b994c03">AI_MATKEY_SHADER_PRIMITIVE</link>&#160;&#160;&#160;&quot;?sh.ps&quot;, 0, 0</para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1a0c8043a353459f3a4d3a16ef1ac30d14">AI_MATKEY_SHADER_COMPUTE</link>&#160;&#160;&#160;&quot;?sh.cs&quot;, 0, 0</para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1a33deb03ba242de1bfcb763c037a632da">AI_MATKEY_USE_COLOR_MAP</link>&#160;&#160;&#160;&quot;$mat.useColorMap&quot;, 0, 0</para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1a7fc2f3682298acd5345cbdcaad559576">AI_MATKEY_BASE_COLOR</link>&#160;&#160;&#160;&quot;$clr.base&quot;, 0, 0</para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1a81edbf75172f38d60940fa4c141cd28a">AI_MATKEY_BASE_COLOR_TEXTURE</link>&#160;&#160;&#160;<link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a5d752b64d94439eadbb815e8a35d4fc0">aiTextureType_BASE_COLOR</link>, 0</para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1ad445383c9f22c7266897e6cba7122a34">AI_MATKEY_USE_METALLIC_MAP</link>&#160;&#160;&#160;&quot;$mat.useMetallicMap&quot;, 0, 0</para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1a272a656cf0b14d5e541f9b90ef49139b">AI_MATKEY_METALLIC_FACTOR</link>&#160;&#160;&#160;&quot;$mat.metallicFactor&quot;, 0, 0</para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1a94b7b9569f828532ee1328b5b0a7240d">AI_MATKEY_METALLIC_TEXTURE</link>&#160;&#160;&#160;<link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a102addc15801212fb74d821cf6556bcd">aiTextureType_METALNESS</link>, 0</para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1a687afea7bbf5ffce044d086430a456ae">AI_MATKEY_USE_ROUGHNESS_MAP</link>&#160;&#160;&#160;&quot;$mat.useRoughnessMap&quot;, 0, 0</para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1adf16a6645628377f2dd217b4d296ddbb">AI_MATKEY_ROUGHNESS_FACTOR</link>&#160;&#160;&#160;&quot;$mat.roughnessFactor&quot;, 0, 0</para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1a6c7d89d8fa7a16e841fb075999afaa4b">AI_MATKEY_ROUGHNESS_TEXTURE</link>&#160;&#160;&#160;<link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a3be75e9bfee00f0df2a715ca27fcebc6">aiTextureType_DIFFUSE_ROUGHNESS</link>, 0</para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1aa100db64b28c26b997c412fb04f31472">AI_MATKEY_ANISOTROPY_FACTOR</link>&#160;&#160;&#160;&quot;$mat.anisotropyFactor&quot;, 0, 0</para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1ae52aa158d61e2f38a0f2fdc3acb5bda9">AI_MATKEY_SPECULAR_FACTOR</link>&#160;&#160;&#160;&quot;$mat.specularFactor&quot;, 0, 0</para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1a82dd85f51f507e18d101508c48e9d84d">AI_MATKEY_GLOSSINESS_FACTOR</link>&#160;&#160;&#160;&quot;$mat.glossinessFactor&quot;, 0, 0</para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1ad20fd594f4100adfb03a22b41a6c37d8">AI_MATKEY_SHEEN_COLOR_FACTOR</link>&#160;&#160;&#160;&quot;$clr.sheen.factor&quot;, 0, 0</para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1a541402cf257f00e5efbba999f9848e73">AI_MATKEY_SHEEN_ROUGHNESS_FACTOR</link>&#160;&#160;&#160;&quot;$mat.sheen.roughnessFactor&quot;, 0, 0</para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1a3696a53dd469b9cacf1c7c705672f4dc">AI_MATKEY_SHEEN_COLOR_TEXTURE</link>&#160;&#160;&#160;<link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a2534326d369dc2b340ac0c23a9405c0a">aiTextureType_SHEEN</link>, 0</para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1a9b37b03123eac41f43b33e50a730e726">AI_MATKEY_SHEEN_ROUGHNESS_TEXTURE</link>&#160;&#160;&#160;<link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a2534326d369dc2b340ac0c23a9405c0a">aiTextureType_SHEEN</link>, 1</para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1adffd0089f7f6ece43b0db3c43c190e1e">AI_MATKEY_CLEARCOAT_FACTOR</link>&#160;&#160;&#160;&quot;$mat.clearcoat.factor&quot;, 0, 0</para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1a6aca1cb9f89f425194057a7b5ba81e6e">AI_MATKEY_CLEARCOAT_ROUGHNESS_FACTOR</link>&#160;&#160;&#160;&quot;$mat.clearcoat.roughnessFactor&quot;, 0, 0</para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1ade3d02a8519e27eade6694f70b3d0250">AI_MATKEY_CLEARCOAT_TEXTURE</link>&#160;&#160;&#160;<link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a4c8443070acff2892a377aeb022e273f">aiTextureType_CLEARCOAT</link>, 0</para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1ac787e0f5481016d0e0784f358f06ec3e">AI_MATKEY_CLEARCOAT_ROUGHNESS_TEXTURE</link>&#160;&#160;&#160;<link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a4c8443070acff2892a377aeb022e273f">aiTextureType_CLEARCOAT</link>, 1</para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1a9c77ddf25334ea48a2b3d7ed9bed1d93">AI_MATKEY_CLEARCOAT_NORMAL_TEXTURE</link>&#160;&#160;&#160;<link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a4c8443070acff2892a377aeb022e273f">aiTextureType_CLEARCOAT</link>, 2</para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1a81dfb802f25696cb970f0f0f4ea7a38f">AI_MATKEY_TRANSMISSION_FACTOR</link>&#160;&#160;&#160;&quot;$mat.transmission.factor&quot;, 0, 0</para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1a01a4a196e0a4cfe4c2bcb38b07341f24">AI_MATKEY_TRANSMISSION_TEXTURE</link>&#160;&#160;&#160;<link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a5012d291ed3b5fc6f4ebba375b5fa74a">aiTextureType_TRANSMISSION</link>, 0</para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1a6065bfde6b2d584a0802b4101dc2e528">AI_MATKEY_VOLUME_THICKNESS_FACTOR</link>&#160;&#160;&#160;&quot;$mat.volume.thicknessFactor&quot;, 0, 0</para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1a93c9b8eb96efb8b07259a0223c08ab15">AI_MATKEY_VOLUME_THICKNESS_TEXTURE</link>&#160;&#160;&#160;<link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a5012d291ed3b5fc6f4ebba375b5fa74a">aiTextureType_TRANSMISSION</link>, 1</para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1a17f4f4aaa09435a18ccf7aecdec8f7ef">AI_MATKEY_VOLUME_ATTENUATION_DISTANCE</link>&#160;&#160;&#160;&quot;$mat.volume.attenuationDistance&quot;, 0, 0</para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1a60e69c462704c829288b7d98b047c209">AI_MATKEY_VOLUME_ATTENUATION_COLOR</link>&#160;&#160;&#160;&quot;$mat.volume.attenuationColor&quot;, 0, 0</para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1a180f5dc05e0381b64bbfc52991a068bb">AI_MATKEY_USE_EMISSIVE_MAP</link>&#160;&#160;&#160;&quot;$mat.useEmissiveMap&quot;, 0, 0</para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1a2586aadc8996fc7c3abfd6e58501c86d">AI_MATKEY_EMISSIVE_INTENSITY</link>&#160;&#160;&#160;&quot;$mat.emissiveIntensity&quot;, 0, 0</para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1a80d02d1302eb52701a5b22fe2d1cc8ee">AI_MATKEY_USE_AO_MAP</link>&#160;&#160;&#160;&quot;$mat.useAOMap&quot;, 0, 0</para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1a18c395e1dd733f94d36353956a12776f">AI_MATKEY_TEXTURE</link>(<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>,  <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0240ac851181b84ac374872dc5434ee4">N</link>)&#160;&#160;&#160;_AI_MATKEY_TEXTURE_BASE, <link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>, <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0240ac851181b84ac374872dc5434ee4">N</link></para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1a96d4efa89610210ec608cf761694f5de">AI_MATKEY_UVWSRC</link>(<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>,  <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0240ac851181b84ac374872dc5434ee4">N</link>)&#160;&#160;&#160;_AI_MATKEY_UVWSRC_BASE, <link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>, <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0240ac851181b84ac374872dc5434ee4">N</link></para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1a9e96d9483020708312ed8d6cc80ccbda">AI_MATKEY_TEXOP</link>(<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>,  <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0240ac851181b84ac374872dc5434ee4">N</link>)&#160;&#160;&#160;_AI_MATKEY_TEXOP_BASE, <link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>, <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0240ac851181b84ac374872dc5434ee4">N</link></para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1af72d0714d106aa52da2dbdf10d975c54">AI_MATKEY_MAPPING</link>(<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>,  <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0240ac851181b84ac374872dc5434ee4">N</link>)&#160;&#160;&#160;_AI_MATKEY_MAPPING_BASE, <link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>, <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0240ac851181b84ac374872dc5434ee4">N</link></para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1a11114b16a60c7eb4ac52b9b912975fc1">AI_MATKEY_TEXBLEND</link>(<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>,  <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0240ac851181b84ac374872dc5434ee4">N</link>)&#160;&#160;&#160;_AI_MATKEY_TEXBLEND_BASE, <link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>, <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0240ac851181b84ac374872dc5434ee4">N</link></para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1ad14ef903b582e699d9b02668084dbbd5">AI_MATKEY_MAPPINGMODE_U</link>(<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>,  <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0240ac851181b84ac374872dc5434ee4">N</link>)&#160;&#160;&#160;_AI_MATKEY_MAPPINGMODE_U_BASE, <link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>, <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0240ac851181b84ac374872dc5434ee4">N</link></para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1ad22f63a46460837263635d44ea598dfa">AI_MATKEY_MAPPINGMODE_V</link>(<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>,  <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0240ac851181b84ac374872dc5434ee4">N</link>)&#160;&#160;&#160;_AI_MATKEY_MAPPINGMODE_V_BASE, <link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>, <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0240ac851181b84ac374872dc5434ee4">N</link></para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1ac5196536562f8e9cacb224655e9c8505">AI_MATKEY_TEXMAP_AXIS</link>(<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>,  <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0240ac851181b84ac374872dc5434ee4">N</link>)&#160;&#160;&#160;_AI_MATKEY_TEXMAP_AXIS_BASE, <link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>, <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0240ac851181b84ac374872dc5434ee4">N</link></para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1ab24f58c983cf26acc9389ed2530316a9">AI_MATKEY_UVTRANSFORM</link>(<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>,  <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0240ac851181b84ac374872dc5434ee4">N</link>)&#160;&#160;&#160;_AI_MATKEY_UVTRANSFORM_BASE, <link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>, <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0240ac851181b84ac374872dc5434ee4">N</link></para>
+</listitem>
+            <listitem><para>#define <link linkend="_material_8h_1a69577e4366cceb502288474cf8cf2dab">AI_MATKEY_TEXFLAGS</link>(<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>,  <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0240ac851181b84ac374872dc5434ee4">N</link>)&#160;&#160;&#160;_AI_MATKEY_TEXFLAGS_BASE, <link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>, <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0240ac851181b84ac374872dc5434ee4">N</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Enumerations    </title>
+        <itemizedlist>
+            <listitem><para>enum <link linkend="_material_8h_1afcd3096d69affba13114cedfc6f9ee6b">aiTextureOp</link> { <?linebreak?><link linkend="_material_8h_1afcd3096d69affba13114cedfc6f9ee6ba4b4cf98920571bc5b5cdf333d1642759">aiTextureOp_Multiply</link> = 0x0
+, <link linkend="_material_8h_1afcd3096d69affba13114cedfc6f9ee6ba38c643dc19bdb5dad544c54829129d14">aiTextureOp_Add</link> = 0x1
+, <link linkend="_material_8h_1afcd3096d69affba13114cedfc6f9ee6bac20a0da785e4670500e7338bc59a0793">aiTextureOp_Subtract</link> = 0x2
+, <link linkend="_material_8h_1afcd3096d69affba13114cedfc6f9ee6bac15b6232b50780f509edf0a6b39af72c">aiTextureOp_Divide</link> = 0x3
+, <?linebreak?><link linkend="_material_8h_1afcd3096d69affba13114cedfc6f9ee6ba174eaa1b84bdcc131febea53da22aa4a">aiTextureOp_SmoothAdd</link> = 0x4
+, <link linkend="_material_8h_1afcd3096d69affba13114cedfc6f9ee6babe30ac3d3c7bff0fe1d69c70fbd646ff">aiTextureOp_SignedAdd</link> = 0x5
+, <link linkend="_material_8h_1afcd3096d69affba13114cedfc6f9ee6bafa05ee61b2b3dc74d2f042d9443a57c4">_aiTextureOp_Force32Bit</link> = INT_MAX
+ }</para>
+
+<para>Defines how the Nth texture of a specific type is combined with the result of all previous layers. </para>
+</listitem>
+            <listitem><para>enum <link linkend="_material_8h_1a6cbe56056751aa80e8dd714632a49de0">aiTextureMapMode</link> { <?linebreak?><link linkend="_material_8h_1a6cbe56056751aa80e8dd714632a49de0a39bee4a4d7222d7f21fc093cacac2bcf">aiTextureMapMode_Wrap</link> = 0x0
+, <link linkend="_material_8h_1a6cbe56056751aa80e8dd714632a49de0a809e31ce25b28e9fb7dba0a362293ace">aiTextureMapMode_Clamp</link> = 0x1
+, <link linkend="_material_8h_1a6cbe56056751aa80e8dd714632a49de0a36bdbb449ea382cf7d3ecd7ccbd9c3e8">aiTextureMapMode_Decal</link> = 0x3
+, <link linkend="_material_8h_1a6cbe56056751aa80e8dd714632a49de0ae0105c73fb2e7e6d10e80395b6995337">aiTextureMapMode_Mirror</link> = 0x2
+, <?linebreak?><link linkend="_material_8h_1a6cbe56056751aa80e8dd714632a49de0afcec988b7883a042f9ff9f80823da2c0">_aiTextureMapMode_Force32Bit</link> = INT_MAX
+ }</para>
+
+<para>Defines how UV coordinates outside the [0...1] range are handled. </para>
+</listitem>
+            <listitem><para>enum <link linkend="_material_8h_1a6186e909f1ae28133ab10f1b4635b0f9">aiTextureMapping</link> { <?linebreak?><link linkend="_material_8h_1a6186e909f1ae28133ab10f1b4635b0f9afe4af8e2f0303198ff2c51edf3039277">aiTextureMapping_UV</link> = 0x0
+, <link linkend="_material_8h_1a6186e909f1ae28133ab10f1b4635b0f9ada83cfca5e55fc99dc89e0e94c91cdb5">aiTextureMapping_SPHERE</link> = 0x1
+, <link linkend="_material_8h_1a6186e909f1ae28133ab10f1b4635b0f9a1f3e2bcbdb450f19666b9b0730bad9ae">aiTextureMapping_CYLINDER</link> = 0x2
+, <link linkend="_material_8h_1a6186e909f1ae28133ab10f1b4635b0f9ac680b16f3be94f101132982afd003fee">aiTextureMapping_BOX</link> = 0x3
+, <?linebreak?><link linkend="_material_8h_1a6186e909f1ae28133ab10f1b4635b0f9acbb0fa22c77e4c8936c1071fcacd1a64">aiTextureMapping_PLANE</link> = 0x4
+, <link linkend="_material_8h_1a6186e909f1ae28133ab10f1b4635b0f9a585fb9423e1e77a52c9096fc0b907881">aiTextureMapping_OTHER</link> = 0x5
+, <link linkend="_material_8h_1a6186e909f1ae28133ab10f1b4635b0f9a26d999203feb901a0b17e4babe9b9791">_aiTextureMapping_Force32Bit</link> = INT_MAX
+ }</para>
+
+<para>Defines how the mapping coords for a texture are generated. </para>
+</listitem>
+            <listitem><para>enum <link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0">aiTextureType</link> { <?linebreak?><link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a29933480f8f018b381ae8be57435a435">aiTextureType_NONE</link> = 0
+, <link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a3027af56603d5babd7e2efcf5ed1debd">aiTextureType_DIFFUSE</link> = 1
+, <link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a0fdc17eca73119fe7c4e7d17043aba6b">aiTextureType_SPECULAR</link> = 2
+, <link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a88d7fc7cc800d2641fd481067eca0dc4">aiTextureType_AMBIENT</link> = 3
+, <?linebreak?><link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a9a8cd97191328740f68e0e77e83ac485">aiTextureType_EMISSIVE</link> = 4
+, <link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a5cff2209ef767617b00c2875afe7d5a7">aiTextureType_HEIGHT</link> = 5
+, <link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0aaf9089ae800fe4b3d97bc88d7686bab0">aiTextureType_NORMALS</link> = 6
+, <link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a8675306af91180469f7e98a438125b89">aiTextureType_SHININESS</link> = 7
+, <?linebreak?><link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a68e7f8f7485bb00142a25df18e1ff148">aiTextureType_OPACITY</link> = 8
+, <link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a929ae2ac33faa1ffe15978933c29337e">aiTextureType_DISPLACEMENT</link> = 9
+, <link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a86e356815b137cd584336cab11e72820">aiTextureType_LIGHTMAP</link> = 10
+, <link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0aa675f72b81148c5c260d408e122de7f8">aiTextureType_REFLECTION</link> = 11
+, <?linebreak?><link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a5d752b64d94439eadbb815e8a35d4fc0">aiTextureType_BASE_COLOR</link> = 12
+, <link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0aa8526cb493ab84b04a758a82cb858978">aiTextureType_NORMAL_CAMERA</link> = 13
+, <link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a47ba4de160b7ffc0c05a872563c4bec7">aiTextureType_EMISSION_COLOR</link> = 14
+, <link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a102addc15801212fb74d821cf6556bcd">aiTextureType_METALNESS</link> = 15
+, <?linebreak?><link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a3be75e9bfee00f0df2a715ca27fcebc6">aiTextureType_DIFFUSE_ROUGHNESS</link> = 16
+, <link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0ae35c89a0f567067aa7985b6d0ba1ac0d">aiTextureType_AMBIENT_OCCLUSION</link> = 17
+, <link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a2534326d369dc2b340ac0c23a9405c0a">aiTextureType_SHEEN</link> = 19
+, <link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a4c8443070acff2892a377aeb022e273f">aiTextureType_CLEARCOAT</link> = 20
+, <?linebreak?><link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a5012d291ed3b5fc6f4ebba375b5fa74a">aiTextureType_TRANSMISSION</link> = 21
+, <link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a435cc5adea69c96c0c3205a2bde21cce">aiTextureType_UNKNOWN</link> = 18
+, <link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a78e1009477fa87111ae38c7ef2bdb154">_aiTextureType_Force32Bit</link> = INT_MAX
+ }</para>
+
+<para>Defines the purpose of a texture. </para>
+</listitem>
+            <listitem><para>enum <link linkend="_material_8h_1a93e23e0201d6ed86fb4287e15218e4cf">aiShadingMode</link> { <?linebreak?><link linkend="_material_8h_1a93e23e0201d6ed86fb4287e15218e4cfa59fa2c27721e28dadd58cbd39cd46782">aiShadingMode_Flat</link> = 0x1
+, <link linkend="_material_8h_1a93e23e0201d6ed86fb4287e15218e4cfa8a20ae47f38c01554ef467c324c27431">aiShadingMode_Gouraud</link> = 0x2
+, <link linkend="_material_8h_1a93e23e0201d6ed86fb4287e15218e4cfafe5e89f846a9657232077c224fd1a914">aiShadingMode_Phong</link> = 0x3
+, <link linkend="_material_8h_1a93e23e0201d6ed86fb4287e15218e4cfaccd4aca098e73986e50c7566efd6ca1f">aiShadingMode_Blinn</link> = 0x4
+, <?linebreak?><link linkend="_material_8h_1a93e23e0201d6ed86fb4287e15218e4cfa85c7b6a3c243a1991f4b17125a28a54c">aiShadingMode_Toon</link> = 0x5
+, <link linkend="_material_8h_1a93e23e0201d6ed86fb4287e15218e4cfab2243130ec0bdb25a26ce829d486e55a">aiShadingMode_OrenNayar</link> = 0x6
+, <link linkend="_material_8h_1a93e23e0201d6ed86fb4287e15218e4cfa0947dbe335c16766da43fe1b992af4fb">aiShadingMode_Minnaert</link> = 0x7
+, <link linkend="_material_8h_1a93e23e0201d6ed86fb4287e15218e4cfa36519b85cbfbba437bfe1c504d3dbd6d">aiShadingMode_CookTorrance</link> = 0x8
+, <?linebreak?><link linkend="_material_8h_1a93e23e0201d6ed86fb4287e15218e4cfa625d6dc1a678985000a1e3a9c7da1e3f">aiShadingMode_NoShading</link> = 0x9
+, <link linkend="_material_8h_1a93e23e0201d6ed86fb4287e15218e4cfa24be16c9bd26f4f3d5d493881dcc1ec1">aiShadingMode_Unlit</link> = aiShadingMode_NoShading
+, <link linkend="_material_8h_1a93e23e0201d6ed86fb4287e15218e4cfab2f24381f6f4f21cee9cef32c1fd4d5f">aiShadingMode_Fresnel</link> = 0xa
+, <link linkend="_material_8h_1a93e23e0201d6ed86fb4287e15218e4cfa0b3fe30914cb8961c68b0faa888a8be1">aiShadingMode_PBR_BRDF</link> = 0xb
+, <?linebreak?><link linkend="_material_8h_1a93e23e0201d6ed86fb4287e15218e4cfaa33165721a2d89fde364b76fe2da3d00">_aiShadingMode_Force32Bit</link> = INT_MAX
+ }</para>
+
+<para>Defines all shading models supported by the library. </para>
+</listitem>
+            <listitem><para>enum <link linkend="_material_8h_1a6d003e078617e4e80d1313a6250b2dfd">aiTextureFlags</link> { <link linkend="_material_8h_1a6d003e078617e4e80d1313a6250b2dfda2d22809697f40ef1969a491a8d3278ff">aiTextureFlags_Invert</link> = 0x1
+, <link linkend="_material_8h_1a6d003e078617e4e80d1313a6250b2dfda5712da7264ec0c6e90b45580e5badbe0">aiTextureFlags_UseAlpha</link> = 0x2
+, <link linkend="_material_8h_1a6d003e078617e4e80d1313a6250b2dfda78f2667e8304213210c2508b7af47499">aiTextureFlags_IgnoreAlpha</link> = 0x4
+, <link linkend="_material_8h_1a6d003e078617e4e80d1313a6250b2dfdabdc67fee0727d08bd17135d58f67cdd6">_aiTextureFlags_Force32Bit</link> = INT_MAX
+ }</para>
+
+<para>Defines some mixed flags for a particular texture. </para>
+</listitem>
+            <listitem><para>enum <link linkend="_material_8h_1ae1236da1ccfbf4f23bb490287a4d61ac">aiBlendMode</link> { <link linkend="_material_8h_1ae1236da1ccfbf4f23bb490287a4d61aca2df47d5d42d73938d3d273a75db671b0">aiBlendMode_Default</link> = 0x0
+, <link linkend="_material_8h_1ae1236da1ccfbf4f23bb490287a4d61aca60eb5958c8fd4147bafd9098edf54e1e">aiBlendMode_Additive</link> = 0x1
+, <link linkend="_material_8h_1ae1236da1ccfbf4f23bb490287a4d61aca75430f7adb68b57be3892d40720f2982">_aiBlendMode_Force32Bit</link> = INT_MAX
+ }</para>
+
+<para>Defines alpha-blend flags. </para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Functions    </title>
+        <itemizedlist>
+            <listitem><para><link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link> const char * <link linkend="_material_8h_1a68fe8857ca972dc8a221bf7bd533df7b">aiTextureTypeToString</link> (<link linkend="_interfaceenum">enum</link> <link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0">aiTextureType</link> in)</para>
+</listitem>
+            <listitem><para><link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link> <link linkend="_defs_8h_1aa8c1788fd9d096036c9e3b6cfe4b1301">C_ENUM</link> <link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link> <link linkend="_material_8h_1a3052135188f8fc7987d2f98fa17615e4">aiGetMaterialProperty</link> (const <link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link> <link linkend="_structai_material">aiMaterial</link> *pMat, const char *pKey, unsigned int <link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>, unsigned int <link linkend="_glad_8h_1a57f14e05b1900f16a2da82ade47d0c6d">index</link>, const <link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link> aiMaterialProperty **pPropOut)</para>
+
+<para>Retrieve a material property with a specific key from the material. </para>
+</listitem>
+            <listitem><para><link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link> <link linkend="_defs_8h_1aa8c1788fd9d096036c9e3b6cfe4b1301">C_ENUM</link> <link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link> <link linkend="_material_8h_1a914b58254f33c1574ec872a7f8c78805">aiGetMaterialFloatArray</link> (const <link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link> <link linkend="_structai_material">aiMaterial</link> *pMat, const char *pKey, unsigned int <link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>, unsigned int <link linkend="_glad_8h_1a57f14e05b1900f16a2da82ade47d0c6d">index</link>, <link linkend="_defs_8h_1af221f9bbc3e0dc43a46efaaac6dab067">ai_real</link> *pOut, unsigned int *pMax)</para>
+
+<para>Retrieve an array of float values with a specific key from the material. </para>
+</listitem>
+            <listitem><para><link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link> <link linkend="_material_8h_1af3a0c289a0ec5d5b01bdfced0605bb11">aiGetMaterialFloat</link> (const <link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link> <link linkend="_structai_material">aiMaterial</link> *pMat, const char *pKey, unsigned int <link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>, unsigned int <link linkend="_glad_8h_1a57f14e05b1900f16a2da82ade47d0c6d">index</link>, <link linkend="_defs_8h_1af221f9bbc3e0dc43a46efaaac6dab067">ai_real</link> *pOut)</para>
+
+<para>Retrieve a single float property with a specific key from the material. </para>
+</listitem>
+            <listitem><para><link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link> <link linkend="_defs_8h_1aa8c1788fd9d096036c9e3b6cfe4b1301">C_ENUM</link> <link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link> <link linkend="_material_8h_1a8ed2b99a9861d257b77231b4ed70f69d">aiGetMaterialIntegerArray</link> (const <link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link> <link linkend="_structai_material">aiMaterial</link> *pMat, const char *pKey, unsigned int <link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>, unsigned int <link linkend="_glad_8h_1a57f14e05b1900f16a2da82ade47d0c6d">index</link>, int *pOut, unsigned int *pMax)</para>
+
+<para>Retrieve an array of integer values with a specific key from a material. </para>
+</listitem>
+            <listitem><para><link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link> <link linkend="_material_8h_1a0c3edecf5eade8c3c0578de7eab6d6dc">aiGetMaterialInteger</link> (const <link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link> <link linkend="_structai_material">aiMaterial</link> *pMat, const char *pKey, unsigned int <link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>, unsigned int <link linkend="_glad_8h_1a57f14e05b1900f16a2da82ade47d0c6d">index</link>, int *pOut)</para>
+
+<para>Retrieve an integer property with a specific key from a material. </para>
+</listitem>
+            <listitem><para><link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link> <link linkend="_defs_8h_1aa8c1788fd9d096036c9e3b6cfe4b1301">C_ENUM</link> <link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link> <link linkend="_material_8h_1ac4a6fbb0c08ddd1372ae187bf108d7e8">aiGetMaterialColor</link> (const <link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link> <link linkend="_structai_material">aiMaterial</link> *pMat, const char *pKey, unsigned int <link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>, unsigned int <link linkend="_glad_8h_1a57f14e05b1900f16a2da82ade47d0c6d">index</link>, <link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link> <link linkend="_structai_color4_d">aiColor4D</link> *pOut)</para>
+
+<para>Retrieve a color value from the material property table. </para>
+</listitem>
+            <listitem><para><link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link> <link linkend="_defs_8h_1aa8c1788fd9d096036c9e3b6cfe4b1301">C_ENUM</link> <link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link> <link linkend="_material_8h_1a47b7e8aecc784edcb894600af33fd592">aiGetMaterialUVTransform</link> (const <link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link> <link linkend="_structai_material">aiMaterial</link> *pMat, const char *pKey, unsigned int <link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>, unsigned int <link linkend="_glad_8h_1a57f14e05b1900f16a2da82ade47d0c6d">index</link>, <link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link> <link linkend="_structai_u_v_transform">aiUVTransform</link> *pOut)</para>
+
+<para>Retrieve a <link linkend="_structai_u_v_transform">aiUVTransform</link> value from the material property table. </para>
+</listitem>
+            <listitem><para><link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link> <link linkend="_defs_8h_1aa8c1788fd9d096036c9e3b6cfe4b1301">C_ENUM</link> <link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link> <link linkend="_material_8h_1a20e2873fb56982ea3a5dcd6a343b7070">aiGetMaterialString</link> (const <link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link> <link linkend="_structai_material">aiMaterial</link> *pMat, const char *pKey, unsigned int <link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>, unsigned int <link linkend="_glad_8h_1a57f14e05b1900f16a2da82ade47d0c6d">index</link>, <link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link> <link linkend="_structai_string">aiString</link> *pOut)</para>
+
+<para>Retrieve a string from the material property table. </para>
+</listitem>
+            <listitem><para><link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link> unsigned int <link linkend="_material_8h_1a8d331464c4f86b44cb6c6d64e39398ed">aiGetMaterialTextureCount</link> (const <link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link> <link linkend="_structai_material">aiMaterial</link> *pMat, <link linkend="_defs_8h_1aa8c1788fd9d096036c9e3b6cfe4b1301">C_ENUM</link> <link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0">aiTextureType</link> <link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>)</para>
+</listitem>
+            <listitem><para><link linkend="_defs_8h_1aa8c1788fd9d096036c9e3b6cfe4b1301">C_ENUM</link> <link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link> <link linkend="_material_8h_1af3a53df46231d9f0aab39e972cd40ad3">aiGetMaterialTexture</link> (const <link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link> <link linkend="_structai_material">aiMaterial</link> *mat, <link linkend="_defs_8h_1aa8c1788fd9d096036c9e3b6cfe4b1301">C_ENUM</link> <link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0">aiTextureType</link> <link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>, unsigned int <link linkend="_glad_8h_1a57f14e05b1900f16a2da82ade47d0c6d">index</link>, <link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link> <link linkend="_structai_string">aiString</link> *path, <link linkend="_defs_8h_1aa8c1788fd9d096036c9e3b6cfe4b1301">C_ENUM</link> <link linkend="_material_8h_1a6186e909f1ae28133ab10f1b4635b0f9">aiTextureMapping</link> *mapping, unsigned int *uvindex, <link linkend="_defs_8h_1af221f9bbc3e0dc43a46efaaac6dab067">ai_real</link> *blend, <link linkend="_defs_8h_1aa8c1788fd9d096036c9e3b6cfe4b1301">C_ENUM</link> <link linkend="_material_8h_1afcd3096d69affba13114cedfc6f9ee6b">aiTextureOp</link> *<link linkend="_tracy__lz4hc_8cpp_1a853ce719be9725860615b4ec1f7f23a9">op</link>, <link linkend="_defs_8h_1aa8c1788fd9d096036c9e3b6cfe4b1301">C_ENUM</link> <link linkend="_material_8h_1a6cbe56056751aa80e8dd714632a49de0">aiTextureMapMode</link> *mapmode, unsigned int *<link linkend="_glad_8h_1ac7ba7d3cce3d19ca020e056b37231289">flags</link>)</para>
+
+<para>Helper function to get all values pertaining to a particular texture slot from a material structure. </para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para>Defines the material system of the library. </para>
+</section>
+<section>
+<title>Macro Definition Documentation</title>
+<anchor xml:id="_material_8h_1a33e111ac1601d2f4225dc135fbb48d20"/><section>
+    <title>AI_DEFAULT_MATERIAL_NAME</title>
+<indexterm><primary>AI_DEFAULT_MATERIAL_NAME</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_DEFAULT_MATERIAL_NAME</secondary></indexterm>
+<para><computeroutput>#define AI_DEFAULT_MATERIAL_NAME&#160;&#160;&#160;&quot;DefaultMaterial&quot;</computeroutput></para></section>
+<anchor xml:id="_material_8h_1abf76a603ad84c28e2ab359690fc2e2a2"/><section>
+    <title>AI_MATERIAL_H_INC</title>
+<indexterm><primary>AI_MATERIAL_H_INC</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATERIAL_H_INC</secondary></indexterm>
+<para><computeroutput>#define AI_MATERIAL_H_INC</computeroutput></para></section>
+<anchor xml:id="_material_8h_1aa100db64b28c26b997c412fb04f31472"/><section>
+    <title>AI_MATKEY_ANISOTROPY_FACTOR</title>
+<indexterm><primary>AI_MATKEY_ANISOTROPY_FACTOR</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_ANISOTROPY_FACTOR</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_ANISOTROPY_FACTOR&#160;&#160;&#160;&quot;$mat.anisotropyFactor&quot;, 0, 0</computeroutput></para></section>
+<anchor xml:id="_material_8h_1a7fc2f3682298acd5345cbdcaad559576"/><section>
+    <title>AI_MATKEY_BASE_COLOR</title>
+<indexterm><primary>AI_MATKEY_BASE_COLOR</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_BASE_COLOR</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_BASE_COLOR&#160;&#160;&#160;&quot;$clr.base&quot;, 0, 0</computeroutput></para></section>
+<anchor xml:id="_material_8h_1a81edbf75172f38d60940fa4c141cd28a"/><section>
+    <title>AI_MATKEY_BASE_COLOR_TEXTURE</title>
+<indexterm><primary>AI_MATKEY_BASE_COLOR_TEXTURE</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_BASE_COLOR_TEXTURE</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_BASE_COLOR_TEXTURE&#160;&#160;&#160;<link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a5d752b64d94439eadbb815e8a35d4fc0">aiTextureType_BASE_COLOR</link>, 0</computeroutput></para></section>
+<anchor xml:id="_material_8h_1a7e4425c7ac9ca7fc5dfd57069a0839dc"/><section>
+    <title>AI_MATKEY_BLEND_FUNC</title>
+<indexterm><primary>AI_MATKEY_BLEND_FUNC</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_BLEND_FUNC</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_BLEND_FUNC&#160;&#160;&#160;&quot;$mat.blend&quot;, 0, 0</computeroutput></para></section>
+<anchor xml:id="_material_8h_1ad7b83413141c34520c8237989f03ff97"/><section>
+    <title>AI_MATKEY_BUMPSCALING</title>
+<indexterm><primary>AI_MATKEY_BUMPSCALING</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_BUMPSCALING</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_BUMPSCALING&#160;&#160;&#160;&quot;$mat.bumpscaling&quot;, 0, 0</computeroutput></para></section>
+<anchor xml:id="_material_8h_1adffd0089f7f6ece43b0db3c43c190e1e"/><section>
+    <title>AI_MATKEY_CLEARCOAT_FACTOR</title>
+<indexterm><primary>AI_MATKEY_CLEARCOAT_FACTOR</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_CLEARCOAT_FACTOR</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_CLEARCOAT_FACTOR&#160;&#160;&#160;&quot;$mat.clearcoat.factor&quot;, 0, 0</computeroutput></para></section>
+<anchor xml:id="_material_8h_1a9c77ddf25334ea48a2b3d7ed9bed1d93"/><section>
+    <title>AI_MATKEY_CLEARCOAT_NORMAL_TEXTURE</title>
+<indexterm><primary>AI_MATKEY_CLEARCOAT_NORMAL_TEXTURE</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_CLEARCOAT_NORMAL_TEXTURE</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_CLEARCOAT_NORMAL_TEXTURE&#160;&#160;&#160;<link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a4c8443070acff2892a377aeb022e273f">aiTextureType_CLEARCOAT</link>, 2</computeroutput></para></section>
+<anchor xml:id="_material_8h_1a6aca1cb9f89f425194057a7b5ba81e6e"/><section>
+    <title>AI_MATKEY_CLEARCOAT_ROUGHNESS_FACTOR</title>
+<indexterm><primary>AI_MATKEY_CLEARCOAT_ROUGHNESS_FACTOR</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_CLEARCOAT_ROUGHNESS_FACTOR</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_CLEARCOAT_ROUGHNESS_FACTOR&#160;&#160;&#160;&quot;$mat.clearcoat.roughnessFactor&quot;, 0, 0</computeroutput></para></section>
+<anchor xml:id="_material_8h_1ac787e0f5481016d0e0784f358f06ec3e"/><section>
+    <title>AI_MATKEY_CLEARCOAT_ROUGHNESS_TEXTURE</title>
+<indexterm><primary>AI_MATKEY_CLEARCOAT_ROUGHNESS_TEXTURE</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_CLEARCOAT_ROUGHNESS_TEXTURE</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_CLEARCOAT_ROUGHNESS_TEXTURE&#160;&#160;&#160;<link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a4c8443070acff2892a377aeb022e273f">aiTextureType_CLEARCOAT</link>, 1</computeroutput></para></section>
+<anchor xml:id="_material_8h_1ade3d02a8519e27eade6694f70b3d0250"/><section>
+    <title>AI_MATKEY_CLEARCOAT_TEXTURE</title>
+<indexterm><primary>AI_MATKEY_CLEARCOAT_TEXTURE</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_CLEARCOAT_TEXTURE</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_CLEARCOAT_TEXTURE&#160;&#160;&#160;<link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a4c8443070acff2892a377aeb022e273f">aiTextureType_CLEARCOAT</link>, 0</computeroutput></para></section>
+<anchor xml:id="_material_8h_1a9eafa221e27df9699e0eb00eb1a3066b"/><section>
+    <title>AI_MATKEY_COLOR_AMBIENT</title>
+<indexterm><primary>AI_MATKEY_COLOR_AMBIENT</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_COLOR_AMBIENT</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_COLOR_AMBIENT&#160;&#160;&#160;&quot;$clr.ambient&quot;, 0, 0</computeroutput></para></section>
+<anchor xml:id="_material_8h_1a08fcffadf01a260cc23bf52ae4fe5cfa"/><section>
+    <title>AI_MATKEY_COLOR_DIFFUSE</title>
+<indexterm><primary>AI_MATKEY_COLOR_DIFFUSE</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_COLOR_DIFFUSE</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_COLOR_DIFFUSE&#160;&#160;&#160;&quot;$clr.diffuse&quot;, 0, 0</computeroutput></para></section>
+<anchor xml:id="_material_8h_1abba65fc970242f5b9ea522a1d70aecb0"/><section>
+    <title>AI_MATKEY_COLOR_EMISSIVE</title>
+<indexterm><primary>AI_MATKEY_COLOR_EMISSIVE</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_COLOR_EMISSIVE</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_COLOR_EMISSIVE&#160;&#160;&#160;&quot;$clr.emissive&quot;, 0, 0</computeroutput></para></section>
+<anchor xml:id="_material_8h_1a5c99b4bae9e84aa25d350885aa0e10f6"/><section>
+    <title>AI_MATKEY_COLOR_REFLECTIVE</title>
+<indexterm><primary>AI_MATKEY_COLOR_REFLECTIVE</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_COLOR_REFLECTIVE</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_COLOR_REFLECTIVE&#160;&#160;&#160;&quot;$clr.reflective&quot;, 0, 0</computeroutput></para></section>
+<anchor xml:id="_material_8h_1aafddb672f0dec60f818090e34edf9470"/><section>
+    <title>AI_MATKEY_COLOR_SPECULAR</title>
+<indexterm><primary>AI_MATKEY_COLOR_SPECULAR</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_COLOR_SPECULAR</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_COLOR_SPECULAR&#160;&#160;&#160;&quot;$clr.specular&quot;, 0, 0</computeroutput></para></section>
+<anchor xml:id="_material_8h_1af13855becf821e81e6b6f9d14fee9102"/><section>
+    <title>AI_MATKEY_COLOR_TRANSPARENT</title>
+<indexterm><primary>AI_MATKEY_COLOR_TRANSPARENT</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_COLOR_TRANSPARENT</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_COLOR_TRANSPARENT&#160;&#160;&#160;&quot;$clr.transparent&quot;, 0, 0</computeroutput></para></section>
+<anchor xml:id="_material_8h_1a2586aadc8996fc7c3abfd6e58501c86d"/><section>
+    <title>AI_MATKEY_EMISSIVE_INTENSITY</title>
+<indexterm><primary>AI_MATKEY_EMISSIVE_INTENSITY</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_EMISSIVE_INTENSITY</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_EMISSIVE_INTENSITY&#160;&#160;&#160;&quot;$mat.emissiveIntensity&quot;, 0, 0</computeroutput></para></section>
+<anchor xml:id="_material_8h_1a9e1f48a181e0d275a1d24031bc62d8df"/><section>
+    <title>AI_MATKEY_ENABLE_WIREFRAME</title>
+<indexterm><primary>AI_MATKEY_ENABLE_WIREFRAME</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_ENABLE_WIREFRAME</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_ENABLE_WIREFRAME&#160;&#160;&#160;&quot;$mat.wireframe&quot;, 0, 0</computeroutput></para></section>
+<anchor xml:id="_material_8h_1a4bb3a224b20fa437fe06b2b562181320"/><section>
+    <title>AI_MATKEY_GLOBAL_BACKGROUND_IMAGE</title>
+<indexterm><primary>AI_MATKEY_GLOBAL_BACKGROUND_IMAGE</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_GLOBAL_BACKGROUND_IMAGE</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_GLOBAL_BACKGROUND_IMAGE&#160;&#160;&#160;&quot;?bg.global&quot;, 0, 0</computeroutput></para></section>
+<anchor xml:id="_material_8h_1a0d6a1f56cd2d459fe8290ad70e833673"/><section>
+    <title>AI_MATKEY_GLOBAL_SHADERLANG</title>
+<indexterm><primary>AI_MATKEY_GLOBAL_SHADERLANG</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_GLOBAL_SHADERLANG</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_GLOBAL_SHADERLANG&#160;&#160;&#160;&quot;?sh.lang&quot;, 0, 0</computeroutput></para></section>
+<anchor xml:id="_material_8h_1a82dd85f51f507e18d101508c48e9d84d"/><section>
+    <title>AI_MATKEY_GLOSSINESS_FACTOR</title>
+<indexterm><primary>AI_MATKEY_GLOSSINESS_FACTOR</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_GLOSSINESS_FACTOR</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_GLOSSINESS_FACTOR&#160;&#160;&#160;&quot;$mat.glossinessFactor&quot;, 0, 0</computeroutput></para></section>
+<anchor xml:id="_material_8h_1af72d0714d106aa52da2dbdf10d975c54"/><section>
+    <title>AI_MATKEY_MAPPING</title>
+<indexterm><primary>AI_MATKEY_MAPPING</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_MAPPING</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_MAPPING( <link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>,  <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0240ac851181b84ac374872dc5434ee4">N</link>)&#160;&#160;&#160;_AI_MATKEY_MAPPING_BASE, <link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>, <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0240ac851181b84ac374872dc5434ee4">N</link></computeroutput></para></section>
+<anchor xml:id="_material_8h_1ad14ef903b582e699d9b02668084dbbd5"/><section>
+    <title>AI_MATKEY_MAPPINGMODE_U</title>
+<indexterm><primary>AI_MATKEY_MAPPINGMODE_U</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_MAPPINGMODE_U</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_MAPPINGMODE_U( <link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>,  <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0240ac851181b84ac374872dc5434ee4">N</link>)&#160;&#160;&#160;_AI_MATKEY_MAPPINGMODE_U_BASE, <link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>, <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0240ac851181b84ac374872dc5434ee4">N</link></computeroutput></para></section>
+<anchor xml:id="_material_8h_1ad22f63a46460837263635d44ea598dfa"/><section>
+    <title>AI_MATKEY_MAPPINGMODE_V</title>
+<indexterm><primary>AI_MATKEY_MAPPINGMODE_V</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_MAPPINGMODE_V</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_MAPPINGMODE_V( <link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>,  <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0240ac851181b84ac374872dc5434ee4">N</link>)&#160;&#160;&#160;_AI_MATKEY_MAPPINGMODE_V_BASE, <link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>, <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0240ac851181b84ac374872dc5434ee4">N</link></computeroutput></para></section>
+<anchor xml:id="_material_8h_1a272a656cf0b14d5e541f9b90ef49139b"/><section>
+    <title>AI_MATKEY_METALLIC_FACTOR</title>
+<indexterm><primary>AI_MATKEY_METALLIC_FACTOR</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_METALLIC_FACTOR</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_METALLIC_FACTOR&#160;&#160;&#160;&quot;$mat.metallicFactor&quot;, 0, 0</computeroutput></para></section>
+<anchor xml:id="_material_8h_1a94b7b9569f828532ee1328b5b0a7240d"/><section>
+    <title>AI_MATKEY_METALLIC_TEXTURE</title>
+<indexterm><primary>AI_MATKEY_METALLIC_TEXTURE</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_METALLIC_TEXTURE</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_METALLIC_TEXTURE&#160;&#160;&#160;<link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a102addc15801212fb74d821cf6556bcd">aiTextureType_METALNESS</link>, 0</computeroutput></para></section>
+<anchor xml:id="_material_8h_1a204a0a39264125e160bd8fb2117f06e9"/><section>
+    <title>AI_MATKEY_NAME</title>
+<indexterm><primary>AI_MATKEY_NAME</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_NAME</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_NAME&#160;&#160;&#160;&quot;?mat.name&quot;, 0, 0</computeroutput></para></section>
+<anchor xml:id="_material_8h_1a6f5fa84f7ac0a41a1a860edf1904070a"/><section>
+    <title>AI_MATKEY_OPACITY</title>
+<indexterm><primary>AI_MATKEY_OPACITY</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_OPACITY</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_OPACITY&#160;&#160;&#160;&quot;$mat.opacity&quot;, 0, 0</computeroutput></para></section>
+<anchor xml:id="_material_8h_1ab6d31302ff56e9fcf9c38e10f806f9a3"/><section>
+    <title>AI_MATKEY_REFLECTIVITY</title>
+<indexterm><primary>AI_MATKEY_REFLECTIVITY</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_REFLECTIVITY</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_REFLECTIVITY&#160;&#160;&#160;&quot;$mat.reflectivity&quot;, 0, 0</computeroutput></para></section>
+<anchor xml:id="_material_8h_1a0ae62b692c409cdc82a1ab111fc27017"/><section>
+    <title>AI_MATKEY_REFRACTI</title>
+<indexterm><primary>AI_MATKEY_REFRACTI</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_REFRACTI</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_REFRACTI&#160;&#160;&#160;&quot;$mat.refracti&quot;, 0, 0</computeroutput></para></section>
+<anchor xml:id="_material_8h_1adf16a6645628377f2dd217b4d296ddbb"/><section>
+    <title>AI_MATKEY_ROUGHNESS_FACTOR</title>
+<indexterm><primary>AI_MATKEY_ROUGHNESS_FACTOR</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_ROUGHNESS_FACTOR</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_ROUGHNESS_FACTOR&#160;&#160;&#160;&quot;$mat.roughnessFactor&quot;, 0, 0</computeroutput></para></section>
+<anchor xml:id="_material_8h_1a6c7d89d8fa7a16e841fb075999afaa4b"/><section>
+    <title>AI_MATKEY_ROUGHNESS_TEXTURE</title>
+<indexterm><primary>AI_MATKEY_ROUGHNESS_TEXTURE</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_ROUGHNESS_TEXTURE</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_ROUGHNESS_TEXTURE&#160;&#160;&#160;<link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a3be75e9bfee00f0df2a715ca27fcebc6">aiTextureType_DIFFUSE_ROUGHNESS</link>, 0</computeroutput></para></section>
+<anchor xml:id="_material_8h_1a0c8043a353459f3a4d3a16ef1ac30d14"/><section>
+    <title>AI_MATKEY_SHADER_COMPUTE</title>
+<indexterm><primary>AI_MATKEY_SHADER_COMPUTE</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_SHADER_COMPUTE</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_SHADER_COMPUTE&#160;&#160;&#160;&quot;?sh.cs&quot;, 0, 0</computeroutput></para></section>
+<anchor xml:id="_material_8h_1ae89de5585c3c922bbb48f87480515ba7"/><section>
+    <title>AI_MATKEY_SHADER_FRAGMENT</title>
+<indexterm><primary>AI_MATKEY_SHADER_FRAGMENT</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_SHADER_FRAGMENT</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_SHADER_FRAGMENT&#160;&#160;&#160;&quot;?sh.fs&quot;, 0, 0</computeroutput></para></section>
+<anchor xml:id="_material_8h_1a4cfa61b76e9e363ee69281187da9e812"/><section>
+    <title>AI_MATKEY_SHADER_GEO</title>
+<indexterm><primary>AI_MATKEY_SHADER_GEO</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_SHADER_GEO</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_SHADER_GEO&#160;&#160;&#160;&quot;?sh.gs&quot;, 0, 0</computeroutput></para></section>
+<anchor xml:id="_material_8h_1a64209b3aaf9e41e0c6fc3c5d4b994c03"/><section>
+    <title>AI_MATKEY_SHADER_PRIMITIVE</title>
+<indexterm><primary>AI_MATKEY_SHADER_PRIMITIVE</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_SHADER_PRIMITIVE</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_SHADER_PRIMITIVE&#160;&#160;&#160;&quot;?sh.ps&quot;, 0, 0</computeroutput></para></section>
+<anchor xml:id="_material_8h_1abf174cf7895c4a25887c95e0dd5046be"/><section>
+    <title>AI_MATKEY_SHADER_TESSELATION</title>
+<indexterm><primary>AI_MATKEY_SHADER_TESSELATION</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_SHADER_TESSELATION</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_SHADER_TESSELATION&#160;&#160;&#160;&quot;?sh.ts&quot;, 0, 0</computeroutput></para></section>
+<anchor xml:id="_material_8h_1aeafb498f233e6b3514bdf7ae75022128"/><section>
+    <title>AI_MATKEY_SHADER_VERTEX</title>
+<indexterm><primary>AI_MATKEY_SHADER_VERTEX</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_SHADER_VERTEX</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_SHADER_VERTEX&#160;&#160;&#160;&quot;?sh.vs&quot;, 0, 0</computeroutput></para></section>
+<anchor xml:id="_material_8h_1a0f7ec9923cf262ba5b74d3c52bc588a1"/><section>
+    <title>AI_MATKEY_SHADING_MODEL</title>
+<indexterm><primary>AI_MATKEY_SHADING_MODEL</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_SHADING_MODEL</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_SHADING_MODEL&#160;&#160;&#160;&quot;$mat.shadingm&quot;, 0, 0</computeroutput></para></section>
+<anchor xml:id="_material_8h_1ad20fd594f4100adfb03a22b41a6c37d8"/><section>
+    <title>AI_MATKEY_SHEEN_COLOR_FACTOR</title>
+<indexterm><primary>AI_MATKEY_SHEEN_COLOR_FACTOR</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_SHEEN_COLOR_FACTOR</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_SHEEN_COLOR_FACTOR&#160;&#160;&#160;&quot;$clr.sheen.factor&quot;, 0, 0</computeroutput></para></section>
+<anchor xml:id="_material_8h_1a3696a53dd469b9cacf1c7c705672f4dc"/><section>
+    <title>AI_MATKEY_SHEEN_COLOR_TEXTURE</title>
+<indexterm><primary>AI_MATKEY_SHEEN_COLOR_TEXTURE</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_SHEEN_COLOR_TEXTURE</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_SHEEN_COLOR_TEXTURE&#160;&#160;&#160;<link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a2534326d369dc2b340ac0c23a9405c0a">aiTextureType_SHEEN</link>, 0</computeroutput></para></section>
+<anchor xml:id="_material_8h_1a541402cf257f00e5efbba999f9848e73"/><section>
+    <title>AI_MATKEY_SHEEN_ROUGHNESS_FACTOR</title>
+<indexterm><primary>AI_MATKEY_SHEEN_ROUGHNESS_FACTOR</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_SHEEN_ROUGHNESS_FACTOR</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_SHEEN_ROUGHNESS_FACTOR&#160;&#160;&#160;&quot;$mat.sheen.roughnessFactor&quot;, 0, 0</computeroutput></para></section>
+<anchor xml:id="_material_8h_1a9b37b03123eac41f43b33e50a730e726"/><section>
+    <title>AI_MATKEY_SHEEN_ROUGHNESS_TEXTURE</title>
+<indexterm><primary>AI_MATKEY_SHEEN_ROUGHNESS_TEXTURE</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_SHEEN_ROUGHNESS_TEXTURE</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_SHEEN_ROUGHNESS_TEXTURE&#160;&#160;&#160;<link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a2534326d369dc2b340ac0c23a9405c0a">aiTextureType_SHEEN</link>, 1</computeroutput></para></section>
+<anchor xml:id="_material_8h_1aeb1edba2c1e099a0a7055a82cabc9e87"/><section>
+    <title>AI_MATKEY_SHININESS</title>
+<indexterm><primary>AI_MATKEY_SHININESS</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_SHININESS</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_SHININESS&#160;&#160;&#160;&quot;$mat.shininess&quot;, 0, 0</computeroutput></para></section>
+<anchor xml:id="_material_8h_1a8cbc5193d8836369d9bf9907628d4f4d"/><section>
+    <title>AI_MATKEY_SHININESS_STRENGTH</title>
+<indexterm><primary>AI_MATKEY_SHININESS_STRENGTH</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_SHININESS_STRENGTH</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_SHININESS_STRENGTH&#160;&#160;&#160;&quot;$mat.shinpercent&quot;, 0, 0</computeroutput></para></section>
+<anchor xml:id="_material_8h_1ae52aa158d61e2f38a0f2fdc3acb5bda9"/><section>
+    <title>AI_MATKEY_SPECULAR_FACTOR</title>
+<indexterm><primary>AI_MATKEY_SPECULAR_FACTOR</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_SPECULAR_FACTOR</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_SPECULAR_FACTOR&#160;&#160;&#160;&quot;$mat.specularFactor&quot;, 0, 0</computeroutput></para></section>
+<anchor xml:id="_material_8h_1a11114b16a60c7eb4ac52b9b912975fc1"/><section>
+    <title>AI_MATKEY_TEXBLEND</title>
+<indexterm><primary>AI_MATKEY_TEXBLEND</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_TEXBLEND</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_TEXBLEND( <link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>,  <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0240ac851181b84ac374872dc5434ee4">N</link>)&#160;&#160;&#160;_AI_MATKEY_TEXBLEND_BASE, <link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>, <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0240ac851181b84ac374872dc5434ee4">N</link></computeroutput></para></section>
+<anchor xml:id="_material_8h_1a69577e4366cceb502288474cf8cf2dab"/><section>
+    <title>AI_MATKEY_TEXFLAGS</title>
+<indexterm><primary>AI_MATKEY_TEXFLAGS</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_TEXFLAGS</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_TEXFLAGS( <link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>,  <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0240ac851181b84ac374872dc5434ee4">N</link>)&#160;&#160;&#160;_AI_MATKEY_TEXFLAGS_BASE, <link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>, <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0240ac851181b84ac374872dc5434ee4">N</link></computeroutput></para></section>
+<anchor xml:id="_material_8h_1ac5196536562f8e9cacb224655e9c8505"/><section>
+    <title>AI_MATKEY_TEXMAP_AXIS</title>
+<indexterm><primary>AI_MATKEY_TEXMAP_AXIS</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_TEXMAP_AXIS</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_TEXMAP_AXIS( <link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>,  <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0240ac851181b84ac374872dc5434ee4">N</link>)&#160;&#160;&#160;_AI_MATKEY_TEXMAP_AXIS_BASE, <link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>, <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0240ac851181b84ac374872dc5434ee4">N</link></computeroutput></para></section>
+<anchor xml:id="_material_8h_1a9e96d9483020708312ed8d6cc80ccbda"/><section>
+    <title>AI_MATKEY_TEXOP</title>
+<indexterm><primary>AI_MATKEY_TEXOP</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_TEXOP</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_TEXOP( <link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>,  <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0240ac851181b84ac374872dc5434ee4">N</link>)&#160;&#160;&#160;_AI_MATKEY_TEXOP_BASE, <link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>, <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0240ac851181b84ac374872dc5434ee4">N</link></computeroutput></para></section>
+<anchor xml:id="_material_8h_1a18c395e1dd733f94d36353956a12776f"/><section>
+    <title>AI_MATKEY_TEXTURE</title>
+<indexterm><primary>AI_MATKEY_TEXTURE</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_TEXTURE</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_TEXTURE( <link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>,  <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0240ac851181b84ac374872dc5434ee4">N</link>)&#160;&#160;&#160;_AI_MATKEY_TEXTURE_BASE, <link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>, <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0240ac851181b84ac374872dc5434ee4">N</link></computeroutput></para></section>
+<anchor xml:id="_material_8h_1a81dfb802f25696cb970f0f0f4ea7a38f"/><section>
+    <title>AI_MATKEY_TRANSMISSION_FACTOR</title>
+<indexterm><primary>AI_MATKEY_TRANSMISSION_FACTOR</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_TRANSMISSION_FACTOR</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_TRANSMISSION_FACTOR&#160;&#160;&#160;&quot;$mat.transmission.factor&quot;, 0, 0</computeroutput></para></section>
+<anchor xml:id="_material_8h_1a01a4a196e0a4cfe4c2bcb38b07341f24"/><section>
+    <title>AI_MATKEY_TRANSMISSION_TEXTURE</title>
+<indexterm><primary>AI_MATKEY_TRANSMISSION_TEXTURE</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_TRANSMISSION_TEXTURE</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_TRANSMISSION_TEXTURE&#160;&#160;&#160;<link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a5012d291ed3b5fc6f4ebba375b5fa74a">aiTextureType_TRANSMISSION</link>, 0</computeroutput></para></section>
+<anchor xml:id="_material_8h_1aec4b15bb56f25baf7434fb2eec4b3cd1"/><section>
+    <title>AI_MATKEY_TRANSPARENCYFACTOR</title>
+<indexterm><primary>AI_MATKEY_TRANSPARENCYFACTOR</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_TRANSPARENCYFACTOR</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_TRANSPARENCYFACTOR&#160;&#160;&#160;&quot;$mat.transparencyfactor&quot;, 0, 0</computeroutput></para></section>
+<anchor xml:id="_material_8h_1acbf2a89c0a149ae8727c451756038261"/><section>
+    <title>AI_MATKEY_TWOSIDED</title>
+<indexterm><primary>AI_MATKEY_TWOSIDED</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_TWOSIDED</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_TWOSIDED&#160;&#160;&#160;&quot;$mat.twosided&quot;, 0, 0</computeroutput></para></section>
+<anchor xml:id="_material_8h_1a80d02d1302eb52701a5b22fe2d1cc8ee"/><section>
+    <title>AI_MATKEY_USE_AO_MAP</title>
+<indexterm><primary>AI_MATKEY_USE_AO_MAP</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_USE_AO_MAP</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_USE_AO_MAP&#160;&#160;&#160;&quot;$mat.useAOMap&quot;, 0, 0</computeroutput></para></section>
+<anchor xml:id="_material_8h_1a33deb03ba242de1bfcb763c037a632da"/><section>
+    <title>AI_MATKEY_USE_COLOR_MAP</title>
+<indexterm><primary>AI_MATKEY_USE_COLOR_MAP</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_USE_COLOR_MAP</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_USE_COLOR_MAP&#160;&#160;&#160;&quot;$mat.useColorMap&quot;, 0, 0</computeroutput></para></section>
+<anchor xml:id="_material_8h_1a180f5dc05e0381b64bbfc52991a068bb"/><section>
+    <title>AI_MATKEY_USE_EMISSIVE_MAP</title>
+<indexterm><primary>AI_MATKEY_USE_EMISSIVE_MAP</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_USE_EMISSIVE_MAP</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_USE_EMISSIVE_MAP&#160;&#160;&#160;&quot;$mat.useEmissiveMap&quot;, 0, 0</computeroutput></para></section>
+<anchor xml:id="_material_8h_1ad445383c9f22c7266897e6cba7122a34"/><section>
+    <title>AI_MATKEY_USE_METALLIC_MAP</title>
+<indexterm><primary>AI_MATKEY_USE_METALLIC_MAP</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_USE_METALLIC_MAP</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_USE_METALLIC_MAP&#160;&#160;&#160;&quot;$mat.useMetallicMap&quot;, 0, 0</computeroutput></para></section>
+<anchor xml:id="_material_8h_1a687afea7bbf5ffce044d086430a456ae"/><section>
+    <title>AI_MATKEY_USE_ROUGHNESS_MAP</title>
+<indexterm><primary>AI_MATKEY_USE_ROUGHNESS_MAP</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_USE_ROUGHNESS_MAP</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_USE_ROUGHNESS_MAP&#160;&#160;&#160;&quot;$mat.useRoughnessMap&quot;, 0, 0</computeroutput></para></section>
+<anchor xml:id="_material_8h_1ab24f58c983cf26acc9389ed2530316a9"/><section>
+    <title>AI_MATKEY_UVTRANSFORM</title>
+<indexterm><primary>AI_MATKEY_UVTRANSFORM</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_UVTRANSFORM</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_UVTRANSFORM( <link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>,  <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0240ac851181b84ac374872dc5434ee4">N</link>)&#160;&#160;&#160;_AI_MATKEY_UVTRANSFORM_BASE, <link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>, <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0240ac851181b84ac374872dc5434ee4">N</link></computeroutput></para></section>
+<anchor xml:id="_material_8h_1a96d4efa89610210ec608cf761694f5de"/><section>
+    <title>AI_MATKEY_UVWSRC</title>
+<indexterm><primary>AI_MATKEY_UVWSRC</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_UVWSRC</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_UVWSRC( <link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>,  <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0240ac851181b84ac374872dc5434ee4">N</link>)&#160;&#160;&#160;_AI_MATKEY_UVWSRC_BASE, <link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>, <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0240ac851181b84ac374872dc5434ee4">N</link></computeroutput></para></section>
+<anchor xml:id="_material_8h_1a60e69c462704c829288b7d98b047c209"/><section>
+    <title>AI_MATKEY_VOLUME_ATTENUATION_COLOR</title>
+<indexterm><primary>AI_MATKEY_VOLUME_ATTENUATION_COLOR</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_VOLUME_ATTENUATION_COLOR</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_VOLUME_ATTENUATION_COLOR&#160;&#160;&#160;&quot;$mat.volume.attenuationColor&quot;, 0, 0</computeroutput></para></section>
+<anchor xml:id="_material_8h_1a17f4f4aaa09435a18ccf7aecdec8f7ef"/><section>
+    <title>AI_MATKEY_VOLUME_ATTENUATION_DISTANCE</title>
+<indexterm><primary>AI_MATKEY_VOLUME_ATTENUATION_DISTANCE</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_VOLUME_ATTENUATION_DISTANCE</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_VOLUME_ATTENUATION_DISTANCE&#160;&#160;&#160;&quot;$mat.volume.attenuationDistance&quot;, 0, 0</computeroutput></para></section>
+<anchor xml:id="_material_8h_1a6065bfde6b2d584a0802b4101dc2e528"/><section>
+    <title>AI_MATKEY_VOLUME_THICKNESS_FACTOR</title>
+<indexterm><primary>AI_MATKEY_VOLUME_THICKNESS_FACTOR</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_VOLUME_THICKNESS_FACTOR</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_VOLUME_THICKNESS_FACTOR&#160;&#160;&#160;&quot;$mat.volume.thicknessFactor&quot;, 0, 0</computeroutput></para></section>
+<anchor xml:id="_material_8h_1a93c9b8eb96efb8b07259a0223c08ab15"/><section>
+    <title>AI_MATKEY_VOLUME_THICKNESS_TEXTURE</title>
+<indexterm><primary>AI_MATKEY_VOLUME_THICKNESS_TEXTURE</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_MATKEY_VOLUME_THICKNESS_TEXTURE</secondary></indexterm>
+<para><computeroutput>#define AI_MATKEY_VOLUME_THICKNESS_TEXTURE&#160;&#160;&#160;<link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a5012d291ed3b5fc6f4ebba375b5fa74a">aiTextureType_TRANSMISSION</link>, 1</computeroutput></para></section>
+<anchor xml:id="_material_8h_1aad2af35b67a721641993230edf019b47"/><section>
+    <title>AI_TEXTURE_TYPE_MAX</title>
+<indexterm><primary>AI_TEXTURE_TYPE_MAX</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>AI_TEXTURE_TYPE_MAX</secondary></indexterm>
+<para><computeroutput>#define AI_TEXTURE_TYPE_MAX&#160;&#160;&#160;<link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a5012d291ed3b5fc6f4ebba375b5fa74a">aiTextureType_TRANSMISSION</link></computeroutput></para></section>
+</section>
+<section>
+<title>Enumeration Type Documentation</title>
+<anchor xml:id="_material_8h_1ae1236da1ccfbf4f23bb490287a4d61ac"/><section>
+    <title>aiBlendMode</title>
+<indexterm><primary>aiBlendMode</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiBlendMode</secondary></indexterm>
+<para><computeroutput><link linkend="_interfaceenum">enum</link> <link linkend="_material_8h_1ae1236da1ccfbf4f23bb490287a4d61ac">aiBlendMode</link></computeroutput></para><para>
+
+<para>Defines alpha-blend flags. </para>
+</para>
+
+<para>If you&apos;re familiar with OpenGL or D3D, these flags aren&apos;t new to you. They define <emphasis>how</emphasis> the final color value of a pixel is computed, basing on the previous color at that pixel and the new color value from the material. The blend formula is: <literallayout><computeroutput>SourceColor&#32;*&#32;SourceBlend&#32;+&#32;DestColor&#32;*&#32;DestBlend
+</computeroutput></literallayout> where DestColor is the previous color in the frame-buffer at this position and SourceColor is the material color before the transparency calculation.<?linebreak?> This corresponds to the <link linkend="_material_8h_1a7e4425c7ac9ca7fc5dfd57069a0839dc">AI_MATKEY_BLEND_FUNC</link> property. </para>
+<informaltable frame="all">
+<title>Enumerator</title>
+    <tgroup cols="2" align="left" colsep="1" rowsep="1">
+      <colspec colname='c1'/>
+      <colspec colname='c2'/>
+<tbody>
+<row><entry><indexterm><primary>aiBlendMode_Default</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiBlendMode_Default</secondary></indexterm>
+<anchor xml:id="_material_8h_1ae1236da1ccfbf4f23bb490287a4d61aca2df47d5d42d73938d3d273a75db671b0"/>aiBlendMode_Default</entry><entry>
+<para>Formula: <literallayout><computeroutput>SourceColor*SourceAlpha&#32;+&#32;DestColor*(1-SourceAlpha)
+</computeroutput></literallayout> </para>
+</entry></row><row><entry><indexterm><primary>aiBlendMode_Additive</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiBlendMode_Additive</secondary></indexterm>
+<anchor xml:id="_material_8h_1ae1236da1ccfbf4f23bb490287a4d61aca60eb5958c8fd4147bafd9098edf54e1e"/>aiBlendMode_Additive</entry><entry>
+<para>Additive blending</para>
+
+<para>Formula: <literallayout><computeroutput>SourceColor*1&#32;+&#32;DestColor*1
+</computeroutput></literallayout> </para>
+</entry></row><row><entry><indexterm><primary>_aiBlendMode_Force32Bit</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>_aiBlendMode_Force32Bit</secondary></indexterm>
+<anchor xml:id="_material_8h_1ae1236da1ccfbf4f23bb490287a4d61aca75430f7adb68b57be3892d40720f2982"/>_aiBlendMode_Force32Bit</entry><entry></entry></row>    </tbody>
+    </tgroup>
+</informaltable>
+</section>
+<anchor xml:id="_material_8h_1a93e23e0201d6ed86fb4287e15218e4cf"/><section>
+    <title>aiShadingMode</title>
+<indexterm><primary>aiShadingMode</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiShadingMode</secondary></indexterm>
+<para><computeroutput><link linkend="_interfaceenum">enum</link> <link linkend="_material_8h_1a93e23e0201d6ed86fb4287e15218e4cf">aiShadingMode</link></computeroutput></para><para>
+
+<para>Defines all shading models supported by the library. </para>
+</para>
+
+<para>Property: <link linkend="_material_8h_1a0f7ec9923cf262ba5b74d3c52bc588a1">AI_MATKEY_SHADING_MODEL</link></para>
+
+<para>The list of shading modes has been taken from Blender. See Blender documentation for more information. The API does not distinguish between &quot;specular&quot; and &quot;diffuse&quot; shaders (thus the specular term for diffuse shading models like Oren-Nayar remains undefined). <?linebreak?> Again, this value is just a hint. <link linkend="_namespace_assimp">Assimp</link> tries to select the shader whose most common implementation matches the original rendering results of the 3D modeler which wrote a particular model as closely as possible. </para>
+<informaltable frame="all">
+<title>Enumerator</title>
+    <tgroup cols="2" align="left" colsep="1" rowsep="1">
+      <colspec colname='c1'/>
+      <colspec colname='c2'/>
+<tbody>
+<row><entry><indexterm><primary>aiShadingMode_Flat</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiShadingMode_Flat</secondary></indexterm>
+<anchor xml:id="_material_8h_1a93e23e0201d6ed86fb4287e15218e4cfa59fa2c27721e28dadd58cbd39cd46782"/>aiShadingMode_Flat</entry><entry>
+<para>Flat shading. Shading is done on per-face base, diffuse only. Also known as &apos;faceted shading&apos;. </para>
+</entry></row><row><entry><indexterm><primary>aiShadingMode_Gouraud</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiShadingMode_Gouraud</secondary></indexterm>
+<anchor xml:id="_material_8h_1a93e23e0201d6ed86fb4287e15218e4cfa8a20ae47f38c01554ef467c324c27431"/>aiShadingMode_Gouraud</entry><entry>
+<para>Simple Gouraud shading. </para>
+</entry></row><row><entry><indexterm><primary>aiShadingMode_Phong</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiShadingMode_Phong</secondary></indexterm>
+<anchor xml:id="_material_8h_1a93e23e0201d6ed86fb4287e15218e4cfafe5e89f846a9657232077c224fd1a914"/>aiShadingMode_Phong</entry><entry>
+<para>Phong-Shading - </para>
+</entry></row><row><entry><indexterm><primary>aiShadingMode_Blinn</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiShadingMode_Blinn</secondary></indexterm>
+<anchor xml:id="_material_8h_1a93e23e0201d6ed86fb4287e15218e4cfaccd4aca098e73986e50c7566efd6ca1f"/>aiShadingMode_Blinn</entry><entry>
+<para>Phong-Blinn-Shading </para>
+</entry></row><row><entry><indexterm><primary>aiShadingMode_Toon</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiShadingMode_Toon</secondary></indexterm>
+<anchor xml:id="_material_8h_1a93e23e0201d6ed86fb4287e15218e4cfa85c7b6a3c243a1991f4b17125a28a54c"/>aiShadingMode_Toon</entry><entry>
+<para>Toon-Shading per pixel</para>
+
+<para>Also known as &apos;comic&apos; shader. </para>
+</entry></row><row><entry><indexterm><primary>aiShadingMode_OrenNayar</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiShadingMode_OrenNayar</secondary></indexterm>
+<anchor xml:id="_material_8h_1a93e23e0201d6ed86fb4287e15218e4cfab2243130ec0bdb25a26ce829d486e55a"/>aiShadingMode_OrenNayar</entry><entry>
+<para>OrenNayar-Shading per pixel</para>
+
+<para>Extension to standard Lambertian shading, taking the roughness of the material into account </para>
+</entry></row><row><entry><indexterm><primary>aiShadingMode_Minnaert</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiShadingMode_Minnaert</secondary></indexterm>
+<anchor xml:id="_material_8h_1a93e23e0201d6ed86fb4287e15218e4cfa0947dbe335c16766da43fe1b992af4fb"/>aiShadingMode_Minnaert</entry><entry>
+<para>Minnaert-Shading per pixel</para>
+
+<para>Extension to standard Lambertian shading, taking the &quot;darkness&quot; of the material into account </para>
+</entry></row><row><entry><indexterm><primary>aiShadingMode_CookTorrance</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiShadingMode_CookTorrance</secondary></indexterm>
+<anchor xml:id="_material_8h_1a93e23e0201d6ed86fb4287e15218e4cfa36519b85cbfbba437bfe1c504d3dbd6d"/>aiShadingMode_CookTorrance</entry><entry>
+<para>CookTorrance-Shading per pixel</para>
+
+<para>Special shader for metallic surfaces. </para>
+</entry></row><row><entry><indexterm><primary>aiShadingMode_NoShading</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiShadingMode_NoShading</secondary></indexterm>
+<anchor xml:id="_material_8h_1a93e23e0201d6ed86fb4287e15218e4cfa625d6dc1a678985000a1e3a9c7da1e3f"/>aiShadingMode_NoShading</entry><entry>
+<para>No shading at all. Constant light influence of 1.0. Also known as &quot;Unlit&quot; </para>
+</entry></row><row><entry><indexterm><primary>aiShadingMode_Unlit</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiShadingMode_Unlit</secondary></indexterm>
+<anchor xml:id="_material_8h_1a93e23e0201d6ed86fb4287e15218e4cfa24be16c9bd26f4f3d5d493881dcc1ec1"/>aiShadingMode_Unlit</entry><entry></entry></row><row><entry><indexterm><primary>aiShadingMode_Fresnel</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiShadingMode_Fresnel</secondary></indexterm>
+<anchor xml:id="_material_8h_1a93e23e0201d6ed86fb4287e15218e4cfab2f24381f6f4f21cee9cef32c1fd4d5f"/>aiShadingMode_Fresnel</entry><entry>
+<para>Fresnel shading </para>
+</entry></row><row><entry><indexterm><primary>aiShadingMode_PBR_BRDF</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiShadingMode_PBR_BRDF</secondary></indexterm>
+<anchor xml:id="_material_8h_1a93e23e0201d6ed86fb4287e15218e4cfa0b3fe30914cb8961c68b0faa888a8be1"/>aiShadingMode_PBR_BRDF</entry><entry>
+<para>Physically-Based Rendering (PBR) shading using Bidirectional scattering/reflectance distribution function (BSDF/BRDF) There are multiple methods under this banner, and model files may provide data for more than one PBR-BRDF method. Applications should use the set of provided properties to determine which of their preferred PBR rendering methods are likely to be available eg:<itemizedlist>
+<listitem>
+<para>If AI_MATKEY_METALLIC_FACTOR is set, then a Metallic/Roughness is available</para>
+</listitem><listitem>
+<para>If AI_MATKEY_GLOSSINESS_FACTOR is set, then a Specular/Glossiness is available Note that some PBR methods allow layering of techniques </para>
+</listitem></itemizedlist>
+</para>
+</entry></row><row><entry><indexterm><primary>_aiShadingMode_Force32Bit</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>_aiShadingMode_Force32Bit</secondary></indexterm>
+<anchor xml:id="_material_8h_1a93e23e0201d6ed86fb4287e15218e4cfaa33165721a2d89fde364b76fe2da3d00"/>_aiShadingMode_Force32Bit</entry><entry></entry></row>    </tbody>
+    </tgroup>
+</informaltable>
+</section>
+<anchor xml:id="_material_8h_1a6d003e078617e4e80d1313a6250b2dfd"/><section>
+    <title>aiTextureFlags</title>
+<indexterm><primary>aiTextureFlags</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiTextureFlags</secondary></indexterm>
+<para><computeroutput><link linkend="_interfaceenum">enum</link> <link linkend="_material_8h_1a6d003e078617e4e80d1313a6250b2dfd">aiTextureFlags</link></computeroutput></para><para>
+
+<para>Defines some mixed flags for a particular texture. </para>
+</para>
+
+<para>Usually you&apos;ll instruct your cg artists how textures have to look like ... and how they will be processed in your application. However, if you use <link linkend="_namespace_assimp">Assimp</link> for completely generic loading purposes you might also need to process these flags in order to display as many &apos;unknown&apos; 3D models as possible correctly.</para>
+
+<para>This corresponds to the <link linkend="_material_8h_1a69577e4366cceb502288474cf8cf2dab">AI_MATKEY_TEXFLAGS</link> property. </para>
+<informaltable frame="all">
+<title>Enumerator</title>
+    <tgroup cols="2" align="left" colsep="1" rowsep="1">
+      <colspec colname='c1'/>
+      <colspec colname='c2'/>
+<tbody>
+<row><entry><indexterm><primary>aiTextureFlags_Invert</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiTextureFlags_Invert</secondary></indexterm>
+<anchor xml:id="_material_8h_1a6d003e078617e4e80d1313a6250b2dfda2d22809697f40ef1969a491a8d3278ff"/>aiTextureFlags_Invert</entry><entry>
+<para>The texture&apos;s color values have to be inverted (component-wise 1-n) </para>
+</entry></row><row><entry><indexterm><primary>aiTextureFlags_UseAlpha</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiTextureFlags_UseAlpha</secondary></indexterm>
+<anchor xml:id="_material_8h_1a6d003e078617e4e80d1313a6250b2dfda5712da7264ec0c6e90b45580e5badbe0"/>aiTextureFlags_UseAlpha</entry><entry>
+<para>Explicit request to the application to process the alpha channel of the texture.</para>
+
+<para>Mutually exclusive with <link linkend="_material_8h_1a6d003e078617e4e80d1313a6250b2dfda78f2667e8304213210c2508b7af47499">aiTextureFlags_IgnoreAlpha</link>. These flags are set if the library can say for sure that the alpha channel is used/is not used. If the model format does not define this, it is left to the application to decide whether the texture alpha channel - if any - is evaluated or not. </para>
+</entry></row><row><entry><indexterm><primary>aiTextureFlags_IgnoreAlpha</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiTextureFlags_IgnoreAlpha</secondary></indexterm>
+<anchor xml:id="_material_8h_1a6d003e078617e4e80d1313a6250b2dfda78f2667e8304213210c2508b7af47499"/>aiTextureFlags_IgnoreAlpha</entry><entry>
+<para>Explicit request to the application to ignore the alpha channel of the texture.</para>
+
+<para>Mutually exclusive with <link linkend="_material_8h_1a6d003e078617e4e80d1313a6250b2dfda5712da7264ec0c6e90b45580e5badbe0">aiTextureFlags_UseAlpha</link>. </para>
+</entry></row><row><entry><indexterm><primary>_aiTextureFlags_Force32Bit</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>_aiTextureFlags_Force32Bit</secondary></indexterm>
+<anchor xml:id="_material_8h_1a6d003e078617e4e80d1313a6250b2dfdabdc67fee0727d08bd17135d58f67cdd6"/>_aiTextureFlags_Force32Bit</entry><entry></entry></row>    </tbody>
+    </tgroup>
+</informaltable>
+</section>
+<anchor xml:id="_material_8h_1a6cbe56056751aa80e8dd714632a49de0"/><section>
+    <title>aiTextureMapMode</title>
+<indexterm><primary>aiTextureMapMode</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiTextureMapMode</secondary></indexterm>
+<para><computeroutput><link linkend="_interfaceenum">enum</link> <link linkend="_material_8h_1a6cbe56056751aa80e8dd714632a49de0">aiTextureMapMode</link></computeroutput></para><para>
+
+<para>Defines how UV coordinates outside the [0...1] range are handled. </para>
+</para>
+
+<para>Commonly referred to as &apos;wrapping mode&apos;. </para>
+<informaltable frame="all">
+<title>Enumerator</title>
+    <tgroup cols="2" align="left" colsep="1" rowsep="1">
+      <colspec colname='c1'/>
+      <colspec colname='c2'/>
+<tbody>
+<row><entry><indexterm><primary>aiTextureMapMode_Wrap</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiTextureMapMode_Wrap</secondary></indexterm>
+<anchor xml:id="_material_8h_1a6cbe56056751aa80e8dd714632a49de0a39bee4a4d7222d7f21fc093cacac2bcf"/>aiTextureMapMode_Wrap</entry><entry>
+<para>A texture coordinate u|v is translated to u%1|v%1 </para>
+</entry></row><row><entry><indexterm><primary>aiTextureMapMode_Clamp</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiTextureMapMode_Clamp</secondary></indexterm>
+<anchor xml:id="_material_8h_1a6cbe56056751aa80e8dd714632a49de0a809e31ce25b28e9fb7dba0a362293ace"/>aiTextureMapMode_Clamp</entry><entry>
+<para>Texture coordinates outside [0...1] are clamped to the nearest valid value. </para>
+</entry></row><row><entry><indexterm><primary>aiTextureMapMode_Decal</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiTextureMapMode_Decal</secondary></indexterm>
+<anchor xml:id="_material_8h_1a6cbe56056751aa80e8dd714632a49de0a36bdbb449ea382cf7d3ecd7ccbd9c3e8"/>aiTextureMapMode_Decal</entry><entry>
+<para>If the texture coordinates for a pixel are outside [0...1] the texture is not applied to that pixel </para>
+</entry></row><row><entry><indexterm><primary>aiTextureMapMode_Mirror</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiTextureMapMode_Mirror</secondary></indexterm>
+<anchor xml:id="_material_8h_1a6cbe56056751aa80e8dd714632a49de0ae0105c73fb2e7e6d10e80395b6995337"/>aiTextureMapMode_Mirror</entry><entry>
+<para>A texture coordinate u|v becomes u%1|v%1 if (u-(u%1))%2 is zero and 1-(u%1)|1-(v%1) otherwise </para>
+</entry></row><row><entry><indexterm><primary>_aiTextureMapMode_Force32Bit</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>_aiTextureMapMode_Force32Bit</secondary></indexterm>
+<anchor xml:id="_material_8h_1a6cbe56056751aa80e8dd714632a49de0afcec988b7883a042f9ff9f80823da2c0"/>_aiTextureMapMode_Force32Bit</entry><entry></entry></row>    </tbody>
+    </tgroup>
+</informaltable>
+</section>
+<anchor xml:id="_material_8h_1a6186e909f1ae28133ab10f1b4635b0f9"/><section>
+    <title>aiTextureMapping</title>
+<indexterm><primary>aiTextureMapping</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiTextureMapping</secondary></indexterm>
+<para><computeroutput><link linkend="_interfaceenum">enum</link> <link linkend="_material_8h_1a6186e909f1ae28133ab10f1b4635b0f9">aiTextureMapping</link></computeroutput></para><para>
+
+<para>Defines how the mapping coords for a texture are generated. </para>
+</para>
+
+<para>Real-time applications typically require full UV coordinates, so the use of the aiProcess_GenUVCoords step is highly recommended. It generates proper UV channels for non-UV mapped objects, as long as an accurate description how the mapping should look like (e.g spherical) is given. See the <link linkend="_material_8h_1af72d0714d106aa52da2dbdf10d975c54">AI_MATKEY_MAPPING</link> property for more details. </para>
+<informaltable frame="all">
+<title>Enumerator</title>
+    <tgroup cols="2" align="left" colsep="1" rowsep="1">
+      <colspec colname='c1'/>
+      <colspec colname='c2'/>
+<tbody>
+<row><entry><indexterm><primary>aiTextureMapping_UV</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiTextureMapping_UV</secondary></indexterm>
+<anchor xml:id="_material_8h_1a6186e909f1ae28133ab10f1b4635b0f9afe4af8e2f0303198ff2c51edf3039277"/>aiTextureMapping_UV</entry><entry>
+<para>The mapping coordinates are taken from an UV channel.</para>
+
+<para><link linkend="_material_8h_1a96d4efa89610210ec608cf761694f5de">AI_MATKEY_UVWSRC</link> property specifies from which UV channel the texture coordinates are to be taken from (remember, meshes can have more than one UV channel). </para>
+</entry></row><row><entry><indexterm><primary>aiTextureMapping_SPHERE</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiTextureMapping_SPHERE</secondary></indexterm>
+<anchor xml:id="_material_8h_1a6186e909f1ae28133ab10f1b4635b0f9ada83cfca5e55fc99dc89e0e94c91cdb5"/>aiTextureMapping_SPHERE</entry><entry>
+<para>Spherical mapping </para>
+</entry></row><row><entry><indexterm><primary>aiTextureMapping_CYLINDER</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiTextureMapping_CYLINDER</secondary></indexterm>
+<anchor xml:id="_material_8h_1a6186e909f1ae28133ab10f1b4635b0f9a1f3e2bcbdb450f19666b9b0730bad9ae"/>aiTextureMapping_CYLINDER</entry><entry>
+<para>Cylindrical mapping </para>
+</entry></row><row><entry><indexterm><primary>aiTextureMapping_BOX</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiTextureMapping_BOX</secondary></indexterm>
+<anchor xml:id="_material_8h_1a6186e909f1ae28133ab10f1b4635b0f9ac680b16f3be94f101132982afd003fee"/>aiTextureMapping_BOX</entry><entry>
+<para>Cubic mapping </para>
+</entry></row><row><entry><indexterm><primary>aiTextureMapping_PLANE</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiTextureMapping_PLANE</secondary></indexterm>
+<anchor xml:id="_material_8h_1a6186e909f1ae28133ab10f1b4635b0f9acbb0fa22c77e4c8936c1071fcacd1a64"/>aiTextureMapping_PLANE</entry><entry>
+<para>Planar mapping </para>
+</entry></row><row><entry><indexterm><primary>aiTextureMapping_OTHER</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiTextureMapping_OTHER</secondary></indexterm>
+<anchor xml:id="_material_8h_1a6186e909f1ae28133ab10f1b4635b0f9a585fb9423e1e77a52c9096fc0b907881"/>aiTextureMapping_OTHER</entry><entry>
+<para>Undefined mapping. Have fun. </para>
+</entry></row><row><entry><indexterm><primary>_aiTextureMapping_Force32Bit</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>_aiTextureMapping_Force32Bit</secondary></indexterm>
+<anchor xml:id="_material_8h_1a6186e909f1ae28133ab10f1b4635b0f9a26d999203feb901a0b17e4babe9b9791"/>_aiTextureMapping_Force32Bit</entry><entry></entry></row>    </tbody>
+    </tgroup>
+</informaltable>
+</section>
+<anchor xml:id="_material_8h_1afcd3096d69affba13114cedfc6f9ee6b"/><section>
+    <title>aiTextureOp</title>
+<indexterm><primary>aiTextureOp</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiTextureOp</secondary></indexterm>
+<para><computeroutput><link linkend="_interfaceenum">enum</link> <link linkend="_material_8h_1afcd3096d69affba13114cedfc6f9ee6b">aiTextureOp</link></computeroutput></para><para>
+
+<para>Defines how the Nth texture of a specific type is combined with the result of all previous layers. </para>
+</para>
+
+<para>Example (left: key, right: value): <?linebreak?> <literallayout><computeroutput>DiffColor0&#32;&#32;&#32;&#32;&#32;-&#32;gray
+DiffTextureOp0&#32;-&#32;aiTextureOpMultiply
+DiffTexture0&#32;&#32;&#32;-&#32;tex1.png
+DiffTextureOp0&#32;-&#32;aiTextureOpAdd
+DiffTexture1&#32;&#32;&#32;-&#32;tex2.png
+</computeroutput></literallayout> Written as equation, the final diffuse term for a specific pixel would be: <literallayout><computeroutput>diffFinal&#32;=&#32;DiffColor0&#32;*&#32;sampleTex(DiffTexture0,UV0)&#32;+
+&#32;&#32;&#32;sampleTex(DiffTexture1,UV0)&#32;*&#32;diffContrib;
+</computeroutput></literallayout> where &apos;diffContrib&apos; is the intensity of the incoming light for that pixel. </para>
+<informaltable frame="all">
+<title>Enumerator</title>
+    <tgroup cols="2" align="left" colsep="1" rowsep="1">
+      <colspec colname='c1'/>
+      <colspec colname='c2'/>
+<tbody>
+<row><entry><indexterm><primary>aiTextureOp_Multiply</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiTextureOp_Multiply</secondary></indexterm>
+<anchor xml:id="_material_8h_1afcd3096d69affba13114cedfc6f9ee6ba4b4cf98920571bc5b5cdf333d1642759"/>aiTextureOp_Multiply</entry><entry>
+<para>T = T1 * T2 </para>
+</entry></row><row><entry><indexterm><primary>aiTextureOp_Add</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiTextureOp_Add</secondary></indexterm>
+<anchor xml:id="_material_8h_1afcd3096d69affba13114cedfc6f9ee6ba38c643dc19bdb5dad544c54829129d14"/>aiTextureOp_Add</entry><entry>
+<para>T = T1 + T2 </para>
+</entry></row><row><entry><indexterm><primary>aiTextureOp_Subtract</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiTextureOp_Subtract</secondary></indexterm>
+<anchor xml:id="_material_8h_1afcd3096d69affba13114cedfc6f9ee6bac20a0da785e4670500e7338bc59a0793"/>aiTextureOp_Subtract</entry><entry>
+<para>T = T1 - T2 </para>
+</entry></row><row><entry><indexterm><primary>aiTextureOp_Divide</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiTextureOp_Divide</secondary></indexterm>
+<anchor xml:id="_material_8h_1afcd3096d69affba13114cedfc6f9ee6bac15b6232b50780f509edf0a6b39af72c"/>aiTextureOp_Divide</entry><entry>
+<para>T = T1 / T2 </para>
+</entry></row><row><entry><indexterm><primary>aiTextureOp_SmoothAdd</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiTextureOp_SmoothAdd</secondary></indexterm>
+<anchor xml:id="_material_8h_1afcd3096d69affba13114cedfc6f9ee6ba174eaa1b84bdcc131febea53da22aa4a"/>aiTextureOp_SmoothAdd</entry><entry>
+<para>T = (T1 + T2) - (T1 * T2) </para>
+</entry></row><row><entry><indexterm><primary>aiTextureOp_SignedAdd</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiTextureOp_SignedAdd</secondary></indexterm>
+<anchor xml:id="_material_8h_1afcd3096d69affba13114cedfc6f9ee6babe30ac3d3c7bff0fe1d69c70fbd646ff"/>aiTextureOp_SignedAdd</entry><entry>
+<para>T = T1 + (T2-0.5) </para>
+</entry></row><row><entry><indexterm><primary>_aiTextureOp_Force32Bit</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>_aiTextureOp_Force32Bit</secondary></indexterm>
+<anchor xml:id="_material_8h_1afcd3096d69affba13114cedfc6f9ee6bafa05ee61b2b3dc74d2f042d9443a57c4"/>_aiTextureOp_Force32Bit</entry><entry></entry></row>    </tbody>
+    </tgroup>
+</informaltable>
+</section>
+<anchor xml:id="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0"/><section>
+    <title>aiTextureType</title>
+<indexterm><primary>aiTextureType</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiTextureType</secondary></indexterm>
+<para><computeroutput><link linkend="_interfaceenum">enum</link> <link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0">aiTextureType</link></computeroutput></para><para>
+
+<para>Defines the purpose of a texture. </para>
+</para>
+
+<para>This is a very difficult topic. Different 3D packages support different kinds of textures. For very common texture types, such as bumpmaps, the rendering results depend on implementation details in the rendering pipelines of these applications. <link linkend="_namespace_assimp">Assimp</link> loads all texture references from the model file and tries to determine which of the predefined texture types below is the best choice to match the original use of the texture as closely as possible.<?linebreak?></para>
+
+<para>In content pipelines you&apos;ll usually define how textures have to be handled, and the artists working on models have to conform to this specification, regardless which 3D tool they&apos;re using. </para>
+<informaltable frame="all">
+<title>Enumerator</title>
+    <tgroup cols="2" align="left" colsep="1" rowsep="1">
+      <colspec colname='c1'/>
+      <colspec colname='c2'/>
+<tbody>
+<row><entry><indexterm><primary>aiTextureType_NONE</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiTextureType_NONE</secondary></indexterm>
+<anchor xml:id="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a29933480f8f018b381ae8be57435a435"/>aiTextureType_NONE</entry><entry>
+<para>Dummy value.</para>
+
+<para>No texture, but the value to be used as &apos;texture semantic&apos; (#aiMaterialProperty::mSemantic) for all material properties <emphasis>not</emphasis> related to textures. </para>
+</entry></row><row><entry><indexterm><primary>aiTextureType_DIFFUSE</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiTextureType_DIFFUSE</secondary></indexterm>
+<anchor xml:id="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a3027af56603d5babd7e2efcf5ed1debd"/>aiTextureType_DIFFUSE</entry><entry>
+<para>LEGACY API MATERIALS Legacy refers to materials which Were originally implemented in the specifications around 2000. These must never be removed, as most engines support them. The texture is combined with the result of the diffuse lighting equation. OR PBR Specular/Glossiness </para>
+</entry></row><row><entry><indexterm><primary>aiTextureType_SPECULAR</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiTextureType_SPECULAR</secondary></indexterm>
+<anchor xml:id="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a0fdc17eca73119fe7c4e7d17043aba6b"/>aiTextureType_SPECULAR</entry><entry>
+<para>The texture is combined with the result of the specular lighting equation. OR PBR Specular/Glossiness </para>
+</entry></row><row><entry><indexterm><primary>aiTextureType_AMBIENT</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiTextureType_AMBIENT</secondary></indexterm>
+<anchor xml:id="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a88d7fc7cc800d2641fd481067eca0dc4"/>aiTextureType_AMBIENT</entry><entry>
+<para>The texture is combined with the result of the ambient lighting equation. </para>
+</entry></row><row><entry><indexterm><primary>aiTextureType_EMISSIVE</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiTextureType_EMISSIVE</secondary></indexterm>
+<anchor xml:id="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a9a8cd97191328740f68e0e77e83ac485"/>aiTextureType_EMISSIVE</entry><entry>
+<para>The texture is added to the result of the lighting calculation. It isn&apos;t influenced by incoming light. </para>
+</entry></row><row><entry><indexterm><primary>aiTextureType_HEIGHT</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiTextureType_HEIGHT</secondary></indexterm>
+<anchor xml:id="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a5cff2209ef767617b00c2875afe7d5a7"/>aiTextureType_HEIGHT</entry><entry>
+<para>The texture is a height map.</para>
+
+<para>By convention, higher gray-scale values stand for higher elevations from the base height. </para>
+</entry></row><row><entry><indexterm><primary>aiTextureType_NORMALS</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiTextureType_NORMALS</secondary></indexterm>
+<anchor xml:id="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0aaf9089ae800fe4b3d97bc88d7686bab0"/>aiTextureType_NORMALS</entry><entry>
+<para>The texture is a (tangent space) normal-map.</para>
+
+<para>Again, there are several conventions for tangent-space normal maps. <link linkend="_namespace_assimp">Assimp</link> does (intentionally) not distinguish here. </para>
+</entry></row><row><entry><indexterm><primary>aiTextureType_SHININESS</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiTextureType_SHININESS</secondary></indexterm>
+<anchor xml:id="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a8675306af91180469f7e98a438125b89"/>aiTextureType_SHININESS</entry><entry>
+<para>The texture defines the glossiness of the material.</para>
+
+<para>The glossiness is in fact the exponent of the specular (phong) lighting equation. Usually there is a conversion function defined to map the linear color values in the texture to a suitable exponent. Have fun. </para>
+</entry></row><row><entry><indexterm><primary>aiTextureType_OPACITY</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiTextureType_OPACITY</secondary></indexterm>
+<anchor xml:id="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a68e7f8f7485bb00142a25df18e1ff148"/>aiTextureType_OPACITY</entry><entry>
+<para>The texture defines per-pixel opacity.</para>
+
+<para>Usually &apos;white&apos; means opaque and &apos;black&apos; means &apos;transparency&apos;. Or quite the opposite. Have fun. </para>
+</entry></row><row><entry><indexterm><primary>aiTextureType_DISPLACEMENT</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiTextureType_DISPLACEMENT</secondary></indexterm>
+<anchor xml:id="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a929ae2ac33faa1ffe15978933c29337e"/>aiTextureType_DISPLACEMENT</entry><entry>
+<para>Displacement texture</para>
+
+<para>The exact purpose and format is application-dependent. Higher color values stand for higher vertex displacements. </para>
+</entry></row><row><entry><indexterm><primary>aiTextureType_LIGHTMAP</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiTextureType_LIGHTMAP</secondary></indexterm>
+<anchor xml:id="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a86e356815b137cd584336cab11e72820"/>aiTextureType_LIGHTMAP</entry><entry>
+<para>Lightmap texture (aka Ambient Occlusion)</para>
+
+<para>Both &apos;Lightmaps&apos; and dedicated &apos;ambient occlusion maps&apos; are covered by this material property. The texture contains a scaling value for the final color value of a pixel. Its intensity is not affected by incoming light. </para>
+</entry></row><row><entry><indexterm><primary>aiTextureType_REFLECTION</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiTextureType_REFLECTION</secondary></indexterm>
+<anchor xml:id="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0aa675f72b81148c5c260d408e122de7f8"/>aiTextureType_REFLECTION</entry><entry>
+<para>Reflection texture</para>
+
+<para>Contains the color of a perfect mirror reflection. Rarely used, almost never for real-time applications. </para>
+</entry></row><row><entry><indexterm><primary>aiTextureType_BASE_COLOR</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiTextureType_BASE_COLOR</secondary></indexterm>
+<anchor xml:id="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a5d752b64d94439eadbb815e8a35d4fc0"/>aiTextureType_BASE_COLOR</entry><entry>
+<para>PBR Materials PBR definitions from maya and other modelling packages now use this standard. This was originally introduced around 2012. Support for this is in game engines like Godot, Unreal or Unity3D. Modelling packages which use this are very common now. </para>
+</entry></row><row><entry><indexterm><primary>aiTextureType_NORMAL_CAMERA</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiTextureType_NORMAL_CAMERA</secondary></indexterm>
+<anchor xml:id="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0aa8526cb493ab84b04a758a82cb858978"/>aiTextureType_NORMAL_CAMERA</entry><entry></entry></row><row><entry><indexterm><primary>aiTextureType_EMISSION_COLOR</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiTextureType_EMISSION_COLOR</secondary></indexterm>
+<anchor xml:id="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a47ba4de160b7ffc0c05a872563c4bec7"/>aiTextureType_EMISSION_COLOR</entry><entry></entry></row><row><entry><indexterm><primary>aiTextureType_METALNESS</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiTextureType_METALNESS</secondary></indexterm>
+<anchor xml:id="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a102addc15801212fb74d821cf6556bcd"/>aiTextureType_METALNESS</entry><entry></entry></row><row><entry><indexterm><primary>aiTextureType_DIFFUSE_ROUGHNESS</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiTextureType_DIFFUSE_ROUGHNESS</secondary></indexterm>
+<anchor xml:id="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a3be75e9bfee00f0df2a715ca27fcebc6"/>aiTextureType_DIFFUSE_ROUGHNESS</entry><entry></entry></row><row><entry><indexterm><primary>aiTextureType_AMBIENT_OCCLUSION</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiTextureType_AMBIENT_OCCLUSION</secondary></indexterm>
+<anchor xml:id="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0ae35c89a0f567067aa7985b6d0ba1ac0d"/>aiTextureType_AMBIENT_OCCLUSION</entry><entry></entry></row><row><entry><indexterm><primary>aiTextureType_SHEEN</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiTextureType_SHEEN</secondary></indexterm>
+<anchor xml:id="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a2534326d369dc2b340ac0c23a9405c0a"/>aiTextureType_SHEEN</entry><entry>
+<para>PBR <link linkend="_class_material">Material</link> Modifiers Some modern renderers have further PBR modifiers that may be overlaid on top of the &apos;base&apos; PBR materials for additional realism. These use multiple texture maps, so only the base type is directly defined Sheen Generally used to simulate textiles that are covered in a layer of microfibers eg velvet <link xlink:href="https://github.com/KhronosGroup/glTF/tree/master/extensions/2.0/Khronos/KHR_materials_sheen">https://github.com/KhronosGroup/glTF/tree/master/extensions/2.0/Khronos/KHR_materials_sheen</link> </para>
+</entry></row><row><entry><indexterm><primary>aiTextureType_CLEARCOAT</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiTextureType_CLEARCOAT</secondary></indexterm>
+<anchor xml:id="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a4c8443070acff2892a377aeb022e273f"/>aiTextureType_CLEARCOAT</entry><entry>
+<para>Clearcoat Simulates a layer of &apos;polish&apos; or &apos;laquer&apos; layered on top of a PBR substrate <link xlink:href="https://autodesk.github.io/standard-surface/#closures/coating">https://autodesk.github.io/standard-surface/#closures/coating</link> <link xlink:href="https://github.com/KhronosGroup/glTF/tree/master/extensions/2.0/Khronos/KHR_materials_clearcoat">https://github.com/KhronosGroup/glTF/tree/master/extensions/2.0/Khronos/KHR_materials_clearcoat</link> </para>
+</entry></row><row><entry><indexterm><primary>aiTextureType_TRANSMISSION</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiTextureType_TRANSMISSION</secondary></indexterm>
+<anchor xml:id="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a5012d291ed3b5fc6f4ebba375b5fa74a"/>aiTextureType_TRANSMISSION</entry><entry>
+<para>Transmission Simulates transmission through the surface May include further information such as wall thickness </para>
+</entry></row><row><entry><indexterm><primary>aiTextureType_UNKNOWN</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiTextureType_UNKNOWN</secondary></indexterm>
+<anchor xml:id="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a435cc5adea69c96c0c3205a2bde21cce"/>aiTextureType_UNKNOWN</entry><entry>
+<para>Unknown texture</para>
+
+<para>A texture reference that does not match any of the definitions above is considered to be &apos;unknown&apos;. It is still imported, but is excluded from any further post-processing. </para>
+</entry></row><row><entry><indexterm><primary>_aiTextureType_Force32Bit</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>_aiTextureType_Force32Bit</secondary></indexterm>
+<anchor xml:id="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a78e1009477fa87111ae38c7ef2bdb154"/>_aiTextureType_Force32Bit</entry><entry></entry></row>    </tbody>
+    </tgroup>
+</informaltable>
+</section>
+</section>
+<section>
+<title>Function Documentation</title>
+<anchor xml:id="_material_8h_1ac4a6fbb0c08ddd1372ae187bf108d7e8"/><section>
+    <title>aiGetMaterialColor()</title>
+<indexterm><primary>aiGetMaterialColor</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiGetMaterialColor</secondary></indexterm>
+<para><computeroutput><link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link> <link linkend="_defs_8h_1aa8c1788fd9d096036c9e3b6cfe4b1301">C_ENUM</link> <link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link> aiGetMaterialColor (const <link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link> <link linkend="_structai_material">aiMaterial</link> * pMat, const char * pKey, unsigned int type, unsigned int index, <link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link> <link linkend="_structai_color4_d">aiColor4D</link> * pOut)</computeroutput></para><para>
+
+<para>Retrieve a color value from the material property table. </para>
+</para>
+
+<para>See the sample for aiGetMaterialFloat for more information </para>
+</section>
+<anchor xml:id="_material_8h_1af3a0c289a0ec5d5b01bdfced0605bb11"/><section>
+    <title>aiGetMaterialFloat()</title>
+<indexterm><primary>aiGetMaterialFloat</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiGetMaterialFloat</secondary></indexterm>
+<para><computeroutput><link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link> aiGetMaterialFloat (const <link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link> <link linkend="_structai_material">aiMaterial</link> * pMat, const char * pKey, unsigned int type, unsigned int index, <link linkend="_defs_8h_1af221f9bbc3e0dc43a46efaaac6dab067">ai_real</link> * pOut)<computeroutput>[inline]</computeroutput></computeroutput></para><para>
+
+<para>Retrieve a single float property with a specific key from the material. </para>
+</para>
+
+<para>Pass one of the AI_MATKEY_XXX constants for the last three parameters (the example reads the <link linkend="_material_8h_1a8cbc5193d8836369d9bf9907628d4f4d">AI_MATKEY_SHININESS_STRENGTH</link> property of the first diffuse texture) <literallayout><computeroutput><emphasis role="keywordtype">float</emphasis>&#32;specStrength&#32;=&#32;1.f;&#32;<emphasis role="comment">//&#32;default&#32;value,&#32;remains&#32;unmodified&#32;if&#32;we&#32;fail.</emphasis>
+<link linkend="_material_8h_1af3a0c289a0ec5d5b01bdfced0605bb11">aiGetMaterialFloat</link>(mat,&#32;<link linkend="_material_8h_1a8cbc5193d8836369d9bf9907628d4f4d">AI_MATKEY_SHININESS_STRENGTH</link>,
+&#32;&#32;&#32;(<emphasis role="keywordtype">float</emphasis>*)&amp;specStrength);
+</computeroutput></literallayout></para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>pMat</entry><entry>
+<para>Pointer to the input material. May not be NULL </para>
+</entry>
+                            </row>
+                            <row>
+<entry>pKey</entry><entry>
+<para>Key to search for. One of the AI_MATKEY_XXX constants. </para>
+</entry>
+                            </row>
+                            <row>
+<entry>pOut</entry><entry>
+<para>Receives the output float. </para>
+</entry>
+                            </row>
+                            <row>
+<entry>type</entry><entry>
+<para>(see the code sample above) </para>
+</entry>
+                            </row>
+                            <row>
+<entry>index</entry><entry>
+<para>(see the code sample above) </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>Specifies whether the key has been found. If not, the output float remains unmodified. </para>
+</formalpara>
+</para>
+</section>
+<anchor xml:id="_material_8h_1a914b58254f33c1574ec872a7f8c78805"/><section>
+    <title>aiGetMaterialFloatArray()</title>
+<indexterm><primary>aiGetMaterialFloatArray</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiGetMaterialFloatArray</secondary></indexterm>
+<para><computeroutput><link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link> <link linkend="_defs_8h_1aa8c1788fd9d096036c9e3b6cfe4b1301">C_ENUM</link> <link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link> aiGetMaterialFloatArray (const <link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link> <link linkend="_structai_material">aiMaterial</link> * pMat, const char * pKey, unsigned int type, unsigned int index, <link linkend="_defs_8h_1af221f9bbc3e0dc43a46efaaac6dab067">ai_real</link> * pOut, unsigned int * pMax)</computeroutput></para><para>
+
+<para>Retrieve an array of float values with a specific key from the material. </para>
+</para>
+
+<para>Pass one of the AI_MATKEY_XXX constants for the last three parameters (the example reads the <link linkend="_material_8h_1ab24f58c983cf26acc9389ed2530316a9">AI_MATKEY_UVTRANSFORM</link> property of the first diffuse texture) <literallayout><computeroutput><link linkend="_structai_u_v_transform">aiUVTransform</link>&#32;trafo;
+<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;max&#32;=&#32;<emphasis role="keyword">sizeof</emphasis>(<link linkend="_structai_u_v_transform">aiUVTransform</link>);
+<emphasis role="keywordflow">if</emphasis>&#32;(AI_SUCCESS&#32;!=&#32;<link linkend="_material_8h_1a914b58254f33c1574ec872a7f8c78805">aiGetMaterialFloatArray</link>(mat,&#32;<link linkend="_material_8h_1ab24f58c983cf26acc9389ed2530316a9">AI_MATKEY_UVTRANSFORM</link>(<link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0a3027af56603d5babd7e2efcf5ed1debd">aiTextureType_DIFFUSE</link>,0),
+&#32;&#32;&#32;(<emphasis role="keywordtype">float</emphasis>*)&amp;trafo,&#32;&amp;max)&#32;||&#32;<emphasis role="keyword">sizeof</emphasis>(<link linkend="_structai_u_v_transform">aiUVTransform</link>)&#32;!=&#32;max)
+{
+&#32;&#32;<emphasis role="comment">//&#32;error&#32;handling</emphasis>
+}
+</computeroutput></literallayout></para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>pMat</entry><entry>
+<para>Pointer to the input material. May not be NULL </para>
+</entry>
+                            </row>
+                            <row>
+<entry>pKey</entry><entry>
+<para>Key to search for. One of the AI_MATKEY_XXX constants. </para>
+</entry>
+                            </row>
+                            <row>
+<entry>pOut</entry><entry>
+<para>Pointer to a buffer to receive the result. </para>
+</entry>
+                            </row>
+                            <row>
+<entry>pMax</entry><entry>
+<para>Specifies the size of the given buffer, in float&apos;s. Receives the number of values (not bytes!) read. </para>
+</entry>
+                            </row>
+                            <row>
+<entry>type</entry><entry>
+<para>(see the code sample above) </para>
+</entry>
+                            </row>
+                            <row>
+<entry>index</entry><entry>
+<para>(see the code sample above) </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>Specifies whether the key has been found. If not, the output arrays remains unmodified and pMax is set to 0. </para>
+</formalpara>
+</para>
+</section>
+<anchor xml:id="_material_8h_1a0c3edecf5eade8c3c0578de7eab6d6dc"/><section>
+    <title>aiGetMaterialInteger()</title>
+<indexterm><primary>aiGetMaterialInteger</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiGetMaterialInteger</secondary></indexterm>
+<para><computeroutput><link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link> aiGetMaterialInteger (const <link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link> <link linkend="_structai_material">aiMaterial</link> * pMat, const char * pKey, unsigned int type, unsigned int index, int * pOut)<computeroutput>[inline]</computeroutput></computeroutput></para><para>
+
+<para>Retrieve an integer property with a specific key from a material. </para>
+</para>
+
+<para>See the sample for aiGetMaterialFloat for more information. </para>
+</section>
+<anchor xml:id="_material_8h_1a8ed2b99a9861d257b77231b4ed70f69d"/><section>
+    <title>aiGetMaterialIntegerArray()</title>
+<indexterm><primary>aiGetMaterialIntegerArray</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiGetMaterialIntegerArray</secondary></indexterm>
+<para><computeroutput><link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link> <link linkend="_defs_8h_1aa8c1788fd9d096036c9e3b6cfe4b1301">C_ENUM</link> <link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link> aiGetMaterialIntegerArray (const <link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link> <link linkend="_structai_material">aiMaterial</link> * pMat, const char * pKey, unsigned int type, unsigned int index, int * pOut, unsigned int * pMax)</computeroutput></para><para>
+
+<para>Retrieve an array of integer values with a specific key from a material. </para>
+</para>
+
+<para>See the sample for aiGetMaterialFloatArray for more information. </para>
+</section>
+<anchor xml:id="_material_8h_1a3052135188f8fc7987d2f98fa17615e4"/><section>
+    <title>aiGetMaterialProperty()</title>
+<indexterm><primary>aiGetMaterialProperty</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiGetMaterialProperty</secondary></indexterm>
+<para><computeroutput><link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link> <link linkend="_defs_8h_1aa8c1788fd9d096036c9e3b6cfe4b1301">C_ENUM</link> <link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link> aiGetMaterialProperty (const <link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link> <link linkend="_structai_material">aiMaterial</link> * pMat, const char * pKey, unsigned int type, unsigned int index, const <link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link> aiMaterialProperty ** pPropOut)</computeroutput></para><para>
+
+<para>Retrieve a material property with a specific key from the material. </para>
+</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>pMat</entry><entry>
+<para>Pointer to the input material. May not be NULL </para>
+</entry>
+                            </row>
+                            <row>
+<entry>pKey</entry><entry>
+<para>Key to search for. One of the AI_MATKEY_XXX constants. </para>
+</entry>
+                            </row>
+                            <row>
+<entry>type</entry><entry>
+<para>Specifies the type of the texture to be retrieved ( e.g. diffuse, specular, height map ...) </para>
+</entry>
+                            </row>
+                            <row>
+<entry>index</entry><entry>
+<para>Index of the texture to be retrieved. </para>
+</entry>
+                            </row>
+                            <row>
+<entry>pPropOut</entry><entry>
+<para>Pointer to receive a pointer to a valid aiMaterialProperty structure or NULL if the key has not been found. </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                </para>
+</section>
+<anchor xml:id="_material_8h_1a20e2873fb56982ea3a5dcd6a343b7070"/><section>
+    <title>aiGetMaterialString()</title>
+<indexterm><primary>aiGetMaterialString</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiGetMaterialString</secondary></indexterm>
+<para><computeroutput><link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link> <link linkend="_defs_8h_1aa8c1788fd9d096036c9e3b6cfe4b1301">C_ENUM</link> <link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link> aiGetMaterialString (const <link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link> <link linkend="_structai_material">aiMaterial</link> * pMat, const char * pKey, unsigned int type, unsigned int index, <link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link> <link linkend="_structai_string">aiString</link> * pOut)</computeroutput></para><para>
+
+<para>Retrieve a string from the material property table. </para>
+</para>
+
+<para>See the sample for aiGetMaterialFloat for more information. </para>
+</section>
+<anchor xml:id="_material_8h_1af3a53df46231d9f0aab39e972cd40ad3"/><section>
+    <title>aiGetMaterialTexture()</title>
+<indexterm><primary>aiGetMaterialTexture</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiGetMaterialTexture</secondary></indexterm>
+<para><computeroutput><link linkend="_defs_8h_1aa8c1788fd9d096036c9e3b6cfe4b1301">C_ENUM</link> <link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link> aiGetMaterialTexture (const <link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link> <link linkend="_structai_material">aiMaterial</link> * mat, <link linkend="_defs_8h_1aa8c1788fd9d096036c9e3b6cfe4b1301">C_ENUM</link> <link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0">aiTextureType</link> type, unsigned int index, <link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link> <link linkend="_structai_string">aiString</link> * path, <link linkend="_defs_8h_1aa8c1788fd9d096036c9e3b6cfe4b1301">C_ENUM</link> <link linkend="_material_8h_1a6186e909f1ae28133ab10f1b4635b0f9">aiTextureMapping</link> * mapping, unsigned int * uvindex, <link linkend="_defs_8h_1af221f9bbc3e0dc43a46efaaac6dab067">ai_real</link> * blend, <link linkend="_defs_8h_1aa8c1788fd9d096036c9e3b6cfe4b1301">C_ENUM</link> <link linkend="_material_8h_1afcd3096d69affba13114cedfc6f9ee6b">aiTextureOp</link> * op, <link linkend="_defs_8h_1aa8c1788fd9d096036c9e3b6cfe4b1301">C_ENUM</link> <link linkend="_material_8h_1a6cbe56056751aa80e8dd714632a49de0">aiTextureMapMode</link> * mapmode, unsigned int * flags)</computeroutput></para><para>
+
+<para>Helper function to get all values pertaining to a particular texture slot from a material structure. </para>
+</para>
+
+<para>This function is provided just for convenience. You could also read the texture by parsing all of its properties manually. This function bundles all of them in a huge function monster.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>in</entry><entry>mat</entry><entry>
+<para>Pointer to the input material. May not be NULL </para>
+</entry>
+                            </row>
+                            <row>
+<entry>in</entry><entry>type</entry><entry>
+<para>Specifies the texture stack to read from (e.g. diffuse, specular, height map ...). </para>
+</entry>
+                            </row>
+                            <row>
+<entry>in</entry><entry>index</entry><entry>
+<para>Index of the texture. The function fails if the requested index is not available for this texture type. <link linkend="_material_8h_1a8d331464c4f86b44cb6c6d64e39398ed">aiGetMaterialTextureCount()</link> can be used to determine the number of textures in a particular texture stack. </para>
+</entry>
+                            </row>
+                            <row>
+<entry>out</entry><entry>path</entry><entry>
+<para>Receives the output path If the texture is embedded, receives a &apos;*&apos; followed by the id of the texture (for the textures stored in the corresponding scene) which can be converted to an int using a function like atoi. This parameter must be non-null. </para>
+</entry>
+                            </row>
+                            <row>
+<entry></entry><entry>mapping</entry><entry>
+<para>The texture mapping mode to be used. Pass NULL if you&apos;re not interested in this information. </para>
+</entry>
+                            </row>
+                            <row>
+<entry>out</entry><entry>uvindex</entry><entry>
+<para>For UV-mapped textures: receives the index of the UV source channel. Unmodified otherwise. Pass NULL if you&apos;re not interested in this information. </para>
+</entry>
+                            </row>
+                            <row>
+<entry>out</entry><entry>blend</entry><entry>
+<para>Receives the blend factor for the texture Pass NULL if you&apos;re not interested in this information. </para>
+</entry>
+                            </row>
+                            <row>
+<entry>out</entry><entry>op</entry><entry>
+<para>Receives the texture blend operation to be perform between this texture and the previous texture. Pass NULL if you&apos;re not interested in this information. </para>
+</entry>
+                            </row>
+                            <row>
+<entry>out</entry><entry>mapmode</entry><entry>
+<para>Receives the mapping modes to be used for the texture. Pass NULL if you&apos;re not interested in this information. Otherwise, pass a pointer to an array of two aiTextureMapMode&apos;s (one for each axis, UV order). </para>
+</entry>
+                            </row>
+                            <row>
+<entry>out</entry><entry>flags</entry><entry>
+<para>Receives the the texture flags. </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>AI_SUCCESS on success, otherwise something else. Have fun. </para>
+</formalpara>
+</para>
+</section>
+<anchor xml:id="_material_8h_1a8d331464c4f86b44cb6c6d64e39398ed"/><section>
+    <title>aiGetMaterialTextureCount()</title>
+<indexterm><primary>aiGetMaterialTextureCount</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiGetMaterialTextureCount</secondary></indexterm>
+<para><computeroutput><link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link> unsigned int aiGetMaterialTextureCount (const <link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link> <link linkend="_structai_material">aiMaterial</link> * pMat, <link linkend="_defs_8h_1aa8c1788fd9d096036c9e3b6cfe4b1301">C_ENUM</link> <link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0">aiTextureType</link> type)</computeroutput></para>
+<para>Get the number of textures for a particular texture type. 
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>in</entry><entry>pMat</entry><entry>
+<para>Pointer to the input material. May not be NULL </para>
+</entry>
+                            </row>
+                            <row>
+<entry></entry><entry>type</entry><entry>
+<para>Texture type to check for </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>Number of textures for this type. </para>
+</formalpara>
+<note><title>Note</title>
+
+<para>A texture can be easily queried using <link linkend="_material_8h_1af3a53df46231d9f0aab39e972cd40ad3">aiGetMaterialTexture()</link> </para>
+</note>
+</para>
+</section>
+<anchor xml:id="_material_8h_1a47b7e8aecc784edcb894600af33fd592"/><section>
+    <title>aiGetMaterialUVTransform()</title>
+<indexterm><primary>aiGetMaterialUVTransform</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiGetMaterialUVTransform</secondary></indexterm>
+<para><computeroutput><link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link> <link linkend="_defs_8h_1aa8c1788fd9d096036c9e3b6cfe4b1301">C_ENUM</link> <link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link> aiGetMaterialUVTransform (const <link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link> <link linkend="_structai_material">aiMaterial</link> * pMat, const char * pKey, unsigned int type, unsigned int index, <link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link> <link linkend="_structai_u_v_transform">aiUVTransform</link> * pOut)</computeroutput></para><para>
+
+<para>Retrieve a <link linkend="_structai_u_v_transform">aiUVTransform</link> value from the material property table. </para>
+</para>
+
+<para>See the sample for aiGetMaterialFloat for more information </para>
+</section>
+<anchor xml:id="_material_8h_1a68fe8857ca972dc8a221bf7bd533df7b"/><section>
+    <title>aiTextureTypeToString()</title>
+<indexterm><primary>aiTextureTypeToString</primary><secondary>material.h</secondary></indexterm>
+<indexterm><primary>material.h</primary><secondary>aiTextureTypeToString</secondary></indexterm>
+<para><computeroutput><link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link> const char * aiTextureTypeToString (<link linkend="_interfaceenum">enum</link> <link linkend="_material_8h_1a7dd415ff703a2cc53d1c22ddbbd7dde0">aiTextureType</link> in)</computeroutput></para></section>
+</section>
+</section>

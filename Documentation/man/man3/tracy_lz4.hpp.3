@@ -1,0 +1,385 @@
+.TH "adhed/common/tracy_lz4.hpp" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+adhed/common/tracy_lz4.hpp
+.SH SYNOPSIS
+.br
+.PP
+\fR#include <stddef\&.h>\fP
+.br
+\fR#include <stdint\&.h>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBtracy::LZ4_stream_t_internal\fP"
+.br
+.ti -1c
+.RI "union \fBtracy::LZ4_stream_u\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::LZ4_streamDecode_t_internal\fP"
+.br
+.ti -1c
+.RI "union \fBtracy::LZ4_streamDecode_u\fP"
+.br
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI "namespace \fBtracy\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBLZ4LIB_VISIBILITY\fP"
+.br
+.ti -1c
+.RI "#define \fBLZ4LIB_API\fP   \fBLZ4LIB_VISIBILITY\fP"
+.br
+.ti -1c
+.RI "#define \fBLZ4_FREESTANDING\fP   0"
+.br
+.ti -1c
+.RI "#define \fBLZ4_VERSION_MAJOR\fP   1    /* for breaking interface changes  */"
+.br
+.ti -1c
+.RI "#define \fBLZ4_VERSION_MINOR\fP   9    /* for new (non\-breaking) interface capabilities */"
+.br
+.ti -1c
+.RI "#define \fBLZ4_VERSION_RELEASE\fP   4    /* for tweaks, bug\-fixes, or development */"
+.br
+.ti -1c
+.RI "#define \fBLZ4_VERSION_NUMBER\fP   (\fBLZ4_VERSION_MAJOR\fP *100*100 + \fBLZ4_VERSION_MINOR\fP *100 + \fBLZ4_VERSION_RELEASE\fP)"
+.br
+.ti -1c
+.RI "#define \fBLZ4_LIB_VERSION\fP   \fBLZ4_VERSION_MAJOR\&.LZ4_VERSION_MINOR\&.LZ4_VERSION_RELEASE\fP"
+.br
+.ti -1c
+.RI "#define \fBLZ4_QUOTE\fP(str)   #str"
+.br
+.ti -1c
+.RI "#define \fBLZ4_EXPAND_AND_QUOTE\fP(str)   \fBLZ4_QUOTE\fP(str)"
+.br
+.ti -1c
+.RI "#define \fBLZ4_VERSION_STRING\fP   \fBLZ4_EXPAND_AND_QUOTE\fP(\fBLZ4_LIB_VERSION\fP)  /* requires v1\&.7\&.3+ */"
+.br
+.ti -1c
+.RI "#define \fBLZ4_MEMORY_USAGE_MIN\fP   10"
+.br
+.ti -1c
+.RI "#define \fBLZ4_MEMORY_USAGE_DEFAULT\fP   14"
+.br
+.ti -1c
+.RI "#define \fBLZ4_MEMORY_USAGE_MAX\fP   20"
+.br
+.ti -1c
+.RI "#define \fBLZ4_MEMORY_USAGE\fP   \fBLZ4_MEMORY_USAGE_DEFAULT\fP"
+.br
+.ti -1c
+.RI "#define \fBLZ4_MAX_INPUT_SIZE\fP   0x7E000000   /* 2 113 929 216 bytes */"
+.br
+.ti -1c
+.RI "#define \fBLZ4_COMPRESSBOUND\fP(isize)   ((unsigned)(isize) > (unsigned)\fBLZ4_MAX_INPUT_SIZE\fP ? 0 : (isize) + ((isize)/255) + 16)"
+.br
+.ti -1c
+.RI "#define \fBLZ4_DECODER_RING_BUFFER_SIZE\fP(maxBlockSize)   (65536 + 14 + (maxBlockSize))  /* for static allocation; maxBlockSize presumed valid */"
+.br
+.ti -1c
+.RI "#define \fBTRACY_LZ4_H_98237428734687\fP"
+.br
+.ti -1c
+.RI "#define \fBLZ4_HASHLOG\fP   (\fBLZ4_MEMORY_USAGE\fP\-2)"
+.br
+.ti -1c
+.RI "#define \fBLZ4_HASHTABLESIZE\fP   (1 << \fBLZ4_MEMORY_USAGE\fP)"
+.br
+.ti -1c
+.RI "#define \fBLZ4_HASH_SIZE_U32\fP   (1 << \fBLZ4_HASHLOG\fP)       /* required as macro for static allocation */"
+.br
+.ti -1c
+.RI "#define \fBLZ4_STREAM_MINSIZE\fP   ((1UL << \fBLZ4_MEMORY_USAGE\fP) + 32)  /* static \fBsize\fP, for inter\-version compatibility */"
+.br
+.ti -1c
+.RI "#define \fBLZ4_STREAMDECODE_MINSIZE\fP   32"
+.br
+.ti -1c
+.RI "#define \fBLZ4_DEPRECATED\fP(message)   /* disabled */"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef union \fBLZ4_stream_u\fP \fBtracy::LZ4_stream_t\fP"
+.br
+.ti -1c
+.RI "typedef union \fBLZ4_streamDecode_u\fP \fBtracy::LZ4_streamDecode_t\fP"
+.br
+.ti -1c
+.RI "typedef signed char \fBtracy::LZ4_i8\fP"
+.br
+.ti -1c
+.RI "typedef unsigned char \fBtracy::LZ4_byte\fP"
+.br
+.ti -1c
+.RI "typedef unsigned short \fBtracy::LZ4_u16\fP"
+.br
+.ti -1c
+.RI "typedef unsigned int \fBtracy::LZ4_u32\fP"
+.br
+.ti -1c
+.RI "typedef \fBstruct\fP LZ4_stream_t_internal \fBtracy::LZ4_stream_t_internal\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "int \fBtracy::LZ4_versionNumber\fP (\fBvoid\fP)"
+.br
+.ti -1c
+.RI "const char * \fBtracy::LZ4_versionString\fP (\fBvoid\fP)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_compress_default\fP (const char *\fBsrc\fP, char *\fBdst\fP, int \fBsrcSize\fP, int \fBmaxOutputSize\fP)"
+.br
+.ti -1c
+.RI "\fBLZ4_FORCE_O2\fP int \fBtracy::LZ4_decompress_safe\fP (const char *\fBsource\fP, char *\fBdest\fP, int \fBcompressedSize\fP, int maxDecompressedSize)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_compressBound\fP (int \fBisize\fP)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_compress_fast\fP (const char *\fBsource\fP, char *\fBdest\fP, int \fBinputSize\fP, int \fBmaxOutputSize\fP, int acceleration)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_sizeofState\fP (\fBvoid\fP)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_compress_fast_extState\fP (\fBvoid\fP *state, const char *\fBsource\fP, char *\fBdest\fP, int \fBinputSize\fP, int \fBmaxOutputSize\fP, int acceleration)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_compress_destSize\fP (const char *\fBsrc\fP, char *\fBdst\fP, int *srcSizePtr, int targetDstSize)"
+.br
+.ti -1c
+.RI "\fBLZ4_FORCE_O2\fP int \fBtracy::LZ4_decompress_safe_partial\fP (const char *\fBsrc\fP, char *\fBdst\fP, int \fBcompressedSize\fP, int targetOutputSize, int dstCapacity)"
+.br
+.ti -1c
+.RI "\fBLZ4_stream_t\fP * \fBtracy::LZ4_createStream\fP (\fBvoid\fP)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_freeStream\fP (\fBLZ4_stream_t\fP *LZ4_stream)"
+.br
+.ti -1c
+.RI "\fBvoid\fP \fBtracy::LZ4_resetStream_fast\fP (\fBLZ4_stream_t\fP *ctx)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_loadDict\fP (\fBLZ4_stream_t\fP *LZ4_dict, const char *dictionary, int dictSize)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_compress_fast_continue\fP (\fBLZ4_stream_t\fP *LZ4_stream, const char *\fBsource\fP, char *\fBdest\fP, int \fBinputSize\fP, int \fBmaxOutputSize\fP, int acceleration)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_saveDict\fP (\fBLZ4_stream_t\fP *LZ4_dict, char *safeBuffer, int dictSize)"
+.br
+.ti -1c
+.RI "\fBLZ4_streamDecode_t\fP * \fBtracy::LZ4_createStreamDecode\fP (\fBvoid\fP)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_freeStreamDecode\fP (\fBLZ4_streamDecode_t\fP *LZ4_stream)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_setStreamDecode\fP (\fBLZ4_streamDecode_t\fP *LZ4_streamDecode, const char *dictionary, int dictSize)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_decoderRingBufferSize\fP (int maxBlockSize)"
+.br
+.ti -1c
+.RI "\fBLZ4_FORCE_O2\fP int \fBtracy::LZ4_decompress_safe_continue\fP (\fBLZ4_streamDecode_t\fP *LZ4_streamDecode, const char *\fBsource\fP, char *\fBdest\fP, int \fBcompressedSize\fP, int \fBmaxOutputSize\fP)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_decompress_safe_usingDict\fP (const char *\fBsource\fP, char *\fBdest\fP, int \fBcompressedSize\fP, int \fBmaxOutputSize\fP, const char *dictStart, int dictSize)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_decompress_safe_partial_usingDict\fP (const char *\fBsource\fP, char *\fBdest\fP, int \fBcompressedSize\fP, int targetOutputSize, int dstCapacity, const char *dictStart, int dictSize)"
+.br
+.ti -1c
+.RI "\fBLZ4_stream_t\fP * \fBtracy::LZ4_initStream\fP (\fBvoid\fP *\fBbuffer\fP, size_t \fBsize\fP)"
+.br
+.ti -1c
+.RI "\fBtracy::LZ4_DEPRECATED\fP ('use \fBLZ4_compress_default\fP() instead') \fBLZ4LIB_API\fP int \fBLZ4_compress\fP(const char *\fBsrc\fP"
+.br
+.ti -1c
+.RI "\fBtracy::LZ4_DEPRECATED\fP ('use \fBLZ4_compress_fast_extState\fP() instead') \fBLZ4LIB_API\fP int \fBLZ4_compress_withState\fP(\fBvoid\fP *state"
+.br
+.ti -1c
+.RI "\fBtracy::LZ4_DEPRECATED\fP ('use \fBLZ4_compress_fast_continue\fP() instead') \fBLZ4LIB_API\fP int \fBLZ4_compress_continue\fP(\fBLZ4_stream_t\fP *LZ4_streamPtr"
+.br
+.ti -1c
+.RI "\fBtracy::LZ4_DEPRECATED\fP ('use \fBLZ4_decompress_fast\fP() instead') \fBLZ4LIB_API\fP int \fBLZ4_uncompress\fP(const char *\fBsource\fP"
+.br
+.ti -1c
+.RI "\fBtracy::LZ4_DEPRECATED\fP ('use \fBLZ4_decompress_safe\fP() instead') \fBLZ4LIB_API\fP int \fBLZ4_uncompress_unknownOutputSize\fP(const char *\fBsource\fP"
+.br
+.ti -1c
+.RI "\fBtracy::LZ4_DEPRECATED\fP ('Use \fBLZ4_createStream\fP() instead') \fBLZ4LIB_API\fP \fBvoid\fP *\fBLZ4_create\fP(char *\fBinputBuffer\fP)"
+.br
+.ti -1c
+.RI "\fBtracy::LZ4_DEPRECATED\fP ('Use \fBLZ4_resetStream\fP() instead') \fBLZ4LIB_API\fP int \fBLZ4_resetStreamState\fP(\fBvoid\fP *state"
+.br
+.ti -1c
+.RI "\fBtracy::LZ4_DEPRECATED\fP ('Use \fBLZ4_saveDict\fP() instead') \fBLZ4LIB_API\fP char *\fBLZ4_slideInputBuffer\fP(\fBvoid\fP *state)"
+.br
+.ti -1c
+.RI "\fBtracy::LZ4_DEPRECATED\fP ('use \fBLZ4_decompress_safe_usingDict\fP() instead') \fBLZ4LIB_API\fP int \fBLZ4_decompress_safe_withPrefix64k\fP(const char *\fBsrc\fP"
+.br
+.ti -1c
+.RI "\fBtracy::LZ4_DEPRECATED\fP ('use \fBLZ4_decompress_fast_usingDict\fP() instead') \fBLZ4LIB_API\fP int \fBLZ4_decompress_fast_withPrefix64k\fP(const char *\fBsrc\fP"
+.br
+.ti -1c
+.RI "\fBLZ4_FORCE_O2\fP int \fBtracy::LZ4_decompress_fast\fP (const char *\fBsource\fP, char *\fBdest\fP, int \fBoriginalSize\fP)"
+.br
+.ti -1c
+.RI "\fBLZ4_FORCE_O2\fP int \fBtracy::LZ4_decompress_fast_continue\fP (\fBLZ4_streamDecode_t\fP *LZ4_streamDecode, const char *\fBsource\fP, char *\fBdest\fP, int \fBoriginalSize\fP)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_decompress_fast_usingDict\fP (const char *\fBsource\fP, char *\fBdest\fP, int \fBoriginalSize\fP, const char *dictStart, int dictSize)"
+.br
+.ti -1c
+.RI "\fBvoid\fP \fBtracy::LZ4_resetStream\fP (\fBLZ4_stream_t\fP *LZ4_stream)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "char * \fBtracy::dest\fP"
+.br
+.ti -1c
+.RI "char int \fBtracy::srcSize\fP"
+.br
+.ti -1c
+.RI "char int int \fBtracy::maxOutputSize\fP"
+.br
+.ti -1c
+.RI "const char * \fBtracy::source\fP"
+.br
+.ti -1c
+.RI "const char char int \fBtracy::inputSize\fP"
+.br
+.ti -1c
+.RI "char int \fBtracy::outputSize\fP"
+.br
+.ti -1c
+.RI "char int \fBtracy::isize\fP"
+.br
+.ti -1c
+.RI "char * \fBtracy::inputBuffer\fP"
+.br
+.ti -1c
+.RI "char * \fBtracy::dst\fP"
+.br
+.ti -1c
+.RI "char int \fBtracy::compressedSize\fP"
+.br
+.ti -1c
+.RI "char int int \fBtracy::maxDstSize\fP"
+.br
+.ti -1c
+.RI "char int \fBtracy::originalSize\fP"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define LZ4_COMPRESSBOUND( isize)   ((unsigned)(isize) > (unsigned)\fBLZ4_MAX_INPUT_SIZE\fP ? 0 : (isize) + ((isize)/255) + 16)"
+
+.SS "#define LZ4_DECODER_RING_BUFFER_SIZE( maxBlockSize)   (65536 + 14 + (maxBlockSize))  /* for static allocation; maxBlockSize presumed valid */"
+
+.SS "#define LZ4_DEPRECATED( message)   /* disabled */"
+Deprecation warnings
+.PP
+Deprecated functions make the compiler generate a warning when invoked\&. This is meant to invite users to update their source code\&. Should deprecation warnings be a problem, it is generally possible to disable them, typically with -Wno-deprecated-declarations for gcc or _CRT_SECURE_NO_WARNINGS in Visual\&.
+.PP
+Another method is to define LZ4_DISABLE_DEPRECATE_WARNINGS before including the header file\&. 
+.SS "#define LZ4_EXPAND_AND_QUOTE( str)   \fBLZ4_QUOTE\fP(str)"
+
+.SS "#define LZ4_FREESTANDING   0"
+LZ4_FREESTANDING : When this macro is set to 1, it enables 'freestanding mode' that is suitable for typical freestanding environment which doesn't support standard C library\&.
+.PP
+.IP "\(bu" 2
+LZ4_FREESTANDING is a compile-time switch\&.
+.IP "\(bu" 2
+It requires the following macros to be defined: LZ4_memcpy, LZ4_memmove, LZ4_memset\&.
+.IP "\(bu" 2
+It only enables LZ4/HC functions which don't use heap\&. All LZ4F_* functions are not supported\&.
+.IP "\(bu" 2
+See tests/freestanding\&.c to check its basic setup\&. 
+.PP
+
+.SS "#define LZ4_HASH_SIZE_U32   (1 << \fBLZ4_HASHLOG\fP)       /* required as macro for static allocation */"
+
+.SS "#define LZ4_HASHLOG   (\fBLZ4_MEMORY_USAGE\fP\-2)"
+
+.SS "#define LZ4_HASHTABLESIZE   (1 << \fBLZ4_MEMORY_USAGE\fP)"
+
+.SS "#define LZ4_LIB_VERSION   \fBLZ4_VERSION_MAJOR\&.LZ4_VERSION_MINOR\&.LZ4_VERSION_RELEASE\fP"
+
+.SS "#define LZ4_MAX_INPUT_SIZE   0x7E000000   /* 2 113 929 216 bytes */"
+
+.SS "#define LZ4_MEMORY_USAGE   \fBLZ4_MEMORY_USAGE_DEFAULT\fP"
+LZ4_MEMORY_USAGE : Memory usage formula : N->2^N Bytes (examples : 10 -> 1KB; 12 -> 4KB ; 16 -> 64KB; 20 -> 1MB; ) Increasing memory usage improves compression ratio, at the cost of speed\&. Reduced memory usage may improve speed at the cost of ratio, thanks to better cache locality\&. Default value is 14, for 16KB, which nicely fits into Intel x86 L1 cache 
+.SS "#define LZ4_MEMORY_USAGE_DEFAULT   14"
+
+.SS "#define LZ4_MEMORY_USAGE_MAX   20"
+
+.SS "#define LZ4_MEMORY_USAGE_MIN   10"
+
+.SS "#define LZ4_QUOTE( str)   #str"
+
+.SS "#define LZ4_STREAM_MINSIZE   ((1UL << \fBLZ4_MEMORY_USAGE\fP) + 32)  /* static \fBsize\fP, for inter\-version compatibility */"
+
+.SS "#define LZ4_STREAMDECODE_MINSIZE   32"
+
+.SS "#define LZ4_VERSION_MAJOR   1    /* for breaking interface changes  */"
+
+.SS "#define LZ4_VERSION_MINOR   9    /* for new (non\-breaking) interface capabilities */"
+
+.SS "#define LZ4_VERSION_NUMBER   (\fBLZ4_VERSION_MAJOR\fP *100*100 + \fBLZ4_VERSION_MINOR\fP *100 + \fBLZ4_VERSION_RELEASE\fP)"
+
+.SS "#define LZ4_VERSION_RELEASE   4    /* for tweaks, bug\-fixes, or development */"
+
+.SS "#define LZ4_VERSION_STRING   \fBLZ4_EXPAND_AND_QUOTE\fP(\fBLZ4_LIB_VERSION\fP)  /* requires v1\&.7\&.3+ */"
+
+.SS "#define LZ4LIB_API   \fBLZ4LIB_VISIBILITY\fP"
+
+.SS "#define LZ4LIB_VISIBILITY"
+Introduction
+.PP
+LZ4 is lossless compression algorithm, providing compression speed >500 MB/s per core, scalable with multi-cores CPU\&. It features an extremely fast decoder, with speed in multiple GB/s per core, typically reaching RAM speed limits on multi-core systems\&.
+.PP
+The LZ4 compression library provides in-memory compression and decompression functions\&. It gives full buffer control to user\&. Compression can be done in:
+.IP "\(bu" 2
+a single step (described as Simple Functions)
+.IP "\(bu" 2
+a single step, reusing a context (described in Advanced Functions)
+.IP "\(bu" 2
+unbounded multiple steps (described as Streaming compression)
+.PP
+.PP
+lz4\&.h generates and decodes LZ4-compressed blocks (doc/lz4_Block_format\&.md)\&. Decompressing such a compressed block requires additional metadata\&. Exact metadata depends on exact decompression function\&. For the typical case of LZ4_decompress_safe(), metadata includes block's compressed size, and maximum bound of decompressed size\&. Each application is free to encode and pass such metadata in whichever way it wants\&.
+.PP
+lz4\&.h only handle blocks, it can not generate Frames\&.
+.PP
+Blocks are different from Frames (doc/lz4_Frame_format\&.md)\&. Frames bundle both blocks and metadata in a specified manner\&. Embedding metadata is required for compressed data to be self-contained and portable\&. Frame format is delivered through a companion API, declared in lz4frame\&.h\&. The \fRlz4\fP CLI can only manage frames\&. 
+.SS "#define TRACY_LZ4_H_98237428734687"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

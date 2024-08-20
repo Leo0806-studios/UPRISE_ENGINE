@@ -21,7 +21,12 @@ namespace PAIN {
 		Render_Camera();
 		static Render_Camera Create(std::shared_ptr<Transform> tr);
 
-		glm::mat4 GetViewMatrix();
+		__inline glm::mat4 GetViewMatrix() {
+			ZoneScoped;
+			//TrPr(ctx, __func__)
+			//	TrPrE(ctx);
+			return glm::lookAt((glm::vec3)transf->Position, (glm::vec3)(transf->Position + transf->forward), (glm::vec3)transf->up);
+		}
 		//{
 		//	return glm::lookAt(Position, Position + Front, Up);
 		//}

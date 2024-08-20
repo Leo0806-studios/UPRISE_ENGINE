@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="__u_p_r_i_s_e___e_n_g_i_n_e_2src_2_c_o_r_e_2_c_o_r_e_8cpp_source" xml:lang="en-US">
+<title>CORE.cpp</title>
+<indexterm><primary>UPRISE_ENGINE/src/CORE/CORE.cpp</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered"><anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e_2src_2_c_o_r_e_2_c_o_r_e_8cpp_source_1l00001"/>00001 <emphasis role="preprocessor">#include&#32;&quot;pch.h&quot;</emphasis>
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e_2src_2_c_o_r_e_2_c_o_r_e_8cpp_source_1l00002"/>00002 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c_o_r_e_8h">HeaderE/CORE/CORE.h</link>&quot;</emphasis>
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e_2src_2_c_o_r_e_2_c_o_r_e_8cpp_source_1l00003"/>00003 std::string&#32;CORE::Filehandler::Application_Path;
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e_2src_2_c_o_r_e_2_c_o_r_e_8cpp_source_1l00004"/>00004 <emphasis role="keywordtype">bool</emphasis>&#32;CORE::Filehandler::yes&#32;=&#32;<emphasis role="keyword">false</emphasis>;
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e_2src_2_c_o_r_e_2_c_o_r_e_8cpp_source_1l00005"/><link linkend="_class_c_o_r_e_1_1_filehandler_1ad508504e48ba89a02e6da3a4daa4dc88">00005</link> &#32;std::string&#32;<link linkend="_class_c_o_r_e_1_1_filehandler_1ad508504e48ba89a02e6da3a4daa4dc88">CORE::Filehandler::ApplicationPath</link>()&#32;{
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e_2src_2_c_o_r_e_2_c_o_r_e_8cpp_source_1l00006"/>00006 &#32;&#32;&#32;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2pch_8h_1a9c03417747c0ffda2e99c4baf5851215">TrPr</link>(ctx,&#32;__func__)
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e_2src_2_c_o_r_e_2_c_o_r_e_8cpp_source_1l00007"/>00007 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(yes&#32;==&#32;<emphasis role="keyword">false</emphasis>)&#32;{
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e_2src_2_c_o_r_e_2_c_o_r_e_8cpp_source_1l00008"/>00008 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;yes&#32;=&#32;<emphasis role="keyword">true</emphasis>;
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e_2src_2_c_o_r_e_2_c_o_r_e_8cpp_source_1l00009"/>00009 
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e_2src_2_c_o_r_e_2_c_o_r_e_8cpp_source_1l00010"/>00010 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//Application_Path&#32;=&#32;GetModuleFileNameA();</emphasis>
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e_2src_2_c_o_r_e_2_c_o_r_e_8cpp_source_1l00011"/>00011 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">char</emphasis>&#32;<link linkend="_glad_8h_1a7fc54503e1a1cf98d128b839ebc0b4d0">buffer</link>[MAX_PATH];
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e_2src_2_c_o_r_e_2_c_o_r_e_8cpp_source_1l00012"/>00012 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;DWORD&#32;<link linkend="_glad_8h_1a011fc24f10426c01349e94a4edd4b0d5">length</link>&#32;=&#32;GetModuleFileNameA(NULL,&#32;<link linkend="_glad_8h_1a7fc54503e1a1cf98d128b839ebc0b4d0">buffer</link>,&#32;MAX_PATH);
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e_2src_2_c_o_r_e_2_c_o_r_e_8cpp_source_1l00013"/>00013 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Application_Path&#32;=&#32;std::string(<link linkend="_glad_8h_1a7fc54503e1a1cf98d128b839ebc0b4d0">buffer</link>,&#32;<link linkend="_glad_8h_1a011fc24f10426c01349e94a4edd4b0d5">length</link>-18);
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e_2src_2_c_o_r_e_2_c_o_r_e_8cpp_source_1l00014"/>00014 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e_2src_2_c_o_r_e_2_c_o_r_e_8cpp_source_1l00015"/>00015 &#32;&#32;&#32;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2pch_8h_1aed75a98a38dc3e43040740686336890a">TrPrE</link>(ctx);
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e_2src_2_c_o_r_e_2_c_o_r_e_8cpp_source_1l00016"/>00016 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;Application_Path;
+<anchor xml:id="__u_p_r_i_s_e___e_n_g_i_n_e_2src_2_c_o_r_e_2_c_o_r_e_8cpp_source_1l00017"/>00017 }
+</programlisting></section>

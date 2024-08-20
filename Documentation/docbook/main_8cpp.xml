@@ -1,0 +1,153 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_main_8cpp" xml:lang="en-US">
+<title>BLINK/source/main.cpp File Reference</title>
+<indexterm><primary>BLINK/source/main.cpp</primary></indexterm>
+<programlisting linenumbering="unnumbered">#include &quot;blink.hpp&quot;<?linebreak?>#include &quot;scoped_handle.hpp&quot;<?linebreak?>#include &lt;iostream&gt;<?linebreak?>#include &lt;Windows.h&gt;<?linebreak?>#include &lt;Psapi.h&gt;<?linebreak?>#include &lt;PathCch.h&gt;<?linebreak?>#include &lt;TlHelp32.h&gt;<?linebreak?></programlisting><simplesect>
+    <title>Macros    </title>
+        <itemizedlist>
+            <listitem><para>#define <link linkend="_main_8cpp_1af9dfa6de83bea64807035d22cac71936">MAX_ENVIRONMENT_LENGTH</link>&#160;&#160;&#160;32767</para>
+</listitem>
+            <listitem><para>#define <link linkend="_main_8cpp_1a9a6576a75ac365f402b7b02329182641">NAMED_PIPE_SIZE</link>&#160;&#160;&#160;1024</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Typedefs    </title>
+        <itemizedlist>
+            <listitem><para>typedef <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link>(__cdecl * <link linkend="_main_8cpp_1ab64925edde9e894b44a5a32df7c5cf96">_PVFV</link>) ()</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Functions    </title>
+        <itemizedlist>
+            <listitem><para><link linkend="_main_8cpp_1ac9c59c375045745993123bc68f44f575">__declspec</link> (allocate(&quot;.CRT$XIA&quot;)) <link linkend="_main_8cpp_1ab64925edde9e894b44a5a32df7c5cf96">_PVFV</link> __xi_a[]</para>
+</listitem>
+            <listitem><para><link linkend="_main_8cpp_1a69f6c326295f0a3019621cec72b09fcb">__declspec</link> (allocate(&quot;.CRT$XIZ&quot;)) <link linkend="_main_8cpp_1ab64925edde9e894b44a5a32df7c5cf96">_PVFV</link> __xi_z[]</para>
+</listitem>
+            <listitem><para><link linkend="_main_8cpp_1a856d24cb54f7383c1e9fde3206a69b97">__declspec</link> (allocate(&quot;.CRT$XCA&quot;)) <link linkend="_main_8cpp_1ab64925edde9e894b44a5a32df7c5cf96">_PVFV</link> __xc_a[]</para>
+</listitem>
+            <listitem><para><link linkend="_main_8cpp_1adf089bdabc2949644fe45e6aac5d137d">__declspec</link> (allocate(&quot;.CRT$XCZ&quot;)) <link linkend="_main_8cpp_1ab64925edde9e894b44a5a32df7c5cf96">_PVFV</link> __xc_z[]</para>
+</listitem>
+            <listitem><para><link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> <link linkend="_main_8cpp_1a7451a805e7cd802ab3c56f64de9ab777">_initterm</link> (<link linkend="_main_8cpp_1ab64925edde9e894b44a5a32df7c5cf96">_PVFV</link> *beg, <link linkend="_main_8cpp_1ab64925edde9e894b44a5a32df7c5cf96">_PVFV</link> *<link linkend="_glad_8h_1a432111147038972f06e049e18a837002">end</link>)</para>
+</listitem>
+            <listitem><para><link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> <link linkend="_main_8cpp_1a0b26f264c531f496eaac6e348951733f">print</link> (const char *message, size_t <link linkend="_glad_8h_1a011fc24f10426c01349e94a4edd4b0d5">length</link>)</para>
+</listitem>
+            <listitem><para>DWORD CALLBACK <link linkend="_main_8cpp_1aafd0a00086afbbe0799620a1eb8be660">remote_main</link> (<link linkend="_tracy__lz4_8cpp_1a4ae1dab0fb4b072a66584546209e7d58">BYTE</link> *image_base)</para>
+</listitem>
+            <listitem><para>int <link linkend="_main_8cpp_1a0ddf1224851353fc92bfbff6f499fa97">main</link> (int argc, char *argv[])</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Variables    </title>
+        <itemizedlist>
+            <listitem><para>HANDLE <link linkend="_main_8cpp_1a11bf986a9c0c9e39d34cf5448d182225">console</link> = INVALID_HANDLE_VALUE</para>
+</listitem>
+            <listitem><para>char <link linkend="_main_8cpp_1aa7f2932178ffbb23b562c243e954781b">blink_pipe_name</link> [MAX_PATH]</para>
+</listitem>
+            <listitem><para>bool <link linkend="_main_8cpp_1a18a9d2eccb53bce4577c52ed00a91a99">compile_source</link> = true</para>
+</listitem>
+            <listitem><para>wchar_t <link linkend="_main_8cpp_1a692fb833873345702ac688b5512e82af">blink_environment</link> [<link linkend="_main_8cpp_1af9dfa6de83bea64807035d22cac71936">MAX_ENVIRONMENT_LENGTH</link>]</para>
+</listitem>
+            <listitem><para>wchar_t <link linkend="_main_8cpp_1ae90a5c1bd598addb02054786fe396649">blink_working_directory</link> [MAX_PATH]</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Macro Definition Documentation</title>
+<anchor xml:id="_main_8cpp_1af9dfa6de83bea64807035d22cac71936"/><section>
+    <title>MAX_ENVIRONMENT_LENGTH</title>
+<indexterm><primary>MAX_ENVIRONMENT_LENGTH</primary><secondary>main.cpp</secondary></indexterm>
+<indexterm><primary>main.cpp</primary><secondary>MAX_ENVIRONMENT_LENGTH</secondary></indexterm>
+<para><computeroutput>#define MAX_ENVIRONMENT_LENGTH&#160;&#160;&#160;32767</computeroutput></para></section>
+<anchor xml:id="_main_8cpp_1a9a6576a75ac365f402b7b02329182641"/><section>
+    <title>NAMED_PIPE_SIZE</title>
+<indexterm><primary>NAMED_PIPE_SIZE</primary><secondary>main.cpp</secondary></indexterm>
+<indexterm><primary>main.cpp</primary><secondary>NAMED_PIPE_SIZE</secondary></indexterm>
+<para><computeroutput>#define NAMED_PIPE_SIZE&#160;&#160;&#160;1024</computeroutput></para></section>
+</section>
+<section>
+<title>Typedef Documentation</title>
+<anchor xml:id="_main_8cpp_1ab64925edde9e894b44a5a32df7c5cf96"/><section>
+    <title>_PVFV</title>
+<indexterm><primary>_PVFV</primary><secondary>main.cpp</secondary></indexterm>
+<indexterm><primary>main.cpp</primary><secondary>_PVFV</secondary></indexterm>
+<para><computeroutput>typedef <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link>(__cdecl * _PVFV) ()</computeroutput></para>
+<para>Copyright (C) 2016 Patrick Mours. All rights reserved. License: <link xlink:href="https://github.com/crosire/blink#license">https://github.com/crosire/blink#license</link> </para>
+</section>
+</section>
+<section>
+<title>Function Documentation</title>
+<anchor xml:id="_main_8cpp_1a856d24cb54f7383c1e9fde3206a69b97"/><section>
+    <title>__declspec()<computeroutput>[1/4]</computeroutput></title>
+<indexterm><primary>__declspec</primary><secondary>main.cpp</secondary></indexterm>
+<indexterm><primary>main.cpp</primary><secondary>__declspec</secondary></indexterm>
+<para><computeroutput>__declspec (allocate(&quot;.CRT$XCA&quot;) )</computeroutput></para></section>
+<anchor xml:id="_main_8cpp_1adf089bdabc2949644fe45e6aac5d137d"/><section>
+    <title>__declspec()<computeroutput>[2/4]</computeroutput></title>
+<indexterm><primary>__declspec</primary><secondary>main.cpp</secondary></indexterm>
+<indexterm><primary>main.cpp</primary><secondary>__declspec</secondary></indexterm>
+<para><computeroutput>__declspec (allocate(&quot;.CRT$XCZ&quot;) )</computeroutput></para></section>
+<anchor xml:id="_main_8cpp_1ac9c59c375045745993123bc68f44f575"/><section>
+    <title>__declspec()<computeroutput>[3/4]</computeroutput></title>
+<indexterm><primary>__declspec</primary><secondary>main.cpp</secondary></indexterm>
+<indexterm><primary>main.cpp</primary><secondary>__declspec</secondary></indexterm>
+<para><computeroutput>__declspec (allocate(&quot;.CRT$XIA&quot;) )</computeroutput></para></section>
+<anchor xml:id="_main_8cpp_1a69f6c326295f0a3019621cec72b09fcb"/><section>
+    <title>__declspec()<computeroutput>[4/4]</computeroutput></title>
+<indexterm><primary>__declspec</primary><secondary>main.cpp</secondary></indexterm>
+<indexterm><primary>main.cpp</primary><secondary>__declspec</secondary></indexterm>
+<para><computeroutput>__declspec (allocate(&quot;.CRT$XIZ&quot;) )</computeroutput></para></section>
+<anchor xml:id="_main_8cpp_1a7451a805e7cd802ab3c56f64de9ab777"/><section>
+    <title>_initterm()</title>
+<indexterm><primary>_initterm</primary><secondary>main.cpp</secondary></indexterm>
+<indexterm><primary>main.cpp</primary><secondary>_initterm</secondary></indexterm>
+<para><computeroutput><link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> _initterm (<link linkend="_main_8cpp_1ab64925edde9e894b44a5a32df7c5cf96">_PVFV</link> * beg, <link linkend="_main_8cpp_1ab64925edde9e894b44a5a32df7c5cf96">_PVFV</link> * end)</computeroutput></para></section>
+<anchor xml:id="_main_8cpp_1a0ddf1224851353fc92bfbff6f499fa97"/><section>
+    <title>main()</title>
+<indexterm><primary>main</primary><secondary>main.cpp</secondary></indexterm>
+<indexterm><primary>main.cpp</primary><secondary>main</secondary></indexterm>
+<para><computeroutput>int main (int argc, char * argv[])</computeroutput></para></section>
+<anchor xml:id="_main_8cpp_1a0b26f264c531f496eaac6e348951733f"/><section>
+    <title>print()</title>
+<indexterm><primary>print</primary><secondary>main.cpp</secondary></indexterm>
+<indexterm><primary>main.cpp</primary><secondary>print</secondary></indexterm>
+<para><computeroutput><link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> print (const char * message, size_t length)</computeroutput></para>
+<para>Copyright (C) 2016 Patrick Mours. All rights reserved. License: <link xlink:href="https://github.com/crosire/blink#license">https://github.com/crosire/blink#license</link> </para>
+</section>
+<anchor xml:id="_main_8cpp_1aafd0a00086afbbe0799620a1eb8be660"/><section>
+    <title>remote_main()</title>
+<indexterm><primary>remote_main</primary><secondary>main.cpp</secondary></indexterm>
+<indexterm><primary>main.cpp</primary><secondary>remote_main</secondary></indexterm>
+<para><computeroutput>DWORD CALLBACK remote_main (<link linkend="_tracy__lz4_8cpp_1a4ae1dab0fb4b072a66584546209e7d58">BYTE</link> * image_base)</computeroutput></para></section>
+</section>
+<section>
+<title>Variable Documentation</title>
+<anchor xml:id="_main_8cpp_1a692fb833873345702ac688b5512e82af"/><section>
+    <title>blink_environment</title>
+<indexterm><primary>blink_environment</primary><secondary>main.cpp</secondary></indexterm>
+<indexterm><primary>main.cpp</primary><secondary>blink_environment</secondary></indexterm>
+<para><computeroutput>wchar_t blink_environment[<link linkend="_main_8cpp_1af9dfa6de83bea64807035d22cac71936">MAX_ENVIRONMENT_LENGTH</link>]</computeroutput></para></section>
+<anchor xml:id="_main_8cpp_1aa7f2932178ffbb23b562c243e954781b"/><section>
+    <title>blink_pipe_name</title>
+<indexterm><primary>blink_pipe_name</primary><secondary>main.cpp</secondary></indexterm>
+<indexterm><primary>main.cpp</primary><secondary>blink_pipe_name</secondary></indexterm>
+<para><computeroutput>char blink_pipe_name[MAX_PATH]</computeroutput></para></section>
+<anchor xml:id="_main_8cpp_1ae90a5c1bd598addb02054786fe396649"/><section>
+    <title>blink_working_directory</title>
+<indexterm><primary>blink_working_directory</primary><secondary>main.cpp</secondary></indexterm>
+<indexterm><primary>main.cpp</primary><secondary>blink_working_directory</secondary></indexterm>
+<para><computeroutput>wchar_t blink_working_directory[MAX_PATH]</computeroutput></para></section>
+<anchor xml:id="_main_8cpp_1a18a9d2eccb53bce4577c52ed00a91a99"/><section>
+    <title>compile_source</title>
+<indexterm><primary>compile_source</primary><secondary>main.cpp</secondary></indexterm>
+<indexterm><primary>main.cpp</primary><secondary>compile_source</secondary></indexterm>
+<para><computeroutput>bool compile_source = true</computeroutput></para></section>
+<anchor xml:id="_main_8cpp_1a11bf986a9c0c9e39d34cf5448d182225"/><section>
+    <title>console</title>
+<indexterm><primary>console</primary><secondary>main.cpp</secondary></indexterm>
+<indexterm><primary>main.cpp</primary><secondary>console</secondary></indexterm>
+<para><computeroutput>HANDLE console = INVALID_HANDLE_VALUE</computeroutput></para></section>
+</section>
+</section>

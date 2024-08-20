@@ -1,0 +1,338 @@
+.TH "D3D12_PROPERTY_LAYOUT_FORMAT_TABLE" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+D3D12_PROPERTY_LAYOUT_FORMAT_TABLE
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fR#include <d3dx12_property_format_table\&.h>\fP
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBFORMAT_DETAIL\fP"
+.br
+.in -1c
+.SS "Public Types"
+
+.in +1c
+.ti -1c
+.RI "typedef \fBstruct\fP D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::FORMAT_DETAIL \fBFORMAT_DETAIL\fP"
+.br
+.in -1c
+.SS "Static Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "static UINT \fBGetNumFormats\fP ()"
+.br
+.ti -1c
+.RI "static const \fBFORMAT_DETAIL\fP * \fBGetFormatTable\fP ()"
+.br
+.ti -1c
+.RI "static \fBD3D_FEATURE_LEVEL\fP \fBGetHighestDefinedFeatureLevel\fP ()"
+.br
+.ti -1c
+.RI "static \fBDXGI_FORMAT\fP \fBGetFormat\fP (SIZE_T Index)"
+.br
+.ti -1c
+.RI "static bool \fBFormatExists\fP (\fBDXGI_FORMAT\fP Format)"
+.br
+.ti -1c
+.RI "static bool \fBFormatExistsInHeader\fP (\fBDXGI_FORMAT\fP Format, bool bExternalHeader=true)"
+.br
+.ti -1c
+.RI "static UINT \fBGetByteAlignment\fP (\fBDXGI_FORMAT\fP Format)"
+.br
+.ti -1c
+.RI "static bool \fBIsBlockCompressFormat\fP (\fBDXGI_FORMAT\fP Format)"
+.br
+.ti -1c
+.RI "static LPCSTR \fBGetName\fP (\fBDXGI_FORMAT\fP Format, bool bHideInternalFormats=true)"
+.br
+.ti -1c
+.RI "static bool \fBIsSRGBFormat\fP (\fBDXGI_FORMAT\fP Format)"
+.br
+.ti -1c
+.RI "static UINT \fBGetBitsPerStencil\fP (\fBDXGI_FORMAT\fP Format)"
+.br
+.ti -1c
+.RI "static \fBvoid\fP \fBGetFormatReturnTypes\fP (\fBDXGI_FORMAT\fP Format, \fBD3D_FORMAT_COMPONENT_INTERPRETATION\fP *pInterpretations)"
+.br
+.ti -1c
+.RI "static UINT \fBGetNumComponentsInFormat\fP (\fBDXGI_FORMAT\fP Format)"
+.br
+.ti -1c
+.RI "static UINT \fBSequential2AbsoluteComponentIndex\fP (\fBDXGI_FORMAT\fP Format, UINT SequentialComponentIndex)"
+.br
+.ti -1c
+.RI "static bool \fBCanBeCastEvenFullyTyped\fP (\fBDXGI_FORMAT\fP Format, \fBD3D_FEATURE_LEVEL\fP fl)"
+.br
+.ti -1c
+.RI "static UINT8 \fBGetAddressingBitsPerAlignedSize\fP (\fBDXGI_FORMAT\fP Format)"
+.br
+.ti -1c
+.RI "static \fBDXGI_FORMAT\fP \fBGetParentFormat\fP (\fBDXGI_FORMAT\fP Format)"
+.br
+.ti -1c
+.RI "static const \fBDXGI_FORMAT\fP * \fBGetFormatCastSet\fP (\fBDXGI_FORMAT\fP Format)"
+.br
+.ti -1c
+.RI "static \fBD3D_FORMAT_LAYOUT\fP \fBGetLayout\fP (\fBDXGI_FORMAT\fP Format)"
+.br
+.ti -1c
+.RI "static \fBD3D_FORMAT_TYPE_LEVEL\fP \fBGetTypeLevel\fP (\fBDXGI_FORMAT\fP Format)"
+.br
+.ti -1c
+.RI "static UINT \fBGetBitsPerUnit\fP (\fBDXGI_FORMAT\fP Format)"
+.br
+.ti -1c
+.RI "static UINT \fBGetBitsPerUnitThrow\fP (\fBDXGI_FORMAT\fP Format)"
+.br
+.ti -1c
+.RI "static UINT \fBGetBitsPerElement\fP (\fBDXGI_FORMAT\fP Format)"
+.br
+.ti -1c
+.RI "static UINT \fBGetWidthAlignment\fP (\fBDXGI_FORMAT\fP Format)"
+.br
+.ti -1c
+.RI "static UINT \fBGetHeightAlignment\fP (\fBDXGI_FORMAT\fP Format)"
+.br
+.ti -1c
+.RI "static UINT \fBGetDepthAlignment\fP (\fBDXGI_FORMAT\fP Format)"
+.br
+.ti -1c
+.RI "static BOOL \fBPlanar\fP (\fBDXGI_FORMAT\fP Format)"
+.br
+.ti -1c
+.RI "static BOOL \fBNonOpaquePlanar\fP (\fBDXGI_FORMAT\fP Format)"
+.br
+.ti -1c
+.RI "static BOOL \fBYUV\fP (\fBDXGI_FORMAT\fP Format)"
+.br
+.ti -1c
+.RI "static BOOL \fBOpaque\fP (\fBDXGI_FORMAT\fP Format)"
+.br
+.ti -1c
+.RI "static bool \fBFamilySupportsStencil\fP (\fBDXGI_FORMAT\fP Format)"
+.br
+.ti -1c
+.RI "static UINT \fBNonOpaquePlaneCount\fP (\fBDXGI_FORMAT\fP Format)"
+.br
+.ti -1c
+.RI "static BOOL \fBDX9VertexOrIndexFormat\fP (\fBDXGI_FORMAT\fP Format)"
+.br
+.ti -1c
+.RI "static BOOL \fBDX9TextureFormat\fP (\fBDXGI_FORMAT\fP Format)"
+.br
+.ti -1c
+.RI "static BOOL \fBFloatNormTextureFormat\fP (\fBDXGI_FORMAT\fP Format)"
+.br
+.ti -1c
+.RI "static bool \fBDepthOnlyFormat\fP (\fBDXGI_FORMAT\fP \fBformat\fP)"
+.br
+.ti -1c
+.RI "static UINT8 \fBGetPlaneCount\fP (\fBDXGI_FORMAT\fP Format)"
+.br
+.ti -1c
+.RI "static bool \fBMotionEstimatorAllowedInputFormat\fP (\fBDXGI_FORMAT\fP Format)"
+.br
+.ti -1c
+.RI "static bool \fBSupportsSamplerFeedback\fP (\fBDXGI_FORMAT\fP Format)"
+.br
+.ti -1c
+.RI "static bool \fBDecodeHistogramAllowedForOutputFormatSupport\fP (\fBDXGI_FORMAT\fP Format)"
+.br
+.ti -1c
+.RI "static UINT8 \fBGetPlaneSliceFromViewFormat\fP (\fBDXGI_FORMAT\fP ResourceFormat, \fBDXGI_FORMAT\fP ViewFormat)"
+.br
+.ti -1c
+.RI "static bool \fBFloatAndNotFloatFormats\fP (\fBDXGI_FORMAT\fP FormatA, \fBDXGI_FORMAT\fP FormatB)"
+.br
+.ti -1c
+.RI "static bool \fBSNORMAndUNORMFormats\fP (\fBDXGI_FORMAT\fP FormatA, \fBDXGI_FORMAT\fP FormatB)"
+.br
+.ti -1c
+.RI "static bool \fBValidCastToR32UAV\fP (\fBDXGI_FORMAT\fP from, \fBDXGI_FORMAT\fP to)"
+.br
+.ti -1c
+.RI "static bool \fBIsSupportedTextureDisplayableFormat\fP (\fBDXGI_FORMAT\fP, bool bMediaFormatOnly)"
+.br
+.ti -1c
+.RI "static \fBD3D_FORMAT_COMPONENT_INTERPRETATION\fP \fBGetFormatComponentInterpretation\fP (\fBDXGI_FORMAT\fP Format, UINT AbsoluteComponentIndex)"
+.br
+.ti -1c
+.RI "static UINT \fBGetBitsPerComponent\fP (\fBDXGI_FORMAT\fP Format, UINT AbsoluteComponentIndex)"
+.br
+.ti -1c
+.RI "static \fBD3D_FORMAT_COMPONENT_NAME\fP \fBGetComponentName\fP (\fBDXGI_FORMAT\fP Format, UINT AbsoluteComponentIndex)"
+.br
+.ti -1c
+.RI "static HRESULT \fBCalculateExtraPlanarRows\fP (\fBDXGI_FORMAT\fP \fBformat\fP, UINT plane0Height, _Out_ UINT &totalHeight)"
+.br
+.ti -1c
+.RI "static HRESULT \fBCalculateMinimumRowMajorRowPitch\fP (\fBDXGI_FORMAT\fP Format, UINT Width, _Out_ UINT &\fBRowPitch\fP)"
+.br
+.ti -1c
+.RI "static HRESULT \fBCalculateMinimumRowMajorSlicePitch\fP (\fBDXGI_FORMAT\fP Format, UINT ContextBasedRowPitch, UINT Height, _Out_ UINT &\fBSlicePitch\fP)"
+.br
+.ti -1c
+.RI "static \fBvoid\fP \fBGetYCbCrChromaSubsampling\fP (\fBDXGI_FORMAT\fP Format, _Out_ UINT &HorizontalSubsampling, _Out_ UINT &VerticalSubsampling)"
+.br
+.ti -1c
+.RI "static HRESULT \fBCalculateResourceSize\fP (UINT \fBwidth\fP, UINT \fBheight\fP, UINT \fBdepth\fP, \fBDXGI_FORMAT\fP \fBformat\fP, UINT mipLevels, UINT subresources, _Out_ SIZE_T &totalByteSize, _Out_writes_opt_(subresources) \fBD3D12_MEMCPY_DEST\fP *pDst=nullptr)"
+.br
+.ti -1c
+.RI "static \fBvoid\fP \fBGetTileShape\fP (\fBD3D12_TILE_SHAPE\fP *pTileShape, \fBDXGI_FORMAT\fP Format, \fBD3D12_RESOURCE_DIMENSION\fP Dimension, UINT SampleCount)"
+.br
+.ti -1c
+.RI "static \fBvoid\fP \fBGet4KTileShape\fP (\fBD3D12_TILE_SHAPE\fP *pTileShape, \fBDXGI_FORMAT\fP Format, \fBD3D12_RESOURCE_DIMENSION\fP Dimension, UINT SampleCount)"
+.br
+.ti -1c
+.RI "static \fBvoid\fP \fBGetMipDimensions\fP (UINT8 mipSlice, _Inout_ UINT64 *pWidth, _Inout_opt_ UINT64 *pHeight=nullptr, _Inout_opt_ UINT64 *pDepth=nullptr)"
+.br
+.ti -1c
+.RI "static \fBvoid\fP \fBGetPlaneSubsampledSizeAndFormatForCopyableLayout\fP (UINT PlaneSlice, \fBDXGI_FORMAT\fP Format, UINT Width, UINT Height, _Out_ \fBDXGI_FORMAT\fP &PlaneFormat, _Out_ UINT &MinPlanePitchWidth, _Out_ UINT &PlaneWidth, _Out_ UINT &PlaneHeight)"
+.br
+.ti -1c
+.RI "static UINT \fBGetDetailTableIndex\fP (\fBDXGI_FORMAT\fP Format)"
+.br
+.ti -1c
+.RI "static UINT \fBGetDetailTableIndexNoThrow\fP (\fBDXGI_FORMAT\fP Format)"
+.br
+.ti -1c
+.RI "static UINT \fBGetDetailTableIndexThrow\fP (\fBDXGI_FORMAT\fP Format)"
+.br
+.in -1c
+.SH "Member Typedef Documentation"
+.PP 
+.SS "typedef \fBstruct\fP D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::FORMAT_DETAIL D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::FORMAT_DETAIL"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "static HRESULT D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::CalculateExtraPlanarRows (\fBDXGI_FORMAT\fP format, UINT plane0Height, _Out_ UINT & totalHeight)\fR [static]\fP"
+
+.SS "static HRESULT D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::CalculateMinimumRowMajorRowPitch (\fBDXGI_FORMAT\fP Format, UINT Width, _Out_ UINT & RowPitch)\fR [static]\fP"
+
+.SS "static HRESULT D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::CalculateMinimumRowMajorSlicePitch (\fBDXGI_FORMAT\fP Format, UINT ContextBasedRowPitch, UINT Height, _Out_ UINT & SlicePitch)\fR [static]\fP"
+
+.SS "static HRESULT D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::CalculateResourceSize (UINT width, UINT height, UINT depth, \fBDXGI_FORMAT\fP format, UINT mipLevels, UINT subresources, _Out_ SIZE_T & totalByteSize, _Out_writes_opt_(subresources) \fBD3D12_MEMCPY_DEST\fP * pDst = \fRnullptr\fP)\fR [static]\fP"
+
+.SS "static bool D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::CanBeCastEvenFullyTyped (\fBDXGI_FORMAT\fP Format, \fBD3D_FEATURE_LEVEL\fP fl)\fR [static]\fP"
+
+.SS "static bool D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::DecodeHistogramAllowedForOutputFormatSupport (\fBDXGI_FORMAT\fP Format)\fR [static]\fP"
+
+.SS "static bool D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::DepthOnlyFormat (\fBDXGI_FORMAT\fP format)\fR [static]\fP"
+
+.SS "static BOOL D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::DX9TextureFormat (\fBDXGI_FORMAT\fP Format)\fR [static]\fP"
+
+.SS "static BOOL D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::DX9VertexOrIndexFormat (\fBDXGI_FORMAT\fP Format)\fR [static]\fP"
+
+.SS "static bool D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::FamilySupportsStencil (\fBDXGI_FORMAT\fP Format)\fR [static]\fP"
+
+.SS "static bool D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::FloatAndNotFloatFormats (\fBDXGI_FORMAT\fP FormatA, \fBDXGI_FORMAT\fP FormatB)\fR [static]\fP"
+
+.SS "static BOOL D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::FloatNormTextureFormat (\fBDXGI_FORMAT\fP Format)\fR [static]\fP"
+
+.SS "static bool D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::FormatExists (\fBDXGI_FORMAT\fP Format)\fR [static]\fP"
+
+.SS "static bool D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::FormatExistsInHeader (\fBDXGI_FORMAT\fP Format, bool bExternalHeader = \fRtrue\fP)\fR [static]\fP"
+
+.SS "static \fBvoid\fP D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::Get4KTileShape (\fBD3D12_TILE_SHAPE\fP * pTileShape, \fBDXGI_FORMAT\fP Format, \fBD3D12_RESOURCE_DIMENSION\fP Dimension, UINT SampleCount)\fR [static]\fP"
+
+.SS "static UINT8 D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::GetAddressingBitsPerAlignedSize (\fBDXGI_FORMAT\fP Format)\fR [static]\fP"
+
+.SS "static UINT D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::GetBitsPerComponent (\fBDXGI_FORMAT\fP Format, UINT AbsoluteComponentIndex)\fR [static]\fP"
+
+.SS "static UINT D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::GetBitsPerElement (\fBDXGI_FORMAT\fP Format)\fR [static]\fP"
+
+.SS "static UINT D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::GetBitsPerStencil (\fBDXGI_FORMAT\fP Format)\fR [static]\fP"
+
+.SS "static UINT D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::GetBitsPerUnit (\fBDXGI_FORMAT\fP Format)\fR [static]\fP"
+
+.SS "static UINT D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::GetBitsPerUnitThrow (\fBDXGI_FORMAT\fP Format)\fR [static]\fP"
+
+.SS "static UINT D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::GetByteAlignment (\fBDXGI_FORMAT\fP Format)\fR [static]\fP"
+
+.SS "static \fBD3D_FORMAT_COMPONENT_NAME\fP D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::GetComponentName (\fBDXGI_FORMAT\fP Format, UINT AbsoluteComponentIndex)\fR [static]\fP"
+
+.SS "static UINT D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::GetDepthAlignment (\fBDXGI_FORMAT\fP Format)\fR [static]\fP"
+
+.SS "static UINT D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::GetDetailTableIndex (\fBDXGI_FORMAT\fP Format)\fR [static]\fP"
+
+.SS "static UINT D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::GetDetailTableIndexNoThrow (\fBDXGI_FORMAT\fP Format)\fR [static]\fP"
+
+.SS "static UINT D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::GetDetailTableIndexThrow (\fBDXGI_FORMAT\fP Format)\fR [static]\fP"
+
+.SS "static \fBDXGI_FORMAT\fP D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::GetFormat (SIZE_T Index)\fR [static]\fP"
+
+.SS "static const \fBDXGI_FORMAT\fP * D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::GetFormatCastSet (\fBDXGI_FORMAT\fP Format)\fR [static]\fP"
+
+.SS "static \fBD3D_FORMAT_COMPONENT_INTERPRETATION\fP D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::GetFormatComponentInterpretation (\fBDXGI_FORMAT\fP Format, UINT AbsoluteComponentIndex)\fR [static]\fP"
+
+.SS "static \fBvoid\fP D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::GetFormatReturnTypes (\fBDXGI_FORMAT\fP Format, \fBD3D_FORMAT_COMPONENT_INTERPRETATION\fP * pInterpretations)\fR [static]\fP"
+
+.SS "static const \fBFORMAT_DETAIL\fP * D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::GetFormatTable ()\fR [static]\fP"
+
+.SS "static UINT D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::GetHeightAlignment (\fBDXGI_FORMAT\fP Format)\fR [static]\fP"
+
+.SS "static \fBD3D_FEATURE_LEVEL\fP D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::GetHighestDefinedFeatureLevel ()\fR [static]\fP"
+
+.SS "static \fBD3D_FORMAT_LAYOUT\fP D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::GetLayout (\fBDXGI_FORMAT\fP Format)\fR [static]\fP"
+
+.SS "static \fBvoid\fP D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::GetMipDimensions (UINT8 mipSlice, _Inout_ UINT64 * pWidth, _Inout_opt_ UINT64 * pHeight = \fRnullptr\fP, _Inout_opt_ UINT64 * pDepth = \fRnullptr\fP)\fR [static]\fP"
+
+.SS "static LPCSTR D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::GetName (\fBDXGI_FORMAT\fP Format, bool bHideInternalFormats = \fRtrue\fP)\fR [static]\fP"
+
+.SS "static UINT D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::GetNumComponentsInFormat (\fBDXGI_FORMAT\fP Format)\fR [static]\fP"
+
+.SS "static UINT D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::GetNumFormats ()\fR [static]\fP"
+
+.SS "static \fBDXGI_FORMAT\fP D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::GetParentFormat (\fBDXGI_FORMAT\fP Format)\fR [static]\fP"
+
+.SS "static UINT8 D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::GetPlaneCount (\fBDXGI_FORMAT\fP Format)\fR [static]\fP"
+
+.SS "static UINT8 D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::GetPlaneSliceFromViewFormat (\fBDXGI_FORMAT\fP ResourceFormat, \fBDXGI_FORMAT\fP ViewFormat)\fR [static]\fP"
+
+.SS "static \fBvoid\fP D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::GetPlaneSubsampledSizeAndFormatForCopyableLayout (UINT PlaneSlice, \fBDXGI_FORMAT\fP Format, UINT Width, UINT Height, _Out_ \fBDXGI_FORMAT\fP & PlaneFormat, _Out_ UINT & MinPlanePitchWidth, _Out_ UINT & PlaneWidth, _Out_ UINT & PlaneHeight)\fR [static]\fP"
+
+.SS "static \fBvoid\fP D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::GetTileShape (\fBD3D12_TILE_SHAPE\fP * pTileShape, \fBDXGI_FORMAT\fP Format, \fBD3D12_RESOURCE_DIMENSION\fP Dimension, UINT SampleCount)\fR [static]\fP"
+
+.SS "static \fBD3D_FORMAT_TYPE_LEVEL\fP D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::GetTypeLevel (\fBDXGI_FORMAT\fP Format)\fR [static]\fP"
+
+.SS "static UINT D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::GetWidthAlignment (\fBDXGI_FORMAT\fP Format)\fR [static]\fP"
+
+.SS "static \fBvoid\fP D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::GetYCbCrChromaSubsampling (\fBDXGI_FORMAT\fP Format, _Out_ UINT & HorizontalSubsampling, _Out_ UINT & VerticalSubsampling)\fR [static]\fP"
+
+.SS "static bool D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::IsBlockCompressFormat (\fBDXGI_FORMAT\fP Format)\fR [static]\fP"
+
+.SS "static bool D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::IsSRGBFormat (\fBDXGI_FORMAT\fP Format)\fR [static]\fP"
+
+.SS "static bool D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::IsSupportedTextureDisplayableFormat (\fBDXGI_FORMAT\fP , bool bMediaFormatOnly)\fR [static]\fP"
+
+.SS "static bool D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::MotionEstimatorAllowedInputFormat (\fBDXGI_FORMAT\fP Format)\fR [static]\fP"
+
+.SS "static BOOL D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::NonOpaquePlanar (\fBDXGI_FORMAT\fP Format)\fR [static]\fP"
+
+.SS "static UINT D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::NonOpaquePlaneCount (\fBDXGI_FORMAT\fP Format)\fR [static]\fP"
+
+.SS "static BOOL D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::Opaque (\fBDXGI_FORMAT\fP Format)\fR [static]\fP"
+
+.SS "static BOOL D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::Planar (\fBDXGI_FORMAT\fP Format)\fR [static]\fP"
+
+.SS "static UINT D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::Sequential2AbsoluteComponentIndex (\fBDXGI_FORMAT\fP Format, UINT SequentialComponentIndex)\fR [static]\fP"
+
+.SS "static bool D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::SNORMAndUNORMFormats (\fBDXGI_FORMAT\fP FormatA, \fBDXGI_FORMAT\fP FormatB)\fR [static]\fP"
+
+.SS "static bool D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::SupportsSamplerFeedback (\fBDXGI_FORMAT\fP Format)\fR [static]\fP"
+
+.SS "static bool D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::ValidCastToR32UAV (\fBDXGI_FORMAT\fP from, \fBDXGI_FORMAT\fP to)\fR [static]\fP"
+
+.SS "static BOOL D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::YUV (\fBDXGI_FORMAT\fP Format)\fR [static]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

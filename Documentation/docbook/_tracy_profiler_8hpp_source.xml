@@ -1,0 +1,1007 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="__tracy_profiler_8hpp_source" xml:lang="en-US">
+<title>TracyProfiler.hpp</title>
+<indexterm><primary>adhed/client/TracyProfiler.hpp</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 <emphasis role="preprocessor">#ifndef&#32;__TRACYPROFILER_HPP__</emphasis>
+2 <emphasis role="preprocessor">#define&#32;__TRACYPROFILER_HPP__</emphasis>
+3 
+4 <emphasis role="preprocessor">#include&#32;&lt;assert.h&gt;</emphasis>
+5 <emphasis role="preprocessor">#include&#32;&lt;atomic&gt;</emphasis>
+6 <emphasis role="preprocessor">#include&#32;&lt;stdint.h&gt;</emphasis>
+7 <emphasis role="preprocessor">#include&#32;&lt;string.h&gt;</emphasis>
+8 <emphasis role="preprocessor">#include&#32;&lt;time.h&gt;</emphasis>
+9 
+10 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_tracy__concurrentqueue_8h">tracy_concurrentqueue.h</link>&quot;</emphasis>
+11 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_tracy___s_p_s_c_queue_8h">tracy_SPSCQueue.h</link>&quot;</emphasis>
+12 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__tracy_callstack_8hpp">TracyCallstack.hpp</link>&quot;</emphasis>
+13 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__tracy_sys_power_8hpp">TracySysPower.hpp</link>&quot;</emphasis>
+14 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__tracy_sys_time_8hpp">TracySysTime.hpp</link>&quot;</emphasis>
+15 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__tracy_fast_vector_8hpp">TracyFastVector.hpp</link>&quot;</emphasis>
+16 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__tracy_queue_8hpp">../common/TracyQueue.hpp</link>&quot;</emphasis>
+17 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__tracy_align_8hpp">../common/TracyAlign.hpp</link>&quot;</emphasis>
+18 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__tracy_alloc_8hpp">../common/TracyAlloc.hpp</link>&quot;</emphasis>
+19 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__tracy_mutex_8hpp">../common/TracyMutex.hpp</link>&quot;</emphasis>
+20 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__tracy_protocol_8hpp">../common/TracyProtocol.hpp</link>&quot;</emphasis>
+21 
+22 <emphasis role="preprocessor">#if&#32;defined&#32;_WIN32</emphasis>
+23 <emphasis role="preprocessor">#&#32;&#32;include&#32;&lt;intrin.h&gt;</emphasis>
+24 <emphasis role="preprocessor">#endif</emphasis>
+25 <emphasis role="preprocessor">#ifdef&#32;__APPLE__</emphasis>
+26 <emphasis role="preprocessor">#&#32;&#32;include&#32;&lt;TargetConditionals.h&gt;</emphasis>
+27 <emphasis role="preprocessor">#&#32;&#32;include&#32;&lt;mach/mach_time.h&gt;</emphasis>
+28 <emphasis role="preprocessor">#endif</emphasis>
+29 
+30 <emphasis role="preprocessor">#if&#32;(&#32;defined&#32;_WIN32&#32;||&#32;(&#32;defined&#32;__i386&#32;||&#32;defined&#32;_M_IX86&#32;||&#32;defined&#32;__x86_64__&#32;||&#32;defined&#32;_M_X64&#32;)&#32;||&#32;(&#32;defined&#32;TARGET_OS_IOS&#32;&amp;&amp;&#32;TARGET_OS_IOS&#32;==&#32;1&#32;)&#32;)</emphasis>
+31 <emphasis role="preprocessor">#&#32;&#32;define&#32;TRACY_HW_TIMER</emphasis>
+32 <emphasis role="preprocessor">#endif</emphasis>
+33 
+34 <emphasis role="preprocessor">#ifdef&#32;__linux__</emphasis>
+35 <emphasis role="preprocessor">#&#32;&#32;include&#32;&lt;signal.h&gt;</emphasis>
+36 <emphasis role="preprocessor">#endif</emphasis>
+37 
+38 <emphasis role="preprocessor">#if&#32;defined&#32;TRACY_TIMER_FALLBACK&#32;||&#32;!defined&#32;TRACY_HW_TIMER</emphasis>
+39 <emphasis role="preprocessor">#&#32;&#32;include&#32;&lt;chrono&gt;</emphasis>
+40 <emphasis role="preprocessor">#endif</emphasis>
+41 
+42 <emphasis role="preprocessor">#ifndef&#32;TracyConcat</emphasis>
+43 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyConcat(x,y)&#32;TracyConcatIndirect(x,y)</emphasis>
+44 <emphasis role="preprocessor">#endif</emphasis>
+45 <emphasis role="preprocessor">#ifndef&#32;TracyConcatIndirect</emphasis>
+46 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyConcatIndirect(x,y)&#32;x##y</emphasis>
+47 <emphasis role="preprocessor">#endif</emphasis>
+48 
+49 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespacetracy">tracy</link>
+50 {
+51 <emphasis role="preprocessor">#if&#32;defined(TRACY_DELAYED_INIT)&#32;&amp;&amp;&#32;defined(TRACY_MANUAL_LIFETIME)</emphasis>
+52 <link linkend="__tracy_api_8h_1a5669cbc1d88076c41f72827fde0a4a57">TRACY_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;StartupProfiler();
+53 <link linkend="__tracy_api_8h_1a5669cbc1d88076c41f72827fde0a4a57">TRACY_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;ShutdownProfiler();
+54 <emphasis role="preprocessor">#endif</emphasis>
+55 
+56 <emphasis role="keyword">class&#32;</emphasis>GpuCtx;
+57 <emphasis role="keyword">class&#32;</emphasis>Profiler;
+58 <emphasis role="keyword">class&#32;</emphasis>Socket;
+59 <emphasis role="keyword">class&#32;</emphasis>UdpBroadcast;
+60 
+61 <emphasis role="keyword">struct&#32;</emphasis><link linkend="_structtracy_1_1_gpu_ctx_wrapper">GpuCtxWrapper</link>
+62 {
+63 &#32;&#32;&#32;&#32;GpuCtx*&#32;<link linkend="_structtracy_1_1_gpu_ctx_wrapper_1ad49398f6c566475b1660f8a92372a517">ptr</link>;
+64 };
+65 
+66 <link linkend="__tracy_api_8h_1a5669cbc1d88076c41f72827fde0a4a57">TRACY_API</link>&#32;<link linkend="_structtracy_1_1moodycamel_1_1_concurrent_queue_1_1_explicit_producer">moodycamel::ConcurrentQueue&lt;QueueItem&gt;::ExplicitProducer</link>*&#32;<link linkend="_namespacetracy_1ae166be903713fdc7af0a60998c0dba5a">GetToken</link>();
+67 <link linkend="__tracy_api_8h_1a5669cbc1d88076c41f72827fde0a4a57">TRACY_API</link>&#32;<link linkend="_classtracy_1_1_profiler">Profiler</link>&amp;&#32;<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>();
+68 <link linkend="__tracy_api_8h_1a5669cbc1d88076c41f72827fde0a4a57">TRACY_API</link>&#32;std::atomic&lt;uint32_t&gt;&amp;&#32;<link linkend="_namespacetracy_1ad8d8d755257e9a14ef339c4353614d14">GetLockCounter</link>();
+69 <link linkend="__tracy_api_8h_1a5669cbc1d88076c41f72827fde0a4a57">TRACY_API</link>&#32;std::atomic&lt;uint8_t&gt;&amp;&#32;<link linkend="_namespacetracy_1a2a2c3b7b326f78076f6e125a2eb17ce4">GetGpuCtxCounter</link>();
+70 <link linkend="__tracy_api_8h_1a5669cbc1d88076c41f72827fde0a4a57">TRACY_API</link>&#32;<link linkend="_structtracy_1_1_gpu_ctx_wrapper">GpuCtxWrapper</link>&amp;&#32;<link linkend="_namespacetracy_1a7c0e76472ae442de0c31fbfe38bdfe00">GetGpuCtx</link>();
+71 <link linkend="__tracy_api_8h_1a5669cbc1d88076c41f72827fde0a4a57">TRACY_API</link>&#32;uint32_t&#32;<link linkend="_namespacetracy_1aa3114ef7fe1a4fdc87e4e15fd5d86a63">GetThreadHandle</link>();
+72 <link linkend="__tracy_api_8h_1a5669cbc1d88076c41f72827fde0a4a57">TRACY_API</link>&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_namespacetracy_1ac07bf71200bc129ab11de7c8f2e6b538">ProfilerAvailable</link>();
+73 <link linkend="__tracy_api_8h_1a5669cbc1d88076c41f72827fde0a4a57">TRACY_API</link>&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_namespacetracy_1add974967c126d818d3897cb1dc937eba">ProfilerAllocatorAvailable</link>();
+74 <link linkend="__tracy_api_8h_1a5669cbc1d88076c41f72827fde0a4a57">TRACY_API</link>&#32;int64_t&#32;<link linkend="_namespacetracy_1ad92c3f8233dc84f8cc9a12ae42d515ff">GetFrequencyQpc</link>();
+75 
+76 <emphasis role="preprocessor">#if&#32;defined&#32;TRACY_TIMER_FALLBACK&#32;&amp;&amp;&#32;defined&#32;TRACY_HW_TIMER&#32;&amp;&amp;&#32;(&#32;defined&#32;__i386&#32;||&#32;defined&#32;_M_IX86&#32;||&#32;defined&#32;__x86_64__&#32;||&#32;defined&#32;_M_X64&#32;)</emphasis>
+77 <link linkend="__tracy_api_8h_1a5669cbc1d88076c41f72827fde0a4a57">TRACY_API</link>&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_namespacetracy_1a689b120e9216339f9aa96cdf7d11e1e1">HardwareSupportsInvariantTSC</link>();&#32;&#32;<emphasis role="comment">//&#32;check,&#32;if&#32;we&#32;need&#32;fallback&#32;scenario</emphasis>
+78 <emphasis role="preprocessor">#else</emphasis>
+79 <emphasis role="preprocessor">#&#32;&#32;if&#32;defined&#32;TRACY_HW_TIMER</emphasis>
+80 <link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_namespacetracy_1a689b120e9216339f9aa96cdf7d11e1e1">HardwareSupportsInvariantTSC</link>()
+81 {
+82 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">true</emphasis>;&#32;&#32;<emphasis role="comment">//&#32;this&#32;is&#32;checked&#32;at&#32;startup</emphasis>
+83 }
+84 <emphasis role="preprocessor">#&#32;&#32;else</emphasis>
+85 <link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_namespacetracy_1a689b120e9216339f9aa96cdf7d11e1e1">HardwareSupportsInvariantTSC</link>()
+86 {
+87 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">false</emphasis>;
+88 }
+89 <emphasis role="preprocessor">#&#32;&#32;endif</emphasis>
+90 <emphasis role="preprocessor">#endif</emphasis>
+91 
+92 
+93 <emphasis role="keyword">struct&#32;</emphasis><link linkend="_structtracy_1_1_source_location_data">SourceLocationData</link>
+94 {
+95 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_structtracy_1_1_source_location_data_1ac3b0303da8f856c3919db5e526e16f8c">name</link>;
+96 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_structtracy_1_1_source_location_data_1a01bd0e2e14a9a5e4dc785fbb38e5a613">function</link>;
+97 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_structtracy_1_1_source_location_data_1add12d98dd74904c27d276a492713bafc">file</link>;
+98 &#32;&#32;&#32;&#32;uint32_t&#32;<link linkend="_structtracy_1_1_source_location_data_1a2f6d4983ccc07d1039da749ff30b55fa">line</link>;
+99 &#32;&#32;&#32;&#32;uint32_t&#32;<link linkend="_structtracy_1_1_source_location_data_1a024ae882e7cb9554aea3192733535c68">color</link>;
+100 };
+101 
+102 <emphasis role="preprocessor">#ifdef&#32;TRACY_ON_DEMAND</emphasis>
+103 <emphasis role="keyword">struct&#32;</emphasis>LuaZoneState
+104 {
+105 &#32;&#32;&#32;&#32;uint32_t&#32;counter;
+106 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;active;
+107 };
+108 <emphasis role="preprocessor">#endif</emphasis>
+109 
+110 
+111 <emphasis role="preprocessor">#define&#32;TracyLfqPrepare(&#32;_type&#32;)&#32;\</emphasis>
+112 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;moodycamel::ConcurrentQueueDefaultTraits::index_t&#32;__magic;&#32;\</emphasis>
+113 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;auto&#32;__token&#32;=&#32;GetToken();&#32;\</emphasis>
+114 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;auto&amp;&#32;__tail&#32;=&#32;__token-&gt;get_tail_index();&#32;\</emphasis>
+115 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;auto&#32;item&#32;=&#32;__token-&gt;enqueue_begin(&#32;__magic&#32;);&#32;\</emphasis>
+116 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;MemWrite(&#32;&amp;item-&gt;hdr.type,&#32;_type&#32;);</emphasis>
+117 
+118 <emphasis role="preprocessor">#define&#32;TracyLfqCommit&#32;\</emphasis>
+119 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;__tail.store(&#32;__magic&#32;+&#32;1,&#32;std::memory_order_release&#32;);</emphasis>
+120 
+121 <emphasis role="preprocessor">#define&#32;TracyLfqPrepareC(&#32;_type&#32;)&#32;\</emphasis>
+122 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;tracy::moodycamel::ConcurrentQueueDefaultTraits::index_t&#32;__magic;&#32;\</emphasis>
+123 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;auto&#32;__token&#32;=&#32;tracy::GetToken();&#32;\</emphasis>
+124 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;auto&amp;&#32;__tail&#32;=&#32;__token-&gt;get_tail_index();&#32;\</emphasis>
+125 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;auto&#32;item&#32;=&#32;__token-&gt;enqueue_begin(&#32;__magic&#32;);&#32;\</emphasis>
+126 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;tracy::MemWrite(&#32;&amp;item-&gt;hdr.type,&#32;_type&#32;);</emphasis>
+127 
+128 <emphasis role="preprocessor">#define&#32;TracyLfqCommitC&#32;\</emphasis>
+129 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;__tail.store(&#32;__magic&#32;+&#32;1,&#32;std::memory_order_release&#32;);</emphasis>
+130 
+131 
+132 <emphasis role="preprocessor">#ifdef&#32;TRACY_FIBERS</emphasis>
+133 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyQueuePrepare(&#32;_type&#32;)&#32;\</emphasis>
+134 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;auto&#32;item&#32;=&#32;Profiler::QueueSerial();&#32;\</emphasis>
+135 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;MemWrite(&#32;&amp;item-&gt;hdr.type,&#32;_type&#32;);</emphasis>
+136 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyQueueCommit(&#32;_name&#32;)&#32;\</emphasis>
+137 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;MemWrite(&#32;&amp;item-&gt;_name.thread,&#32;GetThreadHandle()&#32;);&#32;\</emphasis>
+138 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;Profiler::QueueSerialFinish();</emphasis>
+139 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyQueuePrepareC(&#32;_type&#32;)&#32;\</emphasis>
+140 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;auto&#32;item&#32;=&#32;tracy::Profiler::QueueSerial();&#32;\</emphasis>
+141 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;tracy::MemWrite(&#32;&amp;item-&gt;hdr.type,&#32;_type&#32;);</emphasis>
+142 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyQueueCommitC(&#32;_name&#32;)&#32;\</emphasis>
+143 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;tracy::MemWrite(&#32;&amp;item-&gt;_name.thread,&#32;tracy::GetThreadHandle()&#32;);&#32;\</emphasis>
+144 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;tracy::Profiler::QueueSerialFinish();</emphasis>
+145 <emphasis role="preprocessor">#else</emphasis>
+146 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyQueuePrepare(&#32;_type&#32;)&#32;TracyLfqPrepare(&#32;_type&#32;)</emphasis>
+147 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyQueueCommit(&#32;_name&#32;)&#32;TracyLfqCommit</emphasis>
+148 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyQueuePrepareC(&#32;_type&#32;)&#32;TracyLfqPrepareC(&#32;_type&#32;)</emphasis>
+149 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyQueueCommitC(&#32;_name&#32;)&#32;TracyLfqCommitC</emphasis>
+150 <emphasis role="preprocessor">#endif</emphasis>
+151 
+152 
+153 <emphasis role="keyword">typedef</emphasis>&#32;<link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link>(*<link linkend="_namespacetracy_1a2c8e34278c111b44d6e614c72c1136a7">ParameterCallback</link>)(&#32;<emphasis role="keywordtype">void</emphasis>*&#32;<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>,&#32;uint32_t&#32;idx,&#32;int32_t&#32;<link linkend="_glad_8h_1aa857b95cc76669c2a9109239ef40a47c">val</link>&#32;);
+154 <emphasis role="keyword">typedef</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*(*SourceContentsCallback)(&#32;<emphasis role="keywordtype">void</emphasis>*&#32;<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;filename,&#32;<emphasis role="keywordtype">size_t</emphasis>&amp;&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>&#32;);
+155 
+156 <emphasis role="keyword">class&#32;</emphasis><link linkend="_classtracy_1_1_profiler">Profiler</link>
+157 {
+158 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis>FrameImageQueueItem
+159 &#32;&#32;&#32;&#32;{
+160 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>*&#32;image;
+161 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uint32_t&#32;frame;
+162 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uint16_t&#32;<link linkend="_glad_8h_1ab78941ba2fcaab3b1a29f0432e9ea42e">w</link>;
+163 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uint16_t&#32;h;
+164 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;flip;
+165 &#32;&#32;&#32;&#32;};
+166 
+167 &#32;&#32;&#32;&#32;<emphasis role="keyword">enum&#32;class</emphasis>&#32;SymbolQueueItemType
+168 &#32;&#32;&#32;&#32;{
+169 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330a963545ec890d90cba06deff35bfa21c5">CallstackFrame</link>,
+170 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;SymbolQuery,
+171 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330acfb5499ff81dbe8199341544bb74ab3e">ExternalName</link>,
+172 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;KernelCode,
+173 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330af84ea4db4efbe36e6ee3de7a4ef8e2c6">SourceCode</link>
+174 &#32;&#32;&#32;&#32;};
+175 
+176 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis>SymbolQueueItem
+177 &#32;&#32;&#32;&#32;{
+178 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;SymbolQueueItemType&#32;<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>;
+179 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uint64_t&#32;ptr;
+180 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uint64_t&#32;extra;
+181 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uint32_t&#32;<link linkend="_glad_8h_1a0f49c9e660c049e85b4735b5246b6258">id</link>;
+182 &#32;&#32;&#32;&#32;};
+183 
+184 <emphasis role="keyword">public</emphasis>:
+185 &#32;&#32;&#32;&#32;<link linkend="_classtracy_1_1_profiler_1a4be0fc38ba5a360abdb20ab0adbf0760">Profiler</link>();
+186 &#32;&#32;&#32;&#32;<link linkend="_classtracy_1_1_profiler_1aa53c1ce3bc289860cfe77e6ed1cda0d6">~Profiler</link>();
+187 
+188 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_classtracy_1_1_profiler_1a41baf3a90e2b1e82e5de6b657a7b5adc">SpawnWorkerThreads</link>();
+189 
+190 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;int64_t&#32;<link linkend="_classtracy_1_1_profiler_1a4131d199df7f0faeb8b2ddc860cade4e">GetTime</link>()
+191 &#32;&#32;&#32;&#32;{
+192 <emphasis role="preprocessor">#ifdef&#32;TRACY_HW_TIMER</emphasis>
+193 <emphasis role="preprocessor">#&#32;&#32;if&#32;defined&#32;TARGET_OS_IOS&#32;&amp;&amp;&#32;TARGET_OS_IOS&#32;==&#32;1</emphasis>
+194 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;<link linkend="_namespacetracy_1a689b120e9216339f9aa96cdf7d11e1e1">HardwareSupportsInvariantTSC</link>()&#32;)&#32;<emphasis role="keywordflow">return</emphasis>&#32;mach_absolute_time();
+195 <emphasis role="preprocessor">#&#32;&#32;elif&#32;defined&#32;_WIN32</emphasis>
+196 <emphasis role="preprocessor">#&#32;&#32;&#32;&#32;ifdef&#32;TRACY_TIMER_QPC</emphasis>
+197 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;GetTimeQpc();
+198 <emphasis role="preprocessor">#&#32;&#32;&#32;&#32;else</emphasis>
+199 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;<link linkend="_namespacetracy_1a689b120e9216339f9aa96cdf7d11e1e1">HardwareSupportsInvariantTSC</link>()&#32;)&#32;<emphasis role="keywordflow">return</emphasis>&#32;int64_t(&#32;__rdtsc()&#32;);
+200 <emphasis role="preprocessor">#&#32;&#32;&#32;&#32;endif</emphasis>
+201 <emphasis role="preprocessor">#&#32;&#32;elif&#32;defined&#32;__i386&#32;||&#32;defined&#32;_M_IX86</emphasis>
+202 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;<link linkend="_namespacetracy_1a689b120e9216339f9aa96cdf7d11e1e1">HardwareSupportsInvariantTSC</link>()&#32;)
+203 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+204 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uint32_t&#32;eax,&#32;edx;
+205 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">asm</emphasis>&#32;<emphasis role="keyword">volatile</emphasis>&#32;(&#32;<emphasis role="stringliteral">&quot;rdtsc&quot;</emphasis>&#32;:&#32;<emphasis role="stringliteral">&quot;=a&quot;</emphasis>&#32;(eax),&#32;<emphasis role="stringliteral">&quot;=d&quot;</emphasis>&#32;(edx)&#32;);
+206 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;(&#32;uint64_t(&#32;edx&#32;)&#32;&lt;&lt;&#32;32&#32;)&#32;+&#32;uint64_t(&#32;eax&#32;);
+207 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+208 <emphasis role="preprocessor">#&#32;&#32;elif&#32;defined&#32;__x86_64__&#32;||&#32;defined&#32;_M_X64</emphasis>
+209 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;<link linkend="_namespacetracy_1a689b120e9216339f9aa96cdf7d11e1e1">HardwareSupportsInvariantTSC</link>()&#32;)
+210 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+211 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uint64_t&#32;rax,&#32;rdx;
+212 <emphasis role="preprocessor">#ifdef&#32;TRACY_PATCHABLE_NOPSLEDS</emphasis>
+213 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Some&#32;external&#32;tooling&#32;(such&#32;as&#32;rr)&#32;wants&#32;to&#32;patch&#32;our&#32;rdtsc&#32;and&#32;replace&#32;it&#32;by&#32;a</emphasis>
+214 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;branch&#32;to&#32;control&#32;the&#32;external&#32;input&#32;seen&#32;by&#32;a&#32;program.&#32;This&#32;kind&#32;of&#32;patching&#32;is</emphasis>
+215 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;not&#32;generally&#32;possible&#32;depending&#32;on&#32;the&#32;surrounding&#32;code&#32;and&#32;can&#32;lead&#32;to&#32;significant</emphasis>
+216 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;slowdowns&#32;if&#32;the&#32;compiler&#32;generated&#32;unlucky&#32;code&#32;and&#32;rr&#32;and&#32;tracy&#32;are&#32;used&#32;together.</emphasis>
+217 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;To&#32;avoid&#32;this,&#32;use&#32;the&#32;rr-safe&#32;`nopl&#32;0(%rax,&#32;%rax,&#32;1);&#32;rdtsc`&#32;instruction&#32;sequence,</emphasis>
+218 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;which&#32;rr&#32;promises&#32;will&#32;be&#32;patchable&#32;independent&#32;of&#32;the&#32;surrounding&#32;code.</emphasis>
+219 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">asm</emphasis>&#32;<emphasis role="keyword">volatile</emphasis>&#32;(
+220 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;This&#32;is&#32;nopl&#32;0(%rax,&#32;%rax,&#32;1),&#32;but&#32;assemblers&#32;are&#32;inconsistent&#32;about&#32;whether</emphasis>
+221 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;they&#32;emit&#32;that&#32;as&#32;a&#32;4&#32;or&#32;5&#32;byte&#32;sequence&#32;and&#32;we&#32;need&#32;to&#32;be&#32;guaranteed&#32;to&#32;use</emphasis>
+222 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;the&#32;5&#32;byte&#32;one.</emphasis>
+223 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;.byte&#32;0x0f,&#32;0x1f,&#32;0x44,&#32;0x00,&#32;0x00\n\t&quot;</emphasis>
+224 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;rdtsc&quot;</emphasis>&#32;:&#32;<emphasis role="stringliteral">&quot;=a&quot;</emphasis>&#32;(rax),&#32;<emphasis role="stringliteral">&quot;=d&quot;</emphasis>&#32;(rdx)&#32;);
+225 <emphasis role="preprocessor">#else</emphasis>
+226 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">asm</emphasis>&#32;<emphasis role="keyword">volatile</emphasis>&#32;(&#32;<emphasis role="stringliteral">&quot;rdtsc&quot;</emphasis>&#32;:&#32;<emphasis role="stringliteral">&quot;=a&quot;</emphasis>&#32;(rax),&#32;<emphasis role="stringliteral">&quot;=d&quot;</emphasis>&#32;(rdx)&#32;);
+227 <emphasis role="preprocessor">#endif</emphasis>
+228 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;(int64_t)((&#32;rdx&#32;&lt;&lt;&#32;32&#32;)&#32;+&#32;rax);
+229 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+230 <emphasis role="preprocessor">#&#32;&#32;else</emphasis>
+231 <emphasis role="preprocessor">#&#32;&#32;&#32;&#32;error&#32;&quot;TRACY_HW_TIMER&#32;detection&#32;logic&#32;needs&#32;fixing&quot;</emphasis>
+232 <emphasis role="preprocessor">#&#32;&#32;endif</emphasis>
+233 <emphasis role="preprocessor">#endif</emphasis>
+234 
+235 <emphasis role="preprocessor">#if&#32;!defined&#32;TRACY_HW_TIMER&#32;||&#32;defined&#32;TRACY_TIMER_FALLBACK</emphasis>
+236 <emphasis role="preprocessor">#&#32;&#32;if&#32;defined&#32;__linux__&#32;&amp;&amp;&#32;defined&#32;CLOCK_MONOTONIC_RAW</emphasis>
+237 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis>timespec&#32;ts;
+238 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;clock_gettime(&#32;CLOCK_MONOTONIC_RAW,&#32;&amp;ts&#32;);
+239 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;int64_t(&#32;ts.tv_sec&#32;)&#32;*&#32;1000000000ll&#32;+&#32;int64_t(&#32;ts.tv_nsec&#32;);
+240 <emphasis role="preprocessor">#&#32;&#32;else</emphasis>
+241 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;std::chrono::duration_cast&lt;std::chrono::nanoseconds&gt;(&#32;std::chrono::high_resolution_clock::now().time_since_epoch()&#32;).count();
+242 <emphasis role="preprocessor">#&#32;&#32;endif</emphasis>
+243 <emphasis role="preprocessor">#endif</emphasis>
+244 
+245 <emphasis role="preprocessor">#if&#32;!defined&#32;TRACY_TIMER_FALLBACK</emphasis>
+246 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;0;&#32;&#32;<emphasis role="comment">//&#32;unreachable&#32;branch</emphasis>
+247 <emphasis role="preprocessor">#endif</emphasis>
+248 &#32;&#32;&#32;&#32;}
+249 
+250 &#32;&#32;&#32;&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;uint32_t&#32;<link linkend="_classtracy_1_1_profiler_1a7ce483ca13fab276d48b9d8a6b4c59db">GetNextZoneId</link>()
+251 &#32;&#32;&#32;&#32;{
+252 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;m_zoneId.fetch_add(&#32;1,&#32;std::memory_order_relaxed&#32;);
+253 &#32;&#32;&#32;&#32;}
+254 
+255 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;<link linkend="_structtracy_1_1_queue_item">QueueItem</link>*&#32;<link linkend="_classtracy_1_1_profiler_1a1c67297cb68056b545e6573d46a60c13">QueueSerial</link>()
+256 &#32;&#32;&#32;&#32;{
+257 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&amp;&#32;p&#32;=&#32;<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>();
+258 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;p.m_serialLock.lock();
+259 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;p.m_serialQueue.prepare_next();
+260 &#32;&#32;&#32;&#32;}
+261 
+262 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;<link linkend="_structtracy_1_1_queue_item">QueueItem</link>*&#32;<link linkend="_classtracy_1_1_profiler_1a0e6d9de3da4ba875ce4b82230c354117">QueueSerialCallstack</link>(&#32;<emphasis role="keywordtype">void</emphasis>*&#32;ptr&#32;)
+263 &#32;&#32;&#32;&#32;{
+264 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&amp;&#32;p&#32;=&#32;<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>();
+265 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;p.m_serialLock.lock();
+266 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;p.SendCallstackSerial(&#32;ptr&#32;);
+267 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;p.m_serialQueue.prepare_next();
+268 &#32;&#32;&#32;&#32;}
+269 
+270 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_classtracy_1_1_profiler_1ac06b3d486f720701e598e5efa7fd460d">QueueSerialFinish</link>()
+271 &#32;&#32;&#32;&#32;{
+272 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&amp;&#32;p&#32;=&#32;<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>();
+273 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;p.m_serialQueue.commit_next();
+274 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;p.m_serialLock.unlock();
+275 &#32;&#32;&#32;&#32;}
+276 
+277 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_classtracy_1_1_profiler_1aa1b54bdc800db64925b58bfd9b3d7727">SendFrameMark</link>(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>&#32;)
+278 &#32;&#32;&#32;&#32;{
+279 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>&#32;)&#32;<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>().m_frameCount.fetch_add(&#32;1,&#32;std::memory_order_relaxed&#32;);
+280 <emphasis role="preprocessor">#ifdef&#32;TRACY_ON_DEMAND</emphasis>
+281 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>().<link linkend="_classtracy_1_1_profiler_1acb507bd527cb7319101507cf5b6c0017">IsConnected</link>()&#32;)&#32;<emphasis role="keywordflow">return</emphasis>;
+282 <emphasis role="preprocessor">#endif</emphasis>
+283 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;item&#32;=&#32;<link linkend="_classtracy_1_1_profiler_1a1c67297cb68056b545e6573d46a60c13">QueueSerial</link>();
+284 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;hdr.type,&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330ae9a627a30c92b05ba2e0d8281d0ab67d">QueueType::FrameMarkMsg</link>&#32;);
+285 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;frameMark.time,&#32;<link linkend="_classtracy_1_1_profiler_1a4131d199df7f0faeb8b2ddc860cade4e">GetTime</link>()&#32;);
+286 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;frameMark.name,&#32;uint64_t(&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>&#32;)&#32;);
+287 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_classtracy_1_1_profiler_1ac06b3d486f720701e598e5efa7fd460d">QueueSerialFinish</link>();
+288 &#32;&#32;&#32;&#32;}
+289 
+290 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_classtracy_1_1_profiler_1abae64a2077bf9c2463c70fbb4d9fd277">SendFrameMark</link>(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>,&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330">QueueType</link>&#32;<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>&#32;)
+291 &#32;&#32;&#32;&#32;{
+292 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_tracy__lz4_8cpp_1acdcc5aaebf3f273c1762f24a6ece2e5e">assert</link>(&#32;<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>&#32;==&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330a1202ba87c5709c1beb44098c1ac5f345">QueueType::FrameMarkMsgStart</link>&#32;||&#32;<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>&#32;==&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330a9e84f95beeadfeca1d562c06aa0f49fd">QueueType::FrameMarkMsgEnd</link>&#32;);
+293 <emphasis role="preprocessor">#ifdef&#32;TRACY_ON_DEMAND</emphasis>
+294 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>().<link linkend="_classtracy_1_1_profiler_1acb507bd527cb7319101507cf5b6c0017">IsConnected</link>()&#32;)&#32;<emphasis role="keywordflow">return</emphasis>;
+295 <emphasis role="preprocessor">#endif</emphasis>
+296 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;item&#32;=&#32;<link linkend="_classtracy_1_1_profiler_1a1c67297cb68056b545e6573d46a60c13">QueueSerial</link>();
+297 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;hdr.type,&#32;<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>&#32;);
+298 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;frameMark.time,&#32;<link linkend="_classtracy_1_1_profiler_1a4131d199df7f0faeb8b2ddc860cade4e">GetTime</link>()&#32;);
+299 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;frameMark.name,&#32;uint64_t(&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>&#32;)&#32;);
+300 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_classtracy_1_1_profiler_1ac06b3d486f720701e598e5efa7fd460d">QueueSerialFinish</link>();
+301 &#32;&#32;&#32;&#32;}
+302 
+303 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_classtracy_1_1_profiler_1a1b8e4c92859724bb7ed7c532fa18741f">SendFrameImage</link>(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>*&#32;image,&#32;uint16_t&#32;<link linkend="_glad_8h_1ab78941ba2fcaab3b1a29f0432e9ea42e">w</link>,&#32;uint16_t&#32;h,&#32;uint8_t&#32;<link linkend="_glad_8h_1ae1b92ae085ddef4b1cdca7d749339fb0">offset</link>,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;flip&#32;)
+304 &#32;&#32;&#32;&#32;{
+305 <emphasis role="preprocessor">#ifndef&#32;TRACY_NO_FRAME_IMAGE</emphasis>
+306 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&amp;&#32;profiler&#32;=&#32;<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>();
+307 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_tracy__lz4_8cpp_1acdcc5aaebf3f273c1762f24a6ece2e5e">assert</link>(&#32;profiler.m_frameCount.load(&#32;std::memory_order_relaxed&#32;)&#32;&lt;&#32;(std::numeric_limits&lt;uint32_t&gt;::max)()&#32;);
+308 <emphasis role="preprocessor">#&#32;&#32;ifdef&#32;TRACY_ON_DEMAND</emphasis>
+309 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!profiler.IsConnected()&#32;)&#32;<emphasis role="keywordflow">return</emphasis>;
+310 <emphasis role="preprocessor">#&#32;&#32;endif</emphasis>
+311 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;sz&#32;=&#32;size_t(&#32;<link linkend="_glad_8h_1ab78941ba2fcaab3b1a29f0432e9ea42e">w</link>&#32;)&#32;*&#32;size_t(&#32;h&#32;)&#32;*&#32;4;
+312 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;ptr&#32;=&#32;(<emphasis role="keywordtype">char</emphasis>*)tracy_malloc(&#32;sz&#32;);
+313 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memcpy(&#32;ptr,&#32;image,&#32;sz&#32;);
+314 
+315 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;profiler.m_fiLock.lock();
+316 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;fi&#32;=&#32;profiler.m_fiQueue.prepare_next();
+317 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fi-&gt;image&#32;=&#32;ptr;
+318 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fi-&gt;frame&#32;=&#32;uint32_t(&#32;profiler.m_frameCount.load(&#32;std::memory_order_relaxed&#32;)&#32;-&#32;<link linkend="_glad_8h_1ae1b92ae085ddef4b1cdca7d749339fb0">offset</link>&#32;);
+319 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fi-&gt;w&#32;=&#32;<link linkend="_glad_8h_1ab78941ba2fcaab3b1a29f0432e9ea42e">w</link>;
+320 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fi-&gt;h&#32;=&#32;h;
+321 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fi-&gt;flip&#32;=&#32;flip;
+322 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;profiler.m_fiQueue.commit_next();
+323 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;profiler.m_fiLock.unlock();
+324 <emphasis role="preprocessor">#else</emphasis>
+325 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static_cast&lt;</emphasis><emphasis role="keywordtype">void</emphasis><emphasis role="keyword">&gt;</emphasis>(image);&#32;<emphasis role="comment">//&#32;unused</emphasis>
+326 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static_cast&lt;</emphasis><emphasis role="keywordtype">void</emphasis><emphasis role="keyword">&gt;</emphasis>(<link linkend="_glad_8h_1ab78941ba2fcaab3b1a29f0432e9ea42e">w</link>);&#32;<emphasis role="comment">//&#32;unused</emphasis>
+327 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static_cast&lt;</emphasis><emphasis role="keywordtype">void</emphasis><emphasis role="keyword">&gt;</emphasis>(h);&#32;<emphasis role="comment">//&#32;unused</emphasis>
+328 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static_cast&lt;</emphasis><emphasis role="keywordtype">void</emphasis><emphasis role="keyword">&gt;</emphasis>(<link linkend="_glad_8h_1ae1b92ae085ddef4b1cdca7d749339fb0">offset</link>);&#32;<emphasis role="comment">//&#32;unused</emphasis>
+329 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static_cast&lt;</emphasis><emphasis role="keywordtype">void</emphasis><emphasis role="keyword">&gt;</emphasis>(flip);&#32;<emphasis role="comment">//&#32;unused</emphasis>
+330 <emphasis role="preprocessor">#endif</emphasis>
+331 &#32;&#32;&#32;&#32;}
+332 
+333 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_classtracy_1_1_profiler_1a93accf1123e041841ef2bb4cb6f018be">PlotData</link>(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>,&#32;int64_t&#32;<link linkend="_glad_8h_1aa857b95cc76669c2a9109239ef40a47c">val</link>&#32;)
+334 &#32;&#32;&#32;&#32;{
+335 <emphasis role="preprocessor">#ifdef&#32;TRACY_ON_DEMAND</emphasis>
+336 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>().<link linkend="_classtracy_1_1_profiler_1acb507bd527cb7319101507cf5b6c0017">IsConnected</link>()&#32;)&#32;<emphasis role="keywordflow">return</emphasis>;
+337 <emphasis role="preprocessor">#endif</emphasis>
+338 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1a47bdea510ce33341f971fd506f54d0ed">TracyLfqPrepare</link>(&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330ab8099c088ec57edb7150fd41a2d671e0">QueueType::PlotDataInt</link>&#32;);
+339 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;plotDataInt.name,&#32;(uint64_t)<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>&#32;);
+340 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;plotDataInt.time,&#32;<link linkend="_classtracy_1_1_profiler_1a4131d199df7f0faeb8b2ddc860cade4e">GetTime</link>()&#32;);
+341 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;plotDataInt.val,&#32;<link linkend="_glad_8h_1aa857b95cc76669c2a9109239ef40a47c">val</link>&#32;);
+342 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1ad33bba2f411a92b8883a1d09904ee322">TracyLfqCommit</link>;
+343 &#32;&#32;&#32;&#32;}
+344 
+345 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_classtracy_1_1_profiler_1ae42976c3757a94050ed91048d82e11b3">PlotData</link>(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>,&#32;<emphasis role="keywordtype">float</emphasis>&#32;<link linkend="_glad_8h_1aa857b95cc76669c2a9109239ef40a47c">val</link>&#32;)
+346 &#32;&#32;&#32;&#32;{
+347 <emphasis role="preprocessor">#ifdef&#32;TRACY_ON_DEMAND</emphasis>
+348 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>().<link linkend="_classtracy_1_1_profiler_1acb507bd527cb7319101507cf5b6c0017">IsConnected</link>()&#32;)&#32;<emphasis role="keywordflow">return</emphasis>;
+349 <emphasis role="preprocessor">#endif</emphasis>
+350 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1a47bdea510ce33341f971fd506f54d0ed">TracyLfqPrepare</link>(&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330a5883c064e5304bc86833e3194fcc26ee">QueueType::PlotDataFloat</link>&#32;);
+351 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;plotDataFloat.name,&#32;(uint64_t)<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>&#32;);
+352 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;plotDataFloat.time,&#32;<link linkend="_classtracy_1_1_profiler_1a4131d199df7f0faeb8b2ddc860cade4e">GetTime</link>()&#32;);
+353 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;plotDataFloat.val,&#32;<link linkend="_glad_8h_1aa857b95cc76669c2a9109239ef40a47c">val</link>&#32;);
+354 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1ad33bba2f411a92b8883a1d09904ee322">TracyLfqCommit</link>;
+355 &#32;&#32;&#32;&#32;}
+356 
+357 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_classtracy_1_1_profiler_1ab7dea2d530c6803e93110f23c12c1a8e">PlotData</link>(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>,&#32;<emphasis role="keywordtype">double</emphasis>&#32;<link linkend="_glad_8h_1aa857b95cc76669c2a9109239ef40a47c">val</link>&#32;)
+358 &#32;&#32;&#32;&#32;{
+359 <emphasis role="preprocessor">#ifdef&#32;TRACY_ON_DEMAND</emphasis>
+360 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>().<link linkend="_classtracy_1_1_profiler_1acb507bd527cb7319101507cf5b6c0017">IsConnected</link>()&#32;)&#32;<emphasis role="keywordflow">return</emphasis>;
+361 <emphasis role="preprocessor">#endif</emphasis>
+362 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1a47bdea510ce33341f971fd506f54d0ed">TracyLfqPrepare</link>(&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330a40ac25119d6b0d0afe565f7ef16407b6">QueueType::PlotDataDouble</link>&#32;);
+363 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;plotDataDouble.name,&#32;(uint64_t)<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>&#32;);
+364 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;plotDataDouble.time,&#32;<link linkend="_classtracy_1_1_profiler_1a4131d199df7f0faeb8b2ddc860cade4e">GetTime</link>()&#32;);
+365 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;plotDataDouble.val,&#32;<link linkend="_glad_8h_1aa857b95cc76669c2a9109239ef40a47c">val</link>&#32;);
+366 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1ad33bba2f411a92b8883a1d09904ee322">TracyLfqCommit</link>;
+367 &#32;&#32;&#32;&#32;}
+368 
+369 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_classtracy_1_1_profiler_1aa17cc56e1de3bdec961a9c8af0ef0850">ConfigurePlot</link>(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>,&#32;<link linkend="_namespacetracy_1a57bb74c9fb54b127599668e6e933d2c8">PlotFormatType</link>&#32;<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;step,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;fill,&#32;uint32_t&#32;<link linkend="_glad_8h_1a69995a929d818b8b467d4593c24d98bc">color</link>&#32;)
+370 &#32;&#32;&#32;&#32;{
+371 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1a47bdea510ce33341f971fd506f54d0ed">TracyLfqPrepare</link>(&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330ac15056516d1dc9891746b85bd73c6a59">QueueType::PlotConfig</link>&#32;);
+372 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;plotConfig.name,&#32;(uint64_t)<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>&#32;);
+373 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;plotConfig.type,&#32;(uint8_t)<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>&#32;);
+374 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;plotConfig.step,&#32;(uint8_t)step&#32;);
+375 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;plotConfig.fill,&#32;(uint8_t)fill&#32;);
+376 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;plotConfig.color,&#32;<link linkend="_glad_8h_1a69995a929d818b8b467d4593c24d98bc">color</link>&#32;);
+377 
+378 <emphasis role="preprocessor">#ifdef&#32;TRACY_ON_DEMAND</emphasis>
+379 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>().DeferItem(&#32;*item&#32;);
+380 <emphasis role="preprocessor">#endif</emphasis>
+381 
+382 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1ad33bba2f411a92b8883a1d09904ee322">TracyLfqCommit</link>;
+383 &#32;&#32;&#32;&#32;}
+384 
+385 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_classtracy_1_1_profiler_1a6e070ec69ec98c35fdf4a7f8cafd9f06">Message</link>(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;txt,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>,&#32;<emphasis role="keywordtype">int</emphasis>&#32;callstack&#32;)
+386 &#32;&#32;&#32;&#32;{
+387 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_tracy__lz4_8cpp_1acdcc5aaebf3f273c1762f24a6ece2e5e">assert</link>(&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>&#32;&lt;&#32;(std::numeric_limits&lt;uint16_t&gt;::max)()&#32;);
+388 <emphasis role="preprocessor">#ifdef&#32;TRACY_ON_DEMAND</emphasis>
+389 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>().<link linkend="_classtracy_1_1_profiler_1acb507bd527cb7319101507cf5b6c0017">IsConnected</link>()&#32;)&#32;<emphasis role="keywordflow">return</emphasis>;
+390 <emphasis role="preprocessor">#endif</emphasis>
+391 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;callstack&#32;!=&#32;0&#32;)
+392 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+393 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">tracy::GetProfiler</link>().<link linkend="_classtracy_1_1_profiler_1a311e0b32e12e055cbda821a311a76366">SendCallstack</link>(&#32;callstack&#32;);
+394 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+395 
+396 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;ptr&#32;=&#32;(<emphasis role="keywordtype">char</emphasis>*)tracy_malloc(&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>&#32;);
+397 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memcpy(&#32;ptr,&#32;txt,&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>&#32;);
+398 
+399 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1aaebd56b9697b0eb0a64f7b1321b4a91a">TracyQueuePrepare</link>(&#32;callstack&#32;==&#32;0&#32;?&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330a4c2a8fe7eaf24721cc7a9f0175115bd4">QueueType::Message</link>&#32;:&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330a61fe8b50ba422579195504174d680134">QueueType::MessageCallstack</link>&#32;);
+400 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;messageFat.time,&#32;<link linkend="_classtracy_1_1_profiler_1a4131d199df7f0faeb8b2ddc860cade4e">GetTime</link>()&#32;);
+401 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;messageFat.text,&#32;(uint64_t)ptr&#32;);
+402 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;messageFat.size,&#32;(uint16_t)<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>&#32;);
+403 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1a3708ec4f27eebb4c64534f1b9fe52bf7">TracyQueueCommit</link>(&#32;messageFatThread&#32;);
+404 &#32;&#32;&#32;&#32;}
+405 
+406 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_classtracy_1_1_profiler_1ad8d337a510dee966593d3f5acccf86a2">Message</link>(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;txt,&#32;<emphasis role="keywordtype">int</emphasis>&#32;callstack&#32;)
+407 &#32;&#32;&#32;&#32;{
+408 <emphasis role="preprocessor">#ifdef&#32;TRACY_ON_DEMAND</emphasis>
+409 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>().<link linkend="_classtracy_1_1_profiler_1acb507bd527cb7319101507cf5b6c0017">IsConnected</link>()&#32;)&#32;<emphasis role="keywordflow">return</emphasis>;
+410 <emphasis role="preprocessor">#endif</emphasis>
+411 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;callstack&#32;!=&#32;0&#32;)
+412 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+413 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">tracy::GetProfiler</link>().<link linkend="_classtracy_1_1_profiler_1a311e0b32e12e055cbda821a311a76366">SendCallstack</link>(&#32;callstack&#32;);
+414 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+415 
+416 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1aaebd56b9697b0eb0a64f7b1321b4a91a">TracyQueuePrepare</link>(&#32;callstack&#32;==&#32;0&#32;?&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330a7f403e2eeae24c8df437ebbd092f5038">QueueType::MessageLiteral</link>&#32;:&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330a95a31151278c484d673317e3a68496ff">QueueType::MessageLiteralCallstack</link>&#32;);
+417 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;messageLiteral.time,&#32;<link linkend="_classtracy_1_1_profiler_1a4131d199df7f0faeb8b2ddc860cade4e">GetTime</link>()&#32;);
+418 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;messageLiteral.text,&#32;(uint64_t)txt&#32;);
+419 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1a3708ec4f27eebb4c64534f1b9fe52bf7">TracyQueueCommit</link>(&#32;messageLiteralThread&#32;);
+420 &#32;&#32;&#32;&#32;}
+421 
+422 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_classtracy_1_1_profiler_1af3aa46b195307af57cd1894213889533">MessageColor</link>(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;txt,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>,&#32;uint32_t&#32;<link linkend="_glad_8h_1a69995a929d818b8b467d4593c24d98bc">color</link>,&#32;<emphasis role="keywordtype">int</emphasis>&#32;callstack&#32;)
+423 &#32;&#32;&#32;&#32;{
+424 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_tracy__lz4_8cpp_1acdcc5aaebf3f273c1762f24a6ece2e5e">assert</link>(&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>&#32;&lt;&#32;(std::numeric_limits&lt;uint16_t&gt;::max)()&#32;);
+425 <emphasis role="preprocessor">#ifdef&#32;TRACY_ON_DEMAND</emphasis>
+426 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>().<link linkend="_classtracy_1_1_profiler_1acb507bd527cb7319101507cf5b6c0017">IsConnected</link>()&#32;)&#32;<emphasis role="keywordflow">return</emphasis>;
+427 <emphasis role="preprocessor">#endif</emphasis>
+428 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;callstack&#32;!=&#32;0&#32;)
+429 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+430 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">tracy::GetProfiler</link>().<link linkend="_classtracy_1_1_profiler_1a311e0b32e12e055cbda821a311a76366">SendCallstack</link>(&#32;callstack&#32;);
+431 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+432 
+433 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;ptr&#32;=&#32;(<emphasis role="keywordtype">char</emphasis>*)tracy_malloc(&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>&#32;);
+434 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memcpy(&#32;ptr,&#32;txt,&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>&#32;);
+435 
+436 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1aaebd56b9697b0eb0a64f7b1321b4a91a">TracyQueuePrepare</link>(&#32;callstack&#32;==&#32;0&#32;?&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330abeb0dc554d74740d3e69533b2e5198d1">QueueType::MessageColor</link>&#32;:&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330a849ac90d59fd14b1c55e50ced44a7268">QueueType::MessageColorCallstack</link>&#32;);
+437 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;messageColorFat.time,&#32;<link linkend="_classtracy_1_1_profiler_1a4131d199df7f0faeb8b2ddc860cade4e">GetTime</link>()&#32;);
+438 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;messageColorFat.text,&#32;(uint64_t)ptr&#32;);
+439 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;messageColorFat.b,&#32;uint8_t(&#32;(&#32;<link linkend="_glad_8h_1a69995a929d818b8b467d4593c24d98bc">color</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;)&#32;&amp;&#32;0xFF&#32;)&#32;);
+440 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;messageColorFat.g,&#32;uint8_t(&#32;(&#32;<link linkend="_glad_8h_1a69995a929d818b8b467d4593c24d98bc">color</link>&#32;&gt;&gt;&#32;8&#32;&#32;)&#32;&amp;&#32;0xFF&#32;)&#32;);
+441 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;messageColorFat.r,&#32;uint8_t(&#32;(&#32;<link linkend="_glad_8h_1a69995a929d818b8b467d4593c24d98bc">color</link>&#32;&gt;&gt;&#32;16&#32;)&#32;&amp;&#32;0xFF&#32;)&#32;);
+442 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;messageColorFat.size,&#32;(uint16_t)<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>&#32;);
+443 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1a3708ec4f27eebb4c64534f1b9fe52bf7">TracyQueueCommit</link>(&#32;messageColorFatThread&#32;);
+444 &#32;&#32;&#32;&#32;}
+445 
+446 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_classtracy_1_1_profiler_1a64c9df1ea850033c40589e15a69386b8">MessageColor</link>(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;txt,&#32;uint32_t&#32;<link linkend="_glad_8h_1a69995a929d818b8b467d4593c24d98bc">color</link>,&#32;<emphasis role="keywordtype">int</emphasis>&#32;callstack&#32;)
+447 &#32;&#32;&#32;&#32;{
+448 <emphasis role="preprocessor">#ifdef&#32;TRACY_ON_DEMAND</emphasis>
+449 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>().<link linkend="_classtracy_1_1_profiler_1acb507bd527cb7319101507cf5b6c0017">IsConnected</link>()&#32;)&#32;<emphasis role="keywordflow">return</emphasis>;
+450 <emphasis role="preprocessor">#endif</emphasis>
+451 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;callstack&#32;!=&#32;0&#32;)
+452 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+453 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">tracy::GetProfiler</link>().<link linkend="_classtracy_1_1_profiler_1a311e0b32e12e055cbda821a311a76366">SendCallstack</link>(&#32;callstack&#32;);
+454 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+455 
+456 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1aaebd56b9697b0eb0a64f7b1321b4a91a">TracyQueuePrepare</link>(&#32;callstack&#32;==&#32;0&#32;?&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330a689bbb6e6c42de8914c6cf56d44869ba">QueueType::MessageLiteralColor</link>&#32;:&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330a3d0231c1e912c93d81c056482ac0555c">QueueType::MessageLiteralColorCallstack</link>&#32;);
+457 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;messageColorLiteral.time,&#32;<link linkend="_classtracy_1_1_profiler_1a4131d199df7f0faeb8b2ddc860cade4e">GetTime</link>()&#32;);
+458 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;messageColorLiteral.text,&#32;(uint64_t)txt&#32;);
+459 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;messageColorLiteral.b,&#32;uint8_t(&#32;(&#32;<link linkend="_glad_8h_1a69995a929d818b8b467d4593c24d98bc">color</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;)&#32;&amp;&#32;0xFF&#32;)&#32;);
+460 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;messageColorLiteral.g,&#32;uint8_t(&#32;(&#32;<link linkend="_glad_8h_1a69995a929d818b8b467d4593c24d98bc">color</link>&#32;&gt;&gt;&#32;8&#32;&#32;)&#32;&amp;&#32;0xFF&#32;)&#32;);
+461 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;messageColorLiteral.r,&#32;uint8_t(&#32;(&#32;<link linkend="_glad_8h_1a69995a929d818b8b467d4593c24d98bc">color</link>&#32;&gt;&gt;&#32;16&#32;)&#32;&amp;&#32;0xFF&#32;)&#32;);
+462 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1a3708ec4f27eebb4c64534f1b9fe52bf7">TracyQueueCommit</link>(&#32;messageColorLiteralThread&#32;);
+463 &#32;&#32;&#32;&#32;}
+464 
+465 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_classtracy_1_1_profiler_1a84a180817dfc71bea055ae1fc17ff789">MessageAppInfo</link>(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;txt,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>&#32;)
+466 &#32;&#32;&#32;&#32;{
+467 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_tracy__lz4_8cpp_1acdcc5aaebf3f273c1762f24a6ece2e5e">assert</link>(&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>&#32;&lt;&#32;(std::numeric_limits&lt;uint16_t&gt;::max)()&#32;);
+468 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;ptr&#32;=&#32;(<emphasis role="keywordtype">char</emphasis>*)tracy_malloc(&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>&#32;);
+469 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memcpy(&#32;ptr,&#32;txt,&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>&#32;);
+470 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1a47bdea510ce33341f971fd506f54d0ed">TracyLfqPrepare</link>(&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330aaad378ef7a1873a717d117091ea91116">QueueType::MessageAppInfo</link>&#32;);
+471 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;messageFat.time,&#32;<link linkend="_classtracy_1_1_profiler_1a4131d199df7f0faeb8b2ddc860cade4e">GetTime</link>()&#32;);
+472 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;messageFat.text,&#32;(uint64_t)ptr&#32;);
+473 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;messageFat.size,&#32;(uint16_t)<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>&#32;);
+474 
+475 <emphasis role="preprocessor">#ifdef&#32;TRACY_ON_DEMAND</emphasis>
+476 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>().DeferItem(&#32;*item&#32;);
+477 <emphasis role="preprocessor">#endif</emphasis>
+478 
+479 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1ad33bba2f411a92b8883a1d09904ee322">TracyLfqCommit</link>;
+480 &#32;&#32;&#32;&#32;}
+481 
+482 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_classtracy_1_1_profiler_1afa16613f8f33d25594242538f7e1a2fa">MemAlloc</link>(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>*&#32;ptr,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;secure&#32;)
+483 &#32;&#32;&#32;&#32;{
+484 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;secure&#32;&amp;&amp;&#32;!<link linkend="_namespacetracy_1ac07bf71200bc129ab11de7c8f2e6b538">ProfilerAvailable</link>()&#32;)&#32;<emphasis role="keywordflow">return</emphasis>;
+485 <emphasis role="preprocessor">#ifdef&#32;TRACY_ON_DEMAND</emphasis>
+486 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>().<link linkend="_classtracy_1_1_profiler_1acb507bd527cb7319101507cf5b6c0017">IsConnected</link>()&#32;)&#32;<emphasis role="keywordflow">return</emphasis>;
+487 <emphasis role="preprocessor">#endif</emphasis>
+488 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;thread&#32;=&#32;<link linkend="_namespacetracy_1aa3114ef7fe1a4fdc87e4e15fd5d86a63">GetThreadHandle</link>();
+489 
+490 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>().m_serialLock.lock();
+491 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;SendMemAlloc(&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330a2adf168192e5f6d19a97ebdb8bfaae91">QueueType::MemAlloc</link>,&#32;thread,&#32;ptr,&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>&#32;);
+492 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>().m_serialLock.unlock();
+493 &#32;&#32;&#32;&#32;}
+494 
+495 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_classtracy_1_1_profiler_1aea5fd97b0acc3b36a3ec6ef1d4092cda">MemFree</link>(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>*&#32;ptr,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;secure&#32;)
+496 &#32;&#32;&#32;&#32;{
+497 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;secure&#32;&amp;&amp;&#32;!<link linkend="_namespacetracy_1ac07bf71200bc129ab11de7c8f2e6b538">ProfilerAvailable</link>()&#32;)&#32;<emphasis role="keywordflow">return</emphasis>;
+498 <emphasis role="preprocessor">#ifdef&#32;TRACY_ON_DEMAND</emphasis>
+499 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>().<link linkend="_classtracy_1_1_profiler_1acb507bd527cb7319101507cf5b6c0017">IsConnected</link>()&#32;)&#32;<emphasis role="keywordflow">return</emphasis>;
+500 <emphasis role="preprocessor">#endif</emphasis>
+501 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;thread&#32;=&#32;<link linkend="_namespacetracy_1aa3114ef7fe1a4fdc87e4e15fd5d86a63">GetThreadHandle</link>();
+502 
+503 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>().m_serialLock.lock();
+504 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;SendMemFree(&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330ad3d1c74dbc194e1ebb2768d59d419eb8">QueueType::MemFree</link>,&#32;thread,&#32;ptr&#32;);
+505 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>().m_serialLock.unlock();
+506 &#32;&#32;&#32;&#32;}
+507 
+508 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_classtracy_1_1_profiler_1a42321f9661c14cdcccf0b24cc7f41ff5">MemAllocCallstack</link>(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>*&#32;ptr,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a2aa5ce5567a58e4da543ce468fb1711a">depth</link>,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;secure&#32;)
+509 &#32;&#32;&#32;&#32;{
+510 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;secure&#32;&amp;&amp;&#32;!<link linkend="_namespacetracy_1ac07bf71200bc129ab11de7c8f2e6b538">ProfilerAvailable</link>()&#32;)&#32;<emphasis role="keywordflow">return</emphasis>;
+511 <emphasis role="preprocessor">#ifdef&#32;TRACY_HAS_CALLSTACK</emphasis>
+512 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&amp;&#32;profiler&#32;=&#32;<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>();
+513 <emphasis role="preprocessor">#&#32;&#32;ifdef&#32;TRACY_ON_DEMAND</emphasis>
+514 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!profiler.IsConnected()&#32;)&#32;<emphasis role="keywordflow">return</emphasis>;
+515 <emphasis role="preprocessor">#&#32;&#32;endif</emphasis>
+516 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;thread&#32;=&#32;<link linkend="_namespacetracy_1aa3114ef7fe1a4fdc87e4e15fd5d86a63">GetThreadHandle</link>();
+517 
+518 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;callstack&#32;=&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330a30650823a23b39a1a2f2c35d9b726127">Callstack</link>(&#32;<link linkend="_glad_8h_1a2aa5ce5567a58e4da543ce468fb1711a">depth</link>&#32;);
+519 
+520 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;profiler.m_serialLock.lock();
+521 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;SendCallstackSerial(&#32;callstack&#32;);
+522 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;SendMemAlloc(&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330a8286fa42bfa3f9eb1e617a65db1464ad">QueueType::MemAllocCallstack</link>,&#32;thread,&#32;ptr,&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>&#32;);
+523 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;profiler.m_serialLock.unlock();
+524 <emphasis role="preprocessor">#else</emphasis>
+525 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static_cast&lt;</emphasis><emphasis role="keywordtype">void</emphasis><emphasis role="keyword">&gt;</emphasis>(<link linkend="_glad_8h_1a2aa5ce5567a58e4da543ce468fb1711a">depth</link>);&#32;<emphasis role="comment">//&#32;unused</emphasis>
+526 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330a2adf168192e5f6d19a97ebdb8bfaae91">MemAlloc</link>(&#32;ptr,&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>,&#32;secure&#32;);
+527 <emphasis role="preprocessor">#endif</emphasis>
+528 &#32;&#32;&#32;&#32;}
+529 
+530 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_classtracy_1_1_profiler_1a1b39d809716ac35276c1ca9255367ca7">MemFreeCallstack</link>(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>*&#32;ptr,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a2aa5ce5567a58e4da543ce468fb1711a">depth</link>,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;secure&#32;)
+531 &#32;&#32;&#32;&#32;{
+532 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;secure&#32;&amp;&amp;&#32;!<link linkend="_namespacetracy_1ac07bf71200bc129ab11de7c8f2e6b538">ProfilerAvailable</link>()&#32;)&#32;<emphasis role="keywordflow">return</emphasis>;
+533 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!<link linkend="_namespacetracy_1add974967c126d818d3897cb1dc937eba">ProfilerAllocatorAvailable</link>()&#32;)
+534 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+535 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330ad3d1c74dbc194e1ebb2768d59d419eb8">MemFree</link>(&#32;ptr,&#32;secure&#32;);
+536 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>;
+537 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+538 <emphasis role="preprocessor">#ifdef&#32;TRACY_HAS_CALLSTACK</emphasis>
+539 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&amp;&#32;profiler&#32;=&#32;<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>();
+540 <emphasis role="preprocessor">#&#32;&#32;ifdef&#32;TRACY_ON_DEMAND</emphasis>
+541 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!profiler.IsConnected()&#32;)&#32;<emphasis role="keywordflow">return</emphasis>;
+542 <emphasis role="preprocessor">#&#32;&#32;endif</emphasis>
+543 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;thread&#32;=&#32;<link linkend="_namespacetracy_1aa3114ef7fe1a4fdc87e4e15fd5d86a63">GetThreadHandle</link>();
+544 
+545 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;callstack&#32;=&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330a30650823a23b39a1a2f2c35d9b726127">Callstack</link>(&#32;<link linkend="_glad_8h_1a2aa5ce5567a58e4da543ce468fb1711a">depth</link>&#32;);
+546 
+547 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;profiler.m_serialLock.lock();
+548 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;SendCallstackSerial(&#32;callstack&#32;);
+549 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;SendMemFree(&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330a73d2c5877d7eaf135f777fd0cab949d0">QueueType::MemFreeCallstack</link>,&#32;thread,&#32;ptr&#32;);
+550 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;profiler.m_serialLock.unlock();
+551 <emphasis role="preprocessor">#else</emphasis>
+552 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static_cast&lt;</emphasis><emphasis role="keywordtype">void</emphasis><emphasis role="keyword">&gt;</emphasis>(<link linkend="_glad_8h_1a2aa5ce5567a58e4da543ce468fb1711a">depth</link>);&#32;<emphasis role="comment">//&#32;unused</emphasis>
+553 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330ad3d1c74dbc194e1ebb2768d59d419eb8">MemFree</link>(&#32;ptr,&#32;secure&#32;);
+554 <emphasis role="preprocessor">#endif</emphasis>
+555 &#32;&#32;&#32;&#32;}
+556 
+557 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_classtracy_1_1_profiler_1a295c208f5ca9d03204de53f2802986a6">MemAllocNamed</link>(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>*&#32;ptr,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;secure,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>&#32;)
+558 &#32;&#32;&#32;&#32;{
+559 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;secure&#32;&amp;&amp;&#32;!<link linkend="_namespacetracy_1ac07bf71200bc129ab11de7c8f2e6b538">ProfilerAvailable</link>()&#32;)&#32;<emphasis role="keywordflow">return</emphasis>;
+560 <emphasis role="preprocessor">#ifdef&#32;TRACY_ON_DEMAND</emphasis>
+561 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>().<link linkend="_classtracy_1_1_profiler_1acb507bd527cb7319101507cf5b6c0017">IsConnected</link>()&#32;)&#32;<emphasis role="keywordflow">return</emphasis>;
+562 <emphasis role="preprocessor">#endif</emphasis>
+563 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;thread&#32;=&#32;<link linkend="_namespacetracy_1aa3114ef7fe1a4fdc87e4e15fd5d86a63">GetThreadHandle</link>();
+564 
+565 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>().m_serialLock.lock();
+566 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;SendMemName(&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>&#32;);
+567 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;SendMemAlloc(&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330a6e38222b2f88c5c3ebb9ee3a38937382">QueueType::MemAllocNamed</link>,&#32;thread,&#32;ptr,&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>&#32;);
+568 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>().m_serialLock.unlock();
+569 &#32;&#32;&#32;&#32;}
+570 
+571 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_classtracy_1_1_profiler_1a564486f9be57afaba977e19012525042">MemFreeNamed</link>(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>*&#32;ptr,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;secure,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>&#32;)
+572 &#32;&#32;&#32;&#32;{
+573 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;secure&#32;&amp;&amp;&#32;!<link linkend="_namespacetracy_1ac07bf71200bc129ab11de7c8f2e6b538">ProfilerAvailable</link>()&#32;)&#32;<emphasis role="keywordflow">return</emphasis>;
+574 <emphasis role="preprocessor">#ifdef&#32;TRACY_ON_DEMAND</emphasis>
+575 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>().<link linkend="_classtracy_1_1_profiler_1acb507bd527cb7319101507cf5b6c0017">IsConnected</link>()&#32;)&#32;<emphasis role="keywordflow">return</emphasis>;
+576 <emphasis role="preprocessor">#endif</emphasis>
+577 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;thread&#32;=&#32;<link linkend="_namespacetracy_1aa3114ef7fe1a4fdc87e4e15fd5d86a63">GetThreadHandle</link>();
+578 
+579 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>().m_serialLock.lock();
+580 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;SendMemName(&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>&#32;);
+581 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;SendMemFree(&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330a41cf719b204b96ccc3146149029d14a6">QueueType::MemFreeNamed</link>,&#32;thread,&#32;ptr&#32;);
+582 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>().m_serialLock.unlock();
+583 &#32;&#32;&#32;&#32;}
+584 
+585 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_classtracy_1_1_profiler_1a82f3246139915a786c482bc5d578057d">MemAllocCallstackNamed</link>(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>*&#32;ptr,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a2aa5ce5567a58e4da543ce468fb1711a">depth</link>,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;secure,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>&#32;)
+586 &#32;&#32;&#32;&#32;{
+587 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;secure&#32;&amp;&amp;&#32;!<link linkend="_namespacetracy_1ac07bf71200bc129ab11de7c8f2e6b538">ProfilerAvailable</link>()&#32;)&#32;<emphasis role="keywordflow">return</emphasis>;
+588 <emphasis role="preprocessor">#ifdef&#32;TRACY_HAS_CALLSTACK</emphasis>
+589 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&amp;&#32;profiler&#32;=&#32;<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>();
+590 <emphasis role="preprocessor">#&#32;&#32;ifdef&#32;TRACY_ON_DEMAND</emphasis>
+591 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!profiler.IsConnected()&#32;)&#32;<emphasis role="keywordflow">return</emphasis>;
+592 <emphasis role="preprocessor">#&#32;&#32;endif</emphasis>
+593 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;thread&#32;=&#32;<link linkend="_namespacetracy_1aa3114ef7fe1a4fdc87e4e15fd5d86a63">GetThreadHandle</link>();
+594 
+595 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;callstack&#32;=&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330a30650823a23b39a1a2f2c35d9b726127">Callstack</link>(&#32;<link linkend="_glad_8h_1a2aa5ce5567a58e4da543ce468fb1711a">depth</link>&#32;);
+596 
+597 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;profiler.m_serialLock.lock();
+598 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;SendCallstackSerial(&#32;callstack&#32;);
+599 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;SendMemName(&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>&#32;);
+600 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;SendMemAlloc(&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330a7d411e1e76d3a7a595bc0d37e794f38a">QueueType::MemAllocCallstackNamed</link>,&#32;thread,&#32;ptr,&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>&#32;);
+601 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;profiler.m_serialLock.unlock();
+602 <emphasis role="preprocessor">#else</emphasis>
+603 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static_cast&lt;</emphasis><emphasis role="keywordtype">void</emphasis><emphasis role="keyword">&gt;</emphasis>(<link linkend="_glad_8h_1a2aa5ce5567a58e4da543ce468fb1711a">depth</link>);&#32;<emphasis role="comment">//&#32;unused</emphasis>
+604 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static_cast&lt;</emphasis><emphasis role="keywordtype">void</emphasis><emphasis role="keyword">&gt;</emphasis>(<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>);&#32;<emphasis role="comment">//&#32;unused</emphasis>
+605 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330a2adf168192e5f6d19a97ebdb8bfaae91">MemAlloc</link>(&#32;ptr,&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>,&#32;secure&#32;);
+606 <emphasis role="preprocessor">#endif</emphasis>
+607 &#32;&#32;&#32;&#32;}
+608 
+609 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_classtracy_1_1_profiler_1abc7d689a23189bb3c50f40d8f6d43f09">MemFreeCallstackNamed</link>(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>*&#32;ptr,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a2aa5ce5567a58e4da543ce468fb1711a">depth</link>,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;secure,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>&#32;)
+610 &#32;&#32;&#32;&#32;{
+611 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;secure&#32;&amp;&amp;&#32;!<link linkend="_namespacetracy_1ac07bf71200bc129ab11de7c8f2e6b538">ProfilerAvailable</link>()&#32;)&#32;<emphasis role="keywordflow">return</emphasis>;
+612 <emphasis role="preprocessor">#ifdef&#32;TRACY_HAS_CALLSTACK</emphasis>
+613 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&amp;&#32;profiler&#32;=&#32;<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>();
+614 <emphasis role="preprocessor">#&#32;&#32;ifdef&#32;TRACY_ON_DEMAND</emphasis>
+615 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!profiler.IsConnected()&#32;)&#32;<emphasis role="keywordflow">return</emphasis>;
+616 <emphasis role="preprocessor">#&#32;&#32;endif</emphasis>
+617 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;thread&#32;=&#32;<link linkend="_namespacetracy_1aa3114ef7fe1a4fdc87e4e15fd5d86a63">GetThreadHandle</link>();
+618 
+619 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;callstack&#32;=&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330a30650823a23b39a1a2f2c35d9b726127">Callstack</link>(&#32;<link linkend="_glad_8h_1a2aa5ce5567a58e4da543ce468fb1711a">depth</link>&#32;);
+620 
+621 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;profiler.m_serialLock.lock();
+622 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;SendCallstackSerial(&#32;callstack&#32;);
+623 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;SendMemName(&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>&#32;);
+624 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;SendMemFree(&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330aaf2abb6949a7ea2e99180a4b99db85c8">QueueType::MemFreeCallstackNamed</link>,&#32;thread,&#32;ptr&#32;);
+625 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;profiler.m_serialLock.unlock();
+626 <emphasis role="preprocessor">#else</emphasis>
+627 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static_cast&lt;</emphasis><emphasis role="keywordtype">void</emphasis><emphasis role="keyword">&gt;</emphasis>(<link linkend="_glad_8h_1a2aa5ce5567a58e4da543ce468fb1711a">depth</link>);&#32;<emphasis role="comment">//&#32;unused</emphasis>
+628 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static_cast&lt;</emphasis><emphasis role="keywordtype">void</emphasis><emphasis role="keyword">&gt;</emphasis>(<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>);&#32;<emphasis role="comment">//&#32;unused</emphasis>
+629 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330ad3d1c74dbc194e1ebb2768d59d419eb8">MemFree</link>(&#32;ptr,&#32;secure&#32;);
+630 <emphasis role="preprocessor">#endif</emphasis>
+631 &#32;&#32;&#32;&#32;}
+632 
+633 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_classtracy_1_1_profiler_1a311e0b32e12e055cbda821a311a76366">SendCallstack</link>(&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a2aa5ce5567a58e4da543ce468fb1711a">depth</link>&#32;)
+634 &#32;&#32;&#32;&#32;{
+635 <emphasis role="preprocessor">#ifdef&#32;TRACY_HAS_CALLSTACK</emphasis>
+636 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;ptr&#32;=&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330a30650823a23b39a1a2f2c35d9b726127">Callstack</link>(&#32;<link linkend="_glad_8h_1a2aa5ce5567a58e4da543ce468fb1711a">depth</link>&#32;);
+637 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1aaebd56b9697b0eb0a64f7b1321b4a91a">TracyQueuePrepare</link>(&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330a30650823a23b39a1a2f2c35d9b726127">QueueType::Callstack</link>&#32;);
+638 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;callstackFat.ptr,&#32;(uint64_t)ptr&#32;);
+639 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1a3708ec4f27eebb4c64534f1b9fe52bf7">TracyQueueCommit</link>(&#32;callstackFatThread&#32;);
+640 <emphasis role="preprocessor">#else</emphasis>
+641 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static_cast&lt;</emphasis><emphasis role="keywordtype">void</emphasis><emphasis role="keyword">&gt;</emphasis>(<link linkend="_glad_8h_1a2aa5ce5567a58e4da543ce468fb1711a">depth</link>);&#32;<emphasis role="comment">//&#32;unused</emphasis>
+642 <emphasis role="preprocessor">#endif</emphasis>
+643 &#32;&#32;&#32;&#32;}
+644 
+645 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_classtracy_1_1_profiler_1a6135618bb7d746dbbb30656c2d5f8a3c">ParameterRegister</link>(&#32;<link linkend="_namespacetracy_1a2c8e34278c111b44d6e614c72c1136a7">ParameterCallback</link>&#32;cb,&#32;<emphasis role="keywordtype">void</emphasis>*&#32;<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>&#32;)
+646 &#32;&#32;&#32;&#32;{
+647 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&amp;&#32;profiler&#32;=&#32;<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>();
+648 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;profiler.m_paramCallback&#32;=&#32;cb;
+649 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;profiler.m_paramCallbackData&#32;=&#32;<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>;
+650 &#32;&#32;&#32;&#32;}
+651 
+652 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_classtracy_1_1_profiler_1a0799d059186efaac24781c79cf1280f3">ParameterSetup</link>(&#32;uint32_t&#32;idx,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;isBool,&#32;int32_t&#32;<link linkend="_glad_8h_1aa857b95cc76669c2a9109239ef40a47c">val</link>&#32;)
+653 &#32;&#32;&#32;&#32;{
+654 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1a47bdea510ce33341f971fd506f54d0ed">TracyLfqPrepare</link>(&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330a83ae54ef2522cad081bf26f38026fce3">QueueType::ParamSetup</link>&#32;);
+655 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">tracy::MemWrite</link>(&#32;&amp;item-&gt;paramSetup.idx,&#32;idx&#32;);
+656 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">tracy::MemWrite</link>(&#32;&amp;item-&gt;paramSetup.name,&#32;(uint64_t)<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>&#32;);
+657 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">tracy::MemWrite</link>(&#32;&amp;item-&gt;paramSetup.isBool,&#32;(uint8_t)isBool&#32;);
+658 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">tracy::MemWrite</link>(&#32;&amp;item-&gt;paramSetup.val,&#32;<link linkend="_glad_8h_1aa857b95cc76669c2a9109239ef40a47c">val</link>&#32;);
+659 
+660 <emphasis role="preprocessor">#ifdef&#32;TRACY_ON_DEMAND</emphasis>
+661 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>().DeferItem(&#32;*item&#32;);
+662 <emphasis role="preprocessor">#endif</emphasis>
+663 
+664 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1ad33bba2f411a92b8883a1d09904ee322">TracyLfqCommit</link>;
+665 &#32;&#32;&#32;&#32;}
+666 
+667 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_classtracy_1_1_profiler_1a79845526842e821594ab1409f3e72d77">SourceCallbackRegister</link>(&#32;<link linkend="_namespacetracy_1a0257fffc0ffe6bfd91cd0951af13d391">SourceContentsCallback</link>&#32;cb,&#32;<emphasis role="keywordtype">void</emphasis>*&#32;<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>&#32;)
+668 &#32;&#32;&#32;&#32;{
+669 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&amp;&#32;profiler&#32;=&#32;<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>();
+670 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;profiler.m_sourceCallback&#32;=&#32;cb;
+671 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;profiler.m_sourceCallbackData&#32;=&#32;<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>;
+672 &#32;&#32;&#32;&#32;}
+673 
+674 <emphasis role="preprocessor">#ifdef&#32;TRACY_FIBERS</emphasis>
+675 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;EnterFiber(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;fiber&#32;)
+676 &#32;&#32;&#32;&#32;{
+677 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1aaebd56b9697b0eb0a64f7b1321b4a91a">TracyQueuePrepare</link>(&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330a758fa4a3e2fd575a15385b238b3ee9ec">QueueType::FiberEnter</link>&#32;);
+678 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;fiberEnter.time,&#32;<link linkend="_classtracy_1_1_profiler_1a4131d199df7f0faeb8b2ddc860cade4e">GetTime</link>()&#32;);
+679 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;fiberEnter.fiber,&#32;(uint64_t)fiber&#32;);
+680 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1a3708ec4f27eebb4c64534f1b9fe52bf7">TracyQueueCommit</link>(&#32;fiberEnter&#32;);
+681 &#32;&#32;&#32;&#32;}
+682 
+683 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;LeaveFiber()
+684 &#32;&#32;&#32;&#32;{
+685 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1aaebd56b9697b0eb0a64f7b1321b4a91a">TracyQueuePrepare</link>(&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330a629f6f11ab3e305529df1fad577c32b2">QueueType::FiberLeave</link>&#32;);
+686 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;fiberLeave.time,&#32;<link linkend="_classtracy_1_1_profiler_1a4131d199df7f0faeb8b2ddc860cade4e">GetTime</link>()&#32;);
+687 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1a3708ec4f27eebb4c64534f1b9fe52bf7">TracyQueueCommit</link>(&#32;fiberLeave&#32;);
+688 &#32;&#32;&#32;&#32;}
+689 <emphasis role="preprocessor">#endif</emphasis>
+690 
+691 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_classtracy_1_1_profiler_1afa45adf0837fc133e3d6be4c74d247ad">SendCallstack</link>(&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a2aa5ce5567a58e4da543ce468fb1711a">depth</link>,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;skipBefore&#32;);
+692 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_classtracy_1_1_profiler_1aa83ed6399537c0e981149e7b48e3d21c">CutCallstack</link>(&#32;<emphasis role="keywordtype">void</emphasis>*&#32;callstack,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;skipBefore&#32;);
+693 
+694 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_classtracy_1_1_profiler_1ade4d8d75e35f221d6b539656970d6350">ShouldExit</link>();
+695 
+696 &#32;&#32;&#32;&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_classtracy_1_1_profiler_1acb507bd527cb7319101507cf5b6c0017">IsConnected</link>()<emphasis role="keyword">&#32;const</emphasis>
+697 <emphasis role="keyword">&#32;&#32;&#32;&#32;</emphasis>{
+698 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;m_isConnected.load(&#32;std::memory_order_acquire&#32;);
+699 &#32;&#32;&#32;&#32;}
+700 
+701 &#32;&#32;&#32;&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_classtracy_1_1_profiler_1aa672231bca53673a9f16147717ccbc23">SetProgramName</link>(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>&#32;)
+702 &#32;&#32;&#32;&#32;{
+703 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_programNameLock.lock();
+704 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_programName&#32;=&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>;
+705 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_programNameLock.unlock();
+706 &#32;&#32;&#32;&#32;}
+707 
+708 <emphasis role="preprocessor">#ifdef&#32;TRACY_ON_DEMAND</emphasis>
+709 &#32;&#32;&#32;&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;uint64_t&#32;ConnectionId()<emphasis role="keyword">&#32;const</emphasis>
+710 <emphasis role="keyword">&#32;&#32;&#32;&#32;</emphasis>{
+711 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;m_connectionId.load(&#32;std::memory_order_acquire&#32;);
+712 &#32;&#32;&#32;&#32;}
+713 
+714 &#32;&#32;&#32;&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;DeferItem(&#32;<emphasis role="keyword">const</emphasis>&#32;QueueItem&amp;&#32;item&#32;)
+715 &#32;&#32;&#32;&#32;{
+716 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_deferredLock.lock();
+717 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;<link linkend="_glad_8h_1a85e59cd56e10d0a7f49ab199f277d486">dst</link>&#32;=&#32;m_deferredQueue.push_next();
+718 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memcpy(&#32;<link linkend="_glad_8h_1a85e59cd56e10d0a7f49ab199f277d486">dst</link>,&#32;&amp;item,&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;item&#32;)&#32;);
+719 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_deferredLock.unlock();
+720 &#32;&#32;&#32;&#32;}
+721 <emphasis role="preprocessor">#endif</emphasis>
+722 
+723 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_classtracy_1_1_profiler_1aab777316732c4ac2d237bc679559e742">RequestShutdown</link>()&#32;{&#32;m_shutdown.store(&#32;<emphasis role="keyword">true</emphasis>,&#32;std::memory_order_relaxed&#32;);&#32;m_shutdownManual.store(&#32;<emphasis role="keyword">true</emphasis>,&#32;std::memory_order_relaxed&#32;);&#32;}
+724 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_classtracy_1_1_profiler_1aa2eec713a2c12f6f2fd4087c0bc2c31f">HasShutdownFinished</link>()<emphasis role="keyword">&#32;const&#32;</emphasis>{&#32;<emphasis role="keywordflow">return</emphasis>&#32;m_shutdownFinished.load(&#32;std::memory_order_relaxed&#32;);&#32;}
+725 
+726 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_classtracy_1_1_profiler_1a1a22aa878fd2c3fe3257e04ce5b26719">SendString</link>(&#32;uint64_t&#32;str,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;ptr,&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330">QueueType</link>&#32;<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>&#32;)&#32;{&#32;<link linkend="_classtracy_1_1_profiler_1a1a22aa878fd2c3fe3257e04ce5b26719">SendString</link>(&#32;str,&#32;ptr,&#32;strlen(&#32;ptr&#32;),&#32;<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>&#32;);&#32;}
+727 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_classtracy_1_1_profiler_1a410363ad6f2b968e4c666307d69b999d">SendString</link>(&#32;uint64_t&#32;str,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;ptr,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;len,&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330">QueueType</link>&#32;<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>&#32;);
+728 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_classtracy_1_1_profiler_1a31d06db4613956287613f7dcb1df9c0c">SendSingleString</link>(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;ptr&#32;)&#32;{&#32;<link linkend="_classtracy_1_1_profiler_1a31d06db4613956287613f7dcb1df9c0c">SendSingleString</link>(&#32;ptr,&#32;strlen(&#32;ptr&#32;)&#32;);&#32;}
+729 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_classtracy_1_1_profiler_1ae421dfad2fe9a11f345256d825bc642d">SendSingleString</link>(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;ptr,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;len&#32;);
+730 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_classtracy_1_1_profiler_1a04d3e45f2f1b4f1137e4ff952e4b38cd">SendSecondString</link>(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;ptr&#32;)&#32;{&#32;<link linkend="_classtracy_1_1_profiler_1a04d3e45f2f1b4f1137e4ff952e4b38cd">SendSecondString</link>(&#32;ptr,&#32;strlen(&#32;ptr&#32;)&#32;);&#32;}
+731 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_classtracy_1_1_profiler_1a876b1ae73aba1ad40b45a68036888b5c">SendSecondString</link>(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;ptr,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;len&#32;);
+732 
+733 
+734 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Allocated&#32;source&#32;location&#32;data&#32;layout:</emphasis>
+735 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;2b&#32;&#32;payload&#32;size</emphasis>
+736 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;4b&#32;&#32;color</emphasis>
+737 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;4b&#32;&#32;source&#32;line</emphasis>
+738 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;fsz&#32;function&#32;name</emphasis>
+739 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;1b&#32;&#32;null&#32;terminator</emphasis>
+740 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;ssz&#32;source&#32;file&#32;name</emphasis>
+741 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;1b&#32;&#32;null&#32;terminator</emphasis>
+742 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;nsz&#32;zone&#32;name&#32;(optional)</emphasis>
+743 
+744 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;uint64_t&#32;<link linkend="_classtracy_1_1_profiler_1ab869025334b66dbe8ad63dc0beffbc2c">AllocSourceLocation</link>(&#32;uint32_t&#32;<link linkend="_structtracy_1_1line">line</link>,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a6ffd2192cbc75d017665e95207ee36a7">source</link>,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_structtracy_1_1function">function</link>&#32;)
+745 &#32;&#32;&#32;&#32;{
+746 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_classtracy_1_1_profiler_1ab869025334b66dbe8ad63dc0beffbc2c">AllocSourceLocation</link>(&#32;<link linkend="_structtracy_1_1line">line</link>,&#32;<link linkend="_glad_8h_1a6ffd2192cbc75d017665e95207ee36a7">source</link>,&#32;<link linkend="_structtracy_1_1function">function</link>,&#32;<emphasis role="keyword">nullptr</emphasis>,&#32;0&#32;);
+747 &#32;&#32;&#32;&#32;}
+748 
+749 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;uint64_t&#32;<link linkend="_classtracy_1_1_profiler_1aefba2d2085f401e06b59862691ad0ff7">AllocSourceLocation</link>(&#32;uint32_t&#32;<link linkend="_structtracy_1_1line">line</link>,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a6ffd2192cbc75d017665e95207ee36a7">source</link>,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_structtracy_1_1function">function</link>,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;nameSz&#32;)
+750 &#32;&#32;&#32;&#32;{
+751 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_classtracy_1_1_profiler_1ab869025334b66dbe8ad63dc0beffbc2c">AllocSourceLocation</link>(&#32;<link linkend="_structtracy_1_1line">line</link>,&#32;<link linkend="_glad_8h_1a6ffd2192cbc75d017665e95207ee36a7">source</link>,&#32;strlen(<link linkend="_glad_8h_1a6ffd2192cbc75d017665e95207ee36a7">source</link>),&#32;<link linkend="_structtracy_1_1function">function</link>,&#32;strlen(<link linkend="_structtracy_1_1function">function</link>),&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>,&#32;nameSz&#32;);
+752 &#32;&#32;&#32;&#32;}
+753 
+754 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;uint64_t&#32;<link linkend="_classtracy_1_1_profiler_1a6397a2afbffed8cf27b7ccf12b1bc5ff">AllocSourceLocation</link>(&#32;uint32_t&#32;<link linkend="_structtracy_1_1line">line</link>,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a6ffd2192cbc75d017665e95207ee36a7">source</link>,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;sourceSz,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_structtracy_1_1function">function</link>,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;functionSz&#32;)
+755 &#32;&#32;&#32;&#32;{
+756 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_classtracy_1_1_profiler_1ab869025334b66dbe8ad63dc0beffbc2c">AllocSourceLocation</link>(&#32;<link linkend="_structtracy_1_1line">line</link>,&#32;<link linkend="_glad_8h_1a6ffd2192cbc75d017665e95207ee36a7">source</link>,&#32;sourceSz,&#32;<link linkend="_structtracy_1_1function">function</link>,&#32;functionSz,&#32;<emphasis role="keyword">nullptr</emphasis>,&#32;0&#32;);
+757 &#32;&#32;&#32;&#32;}
+758 
+759 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;uint64_t&#32;<link linkend="_classtracy_1_1_profiler_1ac02cfef2b616c2c967ad0c09011ad68b">AllocSourceLocation</link>(&#32;uint32_t&#32;<link linkend="_structtracy_1_1line">line</link>,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a6ffd2192cbc75d017665e95207ee36a7">source</link>,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;sourceSz,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_structtracy_1_1function">function</link>,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;functionSz,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;nameSz&#32;)
+760 &#32;&#32;&#32;&#32;{
+761 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;sz32&#32;=&#32;uint32_t(&#32;2&#32;+&#32;4&#32;+&#32;4&#32;+&#32;functionSz&#32;+&#32;1&#32;+&#32;sourceSz&#32;+&#32;1&#32;+&#32;nameSz&#32;);
+762 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_tracy__lz4_8cpp_1acdcc5aaebf3f273c1762f24a6ece2e5e">assert</link>(&#32;sz32&#32;&lt;=&#32;(std::numeric_limits&lt;uint16_t&gt;::max)()&#32;);
+763 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;sz&#32;=&#32;uint16_t(&#32;sz32&#32;);
+764 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;ptr&#32;=&#32;(<emphasis role="keywordtype">char</emphasis>*)tracy_malloc(&#32;sz&#32;);
+765 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memcpy(&#32;ptr,&#32;&amp;sz,&#32;2&#32;);
+766 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memset(&#32;ptr&#32;+&#32;2,&#32;0,&#32;4&#32;);
+767 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memcpy(&#32;ptr&#32;+&#32;6,&#32;&amp;<link linkend="_structtracy_1_1line">line</link>,&#32;4&#32;);
+768 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memcpy(&#32;ptr&#32;+&#32;10,&#32;<link linkend="_structtracy_1_1function">function</link>,&#32;functionSz&#32;);
+769 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ptr[10&#32;+&#32;functionSz]&#32;=&#32;<emphasis role="charliteral">&apos;\0&apos;</emphasis>;
+770 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memcpy(&#32;ptr&#32;+&#32;10&#32;+&#32;functionSz&#32;+&#32;1,&#32;<link linkend="_glad_8h_1a6ffd2192cbc75d017665e95207ee36a7">source</link>,&#32;sourceSz&#32;);
+771 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ptr[10&#32;+&#32;functionSz&#32;+&#32;1&#32;+&#32;sourceSz]&#32;=&#32;<emphasis role="charliteral">&apos;\0&apos;</emphasis>;
+772 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;nameSz&#32;!=&#32;0&#32;)
+773 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+774 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memcpy(&#32;ptr&#32;+&#32;10&#32;+&#32;functionSz&#32;+&#32;1&#32;+&#32;sourceSz&#32;+&#32;1,&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>,&#32;nameSz&#32;);
+775 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+776 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;uint64_t(&#32;ptr&#32;);
+777 &#32;&#32;&#32;&#32;}
+778 
+779 <emphasis role="keyword">private</emphasis>:
+780 &#32;&#32;&#32;&#32;<emphasis role="keyword">enum&#32;class</emphasis>&#32;DequeueStatus&#32;{&#32;DataDequeued,&#32;ConnectionLost,&#32;QueueEmpty&#32;};
+781 &#32;&#32;&#32;&#32;<emphasis role="keyword">enum&#32;class</emphasis>&#32;ThreadCtxStatus&#32;{&#32;Same,&#32;Changed,&#32;ConnectionLost&#32;};
+782 
+783 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;LaunchWorker(&#32;<emphasis role="keywordtype">void</emphasis>*&#32;ptr&#32;)&#32;{&#32;((<link linkend="_classtracy_1_1_profiler_1a4be0fc38ba5a360abdb20ab0adbf0760">Profiler</link>*)ptr)-&gt;Worker();&#32;}
+784 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;Worker();
+785 
+786 <emphasis role="preprocessor">#ifndef&#32;TRACY_NO_FRAME_IMAGE</emphasis>
+787 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;LaunchCompressWorker(&#32;<emphasis role="keywordtype">void</emphasis>*&#32;ptr&#32;)&#32;{&#32;((<link linkend="_classtracy_1_1_profiler_1a4be0fc38ba5a360abdb20ab0adbf0760">Profiler</link>*)ptr)-&gt;CompressWorker();&#32;}
+788 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;CompressWorker();
+789 <emphasis role="preprocessor">#endif</emphasis>
+790 
+791 <emphasis role="preprocessor">#ifdef&#32;TRACY_HAS_CALLSTACK</emphasis>
+792 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;LaunchSymbolWorker(&#32;<emphasis role="keywordtype">void</emphasis>*&#32;ptr&#32;)&#32;{&#32;((<link linkend="_classtracy_1_1_profiler_1a4be0fc38ba5a360abdb20ab0adbf0760">Profiler</link>*)ptr)-&gt;SymbolWorker();&#32;}
+793 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;SymbolWorker();
+794 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;HandleSymbolQueueItem(&#32;<emphasis role="keyword">const</emphasis>&#32;SymbolQueueItem&amp;&#32;si&#32;);
+795 <emphasis role="preprocessor">#endif</emphasis>
+796 
+797 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;ClearQueues(&#32;<link linkend="_structtracy_1_1moodycamel_1_1_consumer_token">tracy::moodycamel::ConsumerToken</link>&amp;&#32;token&#32;);
+798 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;ClearSerial();
+799 &#32;&#32;&#32;&#32;DequeueStatus&#32;Dequeue(&#32;<link linkend="_structtracy_1_1moodycamel_1_1_consumer_token">tracy::moodycamel::ConsumerToken</link>&amp;&#32;token&#32;);
+800 &#32;&#32;&#32;&#32;DequeueStatus&#32;DequeueContextSwitches(&#32;<link linkend="_structtracy_1_1moodycamel_1_1_consumer_token">tracy::moodycamel::ConsumerToken</link>&amp;&#32;token,&#32;int64_t&amp;&#32;timeStop&#32;);
+801 &#32;&#32;&#32;&#32;DequeueStatus&#32;DequeueSerial();
+802 &#32;&#32;&#32;&#32;ThreadCtxStatus&#32;ThreadCtxCheck(&#32;uint32_t&#32;threadId&#32;);
+803 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;CommitData();
+804 
+805 &#32;&#32;&#32;&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;<emphasis role="keywordtype">bool</emphasis>&#32;AppendData(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>*&#32;<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;len&#32;)
+806 &#32;&#32;&#32;&#32;{
+807 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;ret&#32;=&#32;NeedDataSize(&#32;len&#32;);
+808 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;AppendDataUnsafe(&#32;<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>,&#32;len&#32;);
+809 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;ret;
+810 &#32;&#32;&#32;&#32;}
+811 
+812 &#32;&#32;&#32;&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;<emphasis role="keywordtype">bool</emphasis>&#32;NeedDataSize(&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;len&#32;)
+813 &#32;&#32;&#32;&#32;{
+814 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_tracy__lz4_8cpp_1acdcc5aaebf3f273c1762f24a6ece2e5e">assert</link>(&#32;len&#32;&lt;=&#32;<link linkend="_namespacetracy_1a78972e167e822ae647899796919fd317ad822f720d8a1264fd7033ff3ce1396c3">TargetFrameSize</link>&#32;);
+815 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;ret&#32;=&#32;<emphasis role="keyword">true</emphasis>;
+816 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;m_bufferOffset&#32;-&#32;m_bufferStart&#32;+&#32;(<emphasis role="keywordtype">int</emphasis>)len&#32;&gt;&#32;<link linkend="_namespacetracy_1a78972e167e822ae647899796919fd317ad822f720d8a1264fd7033ff3ce1396c3">TargetFrameSize</link>&#32;)
+817 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+818 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ret&#32;=&#32;CommitData();
+819 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+820 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;ret;
+821 &#32;&#32;&#32;&#32;}
+822 
+823 &#32;&#32;&#32;&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;AppendDataUnsafe(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>*&#32;<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;len&#32;)
+824 &#32;&#32;&#32;&#32;{
+825 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memcpy(&#32;m_buffer&#32;+&#32;m_bufferOffset,&#32;<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>,&#32;len&#32;);
+826 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_bufferOffset&#32;+=&#32;int(&#32;len&#32;);
+827 &#32;&#32;&#32;&#32;}
+828 
+829 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;SendData(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;len&#32;);
+830 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;SendLongString(&#32;uint64_t&#32;ptr,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;str,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;len,&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330">QueueType</link>&#32;<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>&#32;);
+831 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;SendSourceLocation(&#32;uint64_t&#32;ptr&#32;);
+832 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;SendSourceLocationPayload(&#32;uint64_t&#32;ptr&#32;);
+833 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;SendCallstackPayload(&#32;uint64_t&#32;ptr&#32;);
+834 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;SendCallstackPayload64(&#32;uint64_t&#32;ptr&#32;);
+835 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;SendCallstackAlloc(&#32;uint64_t&#32;ptr&#32;);
+836 
+837 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;QueueCallstackFrame(&#32;uint64_t&#32;ptr&#32;);
+838 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;QueueSymbolQuery(&#32;uint64_t&#32;symbol&#32;);
+839 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;QueueExternalName(&#32;uint64_t&#32;ptr&#32;);
+840 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;QueueKernelCode(&#32;uint64_t&#32;symbol,&#32;uint32_t&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>&#32;);
+841 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;QueueSourceCodeQuery(&#32;uint32_t&#32;<emphasis role="keywordtype">id</emphasis>&#32;);
+842 
+843 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;HandleServerQuery();
+844 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;HandleDisconnect();
+845 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;HandleParameter(&#32;uint64_t&#32;payload&#32;);
+846 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;HandleSymbolCodeQuery(&#32;uint64_t&#32;symbol,&#32;uint32_t&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>&#32;);
+847 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;HandleSourceCodeQuery(&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>,&#32;<emphasis role="keywordtype">char</emphasis>*&#32;image,&#32;uint32_t&#32;<emphasis role="keywordtype">id</emphasis>&#32;);
+848 
+849 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;AckServerQuery();
+850 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;AckSymbolCodeNotAvailable();
+851 
+852 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;CalibrateTimer();
+853 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;CalibrateDelay();
+854 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;ReportTopology();
+855 
+856 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;SendCallstackSerial(&#32;<emphasis role="keywordtype">void</emphasis>*&#32;ptr&#32;)
+857 &#32;&#32;&#32;&#32;{
+858 <emphasis role="preprocessor">#ifdef&#32;TRACY_HAS_CALLSTACK</emphasis>
+859 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;item&#32;=&#32;<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>().m_serialQueue.prepare_next();
+860 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;hdr.type,&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330a034fef34301cd7afa2fa8e80b3993b8c">QueueType::CallstackSerial</link>&#32;);
+861 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;callstackFat.ptr,&#32;(uint64_t)ptr&#32;);
+862 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>().m_serialQueue.commit_next();
+863 <emphasis role="preprocessor">#else</emphasis>
+864 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static_cast&lt;</emphasis><emphasis role="keywordtype">void</emphasis><emphasis role="keyword">&gt;</emphasis>(ptr);&#32;<emphasis role="comment">//&#32;unused</emphasis>
+865 <emphasis role="preprocessor">#endif</emphasis>
+866 &#32;&#32;&#32;&#32;}
+867 
+868 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;SendMemAlloc(&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330">QueueType</link>&#32;<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>,&#32;<emphasis role="keyword">const</emphasis>&#32;uint32_t&#32;thread,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>*&#32;ptr,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>&#32;)
+869 &#32;&#32;&#32;&#32;{
+870 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_tracy__lz4_8cpp_1acdcc5aaebf3f273c1762f24a6ece2e5e">assert</link>(&#32;<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>&#32;==&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330a2adf168192e5f6d19a97ebdb8bfaae91">QueueType::MemAlloc</link>&#32;||&#32;<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>&#32;==&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330a8286fa42bfa3f9eb1e617a65db1464ad">QueueType::MemAllocCallstack</link>&#32;||&#32;<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>&#32;==&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330a6e38222b2f88c5c3ebb9ee3a38937382">QueueType::MemAllocNamed</link>&#32;||&#32;<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>&#32;==&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330a7d411e1e76d3a7a595bc0d37e794f38a">QueueType::MemAllocCallstackNamed</link>&#32;);
+871 
+872 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;item&#32;=&#32;<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>().m_serialQueue.prepare_next();
+873 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;hdr.type,&#32;<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>&#32;);
+874 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;memAlloc.time,&#32;<link linkend="_classtracy_1_1_profiler_1a4131d199df7f0faeb8b2ddc860cade4e">GetTime</link>()&#32;);
+875 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;memAlloc.thread,&#32;thread&#32;);
+876 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;memAlloc.ptr,&#32;(uint64_t)ptr&#32;);
+877 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;compile_time_condition&lt;<emphasis role="keyword">sizeof</emphasis>(&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>&#32;)&#32;==&#32;4&gt;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">::value</link>&#32;)
+878 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+879 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memcpy(&#32;&amp;item-&gt;memAlloc.size,&#32;&amp;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>,&#32;4&#32;);
+880 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memset(&#32;&amp;item-&gt;memAlloc.size&#32;+&#32;4,&#32;0,&#32;2&#32;);
+881 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+882 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+883 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+884 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_tracy__lz4_8cpp_1acdcc5aaebf3f273c1762f24a6ece2e5e">assert</link>(&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>&#32;)&#32;==&#32;8&#32;);
+885 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memcpy(&#32;&amp;item-&gt;memAlloc.size,&#32;&amp;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>,&#32;4&#32;);
+886 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memcpy(&#32;((<emphasis role="keywordtype">char</emphasis>*)&amp;item-&gt;memAlloc.size)+4,&#32;((<emphasis role="keywordtype">char</emphasis>*)&amp;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>)+4,&#32;2&#32;);
+887 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+888 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>().m_serialQueue.commit_next();
+889 &#32;&#32;&#32;&#32;}
+890 
+891 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;SendMemFree(&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330">QueueType</link>&#32;<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>,&#32;<emphasis role="keyword">const</emphasis>&#32;uint32_t&#32;thread,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>*&#32;ptr&#32;)
+892 &#32;&#32;&#32;&#32;{
+893 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_tracy__lz4_8cpp_1acdcc5aaebf3f273c1762f24a6ece2e5e">assert</link>(&#32;<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>&#32;==&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330ad3d1c74dbc194e1ebb2768d59d419eb8">QueueType::MemFree</link>&#32;||&#32;<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>&#32;==&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330a73d2c5877d7eaf135f777fd0cab949d0">QueueType::MemFreeCallstack</link>&#32;||&#32;<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>&#32;==&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330a41cf719b204b96ccc3146149029d14a6">QueueType::MemFreeNamed</link>&#32;||&#32;<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>&#32;==&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330aaf2abb6949a7ea2e99180a4b99db85c8">QueueType::MemFreeCallstackNamed</link>&#32;);
+894 
+895 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;item&#32;=&#32;<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>().m_serialQueue.prepare_next();
+896 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;hdr.type,&#32;<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>&#32;);
+897 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;memFree.time,&#32;<link linkend="_classtracy_1_1_profiler_1a4131d199df7f0faeb8b2ddc860cade4e">GetTime</link>()&#32;);
+898 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;memFree.thread,&#32;thread&#32;);
+899 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;memFree.ptr,&#32;(uint64_t)ptr&#32;);
+900 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>().m_serialQueue.commit_next();
+901 &#32;&#32;&#32;&#32;}
+902 
+903 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;SendMemName(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>&#32;)
+904 &#32;&#32;&#32;&#32;{
+905 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_tracy__lz4_8cpp_1acdcc5aaebf3f273c1762f24a6ece2e5e">assert</link>(&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>&#32;);
+906 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;item&#32;=&#32;<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>().m_serialQueue.prepare_next();
+907 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;hdr.type,&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330a67b02ec7f78feb5c821adaf9547e918a">QueueType::MemNamePayload</link>&#32;);
+908 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;memName.name,&#32;(uint64_t)<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>&#32;);
+909 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>().m_serialQueue.commit_next();
+910 &#32;&#32;&#32;&#32;}
+911 
+912 <emphasis role="preprocessor">#if&#32;defined&#32;_WIN32&#32;&amp;&amp;&#32;defined&#32;TRACY_TIMER_QPC</emphasis>
+913 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;int64_t&#32;GetTimeQpc();
+914 <emphasis role="preprocessor">#endif</emphasis>
+915 
+916 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;m_timerMul;
+917 &#32;&#32;&#32;&#32;uint64_t&#32;m_resolution;
+918 &#32;&#32;&#32;&#32;uint64_t&#32;m_delay;
+919 &#32;&#32;&#32;&#32;std::atomic&lt;int64_t&gt;&#32;m_timeBegin;
+920 &#32;&#32;&#32;&#32;uint32_t&#32;m_mainThread;
+921 &#32;&#32;&#32;&#32;uint64_t&#32;m_epoch,&#32;m_exectime;
+922 &#32;&#32;&#32;&#32;std::atomic&lt;bool&gt;&#32;m_shutdown;
+923 &#32;&#32;&#32;&#32;std::atomic&lt;bool&gt;&#32;m_shutdownManual;
+924 &#32;&#32;&#32;&#32;std::atomic&lt;bool&gt;&#32;m_shutdownFinished;
+925 &#32;&#32;&#32;&#32;Socket*&#32;m_sock;
+926 &#32;&#32;&#32;&#32;UdpBroadcast*&#32;m_broadcast;
+927 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;m_noExit;
+928 &#32;&#32;&#32;&#32;uint32_t&#32;m_userPort;
+929 &#32;&#32;&#32;&#32;std::atomic&lt;uint32_t&gt;&#32;m_zoneId;
+930 &#32;&#32;&#32;&#32;int64_t&#32;m_samplingPeriod;
+931 
+932 &#32;&#32;&#32;&#32;uint32_t&#32;m_threadCtx;
+933 &#32;&#32;&#32;&#32;int64_t&#32;m_refTimeThread;
+934 &#32;&#32;&#32;&#32;int64_t&#32;m_refTimeSerial;
+935 &#32;&#32;&#32;&#32;int64_t&#32;m_refTimeCtx;
+936 &#32;&#32;&#32;&#32;int64_t&#32;m_refTimeGpu;
+937 
+938 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>*&#32;m_stream;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;LZ4_stream_t*</emphasis>
+939 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">char</emphasis>*&#32;m_buffer;
+940 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;m_bufferOffset;
+941 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;m_bufferStart;
+942 
+943 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">char</emphasis>*&#32;m_lz4Buf;
+944 
+945 &#32;&#32;&#32;&#32;FastVector&lt;QueueItem&gt;&#32;m_serialQueue,&#32;m_serialDequeue;
+946 &#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1afd702a4c0f32d205cf5d24da0e77a0a8">TracyMutex</link>&#32;m_serialLock;
+947 
+948 <emphasis role="preprocessor">#ifndef&#32;TRACY_NO_FRAME_IMAGE</emphasis>
+949 &#32;&#32;&#32;&#32;FastVector&lt;FrameImageQueueItem&gt;&#32;m_fiQueue,&#32;m_fiDequeue;
+950 &#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1afd702a4c0f32d205cf5d24da0e77a0a8">TracyMutex</link>&#32;m_fiLock;
+951 <emphasis role="preprocessor">#endif</emphasis>
+952 
+953 &#32;&#32;&#32;&#32;SPSCQueue&lt;SymbolQueueItem&gt;&#32;m_symbolQueue;
+954 
+955 &#32;&#32;&#32;&#32;std::atomic&lt;uint64_t&gt;&#32;m_frameCount;
+956 &#32;&#32;&#32;&#32;std::atomic&lt;bool&gt;&#32;m_isConnected;
+957 <emphasis role="preprocessor">#ifdef&#32;TRACY_ON_DEMAND</emphasis>
+958 &#32;&#32;&#32;&#32;std::atomic&lt;uint64_t&gt;&#32;m_connectionId;
+959 
+960 &#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1afd702a4c0f32d205cf5d24da0e77a0a8">TracyMutex</link>&#32;m_deferredLock;
+961 &#32;&#32;&#32;&#32;FastVector&lt;QueueItem&gt;&#32;m_deferredQueue;
+962 <emphasis role="preprocessor">#endif</emphasis>
+963 
+964 <emphasis role="preprocessor">#ifdef&#32;TRACY_HAS_SYSTIME</emphasis>
+965 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;ProcessSysTime();
+966 
+967 &#32;&#32;&#32;&#32;SysTime&#32;m_sysTime;
+968 &#32;&#32;&#32;&#32;uint64_t&#32;m_sysTimeLast&#32;=&#32;0;
+969 <emphasis role="preprocessor">#else</emphasis>
+970 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;ProcessSysTime()&#32;{}
+971 <emphasis role="preprocessor">#endif</emphasis>
+972 
+973 <emphasis role="preprocessor">#ifdef&#32;TRACY_HAS_SYSPOWER</emphasis>
+974 &#32;&#32;&#32;&#32;SysPower&#32;m_sysPower;
+975 <emphasis role="preprocessor">#endif</emphasis>
+976 
+977 &#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a2c8e34278c111b44d6e614c72c1136a7">ParameterCallback</link>&#32;m_paramCallback;
+978 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>*&#32;m_paramCallbackData;
+979 &#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a0257fffc0ffe6bfd91cd0951af13d391">SourceContentsCallback</link>&#32;m_sourceCallback;
+980 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>*&#32;m_sourceCallbackData;
+981 
+982 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">char</emphasis>*&#32;m_queryImage;
+983 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">char</emphasis>*&#32;m_queryData;
+984 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">char</emphasis>*&#32;m_queryDataPtr;
+985 
+986 <emphasis role="preprocessor">#if&#32;defined&#32;_WIN32</emphasis>
+987 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>*&#32;m_exceptionHandler;
+988 <emphasis role="preprocessor">#endif</emphasis>
+989 <emphasis role="preprocessor">#ifdef&#32;__linux__</emphasis>
+990 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis>{
+991 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis>sigaction&#32;pwr,&#32;ill,&#32;fpe,&#32;segv,&#32;pipe,&#32;bus,&#32;abrt;
+992 &#32;&#32;&#32;&#32;}&#32;m_prevSignal;
+993 <emphasis role="preprocessor">#endif</emphasis>
+994 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;m_crashHandlerInstalled;
+995 
+996 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;m_programName;
+997 &#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1afd702a4c0f32d205cf5d24da0e77a0a8">TracyMutex</link>&#32;m_programNameLock;
+998 };
+999 
+1000 }
+1001 
+1002 <emphasis role="preprocessor">#endif</emphasis>
+</programlisting></section>

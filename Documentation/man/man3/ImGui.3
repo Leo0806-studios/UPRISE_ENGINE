@@ -1,0 +1,61 @@
+.TH "ImGui" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+ImGui
+.SH SYNOPSIS
+.br
+.PP
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "IMGUI_API void \fBShowFontAtlas\fP (ImFontAtlas *atlas)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "const ImGuiID \fBIMGUI_VIEWPORT_DEFAULT_ID\fP = 0x11111111"
+.br
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "void ImGui::ShowFontAtlas (ImFontAtlas * atlas)"
+
+.PP
+Definition at line \fB20333\fP of file \fBimgui\&.cpp\fP\&.
+.nf
+20334 {
+20335     for (ImFont* font : atlas\->Fonts)
+20336     {
+20337         PushID(font);
+20338         DebugNodeFont(font);
+20339         PopID();
+20340     }
+20341     if (TreeNode("Font Atlas", "Font Atlas (%dx%d pixels)", atlas\->TexWidth, atlas\->TexHeight))
+20342     {
+20343         ImGuiContext& g = *GImGui;
+20344         ImGuiMetricsConfig* cfg = &g\&.DebugMetricsConfig;
+20345         Checkbox("Tint with Text Color", &cfg\->ShowAtlasTintedWithTextColor); // Using text color ensure visibility of core atlas data, but will alter custom colored icons
+20346         ImVec4 tint_col = cfg\->ShowAtlasTintedWithTextColor ? GetStyleColorVec4(ImGuiCol_Text) : ImVec4(1\&.0f, 1\&.0f, 1\&.0f, 1\&.0f);
+20347         ImVec4 border_col = GetStyleColorVec4(ImGuiCol_Border);
+20348         Image(atlas\->TexID, ImVec2((float)atlas\->TexWidth, (float)atlas\->TexHeight), ImVec2(0\&.0f, 0\&.0f), ImVec2(1\&.0f, 1\&.0f), tint_col, border_col);
+20349         TreePop();
+20350     }
+20351 }
+.PP
+.fi
+
+.PP
+References \fBGImGui\fP\&.
+.SH "Variable Documentation"
+.PP 
+.SS "const ImGuiID ImGui::IMGUI_VIEWPORT_DEFAULT_ID = 0x11111111"
+
+.PP
+Definition at line \fB1213\fP of file \fBimgui\&.cpp\fP\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

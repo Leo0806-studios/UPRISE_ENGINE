@@ -37,8 +37,8 @@ void PHYSICS::Physics::UpdateAllPhysics()
 	TrPr(ctx, __func__)
 	 auto self = selfobj->Collider_Boxes;
 	 auto other = otherobj->Collider_Boxes;
-	 auto selflnk = selfobj->objlnkprnt->gameobject->TrAnSfOrM.get();
-	 auto otherlnk = otherobj->objlnkprnt->gameobject->TrAnSfOrM.get();
+	 auto selflnk = selfobj->objlnkprnt->Game_Object->TrAnSfOrM.get();
+	 auto otherlnk = otherobj->objlnkprnt->Game_Object->TrAnSfOrM.get();
 	__m128 SELFCOLBOX[8];
 	SELFCOLBOX[0] = self.a;
 	SELFCOLBOX[1] = self.b;
@@ -111,7 +111,7 @@ void PHYSICS::Physics::UpdateAllPhysics()
 void PHYSICS::Physics::updateBox(Physics_Object* self)
 {
 	TrPr(ctx, __func__)
-	auto o = self->objlnkprnt->gameobject->TrAnSfOrM.get();
+	auto o = self->objlnkprnt->Game_Object->TrAnSfOrM.get();
 	//float x = self->Collider_Boxes.bounds.x * 0.5f;
 	//float y = self->Collider_Boxes.bounds.y * 0.5f;
 	//float z = self->Collider_Boxes.bounds.z * 0.5f;

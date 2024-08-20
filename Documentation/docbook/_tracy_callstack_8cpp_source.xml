@@ -1,0 +1,1075 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="__tracy_callstack_8cpp_source" xml:lang="en-US">
+<title>TracyCallstack.cpp</title>
+<indexterm><primary>adhed/client/TracyCallstack.cpp</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered"><anchor xml:id="__tracy_callstack_8cpp_source_1l00001"/>00001 <emphasis role="preprocessor">#include&#32;&lt;limits&gt;</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00002"/>00002 <emphasis role="preprocessor">#include&#32;&lt;new&gt;</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00003"/>00003 <emphasis role="preprocessor">#include&#32;&lt;stdio.h&gt;</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00004"/>00004 <emphasis role="preprocessor">#include&#32;&lt;string.h&gt;</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00005"/>00005 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__tracy_callstack_8hpp">TracyCallstack.hpp</link>&quot;</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00006"/>00006 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__tracy_fast_vector_8hpp">TracyFastVector.hpp</link>&quot;</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00007"/>00007 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__tracy_string_helpers_8hpp">TracyStringHelpers.hpp</link>&quot;</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00008"/>00008 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__tracy_alloc_8hpp">../common/TracyAlloc.hpp</link>&quot;</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00009"/>00009 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__tracy_debug_8hpp">TracyDebug.hpp</link>&quot;</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00010"/>00010 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00011"/>00011 <emphasis role="preprocessor">#ifdef&#32;TRACY_HAS_CALLSTACK</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00012"/>00012 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00013"/>00013 <emphasis role="preprocessor">#if&#32;TRACY_HAS_CALLSTACK&#32;==&#32;1</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00014"/>00014 <emphasis role="preprocessor">#&#32;&#32;ifndef&#32;NOMINMAX</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00015"/>00015 <emphasis role="preprocessor">#&#32;&#32;&#32;&#32;define&#32;NOMINMAX</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00016"/>00016 <emphasis role="preprocessor">#&#32;&#32;endif</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00017"/>00017 <emphasis role="preprocessor">#&#32;&#32;include&#32;&lt;windows.h&gt;</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00018"/>00018 <emphasis role="preprocessor">#&#32;&#32;include&#32;&lt;psapi.h&gt;</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00019"/>00019 <emphasis role="preprocessor">#&#32;&#32;include&#32;&lt;algorithm&gt;</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00020"/>00020 <emphasis role="preprocessor">#&#32;&#32;ifdef&#32;_MSC_VER</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00021"/>00021 <emphasis role="preprocessor">#&#32;&#32;&#32;&#32;pragma&#32;warning(&#32;push&#32;)</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00022"/>00022 <emphasis role="preprocessor">#&#32;&#32;&#32;&#32;pragma&#32;warning(&#32;disable&#32;:&#32;4091&#32;)</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00023"/>00023 <emphasis role="preprocessor">#&#32;&#32;endif</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00024"/>00024 <emphasis role="preprocessor">#&#32;&#32;include&#32;&lt;dbghelp.h&gt;</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00025"/>00025 <emphasis role="preprocessor">#&#32;&#32;ifdef&#32;_MSC_VER</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00026"/>00026 <emphasis role="preprocessor">#&#32;&#32;&#32;&#32;pragma&#32;warning(&#32;pop&#32;)</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00027"/>00027 <emphasis role="preprocessor">#&#32;&#32;endif</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00028"/>00028 <emphasis role="preprocessor">#elif&#32;TRACY_HAS_CALLSTACK&#32;==&#32;2&#32;||&#32;TRACY_HAS_CALLSTACK&#32;==&#32;3&#32;||&#32;TRACY_HAS_CALLSTACK&#32;==&#32;4&#32;||&#32;TRACY_HAS_CALLSTACK&#32;==&#32;6</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00029"/>00029 <emphasis role="preprocessor">#&#32;&#32;include&#32;&quot;<link linkend="_backtrace_8hpp">../libbacktrace/backtrace.hpp</link>&quot;</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00030"/>00030 <emphasis role="preprocessor">#&#32;&#32;include&#32;&lt;algorithm&gt;</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00031"/>00031 <emphasis role="preprocessor">#&#32;&#32;include&#32;&lt;dlfcn.h&gt;</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00032"/>00032 <emphasis role="preprocessor">#&#32;&#32;include&#32;&lt;cxxabi.h&gt;</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00033"/>00033 <emphasis role="preprocessor">#&#32;&#32;include&#32;&lt;stdlib.h&gt;</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00034"/>00034 <emphasis role="preprocessor">#&#32;&#32;include&#32;&quot;<link linkend="__tracy_fast_vector_8hpp">TracyFastVector.hpp</link>&quot;</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00035"/>00035 <emphasis role="preprocessor">#elif&#32;TRACY_HAS_CALLSTACK&#32;==&#32;5</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00036"/>00036 <emphasis role="preprocessor">#&#32;&#32;include&#32;&lt;dlfcn.h&gt;</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00037"/>00037 <emphasis role="preprocessor">#&#32;&#32;include&#32;&lt;cxxabi.h&gt;</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00038"/>00038 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00039"/>00039 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00040"/>00040 <emphasis role="preprocessor">#ifdef&#32;TRACY_DBGHELP_LOCK</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00041"/>00041 <emphasis role="preprocessor">#&#32;&#32;include&#32;&quot;<link linkend="__tracy_profiler_8hpp">TracyProfiler.hpp</link>&quot;</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00042"/>00042 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00043"/>00043 <emphasis role="preprocessor">#&#32;&#32;define&#32;DBGHELP_INIT&#32;TracyConcat(&#32;TRACY_DBGHELP_LOCK,&#32;Init()&#32;)</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00044"/>00044 <emphasis role="preprocessor">#&#32;&#32;define&#32;DBGHELP_LOCK&#32;TracyConcat(&#32;TRACY_DBGHELP_LOCK,&#32;Lock()&#32;);</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00045"/>00045 <emphasis role="preprocessor">#&#32;&#32;define&#32;DBGHELP_UNLOCK&#32;TracyConcat(&#32;TRACY_DBGHELP_LOCK,&#32;Unlock()&#32;);</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00046"/>00046 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00047"/>00047 <emphasis role="keyword">extern</emphasis>&#32;<emphasis role="stringliteral">&quot;C&quot;</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00048"/>00048 {
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00049"/>00049 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;DBGHELP_INIT;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00050"/>00050 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;DBGHELP_LOCK;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00051"/>00051 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;DBGHELP_UNLOCK;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00052"/>00052 };
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00053"/>00053 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00054"/>00054 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00055"/>00055 <emphasis role="preprocessor">#if&#32;TRACY_HAS_CALLSTACK&#32;==&#32;2&#32;||&#32;TRACY_HAS_CALLSTACK&#32;==&#32;3&#32;||&#32;TRACY_HAS_CALLSTACK&#32;==&#32;4&#32;||&#32;TRACY_HAS_CALLSTACK&#32;==&#32;5&#32;||&#32;TRACY_HAS_CALLSTACK&#32;==&#32;6</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00056"/>00056 <emphasis role="comment">//&#32;If&#32;you&#32;want&#32;to&#32;use&#32;your&#32;own&#32;demangling&#32;functionality&#32;(e.g.&#32;for&#32;another&#32;language),</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00057"/>00057 <emphasis role="comment">//&#32;define&#32;TRACY_DEMANGLE&#32;and&#32;provide&#32;your&#32;own&#32;implementation&#32;of&#32;the&#32;__tracy_demangle</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00058"/>00058 <emphasis role="comment">//&#32;function.&#32;The&#32;input&#32;parameter&#32;is&#32;a&#32;function&#32;name.&#32;The&#32;demangle&#32;function&#32;must</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00059"/>00059 <emphasis role="comment">//&#32;identify&#32;whether&#32;this&#32;name&#32;is&#32;mangled,&#32;and&#32;fail&#32;if&#32;it&#32;is&#32;not.&#32;Failure&#32;is&#32;indicated</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00060"/>00060 <emphasis role="comment">//&#32;by&#32;returning&#32;nullptr.&#32;If&#32;demangling&#32;succeeds,&#32;a&#32;pointer&#32;to&#32;the&#32;C&#32;string&#32;containing</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00061"/>00061 <emphasis role="comment">//&#32;demangled&#32;function&#32;must&#32;be&#32;returned.&#32;The&#32;demangling&#32;function&#32;is&#32;responsible&#32;for</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00062"/>00062 <emphasis role="comment">//&#32;managing&#32;memory&#32;for&#32;this&#32;string.&#32;It&#32;is&#32;expected&#32;that&#32;it&#32;will&#32;be&#32;internally&#32;reused.</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00063"/>00063 <emphasis role="comment">//&#32;When&#32;a&#32;call&#32;to&#32;___tracy_demangle&#32;is&#32;made,&#32;previous&#32;contents&#32;of&#32;the&#32;string&#32;memory</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00064"/>00064 <emphasis role="comment">//&#32;do&#32;not&#32;need&#32;to&#32;be&#32;preserved.&#32;Function&#32;may&#32;return&#32;string&#32;of&#32;any&#32;length,&#32;but&#32;the</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00065"/>00065 <emphasis role="comment">//&#32;profiler&#32;can&#32;choose&#32;to&#32;truncate&#32;it.</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00066"/>00066 <emphasis role="keyword">extern</emphasis>&#32;<emphasis role="stringliteral">&quot;C&quot;</emphasis>&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;___tracy_demangle(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;mangled&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00067"/>00067 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00068"/>00068 <emphasis role="preprocessor">#ifndef&#32;TRACY_DEMANGLE</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00069"/>00069 <emphasis role="keyword">constexpr</emphasis>&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;___tracy_demangle_buffer_len&#32;=&#32;1024*1024;&#32;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00070"/>00070 <emphasis role="keywordtype">char</emphasis>*&#32;___tracy_demangle_buffer;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00071"/>00071 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00072"/>00072 <emphasis role="keywordtype">void</emphasis>&#32;___tracy_init_demangle_buffer()
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00073"/>00073 {
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00074"/>00074 &#32;&#32;&#32;&#32;___tracy_demangle_buffer&#32;=&#32;(<emphasis role="keywordtype">char</emphasis>*)tracy::tracy_malloc(&#32;___tracy_demangle_buffer_len&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00075"/>00075 }
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00076"/>00076 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00077"/>00077 <emphasis role="keywordtype">void</emphasis>&#32;___tracy_free_demangle_buffer()
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00078"/>00078 {
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00079"/>00079 &#32;&#32;&#32;&#32;tracy::tracy_free(&#32;___tracy_demangle_buffer&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00080"/>00080 }
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00081"/>00081 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00082"/>00082 <emphasis role="keyword">extern</emphasis>&#32;<emphasis role="stringliteral">&quot;C&quot;</emphasis>&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;___tracy_demangle(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;mangled&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00083"/>00083 {
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00084"/>00084 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!mangled&#32;||&#32;mangled[0]&#32;!=&#32;<emphasis role="charliteral">&apos;_&apos;</emphasis>&#32;)&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">nullptr</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00085"/>00085 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;strlen(&#32;mangled&#32;)&#32;&gt;&#32;___tracy_demangle_buffer_len&#32;)&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">nullptr</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00086"/>00086 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;status;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00087"/>00087 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;len&#32;=&#32;___tracy_demangle_buffer_len;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00088"/>00088 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;abi::__cxa_demangle(&#32;mangled,&#32;___tracy_demangle_buffer,&#32;&amp;len,&#32;&amp;status&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00089"/>00089 }
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00090"/>00090 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00091"/>00091 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00092"/>00092 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00093"/>00093 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespacetracy">tracy</link>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00094"/>00094 {
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00095"/>00095 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00096"/>00096 <emphasis role="preprocessor">#if&#32;TRACY_HAS_CALLSTACK&#32;==&#32;1</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00097"/>00097 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00098"/>00098 <emphasis role="keyword">enum</emphasis>&#32;{&#32;MaxCbTrace&#32;=&#32;64&#32;};
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00099"/>00099 <emphasis role="keyword">enum</emphasis>&#32;{&#32;MaxNameSize&#32;=&#32;8*1024&#32;};
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00100"/>00100 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00101"/>00101 <emphasis role="keywordtype">int</emphasis>&#32;cb_num;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00102"/>00102 CallstackEntry&#32;cb_data[MaxCbTrace];
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00103"/>00103 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00104"/>00104 <emphasis role="keyword">extern</emphasis>&#32;<emphasis role="stringliteral">&quot;C&quot;</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00105"/>00105 {
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00106"/>00106 &#32;&#32;&#32;&#32;<emphasis role="keyword">typedef</emphasis>&#32;DWORD&#32;(__stdcall&#32;*t_SymAddrIncludeInlineTrace)(&#32;HANDLE&#32;hProcess,&#32;DWORD64&#32;Address&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00107"/>00107 &#32;&#32;&#32;&#32;<emphasis role="keyword">typedef</emphasis>&#32;BOOL&#32;(__stdcall&#32;*t_SymQueryInlineTrace)(&#32;HANDLE&#32;hProcess,&#32;DWORD64&#32;StartAddress,&#32;DWORD&#32;StartContext,&#32;DWORD64&#32;StartRetAddress,&#32;DWORD64&#32;CurAddress,&#32;LPDWORD&#32;CurContext,&#32;LPDWORD&#32;CurFrameIndex&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00108"/>00108 &#32;&#32;&#32;&#32;<emphasis role="keyword">typedef</emphasis>&#32;BOOL&#32;(__stdcall&#32;*t_SymFromInlineContext)(&#32;HANDLE&#32;hProcess,&#32;DWORD64&#32;Address,&#32;ULONG&#32;InlineContext,&#32;PDWORD64&#32;Displacement,&#32;PSYMBOL_INFO&#32;Symbol&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00109"/>00109 &#32;&#32;&#32;&#32;<emphasis role="keyword">typedef</emphasis>&#32;BOOL&#32;(__stdcall&#32;*t_SymGetLineFromInlineContext)(&#32;HANDLE&#32;hProcess,&#32;DWORD64&#32;qwAddr,&#32;ULONG&#32;InlineContext,&#32;DWORD64&#32;qwModuleBaseAddress,&#32;PDWORD&#32;pdwDisplacement,&#32;PIMAGEHLP_LINE64&#32;Line64&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00110"/>00110 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00111"/>00111 &#32;&#32;&#32;&#32;<link linkend="__tracy_api_8h_1a5669cbc1d88076c41f72827fde0a4a57">TRACY_API</link>&#32;___tracy_t_RtlWalkFrameChain&#32;___tracy_RtlWalkFrameChain&#32;=&#32;0;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00112"/>00112 &#32;&#32;&#32;&#32;t_SymAddrIncludeInlineTrace&#32;_SymAddrIncludeInlineTrace&#32;=&#32;0;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00113"/>00113 &#32;&#32;&#32;&#32;t_SymQueryInlineTrace&#32;_SymQueryInlineTrace&#32;=&#32;0;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00114"/>00114 &#32;&#32;&#32;&#32;t_SymFromInlineContext&#32;_SymFromInlineContext&#32;=&#32;0;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00115"/>00115 &#32;&#32;&#32;&#32;t_SymGetLineFromInlineContext&#32;_SymGetLineFromInlineContext&#32;=&#32;0;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00116"/>00116 }
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00117"/>00117 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00118"/>00118 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00119"/>00119 <emphasis role="keyword">struct&#32;</emphasis>ModuleCache
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00120"/>00120 {
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00121"/>00121 &#32;&#32;&#32;&#32;uint64_t&#32;<link linkend="_glad_8h_1ac55adc720a3098c1b454d2a4647f4361">start</link>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00122"/>00122 &#32;&#32;&#32;&#32;uint64_t&#32;<link linkend="_glad_8h_1a432111147038972f06e049e18a837002">end</link>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00123"/>00123 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00124"/>00124 };
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00125"/>00125 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00126"/>00126 <emphasis role="keyword">static</emphasis>&#32;FastVector&lt;ModuleCache&gt;*&#32;s_modCache;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00127"/>00127 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00128"/>00128 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00129"/>00129 <emphasis role="keyword">struct&#32;</emphasis>KernelDriver
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00130"/>00130 {
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00131"/>00131 &#32;&#32;&#32;&#32;uint64_t&#32;addr;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00132"/>00132 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;mod;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00133"/>00133 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;path;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00134"/>00134 };
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00135"/>00135 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00136"/>00136 KernelDriver*&#32;s_krnlCache&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00137"/>00137 <emphasis role="keywordtype">size_t</emphasis>&#32;s_krnlCacheCnt;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00138"/>00138 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00139"/>00139 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00140"/>00140 <emphasis role="keywordtype">void</emphasis>&#32;InitCallstackCritical()
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00141"/>00141 {
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00142"/>00142 &#32;&#32;&#32;&#32;___tracy_RtlWalkFrameChain&#32;=&#32;(___tracy_t_RtlWalkFrameChain)GetProcAddress(&#32;GetModuleHandleA(&#32;<emphasis role="stringliteral">&quot;ntdll.dll&quot;</emphasis>&#32;),&#32;<emphasis role="stringliteral">&quot;RtlWalkFrameChain&quot;</emphasis>&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00143"/>00143 }
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00144"/>00144 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00145"/>00145 <emphasis role="keywordtype">void</emphasis>&#32;InitCallstack()
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00146"/>00146 {
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00147"/>00147 &#32;&#32;&#32;&#32;_SymAddrIncludeInlineTrace&#32;=&#32;(t_SymAddrIncludeInlineTrace)GetProcAddress(&#32;GetModuleHandleA(&#32;<emphasis role="stringliteral">&quot;dbghelp.dll&quot;</emphasis>&#32;),&#32;<emphasis role="stringliteral">&quot;SymAddrIncludeInlineTrace&quot;</emphasis>&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00148"/>00148 &#32;&#32;&#32;&#32;_SymQueryInlineTrace&#32;=&#32;(t_SymQueryInlineTrace)GetProcAddress(&#32;GetModuleHandleA(&#32;<emphasis role="stringliteral">&quot;dbghelp.dll&quot;</emphasis>&#32;),&#32;<emphasis role="stringliteral">&quot;SymQueryInlineTrace&quot;</emphasis>&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00149"/>00149 &#32;&#32;&#32;&#32;_SymFromInlineContext&#32;=&#32;(t_SymFromInlineContext)GetProcAddress(&#32;GetModuleHandleA(&#32;<emphasis role="stringliteral">&quot;dbghelp.dll&quot;</emphasis>&#32;),&#32;<emphasis role="stringliteral">&quot;SymFromInlineContext&quot;</emphasis>&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00150"/>00150 &#32;&#32;&#32;&#32;_SymGetLineFromInlineContext&#32;=&#32;(t_SymGetLineFromInlineContext)GetProcAddress(&#32;GetModuleHandleA(&#32;<emphasis role="stringliteral">&quot;dbghelp.dll&quot;</emphasis>&#32;),&#32;<emphasis role="stringliteral">&quot;SymGetLineFromInlineContext&quot;</emphasis>&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00151"/>00151 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00152"/>00152 <emphasis role="preprocessor">#ifdef&#32;TRACY_DBGHELP_LOCK</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00153"/>00153 &#32;&#32;&#32;&#32;DBGHELP_INIT;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00154"/>00154 &#32;&#32;&#32;&#32;DBGHELP_LOCK;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00155"/>00155 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00156"/>00156 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00157"/>00157 &#32;&#32;&#32;&#32;SymInitialize(&#32;GetCurrentProcess(),&#32;<emphasis role="keyword">nullptr</emphasis>,&#32;<emphasis role="keyword">true</emphasis>&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00158"/>00158 &#32;&#32;&#32;&#32;SymSetOptions(&#32;SYMOPT_LOAD_LINES&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00159"/>00159 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00160"/>00160 &#32;&#32;&#32;&#32;DWORD&#32;needed;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00161"/>00161 &#32;&#32;&#32;&#32;LPVOID&#32;dev[4096];
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00162"/>00162 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;EnumDeviceDrivers(&#32;dev,&#32;<emphasis role="keyword">sizeof</emphasis>(dev),&#32;&amp;needed&#32;)&#32;!=&#32;0&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00163"/>00163 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00164"/>00164 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">char</emphasis>&#32;windir[MAX_PATH];
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00165"/>00165 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!GetWindowsDirectoryA(&#32;windir,&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;windir&#32;)&#32;)&#32;)&#32;memcpy(&#32;windir,&#32;<emphasis role="stringliteral">&quot;c:\\windows&quot;</emphasis>,&#32;11&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00166"/>00166 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;windirlen&#32;=&#32;strlen(&#32;windir&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00167"/>00167 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00168"/>00168 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;sz&#32;=&#32;needed&#32;/&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;LPVOID&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00169"/>00169 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;s_krnlCache&#32;=&#32;(KernelDriver*)tracy_malloc(&#32;<emphasis role="keyword">sizeof</emphasis>(KernelDriver)&#32;*&#32;sz&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00170"/>00170 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;cnt&#32;=&#32;0;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00171"/>00171 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>(&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>=0;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&lt;sz;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>++&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00172"/>00172 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00173"/>00173 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">char</emphasis>&#32;fn[MAX_PATH];
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00174"/>00174 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;len&#32;=&#32;GetDeviceDriverBaseNameA(&#32;dev[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>],&#32;fn,&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;fn&#32;)&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00175"/>00175 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;len&#32;!=&#32;0&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00176"/>00176 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00177"/>00177 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;buf&#32;=&#32;(<emphasis role="keywordtype">char</emphasis>*)tracy_malloc_fast(&#32;len+3&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00178"/>00178 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;buf[0]&#32;=&#32;<emphasis role="charliteral">&apos;&lt;&apos;</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00179"/>00179 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memcpy(&#32;buf+1,&#32;fn,&#32;len&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00180"/>00180 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memcpy(&#32;buf+len+1,&#32;<emphasis role="stringliteral">&quot;&gt;&quot;</emphasis>,&#32;2&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00181"/>00181 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;s_krnlCache[cnt]&#32;=&#32;KernelDriver&#32;{&#32;(uint64_t)dev[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>],&#32;buf&#32;};
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00182"/>00182 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00183"/>00183 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;len&#32;=&#32;GetDeviceDriverFileNameA(&#32;dev[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>],&#32;fn,&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;fn&#32;)&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00184"/>00184 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;len&#32;!=&#32;0&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00185"/>00185 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00186"/>00186 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">char</emphasis>&#32;full[MAX_PATH];
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00187"/>00187 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">char</emphasis>*&#32;path&#32;=&#32;fn;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00188"/>00188 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00189"/>00189 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;memcmp(&#32;fn,&#32;<emphasis role="stringliteral">&quot;\\SystemRoot\\&quot;</emphasis>,&#32;12&#32;)&#32;==&#32;0&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00190"/>00190 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00191"/>00191 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memcpy(&#32;full,&#32;windir,&#32;windirlen&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00192"/>00192 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;strcpy(&#32;full&#32;+&#32;windirlen,&#32;fn&#32;+&#32;11&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00193"/>00193 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;path&#32;=&#32;full;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00194"/>00194 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00195"/>00195 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00196"/>00196 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;SymLoadModuleEx(&#32;GetCurrentProcess(),&#32;<emphasis role="keyword">nullptr</emphasis>,&#32;path,&#32;<emphasis role="keyword">nullptr</emphasis>,&#32;(DWORD64)dev[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>],&#32;0,&#32;<emphasis role="keyword">nullptr</emphasis>,&#32;0&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00197"/>00197 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00198"/>00198 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;psz&#32;=&#32;strlen(&#32;path&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00199"/>00199 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;pptr&#32;=&#32;(<emphasis role="keywordtype">char</emphasis>*)tracy_malloc_fast(&#32;psz+1&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00200"/>00200 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memcpy(&#32;pptr,&#32;path,&#32;psz&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00201"/>00201 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;pptr[psz]&#32;=&#32;<emphasis role="charliteral">&apos;\0&apos;</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00202"/>00202 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;s_krnlCache[cnt].path&#32;=&#32;pptr;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00203"/>00203 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00204"/>00204 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00205"/>00205 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cnt++;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00206"/>00206 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00207"/>00207 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00208"/>00208 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;s_krnlCacheCnt&#32;=&#32;cnt;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00209"/>00209 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::sort(&#32;s_krnlCache,&#32;s_krnlCache&#32;+&#32;s_krnlCacheCnt,&#32;[](&#32;<emphasis role="keyword">const</emphasis>&#32;KernelDriver&amp;&#32;lhs,&#32;<emphasis role="keyword">const</emphasis>&#32;KernelDriver&amp;&#32;rhs&#32;)&#32;{&#32;<emphasis role="keywordflow">return</emphasis>&#32;lhs.addr&#32;&gt;&#32;rhs.addr;&#32;}&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00210"/>00210 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00211"/>00211 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00212"/>00212 &#32;&#32;&#32;&#32;s_modCache&#32;=&#32;(FastVector&lt;ModuleCache&gt;*)tracy_malloc(&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;FastVector&lt;ModuleCache&gt;&#32;)&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00213"/>00213 &#32;&#32;&#32;&#32;<emphasis role="keyword">new</emphasis>(s_modCache)&#32;FastVector&lt;ModuleCache&gt;(&#32;512&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00214"/>00214 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00215"/>00215 &#32;&#32;&#32;&#32;HANDLE&#32;proc&#32;=&#32;GetCurrentProcess();
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00216"/>00216 &#32;&#32;&#32;&#32;HMODULE&#32;mod[1024];
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00217"/>00217 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;EnumProcessModules(&#32;proc,&#32;mod,&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;mod&#32;),&#32;&amp;needed&#32;)&#32;!=&#32;0&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00218"/>00218 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00219"/>00219 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;sz&#32;=&#32;needed&#32;/&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;HMODULE&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00220"/>00220 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>(&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>=0;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&lt;sz;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>++&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00221"/>00221 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00222"/>00222 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;MODULEINFO&#32;info;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00223"/>00223 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;GetModuleInformation(&#32;proc,&#32;mod[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>],&#32;&amp;info,&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;info&#32;)&#32;)&#32;!=&#32;0&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00224"/>00224 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00225"/>00225 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;base&#32;=&#32;uint64_t(&#32;info.lpBaseOfDll&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00226"/>00226 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">char</emphasis>&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>[1024];
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00227"/>00227 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;res&#32;=&#32;GetModuleFileNameA(&#32;mod[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>],&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>,&#32;1021&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00228"/>00228 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;res&#32;&gt;&#32;0&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00229"/>00229 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00230"/>00230 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;This&#32;may&#32;be&#32;a&#32;new&#32;module&#32;loaded&#32;since&#32;our&#32;call&#32;to&#32;SymInitialize.</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00231"/>00231 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Just&#32;in&#32;case,&#32;force&#32;DbgHelp&#32;to&#32;load&#32;its&#32;pdb&#32;!</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00232"/>00232 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;SymLoadModuleEx(proc,&#32;NULL,&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>,&#32;NULL,&#32;(DWORD64)info.lpBaseOfDll,&#32;info.SizeOfImage,&#32;NULL,&#32;0);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00233"/>00233 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00234"/>00234 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;ptr&#32;=&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>&#32;+&#32;res;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00235"/>00235 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">while</emphasis>(&#32;ptr&#32;&gt;&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>&#32;&amp;&amp;&#32;*ptr&#32;!=&#32;<emphasis role="charliteral">&apos;\\&apos;</emphasis>&#32;&amp;&amp;&#32;*ptr&#32;!=&#32;<emphasis role="charliteral">&apos;/&apos;</emphasis>&#32;)&#32;ptr--;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00236"/>00236 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;ptr&#32;&gt;&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>&#32;)&#32;ptr++;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00237"/>00237 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;namelen&#32;=&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>&#32;+&#32;res&#32;-&#32;ptr;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00238"/>00238 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;cache&#32;=&#32;s_modCache-&gt;push_next();
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00239"/>00239 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cache-&gt;start&#32;=&#32;base;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00240"/>00240 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cache-&gt;end&#32;=&#32;base&#32;+&#32;info.SizeOfImage;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00241"/>00241 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cache-&gt;name&#32;=&#32;(<emphasis role="keywordtype">char</emphasis>*)tracy_malloc_fast(&#32;namelen+3&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00242"/>00242 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cache-&gt;name[0]&#32;=&#32;<emphasis role="charliteral">&apos;[&apos;</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00243"/>00243 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memcpy(&#32;cache-&gt;name+1,&#32;ptr,&#32;namelen&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00244"/>00244 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cache-&gt;name[namelen+1]&#32;=&#32;<emphasis role="charliteral">&apos;]&apos;</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00245"/>00245 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cache-&gt;name[namelen+2]&#32;=&#32;<emphasis role="charliteral">&apos;\0&apos;</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00246"/>00246 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00247"/>00247 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00248"/>00248 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00249"/>00249 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00250"/>00250 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00251"/>00251 <emphasis role="preprocessor">#ifdef&#32;TRACY_DBGHELP_LOCK</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00252"/>00252 &#32;&#32;&#32;&#32;DBGHELP_UNLOCK;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00253"/>00253 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00254"/>00254 }
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00255"/>00255 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00256"/>00256 <emphasis role="keywordtype">void</emphasis>&#32;EndCallstack()
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00257"/>00257 {
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00258"/>00258 }
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00259"/>00259 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00260"/>00260 <emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;DecodeCallstackPtrFast(&#32;uint64_t&#32;ptr&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00261"/>00261 {
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00262"/>00262 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;ret[MaxNameSize];
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00263"/>00263 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;proc&#32;=&#32;GetCurrentProcess();
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00264"/>00264 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00265"/>00265 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">char</emphasis>&#32;buf[<emphasis role="keyword">sizeof</emphasis>(&#32;SYMBOL_INFO&#32;)&#32;+&#32;MaxNameSize];
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00266"/>00266 &#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;si&#32;=&#32;(SYMBOL_INFO*)buf;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00267"/>00267 &#32;&#32;&#32;&#32;si-&gt;SizeOfStruct&#32;=&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;SYMBOL_INFO&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00268"/>00268 &#32;&#32;&#32;&#32;si-&gt;MaxNameLen&#32;=&#32;MaxNameSize;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00269"/>00269 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00270"/>00270 <emphasis role="preprocessor">#ifdef&#32;TRACY_DBGHELP_LOCK</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00271"/>00271 &#32;&#32;&#32;&#32;DBGHELP_LOCK;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00272"/>00272 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00273"/>00273 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;SymFromAddr(&#32;proc,&#32;ptr,&#32;<emphasis role="keyword">nullptr</emphasis>,&#32;si&#32;)&#32;==&#32;0&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00274"/>00274 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00275"/>00275 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*ret&#32;=&#32;<emphasis role="charliteral">&apos;\0&apos;</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00276"/>00276 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00277"/>00277 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00278"/>00278 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00279"/>00279 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memcpy(&#32;ret,&#32;si-&gt;Name,&#32;si-&gt;NameLen&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00280"/>00280 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ret[si-&gt;NameLen]&#32;=&#32;<emphasis role="charliteral">&apos;\0&apos;</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00281"/>00281 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00282"/>00282 <emphasis role="preprocessor">#ifdef&#32;TRACY_DBGHELP_LOCK</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00283"/>00283 &#32;&#32;&#32;&#32;DBGHELP_UNLOCK;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00284"/>00284 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00285"/>00285 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;ret;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00286"/>00286 }
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00287"/>00287 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00288"/>00288 <emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;GetKernelModulePath(&#32;uint64_t&#32;addr&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00289"/>00289 {
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00290"/>00290 &#32;&#32;&#32;&#32;<link linkend="_tracy__lz4_8cpp_1acdcc5aaebf3f273c1762f24a6ece2e5e">assert</link>(&#32;addr&#32;&gt;&gt;&#32;63&#32;!=&#32;0&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00291"/>00291 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!s_krnlCache&#32;)&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">nullptr</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00292"/>00292 &#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;it&#32;=&#32;std::lower_bound(&#32;s_krnlCache,&#32;s_krnlCache&#32;+&#32;s_krnlCacheCnt,&#32;addr,&#32;[](&#32;<emphasis role="keyword">const</emphasis>&#32;KernelDriver&amp;&#32;lhs,&#32;<emphasis role="keyword">const</emphasis>&#32;uint64_t&amp;&#32;rhs&#32;)&#32;{&#32;<emphasis role="keywordflow">return</emphasis>&#32;lhs.addr&#32;&gt;&#32;rhs;&#32;}&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00293"/>00293 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;it&#32;==&#32;s_krnlCache&#32;+&#32;s_krnlCacheCnt&#32;)&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">nullptr</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00294"/>00294 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;it-&gt;path;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00295"/>00295 }
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00296"/>00296 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00297"/>00297 <emphasis role="keyword">static</emphasis>&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;GetModuleNameAndPrepareSymbols(&#32;uint64_t&#32;addr&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00298"/>00298 {
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00299"/>00299 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;(&#32;addr&#32;&gt;&gt;&#32;63&#32;)&#32;!=&#32;0&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00300"/>00300 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00301"/>00301 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;s_krnlCache&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00302"/>00302 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00303"/>00303 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;it&#32;=&#32;std::lower_bound(&#32;s_krnlCache,&#32;s_krnlCache&#32;+&#32;s_krnlCacheCnt,&#32;addr,&#32;[](&#32;<emphasis role="keyword">const</emphasis>&#32;KernelDriver&amp;&#32;lhs,&#32;<emphasis role="keyword">const</emphasis>&#32;uint64_t&amp;&#32;rhs&#32;)&#32;{&#32;<emphasis role="keywordflow">return</emphasis>&#32;lhs.addr&#32;&gt;&#32;rhs;&#32;}&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00304"/>00304 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;it&#32;!=&#32;s_krnlCache&#32;+&#32;s_krnlCacheCnt&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00305"/>00305 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00306"/>00306 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;it-&gt;mod;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00307"/>00307 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00308"/>00308 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00309"/>00309 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="stringliteral">&quot;&lt;kernel&gt;&quot;</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00310"/>00310 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00311"/>00311 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00312"/>00312 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>(&#32;<emphasis role="keyword">auto</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>&#32;:&#32;*s_modCache&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00313"/>00313 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00314"/>00314 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;addr&#32;&gt;=&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.start&#32;&amp;&amp;&#32;addr&#32;&lt;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.end&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00315"/>00315 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00316"/>00316 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.name;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00317"/>00317 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00318"/>00318 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00319"/>00319 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00320"/>00320 &#32;&#32;&#32;&#32;HMODULE&#32;mod[1024];
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00321"/>00321 &#32;&#32;&#32;&#32;DWORD&#32;needed;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00322"/>00322 &#32;&#32;&#32;&#32;HANDLE&#32;proc&#32;=&#32;GetCurrentProcess();
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00323"/>00323 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00324"/>00324 &#32;&#32;&#32;&#32;InitRpmalloc();
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00325"/>00325 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;EnumProcessModules(&#32;proc,&#32;mod,&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;mod&#32;),&#32;&amp;needed&#32;)&#32;!=&#32;0&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00326"/>00326 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00327"/>00327 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;sz&#32;=&#32;needed&#32;/&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;HMODULE&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00328"/>00328 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>(&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>=0;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&lt;sz;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>++&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00329"/>00329 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00330"/>00330 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;MODULEINFO&#32;info;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00331"/>00331 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;GetModuleInformation(&#32;proc,&#32;mod[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>],&#32;&amp;info,&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;info&#32;)&#32;)&#32;!=&#32;0&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00332"/>00332 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00333"/>00333 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;base&#32;=&#32;uint64_t(&#32;info.lpBaseOfDll&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00334"/>00334 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;addr&#32;&gt;=&#32;base&#32;&amp;&amp;&#32;addr&#32;&lt;&#32;base&#32;+&#32;info.SizeOfImage&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00335"/>00335 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00336"/>00336 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">char</emphasis>&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>[1024];
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00337"/>00337 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;res&#32;=&#32;GetModuleFileNameA(&#32;mod[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>],&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>,&#32;1021&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00338"/>00338 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;res&#32;&gt;&#32;0&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00339"/>00339 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00340"/>00340 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;since&#32;this&#32;is&#32;the&#32;first&#32;time&#32;we&#32;encounter&#32;this&#32;module,&#32;load&#32;its&#32;symbols&#32;(needed&#32;for&#32;modules&#32;loaded&#32;after&#32;SymInitialize)</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00341"/>00341 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;SymLoadModuleEx(proc,&#32;NULL,&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>,&#32;NULL,&#32;(DWORD64)info.lpBaseOfDll,&#32;info.SizeOfImage,&#32;NULL,&#32;0);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00342"/>00342 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;ptr&#32;=&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>&#32;+&#32;res;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00343"/>00343 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">while</emphasis>(&#32;ptr&#32;&gt;&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>&#32;&amp;&amp;&#32;*ptr&#32;!=&#32;<emphasis role="charliteral">&apos;\\&apos;</emphasis>&#32;&amp;&amp;&#32;*ptr&#32;!=&#32;<emphasis role="charliteral">&apos;/&apos;</emphasis>&#32;)&#32;ptr--;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00344"/>00344 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;ptr&#32;&gt;&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>&#32;)&#32;ptr++;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00345"/>00345 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;namelen&#32;=&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>&#32;+&#32;res&#32;-&#32;ptr;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00346"/>00346 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;cache&#32;=&#32;s_modCache-&gt;push_next();
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00347"/>00347 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cache-&gt;start&#32;=&#32;base;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00348"/>00348 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cache-&gt;end&#32;=&#32;base&#32;+&#32;info.SizeOfImage;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00349"/>00349 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cache-&gt;name&#32;=&#32;(<emphasis role="keywordtype">char</emphasis>*)tracy_malloc_fast(&#32;namelen+3&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00350"/>00350 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cache-&gt;name[0]&#32;=&#32;<emphasis role="charliteral">&apos;[&apos;</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00351"/>00351 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memcpy(&#32;cache-&gt;name+1,&#32;ptr,&#32;namelen&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00352"/>00352 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cache-&gt;name[namelen+1]&#32;=&#32;<emphasis role="charliteral">&apos;]&apos;</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00353"/>00353 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cache-&gt;name[namelen+2]&#32;=&#32;<emphasis role="charliteral">&apos;\0&apos;</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00354"/>00354 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;cache-&gt;name;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00355"/>00355 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00356"/>00356 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00357"/>00357 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00358"/>00358 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00359"/>00359 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00360"/>00360 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="stringliteral">&quot;[unknown]&quot;</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00361"/>00361 }
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00362"/>00362 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00363"/>00363 CallstackSymbolData&#32;DecodeSymbolAddress(&#32;uint64_t&#32;ptr&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00364"/>00364 {
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00365"/>00365 &#32;&#32;&#32;&#32;CallstackSymbolData&#32;sym;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00366"/>00366 &#32;&#32;&#32;&#32;IMAGEHLP_LINE64&#32;line;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00367"/>00367 &#32;&#32;&#32;&#32;DWORD&#32;displacement&#32;=&#32;0;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00368"/>00368 &#32;&#32;&#32;&#32;line.SizeOfStruct&#32;=&#32;<emphasis role="keyword">sizeof</emphasis>(IMAGEHLP_LINE64);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00369"/>00369 <emphasis role="preprocessor">#ifdef&#32;TRACY_DBGHELP_LOCK</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00370"/>00370 &#32;&#32;&#32;&#32;DBGHELP_LOCK;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00371"/>00371 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00372"/>00372 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;res&#32;=&#32;SymGetLineFromAddr64(&#32;GetCurrentProcess(),&#32;ptr,&#32;&amp;displacement,&#32;&amp;line&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00373"/>00373 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;res&#32;==&#32;0&#32;||&#32;line.LineNumber&#32;&gt;=&#32;0xF00000&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00374"/>00374 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00375"/>00375 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sym.file&#32;=&#32;<emphasis role="stringliteral">&quot;[unknown]&quot;</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00376"/>00376 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sym.line&#32;=&#32;0;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00377"/>00377 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sym.needFree&#32;=&#32;<emphasis role="keyword">false</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00378"/>00378 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00379"/>00379 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00380"/>00380 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00381"/>00381 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sym.file&#32;=&#32;CopyString(&#32;line.FileName&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00382"/>00382 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sym.line&#32;=&#32;line.LineNumber;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00383"/>00383 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sym.needFree&#32;=&#32;<emphasis role="keyword">true</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00384"/>00384 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00385"/>00385 <emphasis role="preprocessor">#ifdef&#32;TRACY_DBGHELP_LOCK</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00386"/>00386 &#32;&#32;&#32;&#32;DBGHELP_UNLOCK;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00387"/>00387 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00388"/>00388 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;sym;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00389"/>00389 }
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00390"/>00390 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00391"/>00391 CallstackEntryData&#32;DecodeCallstackPtr(&#32;uint64_t&#32;ptr&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00392"/>00392 {
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00393"/>00393 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;write;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00394"/>00394 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;proc&#32;=&#32;GetCurrentProcess();
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00395"/>00395 &#32;&#32;&#32;&#32;InitRpmalloc();
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00396"/>00396 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00397"/>00397 <emphasis role="preprocessor">#ifdef&#32;TRACY_DBGHELP_LOCK</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00398"/>00398 &#32;&#32;&#32;&#32;DBGHELP_LOCK;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00399"/>00399 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00400"/>00400 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00401"/>00401 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;moduleName&#32;=&#32;GetModuleNameAndPrepareSymbols(ptr);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00402"/>00402 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00403"/>00403 <emphasis role="preprocessor">#if&#32;!defined&#32;TRACY_NO_CALLSTACK_INLINES</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00404"/>00404 &#32;&#32;&#32;&#32;BOOL&#32;doInline&#32;=&#32;FALSE;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00405"/>00405 &#32;&#32;&#32;&#32;DWORD&#32;ctx&#32;=&#32;0;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00406"/>00406 &#32;&#32;&#32;&#32;DWORD&#32;inlineNum&#32;=&#32;0;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00407"/>00407 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;_SymAddrIncludeInlineTrace&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00408"/>00408 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00409"/>00409 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;inlineNum&#32;=&#32;_SymAddrIncludeInlineTrace(&#32;proc,&#32;ptr&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00410"/>00410 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;inlineNum&#32;&gt;&#32;MaxCbTrace&#32;-&#32;1&#32;)&#32;inlineNum&#32;=&#32;MaxCbTrace&#32;-&#32;1;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00411"/>00411 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;DWORD&#32;idx;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00412"/>00412 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;inlineNum&#32;!=&#32;0&#32;)&#32;doInline&#32;=&#32;_SymQueryInlineTrace(&#32;proc,&#32;ptr,&#32;0,&#32;ptr,&#32;ptr,&#32;&amp;ctx,&#32;&amp;idx&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00413"/>00413 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00414"/>00414 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;doInline&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00415"/>00415 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00416"/>00416 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;write&#32;=&#32;inlineNum;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00417"/>00417 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cb_num&#32;=&#32;1&#32;+&#32;inlineNum;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00418"/>00418 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00419"/>00419 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00420"/>00420 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00421"/>00421 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00422"/>00422 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;write&#32;=&#32;0;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00423"/>00423 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cb_num&#32;=&#32;1;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00424"/>00424 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00425"/>00425 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00426"/>00426 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">char</emphasis>&#32;buf[<emphasis role="keyword">sizeof</emphasis>(&#32;SYMBOL_INFO&#32;)&#32;+&#32;MaxNameSize];
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00427"/>00427 &#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;si&#32;=&#32;(SYMBOL_INFO*)buf;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00428"/>00428 &#32;&#32;&#32;&#32;si-&gt;SizeOfStruct&#32;=&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;SYMBOL_INFO&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00429"/>00429 &#32;&#32;&#32;&#32;si-&gt;MaxNameLen&#32;=&#32;MaxNameSize;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00430"/>00430 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00431"/>00431 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;symValid&#32;=&#32;SymFromAddr(&#32;proc,&#32;ptr,&#32;<emphasis role="keyword">nullptr</emphasis>,&#32;si&#32;)&#32;!=&#32;0;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00432"/>00432 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00433"/>00433 &#32;&#32;&#32;&#32;IMAGEHLP_LINE64&#32;line;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00434"/>00434 &#32;&#32;&#32;&#32;DWORD&#32;displacement&#32;=&#32;0;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00435"/>00435 &#32;&#32;&#32;&#32;line.SizeOfStruct&#32;=&#32;<emphasis role="keyword">sizeof</emphasis>(IMAGEHLP_LINE64);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00436"/>00436 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00437"/>00437 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00438"/>00438 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;filename;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00439"/>00439 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;res&#32;=&#32;SymGetLineFromAddr64(&#32;proc,&#32;ptr,&#32;&amp;displacement,&#32;&amp;line&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00440"/>00440 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;res&#32;==&#32;0&#32;||&#32;line.LineNumber&#32;&gt;=&#32;0xF00000&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00441"/>00441 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00442"/>00442 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;filename&#32;=&#32;<emphasis role="stringliteral">&quot;[unknown]&quot;</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00443"/>00443 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cb_data[write].line&#32;=&#32;0;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00444"/>00444 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00445"/>00445 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00446"/>00446 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00447"/>00447 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;filename&#32;=&#32;line.FileName;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00448"/>00448 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cb_data[write].line&#32;=&#32;line.LineNumber;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00449"/>00449 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00450"/>00450 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00451"/>00451 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cb_data[write].name&#32;=&#32;symValid&#32;?&#32;CopyStringFast(&#32;si-&gt;Name,&#32;si-&gt;NameLen&#32;)&#32;:&#32;CopyStringFast(&#32;moduleName&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00452"/>00452 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cb_data[write].file&#32;=&#32;CopyStringFast(&#32;filename&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00453"/>00453 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;symValid&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00454"/>00454 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00455"/>00455 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cb_data[write].symLen&#32;=&#32;si-&gt;Size;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00456"/>00456 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cb_data[write].symAddr&#32;=&#32;si-&gt;Address;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00457"/>00457 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00458"/>00458 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00459"/>00459 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00460"/>00460 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cb_data[write].symLen&#32;=&#32;0;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00461"/>00461 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cb_data[write].symAddr&#32;=&#32;0;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00462"/>00462 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00463"/>00463 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00464"/>00464 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00465"/>00465 <emphasis role="preprocessor">#if&#32;!defined&#32;TRACY_NO_CALLSTACK_INLINES</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00466"/>00466 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;doInline&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00467"/>00467 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00468"/>00468 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>(&#32;DWORD&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>=0;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&lt;inlineNum;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>++&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00469"/>00469 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00470"/>00470 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&amp;&#32;cb&#32;=&#32;cb_data[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>];
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00471"/>00471 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;symInlineValid&#32;=&#32;_SymFromInlineContext(&#32;proc,&#32;ptr,&#32;ctx,&#32;<emphasis role="keyword">nullptr</emphasis>,&#32;si&#32;)&#32;!=&#32;0;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00472"/>00472 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;filename;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00473"/>00473 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;_SymGetLineFromInlineContext(&#32;proc,&#32;ptr,&#32;ctx,&#32;0,&#32;&amp;displacement,&#32;&amp;line&#32;)&#32;==&#32;0&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00474"/>00474 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00475"/>00475 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;filename&#32;=&#32;<emphasis role="stringliteral">&quot;[unknown]&quot;</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00476"/>00476 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cb.line&#32;=&#32;0;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00477"/>00477 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00478"/>00478 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00479"/>00479 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00480"/>00480 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;filename&#32;=&#32;line.FileName;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00481"/>00481 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cb.line&#32;=&#32;line.LineNumber;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00482"/>00482 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00483"/>00483 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00484"/>00484 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cb.name&#32;=&#32;symInlineValid&#32;?&#32;CopyStringFast(&#32;si-&gt;Name,&#32;si-&gt;NameLen&#32;)&#32;:&#32;CopyStringFast(&#32;moduleName&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00485"/>00485 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cb.file&#32;=&#32;CopyStringFast(&#32;filename&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00486"/>00486 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;symInlineValid&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00487"/>00487 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00488"/>00488 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cb.symLen&#32;=&#32;si-&gt;Size;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00489"/>00489 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cb.symAddr&#32;=&#32;si-&gt;Address;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00490"/>00490 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00491"/>00491 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00492"/>00492 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00493"/>00493 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cb.symLen&#32;=&#32;0;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00494"/>00494 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cb.symAddr&#32;=&#32;0;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00495"/>00495 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00496"/>00496 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00497"/>00497 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ctx++;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00498"/>00498 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00499"/>00499 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00500"/>00500 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00501"/>00501 <emphasis role="preprocessor">#ifdef&#32;TRACY_DBGHELP_LOCK</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00502"/>00502 &#32;&#32;&#32;&#32;DBGHELP_UNLOCK;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00503"/>00503 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00504"/>00504 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00505"/>00505 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;{&#32;cb_data,&#32;uint8_t(&#32;cb_num&#32;),&#32;moduleName&#32;};
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00506"/>00506 }
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00507"/>00507 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00508"/>00508 <emphasis role="preprocessor">#elif&#32;TRACY_HAS_CALLSTACK&#32;==&#32;2&#32;||&#32;TRACY_HAS_CALLSTACK&#32;==&#32;3&#32;||&#32;TRACY_HAS_CALLSTACK&#32;==&#32;4&#32;||&#32;TRACY_HAS_CALLSTACK&#32;==&#32;6</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00509"/>00509 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00510"/>00510 <emphasis role="keyword">enum</emphasis>&#32;{&#32;MaxCbTrace&#32;=&#32;64&#32;};
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00511"/>00511 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00512"/>00512 <emphasis role="keyword">struct&#32;</emphasis>backtrace_state*&#32;cb_bts;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00513"/>00513 <emphasis role="keywordtype">int</emphasis>&#32;cb_num;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00514"/>00514 CallstackEntry&#32;cb_data[MaxCbTrace];
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00515"/>00515 <emphasis role="keywordtype">int</emphasis>&#32;cb_fixup;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00516"/>00516 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00517"/>00517 <emphasis role="preprocessor">#ifdef&#32;TRACY_DEBUGINFOD</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00518"/>00518 debuginfod_client*&#32;s_debuginfod;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00519"/>00519 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00520"/>00520 <emphasis role="keyword">struct&#32;</emphasis>DebugInfo
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00521"/>00521 {
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00522"/>00522 &#32;&#32;&#32;&#32;uint8_t*&#32;buildid;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00523"/>00523 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;buildid_size;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00524"/>00524 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">char</emphasis>*&#32;filename;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00525"/>00525 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;fd;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00526"/>00526 };
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00527"/>00527 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00528"/>00528 FastVector&lt;DebugInfo&gt;&#32;s_di_known(&#32;16&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00529"/>00529 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00530"/>00530 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00531"/>00531 <emphasis role="preprocessor">#ifdef&#32;__linux</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00532"/>00532 <emphasis role="keyword">struct&#32;</emphasis>KernelSymbol
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00533"/>00533 {
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00534"/>00534 &#32;&#32;&#32;&#32;uint64_t&#32;addr;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00535"/>00535 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00536"/>00536 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;mod;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00537"/>00537 };
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00538"/>00538 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00539"/>00539 KernelSymbol*&#32;s_kernelSym&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00540"/>00540 <emphasis role="keywordtype">size_t</emphasis>&#32;s_kernelSymCnt;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00541"/>00541 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00542"/>00542 <emphasis role="keyword">static</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;InitKernelSymbols()
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00543"/>00543 {
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00544"/>00544 &#32;&#32;&#32;&#32;FILE*&#32;<link linkend="_glad_8h_1ae29c29480f1260cc37ad71203904ea4d">f</link>&#32;=&#32;fopen(&#32;<emphasis role="stringliteral">&quot;/proc/kallsyms&quot;</emphasis>,&#32;<emphasis role="stringliteral">&quot;rb&quot;</emphasis>&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00545"/>00545 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!<link linkend="_glad_8h_1ae29c29480f1260cc37ad71203904ea4d">f</link>&#32;)&#32;<emphasis role="keywordflow">return</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00546"/>00546 &#32;&#32;&#32;&#32;<link linkend="_classtracy_1_1_fast_vector">tracy::FastVector&lt;KernelSymbol&gt;</link>&#32;tmpSym(&#32;1024&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00547"/>00547 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;linelen&#32;=&#32;16&#32;*&#32;1024;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;linelen&#32;must&#32;be&#32;big&#32;enough&#32;to&#32;prevent&#32;reallocs&#32;in&#32;getline()</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00548"/>00548 &#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;linebuf&#32;=&#32;(<emphasis role="keywordtype">char</emphasis>*)tracy_malloc(&#32;linelen&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00549"/>00549 &#32;&#32;&#32;&#32;ssize_t&#32;sz;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00550"/>00550 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">while</emphasis>(&#32;(&#32;sz&#32;=&#32;getline(&#32;&amp;linebuf,&#32;&amp;linelen,&#32;<link linkend="_glad_8h_1ae29c29480f1260cc37ad71203904ea4d">f</link>&#32;)&#32;)&#32;!=&#32;-1&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00551"/>00551 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00552"/>00552 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;ptr&#32;=&#32;linebuf;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00553"/>00553 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uint64_t&#32;addr&#32;=&#32;0;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00554"/>00554 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">while</emphasis>(&#32;*ptr&#32;!=&#32;<emphasis role="charliteral">&apos;&#32;&apos;</emphasis>&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00555"/>00555 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00556"/>00556 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>&#32;=&#32;*ptr;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00557"/>00557 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>&#32;&gt;=&#32;<emphasis role="charliteral">&apos;0&apos;</emphasis>&#32;&amp;&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>&#32;&lt;=&#32;<emphasis role="charliteral">&apos;9&apos;</emphasis>&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00558"/>00558 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00559"/>00559 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>&#32;-=&#32;<emphasis role="charliteral">&apos;0&apos;</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00560"/>00560 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00561"/>00561 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>&#32;<emphasis role="keywordflow">if</emphasis>(&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>&#32;&gt;=&#32;<emphasis role="charliteral">&apos;a&apos;</emphasis>&#32;&amp;&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>&#32;&lt;=&#32;<emphasis role="charliteral">&apos;f&apos;</emphasis>&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00562"/>00562 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00563"/>00563 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>&#32;-=&#32;<emphasis role="charliteral">&apos;a&apos;</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00564"/>00564 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>&#32;+=&#32;10;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00565"/>00565 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00566"/>00566 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>&#32;<emphasis role="keywordflow">if</emphasis>(&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>&#32;&gt;=&#32;<emphasis role="charliteral">&apos;A&apos;</emphasis>&#32;&amp;&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>&#32;&lt;=&#32;<emphasis role="charliteral">&apos;F&apos;</emphasis>&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00567"/>00567 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00568"/>00568 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>&#32;-=&#32;<emphasis role="charliteral">&apos;A&apos;</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00569"/>00569 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>&#32;+=&#32;10;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00570"/>00570 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00571"/>00571 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00572"/>00572 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00573"/>00573 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_tracy__lz4_8cpp_1acdcc5aaebf3f273c1762f24a6ece2e5e">assert</link>(&#32;<emphasis role="keyword">false</emphasis>&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00574"/>00574 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00575"/>00575 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_tracy__lz4_8cpp_1acdcc5aaebf3f273c1762f24a6ece2e5e">assert</link>(&#32;(&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>&#32;&amp;&#32;~0xF&#32;)&#32;==&#32;0&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00576"/>00576 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;addr&#32;&lt;&lt;=&#32;4;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00577"/>00577 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;addr&#32;|=&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00578"/>00578 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ptr++;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00579"/>00579 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00580"/>00580 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;addr&#32;==&#32;0&#32;)&#32;<emphasis role="keywordflow">continue</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00581"/>00581 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ptr++;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00582"/>00582 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;*ptr&#32;!=&#32;<emphasis role="charliteral">&apos;T&apos;</emphasis>&#32;&amp;&amp;&#32;*ptr&#32;!=&#32;<emphasis role="charliteral">&apos;t&apos;</emphasis>&#32;)&#32;<emphasis role="keywordflow">continue</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00583"/>00583 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ptr&#32;+=&#32;2;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00584"/>00584 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;namestart&#32;=&#32;ptr;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00585"/>00585 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">while</emphasis>(&#32;*ptr&#32;!=&#32;<emphasis role="charliteral">&apos;\t&apos;</emphasis>&#32;&amp;&amp;&#32;*ptr&#32;!=&#32;<emphasis role="charliteral">&apos;\n&apos;</emphasis>&#32;)&#32;ptr++;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00586"/>00586 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;nameend&#32;=&#32;ptr;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00587"/>00587 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;modstart&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00588"/>00588 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;modend;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00589"/>00589 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;*ptr&#32;==&#32;<emphasis role="charliteral">&apos;\t&apos;</emphasis>&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00590"/>00590 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00591"/>00591 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ptr&#32;+=&#32;2;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00592"/>00592 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;modstart&#32;=&#32;ptr;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00593"/>00593 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">while</emphasis>(&#32;*ptr&#32;!=&#32;<emphasis role="charliteral">&apos;]&apos;</emphasis>&#32;)&#32;ptr++;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00594"/>00594 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;modend&#32;=&#32;ptr;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00595"/>00595 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00596"/>00596 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00597"/>00597 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;strname&#32;=&#32;(<emphasis role="keywordtype">char</emphasis>*)tracy_malloc_fast(&#32;nameend&#32;-&#32;namestart&#32;+&#32;1&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00598"/>00598 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memcpy(&#32;strname,&#32;namestart,&#32;nameend&#32;-&#32;namestart&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00599"/>00599 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;strname[nameend-namestart]&#32;=&#32;<emphasis role="charliteral">&apos;\0&apos;</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00600"/>00600 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00601"/>00601 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">char</emphasis>*&#32;strmod&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00602"/>00602 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;modstart&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00603"/>00603 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00604"/>00604 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;strmod&#32;=&#32;(<emphasis role="keywordtype">char</emphasis>*)tracy_malloc_fast(&#32;modend&#32;-&#32;modstart&#32;+&#32;1&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00605"/>00605 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memcpy(&#32;strmod,&#32;modstart,&#32;modend&#32;-&#32;modstart&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00606"/>00606 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;strmod[modend-modstart]&#32;=&#32;<emphasis role="charliteral">&apos;\0&apos;</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00607"/>00607 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00608"/>00608 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00609"/>00609 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;sym&#32;=&#32;tmpSym.push_next();
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00610"/>00610 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sym-&gt;addr&#32;=&#32;addr;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00611"/>00611 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sym-&gt;name&#32;=&#32;strname;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00612"/>00612 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sym-&gt;mod&#32;=&#32;strmod;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00613"/>00613 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00614"/>00614 &#32;&#32;&#32;&#32;tracy_free_fast(&#32;linebuf&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00615"/>00615 &#32;&#32;&#32;&#32;fclose(&#32;<link linkend="_glad_8h_1ae29c29480f1260cc37ad71203904ea4d">f</link>&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00616"/>00616 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;tmpSym.empty()&#32;)&#32;<emphasis role="keywordflow">return</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00617"/>00617 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00618"/>00618 &#32;&#32;&#32;&#32;std::sort(&#32;tmpSym.begin(),&#32;tmpSym.end(),&#32;[](&#32;<emphasis role="keyword">const</emphasis>&#32;KernelSymbol&amp;&#32;lhs,&#32;<emphasis role="keyword">const</emphasis>&#32;KernelSymbol&amp;&#32;rhs&#32;)&#32;{&#32;return&#32;lhs.addr&#32;&gt;&#32;rhs.addr;&#32;}&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00619"/>00619 &#32;&#32;&#32;&#32;s_kernelSymCnt&#32;=&#32;tmpSym.size();
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00620"/>00620 &#32;&#32;&#32;&#32;s_kernelSym&#32;=&#32;(KernelSymbol*)tracy_malloc_fast(&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;KernelSymbol&#32;)&#32;*&#32;s_kernelSymCnt&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00621"/>00621 &#32;&#32;&#32;&#32;memcpy(&#32;s_kernelSym,&#32;tmpSym.data(),&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;KernelSymbol&#32;)&#32;*&#32;s_kernelSymCnt&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00622"/>00622 &#32;&#32;&#32;&#32;<link linkend="__tracy_debug_8hpp_1a10a67c5ce6f5b8f18164b27cd55c75e8">TracyDebug</link>(&#32;<emphasis role="stringliteral">&quot;Loaded&#32;%zu&#32;kernel&#32;symbols\n&quot;</emphasis>,&#32;s_kernelSymCnt&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00623"/>00623 }
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00624"/>00624 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00625"/>00625 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00626"/>00626 <emphasis role="keywordtype">char</emphasis>*&#32;NormalizePath(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;path&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00627"/>00627 {
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00628"/>00628 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;path[0]&#32;!=&#32;<emphasis role="charliteral">&apos;/&apos;</emphasis>&#32;)&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">nullptr</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00629"/>00629 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00630"/>00630 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;ptr&#32;=&#32;path;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00631"/>00631 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a432111147038972f06e049e18a837002">end</link>&#32;=&#32;path;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00632"/>00632 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">while</emphasis>(&#32;*<link linkend="_glad_8h_1a432111147038972f06e049e18a837002">end</link>&#32;)&#32;<link linkend="_glad_8h_1a432111147038972f06e049e18a837002">end</link>++;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00633"/>00633 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00634"/>00634 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">char</emphasis>*&#32;res&#32;=&#32;(<emphasis role="keywordtype">char</emphasis>*)tracy_malloc(&#32;<link linkend="_glad_8h_1a432111147038972f06e049e18a837002">end</link>&#32;-&#32;ptr&#32;+&#32;1&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00635"/>00635 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;rsz&#32;=&#32;0;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00636"/>00636 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00637"/>00637 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">while</emphasis>(&#32;ptr&#32;&lt;&#32;<link linkend="_glad_8h_1a432111147038972f06e049e18a837002">end</link>&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00638"/>00638 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00639"/>00639 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;next&#32;=&#32;ptr;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00640"/>00640 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">while</emphasis>(&#32;next&#32;&lt;&#32;<link linkend="_glad_8h_1a432111147038972f06e049e18a837002">end</link>&#32;&amp;&amp;&#32;*next&#32;!=&#32;<emphasis role="charliteral">&apos;/&apos;</emphasis>&#32;)&#32;next++;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00641"/>00641 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;lsz&#32;=&#32;next&#32;-&#32;ptr;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00642"/>00642 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">switch</emphasis>(&#32;lsz&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00643"/>00643 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00644"/>00644 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">case</emphasis>&#32;2:
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00645"/>00645 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;memcmp(&#32;ptr,&#32;<emphasis role="stringliteral">&quot;..&quot;</emphasis>,&#32;2&#32;)&#32;==&#32;0&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00646"/>00646 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00647"/>00647 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;back&#32;=&#32;res&#32;+&#32;rsz&#32;-&#32;1;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00648"/>00648 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">while</emphasis>(&#32;back&#32;&gt;&#32;res&#32;&amp;&amp;&#32;*back&#32;!=&#32;<emphasis role="charliteral">&apos;/&apos;</emphasis>&#32;)&#32;back--;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00649"/>00649 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;rsz&#32;=&#32;back&#32;-&#32;res;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00650"/>00650 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ptr&#32;=&#32;next&#32;+&#32;1;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00651"/>00651 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">continue</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00652"/>00652 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00653"/>00653 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">break</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00654"/>00654 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">case</emphasis>&#32;1:
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00655"/>00655 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;*ptr&#32;==&#32;<emphasis role="charliteral">&apos;.&apos;</emphasis>&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00656"/>00656 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00657"/>00657 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ptr&#32;=&#32;next&#32;+&#32;1;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00658"/>00658 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">continue</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00659"/>00659 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00660"/>00660 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">break</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00661"/>00661 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">case</emphasis>&#32;0:
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00662"/>00662 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ptr&#32;=&#32;next&#32;+&#32;1;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00663"/>00663 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">continue</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00664"/>00664 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00665"/>00665 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;rsz&#32;!=&#32;1&#32;)&#32;res[rsz++]&#32;=&#32;<emphasis role="charliteral">&apos;/&apos;</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00666"/>00666 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memcpy(&#32;res+rsz,&#32;ptr,&#32;lsz&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00667"/>00667 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;rsz&#32;+=&#32;lsz;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00668"/>00668 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ptr&#32;=&#32;next&#32;+&#32;1;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00669"/>00669 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00670"/>00670 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00671"/>00671 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;rsz&#32;==&#32;0&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00672"/>00672 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00673"/>00673 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memcpy(&#32;res,&#32;<emphasis role="stringliteral">&quot;/&quot;</emphasis>,&#32;2&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00674"/>00674 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00675"/>00675 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00676"/>00676 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00677"/>00677 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;res[rsz]&#32;=&#32;<emphasis role="charliteral">&apos;\0&apos;</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00678"/>00678 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00679"/>00679 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;res;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00680"/>00680 }
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00681"/>00681 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00682"/>00682 <emphasis role="keywordtype">void</emphasis>&#32;InitCallstackCritical()
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00683"/>00683 {
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00684"/>00684 }
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00685"/>00685 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00686"/>00686 <emphasis role="keywordtype">void</emphasis>&#32;InitCallstack()
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00687"/>00687 {
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00688"/>00688 &#32;&#32;&#32;&#32;cb_bts&#32;=&#32;<link linkend="_namespacetracy_1aa84bb7798868471692907727d02c6a55">backtrace_create_state</link>(&#32;<emphasis role="keyword">nullptr</emphasis>,&#32;0,&#32;<emphasis role="keyword">nullptr</emphasis>,&#32;<emphasis role="keyword">nullptr</emphasis>&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00689"/>00689 <emphasis role="preprocessor">#ifndef&#32;TRACY_DEMANGLE</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00690"/>00690 &#32;&#32;&#32;&#32;___tracy_init_demangle_buffer();
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00691"/>00691 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00692"/>00692 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00693"/>00693 <emphasis role="preprocessor">#ifdef&#32;__linux</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00694"/>00694 &#32;&#32;&#32;&#32;InitKernelSymbols();
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00695"/>00695 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00696"/>00696 <emphasis role="preprocessor">#ifdef&#32;TRACY_DEBUGINFOD</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00697"/>00697 &#32;&#32;&#32;&#32;s_debuginfod&#32;=&#32;debuginfod_begin();
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00698"/>00698 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00699"/>00699 }
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00700"/>00700 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00701"/>00701 <emphasis role="preprocessor">#ifdef&#32;TRACY_DEBUGINFOD</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00702"/>00702 <emphasis role="keywordtype">void</emphasis>&#32;ClearDebugInfoVector(&#32;FastVector&lt;DebugInfo&gt;&amp;&#32;vec&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00703"/>00703 {
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00704"/>00704 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>(&#32;<emphasis role="keyword">auto</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>&#32;:&#32;vec&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00705"/>00705 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00706"/>00706 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;tracy_free(&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.buildid&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00707"/>00707 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;tracy_free(&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.filename&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00708"/>00708 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.fd&#32;&gt;=&#32;0&#32;)&#32;close(&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.fd&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00709"/>00709 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00710"/>00710 &#32;&#32;&#32;&#32;vec.clear();
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00711"/>00711 }
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00712"/>00712 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00713"/>00713 DebugInfo*&#32;FindDebugInfo(&#32;FastVector&lt;DebugInfo&gt;&amp;&#32;vec,&#32;<emphasis role="keyword">const</emphasis>&#32;uint8_t*&#32;buildid_data,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;buildid_size&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00714"/>00714 {
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00715"/>00715 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>(&#32;<emphasis role="keyword">auto</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>&#32;:&#32;vec&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00716"/>00716 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00717"/>00717 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.buildid_size&#32;==&#32;buildid_size&#32;&amp;&amp;&#32;memcmp(&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.buildid,&#32;buildid_data,&#32;buildid_size&#32;)&#32;==&#32;0&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00718"/>00718 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00719"/>00719 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;&amp;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00720"/>00720 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00721"/>00721 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00722"/>00722 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">nullptr</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00723"/>00723 }
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00724"/>00724 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00725"/>00725 <emphasis role="keywordtype">int</emphasis>&#32;GetDebugInfoDescriptor(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;buildid_data,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;buildid_size,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;filename&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00726"/>00726 {
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00727"/>00727 &#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;buildid&#32;=&#32;(uint8_t*)buildid_data;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00728"/>00728 &#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;it&#32;=&#32;FindDebugInfo(&#32;s_di_known,&#32;buildid,&#32;buildid_size&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00729"/>00729 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;it&#32;)&#32;<emphasis role="keywordflow">return</emphasis>&#32;it-&gt;fd&#32;&gt;=&#32;0&#32;?&#32;dup(&#32;it-&gt;fd&#32;)&#32;:&#32;-1;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00730"/>00730 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00731"/>00731 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;fd&#32;=&#32;debuginfod_find_debuginfo(&#32;s_debuginfod,&#32;buildid,&#32;buildid_size,&#32;<emphasis role="keyword">nullptr</emphasis>&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00732"/>00732 &#32;&#32;&#32;&#32;it&#32;=&#32;s_di_known.push_next();
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00733"/>00733 &#32;&#32;&#32;&#32;it-&gt;buildid_size&#32;=&#32;buildid_size;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00734"/>00734 &#32;&#32;&#32;&#32;it-&gt;buildid&#32;=&#32;(uint8_t*)tracy_malloc(&#32;buildid_size&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00735"/>00735 &#32;&#32;&#32;&#32;memcpy(&#32;it-&gt;buildid,&#32;buildid,&#32;buildid_size&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00736"/>00736 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;fnsz&#32;=&#32;strlen(&#32;filename&#32;)&#32;+&#32;1;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00737"/>00737 &#32;&#32;&#32;&#32;it-&gt;filename&#32;=&#32;(<emphasis role="keywordtype">char</emphasis>*)tracy_malloc(&#32;fnsz&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00738"/>00738 &#32;&#32;&#32;&#32;memcpy(&#32;it-&gt;filename,&#32;filename,&#32;fnsz&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00739"/>00739 &#32;&#32;&#32;&#32;it-&gt;fd&#32;=&#32;fd&#32;&gt;=&#32;0&#32;?&#32;fd&#32;:&#32;-1;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00740"/>00740 &#32;&#32;&#32;&#32;<link linkend="__tracy_debug_8hpp_1a10a67c5ce6f5b8f18164b27cd55c75e8">TracyDebug</link>(&#32;<emphasis role="stringliteral">&quot;DebugInfo&#32;descriptor&#32;query:&#32;%i,&#32;fn:&#32;%s\n&quot;</emphasis>,&#32;fd,&#32;filename&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00741"/>00741 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;it-&gt;fd;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00742"/>00742 }
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00743"/>00743 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00744"/>00744 <emphasis role="keyword">const</emphasis>&#32;uint8_t*&#32;GetBuildIdForImage(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;image,&#32;<emphasis role="keywordtype">size_t</emphasis>&amp;&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00745"/>00745 {
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00746"/>00746 &#32;&#32;&#32;&#32;<link linkend="_tracy__lz4_8cpp_1acdcc5aaebf3f273c1762f24a6ece2e5e">assert</link>(&#32;image&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00747"/>00747 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>(&#32;<emphasis role="keyword">auto</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>&#32;:&#32;s_di_known&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00748"/>00748 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00749"/>00749 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;strcmp(&#32;image,&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.filename&#32;)&#32;==&#32;0&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00750"/>00750 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00751"/>00751 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>&#32;=&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.buildid_size;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00752"/>00752 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.buildid;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00753"/>00753 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00754"/>00754 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00755"/>00755 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">nullptr</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00756"/>00756 }
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00757"/>00757 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00758"/>00758 debuginfod_client*&#32;GetDebuginfodClient()
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00759"/>00759 {
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00760"/>00760 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;s_debuginfod;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00761"/>00761 }
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00762"/>00762 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00763"/>00763 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00764"/>00764 <emphasis role="keywordtype">void</emphasis>&#32;EndCallstack()
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00765"/>00765 {
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00766"/>00766 <emphasis role="preprocessor">#ifndef&#32;TRACY_DEMANGLE</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00767"/>00767 &#32;&#32;&#32;&#32;___tracy_free_demangle_buffer();
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00768"/>00768 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00769"/>00769 <emphasis role="preprocessor">#ifdef&#32;TRACY_DEBUGINFOD</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00770"/>00770 &#32;&#32;&#32;&#32;ClearDebugInfoVector(&#32;s_di_known&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00771"/>00771 &#32;&#32;&#32;&#32;debuginfod_end(&#32;s_debuginfod&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00772"/>00772 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00773"/>00773 }
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00774"/>00774 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00775"/>00775 <emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;DecodeCallstackPtrFast(&#32;uint64_t&#32;ptr&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00776"/>00776 {
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00777"/>00777 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;ret[1024];
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00778"/>00778 &#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;vptr&#32;=&#32;(<emphasis role="keywordtype">void</emphasis>*)ptr;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00779"/>00779 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;symname&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00780"/>00780 &#32;&#32;&#32;&#32;Dl_info&#32;dlinfo;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00781"/>00781 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;dladdr(&#32;vptr,&#32;&amp;dlinfo&#32;)&#32;&amp;&amp;&#32;dlinfo.dli_sname&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00782"/>00782 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00783"/>00783 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;symname&#32;=&#32;dlinfo.dli_sname;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00784"/>00784 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00785"/>00785 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;symname&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00786"/>00786 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00787"/>00787 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;strcpy(&#32;ret,&#32;symname&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00788"/>00788 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00789"/>00789 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00790"/>00790 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00791"/>00791 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*ret&#32;=&#32;<emphasis role="charliteral">&apos;\0&apos;</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00792"/>00792 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00793"/>00793 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;ret;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00794"/>00794 }
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00795"/>00795 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00796"/>00796 <emphasis role="keyword">static</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;SymbolAddressDataCb(&#32;<emphasis role="keywordtype">void</emphasis>*&#32;<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>,&#32;uintptr_t&#32;pc,&#32;uintptr_t&#32;lowaddr,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;fn,&#32;<emphasis role="keywordtype">int</emphasis>&#32;lineno,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;function&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00797"/>00797 {
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00798"/>00798 &#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&amp;&#32;sym&#32;=&#32;*(CallstackSymbolData*)<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00799"/>00799 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!fn&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00800"/>00800 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00801"/>00801 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sym.file&#32;=&#32;<emphasis role="stringliteral">&quot;[unknown]&quot;</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00802"/>00802 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sym.line&#32;=&#32;0;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00803"/>00803 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sym.needFree&#32;=&#32;<emphasis role="keyword">false</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00804"/>00804 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00805"/>00805 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00806"/>00806 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00807"/>00807 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sym.file&#32;=&#32;NormalizePath(&#32;fn&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00808"/>00808 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!sym.file&#32;)&#32;sym.file&#32;=&#32;CopyString(&#32;fn&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00809"/>00809 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sym.line&#32;=&#32;lineno;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00810"/>00810 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sym.needFree&#32;=&#32;<emphasis role="keyword">true</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00811"/>00811 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00812"/>00812 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00813"/>00813 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;1;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00814"/>00814 }
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00815"/>00815 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00816"/>00816 <emphasis role="keyword">static</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;SymbolAddressErrorCb(&#32;<emphasis role="keywordtype">void</emphasis>*&#32;<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<emphasis role="comment">/*msg*/</emphasis>,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<emphasis role="comment">/*errnum*/</emphasis>&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00817"/>00817 {
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00818"/>00818 &#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&amp;&#32;sym&#32;=&#32;*(CallstackSymbolData*)<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00819"/>00819 &#32;&#32;&#32;&#32;sym.file&#32;=&#32;<emphasis role="stringliteral">&quot;[unknown]&quot;</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00820"/>00820 &#32;&#32;&#32;&#32;sym.line&#32;=&#32;0;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00821"/>00821 &#32;&#32;&#32;&#32;sym.needFree&#32;=&#32;<emphasis role="keyword">false</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00822"/>00822 }
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00823"/>00823 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00824"/>00824 CallstackSymbolData&#32;DecodeSymbolAddress(&#32;uint64_t&#32;ptr&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00825"/>00825 {
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00826"/>00826 &#32;&#32;&#32;&#32;CallstackSymbolData&#32;sym;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00827"/>00827 &#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1ae6d23fcb54847202b263515410d83650">backtrace_pcinfo</link>(&#32;cb_bts,&#32;ptr,&#32;SymbolAddressDataCb,&#32;SymbolAddressErrorCb,&#32;&amp;sym&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00828"/>00828 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;sym;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00829"/>00829 }
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00830"/>00830 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00831"/>00831 <emphasis role="keyword">static</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;CallstackDataCb(&#32;<emphasis role="keywordtype">void</emphasis>*&#32;<emphasis role="comment">/*data*/</emphasis>,&#32;uintptr_t&#32;pc,&#32;uintptr_t&#32;lowaddr,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;fn,&#32;<emphasis role="keywordtype">int</emphasis>&#32;lineno,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;function&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00832"/>00832 {
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00833"/>00833 &#32;&#32;&#32;&#32;cb_data[cb_num].symLen&#32;=&#32;0;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00834"/>00834 &#32;&#32;&#32;&#32;cb_data[cb_num].symAddr&#32;=&#32;(uint64_t)lowaddr;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00835"/>00835 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00836"/>00836 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!fn&#32;&amp;&amp;&#32;!function&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00837"/>00837 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00838"/>00838 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;symname&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00839"/>00839 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;vptr&#32;=&#32;(<emphasis role="keywordtype">void</emphasis>*)pc;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00840"/>00840 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ptrdiff_t&#32;symoff&#32;=&#32;0;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00841"/>00841 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00842"/>00842 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Dl_info&#32;dlinfo;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00843"/>00843 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;dladdr(&#32;vptr,&#32;&amp;dlinfo&#32;)&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00844"/>00844 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00845"/>00845 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;symname&#32;=&#32;dlinfo.dli_sname;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00846"/>00846 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;symoff&#32;=&#32;(<emphasis role="keywordtype">char</emphasis>*)pc&#32;-&#32;(<emphasis role="keywordtype">char</emphasis>*)dlinfo.dli_saddr;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00847"/>00847 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;demangled&#32;=&#32;___tracy_demangle(&#32;symname&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00848"/>00848 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;demangled&#32;)&#32;symname&#32;=&#32;demangled;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00849"/>00849 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00850"/>00850 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00851"/>00851 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!symname&#32;)&#32;symname&#32;=&#32;<emphasis role="stringliteral">&quot;[unknown]&quot;</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00852"/>00852 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00853"/>00853 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;symoff&#32;==&#32;0&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00854"/>00854 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00855"/>00855 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;len&#32;=&#32;std::min&lt;size_t&gt;(&#32;strlen(&#32;symname&#32;),&#32;std::numeric_limits&lt;uint16_t&gt;::max()&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00856"/>00856 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cb_data[cb_num].name&#32;=&#32;CopyStringFast(&#32;symname,&#32;len&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00857"/>00857 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00858"/>00858 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00859"/>00859 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00860"/>00860 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">char</emphasis>&#32;buf[32];
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00861"/>00861 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;offlen&#32;=&#32;sprintf(&#32;buf,&#32;<emphasis role="stringliteral">&quot;&#32;+&#32;%td&quot;</emphasis>,&#32;symoff&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00862"/>00862 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;namelen&#32;=&#32;std::min&lt;size_t&gt;(&#32;strlen(&#32;symname&#32;),&#32;std::numeric_limits&lt;uint16_t&gt;::max()&#32;-&#32;offlen&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00863"/>00863 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>&#32;=&#32;(<emphasis role="keywordtype">char</emphasis>*)tracy_malloc_fast(&#32;namelen&#32;+&#32;offlen&#32;+&#32;1&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00864"/>00864 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memcpy(&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>,&#32;symname,&#32;namelen&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00865"/>00865 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memcpy(&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>&#32;+&#32;namelen,&#32;buf,&#32;offlen&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00866"/>00866 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>[namelen&#32;+&#32;offlen]&#32;=&#32;<emphasis role="charliteral">&apos;\0&apos;</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00867"/>00867 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cb_data[cb_num].name&#32;=&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00868"/>00868 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00869"/>00869 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00870"/>00870 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cb_data[cb_num].file&#32;=&#32;CopyStringFast(&#32;<emphasis role="stringliteral">&quot;[unknown]&quot;</emphasis>&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00871"/>00871 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cb_data[cb_num].line&#32;=&#32;0;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00872"/>00872 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00873"/>00873 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00874"/>00874 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00875"/>00875 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!fn&#32;)&#32;fn&#32;=&#32;<emphasis role="stringliteral">&quot;[unknown]&quot;</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00876"/>00876 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!function&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00877"/>00877 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00878"/>00878 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;function&#32;=&#32;<emphasis role="stringliteral">&quot;[unknown]&quot;</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00879"/>00879 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00880"/>00880 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00881"/>00881 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00882"/>00882 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;demangled&#32;=&#32;___tracy_demangle(&#32;function&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00883"/>00883 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;demangled&#32;)&#32;function&#32;=&#32;demangled;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00884"/>00884 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00885"/>00885 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00886"/>00886 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;len&#32;=&#32;std::min&lt;size_t&gt;(&#32;strlen(&#32;function&#32;),&#32;std::numeric_limits&lt;uint16_t&gt;::max()&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00887"/>00887 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cb_data[cb_num].name&#32;=&#32;CopyStringFast(&#32;function,&#32;len&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00888"/>00888 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cb_data[cb_num].file&#32;=&#32;NormalizePath(&#32;fn&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00889"/>00889 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!cb_data[cb_num].file&#32;)&#32;cb_data[cb_num].file&#32;=&#32;CopyStringFast(&#32;fn&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00890"/>00890 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cb_data[cb_num].line&#32;=&#32;lineno;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00891"/>00891 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00892"/>00892 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00893"/>00893 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;++cb_num&#32;&gt;=&#32;MaxCbTrace&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00894"/>00894 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00895"/>00895 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;1;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00896"/>00896 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00897"/>00897 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00898"/>00898 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00899"/>00899 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;0;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00900"/>00900 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00901"/>00901 }
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00902"/>00902 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00903"/>00903 <emphasis role="keyword">static</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;CallstackErrorCb(&#32;<emphasis role="keywordtype">void</emphasis>*&#32;<emphasis role="comment">/*data*/</emphasis>,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<emphasis role="comment">/*msg*/</emphasis>,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<emphasis role="comment">/*errnum*/</emphasis>&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00904"/>00904 {
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00905"/>00905 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>(&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>=0;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&lt;cb_num;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>++&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00906"/>00906 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00907"/>00907 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;tracy_free_fast(&#32;(<emphasis role="keywordtype">void</emphasis>*)cb_data[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>].<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00908"/>00908 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;tracy_free_fast(&#32;(<emphasis role="keywordtype">void</emphasis>*)cb_data[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>].file&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00909"/>00909 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00910"/>00910 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00911"/>00911 &#32;&#32;&#32;&#32;cb_data[0].name&#32;=&#32;CopyStringFast(&#32;<emphasis role="stringliteral">&quot;[error]&quot;</emphasis>&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00912"/>00912 &#32;&#32;&#32;&#32;cb_data[0].file&#32;=&#32;CopyStringFast(&#32;<emphasis role="stringliteral">&quot;[error]&quot;</emphasis>&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00913"/>00913 &#32;&#32;&#32;&#32;cb_data[0].line&#32;=&#32;0;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00914"/>00914 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00915"/>00915 &#32;&#32;&#32;&#32;cb_num&#32;=&#32;1;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00916"/>00916 }
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00917"/>00917 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00918"/>00918 <emphasis role="keywordtype">void</emphasis>&#32;SymInfoCallback(&#32;<emphasis role="keywordtype">void</emphasis>*&#32;<emphasis role="comment">/*data*/</emphasis>,&#32;uintptr_t&#32;pc,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;symname,&#32;uintptr_t&#32;symval,&#32;uintptr_t&#32;symsize&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00919"/>00919 {
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00920"/>00920 &#32;&#32;&#32;&#32;cb_data[cb_num-1].symLen&#32;=&#32;(uint32_t)symsize;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00921"/>00921 &#32;&#32;&#32;&#32;cb_data[cb_num-1].symAddr&#32;=&#32;(uint64_t)symval;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00922"/>00922 }
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00923"/>00923 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00924"/>00924 <emphasis role="keywordtype">void</emphasis>&#32;SymInfoError(&#32;<emphasis role="keywordtype">void</emphasis>*&#32;<emphasis role="comment">/*data*/</emphasis>,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<emphasis role="comment">/*msg*/</emphasis>,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<emphasis role="comment">/*errnum*/</emphasis>&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00925"/>00925 {
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00926"/>00926 &#32;&#32;&#32;&#32;cb_data[cb_num-1].symLen&#32;=&#32;0;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00927"/>00927 &#32;&#32;&#32;&#32;cb_data[cb_num-1].symAddr&#32;=&#32;0;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00928"/>00928 }
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00929"/>00929 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00930"/>00930 CallstackEntryData&#32;DecodeCallstackPtr(&#32;uint64_t&#32;ptr&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00931"/>00931 {
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00932"/>00932 &#32;&#32;&#32;&#32;InitRpmalloc();
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00933"/>00933 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;ptr&#32;&gt;&gt;&#32;63&#32;==&#32;0&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00934"/>00934 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00935"/>00935 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cb_num&#32;=&#32;0;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00936"/>00936 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1ae6d23fcb54847202b263515410d83650">backtrace_pcinfo</link>(&#32;cb_bts,&#32;ptr,&#32;CallstackDataCb,&#32;CallstackErrorCb,&#32;<emphasis role="keyword">nullptr</emphasis>&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00937"/>00937 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_tracy__lz4_8cpp_1acdcc5aaebf3f273c1762f24a6ece2e5e">assert</link>(&#32;cb_num&#32;&gt;&#32;0&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00938"/>00938 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00939"/>00939 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a81f745cb0c73515e062c5e9ee49e2c13">backtrace_syminfo</link>(&#32;cb_bts,&#32;ptr,&#32;SymInfoCallback,&#32;SymInfoError,&#32;<emphasis role="keyword">nullptr</emphasis>&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00940"/>00940 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00941"/>00941 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;symloc&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00942"/>00942 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Dl_info&#32;dlinfo;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00943"/>00943 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;dladdr(&#32;(<emphasis role="keywordtype">void</emphasis>*)ptr,&#32;&amp;dlinfo&#32;)&#32;)&#32;symloc&#32;=&#32;dlinfo.dli_fname;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00944"/>00944 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00945"/>00945 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;{&#32;cb_data,&#32;uint8_t(&#32;cb_num&#32;),&#32;symloc&#32;?&#32;symloc&#32;:&#32;<emphasis role="stringliteral">&quot;[unknown]&quot;</emphasis>&#32;};
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00946"/>00946 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00947"/>00947 <emphasis role="preprocessor">#ifdef&#32;__linux</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00948"/>00948 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>&#32;<emphasis role="keywordflow">if</emphasis>(&#32;s_kernelSym&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00949"/>00949 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00950"/>00950 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;it&#32;=&#32;std::lower_bound(&#32;s_kernelSym,&#32;s_kernelSym&#32;+&#32;s_kernelSymCnt,&#32;ptr,&#32;[](&#32;<emphasis role="keyword">const</emphasis>&#32;KernelSymbol&amp;&#32;lhs,&#32;<emphasis role="keyword">const</emphasis>&#32;uint64_t&amp;&#32;rhs&#32;)&#32;{&#32;<emphasis role="keywordflow">return</emphasis>&#32;lhs.addr&#32;&gt;&#32;rhs;&#32;}&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00951"/>00951 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;it&#32;!=&#32;s_kernelSym&#32;+&#32;s_kernelSymCnt&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00952"/>00952 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00953"/>00953 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cb_data[0].name&#32;=&#32;CopyStringFast(&#32;it-&gt;name&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00954"/>00954 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cb_data[0].file&#32;=&#32;CopyStringFast(&#32;<emphasis role="stringliteral">&quot;&lt;kernel&gt;&quot;</emphasis>&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00955"/>00955 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cb_data[0].line&#32;=&#32;0;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00956"/>00956 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cb_data[0].symLen&#32;=&#32;0;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00957"/>00957 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cb_data[0].symAddr&#32;=&#32;it-&gt;addr;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00958"/>00958 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;{&#32;cb_data,&#32;1,&#32;it-&gt;mod&#32;?&#32;it-&gt;mod&#32;:&#32;<emphasis role="stringliteral">&quot;&lt;kernel&gt;&quot;</emphasis>&#32;};
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00959"/>00959 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00960"/>00960 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00961"/>00961 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00962"/>00962 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00963"/>00963 &#32;&#32;&#32;&#32;cb_data[0].name&#32;=&#32;CopyStringFast(&#32;<emphasis role="stringliteral">&quot;[unknown]&quot;</emphasis>&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00964"/>00964 &#32;&#32;&#32;&#32;cb_data[0].file&#32;=&#32;CopyStringFast(&#32;<emphasis role="stringliteral">&quot;&lt;kernel&gt;&quot;</emphasis>&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00965"/>00965 &#32;&#32;&#32;&#32;cb_data[0].line&#32;=&#32;0;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00966"/>00966 &#32;&#32;&#32;&#32;cb_data[0].symLen&#32;=&#32;0;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00967"/>00967 &#32;&#32;&#32;&#32;cb_data[0].symAddr&#32;=&#32;0;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00968"/>00968 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;{&#32;cb_data,&#32;1,&#32;<emphasis role="stringliteral">&quot;&lt;kernel&gt;&quot;</emphasis>&#32;};
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00969"/>00969 }
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00970"/>00970 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00971"/>00971 <emphasis role="preprocessor">#elif&#32;TRACY_HAS_CALLSTACK&#32;==&#32;5</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00972"/>00972 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00973"/>00973 <emphasis role="keywordtype">void</emphasis>&#32;InitCallstackCritical()
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00974"/>00974 {
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00975"/>00975 }
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00976"/>00976 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00977"/>00977 <emphasis role="keywordtype">void</emphasis>&#32;InitCallstack()
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00978"/>00978 {
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00979"/>00979 &#32;&#32;&#32;&#32;___tracy_init_demangle_buffer();
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00980"/>00980 }
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00981"/>00981 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00982"/>00982 <emphasis role="keywordtype">void</emphasis>&#32;EndCallstack()
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00983"/>00983 {
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00984"/>00984 &#32;&#32;&#32;&#32;___tracy_free_demangle_buffer();
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00985"/>00985 }
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00986"/>00986 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00987"/>00987 <emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;DecodeCallstackPtrFast(&#32;uint64_t&#32;ptr&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00988"/>00988 {
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00989"/>00989 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;ret[1024];
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00990"/>00990 &#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;vptr&#32;=&#32;(<emphasis role="keywordtype">void</emphasis>*)ptr;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00991"/>00991 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;symname&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00992"/>00992 &#32;&#32;&#32;&#32;Dl_info&#32;dlinfo;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00993"/>00993 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;dladdr(&#32;vptr,&#32;&amp;dlinfo&#32;)&#32;&amp;&amp;&#32;dlinfo.dli_sname&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00994"/>00994 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00995"/>00995 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;symname&#32;=&#32;dlinfo.dli_sname;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00996"/>00996 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00997"/>00997 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;symname&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00998"/>00998 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l00999"/>00999 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;strcpy(&#32;ret,&#32;symname&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01000"/>01000 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01001"/>01001 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01002"/>01002 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01003"/>01003 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*ret&#32;=&#32;<emphasis role="charliteral">&apos;\0&apos;</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01004"/>01004 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01005"/>01005 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;ret;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01006"/>01006 }
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01007"/>01007 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01008"/>01008 CallstackSymbolData&#32;DecodeSymbolAddress(&#32;uint64_t&#32;ptr&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01009"/>01009 {
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01010"/>01010 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;symloc&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01011"/>01011 &#32;&#32;&#32;&#32;Dl_info&#32;dlinfo;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01012"/>01012 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;dladdr(&#32;(<emphasis role="keywordtype">void</emphasis>*)ptr,&#32;&amp;dlinfo&#32;)&#32;)&#32;symloc&#32;=&#32;dlinfo.dli_fname;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01013"/>01013 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!symloc&#32;)&#32;symloc&#32;=&#32;<emphasis role="stringliteral">&quot;[unknown]&quot;</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01014"/>01014 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;CallstackSymbolData&#32;{&#32;symloc,&#32;0,&#32;<emphasis role="keyword">false</emphasis>,&#32;0&#32;};
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01015"/>01015 }
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01016"/>01016 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01017"/>01017 CallstackEntryData&#32;DecodeCallstackPtr(&#32;uint64_t&#32;ptr&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01018"/>01018 {
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01019"/>01019 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;CallstackEntry&#32;cb;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01020"/>01020 &#32;&#32;&#32;&#32;cb.line&#32;=&#32;0;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01021"/>01021 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01022"/>01022 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;symname&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01023"/>01023 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;symloc&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01024"/>01024 &#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;vptr&#32;=&#32;(<emphasis role="keywordtype">void</emphasis>*)ptr;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01025"/>01025 &#32;&#32;&#32;&#32;ptrdiff_t&#32;symoff&#32;=&#32;0;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01026"/>01026 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>*&#32;symaddr&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01027"/>01027 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01028"/>01028 &#32;&#32;&#32;&#32;Dl_info&#32;dlinfo;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01029"/>01029 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;dladdr(&#32;vptr,&#32;&amp;dlinfo&#32;)&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01030"/>01030 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01031"/>01031 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;symloc&#32;=&#32;dlinfo.dli_fname;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01032"/>01032 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;symname&#32;=&#32;dlinfo.dli_sname;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01033"/>01033 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;symoff&#32;=&#32;(<emphasis role="keywordtype">char</emphasis>*)ptr&#32;-&#32;(<emphasis role="keywordtype">char</emphasis>*)dlinfo.dli_saddr;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01034"/>01034 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;symaddr&#32;=&#32;dlinfo.dli_saddr;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01035"/>01035 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;demangled&#32;=&#32;___tracy_demangle(&#32;symname&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01036"/>01036 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;demangled&#32;)&#32;symname&#32;=&#32;demangled;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01037"/>01037 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01038"/>01038 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01039"/>01039 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!symname&#32;)&#32;symname&#32;=&#32;<emphasis role="stringliteral">&quot;[unknown]&quot;</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01040"/>01040 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!symloc&#32;)&#32;symloc&#32;=&#32;<emphasis role="stringliteral">&quot;[unknown]&quot;</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01041"/>01041 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01042"/>01042 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;symoff&#32;==&#32;0&#32;)
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01043"/>01043 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01044"/>01044 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;len&#32;=&#32;std::min&lt;size_t&gt;(&#32;strlen(&#32;symname&#32;),&#32;std::numeric_limits&lt;uint16_t&gt;::max()&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01045"/>01045 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cb.name&#32;=&#32;CopyString(&#32;symname,&#32;len&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01046"/>01046 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01047"/>01047 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01048"/>01048 &#32;&#32;&#32;&#32;{
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01049"/>01049 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">char</emphasis>&#32;buf[32];
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01050"/>01050 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;offlen&#32;=&#32;sprintf(&#32;buf,&#32;<emphasis role="stringliteral">&quot;&#32;+&#32;%td&quot;</emphasis>,&#32;symoff&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01051"/>01051 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;namelen&#32;=&#32;std::min&lt;size_t&gt;(&#32;strlen(&#32;symname&#32;),&#32;std::numeric_limits&lt;uint16_t&gt;::max()&#32;-&#32;offlen&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01052"/>01052 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>&#32;=&#32;(<emphasis role="keywordtype">char</emphasis>*)tracy_malloc(&#32;namelen&#32;+&#32;offlen&#32;+&#32;1&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01053"/>01053 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memcpy(&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>,&#32;symname,&#32;namelen&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01054"/>01054 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memcpy(&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>&#32;+&#32;namelen,&#32;buf,&#32;offlen&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01055"/>01055 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>[namelen&#32;+&#32;offlen]&#32;=&#32;<emphasis role="charliteral">&apos;\0&apos;</emphasis>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01056"/>01056 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cb.name&#32;=&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01057"/>01057 &#32;&#32;&#32;&#32;}
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01058"/>01058 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01059"/>01059 &#32;&#32;&#32;&#32;cb.file&#32;=&#32;CopyString(&#32;<emphasis role="stringliteral">&quot;[unknown]&quot;</emphasis>&#32;);
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01060"/>01060 &#32;&#32;&#32;&#32;cb.symLen&#32;=&#32;0;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01061"/>01061 &#32;&#32;&#32;&#32;cb.symAddr&#32;=&#32;(uint64_t)symaddr;
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01062"/>01062 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01063"/>01063 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;{&#32;&amp;cb,&#32;1,&#32;symloc&#32;};
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01064"/>01064 }
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01065"/>01065 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01066"/>01066 <emphasis role="preprocessor">#endif</emphasis>
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01067"/>01067 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01068"/>01068 }
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01069"/>01069 
+<anchor xml:id="__tracy_callstack_8cpp_source_1l01070"/>01070 <emphasis role="preprocessor">#endif</emphasis>
+</programlisting></section>

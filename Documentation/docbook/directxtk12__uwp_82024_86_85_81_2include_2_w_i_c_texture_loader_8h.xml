@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_directxtk12__uwp_82024_86_85_81_2include_2_w_i_c_texture_loader_8h" xml:lang="en-US">
+<title>packages/directxtk12_uwp.2024.6.5.1/include/WICTextureLoader.h File Reference</title>
+<indexterm><primary>packages/directxtk12_uwp.2024.6.5.1/include/WICTextureLoader.h</primary></indexterm>
+<programlisting linenumbering="unnumbered">#include &lt;d3d12.h&gt;<?linebreak?>#include &lt;cstddef&gt;<?linebreak?>#include &lt;cstdint&gt;<?linebreak?>#include &lt;memory&gt;<?linebreak?></programlisting><simplesect>
+    <title>Namespaces    </title>
+        <itemizedlist>
+            <listitem><para>namespace <link linkend="_namespace_direct_x">DirectX</link></para>
+</listitem>
+            <listitem><para>namespace <link linkend="_namespace_direct_x_1_1_d_x12">DirectX::DX12</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Enumerations    </title>
+        <itemizedlist>
+            <listitem><para>enum <link linkend="_namespace_direct_x_1_1_d_x12_1abb339ebf74481814d76068bc3c334950">DirectX::DX12::WIC_LOADER_FLAGS</link> : uint32_t { <?linebreak?><link linkend="_namespace_direct_x_1_1_d_x12_1abb339ebf74481814d76068bc3c334950aaad4b9fdcb7aeed860ee61dd9e28efbc">DirectX::DX12::WIC_LOADER_DEFAULT</link> = 0
+, <link linkend="_namespace_direct_x_1_1_d_x12_1abb339ebf74481814d76068bc3c334950a0695fd7d8b21f7690e7e5c22bf466ddf">DirectX::DX12::WIC_LOADER_FORCE_SRGB</link> = 0x1
+, <link linkend="_namespace_direct_x_1_1_d_x12_1abb339ebf74481814d76068bc3c334950a33079bb0c99981f63ef2c3c8fe8040b9">DirectX::DX12::WIC_LOADER_IGNORE_SRGB</link> = 0x2
+, <link linkend="_namespace_direct_x_1_1_d_x12_1abb339ebf74481814d76068bc3c334950aa57ba2308fcb10a4eb0816623251fc3a">DirectX::DX12::WIC_LOADER_SRGB_DEFAULT</link> = 0x4
+, <?linebreak?><link linkend="_namespace_direct_x_1_1_d_x12_1abb339ebf74481814d76068bc3c334950afcbf71316582097007f595e6872eb06b">DirectX::DX12::WIC_LOADER_MIP_AUTOGEN</link> = 0x8
+, <link linkend="_namespace_direct_x_1_1_d_x12_1abb339ebf74481814d76068bc3c334950ac9fb266daf96b4652959ee622851c58e">DirectX::DX12::WIC_LOADER_MIP_RESERVE</link> = 0x10
+, <link linkend="_namespace_direct_x_1_1_d_x12_1abb339ebf74481814d76068bc3c334950a336ee3756d61f0d7b445448c48cd4005">DirectX::DX12::WIC_LOADER_FIT_POW2</link> = 0x20
+, <link linkend="_namespace_direct_x_1_1_d_x12_1abb339ebf74481814d76068bc3c334950a3257ad062a97bab3cd134db7df74216a">DirectX::DX12::WIC_LOADER_MAKE_SQUARE</link> = 0x40
+, <?linebreak?><link linkend="_namespace_direct_x_1_1_d_x12_1abb339ebf74481814d76068bc3c334950add1d2966496db91a79c9f86883e95a2e">DirectX::DX12::WIC_LOADER_FORCE_RGBA32</link> = 0x80
+, <link linkend="_namespace_direct_x_1_1_d_x12_1abb339ebf74481814d76068bc3c334950aaad4b9fdcb7aeed860ee61dd9e28efbc">DirectX::DX12::WIC_LOADER_DEFAULT</link> = 0
+, <link linkend="_namespace_direct_x_1_1_d_x12_1abb339ebf74481814d76068bc3c334950a0695fd7d8b21f7690e7e5c22bf466ddf">DirectX::DX12::WIC_LOADER_FORCE_SRGB</link> = 0x1
+, <link linkend="_namespace_direct_x_1_1_d_x12_1abb339ebf74481814d76068bc3c334950a33079bb0c99981f63ef2c3c8fe8040b9">DirectX::DX12::WIC_LOADER_IGNORE_SRGB</link> = 0x2
+, <?linebreak?><link linkend="_namespace_direct_x_1_1_d_x12_1abb339ebf74481814d76068bc3c334950aa57ba2308fcb10a4eb0816623251fc3a">DirectX::DX12::WIC_LOADER_SRGB_DEFAULT</link> = 0x4
+, <link linkend="_namespace_direct_x_1_1_d_x12_1abb339ebf74481814d76068bc3c334950afcbf71316582097007f595e6872eb06b">DirectX::DX12::WIC_LOADER_MIP_AUTOGEN</link> = 0x8
+, <link linkend="_namespace_direct_x_1_1_d_x12_1abb339ebf74481814d76068bc3c334950ac9fb266daf96b4652959ee622851c58e">DirectX::DX12::WIC_LOADER_MIP_RESERVE</link> = 0x10
+, <link linkend="_namespace_direct_x_1_1_d_x12_1abb339ebf74481814d76068bc3c334950a336ee3756d61f0d7b445448c48cd4005">DirectX::DX12::WIC_LOADER_FIT_POW2</link> = 0x20
+, <?linebreak?><link linkend="_namespace_direct_x_1_1_d_x12_1abb339ebf74481814d76068bc3c334950a3257ad062a97bab3cd134db7df74216a">DirectX::DX12::WIC_LOADER_MAKE_SQUARE</link> = 0x40
+, <link linkend="_namespace_direct_x_1_1_d_x12_1abb339ebf74481814d76068bc3c334950add1d2966496db91a79c9f86883e95a2e">DirectX::DX12::WIC_LOADER_FORCE_RGBA32</link> = 0x80
+ }</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Functions    </title>
+        <itemizedlist>
+            <listitem><para>HRESULT __cdecl <link linkend="_namespace_direct_x_1a4e939839fe39308cb34fc59b073a32c5">DirectX::LoadWICTextureFromMemory</link> (_In_ <link linkend="_interface_i_d3_d12_device">ID3D12Device</link> *d3dDevice, _In_reads_bytes_(wicDataSize) const uint8_t *wicData, size_t wicDataSize, _Outptr_ <link linkend="_interface_i_d3_d12_resource">ID3D12Resource</link> **<link linkend="_glad_8h_1ab21590c4736d1459a5a0674a42b5a655">texture</link>, std::unique_ptr&lt; uint8_t[]&gt; &amp;decodedData, <link linkend="_d3d12_8idl_1a072d5f038136878079147a50e137e25e">D3D12_SUBRESOURCE_DATA</link> &amp;subresource, size_t maxsize=0) noexcept</para>
+</listitem>
+            <listitem><para>HRESULT __cdecl <link linkend="_namespace_direct_x_1a9733dc2377c2dec0f1915ae95d9551bd">DirectX::LoadWICTextureFromFile</link> (_In_ <link linkend="_interface_i_d3_d12_device">ID3D12Device</link> *d3dDevice, _In_z_ const wchar_t *szFileName, _Outptr_ <link linkend="_interface_i_d3_d12_resource">ID3D12Resource</link> **<link linkend="_glad_8h_1ab21590c4736d1459a5a0674a42b5a655">texture</link>, std::unique_ptr&lt; uint8_t[]&gt; &amp;decodedData, <link linkend="_d3d12_8idl_1a072d5f038136878079147a50e137e25e">D3D12_SUBRESOURCE_DATA</link> &amp;subresource, size_t maxsize=0) noexcept</para>
+</listitem>
+            <listitem><para>HRESULT __cdecl <link linkend="_namespace_direct_x_1a9f60c4bf93f886c7422c16c079be68dd">DirectX::CreateWICTextureFromMemory</link> (_In_ <link linkend="_interface_i_d3_d12_device">ID3D12Device</link> *d3dDevice, <link linkend="_class_direct_x_1_1_resource_upload_batch">ResourceUploadBatch</link> &amp;resourceUpload, _In_reads_bytes_(wicDataSize) const uint8_t *wicData, size_t wicDataSize, _Outptr_ <link linkend="_interface_i_d3_d12_resource">ID3D12Resource</link> **<link linkend="_glad_8h_1ab21590c4736d1459a5a0674a42b5a655">texture</link>, bool generateMips=false, size_t maxsize=0)</para>
+</listitem>
+            <listitem><para>HRESULT __cdecl <link linkend="_namespace_direct_x_1aeefe01998a5eb514ab58cdcc8a127a83">DirectX::CreateWICTextureFromFile</link> (_In_ <link linkend="_interface_i_d3_d12_device">ID3D12Device</link> *d3dDevice, <link linkend="_class_direct_x_1_1_resource_upload_batch">ResourceUploadBatch</link> &amp;resourceUpload, _In_z_ const wchar_t *szFileName, _Outptr_ <link linkend="_interface_i_d3_d12_resource">ID3D12Resource</link> **<link linkend="_glad_8h_1ab21590c4736d1459a5a0674a42b5a655">texture</link>, bool generateMips=false, size_t maxsize=0)</para>
+</listitem>
+            <listitem><para>HRESULT __cdecl <link linkend="_namespace_direct_x_1a862f251ef0653e3bd461bd7ffcc21604">DirectX::LoadWICTextureFromMemoryEx</link> (_In_ <link linkend="_interface_i_d3_d12_device">ID3D12Device</link> *d3dDevice, _In_reads_bytes_(wicDataSize) const uint8_t *wicData, size_t wicDataSize, size_t maxsize, <link linkend="_d3d12_8idl_1a6b39131a2c1f6a2d37c4e993830531e4">D3D12_RESOURCE_FLAGS</link> resFlags, <link linkend="_namespace_direct_x_1_1_d_x12_1abb339ebf74481814d76068bc3c334950">WIC_LOADER_FLAGS</link> loadFlags, _Outptr_ <link linkend="_interface_i_d3_d12_resource">ID3D12Resource</link> **<link linkend="_glad_8h_1ab21590c4736d1459a5a0674a42b5a655">texture</link>, std::unique_ptr&lt; uint8_t[]&gt; &amp;decodedData, <link linkend="_d3d12_8idl_1a072d5f038136878079147a50e137e25e">D3D12_SUBRESOURCE_DATA</link> &amp;subresource) noexcept</para>
+</listitem>
+            <listitem><para>HRESULT __cdecl <link linkend="_namespace_direct_x_1aef99e91688e23d20877e28f45ee3273f">DirectX::LoadWICTextureFromFileEx</link> (_In_ <link linkend="_interface_i_d3_d12_device">ID3D12Device</link> *d3dDevice, _In_z_ const wchar_t *szFileName, size_t maxsize, <link linkend="_d3d12_8idl_1a6b39131a2c1f6a2d37c4e993830531e4">D3D12_RESOURCE_FLAGS</link> resFlags, <link linkend="_namespace_direct_x_1_1_d_x12_1abb339ebf74481814d76068bc3c334950">WIC_LOADER_FLAGS</link> loadFlags, _Outptr_ <link linkend="_interface_i_d3_d12_resource">ID3D12Resource</link> **<link linkend="_glad_8h_1ab21590c4736d1459a5a0674a42b5a655">texture</link>, std::unique_ptr&lt; uint8_t[]&gt; &amp;decodedData, <link linkend="_d3d12_8idl_1a072d5f038136878079147a50e137e25e">D3D12_SUBRESOURCE_DATA</link> &amp;subresource) noexcept</para>
+</listitem>
+            <listitem><para>HRESULT __cdecl <link linkend="_namespace_direct_x_1afe616c758b27666511c812638a3ef836">DirectX::CreateWICTextureFromMemoryEx</link> (_In_ <link linkend="_interface_i_d3_d12_device">ID3D12Device</link> *d3dDevice, <link linkend="_class_direct_x_1_1_resource_upload_batch">ResourceUploadBatch</link> &amp;resourceUpload, _In_reads_bytes_(wicDataSize) const uint8_t *wicData, size_t wicDataSize, size_t maxsize, <link linkend="_d3d12_8idl_1a6b39131a2c1f6a2d37c4e993830531e4">D3D12_RESOURCE_FLAGS</link> resFlags, <link linkend="_namespace_direct_x_1_1_d_x12_1abb339ebf74481814d76068bc3c334950">WIC_LOADER_FLAGS</link> loadFlags, _Outptr_ <link linkend="_interface_i_d3_d12_resource">ID3D12Resource</link> **<link linkend="_glad_8h_1ab21590c4736d1459a5a0674a42b5a655">texture</link>)</para>
+</listitem>
+            <listitem><para>HRESULT __cdecl <link linkend="_namespace_direct_x_1a0314aced5446d8c84785fb698e66c86a">DirectX::CreateWICTextureFromFileEx</link> (_In_ <link linkend="_interface_i_d3_d12_device">ID3D12Device</link> *d3dDevice, <link linkend="_class_direct_x_1_1_resource_upload_batch">ResourceUploadBatch</link> &amp;resourceUpload, _In_z_ const wchar_t *szFileName, size_t maxsize, <link linkend="_d3d12_8idl_1a6b39131a2c1f6a2d37c4e993830531e4">D3D12_RESOURCE_FLAGS</link> resFlags, <link linkend="_namespace_direct_x_1_1_d_x12_1abb339ebf74481814d76068bc3c334950">WIC_LOADER_FLAGS</link> loadFlags, _Outptr_ <link linkend="_interface_i_d3_d12_resource">ID3D12Resource</link> **<link linkend="_glad_8h_1ab21590c4736d1459a5a0674a42b5a655">texture</link>)</para>
+</listitem>
+            <listitem><para><link linkend="_namespace_direct_x_1_1_d_x12_1aa1c8e764f1287bdbcf16f029ac921e98">DirectX::DX12::DEFINE_ENUM_FLAG_OPERATORS</link> (<link linkend="_namespace_direct_x_1_1_d_x12_1abb339ebf74481814d76068bc3c334950">WIC_LOADER_FLAGS</link>)</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+</section>

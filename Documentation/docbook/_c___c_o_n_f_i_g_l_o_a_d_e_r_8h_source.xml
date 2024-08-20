@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="__c___c_o_n_f_i_g_l_o_a_d_e_r_8h_source" xml:lang="en-US">
+<title>C_CONFIGLOADER.h</title>
+<indexterm><primary>UPRISE_ENGINE/HeaderE/CORE/C_CONFIGLOADER.h</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 <emphasis role="preprocessor">#pragma&#32;once</emphasis>
+2 <emphasis role="preprocessor">#ifndef&#32;_CONFIGLOADER_</emphasis>
+3 <emphasis role="preprocessor">#define&#32;_CONFIGLOADER_</emphasis>
+4 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_pch_8h">pch.h</link>&quot;</emphasis>
+5 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__d___c_o_n_f_i_g_f_i_l_e_8h">HeaderE/DATATYPES/D_CONFIGFILE.h</link>&quot;</emphasis>
+6 <emphasis role="keyword">class&#32;</emphasis><link linkend="_class_config_file">ConfigFile</link>;
+7 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespace_p_a_i_n">PAIN</link>&#32;{
+8 &#32;&#32;&#32;&#32;<emphasis role="keyword">class&#32;</emphasis><link linkend="_class_p_a_i_n_1_1_shader">Shader</link>;
+9 }
+10 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespace_c_o_r_e">CORE</link>&#32;{
+11 
+12 &#32;&#32;&#32;&#32;<emphasis role="keyword">class&#32;</emphasis><link linkend="_class_c_o_r_e_1_1_config_loader">ConfigLoader</link>&#32;{
+13 &#32;&#32;&#32;&#32;<emphasis role="keyword">public</emphasis>:
+14 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;std::unordered_map&lt;ConfigFile::ConfigType,std::unordered_map&#32;&lt;std::string,std::shared_ptr&lt;ConfigFile&gt;&gt;&gt;&#32;<link linkend="_class_c_o_r_e_1_1_config_loader_1ac630c194f7e810f592c49d773939df6b">ConfigDatabase</link>;
+15 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_settings_file">SettingsFile</link>&#32;<link linkend="_class_c_o_r_e_1_1_config_loader_1a087f2e327d1d4331d24753858e6edeb1">LoadSettingsFile</link>(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;path);
+16 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_c_o_r_e_1_1_config_loader_1ae4059cc339d86f6fcf367e428915fe7f">LoadConfigFiles</link>(<emphasis role="keyword">const</emphasis>&#32;std::filesystem::path&#32;path);
+17 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;std::shared_ptr&lt;ConfigFile&#32;&gt;&#32;<link linkend="_class_c_o_r_e_1_1_config_loader_1abb70b03e5d5114bd008515782e54ffbb">LoadCOnfigFile</link>(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;path);
+18 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_c_o_r_e_1_1_config_loader_1acb043248abba61aa685e1c9d9a14070b">LoadModels</link>(<emphasis role="keyword">const</emphasis>&#32;std::filesystem::path&#32;path);
+19 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_class_c_o_r_e_1_1_config_loader_1a728c682a4c23eed4d9757c896cb2772e">safemode</link>;
+20 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_c_o_r_e_1_1_config_loader_1a805568f2aadab938cf8e6d88434b4ece">LoadTerrains</link>();
+21 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&#32;&#32;&#32;&#32;&lt;<emphasis role="keyword">class</emphasis>&#32;_Ty,&#32;<emphasis role="keyword">class</emphasis>&#32;_Arg&gt;
+22 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;_Ty&#32;<link linkend="_class_c_o_r_e_1_1_config_loader_1a493835159a0ddccfca089c5be8e79fa8">GameobjectFromCFGFile</link>(std::shared_ptr&lt;ConfigFile&gt;&#32;CFG);
+23 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="_class_p_a_i_n_1_1_shader">PAIN::Shader</link>&#32;<link linkend="_class_c_o_r_e_1_1_config_loader_1a3821b92faa85784e16c314d07373b287">ShaderFromCFGFile</link>(std::shared_ptr&lt;ConfigFile&gt;&#32;vertexshader,&#32;std::shared_ptr&lt;ConfigFile&gt;frgmentshader,&#32;std::shared_ptr&lt;ConfigFile&gt;geometryshader);
+24 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="_class_p_a_i_n_1_1_shader">PAIN::Shader</link>&#32;<link linkend="_class_c_o_r_e_1_1_config_loader_1a3821b92faa85784e16c314d07373b287">ShaderFromCFGFile</link>(std::shared_ptr&lt;ConfigFile&gt;&#32;vertexshader,&#32;std::shared_ptr&lt;ConfigFile&gt;frgmentshader);
+25 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_c_o_r_e_1_1_config_loader_1aa627949b24cd33475697fd25619226e0">LoadMaterials</link>(<emphasis role="keyword">const</emphasis>&#32;std::filesystem::path&#32;path);
+26 
+27 &#32;&#32;&#32;&#32;<emphasis role="keyword">private</emphasis>:
+28 
+29 &#32;&#32;&#32;&#32;};
+30 }
+31 <emphasis role="preprocessor">#endif&#32;</emphasis><emphasis role="comment">//&#32;!_CONFIGLOADER_</emphasis>
+</programlisting></section>

@@ -1,0 +1,646 @@
+.TH "UPRISE_ENGINE/imgui_impl_glfw.cpp" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+UPRISE_ENGINE/imgui_impl_glfw.cpp
+.SH SYNOPSIS
+.br
+.PP
+\fR#include 'imgui\&.h'\fP
+.br
+\fR#include 'imgui_impl_glfw\&.h'\fP
+.br
+\fR#include <glfw3\&.h>\fP
+.br
+\fR#include <unistd\&.h>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBImGui_ImplGlfw_Data\fP"
+.br
+.ti -1c
+.RI "struct \fBImGui_ImplGlfw_ViewportData\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBGLFW_VERSION_COMBINED\fP   (GLFW_VERSION_MAJOR * 1000 + GLFW_VERSION_MINOR * 100 + GLFW_VERSION_REVISION)"
+.br
+.ti -1c
+.RI "#define \fBGLFW_HAS_WINDOW_TOPMOST\fP   (\fBGLFW_VERSION_COMBINED\fP >= 3200)"
+.br
+.ti -1c
+.RI "#define \fBGLFW_HAS_WINDOW_HOVERED\fP   (\fBGLFW_VERSION_COMBINED\fP >= 3300)"
+.br
+.ti -1c
+.RI "#define \fBGLFW_HAS_WINDOW_ALPHA\fP   (\fBGLFW_VERSION_COMBINED\fP >= 3300)"
+.br
+.ti -1c
+.RI "#define \fBGLFW_HAS_PER_MONITOR_DPI\fP   (\fBGLFW_VERSION_COMBINED\fP >= 3300)"
+.br
+.ti -1c
+.RI "#define \fBGLFW_HAS_VULKAN\fP   (\fBGLFW_VERSION_COMBINED\fP >= 3200)"
+.br
+.ti -1c
+.RI "#define \fBGLFW_HAS_FOCUS_WINDOW\fP   (\fBGLFW_VERSION_COMBINED\fP >= 3200)"
+.br
+.ti -1c
+.RI "#define \fBGLFW_HAS_FOCUS_ON_SHOW\fP   (\fBGLFW_VERSION_COMBINED\fP >= 3300)"
+.br
+.ti -1c
+.RI "#define \fBGLFW_HAS_MONITOR_WORK_AREA\fP   (\fBGLFW_VERSION_COMBINED\fP >= 3300)"
+.br
+.ti -1c
+.RI "#define \fBGLFW_HAS_OSX_WINDOW_POS_FIX\fP   (\fBGLFW_VERSION_COMBINED\fP >= 3301)"
+.br
+.ti -1c
+.RI "#define \fBGLFW_HAS_NEW_CURSORS\fP   (0)"
+.br
+.ti -1c
+.RI "#define \fBGLFW_HAS_MOUSE_PASSTHROUGH\fP   (0)"
+.br
+.ti -1c
+.RI "#define \fBGLFW_HAS_GAMEPAD_API\fP   (\fBGLFW_VERSION_COMBINED\fP >= 3300)"
+.br
+.ti -1c
+.RI "#define \fBGLFW_HAS_GETKEYNAME\fP   (\fBGLFW_VERSION_COMBINED\fP >= 3200)"
+.br
+.ti -1c
+.RI "#define \fBGLFW_HAS_GETERROR\fP   (\fBGLFW_VERSION_COMBINED\fP >= 3300)"
+.br
+.ti -1c
+.RI "#define \fBMAP_BUTTON\fP(KEY_NO,  _UNUSED,  BUTTON_NO)   do { io\&.AddKeyEvent(KEY_NO, (buttons_count > BUTTON_NO && buttons[BUTTON_NO] == GLFW_PRESS)); } while (0)"
+.br
+.ti -1c
+.RI "#define \fBMAP_ANALOG\fP(KEY_NO,  _UNUSED,  AXIS_NO,  V0,  V1)   do { float v = (axes_count > AXIS_NO) ? axes[AXIS_NO] : V0; v = (v \- V0) / (V1 \- V0); io\&.AddKeyAnalogEvent(KEY_NO, v > 0\&.10f, Saturate(v)); } while (0)"
+.br
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBGlfwClientApi\fP { \fBGlfwClientApi_Unknown\fP, \fBGlfwClientApi_OpenGL\fP, \fBGlfwClientApi_Vulkan\fP }"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBImGui_ImplGlfw_MouseButtonCallback\fP (GLFWwindow *window, int button, int action, int mods)"
+.br
+.ti -1c
+.RI "void \fBImGui_ImplGlfw_ScrollCallback\fP (GLFWwindow *window, double xoffset, double yoffset)"
+.br
+.ti -1c
+.RI "void \fBImGui_ImplGlfw_KeyCallback\fP (GLFWwindow *window, int keycode, int scancode, int action, int mods)"
+.br
+.ti -1c
+.RI "void \fBImGui_ImplGlfw_WindowFocusCallback\fP (GLFWwindow *window, int focused)"
+.br
+.ti -1c
+.RI "void \fBImGui_ImplGlfw_CursorPosCallback\fP (GLFWwindow *window, double x, double y)"
+.br
+.ti -1c
+.RI "void \fBImGui_ImplGlfw_CursorEnterCallback\fP (GLFWwindow *window, int entered)"
+.br
+.ti -1c
+.RI "void \fBImGui_ImplGlfw_CharCallback\fP (GLFWwindow *window, unsigned int c)"
+.br
+.ti -1c
+.RI "void \fBImGui_ImplGlfw_MonitorCallback\fP (GLFWmonitor *, int)"
+.br
+.ti -1c
+.RI "void \fBImGui_ImplGlfw_InstallCallbacks\fP (GLFWwindow *window)"
+.br
+.ti -1c
+.RI "void \fBImGui_ImplGlfw_RestoreCallbacks\fP (GLFWwindow *window)"
+.br
+.ti -1c
+.RI "void \fBImGui_ImplGlfw_SetCallbacksChainForAllWindows\fP (bool chain_for_all_windows)"
+.br
+.ti -1c
+.RI "bool \fBImGui_ImplGlfw_InitForOpenGL\fP (GLFWwindow *window, bool install_callbacks)"
+.br
+.ti -1c
+.RI "bool \fBImGui_ImplGlfw_InitForVulkan\fP (GLFWwindow *window, bool install_callbacks)"
+.br
+.ti -1c
+.RI "bool \fBImGui_ImplGlfw_InitForOther\fP (GLFWwindow *window, bool install_callbacks)"
+.br
+.ti -1c
+.RI "void \fBImGui_ImplGlfw_Shutdown\fP ()"
+.br
+.ti -1c
+.RI "void \fBImGui_ImplGlfw_NewFrame\fP ()"
+.br
+.ti -1c
+.RI "void \fBImGui_ImplGlfw_Sleep\fP (int milliseconds)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define GLFW_HAS_FOCUS_ON_SHOW   (\fBGLFW_VERSION_COMBINED\fP >= 3300)"
+
+.PP
+Definition at line \fB134\fP of file \fBimgui_impl_glfw\&.cpp\fP\&.
+.SS "#define GLFW_HAS_FOCUS_WINDOW   (\fBGLFW_VERSION_COMBINED\fP >= 3200)"
+
+.PP
+Definition at line \fB133\fP of file \fBimgui_impl_glfw\&.cpp\fP\&.
+.SS "#define GLFW_HAS_GAMEPAD_API   (\fBGLFW_VERSION_COMBINED\fP >= 3300)"
+
+.PP
+Definition at line \fB147\fP of file \fBimgui_impl_glfw\&.cpp\fP\&.
+.SS "#define GLFW_HAS_GETERROR   (\fBGLFW_VERSION_COMBINED\fP >= 3300)"
+
+.PP
+Definition at line \fB149\fP of file \fBimgui_impl_glfw\&.cpp\fP\&.
+.SS "#define GLFW_HAS_GETKEYNAME   (\fBGLFW_VERSION_COMBINED\fP >= 3200)"
+
+.PP
+Definition at line \fB148\fP of file \fBimgui_impl_glfw\&.cpp\fP\&.
+.SS "#define GLFW_HAS_MONITOR_WORK_AREA   (\fBGLFW_VERSION_COMBINED\fP >= 3300)"
+
+.PP
+Definition at line \fB135\fP of file \fBimgui_impl_glfw\&.cpp\fP\&.
+.SS "#define GLFW_HAS_MOUSE_PASSTHROUGH   (0)"
+
+.PP
+Definition at line \fB145\fP of file \fBimgui_impl_glfw\&.cpp\fP\&.
+.SS "#define GLFW_HAS_NEW_CURSORS   (0)"
+
+.PP
+Definition at line \fB140\fP of file \fBimgui_impl_glfw\&.cpp\fP\&.
+.SS "#define GLFW_HAS_OSX_WINDOW_POS_FIX   (\fBGLFW_VERSION_COMBINED\fP >= 3301)"
+
+.PP
+Definition at line \fB136\fP of file \fBimgui_impl_glfw\&.cpp\fP\&.
+.SS "#define GLFW_HAS_PER_MONITOR_DPI   (\fBGLFW_VERSION_COMBINED\fP >= 3300)"
+
+.PP
+Definition at line \fB127\fP of file \fBimgui_impl_glfw\&.cpp\fP\&.
+.SS "#define GLFW_HAS_VULKAN   (\fBGLFW_VERSION_COMBINED\fP >= 3200)"
+
+.PP
+Definition at line \fB131\fP of file \fBimgui_impl_glfw\&.cpp\fP\&.
+.SS "#define GLFW_HAS_WINDOW_ALPHA   (\fBGLFW_VERSION_COMBINED\fP >= 3300)"
+
+.PP
+Definition at line \fB126\fP of file \fBimgui_impl_glfw\&.cpp\fP\&.
+.SS "#define GLFW_HAS_WINDOW_HOVERED   (\fBGLFW_VERSION_COMBINED\fP >= 3300)"
+
+.PP
+Definition at line \fB125\fP of file \fBimgui_impl_glfw\&.cpp\fP\&.
+.SS "#define GLFW_HAS_WINDOW_TOPMOST   (\fBGLFW_VERSION_COMBINED\fP >= 3200)"
+
+.PP
+Definition at line \fB124\fP of file \fBimgui_impl_glfw\&.cpp\fP\&.
+.SS "#define GLFW_VERSION_COMBINED   (GLFW_VERSION_MAJOR * 1000 + GLFW_VERSION_MINOR * 100 + GLFW_VERSION_REVISION)"
+
+.PP
+Definition at line \fB123\fP of file \fBimgui_impl_glfw\&.cpp\fP\&.
+.SS "#define MAP_ANALOG( KEY_NO,  _UNUSED,  AXIS_NO,  V0,  V1)   do { float v = (axes_count > AXIS_NO) ? axes[AXIS_NO] : V0; v = (v \- V0) / (V1 \- V0); io\&.AddKeyAnalogEvent(KEY_NO, v > 0\&.10f, Saturate(v)); } while (0)"
+
+.SS "#define MAP_BUTTON( KEY_NO,  _UNUSED,  BUTTON_NO)   do { io\&.AddKeyEvent(KEY_NO, (buttons_count > BUTTON_NO && buttons[BUTTON_NO] == GLFW_PRESS)); } while (0)"
+
+.SH "Enumeration Type Documentation"
+.PP 
+.SS "enum \fBGlfwClientApi\fP"
+
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIGlfwClientApi_Unknown \fP\fP
+.TP
+\fB\fIGlfwClientApi_OpenGL \fP\fP
+.TP
+\fB\fIGlfwClientApi_Vulkan \fP\fP
+.PP
+Definition at line \fB152\fP of file \fBimgui_impl_glfw\&.cpp\fP\&.
+.nf
+153 {
+154     GlfwClientApi_Unknown,
+155     GlfwClientApi_OpenGL,
+156     GlfwClientApi_Vulkan,
+157 };
+.PP
+.fi
+
+.SH "Function Documentation"
+.PP 
+.SS "void ImGui_ImplGlfw_CharCallback (GLFWwindow * window, unsigned int c)"
+
+.PP
+Definition at line \fB494\fP of file \fBimgui_impl_glfw\&.cpp\fP\&.
+.nf
+495 {
+496     ImGui_ImplGlfw_Data* bd = ImGui_ImplGlfw_GetBackendData();
+497     if (bd\->PrevUserCallbackChar != nullptr && ImGui_ImplGlfw_ShouldChainCallback(window))
+498         bd\->PrevUserCallbackChar(window, c);
+499 
+500     ImGuiIO& io = ImGui::GetIO();
+501     io\&.AddInputCharacter(c);
+502 }
+.PP
+.fi
+
+.PP
+References \fBImGui_ImplGlfw_Data::PrevUserCallbackChar\fP\&.
+.PP
+Referenced by \fBImGui_ImplGlfw_InstallCallbacks()\fP\&.
+.SS "void ImGui_ImplGlfw_CursorEnterCallback (GLFWwindow * window, int entered)"
+
+.PP
+Definition at line \fB474\fP of file \fBimgui_impl_glfw\&.cpp\fP\&.
+.nf
+475 {
+476     ImGui_ImplGlfw_Data* bd = ImGui_ImplGlfw_GetBackendData();
+477     if (bd\->PrevUserCallbackCursorEnter != nullptr && ImGui_ImplGlfw_ShouldChainCallback(window))
+478         bd\->PrevUserCallbackCursorEnter(window, entered);
+479 
+480     ImGuiIO& io = ImGui::GetIO();
+481     if (entered)
+482     {
+483         bd\->MouseWindow = window;
+484         io\&.AddMousePosEvent(bd\->LastValidMousePos\&.x, bd\->LastValidMousePos\&.y);
+485     }
+486     else if (!entered && bd\->MouseWindow == window)
+487     {
+488         bd\->LastValidMousePos = io\&.MousePos;
+489         bd\->MouseWindow = nullptr;
+490         io\&.AddMousePosEvent(\-FLT_MAX, \-FLT_MAX);
+491     }
+492 }
+.PP
+.fi
+
+.PP
+References \fBImGui_ImplGlfw_Data::LastValidMousePos\fP, \fBImGui_ImplGlfw_Data::MouseWindow\fP, and \fBImGui_ImplGlfw_Data::PrevUserCallbackCursorEnter\fP\&.
+.PP
+Referenced by \fBImGui_ImplGlfw_InstallCallbacks()\fP\&.
+.SS "void ImGui_ImplGlfw_CursorPosCallback (GLFWwindow * window, double x, double y)"
+
+.PP
+Definition at line \fB454\fP of file \fBimgui_impl_glfw\&.cpp\fP\&.
+.nf
+455 {
+456     ImGui_ImplGlfw_Data* bd = ImGui_ImplGlfw_GetBackendData();
+457     if (bd\->PrevUserCallbackCursorPos != nullptr && ImGui_ImplGlfw_ShouldChainCallback(window))
+458         bd\->PrevUserCallbackCursorPos(window, x, y);
+459 
+460     ImGuiIO& io = ImGui::GetIO();
+461     if (io\&.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+462     {
+463         int window_x, window_y;
+464         glfwGetWindowPos(window, &window_x, &window_y);
+465         x += window_x;
+466         y += window_y;
+467     }
+468     io\&.AddMousePosEvent((float)x, (float)y);
+469     bd\->LastValidMousePos = ImVec2((float)x, (float)y);
+470 }
+.PP
+.fi
+
+.PP
+References \fBImGui_ImplGlfw_Data::LastValidMousePos\fP, and \fBImGui_ImplGlfw_Data::PrevUserCallbackCursorPos\fP\&.
+.PP
+Referenced by \fBImGui_ImplGlfw_InstallCallbacks()\fP\&.
+.SS "bool ImGui_ImplGlfw_InitForOpenGL (GLFWwindow * window, bool install_callbacks)"
+
+.PP
+Definition at line \fB677\fP of file \fBimgui_impl_glfw\&.cpp\fP\&.
+.nf
+678 {
+679     return ImGui_ImplGlfw_Init(window, install_callbacks, GlfwClientApi_OpenGL);
+680 }
+.PP
+.fi
+
+.PP
+References \fBGlfwClientApi_OpenGL\fP\&.
+.PP
+Referenced by \fBCORE::Startup::StartEditor()\fP\&.
+.SS "bool ImGui_ImplGlfw_InitForOther (GLFWwindow * window, bool install_callbacks)"
+
+.PP
+Definition at line \fB687\fP of file \fBimgui_impl_glfw\&.cpp\fP\&.
+.nf
+688 {
+689     return ImGui_ImplGlfw_Init(window, install_callbacks, GlfwClientApi_Unknown);
+690 }
+.PP
+.fi
+
+.PP
+References \fBGlfwClientApi_Unknown\fP\&.
+.SS "bool ImGui_ImplGlfw_InitForVulkan (GLFWwindow * window, bool install_callbacks)"
+
+.PP
+Definition at line \fB682\fP of file \fBimgui_impl_glfw\&.cpp\fP\&.
+.nf
+683 {
+684     return ImGui_ImplGlfw_Init(window, install_callbacks, GlfwClientApi_Vulkan);
+685 }
+.PP
+.fi
+
+.PP
+References \fBGlfwClientApi_Vulkan\fP\&.
+.SS "void ImGui_ImplGlfw_InstallCallbacks (GLFWwindow * window)"
+
+.PP
+Definition at line \fB532\fP of file \fBimgui_impl_glfw\&.cpp\fP\&.
+.nf
+533 {
+534     ImGui_ImplGlfw_Data* bd = ImGui_ImplGlfw_GetBackendData();
+535     IM_ASSERT(bd\->InstalledCallbacks == false && "Callbacks already installed!");
+536     IM_ASSERT(bd\->Window == window);
+537 
+538     bd\->PrevUserCallbackWindowFocus = glfwSetWindowFocusCallback(window, ImGui_ImplGlfw_WindowFocusCallback);
+539     bd\->PrevUserCallbackCursorEnter = glfwSetCursorEnterCallback(window, ImGui_ImplGlfw_CursorEnterCallback);
+540     bd\->PrevUserCallbackCursorPos = glfwSetCursorPosCallback(window, ImGui_ImplGlfw_CursorPosCallback);
+541     bd\->PrevUserCallbackMousebutton = glfwSetMouseButtonCallback(window, ImGui_ImplGlfw_MouseButtonCallback);
+542     bd\->PrevUserCallbackScroll = glfwSetScrollCallback(window, ImGui_ImplGlfw_ScrollCallback);
+543     bd\->PrevUserCallbackKey = glfwSetKeyCallback(window, ImGui_ImplGlfw_KeyCallback);
+544     bd\->PrevUserCallbackChar = glfwSetCharCallback(window, ImGui_ImplGlfw_CharCallback);
+545     bd\->PrevUserCallbackMonitor = glfwSetMonitorCallback(ImGui_ImplGlfw_MonitorCallback);
+546     bd\->InstalledCallbacks = true;
+547 }
+.PP
+.fi
+
+.PP
+References \fBImGui_ImplGlfw_CharCallback()\fP, \fBImGui_ImplGlfw_CursorEnterCallback()\fP, \fBImGui_ImplGlfw_CursorPosCallback()\fP, \fBImGui_ImplGlfw_KeyCallback()\fP, \fBImGui_ImplGlfw_MonitorCallback()\fP, \fBImGui_ImplGlfw_MouseButtonCallback()\fP, \fBImGui_ImplGlfw_ScrollCallback()\fP, \fBImGui_ImplGlfw_WindowFocusCallback()\fP, \fBImGui_ImplGlfw_Data::InstalledCallbacks\fP, \fBImGui_ImplGlfw_Data::PrevUserCallbackChar\fP, \fBImGui_ImplGlfw_Data::PrevUserCallbackCursorEnter\fP, \fBImGui_ImplGlfw_Data::PrevUserCallbackCursorPos\fP, \fBImGui_ImplGlfw_Data::PrevUserCallbackKey\fP, \fBImGui_ImplGlfw_Data::PrevUserCallbackMonitor\fP, \fBImGui_ImplGlfw_Data::PrevUserCallbackMousebutton\fP, \fBImGui_ImplGlfw_Data::PrevUserCallbackScroll\fP, \fBImGui_ImplGlfw_Data::PrevUserCallbackWindowFocus\fP, and \fBImGui_ImplGlfw_Data::Window\fP\&.
+.SS "void ImGui_ImplGlfw_KeyCallback (GLFWwindow * window, int keycode, int scancode, int action, int mods)"
+
+.PP
+Definition at line \fB422\fP of file \fBimgui_impl_glfw\&.cpp\fP\&.
+.nf
+423 {
+424     ImGui_ImplGlfw_Data* bd = ImGui_ImplGlfw_GetBackendData();
+425     if (bd\->PrevUserCallbackKey != nullptr && ImGui_ImplGlfw_ShouldChainCallback(window))
+426         bd\->PrevUserCallbackKey(window, keycode, scancode, action, mods);
+427 
+428     if (action != GLFW_PRESS && action != GLFW_RELEASE)
+429         return;
+430 
+431     ImGui_ImplGlfw_UpdateKeyModifiers(window);
+432 
+433     if (keycode >= 0 && keycode < IM_ARRAYSIZE(bd\->KeyOwnerWindows))
+434         bd\->KeyOwnerWindows[keycode] = (action == GLFW_PRESS) ? window : nullptr;
+435 
+436     keycode = ImGui_ImplGlfw_TranslateUntranslatedKey(keycode, scancode);
+437 
+438     ImGuiIO& io = ImGui::GetIO();
+439     ImGuiKey imgui_key = ImGui_ImplGlfw_KeyToImGuiKey(keycode);
+440     io\&.AddKeyEvent(imgui_key, (action == GLFW_PRESS));
+441     io\&.SetKeyEventNativeData(imgui_key, keycode, scancode); // To support legacy indexing (<1\&.87 user code)
+442 }
+.PP
+.fi
+
+.PP
+References \fBImGui_ImplGlfw_Data::KeyOwnerWindows\fP, and \fBImGui_ImplGlfw_Data::PrevUserCallbackKey\fP\&.
+.PP
+Referenced by \fBImGui_ImplGlfw_InstallCallbacks()\fP\&.
+.SS "void ImGui_ImplGlfw_MonitorCallback (GLFWmonitor * , int )"
+
+.PP
+Definition at line \fB504\fP of file \fBimgui_impl_glfw\&.cpp\fP\&.
+.nf
+505 {
+506     ImGui_ImplGlfw_Data* bd = ImGui_ImplGlfw_GetBackendData();
+507     bd\->WantUpdateMonitors = true;
+508 }
+.PP
+.fi
+
+.PP
+References \fBImGui_ImplGlfw_Data::WantUpdateMonitors\fP\&.
+.PP
+Referenced by \fBImGui_ImplGlfw_InstallCallbacks()\fP\&.
+.SS "void ImGui_ImplGlfw_MouseButtonCallback (GLFWwindow * window, int button, int action, int mods)"
+
+.PP
+Definition at line \fB361\fP of file \fBimgui_impl_glfw\&.cpp\fP\&.
+.nf
+362 {
+363     ImGui_ImplGlfw_Data* bd = ImGui_ImplGlfw_GetBackendData();
+364     if (bd\->PrevUserCallbackMousebutton != nullptr && ImGui_ImplGlfw_ShouldChainCallback(window))
+365         bd\->PrevUserCallbackMousebutton(window, button, action, mods);
+366 
+367     ImGui_ImplGlfw_UpdateKeyModifiers(window);
+368 
+369     ImGuiIO& io = ImGui::GetIO();
+370     if (button >= 0 && button < ImGuiMouseButton_COUNT)
+371         io\&.AddMouseButtonEvent(button, action == GLFW_PRESS);
+372 }
+.PP
+.fi
+
+.PP
+References \fBImGui_ImplGlfw_Data::PrevUserCallbackMousebutton\fP\&.
+.PP
+Referenced by \fBImGui_ImplGlfw_InstallCallbacks()\fP\&.
+.SS "void ImGui_ImplGlfw_NewFrame ()"
+
+.PP
+Definition at line \fB916\fP of file \fBimgui_impl_glfw\&.cpp\fP\&.
+.nf
+917 {
+918     ImGuiIO& io = ImGui::GetIO();
+919     ImGui_ImplGlfw_Data* bd = ImGui_ImplGlfw_GetBackendData();
+920     IM_ASSERT(bd != nullptr && "Context or backend not initialized! Did you call ImGui_ImplGlfw_InitForXXX()?");
+921 
+922     // Setup display size (every frame to accommodate for window resizing)
+923     int w, h;
+924     int display_w, display_h;
+925     glfwGetWindowSize(bd\->Window, &w, &h);
+926     glfwGetFramebufferSize(bd\->Window, &display_w, &display_h);
+927     io\&.DisplaySize = ImVec2((float)w, (float)h);
+928     if (w > 0 && h > 0)
+929         io\&.DisplayFramebufferScale = ImVec2((float)display_w / (float)w, (float)display_h / (float)h);
+930     if (bd\->WantUpdateMonitors)
+931         ImGui_ImplGlfw_UpdateMonitors();
+932 
+933     // Setup time step
+934     // (Accept glfwGetTime() not returning a monotonically increasing value\&. Seems to happens on disconnecting peripherals and probably on VMs and Emscripten, see #6491, #6189, #6114, #3644)
+935     double current_time = glfwGetTime();
+936     if (current_time <= bd\->Time)
+937         current_time = bd\->Time + 0\&.00001f;
+938     io\&.DeltaTime = bd\->Time > 0\&.0 ? (float)(current_time \- bd\->Time) : (float)(1\&.0f / 60\&.0f);
+939     bd\->Time = current_time;
+940 
+941     ImGui_ImplGlfw_UpdateMouseData();
+942     ImGui_ImplGlfw_UpdateMouseCursor();
+943 
+944     // Update game controllers (if enabled and available)
+945     ImGui_ImplGlfw_UpdateGamepads();
+946 }
+.PP
+.fi
+
+.PP
+References \fBImGui_ImplGlfw_Data::Time\fP, \fBImGui_ImplGlfw_Data::WantUpdateMonitors\fP, and \fBImGui_ImplGlfw_Data::Window\fP\&.
+.PP
+Referenced by \fBmain()\fP\&.
+.SS "void ImGui_ImplGlfw_RestoreCallbacks (GLFWwindow * window)"
+
+.PP
+Definition at line \fB549\fP of file \fBimgui_impl_glfw\&.cpp\fP\&.
+.nf
+550 {
+551     ImGui_ImplGlfw_Data* bd = ImGui_ImplGlfw_GetBackendData();
+552     IM_ASSERT(bd\->InstalledCallbacks == true && "Callbacks not installed!");
+553     IM_ASSERT(bd\->Window == window);
+554 
+555     glfwSetWindowFocusCallback(window, bd\->PrevUserCallbackWindowFocus);
+556     glfwSetCursorEnterCallback(window, bd\->PrevUserCallbackCursorEnter);
+557     glfwSetCursorPosCallback(window, bd\->PrevUserCallbackCursorPos);
+558     glfwSetMouseButtonCallback(window, bd\->PrevUserCallbackMousebutton);
+559     glfwSetScrollCallback(window, bd\->PrevUserCallbackScroll);
+560     glfwSetKeyCallback(window, bd\->PrevUserCallbackKey);
+561     glfwSetCharCallback(window, bd\->PrevUserCallbackChar);
+562     glfwSetMonitorCallback(bd\->PrevUserCallbackMonitor);
+563     bd\->InstalledCallbacks = false;
+564     bd\->PrevUserCallbackWindowFocus = nullptr;
+565     bd\->PrevUserCallbackCursorEnter = nullptr;
+566     bd\->PrevUserCallbackCursorPos = nullptr;
+567     bd\->PrevUserCallbackMousebutton = nullptr;
+568     bd\->PrevUserCallbackScroll = nullptr;
+569     bd\->PrevUserCallbackKey = nullptr;
+570     bd\->PrevUserCallbackChar = nullptr;
+571     bd\->PrevUserCallbackMonitor = nullptr;
+572 }
+.PP
+.fi
+
+.PP
+References \fBImGui_ImplGlfw_Data::InstalledCallbacks\fP, \fBImGui_ImplGlfw_Data::PrevUserCallbackChar\fP, \fBImGui_ImplGlfw_Data::PrevUserCallbackCursorEnter\fP, \fBImGui_ImplGlfw_Data::PrevUserCallbackCursorPos\fP, \fBImGui_ImplGlfw_Data::PrevUserCallbackKey\fP, \fBImGui_ImplGlfw_Data::PrevUserCallbackMonitor\fP, \fBImGui_ImplGlfw_Data::PrevUserCallbackMousebutton\fP, \fBImGui_ImplGlfw_Data::PrevUserCallbackScroll\fP, \fBImGui_ImplGlfw_Data::PrevUserCallbackWindowFocus\fP, and \fBImGui_ImplGlfw_Data::Window\fP\&.
+.PP
+Referenced by \fBImGui_ImplGlfw_Shutdown()\fP\&.
+.SS "void ImGui_ImplGlfw_ScrollCallback (GLFWwindow * window, double xoffset, double yoffset)"
+
+.PP
+Definition at line \fB374\fP of file \fBimgui_impl_glfw\&.cpp\fP\&.
+.nf
+375 {
+376     ImGui_ImplGlfw_Data* bd = ImGui_ImplGlfw_GetBackendData();
+377     if (bd\->PrevUserCallbackScroll != nullptr && ImGui_ImplGlfw_ShouldChainCallback(window))
+378         bd\->PrevUserCallbackScroll(window, xoffset, yoffset);
+379 
+380 #ifdef EMSCRIPTEN_USE_EMBEDDED_GLFW3
+381     // Ignore GLFW events: will be processed in ImGui_ImplEmscripten_WheelCallback()\&.
+382     return;
+383 #endif
+384 
+385     ImGuiIO& io = ImGui::GetIO();
+386     io\&.AddMouseWheelEvent((float)xoffset, (float)yoffset);
+387 }
+.PP
+.fi
+
+.PP
+References \fBImGui_ImplGlfw_Data::PrevUserCallbackScroll\fP\&.
+.PP
+Referenced by \fBImGui_ImplGlfw_InstallCallbacks()\fP\&.
+.SS "void ImGui_ImplGlfw_SetCallbacksChainForAllWindows (bool chain_for_all_windows)"
+
+.PP
+Definition at line \fB578\fP of file \fBimgui_impl_glfw\&.cpp\fP\&.
+.nf
+579 {
+580     ImGui_ImplGlfw_Data* bd = ImGui_ImplGlfw_GetBackendData();
+581     bd\->CallbacksChainForAllWindows = chain_for_all_windows;
+582 }
+.PP
+.fi
+
+.PP
+References \fBImGui_ImplGlfw_Data::CallbacksChainForAllWindows\fP\&.
+.SS "void ImGui_ImplGlfw_Shutdown ()"
+
+.PP
+Definition at line \fB692\fP of file \fBimgui_impl_glfw\&.cpp\fP\&.
+.nf
+693 {
+694     ImGui_ImplGlfw_Data* bd = ImGui_ImplGlfw_GetBackendData();
+695     IM_ASSERT(bd != nullptr && "No platform backend to shutdown, or already shutdown?");
+696     ImGuiIO& io = ImGui::GetIO();
+697 
+698     ImGui_ImplGlfw_ShutdownPlatformInterface();
+699 
+700     if (bd\->InstalledCallbacks)
+701         ImGui_ImplGlfw_RestoreCallbacks(bd\->Window);
+702 #ifdef EMSCRIPTEN_USE_EMBEDDED_GLFW3
+703     if (bd\->CanvasSelector)
+704         emscripten_set_wheel_callback(bd\->CanvasSelector, nullptr, false, nullptr);
+705 #endif
+706 
+707     for (ImGuiMouseCursor cursor_n = 0; cursor_n < ImGuiMouseCursor_COUNT; cursor_n++)
+708         glfwDestroyCursor(bd\->MouseCursors[cursor_n]);
+709 
+710     // Windows: restore our WndProc hook
+711 #ifdef _WIN32
+712     ImGuiViewport* main_viewport = ImGui::GetMainViewport();
+713     ::SetWindowLongPtrW((HWND)main_viewport\->PlatformHandleRaw, GWLP_WNDPROC, (LONG_PTR)bd\->PrevWndProc);
+714     bd\->PrevWndProc = nullptr;
+715 #endif
+716 
+717     io\&.BackendPlatformName = nullptr;
+718     io\&.BackendPlatformUserData = nullptr;
+719     io\&.BackendFlags &= ~(ImGuiBackendFlags_HasMouseCursors | ImGuiBackendFlags_HasSetMousePos | ImGuiBackendFlags_HasGamepad | ImGuiBackendFlags_PlatformHasViewports | ImGuiBackendFlags_HasMouseHoveredViewport);
+720     IM_DELETE(bd);
+721 }
+.PP
+.fi
+
+.PP
+References \fBImGui_ImplGlfw_RestoreCallbacks()\fP, \fBImGui_ImplGlfw_Data::InstalledCallbacks\fP, \fBImGui_ImplGlfw_Data::MouseCursors\fP, and \fBImGui_ImplGlfw_Data::Window\fP\&.
+.PP
+Referenced by \fBmain()\fP\&.
+.SS "void ImGui_ImplGlfw_Sleep (int milliseconds)"
+
+.PP
+Definition at line \fB949\fP of file \fBimgui_impl_glfw\&.cpp\fP\&.
+.nf
+950 {
+951 #ifdef _WIN32
+952     ::Sleep(milliseconds);
+953 #else
+954     usleep(milliseconds * 1000);
+955 #endif
+956 }
+.PP
+.fi
+
+.SS "void ImGui_ImplGlfw_WindowFocusCallback (GLFWwindow * window, int focused)"
+
+.PP
+Definition at line \fB444\fP of file \fBimgui_impl_glfw\&.cpp\fP\&.
+.nf
+445 {
+446     ImGui_ImplGlfw_Data* bd = ImGui_ImplGlfw_GetBackendData();
+447     if (bd\->PrevUserCallbackWindowFocus != nullptr && ImGui_ImplGlfw_ShouldChainCallback(window))
+448         bd\->PrevUserCallbackWindowFocus(window, focused);
+449 
+450     ImGuiIO& io = ImGui::GetIO();
+451     io\&.AddFocusEvent(focused != 0);
+452 }
+.PP
+.fi
+
+.PP
+References \fBImGui_ImplGlfw_Data::PrevUserCallbackWindowFocus\fP\&.
+.PP
+Referenced by \fBImGui_ImplGlfw_InstallCallbacks()\fP\&.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

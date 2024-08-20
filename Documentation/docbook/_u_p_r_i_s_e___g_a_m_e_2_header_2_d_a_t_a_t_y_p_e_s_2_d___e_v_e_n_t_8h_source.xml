@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="__u_p_r_i_s_e___g_a_m_e_2_header_2_d_a_t_a_t_y_p_e_s_2_d___e_v_e_n_t_8h_source" xml:lang="en-US">
+<title>D_EVENT.h</title>
+<indexterm><primary>UPRISE_GAME/Header/DATATYPES/D_EVENT.h</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 <emphasis role="preprocessor">#pragma&#32;once</emphasis>
+2 <emphasis role="preprocessor">#ifndef&#32;_EVENT_</emphasis>
+3 <emphasis role="preprocessor">#define&#32;_EVENT_</emphasis>
+4 
+5 <emphasis role="preprocessor">#include&#32;&quot;pch.h&quot;</emphasis>
+6 <emphasis role="comment">//#include&#32;&quot;GAMEOBJECT.h&quot;</emphasis>
+7 <emphasis role="keyword">class&#32;</emphasis><link linkend="_class_game_object">GameObject</link>;
+8 <emphasis role="keyword">class&#32;</emphasis><link linkend="_class_event">Event</link>&#32;{
+9 
+10 <emphasis role="keyword">public</emphasis>:
+11 &#32;&#32;&#32;&#32;<link linkend="_class_event_1aee6a4269152dcdb7a11de3e24d90c229">Event</link>()=<emphasis role="keywordflow">default</emphasis>;
+12 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">class&#32;</emphasis>_Func,&#32;<emphasis role="keyword">class</emphasis>...&#32;_Arg&#32;&#32;&gt;
+13 &#32;&#32;&#32;&#32;<link linkend="_class_event_1abeb0490b27dac07bae268cc9fd67325a">Event</link>(std::shared_ptr&lt;GameObject&gt;&#32;TergetObj,&#32;_Func&amp;&amp;&#32;TergetFunc,&#32;_Arg&amp;&amp;...&#32;args):targetObject(targetObject),&#32;<link linkend="_glad_8h_1a18ae3ab36a07e388833b568cfdfa90c8">func</link>(<link linkend="_namespacestd">std</link>::bind(<link linkend="_namespacestd">std</link>::forward&lt;Func&gt;(targetFunc),&#32;<link linkend="_namespacestd">std</link>::forward&lt;Args&gt;(args)...))&#32;{}
+14 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_event_1a298e1a3cc02525592457d2c5e93e92d8">Invoke</link>()<emphasis role="keyword">const&#32;</emphasis>{
+15 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a18ae3ab36a07e388833b568cfdfa90c8">func</link>();
+16 &#32;&#32;&#32;&#32;}
+17 <emphasis role="keyword">private</emphasis>:
+18 &#32;&#32;&#32;&#32;std::shared_ptr&lt;GameObject&gt;&#32;targetObject;
+19 &#32;&#32;&#32;&#32;std::function&lt;<link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link>()&gt;&#32;<link linkend="_glad_8h_1a18ae3ab36a07e388833b568cfdfa90c8">func</link>;
+20 };
+21 <emphasis role="preprocessor">#endif&#32;</emphasis><emphasis role="comment">//&#32;!_EVENT_</emphasis>
+</programlisting></section>

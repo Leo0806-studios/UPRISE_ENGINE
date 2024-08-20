@@ -1,0 +1,72 @@
+.TH "adhed/assimp/light.h" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+adhed/assimp/light.h \- Defines the \fBaiLight\fP data structure\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+\fR#include <assimp/types\&.h>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBaiLight\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBAI_LIGHT_H_INC\fP"
+.br
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBaiLightSourceType\fP { \fBaiLightSource_UNDEFINED\fP = 0x0, \fBaiLightSource_DIRECTIONAL\fP = 0x1, \fBaiLightSource_POINT\fP = 0x2, \fBaiLightSource_SPOT\fP = 0x3, \fBaiLightSource_AMBIENT\fP = 0x4, \fBaiLightSource_AREA\fP = 0x5, \fB_aiLightSource_Force32Bit\fP = INT_MAX }"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Defines the \fBaiLight\fP data structure\&. 
+
+
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define AI_LIGHT_H_INC"
+
+.SH "Enumeration Type Documentation"
+.PP 
+.SS "\fBenum\fP \fBaiLightSourceType\fP"
+Enumerates all supported types of light sources\&. 
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIaiLightSource_UNDEFINED \fP\fP
+.TP
+\fB\fIaiLightSource_DIRECTIONAL \fP\fP
+A directional light source has a well-defined direction but is infinitely far away\&. That's quite a good approximation for sun light\&. 
+.TP
+\fB\fIaiLightSource_POINT \fP\fP
+A point light source has a well-defined position in space but no direction - it emits light in all directions\&. A normal bulb is a point light\&. 
+.TP
+\fB\fIaiLightSource_SPOT \fP\fP
+A spot light source emits light in a specific angle\&. It has a position and a direction it is pointing to\&. A good example for a spot light is a light spot in sport arenas\&. 
+.TP
+\fB\fIaiLightSource_AMBIENT \fP\fP
+The generic light level of the world, including the bounces of all other light sources\&. Typically, there's at most one ambient light in a scene\&. This light type doesn't have a valid position, direction, or other properties, just a color\&. 
+.TP
+\fB\fIaiLightSource_AREA \fP\fP
+An area light is a rectangle with predefined size that uniformly emits light from one of its sides\&. The position is center of the rectangle and direction is its normal vector\&. 
+.TP
+\fB\fI_aiLightSource_Force32Bit \fP\fP
+This value is not used\&. It is just there to force the compiler to map this enum to a 32 Bit integer\&. 
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

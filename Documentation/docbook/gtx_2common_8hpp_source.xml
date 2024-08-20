@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_gtx_2common_8hpp_source" xml:lang="en-US">
+<title>common.hpp</title>
+<indexterm><primary>adhed/glm/gtx/common.hpp</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 
+12 
+13 <emphasis role="preprocessor">#pragma&#32;once</emphasis>
+14 
+15 <emphasis role="comment">//&#32;Dependencies:</emphasis>
+16 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_vec2_8hpp">../vec2.hpp</link>&quot;</emphasis>
+17 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_vec3_8hpp">../vec3.hpp</link>&quot;</emphasis>
+18 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_vec4_8hpp">../vec4.hpp</link>&quot;</emphasis>
+19 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_vec1_8hpp">../gtc/vec1.hpp</link>&quot;</emphasis>
+20 
+21 <emphasis role="preprocessor">#ifndef&#32;GLM_ENABLE_EXPERIMENTAL</emphasis>
+22 <emphasis role="preprocessor">#&#32;&#32;&#32;error&#32;&quot;GLM:&#32;GLM_GTX_common&#32;is&#32;an&#32;experimental&#32;extension&#32;and&#32;may&#32;change&#32;in&#32;the&#32;future.&#32;Use&#32;#define&#32;GLM_ENABLE_EXPERIMENTAL&#32;before&#32;including&#32;it,&#32;if&#32;you&#32;really&#32;want&#32;to&#32;use&#32;it.&quot;</emphasis>
+23 <emphasis role="preprocessor">#elif&#32;GLM_MESSAGES&#32;==&#32;GLM_ENABLE&#32;&amp;&amp;&#32;!defined(GLM_EXT_INCLUDED)</emphasis>
+24 <emphasis role="preprocessor">#&#32;&#32;&#32;pragma&#32;message(&quot;GLM:&#32;GLM_GTX_common&#32;extension&#32;included&quot;)</emphasis>
+25 <emphasis role="preprocessor">#endif</emphasis>
+26 
+27 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespaceglm">glm</link>
+28 {
+31 
+40 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;genType&gt;
+41 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1ab2d052de21a70539923e9bcbf6e83a51">GLM_FUNC_DECL</link>&#32;<emphasis role="keyword">typename</emphasis>&#32;genType::bool_type&#32;<link linkend="_group__gtx__common_1ga74aa7c7462245d83bd5a9edf9c6c2d91">isdenormal</link>(genType&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>);
+42 
+48 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;length_t&#32;L,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+49 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1ab2d052de21a70539923e9bcbf6e83a51">GLM_FUNC_DECL</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<link linkend="_group__gtx__common_1ga22feecd4248d9ef34b079a091f273281">fmod</link>(<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>);
+50 
+58 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&#32;&lt;length_t&#32;L,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+59 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1ab2d052de21a70539923e9bcbf6e83a51">GLM_FUNC_DECL</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;L, bool, Q&gt;</link>&#32;<link linkend="_group__gtx__common_1ga57a2d78fae57ab5483d49060044340f2">openBounded</link>(<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_d3d12_8idl_1a61d5e0a2254d39b6c6fc73b49d1359e3">Value</link>,&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;Min,&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;Max);
+60 
+68 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&#32;&lt;length_t&#32;L,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+69 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1ab2d052de21a70539923e9bcbf6e83a51">GLM_FUNC_DECL</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;L, bool, Q&gt;</link>&#32;<link linkend="_group__gtx__common_1ga90a5085f6b83d4a519b80cf977ed952a">closeBounded</link>(<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_d3d12_8idl_1a61d5e0a2254d39b6c6fc73b49d1359e3">Value</link>,&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;Min,&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;Max);
+70 
+72 }<emphasis role="comment">//namespace&#32;glm</emphasis>
+73 
+74 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_common_8inl">common.inl</link>&quot;</emphasis>
+</programlisting></section>

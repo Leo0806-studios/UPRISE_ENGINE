@@ -1,0 +1,705 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="__tracy_vulkan_8hpp_source" xml:lang="en-US">
+<title>TracyVulkan.hpp</title>
+<indexterm><primary>adhed/tracy/TracyVulkan.hpp</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 <emphasis role="preprocessor">#ifndef&#32;__TRACYVULKAN_HPP__</emphasis>
+2 <emphasis role="preprocessor">#define&#32;__TRACYVULKAN_HPP__</emphasis>
+3 
+4 <emphasis role="preprocessor">#if&#32;!defined&#32;TRACY_ENABLE</emphasis>
+5 
+6 <emphasis role="preprocessor">#define&#32;TracyVkContext(x,y,z,w)&#32;nullptr</emphasis>
+7 <emphasis role="preprocessor">#define&#32;TracyVkContextCalibrated(x,y,z,w,a,b)&#32;nullptr</emphasis>
+8 <emphasis role="preprocessor">#if&#32;defined&#32;VK_EXT_host_query_reset</emphasis>
+9 <emphasis role="preprocessor">#define&#32;TracyVkContextHostCalibrated(x,y,z,w,a)&#32;nullptr</emphasis>
+10 <emphasis role="preprocessor">#endif</emphasis>
+11 <emphasis role="preprocessor">#define&#32;TracyVkDestroy(x)</emphasis>
+12 <emphasis role="preprocessor">#define&#32;TracyVkContextName(c,x,y)</emphasis>
+13 <emphasis role="preprocessor">#define&#32;TracyVkNamedZone(c,x,y,z,w)</emphasis>
+14 <emphasis role="preprocessor">#define&#32;TracyVkNamedZoneC(c,x,y,z,w,a)</emphasis>
+15 <emphasis role="preprocessor">#define&#32;TracyVkZone(c,x,y)</emphasis>
+16 <emphasis role="preprocessor">#define&#32;TracyVkZoneC(c,x,y,z)</emphasis>
+17 <emphasis role="preprocessor">#define&#32;TracyVkZoneTransient(c,x,y,z,w)</emphasis>
+18 <emphasis role="preprocessor">#define&#32;TracyVkCollect(c,x)</emphasis>
+19 
+20 <emphasis role="preprocessor">#define&#32;TracyVkNamedZoneS(c,x,y,z,w,a)</emphasis>
+21 <emphasis role="preprocessor">#define&#32;TracyVkNamedZoneCS(c,x,y,z,w,v,a)</emphasis>
+22 <emphasis role="preprocessor">#define&#32;TracyVkZoneS(c,x,y,z)</emphasis>
+23 <emphasis role="preprocessor">#define&#32;TracyVkZoneCS(c,x,y,z,w)</emphasis>
+24 <emphasis role="preprocessor">#define&#32;TracyVkZoneTransientS(c,x,y,z,w,a)</emphasis>
+25 
+26 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespacetracy">tracy</link>
+27 {
+28 <emphasis role="keyword">class&#32;</emphasis><link linkend="_classtracy_1_1_vk_ctx_scope">VkCtxScope</link>&#32;{};
+29 }
+30 
+31 <emphasis role="keyword">using&#32;</emphasis><link linkend="__tracy_vulkan_8hpp_1a348fc59cee96a83936b235704a096978">TracyVkCtx</link>&#32;=&#32;<emphasis role="keywordtype">void</emphasis>*;
+32 
+33 <emphasis role="preprocessor">#else</emphasis>
+34 
+35 <emphasis role="preprocessor">#if&#32;!defined&#32;VK_NULL_HANDLE</emphasis>
+36 <emphasis role="preprocessor">#&#32;&#32;error&#32;&quot;You&#32;must&#32;include&#32;Vulkan&#32;headers&#32;before&#32;including&#32;TracyVulkan.hpp&quot;</emphasis>
+37 <emphasis role="preprocessor">#endif</emphasis>
+38 
+39 <emphasis role="preprocessor">#include&#32;&lt;assert.h&gt;</emphasis>
+40 <emphasis role="preprocessor">#include&#32;&lt;stdlib.h&gt;</emphasis>
+41 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__tracy_8hpp">Tracy.hpp</link>&quot;</emphasis>
+42 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__tracy_profiler_8hpp">../client/TracyProfiler.hpp</link>&quot;</emphasis>
+43 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__tracy_callstack_8hpp">../client/TracyCallstack.hpp</link>&quot;</emphasis>
+44 
+45 <emphasis role="preprocessor">#include&#32;&lt;atomic&gt;</emphasis>
+46 
+47 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespacetracy">tracy</link>
+48 {
+49 
+50 <emphasis role="preprocessor">#if&#32;defined&#32;TRACY_VK_USE_SYMBOL_TABLE</emphasis>
+51 <emphasis role="preprocessor">#define&#32;LoadVkDeviceCoreSymbols(Operation)&#32;\</emphasis>
+52 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;Operation(vkBeginCommandBuffer)&#32;\</emphasis>
+53 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;Operation(vkCmdResetQueryPool)&#32;\</emphasis>
+54 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;Operation(vkCmdWriteTimestamp)&#32;\</emphasis>
+55 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;Operation(vkCreateQueryPool)&#32;\</emphasis>
+56 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;Operation(vkDestroyQueryPool)&#32;\</emphasis>
+57 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;Operation(vkEndCommandBuffer)&#32;\</emphasis>
+58 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;Operation(vkGetQueryPoolResults)&#32;\</emphasis>
+59 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;Operation(vkQueueSubmit)&#32;\</emphasis>
+60 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;Operation(vkQueueWaitIdle)&#32;\</emphasis>
+61 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;Operation(vkResetQueryPool)</emphasis>
+62 
+63 <emphasis role="preprocessor">#define&#32;LoadVkDeviceExtensionSymbols(Operation)&#32;\</emphasis>
+64 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;Operation(vkGetCalibratedTimestampsEXT)&#32;\</emphasis>
+65 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;Operation(vkGetPhysicalDeviceCalibrateableTimeDomainsEXT)</emphasis>
+66 
+67 <emphasis role="preprocessor">#define&#32;LoadVkInstanceCoreSymbols(Operation)&#32;\</emphasis>
+68 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;Operation(vkGetPhysicalDeviceProperties)</emphasis>
+69 
+70 <emphasis role="keyword">struct&#32;</emphasis>VkSymbolTable
+71 {
+72 <emphasis role="preprocessor">#define&#32;MAKE_PFN(name)&#32;PFN_##name&#32;name;</emphasis>
+73 &#32;&#32;&#32;&#32;LoadVkDeviceCoreSymbols(MAKE_PFN)
+74 &#32;&#32;&#32;&#32;LoadVkDeviceExtensionSymbols(MAKE_PFN)
+75 &#32;&#32;&#32;&#32;LoadVkInstanceCoreSymbols(MAKE_PFN)
+76 <emphasis role="preprocessor">#undef&#32;MAKE_PFN</emphasis>
+77 };
+78 
+79 <emphasis role="preprocessor">#define&#32;VK_FUNCTION_WRAPPER(callSignature)&#32;m_symbols.callSignature</emphasis>
+80 <emphasis role="preprocessor">#define&#32;CONTEXT_VK_FUNCTION_WRAPPER(callSignature)&#32;m_ctx-&gt;m_symbols.callSignature</emphasis>
+81 <emphasis role="preprocessor">#else</emphasis>
+82 <emphasis role="preprocessor">#define&#32;VK_FUNCTION_WRAPPER(callSignature)&#32;callSignature</emphasis>
+83 <emphasis role="preprocessor">#define&#32;CONTEXT_VK_FUNCTION_WRAPPER(callSignature)&#32;callSignature</emphasis>
+84 <emphasis role="preprocessor">#endif</emphasis>
+85 
+86 <emphasis role="keyword">class&#32;</emphasis>VkCtx
+87 {
+88 &#32;&#32;&#32;&#32;<emphasis role="keyword">friend</emphasis>&#32;<emphasis role="keyword">class&#32;</emphasis>VkCtxScope;
+89 
+90 &#32;&#32;&#32;&#32;<emphasis role="keyword">enum</emphasis>&#32;{&#32;QueryCount&#32;=&#32;64&#32;*&#32;1024&#32;};
+91 
+92 <emphasis role="keyword">public</emphasis>:
+93 <emphasis role="preprocessor">#if&#32;defined&#32;TRACY_VK_USE_SYMBOL_TABLE</emphasis>
+94 &#32;&#32;&#32;&#32;VkCtx(&#32;VkInstance&#32;instance,&#32;VkPhysicalDevice&#32;physdev,&#32;VkDevice&#32;device,&#32;VkQueue&#32;queue,&#32;VkCommandBuffer&#32;cmdbuf,&#32;PFN_vkGetInstanceProcAddr&#32;instanceProcAddr,&#32;PFN_vkGetDeviceProcAddr&#32;deviceProcAddr,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;calibrated&#32;)
+95 <emphasis role="preprocessor">#else</emphasis>
+96 &#32;&#32;&#32;&#32;VkCtx(&#32;VkPhysicalDevice&#32;physdev,&#32;VkDevice&#32;device,&#32;VkQueue&#32;queue,&#32;VkCommandBuffer&#32;cmdbuf,&#32;PFN_vkGetPhysicalDeviceCalibrateableTimeDomainsEXT&#32;vkGetPhysicalDeviceCalibrateableTimeDomainsEXT,&#32;PFN_vkGetCalibratedTimestampsEXT&#32;vkGetCalibratedTimestampsEXT)
+97 <emphasis role="preprocessor">#endif</emphasis>
+98 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;m_device(&#32;device&#32;)
+99 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;m_timeDomain(&#32;VK_TIME_DOMAIN_DEVICE_EXT&#32;)
+100 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;m_context(&#32;GetGpuCtxCounter().fetch_add(&#32;1,&#32;std::memory_order_relaxed&#32;)&#32;)
+101 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;m_head(&#32;0&#32;)
+102 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;m_tail(&#32;0&#32;)
+103 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;m_oldCnt(&#32;0&#32;)
+104 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;m_queryCount(&#32;QueryCount&#32;)
+105 <emphasis role="preprocessor">#if&#32;!defined&#32;TRACY_VK_USE_SYMBOL_TABLE</emphasis>
+106 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;m_vkGetCalibratedTimestampsEXT(&#32;vkGetCalibratedTimestampsEXT&#32;)
+107 <emphasis role="preprocessor">#endif</emphasis>
+108 &#32;&#32;&#32;&#32;{
+109 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_tracy__lz4_8cpp_1acdcc5aaebf3f273c1762f24a6ece2e5e">assert</link>(&#32;m_context&#32;!=&#32;255&#32;);
+110 
+111 <emphasis role="preprocessor">#if&#32;defined&#32;TRACY_VK_USE_SYMBOL_TABLE</emphasis>
+112 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;PopulateSymbolTable(instance,&#32;instanceProcAddr,&#32;deviceProcAddr);
+113 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(&#32;calibrated&#32;)
+114 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+115 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_vkGetCalibratedTimestampsEXT&#32;=&#32;m_symbols.vkGetCalibratedTimestampsEXT;
+116 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+117 
+118 <emphasis role="preprocessor">#endif</emphasis>
+119 
+120 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;VK_FUNCTION_WRAPPER(&#32;vkGetPhysicalDeviceCalibrateableTimeDomainsEXT&#32;)&#32;&amp;&amp;&#32;m_vkGetCalibratedTimestampsEXT&#32;)
+121 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+122 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;FindAvailableTimeDomains(&#32;physdev,&#32;VK_FUNCTION_WRAPPER(&#32;vkGetPhysicalDeviceCalibrateableTimeDomainsEXT&#32;)&#32;);
+123 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+124 
+125 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;CreateQueryPool();
+126 
+127 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;VkCommandBufferBeginInfo&#32;beginInfo&#32;=&#32;{};
+128 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;beginInfo.sType&#32;=&#32;VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+129 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;beginInfo.flags&#32;=&#32;VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
+130 
+131 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;VkSubmitInfo&#32;submitInfo&#32;=&#32;{};
+132 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;submitInfo.sType&#32;=&#32;VK_STRUCTURE_TYPE_SUBMIT_INFO;
+133 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;submitInfo.commandBufferCount&#32;=&#32;1;
+134 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;submitInfo.pCommandBuffers&#32;=&#32;&amp;cmdbuf;
+135 
+136 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;VK_FUNCTION_WRAPPER(&#32;vkBeginCommandBuffer(&#32;cmdbuf,&#32;&amp;beginInfo&#32;)&#32;);
+137 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;VK_FUNCTION_WRAPPER(&#32;vkCmdResetQueryPool(&#32;cmdbuf,&#32;m_query,&#32;0,&#32;m_queryCount&#32;)&#32;);
+138 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;VK_FUNCTION_WRAPPER(&#32;vkEndCommandBuffer(&#32;cmdbuf&#32;)&#32;);
+139 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;VK_FUNCTION_WRAPPER(&#32;vkQueueSubmit(&#32;queue,&#32;1,&#32;&amp;submitInfo,&#32;VK_NULL_HANDLE&#32;)&#32;);
+140 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;VK_FUNCTION_WRAPPER(&#32;vkQueueWaitIdle(&#32;queue&#32;)&#32;);
+141 
+142 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int64_t&#32;tcpu,&#32;tgpu;
+143 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;m_timeDomain&#32;==&#32;VK_TIME_DOMAIN_DEVICE_EXT&#32;)
+144 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+145 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;VK_FUNCTION_WRAPPER(&#32;vkBeginCommandBuffer(&#32;cmdbuf,&#32;&amp;beginInfo&#32;)&#32;);
+146 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;VK_FUNCTION_WRAPPER(&#32;vkCmdWriteTimestamp(&#32;cmdbuf,&#32;VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT,&#32;m_query,&#32;0&#32;)&#32;);
+147 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;VK_FUNCTION_WRAPPER(&#32;vkEndCommandBuffer(&#32;cmdbuf&#32;)&#32;);
+148 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;VK_FUNCTION_WRAPPER(&#32;vkQueueSubmit(&#32;queue,&#32;1,&#32;&amp;submitInfo,&#32;VK_NULL_HANDLE&#32;)&#32;);
+149 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;VK_FUNCTION_WRAPPER(&#32;vkQueueWaitIdle(&#32;queue&#32;)&#32;);
+150 
+151 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;tcpu&#32;=&#32;Profiler::GetTime();
+152 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;VK_FUNCTION_WRAPPER(&#32;vkGetQueryPoolResults(&#32;device,&#32;m_query,&#32;0,&#32;1,&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;tgpu&#32;),&#32;&amp;tgpu,&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;tgpu&#32;),&#32;VK_QUERY_RESULT_64_BIT&#32;|&#32;VK_QUERY_RESULT_WAIT_BIT&#32;)&#32;);
+153 
+154 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;VK_FUNCTION_WRAPPER(&#32;vkBeginCommandBuffer(&#32;cmdbuf,&#32;&amp;beginInfo&#32;)&#32;);
+155 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;VK_FUNCTION_WRAPPER(&#32;vkCmdResetQueryPool(&#32;cmdbuf,&#32;m_query,&#32;0,&#32;1&#32;)&#32;);
+156 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;VK_FUNCTION_WRAPPER(&#32;vkEndCommandBuffer(&#32;cmdbuf&#32;)&#32;);
+157 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;VK_FUNCTION_WRAPPER(&#32;vkQueueSubmit(&#32;queue,&#32;1,&#32;&amp;submitInfo,&#32;VK_NULL_HANDLE&#32;)&#32;);
+158 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;VK_FUNCTION_WRAPPER(&#32;vkQueueWaitIdle(&#32;queue&#32;)&#32;);
+159 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+160 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+161 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+162 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;FindCalibratedTimestampDeviation();
+163 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Calibrate(&#32;device,&#32;m_prevCalibration,&#32;tgpu&#32;);
+164 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;tcpu&#32;=&#32;Profiler::GetTime();
+165 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+166 
+167 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;WriteInitialItem(&#32;physdev,&#32;tcpu,&#32;tgpu&#32;);
+168 
+169 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_res&#32;=&#32;(int64_t*)tracy_malloc(&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;int64_t&#32;)&#32;*&#32;m_queryCount&#32;);
+170 &#32;&#32;&#32;&#32;}
+171 
+172 <emphasis role="preprocessor">#if&#32;defined&#32;VK_EXT_host_query_reset</emphasis>
+178 <emphasis role="preprocessor">#if&#32;defined&#32;TRACY_VK_USE_SYMBOL_TABLE</emphasis>
+179 &#32;&#32;&#32;&#32;VkCtx(&#32;VkInstance&#32;instance,&#32;VkPhysicalDevice&#32;physdev,&#32;VkDevice&#32;device,&#32;PFN_vkGetInstanceProcAddr&#32;instanceProcAddr,&#32;PFN_vkGetDeviceProcAddr&#32;deviceProcAddr&#32;)
+180 <emphasis role="preprocessor">#else</emphasis>
+181 &#32;&#32;&#32;&#32;VkCtx(&#32;VkPhysicalDevice&#32;physdev,&#32;VkDevice&#32;device,&#32;PFN_vkResetQueryPoolEXT&#32;vkResetQueryPool,&#32;PFN_vkGetPhysicalDeviceCalibrateableTimeDomainsEXT&#32;vkGetPhysicalDeviceCalibrateableTimeDomainsEXT,&#32;PFN_vkGetCalibratedTimestampsEXT&#32;vkGetCalibratedTimestampsEXT&#32;)
+182 <emphasis role="preprocessor">#endif</emphasis>
+183 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;m_device(&#32;device&#32;)
+184 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;m_timeDomain(&#32;VK_TIME_DOMAIN_DEVICE_EXT&#32;)
+185 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;m_context(&#32;GetGpuCtxCounter().fetch_add(1,&#32;std::memory_order_relaxed)&#32;)
+186 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;m_head(&#32;0&#32;)
+187 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;m_tail(&#32;0&#32;)
+188 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;m_oldCnt(&#32;0&#32;)
+189 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;m_queryCount(&#32;QueryCount&#32;)
+190 <emphasis role="preprocessor">#if&#32;!defined&#32;TRACY_VK_USE_SYMBOL_TABLE</emphasis>
+191 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;m_vkGetCalibratedTimestampsEXT(&#32;vkGetCalibratedTimestampsEXT&#32;)
+192 <emphasis role="preprocessor">#endif</emphasis>
+193 &#32;&#32;&#32;&#32;{
+194 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_tracy__lz4_8cpp_1acdcc5aaebf3f273c1762f24a6ece2e5e">assert</link>(&#32;m_context&#32;!=&#32;255);
+195 
+196 <emphasis role="preprocessor">#if&#32;defined&#32;TRACY_VK_USE_SYMBOL_TABLE</emphasis>
+197 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;PopulateSymbolTable(instance,&#32;instanceProcAddr,&#32;deviceProcAddr);
+198 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_vkGetCalibratedTimestampsEXT&#32;=&#32;m_symbols.vkGetCalibratedTimestampsEXT;
+199 <emphasis role="preprocessor">#endif</emphasis>
+200 
+201 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_tracy__lz4_8cpp_1acdcc5aaebf3f273c1762f24a6ece2e5e">assert</link>(&#32;VK_FUNCTION_WRAPPER(&#32;vkResetQueryPool&#32;)&#32;!=&#32;<emphasis role="keyword">nullptr</emphasis>&#32;);
+202 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_tracy__lz4_8cpp_1acdcc5aaebf3f273c1762f24a6ece2e5e">assert</link>(&#32;VK_FUNCTION_WRAPPER(&#32;vkGetPhysicalDeviceCalibrateableTimeDomainsEXT&#32;)&#32;!=&#32;<emphasis role="keyword">nullptr</emphasis>&#32;);
+203 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_tracy__lz4_8cpp_1acdcc5aaebf3f273c1762f24a6ece2e5e">assert</link>(&#32;VK_FUNCTION_WRAPPER(&#32;vkGetCalibratedTimestampsEXT&#32;)&#32;!=&#32;<emphasis role="keyword">nullptr</emphasis>&#32;);
+204 
+205 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;FindAvailableTimeDomains(&#32;physdev,&#32;VK_FUNCTION_WRAPPER(&#32;vkGetPhysicalDeviceCalibrateableTimeDomainsEXT&#32;)&#32;);
+206 
+207 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;We&#32;require&#32;a&#32;host&#32;time&#32;domain&#32;to&#32;be&#32;available&#32;to&#32;properly&#32;calibrate.</emphasis>
+208 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;FindCalibratedTimestampDeviation();
+209 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int64_t&#32;tgpu;
+210 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Calibrate(&#32;device,&#32;m_prevCalibration,&#32;tgpu&#32;);
+211 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int64_t&#32;tcpu&#32;=&#32;Profiler::GetTime();
+212 
+213 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;CreateQueryPool();
+214 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;VK_FUNCTION_WRAPPER(&#32;vkResetQueryPool(&#32;device,&#32;m_query,&#32;0,&#32;m_queryCount&#32;)&#32;);
+215 
+216 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;WriteInitialItem(&#32;physdev,&#32;tcpu,&#32;tgpu&#32;);
+217 
+218 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_res&#32;=&#32;(int64_t*)tracy_malloc(&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;int64_t&#32;)&#32;*&#32;m_queryCount&#32;);
+219 &#32;&#32;&#32;&#32;}
+220 <emphasis role="preprocessor">#endif</emphasis>
+221 
+222 &#32;&#32;&#32;&#32;~VkCtx()
+223 &#32;&#32;&#32;&#32;{
+224 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;tracy_free(&#32;m_res&#32;);
+225 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;VK_FUNCTION_WRAPPER(&#32;vkDestroyQueryPool(&#32;m_device,&#32;m_query,&#32;<emphasis role="keyword">nullptr</emphasis>&#32;)&#32;);
+226 &#32;&#32;&#32;&#32;}
+227 
+228 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;Name(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>,&#32;uint16_t&#32;len&#32;)
+229 &#32;&#32;&#32;&#32;{
+230 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;ptr&#32;=&#32;(<emphasis role="keywordtype">char</emphasis>*)tracy_malloc(&#32;len&#32;);
+231 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memcpy(&#32;ptr,&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>,&#32;len&#32;);
+232 
+233 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;item&#32;=&#32;Profiler::QueueSerial();
+234 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;MemWrite(&#32;&amp;item-&gt;hdr.type,&#32;QueueType::GpuContextName&#32;);
+235 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;MemWrite(&#32;&amp;item-&gt;gpuContextNameFat.context,&#32;m_context&#32;);
+236 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;MemWrite(&#32;&amp;item-&gt;gpuContextNameFat.ptr,&#32;(uint64_t)ptr&#32;);
+237 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;MemWrite(&#32;&amp;item-&gt;gpuContextNameFat.size,&#32;len&#32;);
+238 <emphasis role="preprocessor">#ifdef&#32;TRACY_ON_DEMAND</emphasis>
+239 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;GetProfiler().DeferItem(&#32;*item&#32;);
+240 <emphasis role="preprocessor">#endif</emphasis>
+241 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Profiler::QueueSerialFinish();
+242 &#32;&#32;&#32;&#32;}
+243 
+244 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;Collect(&#32;VkCommandBuffer&#32;cmdbuf&#32;)
+245 &#32;&#32;&#32;&#32;{
+246 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__tracy_8hpp_1abad2503f66ec4fa32c8a36fc1472bcca">ZoneScopedC</link>(&#32;Color::Red4&#32;);
+247 
+248 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;uint64_t&#32;head&#32;=&#32;m_head.load(std::memory_order_relaxed);
+249 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;m_tail&#32;==&#32;head&#32;)&#32;<emphasis role="keywordflow">return</emphasis>;
+250 
+251 <emphasis role="preprocessor">#ifdef&#32;TRACY_ON_DEMAND</emphasis>
+252 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!GetProfiler().IsConnected()&#32;)
+253 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+254 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;VK_FUNCTION_WRAPPER(&#32;vkCmdResetQueryPool(&#32;cmdbuf,&#32;m_query,&#32;0,&#32;m_queryCount&#32;)&#32;);
+255 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_tail&#32;=&#32;head;
+256 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_oldCnt&#32;=&#32;0;
+257 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int64_t&#32;tgpu;
+258 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;m_timeDomain&#32;!=&#32;VK_TIME_DOMAIN_DEVICE_EXT&#32;)&#32;Calibrate(&#32;m_device,&#32;m_prevCalibration,&#32;tgpu&#32;);
+259 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>;
+260 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+261 <emphasis role="preprocessor">#endif</emphasis>
+262 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_tracy__lz4_8cpp_1acdcc5aaebf3f273c1762f24a6ece2e5e">assert</link>(&#32;head&#32;&gt;&#32;m_tail&#32;);
+263 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;
+264 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;wrappedTail&#32;=&#32;(<emphasis role="keywordtype">unsigned</emphasis>&#32;int)(&#32;m_tail&#32;%&#32;m_queryCount&#32;);
+265 
+266 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;cnt;
+267 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;m_oldCnt&#32;!=&#32;0&#32;)
+268 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+269 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cnt&#32;=&#32;m_oldCnt;
+270 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_oldCnt&#32;=&#32;0;
+271 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+272 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+273 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+274 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cnt&#32;=&#32;(<emphasis role="keywordtype">unsigned</emphasis>&#32;int)(&#32;head&#32;-&#32;m_tail&#32;);
+275 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_tracy__lz4_8cpp_1acdcc5aaebf3f273c1762f24a6ece2e5e">assert</link>(&#32;cnt&#32;&lt;=&#32;m_queryCount&#32;);
+276 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;wrappedTail&#32;+&#32;cnt&#32;&gt;&#32;m_queryCount&#32;)
+277 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+278 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cnt&#32;=&#32;m_queryCount&#32;-&#32;wrappedTail;
+279 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+280 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+281 
+282 
+283 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;VK_FUNCTION_WRAPPER(&#32;vkGetQueryPoolResults(&#32;m_device,&#32;m_query,&#32;wrappedTail,&#32;cnt,&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;int64_t&#32;)&#32;*&#32;m_queryCount,&#32;m_res,&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;int64_t&#32;),&#32;VK_QUERY_RESULT_64_BIT&#32;)&#32;==&#32;VK_NOT_READY&#32;)&#32;)
+284 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+285 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_oldCnt&#32;=&#32;cnt;
+286 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>;
+287 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+288 
+289 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>(&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;idx=0;&#32;idx&lt;cnt;&#32;idx++&#32;)
+290 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+291 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;item&#32;=&#32;Profiler::QueueSerial();
+292 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;MemWrite(&#32;&amp;item-&gt;hdr.type,&#32;QueueType::GpuTime&#32;);
+293 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;MemWrite(&#32;&amp;item-&gt;gpuTime.gpuTime,&#32;m_res[idx]&#32;);
+294 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;MemWrite(&#32;&amp;item-&gt;gpuTime.queryId,&#32;uint16_t(&#32;wrappedTail&#32;+&#32;idx&#32;)&#32;);
+295 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;MemWrite(&#32;&amp;item-&gt;gpuTime.context,&#32;m_context&#32;);
+296 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Profiler::QueueSerialFinish();
+297 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+298 
+299 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;m_timeDomain&#32;!=&#32;VK_TIME_DOMAIN_DEVICE_EXT&#32;)
+300 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+301 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int64_t&#32;tgpu,&#32;tcpu;
+302 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Calibrate(&#32;m_device,&#32;tcpu,&#32;tgpu&#32;);
+303 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;refCpu&#32;=&#32;Profiler::GetTime();
+304 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;delta&#32;=&#32;tcpu&#32;-&#32;m_prevCalibration;
+305 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;delta&#32;&gt;&#32;0&#32;)
+306 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+307 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_prevCalibration&#32;=&#32;tcpu;
+308 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;item&#32;=&#32;Profiler::QueueSerial();
+309 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;MemWrite(&#32;&amp;item-&gt;hdr.type,&#32;QueueType::GpuCalibration&#32;);
+310 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;MemWrite(&#32;&amp;item-&gt;gpuCalibration.gpuTime,&#32;tgpu&#32;);
+311 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;MemWrite(&#32;&amp;item-&gt;gpuCalibration.cpuTime,&#32;refCpu&#32;);
+312 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;MemWrite(&#32;&amp;item-&gt;gpuCalibration.cpuDelta,&#32;delta&#32;);
+313 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;MemWrite(&#32;&amp;item-&gt;gpuCalibration.context,&#32;m_context&#32;);
+314 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Profiler::QueueSerialFinish();
+315 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+316 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+317 
+318 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;VK_FUNCTION_WRAPPER(&#32;vkCmdResetQueryPool(&#32;cmdbuf,&#32;m_query,&#32;wrappedTail,&#32;cnt&#32;)&#32;);
+319 
+320 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_tail&#32;+=&#32;cnt;
+321 &#32;&#32;&#32;&#32;}
+322 
+323 <emphasis role="keyword">private</emphasis>:
+324 &#32;&#32;&#32;&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;NextQueryId()
+325 &#32;&#32;&#32;&#32;{
+326 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;uint64_t&#32;<emphasis role="keywordtype">id</emphasis>&#32;=&#32;m_head.fetch_add(1,&#32;std::memory_order_relaxed);
+327 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keywordtype">id</emphasis>&#32;%&#32;m_queryCount;
+328 &#32;&#32;&#32;&#32;}
+329 
+330 &#32;&#32;&#32;&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;uint8_t&#32;GetId()<emphasis role="keyword">&#32;const</emphasis>
+331 <emphasis role="keyword">&#32;&#32;&#32;&#32;</emphasis>{
+332 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;m_context;
+333 &#32;&#32;&#32;&#32;}
+334 
+335 &#32;&#32;&#32;&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;Calibrate(&#32;VkDevice&#32;device,&#32;int64_t&amp;&#32;tCpu,&#32;int64_t&amp;&#32;tGpu&#32;)
+336 &#32;&#32;&#32;&#32;{
+337 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_tracy__lz4_8cpp_1acdcc5aaebf3f273c1762f24a6ece2e5e">assert</link>(&#32;m_timeDomain&#32;!=&#32;VK_TIME_DOMAIN_DEVICE_EXT&#32;);
+338 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;VkCalibratedTimestampInfoEXT&#32;spec[2]&#32;=&#32;{
+339 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{&#32;VK_STRUCTURE_TYPE_CALIBRATED_TIMESTAMP_INFO_EXT,&#32;<emphasis role="keyword">nullptr</emphasis>,&#32;VK_TIME_DOMAIN_DEVICE_EXT&#32;},
+340 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{&#32;VK_STRUCTURE_TYPE_CALIBRATED_TIMESTAMP_INFO_EXT,&#32;<emphasis role="keyword">nullptr</emphasis>,&#32;m_timeDomain&#32;},
+341 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+342 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uint64_t&#32;ts[2];
+343 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uint64_t&#32;deviation;
+344 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">do</emphasis>
+345 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+346 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_vkGetCalibratedTimestampsEXT(&#32;device,&#32;2,&#32;spec,&#32;ts,&#32;&amp;deviation&#32;);
+347 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+348 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">while</emphasis>(&#32;deviation&#32;&gt;&#32;m_deviation&#32;);
+349 
+350 <emphasis role="preprocessor">#if&#32;defined&#32;_WIN32</emphasis>
+351 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;tGpu&#32;=&#32;ts[0];
+352 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;tCpu&#32;=&#32;ts[1]&#32;*&#32;m_qpcToNs;
+353 <emphasis role="preprocessor">#elif&#32;defined&#32;__linux__&#32;&amp;&amp;&#32;defined&#32;CLOCK_MONOTONIC_RAW</emphasis>
+354 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;tGpu&#32;=&#32;ts[0];
+355 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;tCpu&#32;=&#32;ts[1];
+356 <emphasis role="preprocessor">#else</emphasis>
+357 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_tracy__lz4_8cpp_1acdcc5aaebf3f273c1762f24a6ece2e5e">assert</link>(&#32;<emphasis role="keyword">false</emphasis>&#32;);
+358 <emphasis role="preprocessor">#endif</emphasis>
+359 &#32;&#32;&#32;&#32;}
+360 
+361 &#32;&#32;&#32;&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;CreateQueryPool()
+362 &#32;&#32;&#32;&#32;{
+363 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;VkQueryPoolCreateInfo&#32;poolInfo&#32;=&#32;{};
+364 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;poolInfo.sType&#32;=&#32;VK_STRUCTURE_TYPE_QUERY_POOL_CREATE_INFO;
+365 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;poolInfo.queryCount&#32;=&#32;m_queryCount;
+366 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;poolInfo.queryType&#32;=&#32;VK_QUERY_TYPE_TIMESTAMP;
+367 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">while</emphasis>&#32;(&#32;VK_FUNCTION_WRAPPER(&#32;vkCreateQueryPool(&#32;m_device,&#32;&amp;poolInfo,&#32;<emphasis role="keyword">nullptr</emphasis>,&#32;&amp;m_query&#32;)&#32;!=&#32;VK_SUCCESS&#32;)&#32;)
+368 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+369 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_queryCount&#32;/=&#32;2;
+370 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;poolInfo.queryCount&#32;=&#32;m_queryCount;
+371 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+372 &#32;&#32;&#32;&#32;}
+373 
+374 &#32;&#32;&#32;&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;FindAvailableTimeDomains(&#32;VkPhysicalDevice&#32;physicalDevice,&#32;PFN_vkGetPhysicalDeviceCalibrateableTimeDomainsEXT&#32;_vkGetPhysicalDeviceCalibrateableTimeDomainsEXT&#32;)
+375 &#32;&#32;&#32;&#32;{
+376 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uint32_t&#32;num;
+377 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_vkGetPhysicalDeviceCalibrateableTimeDomainsEXT(&#32;physicalDevice,&#32;&amp;num,&#32;<emphasis role="keyword">nullptr</emphasis>&#32;);
+378 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(num&#32;&gt;&#32;4)&#32;num&#32;=&#32;4;
+379 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;VkTimeDomainEXT&#32;<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>[4];
+380 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_vkGetPhysicalDeviceCalibrateableTimeDomainsEXT(&#32;physicalDevice,&#32;&amp;num,&#32;<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>&#32;);
+381 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;VkTimeDomainEXT&#32;supportedDomain&#32;=&#32;(VkTimeDomainEXT)-1;
+382 <emphasis role="preprocessor">#if&#32;defined&#32;_WIN32</emphasis>
+383 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;supportedDomain&#32;=&#32;VK_TIME_DOMAIN_QUERY_PERFORMANCE_COUNTER_EXT;
+384 <emphasis role="preprocessor">#elif&#32;defined&#32;__linux__&#32;&amp;&amp;&#32;defined&#32;CLOCK_MONOTONIC_RAW</emphasis>
+385 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;supportedDomain&#32;=&#32;VK_TIME_DOMAIN_CLOCK_MONOTONIC_RAW_EXT;
+386 <emphasis role="preprocessor">#endif</emphasis>
+387 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>(&#32;uint32_t&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>=0;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&lt;num;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>++&#32;)&#32;{
+388 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>]&#32;==&#32;supportedDomain)&#32;{
+389 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_timeDomain&#32;=&#32;<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>];
+390 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">break</emphasis>;
+391 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+392 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+393 &#32;&#32;&#32;&#32;}
+394 
+395 &#32;&#32;&#32;&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;FindCalibratedTimestampDeviation()
+396 &#32;&#32;&#32;&#32;{
+397 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_tracy__lz4_8cpp_1acdcc5aaebf3f273c1762f24a6ece2e5e">assert</link>(&#32;m_timeDomain&#32;!=&#32;VK_TIME_DOMAIN_DEVICE_EXT&#32;);
+398 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">constexpr</emphasis>&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;NumProbes&#32;=&#32;32;
+399 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;VkCalibratedTimestampInfoEXT&#32;spec[2]&#32;=&#32;{
+400 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{&#32;VK_STRUCTURE_TYPE_CALIBRATED_TIMESTAMP_INFO_EXT,&#32;<emphasis role="keyword">nullptr</emphasis>,&#32;VK_TIME_DOMAIN_DEVICE_EXT&#32;},
+401 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{&#32;VK_STRUCTURE_TYPE_CALIBRATED_TIMESTAMP_INFO_EXT,&#32;<emphasis role="keyword">nullptr</emphasis>,&#32;m_timeDomain&#32;},
+402 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+403 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uint64_t&#32;ts[2];
+404 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uint64_t&#32;deviation[NumProbes];
+405 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>(&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>=0;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&lt;NumProbes;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>++&#32;)&#32;{
+406 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_vkGetCalibratedTimestampsEXT(&#32;m_device,&#32;2,&#32;spec,&#32;ts,&#32;deviation&#32;+&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;);
+407 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+408 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uint64_t&#32;minDeviation&#32;=&#32;deviation[0];
+409 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>(&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>=1;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&lt;NumProbes;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>++&#32;)&#32;{
+410 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(&#32;minDeviation&#32;&gt;&#32;deviation[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>]&#32;)&#32;{
+411 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;minDeviation&#32;=&#32;deviation[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>];
+412 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+413 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+414 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_deviation&#32;=&#32;minDeviation&#32;*&#32;3&#32;/&#32;2;
+415 
+416 <emphasis role="preprocessor">#if&#32;defined&#32;_WIN32</emphasis>
+417 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_qpcToNs&#32;=&#32;int64_t(&#32;1000000000.&#32;/&#32;GetFrequencyQpc()&#32;);
+418 <emphasis role="preprocessor">#endif</emphasis>
+419 &#32;&#32;&#32;&#32;}
+420 
+421 &#32;&#32;&#32;&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;WriteInitialItem(&#32;VkPhysicalDevice&#32;physdev,&#32;int64_t&#32;tcpu,&#32;int64_t&#32;tgpu&#32;)
+422 &#32;&#32;&#32;&#32;{
+423 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uint8_t&#32;<link linkend="_glad_8h_1ac7ba7d3cce3d19ca020e056b37231289">flags</link>&#32;=&#32;0;
+424 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;m_timeDomain&#32;!=&#32;VK_TIME_DOMAIN_DEVICE_EXT&#32;)&#32;<link linkend="_glad_8h_1ac7ba7d3cce3d19ca020e056b37231289">flags</link>&#32;|=&#32;GpuContextCalibration;
+425 
+426 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;VkPhysicalDeviceProperties&#32;prop;
+427 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;VK_FUNCTION_WRAPPER(&#32;vkGetPhysicalDeviceProperties(&#32;physdev,&#32;&amp;prop&#32;)&#32;);
+428 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">float</emphasis>&#32;period&#32;=&#32;prop.limits.timestampPeriod;
+429 
+430 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;item&#32;=&#32;Profiler::QueueSerial();
+431 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;MemWrite(&#32;&amp;item-&gt;hdr.type,&#32;QueueType::GpuNewContext&#32;);
+432 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;MemWrite(&#32;&amp;item-&gt;gpuNewContext.cpuTime,&#32;tcpu&#32;);
+433 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;MemWrite(&#32;&amp;item-&gt;gpuNewContext.gpuTime,&#32;tgpu&#32;);
+434 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memset(&#32;&amp;item-&gt;gpuNewContext.thread,&#32;0,&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;item-&gt;gpuNewContext.thread&#32;)&#32;);
+435 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;MemWrite(&#32;&amp;item-&gt;gpuNewContext.period,&#32;period&#32;);
+436 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;MemWrite(&#32;&amp;item-&gt;gpuNewContext.context,&#32;m_context&#32;);
+437 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;MemWrite(&#32;&amp;item-&gt;gpuNewContext.flags,&#32;<link linkend="_glad_8h_1ac7ba7d3cce3d19ca020e056b37231289">flags</link>&#32;);
+438 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;MemWrite(&#32;&amp;item-&gt;gpuNewContext.type,&#32;GpuContextType::Vulkan&#32;);
+439 
+440 <emphasis role="preprocessor">#ifdef&#32;TRACY_ON_DEMAND</emphasis>
+441 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;GetProfiler().DeferItem(&#32;*item&#32;);
+442 <emphasis role="preprocessor">#endif</emphasis>
+443 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Profiler::QueueSerialFinish();
+444 &#32;&#32;&#32;&#32;}
+445 
+446 <emphasis role="preprocessor">#if&#32;defined&#32;TRACY_VK_USE_SYMBOL_TABLE</emphasis>
+447 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;PopulateSymbolTable(&#32;VkInstance&#32;instance,&#32;PFN_vkGetInstanceProcAddr&#32;instanceProcAddr,&#32;PFN_vkGetDeviceProcAddr&#32;deviceProcAddr&#32;)
+448 &#32;&#32;&#32;&#32;{
+449 <emphasis role="preprocessor">#define&#32;VK_GET_DEVICE_SYMBOL(&#32;name&#32;)&#32;\</emphasis>
+450 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(PFN_##name)deviceProcAddr(&#32;m_device,&#32;#name&#32;);</emphasis>
+451 <emphasis role="preprocessor">#define&#32;VK_LOAD_DEVICE_SYMBOL(&#32;name&#32;)&#32;\</emphasis>
+452 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_symbols.name&#32;=&#32;VK_GET_DEVICE_SYMBOL(&#32;name&#32;);</emphasis>
+453 <emphasis role="preprocessor">#define&#32;VK_GET_INSTANCE_SYMBOL(&#32;name&#32;)&#32;\</emphasis>
+454 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(PFN_##name)instanceProcAddr(&#32;instance,&#32;#name&#32;);</emphasis>
+455 <emphasis role="preprocessor">#define&#32;VK_LOAD_INSTANCE_SYMBOL(&#32;name&#32;)&#32;\</emphasis>
+456 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_symbols.name&#32;=&#32;VK_GET_INSTANCE_SYMBOL(&#32;name&#32;);</emphasis>
+457 
+458 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;LoadVkDeviceCoreSymbols(&#32;VK_LOAD_DEVICE_SYMBOL&#32;)
+459 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;LoadVkDeviceExtensionSymbols(&#32;VK_LOAD_DEVICE_SYMBOL&#32;)
+460 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;LoadVkInstanceCoreSymbols(&#32;VK_LOAD_INSTANCE_SYMBOL&#32;)
+461 <emphasis role="preprocessor">#undef&#32;VK_GET_DEVICE_SYMBOL</emphasis>
+462 <emphasis role="preprocessor">#undef&#32;VK_LOAD_DEVICE_SYMBOL</emphasis>
+463 <emphasis role="preprocessor">#undef&#32;VK_GET_INSTANCE_SYMBOL</emphasis>
+464 <emphasis role="preprocessor">#undef&#32;VK_LOAD_INSTANCE_SYMBOL</emphasis>
+465 &#32;&#32;&#32;&#32;}
+466 <emphasis role="preprocessor">#endif</emphasis>
+467 
+468 &#32;&#32;&#32;&#32;VkDevice&#32;m_device;
+469 &#32;&#32;&#32;&#32;VkQueryPool&#32;m_query;
+470 &#32;&#32;&#32;&#32;VkTimeDomainEXT&#32;m_timeDomain;
+471 <emphasis role="preprocessor">#if&#32;defined&#32;TRACY_VK_USE_SYMBOL_TABLE</emphasis>
+472 &#32;&#32;&#32;&#32;VkSymbolTable&#32;m_symbols;
+473 <emphasis role="preprocessor">#endif</emphasis>
+474 &#32;&#32;&#32;&#32;uint64_t&#32;m_deviation;
+475 &#32;&#32;&#32;&#32;int64_t&#32;m_qpcToNs;
+476 &#32;&#32;&#32;&#32;int64_t&#32;m_prevCalibration;
+477 &#32;&#32;&#32;&#32;uint8_t&#32;m_context;
+478 
+479 &#32;&#32;&#32;&#32;std::atomic&lt;uint64_t&gt;&#32;m_head;
+480 &#32;&#32;&#32;&#32;uint64_t&#32;m_tail;
+481 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;m_oldCnt;
+482 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;m_queryCount;
+483 
+484 &#32;&#32;&#32;&#32;int64_t*&#32;m_res;
+485 
+486 &#32;&#32;&#32;&#32;PFN_vkGetCalibratedTimestampsEXT&#32;m_vkGetCalibratedTimestampsEXT;
+487 };
+488 
+489 <emphasis role="keyword">class&#32;</emphasis>VkCtxScope
+490 {
+491 <emphasis role="keyword">public</emphasis>:
+492 &#32;&#32;&#32;&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;VkCtxScope(&#32;VkCtx*&#32;ctx,&#32;<emphasis role="keyword">const</emphasis>&#32;SourceLocationData*&#32;srcloc,&#32;VkCommandBuffer&#32;cmdbuf,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;is_active&#32;)
+493 <emphasis role="preprocessor">#ifdef&#32;TRACY_ON_DEMAND</emphasis>
+494 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;m_active(&#32;is_active&#32;&amp;&amp;&#32;<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>().IsConnected()&#32;)
+495 <emphasis role="preprocessor">#else</emphasis>
+496 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;m_active(&#32;is_active&#32;)
+497 <emphasis role="preprocessor">#endif</emphasis>
+498 &#32;&#32;&#32;&#32;{
+499 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!m_active&#32;)&#32;<emphasis role="keywordflow">return</emphasis>;
+500 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_cmdbuf&#32;=&#32;cmdbuf;
+501 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_ctx&#32;=&#32;ctx;
+502 
+503 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;queryId&#32;=&#32;ctx-&gt;NextQueryId();
+504 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;CONTEXT_VK_FUNCTION_WRAPPER(&#32;vkCmdWriteTimestamp(&#32;cmdbuf,&#32;VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT,&#32;ctx-&gt;m_query,&#32;queryId&#32;)&#32;);
+505 
+506 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;item&#32;=&#32;<link linkend="_classtracy_1_1_profiler_1a1c67297cb68056b545e6573d46a60c13">Profiler::QueueSerial</link>();
+507 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;hdr.type,&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330ad9ec106cca60c2763165a778aa857df5">QueueType::GpuZoneBeginSerial</link>&#32;);
+508 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;gpuZoneBegin.cpuTime,&#32;<link linkend="_classtracy_1_1_profiler_1a4131d199df7f0faeb8b2ddc860cade4e">Profiler::GetTime</link>()&#32;);
+509 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;gpuZoneBegin.srcloc,&#32;(uint64_t)srcloc&#32;);
+510 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;gpuZoneBegin.thread,&#32;<link linkend="_namespacetracy_1aa3114ef7fe1a4fdc87e4e15fd5d86a63">GetThreadHandle</link>()&#32;);
+511 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;gpuZoneBegin.queryId,&#32;uint16_t(&#32;queryId&#32;)&#32;);
+512 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;gpuZoneBegin.context,&#32;ctx-&gt;GetId()&#32;);
+513 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_classtracy_1_1_profiler_1ac06b3d486f720701e598e5efa7fd460d">Profiler::QueueSerialFinish</link>();
+514 &#32;&#32;&#32;&#32;}
+515 
+516 &#32;&#32;&#32;&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;VkCtxScope(&#32;VkCtx*&#32;ctx,&#32;<emphasis role="keyword">const</emphasis>&#32;SourceLocationData*&#32;srcloc,&#32;VkCommandBuffer&#32;cmdbuf,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a2aa5ce5567a58e4da543ce468fb1711a">depth</link>,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;is_active&#32;)
+517 <emphasis role="preprocessor">#ifdef&#32;TRACY_ON_DEMAND</emphasis>
+518 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;m_active(&#32;is_active&#32;&amp;&amp;&#32;<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>().IsConnected()&#32;)
+519 <emphasis role="preprocessor">#else</emphasis>
+520 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;m_active(&#32;is_active&#32;)
+521 <emphasis role="preprocessor">#endif</emphasis>
+522 &#32;&#32;&#32;&#32;{
+523 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!m_active&#32;)&#32;<emphasis role="keywordflow">return</emphasis>;
+524 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_cmdbuf&#32;=&#32;cmdbuf;
+525 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_ctx&#32;=&#32;ctx;
+526 
+527 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;queryId&#32;=&#32;ctx-&gt;NextQueryId();
+528 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;CONTEXT_VK_FUNCTION_WRAPPER(&#32;vkCmdWriteTimestamp(&#32;cmdbuf,&#32;VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT,&#32;ctx-&gt;m_query,&#32;queryId&#32;)&#32;);
+529 
+530 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;item&#32;=&#32;<link linkend="_classtracy_1_1_profiler_1a0e6d9de3da4ba875ce4b82230c354117">Profiler::QueueSerialCallstack</link>(&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330a30650823a23b39a1a2f2c35d9b726127">Callstack</link>(&#32;<link linkend="_glad_8h_1a2aa5ce5567a58e4da543ce468fb1711a">depth</link>&#32;)&#32;);
+531 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;hdr.type,&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330af1650bb5a9848d1901789946cf9f9fd6">QueueType::GpuZoneBeginCallstackSerial</link>&#32;);
+532 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;gpuZoneBegin.cpuTime,&#32;<link linkend="_classtracy_1_1_profiler_1a4131d199df7f0faeb8b2ddc860cade4e">Profiler::GetTime</link>()&#32;);
+533 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;gpuZoneBegin.srcloc,&#32;(uint64_t)srcloc&#32;);
+534 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;gpuZoneBegin.thread,&#32;<link linkend="_namespacetracy_1aa3114ef7fe1a4fdc87e4e15fd5d86a63">GetThreadHandle</link>()&#32;);
+535 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;gpuZoneBegin.queryId,&#32;uint16_t(&#32;queryId&#32;)&#32;);
+536 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;gpuZoneBegin.context,&#32;ctx-&gt;GetId()&#32;);
+537 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_classtracy_1_1_profiler_1ac06b3d486f720701e598e5efa7fd460d">Profiler::QueueSerialFinish</link>();
+538 &#32;&#32;&#32;&#32;}
+539 
+540 &#32;&#32;&#32;&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;VkCtxScope(&#32;VkCtx*&#32;ctx,&#32;uint32_t&#32;line,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a6ffd2192cbc75d017665e95207ee36a7">source</link>,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;sourceSz,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;function,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;functionSz,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;nameSz,&#32;VkCommandBuffer&#32;cmdbuf,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;is_active&#32;)
+541 <emphasis role="preprocessor">#ifdef&#32;TRACY_ON_DEMAND</emphasis>
+542 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;m_active(&#32;is_active&#32;&amp;&amp;&#32;<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>().IsConnected()&#32;)
+543 <emphasis role="preprocessor">#else</emphasis>
+544 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;m_active(&#32;is_active&#32;)
+545 <emphasis role="preprocessor">#endif</emphasis>
+546 &#32;&#32;&#32;&#32;{
+547 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!m_active&#32;)&#32;<emphasis role="keywordflow">return</emphasis>;
+548 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_cmdbuf&#32;=&#32;cmdbuf;
+549 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_ctx&#32;=&#32;ctx;
+550 
+551 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;queryId&#32;=&#32;ctx-&gt;NextQueryId();
+552 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;CONTEXT_VK_FUNCTION_WRAPPER(&#32;vkCmdWriteTimestamp(&#32;cmdbuf,&#32;VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT,&#32;ctx-&gt;m_query,&#32;queryId&#32;)&#32;);
+553 
+554 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;srcloc&#32;=&#32;<link linkend="_classtracy_1_1_profiler_1ab869025334b66dbe8ad63dc0beffbc2c">Profiler::AllocSourceLocation</link>(&#32;line,&#32;<link linkend="_glad_8h_1a6ffd2192cbc75d017665e95207ee36a7">source</link>,&#32;sourceSz,&#32;function,&#32;functionSz,&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>,&#32;nameSz&#32;);
+555 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;item&#32;=&#32;<link linkend="_classtracy_1_1_profiler_1a1c67297cb68056b545e6573d46a60c13">Profiler::QueueSerial</link>();
+556 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;hdr.type,&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330a73d6d2dd3d887fe5e00e4b25c01055c0">QueueType::GpuZoneBeginAllocSrcLocSerial</link>&#32;);
+557 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;gpuZoneBegin.cpuTime,&#32;<link linkend="_classtracy_1_1_profiler_1a4131d199df7f0faeb8b2ddc860cade4e">Profiler::GetTime</link>()&#32;);
+558 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;gpuZoneBegin.srcloc,&#32;srcloc&#32;);
+559 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;gpuZoneBegin.thread,&#32;<link linkend="_namespacetracy_1aa3114ef7fe1a4fdc87e4e15fd5d86a63">GetThreadHandle</link>()&#32;);
+560 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;gpuZoneBegin.queryId,&#32;uint16_t(&#32;queryId&#32;)&#32;);
+561 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;gpuZoneBegin.context,&#32;ctx-&gt;GetId()&#32;);
+562 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_classtracy_1_1_profiler_1ac06b3d486f720701e598e5efa7fd460d">Profiler::QueueSerialFinish</link>();
+563 &#32;&#32;&#32;&#32;}
+564 
+565 &#32;&#32;&#32;&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;VkCtxScope(&#32;VkCtx*&#32;ctx,&#32;uint32_t&#32;line,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a6ffd2192cbc75d017665e95207ee36a7">source</link>,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;sourceSz,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;function,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;functionSz,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;nameSz,&#32;VkCommandBuffer&#32;cmdbuf,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a2aa5ce5567a58e4da543ce468fb1711a">depth</link>,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;is_active&#32;)
+566 <emphasis role="preprocessor">#ifdef&#32;TRACY_ON_DEMAND</emphasis>
+567 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;m_active(&#32;is_active&#32;&amp;&amp;&#32;<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>().IsConnected()&#32;)
+568 <emphasis role="preprocessor">#else</emphasis>
+569 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;m_active(&#32;is_active&#32;)
+570 <emphasis role="preprocessor">#endif</emphasis>
+571 &#32;&#32;&#32;&#32;{
+572 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!m_active&#32;)&#32;<emphasis role="keywordflow">return</emphasis>;
+573 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_cmdbuf&#32;=&#32;cmdbuf;
+574 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_ctx&#32;=&#32;ctx;
+575 
+576 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;queryId&#32;=&#32;ctx-&gt;NextQueryId();
+577 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;CONTEXT_VK_FUNCTION_WRAPPER(&#32;vkCmdWriteTimestamp(&#32;cmdbuf,&#32;VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT,&#32;ctx-&gt;m_query,&#32;queryId&#32;)&#32;);
+578 
+579 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;srcloc&#32;=&#32;<link linkend="_classtracy_1_1_profiler_1ab869025334b66dbe8ad63dc0beffbc2c">Profiler::AllocSourceLocation</link>(&#32;line,&#32;<link linkend="_glad_8h_1a6ffd2192cbc75d017665e95207ee36a7">source</link>,&#32;sourceSz,&#32;function,&#32;functionSz,&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>,&#32;nameSz&#32;);
+580 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;item&#32;=&#32;<link linkend="_classtracy_1_1_profiler_1a0e6d9de3da4ba875ce4b82230c354117">Profiler::QueueSerialCallstack</link>(&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330a30650823a23b39a1a2f2c35d9b726127">Callstack</link>(&#32;<link linkend="_glad_8h_1a2aa5ce5567a58e4da543ce468fb1711a">depth</link>&#32;)&#32;);
+581 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;hdr.type,&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330ab416c95e5f15df8d2189041d935a4394">QueueType::GpuZoneBeginAllocSrcLocCallstackSerial</link>&#32;);
+582 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;gpuZoneBegin.cpuTime,&#32;<link linkend="_classtracy_1_1_profiler_1a4131d199df7f0faeb8b2ddc860cade4e">Profiler::GetTime</link>()&#32;);
+583 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;gpuZoneBegin.srcloc,&#32;srcloc&#32;);
+584 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;gpuZoneBegin.thread,&#32;<link linkend="_namespacetracy_1aa3114ef7fe1a4fdc87e4e15fd5d86a63">GetThreadHandle</link>()&#32;);
+585 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;gpuZoneBegin.queryId,&#32;uint16_t(&#32;queryId&#32;)&#32;);
+586 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;gpuZoneBegin.context,&#32;ctx-&gt;GetId()&#32;);
+587 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_classtracy_1_1_profiler_1ac06b3d486f720701e598e5efa7fd460d">Profiler::QueueSerialFinish</link>();
+588 &#32;&#32;&#32;&#32;}
+589 
+590 &#32;&#32;&#32;&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;~VkCtxScope()
+591 &#32;&#32;&#32;&#32;{
+592 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!m_active&#32;)&#32;<emphasis role="keywordflow">return</emphasis>;
+593 
+594 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;queryId&#32;=&#32;m_ctx-&gt;NextQueryId();
+595 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;CONTEXT_VK_FUNCTION_WRAPPER(&#32;vkCmdWriteTimestamp(&#32;m_cmdbuf,&#32;VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT,&#32;m_ctx-&gt;m_query,&#32;queryId&#32;)&#32;);
+596 
+597 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;item&#32;=&#32;<link linkend="_classtracy_1_1_profiler_1a1c67297cb68056b545e6573d46a60c13">Profiler::QueueSerial</link>();
+598 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;hdr.type,&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330a567a6b6292a4660c3f349cb10bc00011">QueueType::GpuZoneEndSerial</link>&#32;);
+599 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;gpuZoneEnd.cpuTime,&#32;<link linkend="_classtracy_1_1_profiler_1a4131d199df7f0faeb8b2ddc860cade4e">Profiler::GetTime</link>()&#32;);
+600 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;gpuZoneEnd.thread,&#32;<link linkend="_namespacetracy_1aa3114ef7fe1a4fdc87e4e15fd5d86a63">GetThreadHandle</link>()&#32;);
+601 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;gpuZoneEnd.queryId,&#32;uint16_t(&#32;queryId&#32;)&#32;);
+602 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;gpuZoneEnd.context,&#32;m_ctx-&gt;GetId()&#32;);
+603 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_classtracy_1_1_profiler_1ac06b3d486f720701e598e5efa7fd460d">Profiler::QueueSerialFinish</link>();
+604 &#32;&#32;&#32;&#32;}
+605 
+606 <emphasis role="keyword">private</emphasis>:
+607 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">bool</emphasis>&#32;m_active;
+608 
+609 &#32;&#32;&#32;&#32;VkCommandBuffer&#32;m_cmdbuf;
+610 &#32;&#32;&#32;&#32;VkCtx*&#32;m_ctx;
+611 };
+612 
+613 <emphasis role="preprocessor">#if&#32;defined&#32;TRACY_VK_USE_SYMBOL_TABLE</emphasis>
+614 <emphasis role="keyword">static</emphasis>&#32;<emphasis role="keyword">inline</emphasis>&#32;VkCtx*&#32;CreateVkContext(&#32;VkInstance&#32;instance,&#32;VkPhysicalDevice&#32;physdev,&#32;VkDevice&#32;device,&#32;VkQueue&#32;queue,&#32;VkCommandBuffer&#32;cmdbuf,&#32;PFN_vkGetInstanceProcAddr&#32;instanceProcAddr,&#32;PFN_vkGetDeviceProcAddr&#32;getDeviceProcAddr,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;calibrated&#32;=&#32;<emphasis role="keyword">false</emphasis>&#32;)
+615 <emphasis role="preprocessor">#else</emphasis>
+616 <emphasis role="keyword">static</emphasis>&#32;<emphasis role="keyword">inline</emphasis>&#32;VkCtx*&#32;CreateVkContext(&#32;VkPhysicalDevice&#32;physdev,&#32;VkDevice&#32;device,&#32;VkQueue&#32;queue,&#32;VkCommandBuffer&#32;cmdbuf,&#32;PFN_vkGetPhysicalDeviceCalibrateableTimeDomainsEXT&#32;gpdctd,&#32;PFN_vkGetCalibratedTimestampsEXT&#32;gct&#32;)
+617 <emphasis role="preprocessor">#endif</emphasis>
+618 {
+619 &#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;ctx&#32;=&#32;(VkCtx*)tracy_malloc(&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;VkCtx&#32;)&#32;);
+620 <emphasis role="preprocessor">#if&#32;defined&#32;TRACY_VK_USE_SYMBOL_TABLE</emphasis>
+621 &#32;&#32;&#32;&#32;<emphasis role="keyword">new</emphasis>(ctx)&#32;VkCtx(&#32;instance,&#32;physdev,&#32;device,&#32;queue,&#32;cmdbuf,&#32;instanceProcAddr,&#32;getDeviceProcAddr,&#32;calibrated&#32;);
+622 <emphasis role="preprocessor">#else</emphasis>
+623 &#32;&#32;&#32;&#32;<emphasis role="keyword">new</emphasis>(ctx)&#32;VkCtx(&#32;physdev,&#32;device,&#32;queue,&#32;cmdbuf,&#32;gpdctd,&#32;gct&#32;);
+624 <emphasis role="preprocessor">#endif</emphasis>
+625 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;ctx;
+626 }
+627 
+628 <emphasis role="preprocessor">#if&#32;defined&#32;VK_EXT_host_query_reset</emphasis>
+629 <emphasis role="preprocessor">#if&#32;defined&#32;TRACY_VK_USE_SYMBOL_TABLE</emphasis>
+630 <emphasis role="keyword">static</emphasis>&#32;<emphasis role="keyword">inline</emphasis>&#32;VkCtx*&#32;CreateVkContext(&#32;VkInstance&#32;instance,&#32;VkPhysicalDevice&#32;physdev,&#32;VkDevice&#32;device,&#32;PFN_vkGetInstanceProcAddr&#32;instanceProcAddr,&#32;PFN_vkGetDeviceProcAddr&#32;getDeviceProcAddr&#32;)
+631 <emphasis role="preprocessor">#else</emphasis>
+632 <emphasis role="keyword">static</emphasis>&#32;<emphasis role="keyword">inline</emphasis>&#32;VkCtx*&#32;CreateVkContext(&#32;VkPhysicalDevice&#32;physdev,&#32;VkDevice&#32;device,&#32;PFN_vkResetQueryPoolEXT&#32;qpreset,&#32;PFN_vkGetPhysicalDeviceCalibrateableTimeDomainsEXT&#32;gpdctd,&#32;PFN_vkGetCalibratedTimestampsEXT&#32;gct&#32;)
+633 <emphasis role="preprocessor">#endif</emphasis>
+634 {
+635 &#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;ctx&#32;=&#32;(VkCtx*)tracy_malloc(&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;VkCtx&#32;)&#32;);
+636 <emphasis role="preprocessor">#if&#32;defined&#32;TRACY_VK_USE_SYMBOL_TABLE</emphasis>
+637 &#32;&#32;&#32;&#32;<emphasis role="keyword">new</emphasis>(ctx)&#32;VkCtx(&#32;instance,&#32;physdev,&#32;device,&#32;instanceProcAddr,&#32;getDeviceProcAddr&#32;);
+638 <emphasis role="preprocessor">#else</emphasis>
+639 &#32;&#32;&#32;&#32;<emphasis role="keyword">new</emphasis>(ctx)&#32;VkCtx(&#32;physdev,&#32;device,&#32;qpreset,&#32;gpdctd,&#32;gct&#32;);
+640 <emphasis role="preprocessor">#endif</emphasis>
+641 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;ctx;
+642 }
+643 <emphasis role="preprocessor">#endif</emphasis>
+644 
+645 <emphasis role="keyword">static</emphasis>&#32;<emphasis role="keyword">inline</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;DestroyVkContext(&#32;VkCtx*&#32;ctx&#32;)
+646 {
+647 &#32;&#32;&#32;&#32;ctx-&gt;~VkCtx();
+648 &#32;&#32;&#32;&#32;tracy_free(&#32;ctx&#32;);
+649 }
+650 
+651 }
+652 
+653 <emphasis role="keyword">using&#32;</emphasis><link linkend="__tracy_vulkan_8hpp_1a348fc59cee96a83936b235704a096978">TracyVkCtx</link>&#32;=&#32;tracy::VkCtx*;
+654 
+655 <emphasis role="preprocessor">#if&#32;defined&#32;TRACY_VK_USE_SYMBOL_TABLE</emphasis>
+656 <emphasis role="preprocessor">#define&#32;TracyVkContext(&#32;instance,&#32;physdev,&#32;device,&#32;queue,&#32;cmdbuf,&#32;instanceProcAddr,&#32;deviceProcAddr&#32;)&#32;tracy::CreateVkContext(&#32;instance,&#32;physdev,&#32;device,&#32;queue,&#32;cmdbuf,&#32;instanceProcAddr,&#32;deviceProcAddr&#32;);</emphasis>
+657 <emphasis role="preprocessor">#else</emphasis>
+658 <emphasis role="preprocessor">#define&#32;TracyVkContext(&#32;physdev,&#32;device,&#32;queue,&#32;cmdbuf&#32;)&#32;tracy::CreateVkContext(&#32;physdev,&#32;device,&#32;queue,&#32;cmdbuf,&#32;nullptr,&#32;nullptr&#32;);</emphasis>
+659 <emphasis role="preprocessor">#endif</emphasis>
+660 <emphasis role="preprocessor">#if&#32;defined&#32;TRACY_VK_USE_SYMBOL_TABLE</emphasis>
+661 <emphasis role="preprocessor">#define&#32;TracyVkContextCalibrated(&#32;instance,&#32;physdev,&#32;device,&#32;queue,&#32;cmdbuf,&#32;instanceProcAddr,&#32;deviceProcAddr&#32;)&#32;tracy::CreateVkContext(&#32;instance,&#32;physdev,&#32;device,&#32;queue,&#32;cmdbuf,&#32;instanceProcAddr,&#32;deviceProcAddr,&#32;true&#32;);</emphasis>
+662 <emphasis role="preprocessor">#else</emphasis>
+663 <emphasis role="preprocessor">#define&#32;TracyVkContextCalibrated(&#32;physdev,&#32;device,&#32;queue,&#32;cmdbuf,&#32;gpdctd,&#32;gct&#32;)&#32;tracy::CreateVkContext(&#32;physdev,&#32;device,&#32;queue,&#32;cmdbuf,&#32;gpdctd,&#32;gct&#32;);</emphasis>
+664 <emphasis role="preprocessor">#endif</emphasis>
+665 <emphasis role="preprocessor">#if&#32;defined&#32;VK_EXT_host_query_reset</emphasis>
+666 <emphasis role="preprocessor">#if&#32;defined&#32;TRACY_VK_USE_SYMBOL_TABLE</emphasis>
+667 <emphasis role="preprocessor">#define&#32;TracyVkContextHostCalibrated(&#32;instance,&#32;physdev,&#32;device,&#32;instanceProcAddr,&#32;deviceProcAddr&#32;)&#32;tracy::CreateVkContext(&#32;instance,&#32;physdev,&#32;device,&#32;instanceProcAddr,&#32;deviceProcAddr&#32;);</emphasis>
+668 <emphasis role="preprocessor">#else</emphasis>
+669 <emphasis role="preprocessor">#define&#32;TracyVkContextHostCalibrated(&#32;physdev,&#32;device,&#32;qpreset,&#32;gpdctd,&#32;gct&#32;)&#32;tracy::CreateVkContext(&#32;physdev,&#32;device,&#32;qpreset,&#32;gpdctd,&#32;gct&#32;);</emphasis>
+670 <emphasis role="preprocessor">#endif</emphasis>
+671 <emphasis role="preprocessor">#endif</emphasis>
+672 <emphasis role="preprocessor">#define&#32;TracyVkDestroy(&#32;ctx&#32;)&#32;tracy::DestroyVkContext(&#32;ctx&#32;);</emphasis>
+673 <emphasis role="preprocessor">#define&#32;TracyVkContextName(&#32;ctx,&#32;name,&#32;size&#32;)&#32;ctx-&gt;Name(&#32;name,&#32;size&#32;);</emphasis>
+674 <emphasis role="preprocessor">#if&#32;defined&#32;TRACY_HAS_CALLSTACK&#32;&amp;&amp;&#32;defined&#32;TRACY_CALLSTACK</emphasis>
+675 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyVkNamedZone(&#32;ctx,&#32;varname,&#32;cmdbuf,&#32;name,&#32;active&#32;)&#32;static&#32;constexpr&#32;tracy::SourceLocationData&#32;TracyConcat(__tracy_gpu_source_location,TracyLine)&#32;{&#32;name,&#32;TracyFunction,&#32;&#32;TracyFile,&#32;(uint32_t)TracyLine,&#32;0&#32;};&#32;tracy::VkCtxScope&#32;varname(&#32;ctx,&#32;&amp;TracyConcat(__tracy_gpu_source_location,TracyLine),&#32;cmdbuf,&#32;TRACY_CALLSTACK,&#32;active&#32;);</emphasis>
+676 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyVkNamedZoneC(&#32;ctx,&#32;varname,&#32;cmdbuf,&#32;name,&#32;color,&#32;active&#32;)&#32;static&#32;constexpr&#32;tracy::SourceLocationData&#32;TracyConcat(__tracy_gpu_source_location,TracyLine)&#32;{&#32;name,&#32;TracyFunction,&#32;&#32;TracyFile,&#32;(uint32_t)TracyLine,&#32;color&#32;};&#32;tracy::VkCtxScope&#32;varname(&#32;ctx,&#32;&amp;TracyConcat(__tracy_gpu_source_location,TracyLine),&#32;cmdbuf,&#32;TRACY_CALLSTACK,&#32;active&#32;);</emphasis>
+677 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyVkZone(&#32;ctx,&#32;cmdbuf,&#32;name&#32;)&#32;TracyVkNamedZoneS(&#32;ctx,&#32;___tracy_gpu_zone,&#32;cmdbuf,&#32;name,&#32;TRACY_CALLSTACK,&#32;true&#32;)</emphasis>
+678 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyVkZoneC(&#32;ctx,&#32;cmdbuf,&#32;name,&#32;color&#32;)&#32;TracyVkNamedZoneCS(&#32;ctx,&#32;___tracy_gpu_zone,&#32;cmdbuf,&#32;name,&#32;color,&#32;TRACY_CALLSTACK,&#32;true&#32;)</emphasis>
+679 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyVkZoneTransient(&#32;ctx,&#32;varname,&#32;cmdbuf,&#32;name,&#32;active&#32;)&#32;TracyVkZoneTransientS(&#32;ctx,&#32;varname,&#32;cmdbuf,&#32;name,&#32;TRACY_CALLSTACK,&#32;active&#32;)</emphasis>
+680 <emphasis role="preprocessor">#else</emphasis>
+681 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyVkNamedZone(&#32;ctx,&#32;varname,&#32;cmdbuf,&#32;name,&#32;active&#32;)&#32;static&#32;constexpr&#32;tracy::SourceLocationData&#32;TracyConcat(__tracy_gpu_source_location,TracyLine)&#32;{&#32;name,&#32;TracyFunction,&#32;&#32;TracyFile,&#32;(uint32_t)TracyLine,&#32;0&#32;};&#32;tracy::VkCtxScope&#32;varname(&#32;ctx,&#32;&amp;TracyConcat(__tracy_gpu_source_location,TracyLine),&#32;cmdbuf,&#32;active&#32;);</emphasis>
+682 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyVkNamedZoneC(&#32;ctx,&#32;varname,&#32;cmdbuf,&#32;name,&#32;color,&#32;active&#32;)&#32;static&#32;constexpr&#32;tracy::SourceLocationData&#32;TracyConcat(__tracy_gpu_source_location,TracyLine)&#32;{&#32;name,&#32;TracyFunction,&#32;&#32;TracyFile,&#32;(uint32_t)TracyLine,&#32;color&#32;};&#32;tracy::VkCtxScope&#32;varname(&#32;ctx,&#32;&amp;TracyConcat(__tracy_gpu_source_location,TracyLine),&#32;cmdbuf,&#32;active&#32;);</emphasis>
+683 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyVkZone(&#32;ctx,&#32;cmdbuf,&#32;name&#32;)&#32;TracyVkNamedZone(&#32;ctx,&#32;___tracy_gpu_zone,&#32;cmdbuf,&#32;name,&#32;true&#32;)</emphasis>
+684 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyVkZoneC(&#32;ctx,&#32;cmdbuf,&#32;name,&#32;color&#32;)&#32;TracyVkNamedZoneC(&#32;ctx,&#32;___tracy_gpu_zone,&#32;cmdbuf,&#32;name,&#32;color,&#32;true&#32;)</emphasis>
+685 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyVkZoneTransient(&#32;ctx,&#32;varname,&#32;cmdbuf,&#32;name,&#32;active&#32;)&#32;tracy::VkCtxScope&#32;varname(&#32;ctx,&#32;TracyLine,&#32;TracyFile,&#32;strlen(&#32;TracyFile&#32;),&#32;TracyFunction,&#32;strlen(&#32;TracyFunction&#32;),&#32;name,&#32;strlen(&#32;name&#32;),&#32;cmdbuf,&#32;active&#32;);</emphasis>
+686 <emphasis role="preprocessor">#endif</emphasis>
+687 <emphasis role="preprocessor">#define&#32;TracyVkCollect(&#32;ctx,&#32;cmdbuf&#32;)&#32;ctx-&gt;Collect(&#32;cmdbuf&#32;);</emphasis>
+688 
+689 <emphasis role="preprocessor">#ifdef&#32;TRACY_HAS_CALLSTACK</emphasis>
+690 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyVkNamedZoneS(&#32;ctx,&#32;varname,&#32;cmdbuf,&#32;name,&#32;depth,&#32;active&#32;)&#32;static&#32;constexpr&#32;tracy::SourceLocationData&#32;TracyConcat(__tracy_gpu_source_location,TracyLine)&#32;{&#32;name,&#32;TracyFunction,&#32;&#32;TracyFile,&#32;(uint32_t)TracyLine,&#32;0&#32;};&#32;tracy::VkCtxScope&#32;varname(&#32;ctx,&#32;&amp;TracyConcat(__tracy_gpu_source_location,TracyLine),&#32;cmdbuf,&#32;depth,&#32;active&#32;);</emphasis>
+691 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyVkNamedZoneCS(&#32;ctx,&#32;varname,&#32;cmdbuf,&#32;name,&#32;color,&#32;depth,&#32;active&#32;)&#32;static&#32;constexpr&#32;tracy::SourceLocationData&#32;TracyConcat(__tracy_gpu_source_location,TracyLine)&#32;{&#32;name,&#32;TracyFunction,&#32;&#32;TracyFile,&#32;(uint32_t)TracyLine,&#32;color&#32;};&#32;tracy::VkCtxScope&#32;varname(&#32;ctx,&#32;&amp;TracyConcat(__tracy_gpu_source_location,TracyLine),&#32;cmdbuf,&#32;depth,&#32;active&#32;);</emphasis>
+692 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyVkZoneS(&#32;ctx,&#32;cmdbuf,&#32;name,&#32;depth&#32;)&#32;TracyVkNamedZoneS(&#32;ctx,&#32;___tracy_gpu_zone,&#32;cmdbuf,&#32;name,&#32;depth,&#32;true&#32;)</emphasis>
+693 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyVkZoneCS(&#32;ctx,&#32;cmdbuf,&#32;name,&#32;color,&#32;depth&#32;)&#32;TracyVkNamedZoneCS(&#32;ctx,&#32;___tracy_gpu_zone,&#32;cmdbuf,&#32;name,&#32;color,&#32;depth,&#32;true&#32;)</emphasis>
+694 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyVkZoneTransientS(&#32;ctx,&#32;varname,&#32;cmdbuf,&#32;name,&#32;depth,&#32;active&#32;)&#32;tracy::VkCtxScope&#32;varname(&#32;ctx,&#32;TracyLine,&#32;TracyFile,&#32;strlen(&#32;TracyFile&#32;),&#32;TracyFunction,&#32;strlen(&#32;TracyFunction&#32;),&#32;name,&#32;strlen(&#32;name&#32;),&#32;cmdbuf,&#32;depth,&#32;active&#32;);</emphasis>
+695 <emphasis role="preprocessor">#else</emphasis>
+696 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyVkNamedZoneS(&#32;ctx,&#32;varname,&#32;cmdbuf,&#32;name,&#32;depth,&#32;active&#32;)&#32;TracyVkNamedZone(&#32;ctx,&#32;varname,&#32;cmdbuf,&#32;name,&#32;active&#32;)</emphasis>
+697 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyVkNamedZoneCS(&#32;ctx,&#32;varname,&#32;cmdbuf,&#32;name,&#32;color,&#32;depth,&#32;active&#32;)&#32;TracyVkNamedZoneC(&#32;ctx,&#32;varname,&#32;cmdbuf,&#32;name,&#32;color,&#32;active&#32;)</emphasis>
+698 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyVkZoneS(&#32;ctx,&#32;cmdbuf,&#32;name,&#32;depth&#32;)&#32;TracyVkZone(&#32;ctx,&#32;cmdbuf,&#32;name&#32;)</emphasis>
+699 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyVkZoneCS(&#32;ctx,&#32;cmdbuf,&#32;name,&#32;color,&#32;depth&#32;)&#32;TracyVkZoneC(&#32;ctx,&#32;cmdbuf,&#32;name,&#32;color&#32;)</emphasis>
+700 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyVkZoneTransientS(&#32;ctx,&#32;varname,&#32;cmdbuf,&#32;name,&#32;depth,&#32;active&#32;)&#32;TracyVkZoneTransient(&#32;ctx,&#32;varname,&#32;cmdbuf,&#32;name,&#32;active&#32;)</emphasis>
+701 <emphasis role="preprocessor">#endif</emphasis>
+702 
+703 <emphasis role="preprocessor">#endif</emphasis>
+704 
+705 <emphasis role="preprocessor">#endif</emphasis>
+</programlisting></section>

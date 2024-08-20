@@ -1,0 +1,237 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_matrix__decompose_8inl_source" xml:lang="en-US">
+<title>matrix_decompose.inl</title>
+<indexterm><primary>adhed/glm/gtx/matrix_decompose.inl</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 
+2 
+3 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_constants_8hpp">../gtc/constants.hpp</link>&quot;</emphasis>
+4 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_epsilon_8hpp">../gtc/epsilon.hpp</link>&quot;</emphasis>
+5 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_transform_8hpp">../gtx/transform.hpp</link>&quot;</emphasis>
+6 
+7 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespaceglm">glm</link>{
+8 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespacedetail">detail</link>
+9 {
+11 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;result&#32;=&#32;(a&#32;*&#32;ascl)&#32;+&#32;(b&#32;*&#32;bscl)</emphasis>
+12 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+13 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<link linkend="_namespaceglm_1_1detail_1a4363abf5c2e8ba2090523a122202fe76">combine</link>(
+14 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>,
+15 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>,
+16 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;ascl,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;bscl)
+17 &#32;&#32;&#32;&#32;{
+18 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;(<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>&#32;*&#32;ascl)&#32;+&#32;(<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>&#32;*&#32;bscl);
+19 &#32;&#32;&#32;&#32;}
+20 
+21 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+22 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<link linkend="_namespaceglm_1_1detail_1a8e563a75f3346ec61537f1601eb5f8cb">scale</link>(<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;desiredLength)
+23 &#32;&#32;&#32;&#32;{
+24 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>&#32;*&#32;desiredLength&#32;/&#32;<link linkend="_glad_8h_1a011fc24f10426c01349e94a4edd4b0d5">length</link>(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>);
+25 &#32;&#32;&#32;&#32;}
+26 }<emphasis role="comment">//namespace&#32;detail</emphasis>
+27 
+28 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Matrix&#32;decompose</emphasis>
+29 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;http://www.opensource.apple.com/source/WebCore/WebCore-514/platform/graphics/transforms/TransformationMatrix.cpp</emphasis>
+30 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Decomposes&#32;the&#32;mode&#32;matrix&#32;to&#32;translations,rotation&#32;scale&#32;components</emphasis>
+31 
+32 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+33 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_group__gtx__matrix__decompose_1gabd7878e1b23aab583bc01040c5ed2b71">decompose</link>(<link linkend="_structglm_1_1mat">mat&lt;4, 4, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;ModelMatrix,&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;&amp;&#32;Scale,&#32;<link linkend="_structglm_1_1qua">qua&lt;T, Q&gt;</link>&#32;&amp;&#32;Orientation,&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;&amp;&#32;Translation,&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;&amp;&#32;Skew,&#32;<link linkend="_structglm_1_1vec">vec&lt;4, T, Q&gt;</link>&#32;&amp;&#32;Perspective)
+34 &#32;&#32;&#32;&#32;{
+35 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structglm_1_1mat">mat&lt;4, 4, T, Q&gt;</link>&#32;LocalMatrix(ModelMatrix);
+36 
+37 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Normalize&#32;the&#32;matrix.</emphasis>
+38 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(<link linkend="_group__gtc__epsilon_1ga7f8df975688289781ee26998c73d6798">epsilonEqual</link>(LocalMatrix[3][3],&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(0),&#32;epsilon&lt;T&gt;()))
+39 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">false</emphasis>;
+40 
+41 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>(<link linkend="_namespaceglm_1a090a0de2260835bee80e71a702492ed9">length_t</link>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;=&#32;0;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;&lt;&#32;4;&#32;++<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>)
+42 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>(<link linkend="_namespaceglm_1a090a0de2260835bee80e71a702492ed9">length_t</link>&#32;j&#32;=&#32;0;&#32;j&#32;&lt;&#32;4;&#32;++j)
+43 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;LocalMatrix[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>][j]&#32;/=&#32;LocalMatrix[3][3];
+44 
+45 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;perspectiveMatrix&#32;is&#32;used&#32;to&#32;solve&#32;for&#32;perspective,&#32;but&#32;it&#32;also&#32;provides</emphasis>
+46 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;an&#32;easy&#32;way&#32;to&#32;test&#32;for&#32;singularity&#32;of&#32;the&#32;upper&#32;3x3&#32;component.</emphasis>
+47 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structglm_1_1mat">mat&lt;4, 4, T, Q&gt;</link>&#32;PerspectiveMatrix(LocalMatrix);
+48 
+49 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>(<link linkend="_namespaceglm_1a090a0de2260835bee80e71a702492ed9">length_t</link>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;=&#32;0;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;&lt;&#32;3;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>++)
+50 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;PerspectiveMatrix[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>][3]&#32;=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(0);
+51 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;PerspectiveMatrix[3][3]&#32;=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(1);
+52 
+54 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(<link linkend="_group__gtc__epsilon_1ga7f8df975688289781ee26998c73d6798">epsilonEqual</link>(<link linkend="_group__ext__matrix__integer_1gad7928795124768e058f99dce270f5c8d">determinant</link>(PerspectiveMatrix),&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(0),&#32;epsilon&lt;T&gt;()))
+55 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">false</emphasis>;
+56 
+57 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;First,&#32;isolate&#32;perspective.&#32;&#32;This&#32;is&#32;the&#32;messiest.</emphasis>
+58 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(
+59 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__gtc__epsilon_1ga5a19d270e1912843d95f476fe2d3882d">epsilonNotEqual</link>(LocalMatrix[0][3],&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(0),&#32;epsilon&lt;T&gt;())&#32;||
+60 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__gtc__epsilon_1ga5a19d270e1912843d95f476fe2d3882d">epsilonNotEqual</link>(LocalMatrix[1][3],&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(0),&#32;epsilon&lt;T&gt;())&#32;||
+61 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__gtc__epsilon_1ga5a19d270e1912843d95f476fe2d3882d">epsilonNotEqual</link>(LocalMatrix[2][3],&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(0),&#32;epsilon&lt;T&gt;()))
+62 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+63 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;rightHandSide&#32;is&#32;the&#32;right&#32;hand&#32;side&#32;of&#32;the&#32;equation.</emphasis>
+64 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structglm_1_1vec">vec&lt;4, T, Q&gt;</link>&#32;RightHandSide;
+65 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;RightHandSide[0]&#32;=&#32;LocalMatrix[0][3];
+66 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;RightHandSide[1]&#32;=&#32;LocalMatrix[1][3];
+67 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;RightHandSide[2]&#32;=&#32;LocalMatrix[2][3];
+68 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;RightHandSide[3]&#32;=&#32;LocalMatrix[3][3];
+69 
+70 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Solve&#32;the&#32;equation&#32;by&#32;inverting&#32;PerspectiveMatrix&#32;and&#32;multiplying</emphasis>
+71 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;rightHandSide&#32;by&#32;the&#32;inverse.&#32;&#32;(This&#32;is&#32;the&#32;easiest&#32;way,&#32;not</emphasis>
+72 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;necessarily&#32;the&#32;best.)</emphasis>
+73 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structglm_1_1mat">mat&lt;4, 4, T, Q&gt;</link>&#32;InversePerspectiveMatrix&#32;=&#32;<link linkend="_group__core__func__matrix_1gace61e11fc177491beeca0c6971e2f3fc">glm::inverse</link>(PerspectiveMatrix);<emphasis role="comment">//&#32;&#32;&#32;inverse(PerspectiveMatrix,&#32;inversePerspectiveMatrix);</emphasis>
+74 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structglm_1_1mat">mat&lt;4, 4, T, Q&gt;</link>&#32;TransposedInversePerspectiveMatrix&#32;=&#32;<link linkend="_group__ext__matrix__integer_1ga4d251df5957b62996391bccb61cc9974">glm::transpose</link>(InversePerspectiveMatrix);<emphasis role="comment">//&#32;&#32;&#32;transposeMatrix4(inversePerspectiveMatrix,&#32;transposedInversePerspectiveMatrix);</emphasis>
+75 
+76 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Perspective&#32;=&#32;TransposedInversePerspectiveMatrix&#32;*&#32;RightHandSide;
+77 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;v4MulPointByMatrix(rightHandSide,&#32;transposedInversePerspectiveMatrix,&#32;perspectivePoint);</emphasis>
+78 
+79 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Clear&#32;the&#32;perspective&#32;partition</emphasis>
+80 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;LocalMatrix[0][3]&#32;=&#32;LocalMatrix[1][3]&#32;=&#32;LocalMatrix[2][3]&#32;=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(0);
+81 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;LocalMatrix[3][3]&#32;=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(1);
+82 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+83 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+84 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+85 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;No&#32;perspective.</emphasis>
+86 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Perspective&#32;=&#32;<link linkend="_structglm_1_1vec">vec&lt;4, T, Q&gt;</link>(0,&#32;0,&#32;0,&#32;1);
+87 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+88 
+89 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Next&#32;take&#32;care&#32;of&#32;translation&#32;(easy).</emphasis>
+90 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Translation&#32;=&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>(LocalMatrix[3]);
+91 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;LocalMatrix[3]&#32;=&#32;<link linkend="_structglm_1_1vec">vec&lt;4, T, Q&gt;</link>(0,&#32;0,&#32;0,&#32;LocalMatrix[3].<link linkend="_glad_8h_1ab78941ba2fcaab3b1a29f0432e9ea42e">w</link>);
+92 
+93 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;Row[3],&#32;Pdum3;
+94 
+95 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Now&#32;get&#32;scale&#32;and&#32;shear.</emphasis>
+96 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>(<link linkend="_namespaceglm_1a090a0de2260835bee80e71a702492ed9">length_t</link>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;=&#32;0;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;&lt;&#32;3;&#32;++<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>)
+97 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>(<link linkend="_namespaceglm_1a090a0de2260835bee80e71a702492ed9">length_t</link>&#32;j&#32;=&#32;0;&#32;j&#32;&lt;&#32;3;&#32;++j)
+98 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Row[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>][j]&#32;=&#32;LocalMatrix[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>][j];
+99 
+100 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Compute&#32;X&#32;scale&#32;factor&#32;and&#32;normalize&#32;first&#32;row.</emphasis>
+101 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Scale.x&#32;=&#32;<link linkend="_glad_8h_1a011fc24f10426c01349e94a4edd4b0d5">length</link>(Row[0]);<emphasis role="comment">//&#32;v3Length(Row[0]);</emphasis>
+102 
+103 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Row[0]&#32;=&#32;<link linkend="_namespaceglm_1_1detail_1a8e563a75f3346ec61537f1601eb5f8cb">detail::scale</link>(Row[0],&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(1));
+104 
+105 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Compute&#32;XY&#32;shear&#32;factor&#32;and&#32;make&#32;2nd&#32;row&#32;orthogonal&#32;to&#32;1st.</emphasis>
+106 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Skew.z&#32;=&#32;<link linkend="_namespaceglm_1aee4f67dd98afd5ecd486c06bbf72211d">dot</link>(Row[0],&#32;Row[1]);
+107 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Row[1]&#32;=&#32;<link linkend="_namespaceglm_1_1detail_1a4363abf5c2e8ba2090523a122202fe76">detail::combine</link>(Row[1],&#32;Row[0],&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(1),&#32;-Skew.z);
+108 
+109 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Now,&#32;compute&#32;Y&#32;scale&#32;and&#32;normalize&#32;2nd&#32;row.</emphasis>
+110 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Scale.y&#32;=&#32;<link linkend="_glad_8h_1a011fc24f10426c01349e94a4edd4b0d5">length</link>(Row[1]);
+111 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Row[1]&#32;=&#32;<link linkend="_namespaceglm_1_1detail_1a8e563a75f3346ec61537f1601eb5f8cb">detail::scale</link>(Row[1],&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(1));
+112 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Skew.z&#32;/=&#32;Scale.y;
+113 
+114 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Compute&#32;XZ&#32;and&#32;YZ&#32;shears,&#32;orthogonalize&#32;3rd&#32;row.</emphasis>
+115 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Skew.y&#32;=&#32;<link linkend="_namespaceglm_1aee4f67dd98afd5ecd486c06bbf72211d">glm::dot</link>(Row[0],&#32;Row[2]);
+116 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Row[2]&#32;=&#32;<link linkend="_namespaceglm_1_1detail_1a4363abf5c2e8ba2090523a122202fe76">detail::combine</link>(Row[2],&#32;Row[0],&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(1),&#32;-Skew.y);
+117 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Skew.x&#32;=&#32;<link linkend="_namespaceglm_1aee4f67dd98afd5ecd486c06bbf72211d">glm::dot</link>(Row[1],&#32;Row[2]);
+118 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Row[2]&#32;=&#32;<link linkend="_namespaceglm_1_1detail_1a4363abf5c2e8ba2090523a122202fe76">detail::combine</link>(Row[2],&#32;Row[1],&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(1),&#32;-Skew.x);
+119 
+120 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Next,&#32;get&#32;Z&#32;scale&#32;and&#32;normalize&#32;3rd&#32;row.</emphasis>
+121 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Scale.z&#32;=&#32;<link linkend="_glad_8h_1a011fc24f10426c01349e94a4edd4b0d5">length</link>(Row[2]);
+122 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Row[2]&#32;=&#32;<link linkend="_namespaceglm_1_1detail_1a8e563a75f3346ec61537f1601eb5f8cb">detail::scale</link>(Row[2],&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(1));
+123 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Skew.y&#32;/=&#32;Scale.z;
+124 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Skew.x&#32;/=&#32;Scale.z;
+125 
+126 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;At&#32;this&#32;point,&#32;the&#32;matrix&#32;(in&#32;rows[])&#32;is&#32;orthonormal.</emphasis>
+127 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Check&#32;for&#32;a&#32;coordinate&#32;system&#32;flip.&#32;&#32;If&#32;the&#32;determinant</emphasis>
+128 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;is&#32;-1,&#32;then&#32;negate&#32;the&#32;matrix&#32;and&#32;the&#32;scaling&#32;factors.</emphasis>
+129 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Pdum3&#32;=&#32;<link linkend="_group__core__func__geometric_1ga1882f52ee88a161ed86dea9905a6da91">cross</link>(Row[1],&#32;Row[2]);&#32;<emphasis role="comment">//&#32;v3Cross(row[1],&#32;row[2],&#32;Pdum3);</emphasis>
+130 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(<link linkend="_namespaceglm_1aee4f67dd98afd5ecd486c06bbf72211d">dot</link>(Row[0],&#32;Pdum3)&#32;&lt;&#32;0)
+131 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+132 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>(<link linkend="_namespaceglm_1a090a0de2260835bee80e71a702492ed9">length_t</link>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;=&#32;0;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;&lt;&#32;3;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>++)
+133 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+134 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Scale[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>]&#32;*=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(-1);
+135 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Row[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>]&#32;*=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(-1);
+136 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+137 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+138 
+139 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Now,&#32;get&#32;the&#32;rotations&#32;out,&#32;as&#32;described&#32;in&#32;the&#32;gem.</emphasis>
+140 
+141 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;FIXME&#32;-&#32;Add&#32;the&#32;ability&#32;to&#32;return&#32;either&#32;quaternions&#32;(which&#32;are</emphasis>
+142 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;easier&#32;to&#32;recompose&#32;with)&#32;or&#32;Euler&#32;angles&#32;(rx,&#32;ry,&#32;rz),&#32;which</emphasis>
+143 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;are&#32;easier&#32;for&#32;authors&#32;to&#32;deal&#32;with.&#32;The&#32;latter&#32;will&#32;only&#32;be&#32;useful</emphasis>
+144 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;when&#32;we&#32;fix&#32;https://bugs.webkit.org/show_bug.cgi?id=23799,&#32;so&#32;I</emphasis>
+145 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;will&#32;leave&#32;the&#32;Euler&#32;angle&#32;code&#32;here&#32;for&#32;now.</emphasis>
+146 
+147 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;ret.rotateY&#32;=&#32;asin(-Row[0][2]);</emphasis>
+148 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;if&#32;(cos(ret.rotateY)&#32;!=&#32;0)&#32;{</emphasis>
+149 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;ret.rotateX&#32;=&#32;atan2(Row[1][2],&#32;Row[2][2]);</emphasis>
+150 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;ret.rotateZ&#32;=&#32;atan2(Row[0][1],&#32;Row[0][0]);</emphasis>
+151 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;}&#32;else&#32;{</emphasis>
+152 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;ret.rotateX&#32;=&#32;atan2(-Row[2][0],&#32;Row[1][1]);</emphasis>
+153 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;&#32;&#32;&#32;ret.rotateZ&#32;=&#32;0;</emphasis>
+154 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;}</emphasis>
+155 
+156 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>,&#32;j,&#32;k&#32;=&#32;0;
+157 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;root,&#32;trace&#32;=&#32;Row[0].x&#32;+&#32;Row[1].y&#32;+&#32;Row[2].z;
+158 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(trace&#32;&gt;&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(0))
+159 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+160 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;root&#32;=&#32;<link linkend="_group__core__func__exponential_1ga1f904e09827e939a56e4158f45ca8ede">sqrt</link>(trace&#32;+&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(1.0));
+161 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Orientation.<link linkend="_structglm_1_1qua_1ad8a7f933070e6e4382d9fce4a6efecd6">w</link>&#32;=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(0.5)&#32;*&#32;root;
+162 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;root&#32;=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(0.5)&#32;/&#32;root;
+163 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Orientation.<link linkend="_structglm_1_1qua_1ae0e0786cb5ef565606ecc3d4d8255fd3">x</link>&#32;=&#32;root&#32;*&#32;(Row[1].z&#32;-&#32;Row[2].y);
+164 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Orientation.<link linkend="_structglm_1_1qua_1a3183bedd482933c6723e6ebcf409e178">y</link>&#32;=&#32;root&#32;*&#32;(Row[2].x&#32;-&#32;Row[0].z);
+165 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Orientation.<link linkend="_structglm_1_1qua_1a751f58e48134d3bd65253a43708a552d">z</link>&#32;=&#32;root&#32;*&#32;(Row[0].y&#32;-&#32;Row[1].x);
+166 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}&#32;<emphasis role="comment">//&#32;End&#32;if&#32;&gt;&#32;0</emphasis>
+167 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+168 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+169 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;Next[3]&#32;=&#32;{1,&#32;2,&#32;0};
+170 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;=&#32;0;
+171 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(Row[1].<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>&#32;&gt;&#32;Row[0].<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>)&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;=&#32;1;
+172 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(Row[2].<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>&#32;&gt;&#32;Row[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>][<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>])&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;=&#32;2;
+173 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;j&#32;=&#32;Next[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>];
+174 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;k&#32;=&#32;Next[j];
+175 
+176 <emphasis role="preprocessor">#&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ifdef&#32;GLM_FORCE_QUAT_DATA_WXYZ</emphasis>
+177 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;off&#32;=&#32;1;
+178 <emphasis role="preprocessor">#&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;else</emphasis>
+179 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;off&#32;=&#32;0;
+180 <emphasis role="preprocessor">#&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;endif</emphasis>
+181 
+182 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;root&#32;=&#32;<link linkend="_group__core__func__exponential_1ga1f904e09827e939a56e4158f45ca8ede">sqrt</link>(Row[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>][<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>]&#32;-&#32;Row[j][j]&#32;-&#32;Row[k][k]&#32;+&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(1.0));
+183 
+184 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Orientation[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;+&#32;off]&#32;=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(0.5)&#32;*&#32;root;
+185 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;root&#32;=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(0.5)&#32;/&#32;root;
+186 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Orientation[j&#32;+&#32;off]&#32;=&#32;root&#32;*&#32;(Row[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>][j]&#32;+&#32;Row[j][<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>]);
+187 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Orientation[k&#32;+&#32;off]&#32;=&#32;root&#32;*&#32;(Row[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>][k]&#32;+&#32;Row[k][<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>]);
+188 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Orientation.<link linkend="_structglm_1_1qua_1ad8a7f933070e6e4382d9fce4a6efecd6">w</link>&#32;=&#32;root&#32;*&#32;(Row[j][k]&#32;-&#32;Row[k][j]);
+189 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}&#32;<emphasis role="comment">//&#32;End&#32;if&#32;&lt;=&#32;0</emphasis>
+190 
+191 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">true</emphasis>;
+192 &#32;&#32;&#32;&#32;}
+193 
+194 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Recomposes&#32;a&#32;model&#32;matrix&#32;from&#32;a&#32;previously-decomposed&#32;matrix</emphasis>
+195 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;http://www.opensource.apple.com/source/WebCore/WebCore-514/platform/graphics/transforms/TransformationMatrix.cpp</emphasis>
+196 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;https://stackoverflow.com/a/75573092/1047040</emphasis>
+197 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&#32;&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+198 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1ab2d052de21a70539923e9bcbf6e83a51">GLM_FUNC_DECL</link>&#32;<link linkend="_structglm_1_1mat">mat&lt;4, 4, T, Q&gt;</link>&#32;<link linkend="_group__gtx__matrix__decompose_1ga8f836f4e7cc19ba301fc135d579aa2bc">recompose</link>(
+199 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;scale,&#32;<link linkend="_structglm_1_1qua">qua&lt;T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;orientation,&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;translation,
+200 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;skew,&#32;<link linkend="_structglm_1_1vec">vec&lt;4, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;perspective)
+201 &#32;&#32;&#32;&#32;{
+202 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structglm_1_1mat">glm::mat4</link>&#32;m&#32;=&#32;<link linkend="_group__core__matrix_1gac54cbc572f1349a255fe476ca6a42a7b">glm::mat4</link>(1.f);
+203 
+204 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m[0][3]&#32;=&#32;perspective.x;
+205 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m[1][3]&#32;=&#32;perspective.y;
+206 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m[2][3]&#32;=&#32;perspective.z;
+207 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m[3][3]&#32;=&#32;perspective.w;
+208 
+209 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m&#32;*=&#32;<link linkend="_group__ext__matrix__transform_1gad5bff66dd884b2e004188dd9a9cd590e">glm::translate</link>(translation);
+210 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m&#32;*=&#32;<link linkend="_group__gtc__quaternion_1gaa6dc632fb953f612d07ad5b533d0390f">glm::mat4_cast</link>(orientation);
+211 
+212 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(<link linkend="_group__core__func__common_1ga439e60a72eadecfeda2df5449c613a64">abs</link>(skew.x)&#32;&gt;&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(0))&#32;{
+213 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structglm_1_1mat">glm::mat4</link>&#32;tmp(1.f);
+214 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;tmp[2][1]&#32;=&#32;skew.x;
+215 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m&#32;*=&#32;tmp;
+216 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+217 
+218 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(<link linkend="_group__core__func__common_1ga439e60a72eadecfeda2df5449c613a64">abs</link>(skew.y)&#32;&gt;&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(0))&#32;{
+219 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structglm_1_1mat">glm::mat4</link>&#32;tmp(1.f);
+220 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;tmp[2][0]&#32;=&#32;skew.y;
+221 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m&#32;*=&#32;tmp;
+222 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+223 
+224 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(<link linkend="_group__core__func__common_1ga439e60a72eadecfeda2df5449c613a64">abs</link>(skew.z)&#32;&gt;&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(0))&#32;{
+225 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structglm_1_1mat">glm::mat4</link>&#32;tmp(1.f);
+226 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;tmp[1][0]&#32;=&#32;skew.z;
+227 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m&#32;*=&#32;tmp;
+228 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+229 
+230 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m&#32;*=&#32;<link linkend="_group__ext__matrix__transform_1gaae2f8b2080622b24b85e1096748599b6">glm::scale</link>(scale);
+231 
+232 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;m;
+233 &#32;&#32;&#32;&#32;}
+234 }<emphasis role="comment">//namespace&#32;glm</emphasis>
+</programlisting></section>

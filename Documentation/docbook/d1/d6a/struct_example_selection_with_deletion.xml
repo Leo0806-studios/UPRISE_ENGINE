@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_struct_example_selection_with_deletion" xml:lang="en-US">
+<title>ExampleSelectionWithDeletion Struct Reference</title>
+<indexterm><primary>ExampleSelectionWithDeletion</primary></indexterm>
+<para>Inheritance diagram for ExampleSelectionWithDeletion:    <informalfigure>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="0" fileref="../../d1/d6a/struct_example_selection_with_deletion.png"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </informalfigure>
+</para>
+<simplesect>
+    <title>Public Member Functions    </title>
+        <itemizedlist>
+            <listitem><para>int <link linkend="_struct_example_selection_with_deletion_1a741d9367a06463991c3171a06c0924c8">ApplyDeletionPreLoop</link> (ImGuiMultiSelectIO *ms_io, int items_count)</para>
+</listitem>
+            <listitem><para>template&lt;typename ITEM_TYPE &gt; </para><para>void <link linkend="_struct_example_selection_with_deletion_1aa040ee356abd37ae15d34eaae8b53822">ApplyDeletionPostLoop</link> (ImGuiMultiSelectIO *ms_io, ImVector&lt; ITEM_TYPE &gt; &amp;items, int item_curr_idx_to_select)</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+<para>
+Definition at line <link linkend="_imgui__demo_8cpp_source_1l02957">2957</link> of file <link linkend="_imgui__demo_8cpp_source">imgui_demo.cpp</link>.</para>
+</section>
+<section>
+<title>Member Function Documentation</title>
+<anchor xml:id="_struct_example_selection_with_deletion_1aa040ee356abd37ae15d34eaae8b53822"/><section>
+    <title>ApplyDeletionPostLoop()</title>
+<indexterm><primary>ApplyDeletionPostLoop</primary><secondary>ExampleSelectionWithDeletion</secondary></indexterm>
+<indexterm><primary>ExampleSelectionWithDeletion</primary><secondary>ApplyDeletionPostLoop</secondary></indexterm>
+<computeroutput>template&lt;typename ITEM_TYPE &gt; </computeroutput><para><computeroutput>void ExampleSelectionWithDeletion::ApplyDeletionPostLoop (ImGuiMultiSelectIO * ms_io, ImVector&lt; ITEM_TYPE &gt; &amp; items, int item_curr_idx_to_select)<computeroutput>[inline]</computeroutput></computeroutput></para><para>
+Definition at line <link linkend="_imgui__demo_8cpp_source_1l02996">2996</link> of file <link linkend="_imgui__demo_8cpp_source">imgui_demo.cpp</link>.</para>
+<programlisting linenumbering="unnumbered">02997 &#32;&#32;&#32;&#32;{
+02998 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Rewrite&#32;item&#32;list&#32;(delete&#32;items)&#32;+&#32;convert&#32;old&#32;selection&#32;index&#32;(before&#32;deletion)&#32;to&#32;new&#32;selection&#32;index&#32;(after&#32;selection).</emphasis>
+02999 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;If&#32;NavId&#32;was&#32;not&#32;part&#32;of&#32;selection,&#32;we&#32;will&#32;stay&#32;on&#32;same&#32;item.</emphasis>
+03000 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ImVector&lt;ITEM_TYPE&gt;&#32;new_items;
+03001 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;new_items.reserve(items.Size&#32;-&#32;Size);
+03002 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;item_next_idx_to_select&#32;=&#32;-1;
+03003 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(<emphasis role="keywordtype">int</emphasis>&#32;idx&#32;=&#32;0;&#32;idx&#32;&lt;&#32;items.Size;&#32;idx++)
+03004 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+03005 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(!Contains(GetStorageIdFromIndex(idx)))
+03006 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;new_items.push_back(items[idx]);
+03007 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(item_curr_idx_to_select&#32;==&#32;idx)
+03008 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;item_next_idx_to_select&#32;=&#32;new_items.Size&#32;-&#32;1;
+03009 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+03010 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;items.swap(new_items);
+03011 
+03012 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Update&#32;selection</emphasis>
+03013 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Clear();
+03014 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(item_next_idx_to_select&#32;!=&#32;-1&#32;&amp;&amp;&#32;ms_io-&gt;NavIdSelected)
+03015 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;SetItemSelected(GetStorageIdFromIndex(item_next_idx_to_select),&#32;<emphasis role="keyword">true</emphasis>);
+03016 &#32;&#32;&#32;&#32;}
+</programlisting><para>
+Referenced by <link linkend="_imgui__demo_8cpp_source_1l10324">ExampleAssetsBrowser::Draw()</link>.</para>
+</section>
+<anchor xml:id="_struct_example_selection_with_deletion_1a741d9367a06463991c3171a06c0924c8"/><section>
+    <title>ApplyDeletionPreLoop()</title>
+<indexterm><primary>ApplyDeletionPreLoop</primary><secondary>ExampleSelectionWithDeletion</secondary></indexterm>
+<indexterm><primary>ExampleSelectionWithDeletion</primary><secondary>ApplyDeletionPreLoop</secondary></indexterm>
+<para><computeroutput>int ExampleSelectionWithDeletion::ApplyDeletionPreLoop (ImGuiMultiSelectIO * ms_io, int items_count)<computeroutput>[inline]</computeroutput></computeroutput></para><para>
+Definition at line <link linkend="_imgui__demo_8cpp_source_1l02966">2966</link> of file <link linkend="_imgui__demo_8cpp_source">imgui_demo.cpp</link>.</para>
+<programlisting linenumbering="unnumbered">02967 &#32;&#32;&#32;&#32;{
+02968 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(Size&#32;==&#32;0)
+02969 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;-1;
+02970 
+02971 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;If&#32;focused&#32;item&#32;is&#32;not&#32;selected...</emphasis>
+02972 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;focused_idx&#32;=&#32;(int)ms_io-&gt;NavIdItem;&#32;&#32;<emphasis role="comment">//&#32;Index&#32;of&#32;currently&#32;focused&#32;item</emphasis>
+02973 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(ms_io-&gt;NavIdSelected&#32;==&#32;<emphasis role="keyword">false</emphasis>)&#32;&#32;<emphasis role="comment">//&#32;This&#32;is&#32;merely&#32;a&#32;shortcut,&#32;==&#32;Contains(adapter-&gt;IndexToStorage(items,&#32;focused_idx))</emphasis>
+02974 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+02975 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ms_io-&gt;RangeSrcReset&#32;=&#32;<emphasis role="keyword">true</emphasis>;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Request&#32;to&#32;recover&#32;RangeSrc&#32;from&#32;NavId&#32;next&#32;frame.&#32;Would&#32;be&#32;ok&#32;to&#32;reset&#32;even&#32;when&#32;NavIdSelected==true,&#32;but&#32;it&#32;would&#32;take&#32;an&#32;extra&#32;frame&#32;to&#32;recover&#32;RangeSrc&#32;when&#32;deleting&#32;a&#32;selected&#32;item.</emphasis>
+02976 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;focused_idx;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Request&#32;to&#32;focus&#32;same&#32;item&#32;after&#32;deletion.</emphasis>
+02977 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+02978 
+02979 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;If&#32;focused&#32;item&#32;is&#32;selected:&#32;land&#32;on&#32;first&#32;unselected&#32;item&#32;after&#32;focused&#32;item.</emphasis>
+02980 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(<emphasis role="keywordtype">int</emphasis>&#32;idx&#32;=&#32;focused_idx&#32;+&#32;1;&#32;idx&#32;&lt;&#32;items_count;&#32;idx++)
+02981 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(!Contains(GetStorageIdFromIndex(idx)))
+02982 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;idx;
+02983 
+02984 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;If&#32;focused&#32;item&#32;is&#32;selected:&#32;otherwise&#32;return&#32;last&#32;unselected&#32;item&#32;before&#32;focused&#32;item.</emphasis>
+02985 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(<emphasis role="keywordtype">int</emphasis>&#32;idx&#32;=&#32;<link linkend="_imgui__demo_8cpp_1af25a13a96600f1a018104f6c2d3da645">IM_MIN</link>(focused_idx,&#32;items_count)&#32;-&#32;1;&#32;idx&#32;&gt;=&#32;0;&#32;idx--)
+02986 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(!Contains(GetStorageIdFromIndex(idx)))
+02987 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;idx;
+02988 
+02989 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;-1;
+02990 &#32;&#32;&#32;&#32;}
+</programlisting><para>
+References <link linkend="_imgui__demo_8cpp_source_1l00182">IM_MIN</link>.</para>
+<para>
+Referenced by <link linkend="_imgui__demo_8cpp_source_1l10324">ExampleAssetsBrowser::Draw()</link>.</para>
+</section>
+<para>
+The documentation for this struct was generated from the following file:</para>
+UPRISE_ENGINE/<link linkend="_imgui__demo_8cpp">imgui_demo.cpp</link></section>
+</section>

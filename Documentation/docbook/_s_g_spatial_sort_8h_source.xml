@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="__s_g_spatial_sort_8h_source" xml:lang="en-US">
+<title>SGSpatialSort.h</title>
+<indexterm><primary>adhed/assimp/SGSpatialSort.h</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 <emphasis role="comment">/*</emphasis>
+2 <emphasis role="comment">Open&#32;Asset&#32;Import&#32;Library&#32;(assimp)</emphasis>
+3 <emphasis role="comment">----------------------------------------------------------------------</emphasis>
+4 <emphasis role="comment"></emphasis>
+5 <emphasis role="comment">Copyright&#32;(c)&#32;2006-2022,&#32;assimp&#32;team</emphasis>
+6 <emphasis role="comment"></emphasis>
+7 <emphasis role="comment"></emphasis>
+8 <emphasis role="comment">All&#32;rights&#32;reserved.</emphasis>
+9 <emphasis role="comment"></emphasis>
+10 <emphasis role="comment">Redistribution&#32;and&#32;use&#32;of&#32;this&#32;software&#32;in&#32;source&#32;and&#32;binary&#32;forms,</emphasis>
+11 <emphasis role="comment">with&#32;or&#32;without&#32;modification,&#32;are&#32;permitted&#32;provided&#32;that&#32;the</emphasis>
+12 <emphasis role="comment">following&#32;conditions&#32;are&#32;met:</emphasis>
+13 <emphasis role="comment"></emphasis>
+14 <emphasis role="comment">*&#32;Redistributions&#32;of&#32;source&#32;code&#32;must&#32;retain&#32;the&#32;above</emphasis>
+15 <emphasis role="comment">&#32;&#32;copyright&#32;notice,&#32;this&#32;list&#32;of&#32;conditions&#32;and&#32;the</emphasis>
+16 <emphasis role="comment">&#32;&#32;following&#32;disclaimer.</emphasis>
+17 <emphasis role="comment"></emphasis>
+18 <emphasis role="comment">*&#32;Redistributions&#32;in&#32;binary&#32;form&#32;must&#32;reproduce&#32;the&#32;above</emphasis>
+19 <emphasis role="comment">&#32;&#32;copyright&#32;notice,&#32;this&#32;list&#32;of&#32;conditions&#32;and&#32;the</emphasis>
+20 <emphasis role="comment">&#32;&#32;following&#32;disclaimer&#32;in&#32;the&#32;documentation&#32;and/or&#32;other</emphasis>
+21 <emphasis role="comment">&#32;&#32;materials&#32;provided&#32;with&#32;the&#32;distribution.</emphasis>
+22 <emphasis role="comment"></emphasis>
+23 <emphasis role="comment">*&#32;Neither&#32;the&#32;name&#32;of&#32;the&#32;assimp&#32;team,&#32;nor&#32;the&#32;names&#32;of&#32;its</emphasis>
+24 <emphasis role="comment">&#32;&#32;contributors&#32;may&#32;be&#32;used&#32;to&#32;endorse&#32;or&#32;promote&#32;products</emphasis>
+25 <emphasis role="comment">&#32;&#32;derived&#32;from&#32;this&#32;software&#32;without&#32;specific&#32;prior</emphasis>
+26 <emphasis role="comment">&#32;&#32;written&#32;permission&#32;of&#32;the&#32;assimp&#32;team.</emphasis>
+27 <emphasis role="comment"></emphasis>
+28 <emphasis role="comment">THIS&#32;SOFTWARE&#32;IS&#32;PROVIDED&#32;BY&#32;THE&#32;COPYRIGHT&#32;HOLDERS&#32;AND&#32;CONTRIBUTORS</emphasis>
+29 <emphasis role="comment">&quot;AS&#32;IS&quot;&#32;AND&#32;ANY&#32;EXPRESS&#32;OR&#32;IMPLIED&#32;WARRANTIES,&#32;INCLUDING,&#32;BUT&#32;NOT</emphasis>
+30 <emphasis role="comment">LIMITED&#32;TO,&#32;THE&#32;IMPLIED&#32;WARRANTIES&#32;OF&#32;MERCHANTABILITY&#32;AND&#32;FITNESS&#32;FOR</emphasis>
+31 <emphasis role="comment">A&#32;PARTICULAR&#32;PURPOSE&#32;ARE&#32;DISCLAIMED.&#32;IN&#32;NO&#32;EVENT&#32;SHALL&#32;THE&#32;COPYRIGHT</emphasis>
+32 <emphasis role="comment">OWNER&#32;OR&#32;CONTRIBUTORS&#32;BE&#32;LIABLE&#32;FOR&#32;ANY&#32;DIRECT,&#32;INDIRECT,&#32;INCIDENTAL,</emphasis>
+33 <emphasis role="comment">SPECIAL,&#32;EXEMPLARY,&#32;OR&#32;CONSEQUENTIAL&#32;DAMAGES&#32;(INCLUDING,&#32;BUT&#32;NOT</emphasis>
+34 <emphasis role="comment">LIMITED&#32;TO,&#32;PROCUREMENT&#32;OF&#32;SUBSTITUTE&#32;GOODS&#32;OR&#32;SERVICES;&#32;LOSS&#32;OF&#32;USE,</emphasis>
+35 <emphasis role="comment">DATA,&#32;OR&#32;PROFITS;&#32;OR&#32;BUSINESS&#32;INTERRUPTION)&#32;HOWEVER&#32;CAUSED&#32;AND&#32;ON&#32;ANY</emphasis>
+36 <emphasis role="comment">THEORY&#32;OF&#32;LIABILITY,&#32;WHETHER&#32;IN&#32;CONTRACT,&#32;STRICT&#32;LIABILITY,&#32;OR&#32;TORT</emphasis>
+37 <emphasis role="comment">(INCLUDING&#32;NEGLIGENCE&#32;OR&#32;OTHERWISE)&#32;ARISING&#32;IN&#32;ANY&#32;WAY&#32;OUT&#32;OF&#32;THE&#32;USE</emphasis>
+38 <emphasis role="comment">OF&#32;THIS&#32;SOFTWARE,&#32;EVEN&#32;IF&#32;ADVISED&#32;OF&#32;THE&#32;POSSIBILITY&#32;OF&#32;SUCH&#32;DAMAGE.</emphasis>
+39 <emphasis role="comment"></emphasis>
+40 <emphasis role="comment">----------------------------------------------------------------------</emphasis>
+41 <emphasis role="comment">*/</emphasis>
+42 
+45 <emphasis role="preprocessor">#pragma&#32;once</emphasis>
+46 <emphasis role="preprocessor">#ifndef&#32;AI_D3DSSPATIALSORT_H_INC</emphasis>
+47 <emphasis role="preprocessor">#define&#32;AI_D3DSSPATIALSORT_H_INC</emphasis>
+48 
+49 <emphasis role="preprocessor">#ifdef&#32;__GNUC__</emphasis>
+50 <emphasis role="preprocessor">#&#32;&#32;&#32;pragma&#32;GCC&#32;system_header</emphasis>
+51 <emphasis role="preprocessor">#endif</emphasis>
+52 
+53 <emphasis role="preprocessor">#include&#32;&lt;<link linkend="_types_8h">assimp/types.h</link>&gt;</emphasis>
+54 <emphasis role="preprocessor">#include&#32;&lt;vector&gt;</emphasis>
+55 <emphasis role="preprocessor">#include&#32;&lt;stdint.h&gt;</emphasis>
+56 
+57 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespace_assimp">Assimp</link>&#32;&#32;&#32;&#32;{
+58 
+59 <emphasis role="comment">//&#32;----------------------------------------------------------------------------------</emphasis>
+65 <emphasis role="comment">//&#32;----------------------------------------------------------------------------------</emphasis>
+66 <emphasis role="keyword">class&#32;</emphasis><link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;<link linkend="_class_assimp_1_1_s_g_spatial_sort">SGSpatialSort</link>
+67 {
+68 <emphasis role="keyword">public</emphasis>:
+69 
+70 &#32;&#32;&#32;&#32;<link linkend="_class_assimp_1_1_s_g_spatial_sort_1a8d4df2d8225cb74e6cd6342fa10da2ed">SGSpatialSort</link>();
+71 
+72 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-------------------------------------------------------------------</emphasis>
+76 &#32;&#32;&#32;&#32;<emphasis role="keyword">explicit</emphasis>&#32;<link linkend="_class_assimp_1_1_s_g_spatial_sort_1a03c330e8cdf61d8b33e6de8893e235e6">SGSpatialSort</link>(<emphasis role="keyword">const</emphasis>&#32;std::vector&lt;aiVector3D&gt;&amp;&#32;vPositions);
+77 
+78 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-------------------------------------------------------------------</emphasis>
+84 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_assimp_1_1_s_g_spatial_sort_1adfe82e1689fc782166019d8f7f9b35a5">Add</link>(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&amp;&#32;vPosition,&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a57f14e05b1900f16a2da82ade47d0c6d">index</link>,
+85 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;smoothingGroup);
+86 
+87 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-------------------------------------------------------------------</emphasis>
+90 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_assimp_1_1_s_g_spatial_sort_1aeccf2ea7b7b5b0e2b3d22ff366c5fc59">Prepare</link>();
+91 
+93 &#32;&#32;&#32;&#32;<link linkend="_class_assimp_1_1_s_g_spatial_sort_1afe7e34a71c28f2e66e7d41d3fbaec0ca">~SGSpatialSort</link>();
+94 
+95 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-------------------------------------------------------------------</emphasis>
+108 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-------------------------------------------------------------------</emphasis>
+109 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_assimp_1_1_s_g_spatial_sort_1ab06ebf9fdf866149666dbb5206111e87">FindPositions</link>(&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&amp;&#32;pPosition,&#32;uint32_t&#32;pSG,
+110 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">float</emphasis>&#32;pRadius,&#32;std::vector&lt;unsigned&#32;int&gt;&amp;&#32;poResults,
+111 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;exactMatch&#32;=&#32;<emphasis role="keyword">false</emphasis>)&#32;<emphasis role="keyword">const</emphasis>;
+112 
+113 <emphasis role="keyword">protected</emphasis>:
+115 &#32;&#32;&#32;&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&#32;<link linkend="_class_assimp_1_1_s_g_spatial_sort_1a8b804cf9b91af01eedebca7d878cd3df">mPlaneNormal</link>;
+116 
+117 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-------------------------------------------------------------------</emphasis>
+121 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-------------------------------------------------------------------</emphasis>
+122 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis><link linkend="_struct_assimp_1_1_s_g_spatial_sort_1_1_entry">Entry</link>&#32;{
+123 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_struct_assimp_1_1_s_g_spatial_sort_1_1_entry_1a897b84069035cee0a813a679ae375815">mIndex</link>;&#32;&#32;&#32;&#32;
+124 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&#32;<link linkend="_struct_assimp_1_1_s_g_spatial_sort_1_1_entry_1a0980fe98fe23dfeb99ab9ca1c568ca48">mPosition</link>;&#32;&#32;&#32;
+125 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uint32_t&#32;<link linkend="_struct_assimp_1_1_s_g_spatial_sort_1_1_entry_1ad5347532e8daf914342579793fa08dbb">mSmoothGroups</link>;
+126 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">float</emphasis>&#32;<link linkend="_struct_assimp_1_1_s_g_spatial_sort_1_1_entry_1aa416457a5f2e109fd35bd9b86fdc5697">mDistance</link>;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;
+127 
+128 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_assimp_1_1_s_g_spatial_sort_1_1_entry_1a6d1ef3b109852cdf2d8af1a3bb56de6c">Entry</link>()&#32;<link linkend="_defs_8h_1ae032f18edd69bf6ba935ef9feb025a96">AI_NO_EXCEPT</link>
+129 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;mIndex(0)
+130 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;mPosition()
+131 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;mSmoothGroups(0)
+132 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;mDistance(0.0<link linkend="_glad_8h_1ae29c29480f1260cc37ad71203904ea4d">f</link>)&#32;{
+133 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;empty</emphasis>
+134 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+135 
+136 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_assimp_1_1_s_g_spatial_sort_1_1_entry_1a9df0a8d9d8744ac95d829269531b44ad">Entry</link>(&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;pIndex,&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&amp;&#32;pPosition,&#32;<emphasis role="keywordtype">float</emphasis>&#32;pDistance,uint32_t&#32;pSG)
+137 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;mIndex(&#32;pIndex)
+138 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;mPosition(&#32;pPosition)
+139 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;mSmoothGroups(pSG)
+140 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;mDistance(&#32;pDistance)&#32;{
+141 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;empty</emphasis>
+142 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+143 
+144 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_json_8hpp_1a7f5e896ecae9860b0368b945abd45cfb">operator &lt; </link>(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_struct_assimp_1_1_s_g_spatial_sort_1_1_entry">Entry</link>&amp;&#32;<link linkend="_classe">e</link>)<emphasis role="keyword">&#32;const&#32;</emphasis>{
+145 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;mDistance&#32;&lt;&#32;<link linkend="_classe">e</link>.mDistance;
+146 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+147 &#32;&#32;&#32;&#32;};
+148 
+149 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;all&#32;positions,&#32;sorted&#32;by&#32;distance&#32;to&#32;the&#32;sorting&#32;plane</emphasis>
+150 &#32;&#32;&#32;&#32;std::vector&lt;Entry&gt;&#32;<link linkend="_class_assimp_1_1_s_g_spatial_sort_1ae259b68b3d5d1161dcf2d9d71e605cd4">mPositions</link>;
+151 };
+152 
+153 }&#32;<emphasis role="comment">//&#32;end&#32;of&#32;namespace&#32;Assimp</emphasis>
+154 
+155 <emphasis role="preprocessor">#endif&#32;</emphasis><emphasis role="comment">//&#32;AI_SPATIALSORT_H_INC</emphasis>
+</programlisting></section>

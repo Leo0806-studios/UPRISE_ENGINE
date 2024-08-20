@@ -1,0 +1,73 @@
+.TH "aiImporterDesc" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+aiImporterDesc
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fR#include <importerdesc\&.h>\fP
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "const char * \fBmName\fP"
+.br
+.ti -1c
+.RI "const char * \fBmAuthor\fP"
+.br
+.ti -1c
+.RI "const char * \fBmMaintainer\fP"
+.br
+.ti -1c
+.RI "const char * \fBmComments\fP"
+.br
+.ti -1c
+.RI "unsigned int \fBmFlags\fP"
+.br
+.ti -1c
+.RI "unsigned int \fBmMinMajor\fP"
+.br
+.ti -1c
+.RI "unsigned int \fBmMinMinor\fP"
+.br
+.ti -1c
+.RI "unsigned int \fBmMaxMajor\fP"
+.br
+.ti -1c
+.RI "unsigned int \fBmMaxMinor\fP"
+.br
+.ti -1c
+.RI "const char * \fBmFileExtensions\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Meta information about a particular importer\&. Importers need to fill this structure, but they can freely decide how talkative they are\&. A common use case for loader meta info is a user interface in which the user can choose between various import/export file formats\&. \fBBuilding\fP such an UI by hand means a lot of maintenance as importers/exporters are added to \fBAssimp\fP, so it might be useful to have a common mechanism to query some rough importer characteristics\&. 
+.SH "Member Data Documentation"
+.PP 
+.SS "const char* aiImporterDesc::mAuthor"
+Original author (left blank if unknown or whole assimp team) 
+.SS "const char* aiImporterDesc::mComments"
+Implementation comments, i\&.e\&. unimplemented features 
+.SS "const char* aiImporterDesc::mFileExtensions"
+List of file extensions this importer can handle\&. List entries are separated by space characters\&. All entries are lower case without a leading dot (i\&.e\&. 'xml dae' would be a valid value\&. Note that multiple importers may respond to the same file extension - assimp calls all importers in the order in which they are registered and each importer gets the opportunity to load the file until one importer 'claims' the file\&. Apart from file extension checks, importers typically use other methods to quickly reject files (i\&.e\&. magic words) so this does not mean that common or generic file extensions such as XML would be tediously slow\&. 
+.SS "unsigned int aiImporterDesc::mFlags"
+These flags indicate some characteristics common to many importers\&. 
+.SS "const char* aiImporterDesc::mMaintainer"
+Current maintainer, left blank if the author maintains 
+.SS "unsigned int aiImporterDesc::mMaxMajor"
+Maximum format version that can be loaded im major\&.minor format, both are set to 0 if there is either no version scheme or if the loader doesn't care\&. Loaders that expect to be forward-compatible to potential future format versions should indicate zero, otherwise they should specify the current maximum version\&. 
+.SS "unsigned int aiImporterDesc::mMaxMinor"
+
+.SS "unsigned int aiImporterDesc::mMinMajor"
+Minimum format version that can be loaded im major\&.minor format, both are set to 0 if there is either no version scheme or if the loader doesn't care\&. 
+.SS "unsigned int aiImporterDesc::mMinMinor"
+
+.SS "const char* aiImporterDesc::mName"
+Full name of the importer (i\&.e\&. Blender3D importer) 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

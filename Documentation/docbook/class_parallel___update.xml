@@ -22,11 +22,7 @@
 </listitem>
             <listitem><para>void <link linkend="_class_parallel___update_1a5ed689fc053d2ec3bbd087926d6fa9da">Update</link> () override</para>
 </listitem>
-            <listitem><para>virtual void <link linkend="_class_parallel___update_1a7030e7d5a410f83ad5243ac9e3c00de1">ParallelUpdate</link> ()=0</para>
-</listitem>
-            <listitem><para>virtual void <link linkend="_class_parallel___update_1a4e3bd4b979181ec9e62da2737a77c1e5">ParallelStart</link> ()=0</para>
-</listitem>
-            <listitem><para>virtual void <link linkend="_class_parallel___update_1a59532363915424306176362c0d3735cb">ParallelAwake</link> ()=0</para>
+            <listitem><para><link linkend="_class_parallel___update_1abdb21a8dfeecbbe38101961d3d404073">COPY</link> (<link linkend="_class_parallel___update">Parallel_Update</link>, <link linkend="__d_e_b_u_g___l_o_g_g_e_r_8h_1a7ec724fc36f207e8eee4924496b688fb">Log</link>&lt;&lt; &quot;DONT!&quot;;throw(std::exception());) <link linkend="__c___b_e_h_a_v_i_o_u_r_8h_1add7d517015027aa2cc345e349f2b5bff">DEEP_COPY</link>(<link linkend="_class_parallel___update">Parallel_Update</link></para>
 </listitem>
         </itemizedlist>
 </simplesect>
@@ -34,6 +30,12 @@ Public Member Functions inherited from <link linkend="_class_c_o_r_e_1_1_behavio
             <listitem><para><link linkend="_class_c_o_r_e_1_1_behaviour_1abecfce13ce706bd8b68ee89611ddfa06">Behaviour</link> ()</para>
 </listitem>
             <listitem><para><link linkend="_class_c_o_r_e_1_1_behaviour_1aa54ab7738a17169baec807df01de3b37">Behaviour</link> (<link linkend="_class_game_object">GameObject</link> *oobj, std::shared_ptr&lt; <link linkend="_class_c_o_r_e_1_1_behaviour">CORE::Behaviour</link> &gt; trans)</para>
+</listitem>
+            <listitem><para>virtual std::shared_ptr&lt; <link linkend="_class_c_o_r_e_1_1_behaviour">CORE::Behaviour</link> &gt; <link linkend="_class_c_o_r_e_1_1_behaviour_1a376fa39b0a3a9cb7c982e1c61df75ab8">Copy</link> ()=0</para>
+</listitem>
+            <listitem><para>virtual std::shared_ptr&lt; <link linkend="_class_c_o_r_e_1_1_behaviour">CORE::Behaviour</link> &gt; <link linkend="_class_c_o_r_e_1_1_behaviour_1a791cbaf9d8be99cea24d78b80177a555">DeepCopy</link> ()=0</para>
+</listitem>
+            <listitem><para>virtual void <link linkend="_class_c_o_r_e_1_1_behaviour_1af939526e780e260523e321d27507c974">EditorWindow</link> ()=0</para>
 </listitem>
         </itemizedlist>
 <simplesect>
@@ -56,6 +58,8 @@ Public Attributes inherited from <link linkend="_class_c_o_r_e_1_1_behaviour">CO
 </listitem>
             <listitem><para>std::shared_ptr&lt; <link linkend="_class_c_o_r_e_1_1_behaviour">CORE::Behaviour</link> &gt; <link linkend="_class_c_o_r_e_1_1_behaviour_1ae2fac71708ace730352621fd312a96e4">transf</link></para>
 </listitem>
+            <listitem><para>std::string <link linkend="_class_c_o_r_e_1_1_behaviour_1ae22a1897f4fc705c26b77a667ea2e5e5">compname</link></para>
+</listitem>
             <listitem><para>UUID <link linkend="_class_c_o_r_e_1_1_behaviour_1a941e395674b18126684c0128001f0caf">uuID</link></para>
 </listitem>
             <listitem><para>int <link linkend="_class_c_o_r_e_1_1_behaviour_1abab33e429040ffa520ba3724a5fc4a09">id</link></para>
@@ -74,59 +78,32 @@ Static Public Attributes inherited from <link linkend="_class_c_o_r_e_1_1_behavi
 </listitem>
         </itemizedlist>
 <section>
-<title>Detailed Description</title>
-<para>
-Definition at line <link linkend="__p_a_r_r_a_l_e_l___u_p_d_a_t_e_8h_source_1l00011">11</link> of file <link linkend="__p_a_r_r_a_l_e_l___u_p_d_a_t_e_8h_source">PARRALEL_UPDATE.h</link>.</para>
-</section>
-<section>
 <title>Member Function Documentation</title>
 <anchor xml:id="_class_parallel___update_1af7e4a0090806ffca41afc333b0e9ce8c"/><section>
     <title>Awake()</title>
 <indexterm><primary>Awake</primary><secondary>Parallel_Update</secondary></indexterm>
 <indexterm><primary>Parallel_Update</primary><secondary>Awake</secondary></indexterm>
 <para><computeroutput>void Parallel_Update::Awake ( )<computeroutput>[override]</computeroutput>, <computeroutput>[virtual]</computeroutput></computeroutput></para><para>
-Implements <link linkend="_class_c_o_r_e_1_1_behaviour_1ae7e766196b986d52c572c4dd792bd3b3">CORE::Behaviour</link>.</para>
-<para>
-Definition at line <link linkend="__p_a_r_r_a_l_e_l___u_p_d_a_t_e_8cpp_source_1l00003">3</link> of file <link linkend="__p_a_r_r_a_l_e_l___u_p_d_a_t_e_8cpp_source">PARRALEL_UPDATE.cpp</link>.</para>
+Reimplemented from <link linkend="_class_c_o_r_e_1_1_behaviour_1a9ee42bf018b419d29c80bdd3aa7b277d">CORE::Behaviour</link>.</para>
 </section>
-<anchor xml:id="_class_parallel___update_1a59532363915424306176362c0d3735cb"/><section>
-    <title>ParallelAwake()</title>
-<indexterm><primary>ParallelAwake</primary><secondary>Parallel_Update</secondary></indexterm>
-<indexterm><primary>Parallel_Update</primary><secondary>ParallelAwake</secondary></indexterm>
-<para><computeroutput>virtual void Parallel_Update::ParallelAwake ( )<computeroutput>[pure virtual]</computeroutput></computeroutput></para><para>
-Implemented in <link linkend="_class_physics___object_1af4b0fee92db8038f5ca4a7de5f4a11ed">Physics_Object</link>.</para>
-</section>
-<anchor xml:id="_class_parallel___update_1a4e3bd4b979181ec9e62da2737a77c1e5"/><section>
-    <title>ParallelStart()</title>
-<indexterm><primary>ParallelStart</primary><secondary>Parallel_Update</secondary></indexterm>
-<indexterm><primary>Parallel_Update</primary><secondary>ParallelStart</secondary></indexterm>
-<para><computeroutput>virtual void Parallel_Update::ParallelStart ( )<computeroutput>[pure virtual]</computeroutput></computeroutput></para><para>
-Implemented in <link linkend="_class_physics___object_1ad8275d630141b8260eb40ba52dca4596">Physics_Object</link>.</para>
-</section>
-<anchor xml:id="_class_parallel___update_1a7030e7d5a410f83ad5243ac9e3c00de1"/><section>
-    <title>ParallelUpdate()</title>
-<indexterm><primary>ParallelUpdate</primary><secondary>Parallel_Update</secondary></indexterm>
-<indexterm><primary>Parallel_Update</primary><secondary>ParallelUpdate</secondary></indexterm>
-<para><computeroutput>virtual void Parallel_Update::ParallelUpdate ( )<computeroutput>[pure virtual]</computeroutput></computeroutput></para><para>
-Implemented in <link linkend="_class_physics___object_1a15c3cb124b90a87665c9b56eb2fa2e1a">Physics_Object</link>.</para>
-</section>
+<anchor xml:id="_class_parallel___update_1abdb21a8dfeecbbe38101961d3d404073"/><section>
+    <title>COPY()</title>
+<indexterm><primary>COPY</primary><secondary>Parallel_Update</secondary></indexterm>
+<indexterm><primary>Parallel_Update</primary><secondary>COPY</secondary></indexterm>
+<para><computeroutput>Parallel_Update::COPY (<link linkend="_class_parallel___update">Parallel_Update</link> , <link linkend="__d_e_b_u_g___l_o_g_g_e_r_8h_1a7ec724fc36f207e8eee4924496b688fb">Log</link>&lt;&lt; &quot;DONT!&quot;;throw(std::exception()); )</computeroutput></para></section>
 <anchor xml:id="_class_parallel___update_1aeafe312051d9305cbf21657e765ed95c"/><section>
     <title>Start()</title>
 <indexterm><primary>Start</primary><secondary>Parallel_Update</secondary></indexterm>
 <indexterm><primary>Parallel_Update</primary><secondary>Start</secondary></indexterm>
 <para><computeroutput>void Parallel_Update::Start ( )<computeroutput>[override]</computeroutput>, <computeroutput>[virtual]</computeroutput></computeroutput></para><para>
-Implements <link linkend="_class_c_o_r_e_1_1_behaviour_1ac59e412c02f55fd077bc9b3f543e2b1a">CORE::Behaviour</link>.</para>
-<para>
-Definition at line <link linkend="__p_a_r_r_a_l_e_l___u_p_d_a_t_e_8cpp_source_1l00007">7</link> of file <link linkend="__p_a_r_r_a_l_e_l___u_p_d_a_t_e_8cpp_source">PARRALEL_UPDATE.cpp</link>.</para>
+Reimplemented from <link linkend="_class_c_o_r_e_1_1_behaviour_1a11a25e6600baa3c5a6924c33b0b86071">CORE::Behaviour</link>.</para>
 </section>
 <anchor xml:id="_class_parallel___update_1a5ed689fc053d2ec3bbd087926d6fa9da"/><section>
     <title>Update()</title>
 <indexterm><primary>Update</primary><secondary>Parallel_Update</secondary></indexterm>
 <indexterm><primary>Parallel_Update</primary><secondary>Update</secondary></indexterm>
 <para><computeroutput>void Parallel_Update::Update ( )<computeroutput>[override]</computeroutput>, <computeroutput>[virtual]</computeroutput></computeroutput></para><para>
-Implements <link linkend="_class_c_o_r_e_1_1_behaviour_1ae5a866762abca2dfabff14209306059a">CORE::Behaviour</link>.</para>
-<para>
-Definition at line <link linkend="__p_a_r_r_a_l_e_l___u_p_d_a_t_e_8cpp_source_1l00011">11</link> of file <link linkend="__p_a_r_r_a_l_e_l___u_p_d_a_t_e_8cpp_source">PARRALEL_UPDATE.cpp</link>.</para>
+Reimplemented from <link linkend="_class_c_o_r_e_1_1_behaviour_1a4a0de0e3555170c221503bf59ea1ef49">CORE::Behaviour</link>.</para>
 </section>
 <para>
 The documentation for this class was generated from the following files:</para>

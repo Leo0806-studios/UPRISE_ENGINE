@@ -2,138 +2,199 @@
 <section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source" xml:lang="en-US">
 <title>GAMEOBJECT.h</title>
 <indexterm><primary>UPRISE_ENGINE/GAMEOBJECT.h</primary></indexterm>
-Go to the documentation of this file.<programlisting linenumbering="unnumbered"><anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00001"/>00001 <emphasis role="preprocessor">#pragma&#32;once</emphasis>
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00002"/>00002 
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00003"/>00003 <emphasis role="preprocessor">#ifndef&#32;_GAMEOBJECT_</emphasis>
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00004"/><link linkend="__g_a_m_e_o_b_j_e_c_t_8h_1ad18879aeb1d24016534a8620cb8d4dab">00004</link> <emphasis role="preprocessor">#define&#32;_GAMEOBJECT_</emphasis>
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00005"/>00005 
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00006"/>00006 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_pch_8h">pch.h</link>&quot;</emphasis>
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00007"/>00007 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__c_o_r_e_8h">CORE.h</link>&quot;</emphasis>
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00008"/>00008 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__d_a_t_a_t_y_p_e_s_8h">DATATYPES.h</link>&quot;</emphasis>
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00009"/>00009 
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00010"/>00010 <emphasis role="comment">//#include&#32;&quot;_COMPONENT.h&quot;</emphasis>
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00011"/>00011 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespace_c_o_r_e">CORE</link>&#32;{
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00012"/>00012 &#32;&#32;&#32;&#32;<emphasis role="keyword">class&#32;</emphasis>Behaviour;
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00013"/>00013 
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00014"/>00014 }
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00015"/>00015 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespace_c_o_m_p_o_n_e_n_t_s">COMPONENTS</link>&#32;{
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00016"/>00016 &#32;&#32;&#32;&#32;<emphasis role="keyword">class&#32;</emphasis>_Mesh;
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00017"/>00017 }
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00018"/>00018 <emphasis role="keyword">class&#32;</emphasis><link linkend="_class_transform">Transform</link>;
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00019"/>00019 
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00020"/>00020 
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00021"/><link linkend="_class_game_object">00021</link> &#32;&#32;&#32;&#32;<emphasis role="keyword">class&#32;</emphasis><link linkend="_class_game_object">GameObject</link>&#32;:<emphasis role="keyword">public</emphasis>&#32;<link linkend="_class_c_o_r_e_1_1_object">CORE::Object</link>&#32;{
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00022"/>00022 &#32;&#32;&#32;&#32;<emphasis role="keyword">public</emphasis>:
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00023"/><link linkend="_class_game_object_1a0cb2c1c06adb407ecb9ee1e2b72d01f9">00023</link> &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_class_game_object_1a0cb2c1c06adb407ecb9ee1e2b72d01f9">Enabled</link>&#32;=&#32;<emphasis role="keyword">true</emphasis>;
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00024"/>00024 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//Transform&#32;trans;</emphasis>
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00025"/><link linkend="_class_game_object_1ac7d5415e4fee880676ffcc01e78f2b3a">00025</link> &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::shared_ptr&lt;COMPONENTS::_Mesh&gt;&#32;<link linkend="_class_game_object_1ac7d5415e4fee880676ffcc01e78f2b3a">MESH</link>;
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00026"/><link linkend="_class_game_object_1ab9d78dc76afc8b9109802b856f6d0048">00026</link> &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::shared_ptr&lt;Transform&gt;&#32;<link linkend="_class_game_object_1ab9d78dc76afc8b9109802b856f6d0048">TrAnSfOrM</link>;
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00027"/><link linkend="_class_game_object_1af1c7d552891462646861142db7397fb0">00027</link> &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::shared_ptr&lt;CORE::Behaviour&gt;&#32;<link linkend="_class_game_object_1af1c7d552891462646861142db7397fb0">MesH</link>;
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00028"/><link linkend="_class_game_object_1aa7e350d11c0f06480a88ab410d929313">00028</link> &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>*&#32;<link linkend="_class_game_object_1aa7e350d11c0f06480a88ab410d929313">msh</link>;
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00029"/><link linkend="_class_game_object_1af542b33c8de269343e22c5629e6b66c0">00029</link> &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::string&#32;<link linkend="_class_game_object_1af542b33c8de269343e22c5629e6b66c0">name</link>;
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00030"/><link linkend="_class_game_object_1a7c45a38dad9359074bb4b814d0a435c6">00030</link> &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::vector&lt;void*&gt;&#32;<link linkend="_class_game_object_1a7c45a38dad9359074bb4b814d0a435c6">Components</link>;
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00031"/><link linkend="_class_game_object_1ac905417baef1933aee70fc7539f717b3">00031</link> &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::vector&lt;std::shared_ptr&lt;CORE::Behaviour&gt;&gt;&#32;<link linkend="_class_game_object_1ac905417baef1933aee70fc7539f717b3">behaviours</link>;
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00032"/><link linkend="_class_game_object_1ad6a231606adfd666084742f00716e4f2">00032</link> &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::vector&lt;UUID&gt;&#32;<link linkend="_class_game_object_1ad6a231606adfd666084742f00716e4f2">uuids</link>;
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00033"/><link linkend="_class_game_object_1a0348e3ee2e83d56eafca7a3547f432c4">00033</link> &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_game_object_1a0348e3ee2e83d56eafca7a3547f432c4">GameObject</link>()&#32;{};
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00034"/>00034 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="_class_game_object">GameObject</link>&#32;<link linkend="_class_game_object_1a8047b6d401d5c3a968c79d9722f487cb">Create</link>(<link linkend="_struct_d_a_t_a_t_y_p_e_s_1_1_t_s___p___vector3">DATATYPES::TS_P_Vector3</link>&#32;pos,&#32;<emphasis role="keywordtype">void</emphasis>*&#32;mesh,<emphasis role="keywordtype">int</emphasis>&#32;materialID);
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00035"/>00035 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="_class_game_object">GameObject</link>&#32;<link linkend="_class_game_object_1a8047b6d401d5c3a968c79d9722f487cb">Create</link>(<link linkend="_struct_d_a_t_a_t_y_p_e_s_1_1_t_s___p___vector3">DATATYPES::TS_P_Vector3</link>&#32;pos,&#32;std::shared_ptr&lt;COMPONENTS::_Mesh&gt;&#32;mesh,<emphasis role="keywordtype">int</emphasis>&#32;materialID);
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00036"/>00036 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="_class_game_object">GameObject</link>&#32;<link linkend="_class_game_object_1abab0df05346744a928e71b990d8692eb">CreateEmpty</link>(<link linkend="_struct_d_a_t_a_t_y_p_e_s_1_1_t_s___p___vector3">DATATYPES::TS_P_Vector3</link>&#32;pos);
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00037"/>00037 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="_class_game_object">GameObject</link>&#32;<link linkend="_class_game_object_1a40a066e6d52e66022dce626fa5a31220">CreateCamera</link>(<link linkend="_struct_d_a_t_a_t_y_p_e_s_1_1_t_s___p___vector3">DATATYPES::TS_P_Vector3</link>&#32;pos);
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00038"/>00038 
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00039"/>00039 
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00040"/>00040 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_game_object_1a6cb1562756aac08750d4b30f46ef7619">AddComponent</link>(<emphasis role="keywordtype">void</emphasis>*&#32;component);
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00041"/>00041 
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00042"/>00042 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&#32;&lt;<emphasis role="keyword">class&#32;</emphasis>_Ty,&#32;<emphasis role="keyword">class</emphasis>...&#32;_Types&gt;
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00043"/><link linkend="_class_game_object_1a355fd8635d46ad783f1eeb1ff2b8c20e">00043</link> &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_Ty*&#32;<link linkend="_class_game_object_1a355fd8635d46ad783f1eeb1ff2b8c20e">AddComponent</link>(_Ty&#32;arg)&#32;{
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00044"/>00044 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(arg.UUID&#32;==&#32;GUID_NULL)&#32;{
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00045"/>00045 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;UUID&#32;<link linkend="_class_c_o_r_e_1_1_object_1aa786e707915fcc7188eed83372308069">uuid</link>;
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00046"/>00046 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;UuidCreate(&amp;<link linkend="_class_c_o_r_e_1_1_object_1aa786e707915fcc7188eed83372308069">uuid</link>);
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00047"/>00047 
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00048"/>00048 
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00049"/>00049 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;arg.UUID&#32;=&#32;<link linkend="_class_c_o_r_e_1_1_object_1aa786e707915fcc7188eed83372308069">uuid</link>;
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00050"/>00050 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;arg.uuID&#32;=&#32;arg.UUID;
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00051"/>00051 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00052"/>00052 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_game_object_1ad6a231606adfd666084742f00716e4f2">uuids</link>.push_back(arg.UUID);
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00053"/>00053 
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00054"/>00054 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;aaa&#32;=&#32;_Ty();
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00055"/>00055 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;aaa.gameobject&#32;=&#32;<emphasis role="keyword">this</emphasis>;
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00056"/>00056 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;aaa.transf&#32;=&#32;<link linkend="_class_game_object_1ac905417baef1933aee70fc7539f717b3">behaviours</link>[1];
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00057"/>00057 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;aaa.TRANSFORM&#32;=&#32;<link linkend="_class_game_object_1ab9d78dc76afc8b9109802b856f6d0048">TrAnSfOrM</link>;
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00058"/>00058 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//aa-&gt;gameobject&#32;=&#32;this;</emphasis>
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00059"/>00059 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;</emphasis>
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00060"/>00060 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::shared_ptr&lt;CORE::Behaviour&gt;&#32;a&#32;=&#32;std::make_shared&lt;_Ty&gt;(aaa);
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00061"/>00061 
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00062"/>00062 
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00063"/>00063 
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00064"/>00064 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_c_o_r_e_1_1_behaviour_1aaedcef1027c022b04f7bc22327a0ae3f">CORE::Behaviour::behaviours</link>.push_back(a);
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00065"/>00065 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_c_o_r_e_1_1_behaviour_1a4bf31591cc8fd7d5eb4d17ca7fe8d314">CORE::Behaviour::AWAKES</link>.push_back(a);
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00066"/>00066 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_c_o_r_e_1_1_behaviour_1a6f4299ac2021d1e9ab3064b17c2f9209">CORE::Behaviour::Starts</link>.push_back(a);
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00067"/>00067 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_game_object_1ac905417baef1933aee70fc7539f717b3">behaviours</link>.push_back(a);
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00068"/>00068 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;std::dynamic_pointer_cast&lt;_Ty&gt;(a).get();
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00069"/>00069 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00070"/>00070 
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00071"/>00071 
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00072"/>00072 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&#32;&lt;<emphasis role="keyword">class&#32;</emphasis>_Ty,&#32;<emphasis role="keyword">class</emphasis>...&#32;_Types&gt;
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00073"/>00073 
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00074"/><link linkend="_class_game_object_1af5ef48427151bec3ad080499b0540814">00074</link> &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_game_object_1af5ef48427151bec3ad080499b0540814">AddComponent</link>(_Ty&#32;arg,&#32;<emphasis role="keywordtype">void</emphasis>*&#32;component)&#32;{
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00075"/>00075 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(arg.UUID&#32;==&#32;GUID_NULL)&#32;{
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00076"/>00076 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;UUID&#32;<link linkend="_class_c_o_r_e_1_1_object_1aa786e707915fcc7188eed83372308069">uuid</link>;
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00077"/>00077 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;UuidCreate(&amp;<link linkend="_class_c_o_r_e_1_1_object_1aa786e707915fcc7188eed83372308069">uuid</link>);
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00078"/>00078 
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00079"/>00079 
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00080"/>00080 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;arg.UUID&#32;=&#32;<link linkend="_class_c_o_r_e_1_1_object_1aa786e707915fcc7188eed83372308069">uuid</link>;
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00081"/>00081 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;arg.uuID&#32;=&#32;arg.UUID;
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00082"/>00082 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00083"/>00083 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_game_object_1ad6a231606adfd666084742f00716e4f2">uuids</link>.push_back(arg.UUID);
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00084"/>00084 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;aa&#32;=&#32;(_Ty*)component;
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00085"/>00085 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;aa-&gt;gameobject&#32;=&#32;<emphasis role="keyword">this</emphasis>;
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00086"/>00086 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//aa-&gt;gameobject&#32;=&#32;this;</emphasis>
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00087"/>00087 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::shared_ptr&lt;CORE::Behaviour&gt;&#32;a&#32;=&#32;std::make_shared&lt;_Ty&gt;(*aa);
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00088"/>00088 
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00089"/>00089 
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00090"/>00090 
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00091"/>00091 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_c_o_r_e_1_1_behaviour_1aaedcef1027c022b04f7bc22327a0ae3f">CORE::Behaviour::behaviours</link>.push_back(a);
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00092"/>00092 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_c_o_r_e_1_1_behaviour_1a4bf31591cc8fd7d5eb4d17ca7fe8d314">CORE::Behaviour::AWAKES</link>.push_back(a);
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00093"/>00093 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_c_o_r_e_1_1_behaviour_1a6f4299ac2021d1e9ab3064b17c2f9209">CORE::Behaviour::Starts</link>.push_back(a);
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00094"/>00094 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_game_object_1ac905417baef1933aee70fc7539f717b3">behaviours</link>.push_back(a);
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00095"/>00095 
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00096"/>00096 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_game_object_1a7c45a38dad9359074bb4b814d0a435c6">Components</link>.push_back(component);
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00097"/>00097 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00098"/>00098 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//template&#32;&lt;class&#32;_Ty,&#32;class...&#32;_Types&gt;</emphasis>
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00099"/>00099 
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00100"/>00100 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//void&#32;AddComponent(_Ty&#32;arg,&#32;std::shared_ptr&lt;CORE::Behaviour&gt;&#32;component,void*&#32;voidcomp);</emphasis>
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00101"/>00101 
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00102"/>00102 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&#32;&lt;<emphasis role="keyword">class&#32;</emphasis>_Ty,&#32;<emphasis role="keyword">class</emphasis>...&#32;_Types&gt;
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00103"/><link linkend="_class_game_object_1ae725cb590f63dc1d603c5cec46ca4862">00103</link> &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_Ty*&#32;<link linkend="_class_game_object_1ae725cb590f63dc1d603c5cec46ca4862">GetComponent</link>(_Ty&#32;arg)&#32;{
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00104"/>00104 
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00105"/>00105 
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00106"/>00106 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(<emphasis role="keywordtype">int</emphasis>&#32;i&#32;=&#32;0;&#32;i&#32;&lt;&#32;<link linkend="_class_game_object_1a7c45a38dad9359074bb4b814d0a435c6">Components</link>.size();&#32;i++)&#32;{
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00107"/>00107 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(arg.UUID&#32;==&#32;<link linkend="_class_game_object_1ad6a231606adfd666084742f00716e4f2">uuids</link>[i])&#32;{
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00108"/>00108 
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00109"/>00109 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;found&quot;</emphasis>;
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00110"/>00110 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;(_Ty*)<link linkend="_class_game_object_1a7c45a38dad9359074bb4b814d0a435c6">Components</link>[i];
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00111"/>00111 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00112"/>00112 
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00113"/>00113 
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00114"/>00114 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00115"/>00115 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00116"/>00116 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&#32;&lt;<emphasis role="keyword">class&#32;</emphasis>_Ty,&#32;<emphasis role="keyword">class</emphasis>...&#32;_Types&gt;
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00117"/><link linkend="_class_game_object_1abd33fe8fda4dc8026d9cdc5f193a32ea">00117</link> &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_Ty*&#32;<link linkend="_class_game_object_1abd33fe8fda4dc8026d9cdc5f193a32ea">GetComponentDynamic</link>(_Ty&#32;arg)&#32;{
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00118"/>00118 
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00119"/>00119 
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00120"/>00120 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(<emphasis role="keywordtype">int</emphasis>&#32;i&#32;=&#32;0;&#32;i&#32;&lt;&#32;<link linkend="_class_game_object_1a7c45a38dad9359074bb4b814d0a435c6">Components</link>.size();&#32;i++)&#32;{
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00121"/>00121 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(arg.UUID&#32;==&#32;<link linkend="_class_game_object_1ad6a231606adfd666084742f00716e4f2">uuids</link>[i])&#32;{
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00122"/>00122 
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00123"/>00123 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;found&quot;</emphasis>;
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00124"/>00124 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;std::dynamic_pointer_cast&lt;_Ty&gt;(<link linkend="_class_game_object_1ac905417baef1933aee70fc7539f717b3">behaviours</link>[i]).get();
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00125"/>00125 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00126"/>00126 
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00127"/>00127 
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00128"/>00128 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00129"/>00129 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00130"/>00130 
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00131"/>00131 
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00132"/>00132 
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00133"/>00133 &#32;&#32;&#32;&#32;};
-<anchor xml:id="__g_a_m_e_o_b_j_e_c_t_8h_source_1l00134"/>00134 <emphasis role="preprocessor">#endif&#32;</emphasis><emphasis role="comment">//&#32;!_GAMEOBJECT_</emphasis>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 <emphasis role="preprocessor">#pragma&#32;once</emphasis>
+2 
+3 <emphasis role="preprocessor">#ifndef&#32;_GAMEOBJECT_</emphasis>
+4 <emphasis role="preprocessor">#define&#32;_GAMEOBJECT_</emphasis>
+5 
+6 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_pch_8h">pch.h</link>&quot;</emphasis>
+7 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__c_o_r_e_8h">HeaderE/CORE/CORE.h</link>&quot;</emphasis>
+8 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__d___d_a_t_a_t_y_p_e_s_8h">HeaderE/DATATYPES/D_DATATYPES.h</link>&quot;</emphasis>
+9 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__d___t_s___p___q_u_a_t_e_r_i_o_n_8h">HeaderE/DATATYPES/D_TS_P_QUATERION.h</link>&quot;</emphasis>
+10 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__d___t_a_g___l_a_y_e_r_s_8h">HeaderE/DATATYPES/D_TAG_LAYERS.h</link>&quot;</emphasis>
+11 
+12 <emphasis role="comment">//#include&#32;&quot;_COMPONENT.h&quot;</emphasis>
+13 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespace_c_o_r_e">CORE</link>&#32;{
+14 &#32;&#32;&#32;&#32;<emphasis role="keyword">class&#32;</emphasis>Behaviour;
+15 
+16 }
+17 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespace_c_o_m_p_o_n_e_n_t_s">COMPONENTS</link>&#32;{
+18 &#32;&#32;&#32;&#32;<emphasis role="keyword">class&#32;</emphasis>_Mesh;
+19 }
+20 <emphasis role="keyword">class&#32;</emphasis><link linkend="_class_transform">Transform</link>;
+21 
+22 
+23 &#32;&#32;&#32;&#32;<emphasis role="keyword">class&#32;</emphasis><link linkend="_class_game_object">GameObject</link>&#32;:<emphasis role="keyword">public</emphasis>&#32;<link linkend="_class_c_o_r_e_1_1_object">CORE::Object</link>&#32;{
+24 &#32;&#32;&#32;&#32;private&#32;:
+25 &#32;&#32;&#32;&#32;<emphasis role="keyword">public</emphasis>:
+26 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_class_game_object_1a0cb2c1c06adb407ecb9ee1e2b72d01f9">Enabled</link>&#32;=&#32;<emphasis role="keyword">true</emphasis>;
+27 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::shared_ptr&lt;COMPONENTS::_Mesh&gt;&#32;<link linkend="_class_game_object_1ac7d5415e4fee880676ffcc01e78f2b3a">MESH</link>;
+28 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::shared_ptr&lt;Transform&gt;&#32;<link linkend="_class_game_object_1ab9d78dc76afc8b9109802b856f6d0048">TrAnSfOrM</link>;
+29 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::shared_ptr&lt;CORE::Behaviour&gt;&#32;<link linkend="_class_game_object_1af1c7d552891462646861142db7397fb0">MesH</link>;
+30 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_tag">Tag</link>&#32;<link linkend="_class_game_object_1a6525c41e335d1954d9db0c602916f4c1">tag</link>;
+31 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_layer">Layer</link>&#32;<link linkend="_class_game_object_1ae317db694845b5aaec3e12a9fee45a7a">layer</link>;
+32 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>*&#32;<link linkend="_class_game_object_1aa7e350d11c0f06480a88ab410d929313">msh</link>;
+33 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_class_game_object_1a86ddc8fe8e3a8593a15d863dc8c0d308">isNull</link>;
+34 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_class_game_object_1a6863e441ec2e6e91e912f3a719693761">isRemoved</link>;
+35 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::string&#32;<link linkend="_class_game_object_1af542b33c8de269343e22c5629e6b66c0">name</link>;
+36 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::vector&lt;void*&gt;&#32;<link linkend="_class_game_object_1a7c45a38dad9359074bb4b814d0a435c6">Components</link>;
+37 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::vector&lt;std::shared_ptr&lt;CORE::Behaviour&gt;&gt;&#32;<link linkend="_class_game_object_1ac905417baef1933aee70fc7539f717b3">behaviours</link>;
+38 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::vector&lt;UUID&gt;&#32;<link linkend="_class_game_object_1ad6a231606adfd666084742f00716e4f2">uuids</link>;
+39 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_game_object_1a0348e3ee2e83d56eafca7a3547f432c4">GameObject</link>()&#32;:<link linkend="_class_game_object_1a86ddc8fe8e3a8593a15d863dc8c0d308">isNull</link>(false),&#32;<link linkend="_class_game_object_1a6863e441ec2e6e91e912f3a719693761">isRemoved</link>(false)&#32;{};
+40 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_game_object_1a8d6e0b058c4f6b5efa37d7d816be1982">GameObject</link>(<emphasis role="keywordtype">int</emphasis>&#32;null)&#32;:<link linkend="_class_game_object_1a86ddc8fe8e3a8593a15d863dc8c0d308">isNull</link>(true),&#32;<link linkend="_class_game_object_1a6863e441ec2e6e91e912f3a719693761">isRemoved</link>(true)&#32;{};
+41 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_game_object_1ab13374d070cfe6a1459539d54c671eba">GameObject</link>(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_class_game_object">GameObject</link>&amp;&#32;other)
+42 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;<link linkend="_class_game_object_1a0cb2c1c06adb407ecb9ee1e2b72d01f9">Enabled</link>(other.<link linkend="_class_game_object_1a0cb2c1c06adb407ecb9ee1e2b72d01f9">Enabled</link>),
+43 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_game_object_1ac7d5415e4fee880676ffcc01e78f2b3a">MESH</link>(other.<link linkend="_class_game_object_1ac7d5415e4fee880676ffcc01e78f2b3a">MESH</link>),
+44 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_game_object_1ab9d78dc76afc8b9109802b856f6d0048">TrAnSfOrM</link>(other.<link linkend="_class_game_object_1ab9d78dc76afc8b9109802b856f6d0048">TrAnSfOrM</link>),
+45 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_game_object_1af1c7d552891462646861142db7397fb0">MesH</link>(other.<link linkend="_class_game_object_1af1c7d552891462646861142db7397fb0">MesH</link>),
+46 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_game_object_1aa7e350d11c0f06480a88ab410d929313">msh</link>(other.<link linkend="_class_game_object_1aa7e350d11c0f06480a88ab410d929313">msh</link>),
+47 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_game_object_1a86ddc8fe8e3a8593a15d863dc8c0d308">isNull</link>(other.<link linkend="_class_game_object_1a86ddc8fe8e3a8593a15d863dc8c0d308">isNull</link>),
+48 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_game_object_1af542b33c8de269343e22c5629e6b66c0">name</link>(other.<link linkend="_class_game_object_1af542b33c8de269343e22c5629e6b66c0">name</link>),
+49 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_game_object_1a7c45a38dad9359074bb4b814d0a435c6">Components</link>(other.<link linkend="_class_game_object_1a7c45a38dad9359074bb4b814d0a435c6">Components</link>),
+50 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_game_object_1ac905417baef1933aee70fc7539f717b3">behaviours</link>(other.<link linkend="_class_game_object_1ac905417baef1933aee70fc7539f717b3">behaviours</link>),
+51 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_game_object_1ad6a231606adfd666084742f00716e4f2">uuids</link>(other.<link linkend="_class_game_object_1ad6a231606adfd666084742f00716e4f2">uuids</link>),
+52 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_game_object_1a6863e441ec2e6e91e912f3a719693761">isRemoved</link>(false)
+53 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{}
+54 
+55 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_game_object">GameObject</link>&amp;&#32;<link linkend="_class_game_object_1ab0973a6654325520aa4abd99e06f135f">operator=</link>(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_class_game_object">GameObject</link>&amp;&#32;other)&#32;{
+56 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(<emphasis role="keyword">this</emphasis>&#32;==&#32;&amp;other)&#32;<emphasis role="keywordflow">return</emphasis>&#32;*<emphasis role="keyword">this</emphasis>;&#32;<emphasis role="comment">//&#32;self-assignment&#32;guard</emphasis>
+57 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_game_object_1a0cb2c1c06adb407ecb9ee1e2b72d01f9">Enabled</link>&#32;=&#32;other.<link linkend="_class_game_object_1a0cb2c1c06adb407ecb9ee1e2b72d01f9">Enabled</link>;
+58 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_game_object_1ac7d5415e4fee880676ffcc01e78f2b3a">MESH</link>&#32;=&#32;other.<link linkend="_class_game_object_1ac7d5415e4fee880676ffcc01e78f2b3a">MESH</link>;
+59 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_game_object_1ab9d78dc76afc8b9109802b856f6d0048">TrAnSfOrM</link>&#32;=&#32;other.<link linkend="_class_game_object_1ab9d78dc76afc8b9109802b856f6d0048">TrAnSfOrM</link>;
+60 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_game_object_1af1c7d552891462646861142db7397fb0">MesH</link>&#32;=&#32;other.<link linkend="_class_game_object_1af1c7d552891462646861142db7397fb0">MesH</link>;
+61 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_game_object_1aa7e350d11c0f06480a88ab410d929313">msh</link>&#32;=&#32;other.<link linkend="_class_game_object_1aa7e350d11c0f06480a88ab410d929313">msh</link>;
+62 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_game_object_1af542b33c8de269343e22c5629e6b66c0">name</link>&#32;=&#32;other.<link linkend="_class_game_object_1af542b33c8de269343e22c5629e6b66c0">name</link>;
+63 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_game_object_1a7c45a38dad9359074bb4b814d0a435c6">Components</link>&#32;=&#32;other.<link linkend="_class_game_object_1a7c45a38dad9359074bb4b814d0a435c6">Components</link>;
+64 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_game_object_1ac905417baef1933aee70fc7539f717b3">behaviours</link>&#32;=&#32;other.<link linkend="_class_game_object_1ac905417baef1933aee70fc7539f717b3">behaviours</link>;
+65 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_game_object_1ad6a231606adfd666084742f00716e4f2">uuids</link>&#32;=&#32;other.<link linkend="_class_game_object_1ad6a231606adfd666084742f00716e4f2">uuids</link>;
+66 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;*<emphasis role="keyword">this</emphasis>;
+67 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+68 
+69 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;std::shared_ptr&lt;GameObject&gt;&#32;<link linkend="_class_game_object_1ad8a6de1e979988326ada87c925d0a9e0">Create</link>(<link linkend="_struct_d_a_t_a_t_y_p_e_s_1_1_t_s___p___vector3">DATATYPES::TS_P_Vector3</link>&#32;pos,&#32;<emphasis role="keywordtype">void</emphasis>*&#32;mesh,<emphasis role="keywordtype">int</emphasis>&#32;materialID);
+70 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;shared_ptr&lt;GameObject&gt;&#32;<link linkend="_class_game_object_1ad8a6de1e979988326ada87c925d0a9e0">Create</link>(<link linkend="_struct_d_a_t_a_t_y_p_e_s_1_1_t_s___p___vector3">DATATYPES::TS_P_Vector3</link>&#32;pos,<link linkend="_struct_d_a_t_a_t_y_p_e_s_1_1_quaternion">Quaternion</link>&#32;rot,&#32;std::shared_ptr&lt;COMPONENTS::_Mesh&gt;&#32;mesh,<emphasis role="keywordtype">int</emphasis>&#32;materialID);
+71 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="_class_game_object">GameObject</link>&#32;<link linkend="_class_game_object_1abab0df05346744a928e71b990d8692eb">CreateEmpty</link>(<link linkend="_struct_d_a_t_a_t_y_p_e_s_1_1_t_s___p___vector3">DATATYPES::TS_P_Vector3</link>&#32;pos);
+72 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="_class_game_object">GameObject</link>&#32;<link linkend="_class_game_object_1a1c7c9c5d99db209e58fb51421d70a077">CreateCamera</link>(<link linkend="_struct_d_a_t_a_t_y_p_e_s_1_1_t_s___p___vector3">DATATYPES::TS_P_Vector3</link>&#32;pos,&#32;<link linkend="_struct_d_a_t_a_t_y_p_e_s_1_1_quaternion">Quaternion</link>&#32;rot);
+73 
+74 
+75 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//void&#32;AddComponent(void*&#32;component);</emphasis>
+76 <emphasis role="preprocessor">#ifdef&#32;DEBUG_Engine</emphasis>
+77 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::shared_ptr&lt;CORE::Behaviour&gt;&#32;<link linkend="_class_game_object_1a1ed15a14632a5e3077a83dbd65e486ab">AddComponent</link>(std::shared_ptr&lt;CORE::Behaviour&gt;&#32;component,std::string&#32;<link linkend="_class_game_object_1af542b33c8de269343e22c5629e6b66c0">name</link>);
+78 <emphasis role="preprocessor">#endif&#32;</emphasis><emphasis role="comment">//&#32;DEBUG_Engine</emphasis>
+79 
+80 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&#32;&lt;<emphasis role="keyword">class&#32;</emphasis>_Ty,&#32;<emphasis role="keyword">class</emphasis>...&#32;_Types&gt;
+81 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_Ty*&#32;<link linkend="_class_game_object_1a355fd8635d46ad783f1eeb1ff2b8c20e">AddComponent</link>(_Ty&#32;arg)&#32;{
+82 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;TracyCZoneN(ctxx,&#32;<emphasis role="stringliteral">&quot;Adding&#32;Component&quot;</emphasis>,&#32;<emphasis role="keyword">true</emphasis>);
+83 
+84 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(arg.UUID&#32;==&#32;GUID_NULL)&#32;{
+85 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;UUID&#32;<link linkend="_class_c_o_r_e_1_1_object_1aa786e707915fcc7188eed83372308069">uuid</link>;
+86 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;UuidCreate(&amp;<link linkend="_class_c_o_r_e_1_1_object_1aa786e707915fcc7188eed83372308069">uuid</link>);
+87 
+88 
+89 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;arg.UUID&#32;=&#32;<link linkend="_class_c_o_r_e_1_1_object_1aa786e707915fcc7188eed83372308069">uuid</link>;
+90 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;arg.uuID&#32;=&#32;arg.UUID;
+91 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+92 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_game_object_1ad6a231606adfd666084742f00716e4f2">uuids</link>.push_back(arg.UUID);
+93 
+94 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;aaa&#32;=&#32;arg;
+95 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;aaa.gameobject&#32;=&#32;<emphasis role="keyword">this</emphasis>;
+96 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//aaa.transf&#32;=&#32;behaviours[1];</emphasis>
+97 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;aaa.TRANSFORM&#32;=&#32;<link linkend="_class_game_object_1ab9d78dc76afc8b9109802b856f6d0048">TrAnSfOrM</link>;
+98 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//using&#32;name&#32;=&#32;decltype(_Ty);</emphasis>
+99 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;aaa.compname&#32;=&#32;<emphasis role="keyword">typeid</emphasis>(_Ty).<link linkend="_class_game_object_1af542b33c8de269343e22c5629e6b66c0">name</link>();
+100 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//aa-&gt;gameobject&#32;=&#32;this;</emphasis>
+101 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;</emphasis>
+102 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::shared_ptr&lt;CORE::Behaviour&gt;&#32;a&#32;=&#32;std::make_shared&lt;_Ty&gt;(aaa);
+103 
+104 
+105 
+106 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_c_o_r_e_1_1_behaviour_1aaedcef1027c022b04f7bc22327a0ae3f">CORE::Behaviour::behaviours</link>.push_back(a);
+107 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_c_o_r_e_1_1_behaviour_1a4bf31591cc8fd7d5eb4d17ca7fe8d314">CORE::Behaviour::AWAKES</link>.push_back(a);
+108 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_c_o_r_e_1_1_behaviour_1a6f4299ac2021d1e9ab3064b17c2f9209">CORE::Behaviour::Starts</link>.push_back(a);
+109 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_game_object_1ac905417baef1933aee70fc7539f717b3">behaviours</link>.push_back(a);
+110 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;TracyCZoneEnd(ctxx);
+111 
+112 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;std::dynamic_pointer_cast&lt;_Ty&gt;(a).get();
+113 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+114 
+115 
+116 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&#32;&lt;<emphasis role="keyword">class&#32;</emphasis>_Ty,&#32;<emphasis role="keyword">class</emphasis>...&#32;_Types&gt;
+117 
+118 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_game_object_1af5ef48427151bec3ad080499b0540814">AddComponent</link>(_Ty&#32;arg,&#32;<emphasis role="keywordtype">void</emphasis>*&#32;component)&#32;{
+119 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;TracyCZoneN(ctxx,&#32;<emphasis role="stringliteral">&quot;Adding&#32;Component&quot;</emphasis>,&#32;<emphasis role="keyword">true</emphasis>);
+120 
+121 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(arg.UUID&#32;==&#32;GUID_NULL)&#32;{
+122 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;UUID&#32;<link linkend="_class_c_o_r_e_1_1_object_1aa786e707915fcc7188eed83372308069">uuid</link>;
+123 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;UuidCreate(&amp;<link linkend="_class_c_o_r_e_1_1_object_1aa786e707915fcc7188eed83372308069">uuid</link>);
+124 
+125 
+126 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;arg.UUID&#32;=&#32;<link linkend="_class_c_o_r_e_1_1_object_1aa786e707915fcc7188eed83372308069">uuid</link>;
+127 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;arg.uuID&#32;=&#32;arg.UUID;
+128 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+129 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_game_object_1ad6a231606adfd666084742f00716e4f2">uuids</link>.push_back(arg.UUID);
+130 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;aa&#32;=&#32;(_Ty*)component;
+131 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;aa-&gt;gameobject&#32;=&#32;<emphasis role="keyword">this</emphasis>;
+132 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//using&#32;name&#32;=&#32;decltype(_Ty);</emphasis>
+133 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::string&#32;nm=&#32;<emphasis role="keyword">typeid</emphasis>(_Ty).<link linkend="_class_game_object_1af542b33c8de269343e22c5629e6b66c0">name</link>();
+134 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;aa-&gt;compname&#32;=&#32;nm;
+135 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//aa-&gt;gameobject&#32;=&#32;this;</emphasis>
+136 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::shared_ptr&lt;CORE::Behaviour&gt;&#32;a&#32;=&#32;std::make_shared&lt;_Ty&gt;(*aa);
+137 
+138 
+139 
+140 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_c_o_r_e_1_1_behaviour_1aaedcef1027c022b04f7bc22327a0ae3f">CORE::Behaviour::behaviours</link>.push_back(a);
+141 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_c_o_r_e_1_1_behaviour_1a4bf31591cc8fd7d5eb4d17ca7fe8d314">CORE::Behaviour::AWAKES</link>.push_back(a);
+142 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_c_o_r_e_1_1_behaviour_1a6f4299ac2021d1e9ab3064b17c2f9209">CORE::Behaviour::Starts</link>.push_back(a);
+143 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_game_object_1ac905417baef1933aee70fc7539f717b3">behaviours</link>.push_back(a);
+144 
+145 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_game_object_1a7c45a38dad9359074bb4b814d0a435c6">Components</link>.push_back(component);
+146 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;TracyCZoneEnd(ctxx);
+147 
+148 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+149 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//template&#32;&lt;class&#32;_Ty,&#32;class...&#32;_Types&gt;</emphasis>
+150 
+151 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//void&#32;AddComponent(_Ty&#32;arg,&#32;std::shared_ptr&lt;CORE::Behaviour&gt;&#32;component,void*&#32;voidcomp);</emphasis>
+152 
+153 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&#32;&lt;<emphasis role="keyword">class&#32;</emphasis>_Ty,&#32;<emphasis role="keyword">class</emphasis>...&#32;_Types&gt;
+154 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_Ty*&#32;<link linkend="_class_game_object_1ae725cb590f63dc1d603c5cec46ca4862">GetComponent</link>(_Ty&#32;arg)&#32;{
+155 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;TracyCZoneN(ctxx,&#32;<emphasis role="stringliteral">&quot;Getting&#32;&#32;Component&quot;</emphasis>,&#32;<emphasis role="keyword">true</emphasis>);
+156 
+157 
+158 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;=&#32;0;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;&lt;&#32;<link linkend="_class_game_object_1a7c45a38dad9359074bb4b814d0a435c6">Components</link>.size();&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>++)&#32;{
+159 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(arg.UUID&#32;==&#32;<link linkend="_class_game_object_1ad6a231606adfd666084742f00716e4f2">uuids</link>[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>])&#32;{
+160 
+161 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;found&quot;</emphasis>;
+162 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;TracyCZoneEnd(ctxx);
+163 
+164 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;(_Ty*)<link linkend="_class_game_object_1a7c45a38dad9359074bb4b814d0a435c6">Components</link>[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>];
+165 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+166 
+167 
+168 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+169 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;TracyCZoneEnd(ctxx);
+170 
+171 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+172 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&#32;&lt;<emphasis role="keyword">class&#32;</emphasis>_Ty,&#32;<emphasis role="keyword">class</emphasis>...&#32;_Types&gt;
+173 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_Ty*&#32;<link linkend="_class_game_object_1abd33fe8fda4dc8026d9cdc5f193a32ea">GetComponentDynamic</link>(_Ty&#32;arg)&#32;{
+174 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;TracyCZoneN(ctxx,&#32;<emphasis role="stringliteral">&quot;Getting&#32;&#32;Component&quot;</emphasis>,&#32;<emphasis role="keyword">true</emphasis>);
+175 
+176 
+177 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;=&#32;0;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;&lt;&#32;<link linkend="_class_game_object_1a7c45a38dad9359074bb4b814d0a435c6">Components</link>.size();&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>++)&#32;{
+178 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(arg.UUID&#32;==&#32;<link linkend="_class_game_object_1ad6a231606adfd666084742f00716e4f2">uuids</link>[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>])&#32;{
+179 
+180 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;found&quot;</emphasis>;
+181 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;TracyCZoneEnd(ctxx);
+182 
+183 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;std::dynamic_pointer_cast&lt;_Ty&gt;(<link linkend="_class_game_object_1ac905417baef1933aee70fc7539f717b3">behaviours</link>[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>]).get();
+184 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+185 
+186 
+187 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+188 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;TracyCZoneEnd(ctxx);
+189 
+190 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+191 
+192 
+193 
+194 &#32;&#32;&#32;&#32;};
+195 <emphasis role="preprocessor">#endif&#32;</emphasis><emphasis role="comment">//&#32;!_GAMEOBJECT_</emphasis>
 </programlisting></section>

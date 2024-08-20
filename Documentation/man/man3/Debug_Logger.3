@@ -1,4 +1,4 @@
-.TH "Debug::Logger" 3 "Version 0.0.0.1" "My Project" \" -*- nroff -*-
+.TH "Debug::Logger" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -32,6 +32,9 @@ Debug::Logger
 .ti -1c
 .RI "static void \fBLogWarning\fP ()"
 .br
+.ti -1c
+.RI "template<typename \&.\&.\&. Args> static void \fBlog\fP (const std::string &format, Args \&.\&.\&. args)"
+.br
 .in -1c
 .SH "Detailed Description"
 .PP 
@@ -41,31 +44,134 @@ Definition at line \fB25\fP of file \fBDEBUG_LOGGER\&.h\fP\&.
 .SS "void Debug::Logger::log (char * message)\fR [static]\fP"
 
 .PP
-Definition at line \fB13\fP of file \fBDEBUG_LOGGER\&.cpp\fP\&.
+Definition at line \fB17\fP of file \fBDEBUG_LOGGER\&.cpp\fP\&.
+.nf
+18 {
+19     //White
+20         std::cout << message;
+21 }
+.PP
+.fi
+
 .SS "void Debug::Logger::log (const char * message)\fR [static]\fP"
 
 .PP
-Definition at line \fB18\fP of file \fBDEBUG_LOGGER\&.cpp\fP\&.
+Definition at line \fB22\fP of file \fBDEBUG_LOGGER\&.cpp\fP\&.
+.nf
+23 {
+24     TrPr(ctx, "Log Char")
+25 
+26 //  White
+27         std::cout << message<<"\\n";
+28     TrPrE(ctx);
+29 }
+.PP
+.fi
+
+.PP
+References \fBTrPr\fP, and \fBTrPrE\fP\&.
+.SS "template<typename \&.\&.\&. Args> static void Debug::Logger::log (const std::string & format, Args \&.\&.\&. args)\fR [inline]\fP, \fR [static]\fP"
+
+.PP
+Definition at line \fB35\fP of file \fBDEBUG_LOGGER\&.h\fP\&.
+.nf
+35                                                                 {
+36             std::string message = string_format(format, args\&.\&.\&.);
+37             log(message);
+38         }
+.PP
+.fi
+
+.PP
+References \fBlog()\fP\&.
 .SS "void Debug::Logger::log (std::string message)\fR [static]\fP"
 
 .PP
-Definition at line \fB7\fP of file \fBDEBUG_LOGGER\&.cpp\fP\&.
+Definition at line \fB9\fP of file \fBDEBUG_LOGGER\&.cpp\fP\&.
+.nf
+10 {
+11     TrPr(ctx,"Log String")
+12     //White
+13         std::cout << message << "\\n";
+14     TrPrE(ctx)
+15 }
+.PP
+.fi
+
+.PP
+References \fBTrPr\fP, and \fBTrPrE\fP\&.
+.PP
+Referenced by \fBlog()\fP, and \fBDebug::LogStream::~LogStream()\fP\&.
 .SS "void Debug::Logger::LogError (\fBError\fP error)\fR [static]\fP"
 
 .PP
-Definition at line \fB31\fP of file \fBDEBUG_LOGGER\&.cpp\fP\&.
+Definition at line \fB40\fP of file \fBDEBUG_LOGGER\&.cpp\fP\&.
+.nf
+41 {
+42     TrPr(ctx, "Log Error")
+43     //  Red
+44 
+45     //  White
+46         TrPrE(ctx);
+47 }
+.PP
+.fi
+
+.PP
+References \fBTrPr\fP, and \fBTrPrE\fP\&.
 .SS "void Debug::Logger::LogError (\fBErrorCode\fP errorCode)\fR [static]\fP"
 
 .PP
-Definition at line \fB38\fP of file \fBDEBUG_LOGGER\&.cpp\fP\&.
+Definition at line \fB49\fP of file \fBDEBUG_LOGGER\&.cpp\fP\&.
+.nf
+50 {
+51     TrPr(ctx, "Log Error")
+52 
+53 //  Red
+54         std::cout << errorCode << "\\n";
+55     //  White
+56             TrPrE(ctx);
+57 
+58 }
+.PP
+.fi
+
+.PP
+References \fBTrPr\fP, and \fBTrPrE\fP\&.
 .SS "void Debug::Logger::LogExeption (const std::exception exception)\fR [static]\fP"
 
 .PP
-Definition at line \fB24\fP of file \fBDEBUG_LOGGER\&.cpp\fP\&.
+Definition at line \fB31\fP of file \fBDEBUG_LOGGER\&.cpp\fP\&.
+.nf
+32 {
+33     TrPr(ctx,"Log Exception")
+34     //RedException
+35         std::cout << exception\&.what() << "\\n";
+36     //White
+37         TrPrE(ctx);
+38 }
+.PP
+.fi
+
+.PP
+References \fBTrPr\fP, and \fBTrPrE\fP\&.
 .SS "void Debug::Logger::LogWarning ()\fR [static]\fP"
 
 .PP
-Definition at line \fB45\fP of file \fBDEBUG_LOGGER\&.cpp\fP\&.
+Definition at line \fB60\fP of file \fBDEBUG_LOGGER\&.cpp\fP\&.
+.nf
+61 {
+62     TrPr(ctx,"Log Warn")
+63 //  Yellow
+64 
+65 //      White
+66         TrPrE(ctx)
+67 }
+.PP
+.fi
+
+.PP
+References \fBTrPr\fP, and \fBTrPrE\fP\&.
 
 .SH "Author"
 .PP 

@@ -1,20 +1,8 @@
 var searchData=
 [
-  ['terrain_2ecpp_0',['TERRAIN.cpp',['../_t_e_r_r_a_i_n_8cpp.html',1,'']]],
-  ['terrain_2eh_1',['TERRAIN.h',['../_t_e_r_r_a_i_n_8h.html',1,'']]],
-  ['terrain_5fdata_2ecpp_2',['TERRAIN_DATA.cpp',['../_t_e_r_r_a_i_n___d_a_t_a_8cpp.html',1,'']]],
-  ['terrain_5fdata_2eh_3',['TERRAIN_DATA.h',['../_t_e_r_r_a_i_n___d_a_t_a_8h.html',1,'']]],
-  ['test_2ecpp_4',['TEST.cpp',['../_t_e_s_t_8cpp.html',1,'']]],
-  ['test_2eh_5',['TEST.h',['../_t_e_s_t_8h.html',1,'']]],
-  ['threading_2ecpp_6',['THREADING.cpp',['../_t_h_r_e_a_d_i_n_g_8cpp.html',1,'']]],
-  ['threading_2eh_7',['THREADING.h',['../_t_h_r_e_a_d_i_n_g_8h.html',1,'']]],
-  ['tracyclient_2ecpp_8',['TracyClient.cpp',['../_tracy_client_8cpp.html',1,'']]],
-  ['transform_2ecpp_9',['TRANSFORM.cpp',['../_t_r_a_n_s_f_o_r_m_8cpp.html',1,'']]],
-  ['transform_2eh_10',['TRANSFORM.h',['../_t_r_a_n_s_f_o_r_m_8h.html',1,'']]],
-  ['ts_5fp_5fquaterion_2ecpp_11',['TS_P_QUATERION.cpp',['../_t_s___p___q_u_a_t_e_r_i_o_n_8cpp.html',1,'']]],
-  ['ts_5fp_5fquaterion_2eh_12',['TS_P_QUATERION.h',['../_t_s___p___q_u_a_t_e_r_i_o_n_8h.html',1,'']]],
-  ['ts_5fp_5fvecotr2_2ecpp_13',['TS_P_VECOTR2.cpp',['../_t_s___p___v_e_c_o_t_r2_8cpp.html',1,'']]],
-  ['ts_5fp_5fvecotr2_2eh_14',['TS_P_VECOTR2.h',['../_t_s___p___v_e_c_o_t_r2_8h.html',1,'']]],
-  ['ts_5fp_5fvector3_2ecpp_15',['TS_P_VECTOR3.cpp',['../_t_s___p___v_e_c_t_o_r3_8cpp.html',1,'']]],
-  ['ts_5fp_5fvector3_2eh_16',['TS_P_VECTOR3.h',['../_t_s___p___v_e_c_t_o_r3_8h.html',1,'']]]
+  ['objmaterial_2eh_0',['ObjMaterial.h',['../_obj_material_8h.html',1,'']]],
+  ['optimum_5fpow_2ehpp_1',['optimum_pow.hpp',['../optimum__pow_8hpp.html',1,'']]],
+  ['optimum_5fpow_2einl_2',['optimum_pow.inl',['../optimum__pow_8inl.html',1,'']]],
+  ['orthonormalize_2ehpp_3',['orthonormalize.hpp',['../orthonormalize_8hpp.html',1,'']]],
+  ['orthonormalize_2einl_4',['orthonormalize.inl',['../orthonormalize_8inl.html',1,'']]]
 ];

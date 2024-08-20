@@ -1,0 +1,496 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_imgui__draw_8cpp" xml:lang="en-US">
+<title>UPRISE_ENGINE/imgui_draw.cpp File Reference</title>
+<indexterm><primary>UPRISE_ENGINE/imgui_draw.cpp</primary></indexterm>
+<programlisting linenumbering="unnumbered">#include &quot;imgui.h&quot;<?linebreak?>#include &quot;imgui_internal.h&quot;<?linebreak?>#include &lt;stdio.h&gt;<?linebreak?>#include &quot;imstb_rectpack.h&quot;<?linebreak?></programlisting><simplesect>
+    <title>Classes    </title>
+        <itemizedlist>
+            <listitem><para>struct <link linkend="_struct_im_triangulator_node">ImTriangulatorNode</link></para>
+</listitem>
+            <listitem><para>struct <link linkend="_struct_im_triangulator_node_span">ImTriangulatorNodeSpan</link></para>
+</listitem>
+            <listitem><para>struct <link linkend="_struct_im_triangulator">ImTriangulator</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Macros    </title>
+        <itemizedlist>
+            <listitem><para>#define <link linkend="_imgui__draw_8cpp_1adf4d73301961430d50d7edd96f92ce38">IMGUI_DEFINE_MATH_OPERATORS</link></para>
+</listitem>
+            <listitem><para>#define <link linkend="_imgui__draw_8cpp_1aebe589aefd15ba7289a47168e31b5e45">STBRP_STATIC</link></para>
+</listitem>
+            <listitem><para>#define <link linkend="_imgui__draw_8cpp_1a9592e63d0df8b6f0712e8da3aea5db23">STBRP_ASSERT</link>(x)&#160;&#160;&#160;do { IM_ASSERT(x); } while (0)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_imgui__draw_8cpp_1a152aa757fb023d39f16dd537e66b60f0">STBRP_SORT</link>&#160;&#160;&#160;ImQsort</para>
+</listitem>
+            <listitem><para>#define <link linkend="_imgui__draw_8cpp_1a0791e69f0dcd58efa795dd50eb8c6cd0">STB_RECT_PACK_IMPLEMENTATION</link></para>
+</listitem>
+            <listitem><para>#define <link linkend="_imgui__draw_8cpp_1a36c70a3a9dfec20d02bbb18e00a42ee1">ImDrawCmd_HeaderSize</link>&#160;&#160;&#160;(offsetof(ImDrawCmd, VtxOffset) + sizeof(unsigned int))</para>
+</listitem>
+            <listitem><para>#define <link linkend="_imgui__draw_8cpp_1ac140465795cda6fa747579fc0b1b29d0">ImDrawCmd_HeaderCompare</link>(CMD_LHS,  CMD_RHS)&#160;&#160;&#160;(memcmp(CMD_LHS, CMD_RHS, <link linkend="_imgui__draw_8cpp_1a36c70a3a9dfec20d02bbb18e00a42ee1">ImDrawCmd_HeaderSize</link>))</para>
+</listitem>
+            <listitem><para>#define <link linkend="_imgui__draw_8cpp_1a13d0eca12c1e2df442519a1a80d8cdaa">ImDrawCmd_HeaderCopy</link>(CMD_DST,  CMD_SRC)&#160;&#160;&#160;(memcpy(CMD_DST, CMD_SRC, <link linkend="_imgui__draw_8cpp_1a36c70a3a9dfec20d02bbb18e00a42ee1">ImDrawCmd_HeaderSize</link>))</para>
+</listitem>
+            <listitem><para>#define <link linkend="_imgui__draw_8cpp_1acbac18638b9456aa07cd48452f074eeb">ImDrawCmd_AreSequentialIdxOffset</link>(CMD_0,  CMD_1)&#160;&#160;&#160;(CMD_0-&gt;IdxOffset + CMD_0-&gt;ElemCount == CMD_1-&gt;IdxOffset)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_imgui__draw_8cpp_1aa595f4d7f5dca6ca04e5b1648e84f0d6">IM_NORMALIZE2F_OVER_ZERO</link>(VX,  VY)&#160;&#160;&#160;{ float d2 = VX*VX + VY*VY; if (d2 &gt; 0.0f) { float inv_len = ImRsqrt(d2); VX *= inv_len; VY *= inv_len; } } (void)0</para>
+</listitem>
+            <listitem><para>#define <link linkend="_imgui__draw_8cpp_1ae801e54afba24c14221f81e1564615ef">IM_FIXNORMAL2F_MAX_INVLEN2</link>&#160;&#160;&#160;100.0f</para>
+</listitem>
+            <listitem><para>#define <link linkend="_imgui__draw_8cpp_1a4df703825e073b91ea24956d6021ee59">IM_FIXNORMAL2F</link>(VX,  VY)&#160;&#160;&#160;{ float d2 = VX*VX + VY*VY; if (d2 &gt; 0.000001f) { float inv_len2 = 1.0f / d2; if (inv_len2 &gt; <link linkend="_imgui__draw_8cpp_1ae801e54afba24c14221f81e1564615ef">IM_FIXNORMAL2F_MAX_INVLEN2</link>) inv_len2 = <link linkend="_imgui__draw_8cpp_1ae801e54afba24c14221f81e1564615ef">IM_FIXNORMAL2F_MAX_INVLEN2</link>; VX *= inv_len2; VY *= inv_len2; } } (void)0</para>
+</listitem>
+            <listitem><para>#define <link linkend="_imgui__draw_8cpp_1a8abf98f5e58a4b3dbbdf35bb1d5ee872">stb__in2</link>(x)&#160;&#160;&#160;((<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>[x] &lt;&lt; 8) + <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>[(x)+1])</para>
+</listitem>
+            <listitem><para>#define <link linkend="_imgui__draw_8cpp_1acdc23c4b28788003d2841185775661ff">stb__in3</link>(x)&#160;&#160;&#160;((<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>[x] &lt;&lt; 16) + <link linkend="_imgui__draw_8cpp_1a8abf98f5e58a4b3dbbdf35bb1d5ee872">stb__in2</link>((x)+1))</para>
+</listitem>
+            <listitem><para>#define <link linkend="_imgui__draw_8cpp_1a26702caa0fd7846cb92e8ba4d80446c3">stb__in4</link>(x)&#160;&#160;&#160;((<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>[x] &lt;&lt; 24) + <link linkend="_imgui__draw_8cpp_1acdc23c4b28788003d2841185775661ff">stb__in3</link>((x)+1))</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Enumerations    </title>
+        <itemizedlist>
+            <listitem><para>enum <link linkend="_imgui__draw_8cpp_1aec9f81584384ed8dacf676d9a8bc98e1">ImTriangulatorNodeType</link> { <link linkend="_imgui__draw_8cpp_1aec9f81584384ed8dacf676d9a8bc98e1ab8cc7128a30e52524e246c2a2c03d5e3">ImTriangulatorNodeType_Convex</link>
+, <link linkend="_imgui__draw_8cpp_1aec9f81584384ed8dacf676d9a8bc98e1a3db2870cb703f62291b6867ab6f4d1f7">ImTriangulatorNodeType_Ear</link>
+, <link linkend="_imgui__draw_8cpp_1aec9f81584384ed8dacf676d9a8bc98e1a4a388d52b599f34cc670250513263f54">ImTriangulatorNodeType_Reflex</link>
+ }</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Functions    </title>
+        <itemizedlist>
+            <listitem><para>ImVec2 <link linkend="_imgui__draw_8cpp_1a313bb9d47244a5d27a5aeb4cd74f94a3">ImBezierCubicCalc</link> (const ImVec2 &amp;p1, const ImVec2 &amp;p2, const ImVec2 &amp;p3, const ImVec2 &amp;p4, float <link linkend="_classt">t</link>)</para>
+</listitem>
+            <listitem><para>ImVec2 <link linkend="_imgui__draw_8cpp_1a9b3ec0353c3a10709ad21985942613da">ImBezierQuadraticCalc</link> (const ImVec2 &amp;p1, const ImVec2 &amp;p2, const ImVec2 &amp;p3, float <link linkend="_classt">t</link>)</para>
+</listitem>
+            <listitem><para>void <link linkend="_imgui__draw_8cpp_1a8d5f3a053aae34ac7b93e39cb9096d06">ImFontAtlasBuildMultiplyCalcLookupTable</link> (unsigned char out_table[256], float in_brighten_factor)</para>
+</listitem>
+            <listitem><para>void <link linkend="_imgui__draw_8cpp_1a8dc3feae771599949b33712b520e9060">ImFontAtlasBuildMultiplyRectAlpha8</link> (const unsigned char table[256], unsigned char *pixels, int x, int y, int w, int h, int stride)</para>
+</listitem>
+            <listitem><para>void <link linkend="_imgui__draw_8cpp_1ab58975478a1fbc1735cf9b15e2db5be0">ImFontAtlasUpdateConfigDataPointers</link> (ImFontAtlas *atlas)</para>
+</listitem>
+            <listitem><para>void <link linkend="_imgui__draw_8cpp_1a4bea0932904c84de73237df3f1f76bdd">ImFontAtlasBuildSetupFont</link> (ImFontAtlas *atlas, ImFont *font, ImFontConfig *font_config, float ascent, float descent)</para>
+</listitem>
+            <listitem><para>void <link linkend="_imgui__draw_8cpp_1add0fcd1708ca3540688d8277fc01bf3f">ImFontAtlasBuildPackCustomRects</link> (ImFontAtlas *atlas, void *stbrp_context_opaque)</para>
+</listitem>
+            <listitem><para>void <link linkend="_imgui__draw_8cpp_1acc7928ba77e5e06a342720ccf0a95ece">ImFontAtlasBuildRender8bppRectFromString</link> (ImFontAtlas *atlas, int x, int y, int w, int h, const char *in_str, char in_marker_char, unsigned char in_marker_pixel_value)</para>
+</listitem>
+            <listitem><para>void <link linkend="_imgui__draw_8cpp_1a66ac51ad223da84c7167d4c9f4cfb2fb">ImFontAtlasBuildRender32bppRectFromString</link> (ImFontAtlas *atlas, int x, int y, int w, int h, const char *in_str, char in_marker_char, unsigned int in_marker_pixel_value)</para>
+</listitem>
+            <listitem><para>void <link linkend="_imgui__draw_8cpp_1ac050ff181df43cec0b63d834b6039c3f">ImFontAtlasBuildInit</link> (ImFontAtlas *atlas)</para>
+</listitem>
+            <listitem><para>void <link linkend="_imgui__draw_8cpp_1adbf0ee92b3ac86e30b9e81f552d15d37">ImFontAtlasBuildFinish</link> (ImFontAtlas *atlas)</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Variables    </title>
+        <itemizedlist>
+            <listitem><para>const int <link linkend="_imgui__draw_8cpp_1adf518fea7357febbb14eeecb692a8d95">FONT_ATLAS_DEFAULT_TEX_DATA_W</link> = 122</para>
+</listitem>
+            <listitem><para>const int <link linkend="_imgui__draw_8cpp_1a2c96fc3febbe9f4f6c042a2f975a5b1d">FONT_ATLAS_DEFAULT_TEX_DATA_H</link> = 27</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Macro Definition Documentation</title>
+<anchor xml:id="_imgui__draw_8cpp_1a4df703825e073b91ea24956d6021ee59"/><section>
+    <title>IM_FIXNORMAL2F</title>
+<indexterm><primary>IM_FIXNORMAL2F</primary><secondary>imgui_draw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_draw.cpp</primary><secondary>IM_FIXNORMAL2F</secondary></indexterm>
+<para><computeroutput>#define IM_FIXNORMAL2F( VX,  VY)&#160;&#160;&#160;{ float d2 = VX*VX + VY*VY; if (d2 &gt; 0.000001f) { float inv_len2 = 1.0f / d2; if (inv_len2 &gt; <link linkend="_imgui__draw_8cpp_1ae801e54afba24c14221f81e1564615ef">IM_FIXNORMAL2F_MAX_INVLEN2</link>) inv_len2 = <link linkend="_imgui__draw_8cpp_1ae801e54afba24c14221f81e1564615ef">IM_FIXNORMAL2F_MAX_INVLEN2</link>; VX *= inv_len2; VY *= inv_len2; } } (void)0</computeroutput></para><para>
+Definition at line <link linkend="_imgui__draw_8cpp_source_1l00723">723</link> of file <link linkend="_imgui__draw_8cpp_source">imgui_draw.cpp</link>.</para>
+</section>
+<anchor xml:id="_imgui__draw_8cpp_1ae801e54afba24c14221f81e1564615ef"/><section>
+    <title>IM_FIXNORMAL2F_MAX_INVLEN2</title>
+<indexterm><primary>IM_FIXNORMAL2F_MAX_INVLEN2</primary><secondary>imgui_draw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_draw.cpp</primary><secondary>IM_FIXNORMAL2F_MAX_INVLEN2</secondary></indexterm>
+<para><computeroutput>#define IM_FIXNORMAL2F_MAX_INVLEN2&#160;&#160;&#160;100.0f</computeroutput></para><para>
+Definition at line <link linkend="_imgui__draw_8cpp_source_1l00722">722</link> of file <link linkend="_imgui__draw_8cpp_source">imgui_draw.cpp</link>.</para>
+</section>
+<anchor xml:id="_imgui__draw_8cpp_1aa595f4d7f5dca6ca04e5b1648e84f0d6"/><section>
+    <title>IM_NORMALIZE2F_OVER_ZERO</title>
+<indexterm><primary>IM_NORMALIZE2F_OVER_ZERO</primary><secondary>imgui_draw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_draw.cpp</primary><secondary>IM_NORMALIZE2F_OVER_ZERO</secondary></indexterm>
+<para><computeroutput>#define IM_NORMALIZE2F_OVER_ZERO( VX,  VY)&#160;&#160;&#160;{ float d2 = VX*VX + VY*VY; if (d2 &gt; 0.0f) { float inv_len = ImRsqrt(d2); VX *= inv_len; VY *= inv_len; } } (void)0</computeroutput></para><para>
+Definition at line <link linkend="_imgui__draw_8cpp_source_1l00721">721</link> of file <link linkend="_imgui__draw_8cpp_source">imgui_draw.cpp</link>.</para>
+</section>
+<anchor xml:id="_imgui__draw_8cpp_1acbac18638b9456aa07cd48452f074eeb"/><section>
+    <title>ImDrawCmd_AreSequentialIdxOffset</title>
+<indexterm><primary>ImDrawCmd_AreSequentialIdxOffset</primary><secondary>imgui_draw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_draw.cpp</primary><secondary>ImDrawCmd_AreSequentialIdxOffset</secondary></indexterm>
+<para><computeroutput>#define ImDrawCmd_AreSequentialIdxOffset( CMD_0,  CMD_1)&#160;&#160;&#160;(CMD_0-&gt;IdxOffset + CMD_0-&gt;ElemCount == CMD_1-&gt;IdxOffset)</computeroutput></para><para>
+Definition at line <link linkend="_imgui__draw_8cpp_source_1l00499">499</link> of file <link linkend="_imgui__draw_8cpp_source">imgui_draw.cpp</link>.</para>
+</section>
+<anchor xml:id="_imgui__draw_8cpp_1ac140465795cda6fa747579fc0b1b29d0"/><section>
+    <title>ImDrawCmd_HeaderCompare</title>
+<indexterm><primary>ImDrawCmd_HeaderCompare</primary><secondary>imgui_draw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_draw.cpp</primary><secondary>ImDrawCmd_HeaderCompare</secondary></indexterm>
+<para><computeroutput>#define ImDrawCmd_HeaderCompare( CMD_LHS,  CMD_RHS)&#160;&#160;&#160;(memcmp(CMD_LHS, CMD_RHS, <link linkend="_imgui__draw_8cpp_1a36c70a3a9dfec20d02bbb18e00a42ee1">ImDrawCmd_HeaderSize</link>))</computeroutput></para><para>
+Definition at line <link linkend="_imgui__draw_8cpp_source_1l00497">497</link> of file <link linkend="_imgui__draw_8cpp_source">imgui_draw.cpp</link>.</para>
+</section>
+<anchor xml:id="_imgui__draw_8cpp_1a13d0eca12c1e2df442519a1a80d8cdaa"/><section>
+    <title>ImDrawCmd_HeaderCopy</title>
+<indexterm><primary>ImDrawCmd_HeaderCopy</primary><secondary>imgui_draw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_draw.cpp</primary><secondary>ImDrawCmd_HeaderCopy</secondary></indexterm>
+<para><computeroutput>#define ImDrawCmd_HeaderCopy( CMD_DST,  CMD_SRC)&#160;&#160;&#160;(memcpy(CMD_DST, CMD_SRC, <link linkend="_imgui__draw_8cpp_1a36c70a3a9dfec20d02bbb18e00a42ee1">ImDrawCmd_HeaderSize</link>))</computeroutput></para><para>
+Definition at line <link linkend="_imgui__draw_8cpp_source_1l00498">498</link> of file <link linkend="_imgui__draw_8cpp_source">imgui_draw.cpp</link>.</para>
+</section>
+<anchor xml:id="_imgui__draw_8cpp_1a36c70a3a9dfec20d02bbb18e00a42ee1"/><section>
+    <title>ImDrawCmd_HeaderSize</title>
+<indexterm><primary>ImDrawCmd_HeaderSize</primary><secondary>imgui_draw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_draw.cpp</primary><secondary>ImDrawCmd_HeaderSize</secondary></indexterm>
+<para><computeroutput>#define ImDrawCmd_HeaderSize&#160;&#160;&#160;(offsetof(ImDrawCmd, VtxOffset) + sizeof(unsigned int))</computeroutput></para><para>
+Definition at line <link linkend="_imgui__draw_8cpp_source_1l00496">496</link> of file <link linkend="_imgui__draw_8cpp_source">imgui_draw.cpp</link>.</para>
+</section>
+<anchor xml:id="_imgui__draw_8cpp_1adf4d73301961430d50d7edd96f92ce38"/><section>
+    <title>IMGUI_DEFINE_MATH_OPERATORS</title>
+<indexterm><primary>IMGUI_DEFINE_MATH_OPERATORS</primary><secondary>imgui_draw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_draw.cpp</primary><secondary>IMGUI_DEFINE_MATH_OPERATORS</secondary></indexterm>
+<para><computeroutput>#define IMGUI_DEFINE_MATH_OPERATORS</computeroutput></para><para>
+Definition at line <link linkend="_imgui__draw_8cpp_source_1l00031">31</link> of file <link linkend="_imgui__draw_8cpp_source">imgui_draw.cpp</link>.</para>
+</section>
+<anchor xml:id="_imgui__draw_8cpp_1a8abf98f5e58a4b3dbbdf35bb1d5ee872"/><section>
+    <title>stb__in2</title>
+<indexterm><primary>stb__in2</primary><secondary>imgui_draw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_draw.cpp</primary><secondary>stb__in2</secondary></indexterm>
+<para><computeroutput>#define stb__in2( x)&#160;&#160;&#160;((<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>[x] &lt;&lt; 8) + <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>[(x)+1])</computeroutput></para><para>
+Definition at line <link linkend="_imgui__draw_8cpp_source_1l04469">4469</link> of file <link linkend="_imgui__draw_8cpp_source">imgui_draw.cpp</link>.</para>
+</section>
+<anchor xml:id="_imgui__draw_8cpp_1acdc23c4b28788003d2841185775661ff"/><section>
+    <title>stb__in3</title>
+<indexterm><primary>stb__in3</primary><secondary>imgui_draw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_draw.cpp</primary><secondary>stb__in3</secondary></indexterm>
+<para><computeroutput>#define stb__in3( x)&#160;&#160;&#160;((<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>[x] &lt;&lt; 16) + <link linkend="_imgui__draw_8cpp_1a8abf98f5e58a4b3dbbdf35bb1d5ee872">stb__in2</link>((x)+1))</computeroutput></para><para>
+Definition at line <link linkend="_imgui__draw_8cpp_source_1l04470">4470</link> of file <link linkend="_imgui__draw_8cpp_source">imgui_draw.cpp</link>.</para>
+</section>
+<anchor xml:id="_imgui__draw_8cpp_1a26702caa0fd7846cb92e8ba4d80446c3"/><section>
+    <title>stb__in4</title>
+<indexterm><primary>stb__in4</primary><secondary>imgui_draw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_draw.cpp</primary><secondary>stb__in4</secondary></indexterm>
+<para><computeroutput>#define stb__in4( x)&#160;&#160;&#160;((<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>[x] &lt;&lt; 24) + <link linkend="_imgui__draw_8cpp_1acdc23c4b28788003d2841185775661ff">stb__in3</link>((x)+1))</computeroutput></para><para>
+Definition at line <link linkend="_imgui__draw_8cpp_source_1l04471">4471</link> of file <link linkend="_imgui__draw_8cpp_source">imgui_draw.cpp</link>.</para>
+</section>
+<anchor xml:id="_imgui__draw_8cpp_1a0791e69f0dcd58efa795dd50eb8c6cd0"/><section>
+    <title>STB_RECT_PACK_IMPLEMENTATION</title>
+<indexterm><primary>STB_RECT_PACK_IMPLEMENTATION</primary><secondary>imgui_draw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_draw.cpp</primary><secondary>STB_RECT_PACK_IMPLEMENTATION</secondary></indexterm>
+<para><computeroutput>#define STB_RECT_PACK_IMPLEMENTATION</computeroutput></para><para>
+Definition at line <link linkend="_imgui__draw_8cpp_source_1l00121">121</link> of file <link linkend="_imgui__draw_8cpp_source">imgui_draw.cpp</link>.</para>
+</section>
+<anchor xml:id="_imgui__draw_8cpp_1a9592e63d0df8b6f0712e8da3aea5db23"/><section>
+    <title>STBRP_ASSERT</title>
+<indexterm><primary>STBRP_ASSERT</primary><secondary>imgui_draw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_draw.cpp</primary><secondary>STBRP_ASSERT</secondary></indexterm>
+<para><computeroutput>#define STBRP_ASSERT( x)&#160;&#160;&#160;do { IM_ASSERT(x); } while (0)</computeroutput></para><para>
+Definition at line <link linkend="_imgui__draw_8cpp_source_1l00119">119</link> of file <link linkend="_imgui__draw_8cpp_source">imgui_draw.cpp</link>.</para>
+</section>
+<anchor xml:id="_imgui__draw_8cpp_1a152aa757fb023d39f16dd537e66b60f0"/><section>
+    <title>STBRP_SORT</title>
+<indexterm><primary>STBRP_SORT</primary><secondary>imgui_draw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_draw.cpp</primary><secondary>STBRP_SORT</secondary></indexterm>
+<para><computeroutput>#define STBRP_SORT&#160;&#160;&#160;ImQsort</computeroutput></para><para>
+Definition at line <link linkend="_imgui__draw_8cpp_source_1l00120">120</link> of file <link linkend="_imgui__draw_8cpp_source">imgui_draw.cpp</link>.</para>
+</section>
+<anchor xml:id="_imgui__draw_8cpp_1aebe589aefd15ba7289a47168e31b5e45"/><section>
+    <title>STBRP_STATIC</title>
+<indexterm><primary>STBRP_STATIC</primary><secondary>imgui_draw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_draw.cpp</primary><secondary>STBRP_STATIC</secondary></indexterm>
+<para><computeroutput>#define STBRP_STATIC</computeroutput></para><para>
+Definition at line <link linkend="_imgui__draw_8cpp_source_1l00118">118</link> of file <link linkend="_imgui__draw_8cpp_source">imgui_draw.cpp</link>.</para>
+</section>
+</section>
+<section>
+<title>Enumeration Type Documentation</title>
+<anchor xml:id="_imgui__draw_8cpp_1aec9f81584384ed8dacf676d9a8bc98e1"/><section>
+    <title>ImTriangulatorNodeType</title>
+<indexterm><primary>ImTriangulatorNodeType</primary><secondary>imgui_draw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_draw.cpp</primary><secondary>ImTriangulatorNodeType</secondary></indexterm>
+<para><computeroutput>enum <link linkend="_imgui__draw_8cpp_1aec9f81584384ed8dacf676d9a8bc98e1">ImTriangulatorNodeType</link></computeroutput></para><informaltable frame="all">
+<title>Enumerator</title>
+    <tgroup cols="2" align="left" colsep="1" rowsep="1">
+      <colspec colname='c1'/>
+      <colspec colname='c2'/>
+<tbody>
+<row><entry><indexterm><primary>ImTriangulatorNodeType_Convex</primary><secondary>imgui_draw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_draw.cpp</primary><secondary>ImTriangulatorNodeType_Convex</secondary></indexterm>
+<anchor xml:id="_imgui__draw_8cpp_1aec9f81584384ed8dacf676d9a8bc98e1ab8cc7128a30e52524e246c2a2c03d5e3"/>ImTriangulatorNodeType_Convex</entry><entry></entry></row><row><entry><indexterm><primary>ImTriangulatorNodeType_Ear</primary><secondary>imgui_draw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_draw.cpp</primary><secondary>ImTriangulatorNodeType_Ear</secondary></indexterm>
+<anchor xml:id="_imgui__draw_8cpp_1aec9f81584384ed8dacf676d9a8bc98e1a3db2870cb703f62291b6867ab6f4d1f7"/>ImTriangulatorNodeType_Ear</entry><entry></entry></row><row><entry><indexterm><primary>ImTriangulatorNodeType_Reflex</primary><secondary>imgui_draw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_draw.cpp</primary><secondary>ImTriangulatorNodeType_Reflex</secondary></indexterm>
+<anchor xml:id="_imgui__draw_8cpp_1aec9f81584384ed8dacf676d9a8bc98e1a4a388d52b599f34cc670250513263f54"/>ImTriangulatorNodeType_Reflex</entry><entry></entry></row>    </tbody>
+    </tgroup>
+</informaltable>
+<para>
+Definition at line <link linkend="_imgui__draw_8cpp_source_1l01732">1732</link> of file <link linkend="_imgui__draw_8cpp_source">imgui_draw.cpp</link>.</para>
+<programlisting linenumbering="unnumbered">01733 {
+01734 &#32;&#32;&#32;&#32;<link linkend="_imgui__draw_8cpp_1aec9f81584384ed8dacf676d9a8bc98e1ab8cc7128a30e52524e246c2a2c03d5e3">ImTriangulatorNodeType_Convex</link>,
+01735 &#32;&#32;&#32;&#32;<link linkend="_imgui__draw_8cpp_1aec9f81584384ed8dacf676d9a8bc98e1a3db2870cb703f62291b6867ab6f4d1f7">ImTriangulatorNodeType_Ear</link>,
+01736 &#32;&#32;&#32;&#32;<link linkend="_imgui__draw_8cpp_1aec9f81584384ed8dacf676d9a8bc98e1a4a388d52b599f34cc670250513263f54">ImTriangulatorNodeType_Reflex</link>
+01737 };
+</programlisting></section>
+</section>
+<section>
+<title>Function Documentation</title>
+<anchor xml:id="_imgui__draw_8cpp_1a313bb9d47244a5d27a5aeb4cd74f94a3"/><section>
+    <title>ImBezierCubicCalc()</title>
+<indexterm><primary>ImBezierCubicCalc</primary><secondary>imgui_draw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_draw.cpp</primary><secondary>ImBezierCubicCalc</secondary></indexterm>
+<para><computeroutput>ImVec2 ImBezierCubicCalc (const ImVec2 &amp; p1, const ImVec2 &amp; p2, const ImVec2 &amp; p3, const ImVec2 &amp; p4, float t)</computeroutput></para><para>
+Definition at line <link linkend="_imgui__draw_8cpp_source_1l01258">1258</link> of file <link linkend="_imgui__draw_8cpp_source">imgui_draw.cpp</link>.</para>
+<programlisting linenumbering="unnumbered">01259 {
+01260 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">float</emphasis>&#32;u&#32;=&#32;1.0f&#32;-&#32;<link linkend="_classt">t</link>;
+01261 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">float</emphasis>&#32;w1&#32;=&#32;u&#32;*&#32;u&#32;*&#32;u;
+01262 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">float</emphasis>&#32;w2&#32;=&#32;3&#32;*&#32;u&#32;*&#32;u&#32;*&#32;<link linkend="_classt">t</link>;
+01263 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">float</emphasis>&#32;w3&#32;=&#32;3&#32;*&#32;u&#32;*&#32;<link linkend="_classt">t</link>&#32;*&#32;<link linkend="_classt">t</link>;
+01264 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">float</emphasis>&#32;w4&#32;=&#32;<link linkend="_classt">t</link>&#32;*&#32;<link linkend="_classt">t</link>&#32;*&#32;<link linkend="_classt">t</link>;
+01265 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;ImVec2(w1&#32;*&#32;p1.x&#32;+&#32;w2&#32;*&#32;p2.x&#32;+&#32;w3&#32;*&#32;p3.x&#32;+&#32;w4&#32;*&#32;p4.x,&#32;w1&#32;*&#32;p1.y&#32;+&#32;w2&#32;*&#32;p2.y&#32;+&#32;w3&#32;*&#32;p3.y&#32;+&#32;w4&#32;*&#32;p4.y);
+01266 }
+</programlisting><para>
+Referenced by <link linkend="_imgui_8cpp_source_1l01830">ImBezierCubicClosestPoint()</link>.</para>
+</section>
+<anchor xml:id="_imgui__draw_8cpp_1a9b3ec0353c3a10709ad21985942613da"/><section>
+    <title>ImBezierQuadraticCalc()</title>
+<indexterm><primary>ImBezierQuadraticCalc</primary><secondary>imgui_draw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_draw.cpp</primary><secondary>ImBezierQuadraticCalc</secondary></indexterm>
+<para><computeroutput>ImVec2 ImBezierQuadraticCalc (const ImVec2 &amp; p1, const ImVec2 &amp; p2, const ImVec2 &amp; p3, float t)</computeroutput></para><para>
+Definition at line <link linkend="_imgui__draw_8cpp_source_1l01268">1268</link> of file <link linkend="_imgui__draw_8cpp_source">imgui_draw.cpp</link>.</para>
+<programlisting linenumbering="unnumbered">01269 {
+01270 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">float</emphasis>&#32;u&#32;=&#32;1.0f&#32;-&#32;<link linkend="_classt">t</link>;
+01271 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">float</emphasis>&#32;w1&#32;=&#32;u&#32;*&#32;u;
+01272 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">float</emphasis>&#32;w2&#32;=&#32;2&#32;*&#32;u&#32;*&#32;<link linkend="_classt">t</link>;
+01273 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">float</emphasis>&#32;w3&#32;=&#32;<link linkend="_classt">t</link>&#32;*&#32;<link linkend="_classt">t</link>;
+01274 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;ImVec2(w1&#32;*&#32;p1.x&#32;+&#32;w2&#32;*&#32;p2.x&#32;+&#32;w3&#32;*&#32;p3.x,&#32;w1&#32;*&#32;p1.y&#32;+&#32;w2&#32;*&#32;p2.y&#32;+&#32;w3&#32;*&#32;p3.y);
+01275 }
+</programlisting></section>
+<anchor xml:id="_imgui__draw_8cpp_1adbf0ee92b3ac86e30b9e81f552d15d37"/><section>
+    <title>ImFontAtlasBuildFinish()</title>
+<indexterm><primary>ImFontAtlasBuildFinish</primary><secondary>imgui_draw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_draw.cpp</primary><secondary>ImFontAtlasBuildFinish</secondary></indexterm>
+<para><computeroutput>void ImFontAtlasBuildFinish (ImFontAtlas * atlas)</computeroutput></para><para>
+Definition at line <link linkend="_imgui__draw_8cpp_source_1l03240">3240</link> of file <link linkend="_imgui__draw_8cpp_source">imgui_draw.cpp</link>.</para>
+<programlisting linenumbering="unnumbered">03241 {
+03242 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Render&#32;into&#32;our&#32;custom&#32;data&#32;blocks</emphasis>
+03243 &#32;&#32;&#32;&#32;IM_ASSERT(atlas-&gt;TexPixelsAlpha8&#32;!=&#32;NULL&#32;||&#32;atlas-&gt;TexPixelsRGBA32&#32;!=&#32;NULL);
+03244 &#32;&#32;&#32;&#32;ImFontAtlasBuildRenderDefaultTexData(atlas);
+03245 &#32;&#32;&#32;&#32;ImFontAtlasBuildRenderLinesTexData(atlas);
+03246 
+03247 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Register&#32;custom&#32;rectangle&#32;glyphs</emphasis>
+03248 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;=&#32;0;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;&lt;&#32;atlas-&gt;CustomRects.Size;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>++)
+03249 &#32;&#32;&#32;&#32;{
+03250 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;ImFontAtlasCustomRect*&#32;r&#32;=&#32;&amp;atlas-&gt;CustomRects[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>];
+03251 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(r-&gt;Font&#32;==&#32;NULL&#32;||&#32;r-&gt;GlyphID&#32;==&#32;0)
+03252 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">continue</emphasis>;
+03253 
+03254 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Will&#32;ignore&#32;ImFontConfig&#32;settings:&#32;GlyphMinAdvanceX,&#32;GlyphMinAdvanceY,&#32;GlyphExtraSpacing,&#32;PixelSnapH</emphasis>
+03255 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;IM_ASSERT(r-&gt;Font-&gt;ContainerAtlas&#32;==&#32;atlas);
+03256 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ImVec2&#32;uv0,&#32;uv1;
+03257 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;atlas-&gt;CalcCustomRectUV(r,&#32;&amp;uv0,&#32;&amp;uv1);
+03258 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;r-&gt;Font-&gt;AddGlyph(NULL,&#32;(ImWchar)r-&gt;GlyphID,&#32;r-&gt;GlyphOffset.x,&#32;r-&gt;GlyphOffset.y,&#32;r-&gt;GlyphOffset.x&#32;+&#32;r-&gt;Width,&#32;r-&gt;GlyphOffset.y&#32;+&#32;r-&gt;Height,&#32;uv0.x,&#32;uv0.y,&#32;uv1.x,&#32;uv1.y,&#32;r-&gt;GlyphAdvanceX);
+03259 &#32;&#32;&#32;&#32;}
+03260 
+03261 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Build&#32;all&#32;fonts&#32;lookup&#32;tables</emphasis>
+03262 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(ImFont*&#32;font&#32;:&#32;atlas-&gt;Fonts)
+03263 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;if&#32;(font-&gt;DirtyLookupTables)
+03264 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;font-&gt;BuildLookupTable();
+03265 
+03266 &#32;&#32;&#32;&#32;atlas-&gt;TexReady&#32;=&#32;<emphasis role="keyword">true</emphasis>;
+03267 }
+</programlisting><para>
+References <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00073">i</link>.</para>
+</section>
+<anchor xml:id="_imgui__draw_8cpp_1ac050ff181df43cec0b63d834b6039c3f"/><section>
+    <title>ImFontAtlasBuildInit()</title>
+<indexterm><primary>ImFontAtlasBuildInit</primary><secondary>imgui_draw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_draw.cpp</primary><secondary>ImFontAtlasBuildInit</secondary></indexterm>
+<para><computeroutput>void ImFontAtlasBuildInit (ImFontAtlas * atlas)</computeroutput></para><para>
+Definition at line <link linkend="_imgui__draw_8cpp_source_1l03212">3212</link> of file <link linkend="_imgui__draw_8cpp_source">imgui_draw.cpp</link>.</para>
+<programlisting linenumbering="unnumbered">03213 {
+03214 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Round&#32;font&#32;size</emphasis>
+03215 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-&#32;We&#32;started&#32;rounding&#32;in&#32;1.90&#32;WIP&#32;(18991)&#32;as&#32;our&#32;layout&#32;system&#32;currently&#32;doesn&apos;t&#32;support&#32;non-rounded&#32;font&#32;size&#32;well&#32;yet.</emphasis>
+03216 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-&#32;Note&#32;that&#32;using&#32;io.FontGlobalScale&#32;or&#32;SetWindowFontScale(),&#32;with&#32;are&#32;legacy-ish,&#32;partially&#32;supported&#32;features,&#32;can&#32;still&#32;lead&#32;to&#32;unrounded&#32;sizes.</emphasis>
+03217 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-&#32;We&#32;may&#32;support&#32;it&#32;better&#32;later&#32;and&#32;remove&#32;this&#32;rounding.</emphasis>
+03218 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(ImFontConfig&amp;&#32;cfg&#32;:&#32;atlas-&gt;ConfigData)
+03219 &#32;&#32;&#32;&#32;&#32;&#32;&#32;cfg.SizePixels&#32;=&#32;ImTrunc(cfg.SizePixels);
+03220 
+03221 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Register&#32;texture&#32;region&#32;for&#32;mouse&#32;cursors&#32;or&#32;standard&#32;white&#32;pixels</emphasis>
+03222 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(atlas-&gt;PackIdMouseCursors&#32;&lt;&#32;0)
+03223 &#32;&#32;&#32;&#32;{
+03224 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(!(atlas-&gt;Flags&#32;&amp;&#32;ImFontAtlasFlags_NoMouseCursors))
+03225 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;atlas-&gt;PackIdMouseCursors&#32;=&#32;atlas-&gt;AddCustomRectRegular(<link linkend="_imgui__draw_8cpp_1adf518fea7357febbb14eeecb692a8d95">FONT_ATLAS_DEFAULT_TEX_DATA_W</link>&#32;*&#32;2&#32;+&#32;1,&#32;<link linkend="_imgui__draw_8cpp_1a2c96fc3febbe9f4f6c042a2f975a5b1d">FONT_ATLAS_DEFAULT_TEX_DATA_H</link>);
+03226 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+03227 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;atlas-&gt;PackIdMouseCursors&#32;=&#32;atlas-&gt;AddCustomRectRegular(2,&#32;2);
+03228 &#32;&#32;&#32;&#32;}
+03229 
+03230 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Register&#32;texture&#32;region&#32;for&#32;thick&#32;lines</emphasis>
+03231 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;The&#32;+2&#32;here&#32;is&#32;to&#32;give&#32;space&#32;for&#32;the&#32;end&#32;caps,&#32;whilst&#32;height&#32;+1&#32;is&#32;to&#32;accommodate&#32;the&#32;fact&#32;we&#32;have&#32;a&#32;zero-width&#32;row</emphasis>
+03232 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(atlas-&gt;PackIdLines&#32;&lt;&#32;0)
+03233 &#32;&#32;&#32;&#32;{
+03234 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(!(atlas-&gt;Flags&#32;&amp;&#32;ImFontAtlasFlags_NoBakedLines))
+03235 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;atlas-&gt;PackIdLines&#32;=&#32;atlas-&gt;AddCustomRectRegular(IM_DRAWLIST_TEX_LINES_WIDTH_MAX&#32;+&#32;2,&#32;IM_DRAWLIST_TEX_LINES_WIDTH_MAX&#32;+&#32;1);
+03236 &#32;&#32;&#32;&#32;}
+03237 }
+</programlisting><para>
+References <link linkend="_imgui__draw_8cpp_source_1l02352">FONT_ATLAS_DEFAULT_TEX_DATA_H</link>, and <link linkend="_imgui__draw_8cpp_source_1l02351">FONT_ATLAS_DEFAULT_TEX_DATA_W</link>.</para>
+</section>
+<anchor xml:id="_imgui__draw_8cpp_1a8d5f3a053aae34ac7b93e39cb9096d06"/><section>
+    <title>ImFontAtlasBuildMultiplyCalcLookupTable()</title>
+<indexterm><primary>ImFontAtlasBuildMultiplyCalcLookupTable</primary><secondary>imgui_draw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_draw.cpp</primary><secondary>ImFontAtlasBuildMultiplyCalcLookupTable</secondary></indexterm>
+<para><computeroutput>void ImFontAtlasBuildMultiplyCalcLookupTable (unsigned char out_table[256], float in_brighten_factor)</computeroutput></para><para>
+Definition at line <link linkend="_imgui__draw_8cpp_source_1l02715">2715</link> of file <link linkend="_imgui__draw_8cpp_source">imgui_draw.cpp</link>.</para>
+<programlisting linenumbering="unnumbered">02716 {
+02717 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;=&#32;0;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;&lt;&#32;256;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>++)
+02718 &#32;&#32;&#32;&#32;{
+02719 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;value&#32;=&#32;(<emphasis role="keywordtype">unsigned</emphasis>&#32;int)(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;*&#32;in_brighten_factor);
+02720 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;out_table[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>]&#32;=&#32;value&#32;&gt;&#32;255&#32;?&#32;255&#32;:&#32;(value&#32;&amp;&#32;0xFF);
+02721 &#32;&#32;&#32;&#32;}
+02722 }
+</programlisting><para>
+References <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00073">i</link>.</para>
+</section>
+<anchor xml:id="_imgui__draw_8cpp_1a8dc3feae771599949b33712b520e9060"/><section>
+    <title>ImFontAtlasBuildMultiplyRectAlpha8()</title>
+<indexterm><primary>ImFontAtlasBuildMultiplyRectAlpha8</primary><secondary>imgui_draw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_draw.cpp</primary><secondary>ImFontAtlasBuildMultiplyRectAlpha8</secondary></indexterm>
+<para><computeroutput>void ImFontAtlasBuildMultiplyRectAlpha8 (const unsigned char table[256], unsigned char * pixels, int x, int y, int w, int h, int stride)</computeroutput></para><para>
+Definition at line <link linkend="_imgui__draw_8cpp_source_1l02724">2724</link> of file <link linkend="_imgui__draw_8cpp_source">imgui_draw.cpp</link>.</para>
+<programlisting linenumbering="unnumbered">02725 {
+02726 &#32;&#32;&#32;&#32;IM_ASSERT_PARANOID(w&#32;&lt;=&#32;stride);
+02727 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;data&#32;=&#32;pixels&#32;+&#32;x&#32;+&#32;y&#32;*&#32;stride;
+02728 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(<emphasis role="keywordtype">int</emphasis>&#32;j&#32;=&#32;h;&#32;j&#32;&gt;&#32;0;&#32;j--,&#32;data&#32;+=&#32;stride&#32;-&#32;w)
+02729 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;=&#32;w;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;&gt;&#32;0;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>--,&#32;data++)
+02730 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*data&#32;=&#32;table[*data];
+02731 }
+</programlisting><para>
+References <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00073">i</link>.</para>
+</section>
+<anchor xml:id="_imgui__draw_8cpp_1add0fcd1708ca3540688d8277fc01bf3f"/><section>
+    <title>ImFontAtlasBuildPackCustomRects()</title>
+<indexterm><primary>ImFontAtlasBuildPackCustomRects</primary><secondary>imgui_draw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_draw.cpp</primary><secondary>ImFontAtlasBuildPackCustomRects</secondary></indexterm>
+<para><computeroutput>void ImFontAtlasBuildPackCustomRects (ImFontAtlas * atlas, void * stbrp_context_opaque)</computeroutput></para><para>
+Definition at line <link linkend="_imgui__draw_8cpp_source_1l03070">3070</link> of file <link linkend="_imgui__draw_8cpp_source">imgui_draw.cpp</link>.</para>
+<programlisting linenumbering="unnumbered">03071 {
+03072 &#32;&#32;&#32;&#32;stbrp_context*&#32;pack_context&#32;=&#32;(stbrp_context*)stbrp_context_opaque;
+03073 &#32;&#32;&#32;&#32;IM_ASSERT(pack_context&#32;!=&#32;NULL);
+03074 
+03075 &#32;&#32;&#32;&#32;ImVector&lt;ImFontAtlasCustomRect&gt;&amp;&#32;user_rects&#32;=&#32;atlas-&gt;CustomRects;
+03076 &#32;&#32;&#32;&#32;IM_ASSERT(user_rects.Size&#32;&gt;=&#32;1);&#32;<emphasis role="comment">//&#32;We&#32;expect&#32;at&#32;least&#32;the&#32;default&#32;custom&#32;rects&#32;to&#32;be&#32;registered,&#32;else&#32;something&#32;went&#32;wrong.</emphasis>
+03077 <emphasis role="preprocessor">#ifdef&#32;__GNUC__</emphasis>
+03078 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(user_rects.Size&#32;&lt;&#32;1)&#32;{&#32;__builtin_unreachable();&#32;}&#32;<emphasis role="comment">//&#32;Workaround&#32;for&#32;GCC&#32;bug&#32;if&#32;IM_ASSERT()&#32;is&#32;defined&#32;to&#32;conditionally&#32;throw&#32;(see&#32;#5343)</emphasis>
+03079 <emphasis role="preprocessor">#endif</emphasis>
+03080 
+03081 &#32;&#32;&#32;&#32;ImVector&lt;stbrp_rect&gt;&#32;pack_rects;
+03082 &#32;&#32;&#32;&#32;pack_rects.resize(user_rects.Size);
+03083 &#32;&#32;&#32;&#32;memset(pack_rects.Data,&#32;0,&#32;(<emphasis role="keywordtype">size_t</emphasis>)pack_rects.size_in_bytes());
+03084 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;=&#32;0;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;&lt;&#32;user_rects.Size;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>++)
+03085 &#32;&#32;&#32;&#32;{
+03086 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;pack_rects[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>].w&#32;=&#32;user_rects[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>].Width;
+03087 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;pack_rects[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>].h&#32;=&#32;user_rects[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>].Height;
+03088 &#32;&#32;&#32;&#32;}
+03089 &#32;&#32;&#32;&#32;stbrp_pack_rects(pack_context,&#32;&amp;pack_rects[0],&#32;pack_rects.Size);
+03090 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;=&#32;0;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;&lt;&#32;pack_rects.Size;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>++)
+03091 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(pack_rects[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>].was_packed)
+03092 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+03093 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;user_rects[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>].X&#32;=&#32;(<emphasis role="keywordtype">unsigned</emphasis>&#32;short)pack_rects[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>].x;
+03094 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;user_rects[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>].Y&#32;=&#32;(<emphasis role="keywordtype">unsigned</emphasis>&#32;short)pack_rects[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>].y;
+03095 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;IM_ASSERT(pack_rects[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>].w&#32;==&#32;user_rects[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>].Width&#32;&amp;&amp;&#32;pack_rects[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>].h&#32;==&#32;user_rects[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>].Height);
+03096 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;atlas-&gt;TexHeight&#32;=&#32;ImMax(atlas-&gt;TexHeight,&#32;pack_rects[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>].y&#32;+&#32;pack_rects[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>].h);
+03097 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+03098 }
+</programlisting><para>
+References <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00073">i</link>.</para>
+</section>
+<anchor xml:id="_imgui__draw_8cpp_1a66ac51ad223da84c7167d4c9f4cfb2fb"/><section>
+    <title>ImFontAtlasBuildRender32bppRectFromString()</title>
+<indexterm><primary>ImFontAtlasBuildRender32bppRectFromString</primary><secondary>imgui_draw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_draw.cpp</primary><secondary>ImFontAtlasBuildRender32bppRectFromString</secondary></indexterm>
+<para><computeroutput>void ImFontAtlasBuildRender32bppRectFromString (ImFontAtlas * atlas, int x, int y, int w, int h, const char * in_str, char in_marker_char, unsigned int in_marker_pixel_value)</computeroutput></para><para>
+Definition at line <link linkend="_imgui__draw_8cpp_source_1l03110">3110</link> of file <link linkend="_imgui__draw_8cpp_source">imgui_draw.cpp</link>.</para>
+<programlisting linenumbering="unnumbered">03111 {
+03112 &#32;&#32;&#32;&#32;IM_ASSERT(x&#32;&gt;=&#32;0&#32;&amp;&amp;&#32;x&#32;+&#32;w&#32;&lt;=&#32;atlas-&gt;TexWidth);
+03113 &#32;&#32;&#32;&#32;IM_ASSERT(y&#32;&gt;=&#32;0&#32;&amp;&amp;&#32;y&#32;+&#32;h&#32;&lt;=&#32;atlas-&gt;TexHeight);
+03114 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>*&#32;out_pixel&#32;=&#32;atlas-&gt;TexPixelsRGBA32&#32;+&#32;x&#32;+&#32;(y&#32;*&#32;atlas-&gt;TexWidth);
+03115 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(<emphasis role="keywordtype">int</emphasis>&#32;off_y&#32;=&#32;0;&#32;off_y&#32;&lt;&#32;h;&#32;off_y++,&#32;out_pixel&#32;+=&#32;atlas-&gt;TexWidth,&#32;in_str&#32;+=&#32;w)
+03116 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(<emphasis role="keywordtype">int</emphasis>&#32;off_x&#32;=&#32;0;&#32;off_x&#32;&lt;&#32;w;&#32;off_x++)
+03117 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;out_pixel[off_x]&#32;=&#32;(in_str[off_x]&#32;==&#32;in_marker_char)&#32;?&#32;in_marker_pixel_value&#32;:&#32;IM_COL32_BLACK_TRANS;
+03118 }
+</programlisting></section>
+<anchor xml:id="_imgui__draw_8cpp_1acc7928ba77e5e06a342720ccf0a95ece"/><section>
+    <title>ImFontAtlasBuildRender8bppRectFromString()</title>
+<indexterm><primary>ImFontAtlasBuildRender8bppRectFromString</primary><secondary>imgui_draw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_draw.cpp</primary><secondary>ImFontAtlasBuildRender8bppRectFromString</secondary></indexterm>
+<para><computeroutput>void ImFontAtlasBuildRender8bppRectFromString (ImFontAtlas * atlas, int x, int y, int w, int h, const char * in_str, char in_marker_char, unsigned char in_marker_pixel_value)</computeroutput></para><para>
+Definition at line <link linkend="_imgui__draw_8cpp_source_1l03100">3100</link> of file <link linkend="_imgui__draw_8cpp_source">imgui_draw.cpp</link>.</para>
+<programlisting linenumbering="unnumbered">03101 {
+03102 &#32;&#32;&#32;&#32;IM_ASSERT(x&#32;&gt;=&#32;0&#32;&amp;&amp;&#32;x&#32;+&#32;w&#32;&lt;=&#32;atlas-&gt;TexWidth);
+03103 &#32;&#32;&#32;&#32;IM_ASSERT(y&#32;&gt;=&#32;0&#32;&amp;&amp;&#32;y&#32;+&#32;h&#32;&lt;=&#32;atlas-&gt;TexHeight);
+03104 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;out_pixel&#32;=&#32;atlas-&gt;TexPixelsAlpha8&#32;+&#32;x&#32;+&#32;(y&#32;*&#32;atlas-&gt;TexWidth);
+03105 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(<emphasis role="keywordtype">int</emphasis>&#32;off_y&#32;=&#32;0;&#32;off_y&#32;&lt;&#32;h;&#32;off_y++,&#32;out_pixel&#32;+=&#32;atlas-&gt;TexWidth,&#32;in_str&#32;+=&#32;w)
+03106 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(<emphasis role="keywordtype">int</emphasis>&#32;off_x&#32;=&#32;0;&#32;off_x&#32;&lt;&#32;w;&#32;off_x++)
+03107 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;out_pixel[off_x]&#32;=&#32;(in_str[off_x]&#32;==&#32;in_marker_char)&#32;?&#32;in_marker_pixel_value&#32;:&#32;0x00;
+03108 }
+</programlisting></section>
+<anchor xml:id="_imgui__draw_8cpp_1a4bea0932904c84de73237df3f1f76bdd"/><section>
+    <title>ImFontAtlasBuildSetupFont()</title>
+<indexterm><primary>ImFontAtlasBuildSetupFont</primary><secondary>imgui_draw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_draw.cpp</primary><secondary>ImFontAtlasBuildSetupFont</secondary></indexterm>
+<para><computeroutput>void ImFontAtlasBuildSetupFont (ImFontAtlas * atlas, ImFont * font, ImFontConfig * font_config, float ascent, float descent)</computeroutput></para><para>
+Definition at line <link linkend="_imgui__draw_8cpp_source_1l03057">3057</link> of file <link linkend="_imgui__draw_8cpp_source">imgui_draw.cpp</link>.</para>
+<programlisting linenumbering="unnumbered">03058 {
+03059 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(!font_config-&gt;MergeMode)
+03060 &#32;&#32;&#32;&#32;{
+03061 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;font-&gt;ClearOutputData();
+03062 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;font-&gt;FontSize&#32;=&#32;font_config-&gt;SizePixels;
+03063 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;IM_ASSERT(font-&gt;ConfigData&#32;==&#32;font_config);
+03064 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;font-&gt;ContainerAtlas&#32;=&#32;atlas;
+03065 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;font-&gt;Ascent&#32;=&#32;ascent;
+03066 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;font-&gt;Descent&#32;=&#32;descent;
+03067 &#32;&#32;&#32;&#32;}
+03068 }
+</programlisting></section>
+<anchor xml:id="_imgui__draw_8cpp_1ab58975478a1fbc1735cf9b15e2db5be0"/><section>
+    <title>ImFontAtlasUpdateConfigDataPointers()</title>
+<indexterm><primary>ImFontAtlasUpdateConfigDataPointers</primary><secondary>imgui_draw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_draw.cpp</primary><secondary>ImFontAtlasUpdateConfigDataPointers</secondary></indexterm>
+<para><computeroutput>void ImFontAtlasUpdateConfigDataPointers (ImFontAtlas * atlas)</computeroutput></para><para>
+Definition at line <link linkend="_imgui__draw_8cpp_source_1l03043">3043</link> of file <link linkend="_imgui__draw_8cpp_source">imgui_draw.cpp</link>.</para>
+<programlisting linenumbering="unnumbered">03044 {
+03045 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(ImFontConfig&amp;&#32;font_cfg&#32;:&#32;atlas-&gt;ConfigData)
+03046 &#32;&#32;&#32;&#32;{
+03047 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ImFont*&#32;font&#32;=&#32;font_cfg.DstFont;
+03048 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(!font_cfg.MergeMode)
+03049 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+03050 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;font-&gt;ConfigData&#32;=&#32;&amp;font_cfg;
+03051 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;font-&gt;ConfigDataCount&#32;=&#32;0;
+03052 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+03053 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;font-&gt;ConfigDataCount++;
+03054 &#32;&#32;&#32;&#32;}
+03055 }
+</programlisting></section>
+</section>
+<section>
+<title>Variable Documentation</title>
+<anchor xml:id="_imgui__draw_8cpp_1a2c96fc3febbe9f4f6c042a2f975a5b1d"/><section>
+    <title>FONT_ATLAS_DEFAULT_TEX_DATA_H</title>
+<indexterm><primary>FONT_ATLAS_DEFAULT_TEX_DATA_H</primary><secondary>imgui_draw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_draw.cpp</primary><secondary>FONT_ATLAS_DEFAULT_TEX_DATA_H</secondary></indexterm>
+<para><computeroutput>const int FONT_ATLAS_DEFAULT_TEX_DATA_H = 27</computeroutput></para><para>
+Definition at line <link linkend="_imgui__draw_8cpp_source_1l02352">2352</link> of file <link linkend="_imgui__draw_8cpp_source">imgui_draw.cpp</link>.</para>
+<para>
+Referenced by <link linkend="_imgui__draw_8cpp_source_1l03212">ImFontAtlasBuildInit()</link>.</para>
+</section>
+<anchor xml:id="_imgui__draw_8cpp_1adf518fea7357febbb14eeecb692a8d95"/><section>
+    <title>FONT_ATLAS_DEFAULT_TEX_DATA_W</title>
+<indexterm><primary>FONT_ATLAS_DEFAULT_TEX_DATA_W</primary><secondary>imgui_draw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_draw.cpp</primary><secondary>FONT_ATLAS_DEFAULT_TEX_DATA_W</secondary></indexterm>
+<para><computeroutput>const int FONT_ATLAS_DEFAULT_TEX_DATA_W = 122</computeroutput></para><para>
+Definition at line <link linkend="_imgui__draw_8cpp_source_1l02351">2351</link> of file <link linkend="_imgui__draw_8cpp_source">imgui_draw.cpp</link>.</para>
+<para>
+Referenced by <link linkend="_imgui__draw_8cpp_source_1l03212">ImFontAtlasBuildInit()</link>.</para>
+</section>
+</section>
+</section>

@@ -1,43 +1,94 @@
-.TH "UPRISE_ENGINE/SCENE.h" 3 "Version 0.0.0.1" "My Project" \" -*- nroff -*-
+.TH "adhed/assimp/scene.h" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
-UPRISE_ENGINE/SCENE.h
+adhed/assimp/scene.h \- Defines the data structures in which the imported scene is returned\&.  
+
 .SH SYNOPSIS
 .br
 .PP
-\fR#include 'pch\&.h'\fP
+\fR#include <assimp/types\&.h>\fP
 .br
-\fR#include 'GAMEOBJECT\&.h'\fP
+\fR#include <assimp/texture\&.h>\fP
+.br
+\fR#include <assimp/mesh\&.h>\fP
+.br
+\fR#include <assimp/light\&.h>\fP
+.br
+\fR#include <assimp/camera\&.h>\fP
+.br
+\fR#include <assimp/material\&.h>\fP
+.br
+\fR#include <assimp/anim\&.h>\fP
+.br
+\fR#include <assimp/metadata\&.h>\fP
 .br
 
 .SS "Classes"
 
 .in +1c
 .ti -1c
-.RI "class \fBCORE::Scene\fP"
+.RI "struct \fBaiNode\fP"
 .br
-.in -1c
-.SS "Namespaces"
-
-.in +1c
 .ti -1c
-.RI "namespace \fBCORE\fP"
+.RI "struct \fBaiScene\fP"
 .br
 .in -1c
 .SS "Macros"
 
 .in +1c
 .ti -1c
-.RI "#define \fB_SCENE_\fP"
+.RI "#define \fBAI_SCENE_H_INC\fP"
+.br
+.ti -1c
+.RI "#define \fBAI_SCENE_FLAGS_INCOMPLETE\fP   0x1"
+.br
+.ti -1c
+.RI "#define \fBAI_SCENE_FLAGS_VALIDATED\fP   0x2"
+.br
+.ti -1c
+.RI "#define \fBAI_SCENE_FLAGS_VALIDATION_WARNING\fP   0x4"
+.br
+.ti -1c
+.RI "#define \fBAI_SCENE_FLAGS_NON_VERBOSE_FORMAT\fP   0x8"
+.br
+.ti -1c
+.RI "#define \fBAI_SCENE_FLAGS_TERRAIN\fP   0x10"
+.br
+.ti -1c
+.RI "#define \fBAI_SCENE_FLAGS_ALLOW_SHARED\fP   0x20"
 .br
 .in -1c
+.SH "Detailed Description"
+.PP 
+Defines the data structures in which the imported scene is returned\&. 
+
+
 .SH "Macro Definition Documentation"
 .PP 
-.SS "#define _SCENE_"
-
+.SS "#define AI_SCENE_FLAGS_ALLOW_SHARED   0x20"
+Specifies that the scene data can be shared between structures\&. For example: one vertex in few faces\&. \fBAI_SCENE_FLAGS_NON_VERBOSE_FORMAT\fP can not be used for this because \fBAI_SCENE_FLAGS_NON_VERBOSE_FORMAT\fP has internal meaning about postprocessing steps\&. 
+.SS "#define AI_SCENE_FLAGS_INCOMPLETE   0x1"
+Specifies that the scene data structure that was imported is not complete\&. This flag bypasses some internal validations and allows the import of animation skeletons, material libraries or camera animation paths using \fBAssimp\fP\&. Most applications won't support such data\&. 
+.SS "#define AI_SCENE_FLAGS_NON_VERBOSE_FORMAT   0x8"
+This flag is currently only set by the aiProcess_JoinIdenticalVertices step\&. It indicates that the vertices of the output meshes aren't in the internal verbose format anymore\&. In the verbose format all vertices are unique, no vertex is ever referenced by more than one face\&. 
+.SS "#define AI_SCENE_FLAGS_TERRAIN   0x10"
+Denotes pure height-map terrain data\&. Pure terrains usually consist of quads, sometimes triangles, in a regular grid\&. The x,y coordinates of all vertex positions refer to the x,y coordinates on the terrain height map, the z-axis stores the elevation at a specific point\&.
 .PP
-Definition at line \fB3\fP of file \fBSCENE\&.h\fP\&.
+TER (Terragen) and HMP (3D Game Studio) are height map formats\&. 
+.PP
+\fBNote\fP
+.RS 4
+\fBAssimp\fP is probably not the best choice for loading \fIhuge\fP terrains - fully triangulated data takes extremely much free store and should be avoided as long as possible (typically you'll do the triangulation when you actually need to render it)\&. 
+.RE
+.PP
+
+.SS "#define AI_SCENE_FLAGS_VALIDATED   0x2"
+This flag is set by the validation postprocess-step (aiPostProcess_ValidateDS) if the validation is successful\&. In a validated scene you can be sure that any cross references in the data structure (e\&.g\&. vertex indices) are valid\&. 
+.SS "#define AI_SCENE_FLAGS_VALIDATION_WARNING   0x4"
+This flag is set by the validation postprocess-step (aiPostProcess_ValidateDS) if the validation is successful but some issues have been found\&. This can for example mean that a texture that does not exist is referenced by a material or that the bone weights for a vertex don't sum to 1\&.0 \&.\&.\&. \&. In most cases you should still be able to use the import\&. This flag could be useful for applications which don't capture \fBAssimp\fP's log output\&. 
+.SS "#define AI_SCENE_H_INC"
+
 .SH "Author"
 .PP 
 Generated automatically by Doxygen for My Project from the source code\&.

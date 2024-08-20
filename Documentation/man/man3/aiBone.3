@@ -1,0 +1,66 @@
+.TH "aiBone" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+aiBone \- A single bone of a mesh\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fR#include <mesh\&.h>\fP
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBC_STRUCT\fP \fBaiString\fP \fBmName\fP"
+.br
+.RI "The name of the bone\&. "
+.ti -1c
+.RI "unsigned int \fBmNumWeights\fP"
+.br
+.ti -1c
+.RI "\fBC_STRUCT\fP \fBaiNode\fP * \fBmArmature\fP"
+.br
+.ti -1c
+.RI "\fBC_STRUCT\fP \fBaiNode\fP * \fBmNode\fP"
+.br
+.ti -1c
+.RI "\fBC_STRUCT\fP \fBaiVertexWeight\fP * \fBmWeights\fP"
+.br
+.RI "The influence weights of this bone, by vertex index\&. "
+.ti -1c
+.RI "\fBC_STRUCT\fP \fBaiMatrix4x4\fP \fBmOffsetMatrix\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+A single bone of a mesh\&. 
+
+A bone has a name by which it can be found in the frame hierarchy and by which it can be addressed by animations\&. In addition it has a number of influences on vertices, and a matrix relating the mesh position to the position of the bone at the time of binding\&. 
+.SH "Member Data Documentation"
+.PP 
+.SS "\fBC_STRUCT\fP \fBaiNode\fP* aiBone::mArmature"
+The bone armature node - used for skeleton conversion you must enable aiProcess_PopulateArmatureData to populate this 
+.SS "\fBC_STRUCT\fP \fBaiString\fP aiBone::mName"
+
+.PP
+The name of the bone\&. 
+.SS "\fBC_STRUCT\fP \fBaiNode\fP* aiBone::mNode"
+The bone node in the scene - used for skeleton conversion you must enable aiProcess_PopulateArmatureData to populate this 
+.SS "unsigned int aiBone::mNumWeights"
+The number of vertices affected by this bone\&. The maximum value for this member is \fBAI_MAX_BONE_WEIGHTS\fP\&. 
+.SS "\fBC_STRUCT\fP \fBaiMatrix4x4\fP aiBone::mOffsetMatrix"
+Matrix that transforms from mesh space to bone space in bind pose\&.
+.PP
+This matrix describes the position of the mesh in the local space of this bone when the skeleton was bound\&. Thus it can be used directly to determine a desired vertex position, given the world-space transform of the bone when animated, and the position of the vertex in mesh space\&.
+.PP
+It is sometimes called an inverse-bind matrix, or inverse bind pose matrix\&. 
+.SS "\fBC_STRUCT\fP \fBaiVertexWeight\fP* aiBone::mWeights"
+
+.PP
+The influence weights of this bone, by vertex index\&. 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

@@ -1,0 +1,84 @@
+.TH "UPRISE_ENGINE/imgui_tables.cpp" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+UPRISE_ENGINE/imgui_tables.cpp
+.SH SYNOPSIS
+.br
+.PP
+\fR#include 'imgui\&.h'\fP
+.br
+\fR#include 'imgui_internal\&.h'\fP
+.br
+\fR#include <stdint\&.h>\fP
+.br
+
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBIMGUI_DEFINE_MATH_OPERATORS\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "ImGuiTableFlags \fBTableFixFlags\fP (ImGuiTableFlags flags, ImGuiWindow *outer_window)"
+.br
+.ti -1c
+.RI "\fBIM_STATIC_ASSERT\fP (ImGuiSortDirection_None==0 &&ImGuiSortDirection_Ascending==1 &&ImGuiSortDirection_Descending==2)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define IMGUI_DEFINE_MATH_OPERATORS"
+
+.PP
+Definition at line \fB195\fP of file \fBimgui_tables\&.cpp\fP\&.
+.SH "Function Documentation"
+.PP 
+.SS "IM_STATIC_ASSERT (ImGuiSortDirection_None  = \fR=0 &&ImGuiSortDirection_Ascending==1 &&ImGuiSortDirection_Descending==2\fP)"
+
+.SS "ImGuiTableFlags TableFixFlags (ImGuiTableFlags flags, ImGuiWindow * outer_window)\fR [inline]\fP"
+
+.PP
+Definition at line \fB264\fP of file \fBimgui_tables\&.cpp\fP\&.
+.nf
+265 {
+266     // Adjust flags: set default sizing policy
+267     if ((flags & ImGuiTableFlags_SizingMask_) == 0)
+268         flags |= ((flags & ImGuiTableFlags_ScrollX) || (outer_window\->Flags & ImGuiWindowFlags_AlwaysAutoResize)) ? ImGuiTableFlags_SizingFixedFit : ImGuiTableFlags_SizingStretchSame;
+269 
+270     // Adjust flags: enable NoKeepColumnsVisible when using ImGuiTableFlags_SizingFixedSame
+271     if ((flags & ImGuiTableFlags_SizingMask_) == ImGuiTableFlags_SizingFixedSame)
+272         flags |= ImGuiTableFlags_NoKeepColumnsVisible;
+273 
+274     // Adjust flags: enforce borders when resizable
+275     if (flags & ImGuiTableFlags_Resizable)
+276         flags |= ImGuiTableFlags_BordersInnerV;
+277 
+278     // Adjust flags: disable NoHostExtendX/NoHostExtendY if we have any scrolling going on
+279     if (flags & (ImGuiTableFlags_ScrollX | ImGuiTableFlags_ScrollY))
+280         flags &= ~(ImGuiTableFlags_NoHostExtendX | ImGuiTableFlags_NoHostExtendY);
+281 
+282     // Adjust flags: NoBordersInBodyUntilResize takes priority over NoBordersInBody
+283     if (flags & ImGuiTableFlags_NoBordersInBodyUntilResize)
+284         flags &= ~ImGuiTableFlags_NoBordersInBody;
+285 
+286     // Adjust flags: disable saved settings if there's nothing to save
+287     if ((flags & (ImGuiTableFlags_Resizable | ImGuiTableFlags_Hideable | ImGuiTableFlags_Reorderable | ImGuiTableFlags_Sortable)) == 0)
+288         flags |= ImGuiTableFlags_NoSavedSettings;
+289 
+290     // Inherit _NoSavedSettings from top\-level window (child windows always have _NoSavedSettings set)
+291     if (outer_window\->RootWindow\->Flags & ImGuiWindowFlags_NoSavedSettings)
+292         flags |= ImGuiTableFlags_NoSavedSettings;
+293 
+294     return flags;
+295 }
+.PP
+.fi
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

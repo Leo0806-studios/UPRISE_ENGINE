@@ -1,0 +1,194 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_glfw3native_8h_source" xml:lang="en-US">
+<title>glfw3native.h</title>
+<indexterm><primary>adhed/glfw3native.h</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 <emphasis role="comment">/*************************************************************************</emphasis>
+2 <emphasis role="comment">&#32;*&#32;GLFW&#32;3.4&#32;-&#32;www.glfw.org</emphasis>
+3 <emphasis role="comment">&#32;*&#32;A&#32;library&#32;for&#32;OpenGL,&#32;window&#32;and&#32;input</emphasis>
+4 <emphasis role="comment">&#32;*------------------------------------------------------------------------</emphasis>
+5 <emphasis role="comment">&#32;*&#32;Copyright&#32;(c)&#32;2002-2006&#32;Marcus&#32;Geelnard</emphasis>
+6 <emphasis role="comment">&#32;*&#32;Copyright&#32;(c)&#32;2006-2018&#32;Camilla&#32;Löwy&#32;&lt;elmindreda@glfw.org&gt;</emphasis>
+7 <emphasis role="comment">&#32;*</emphasis>
+8 <emphasis role="comment">&#32;*&#32;This&#32;software&#32;is&#32;provided&#32;&apos;as-is&apos;,&#32;without&#32;any&#32;express&#32;or&#32;implied</emphasis>
+9 <emphasis role="comment">&#32;*&#32;warranty.&#32;In&#32;no&#32;event&#32;will&#32;the&#32;authors&#32;be&#32;held&#32;liable&#32;for&#32;any&#32;damages</emphasis>
+10 <emphasis role="comment">&#32;*&#32;arising&#32;from&#32;the&#32;use&#32;of&#32;this&#32;software.</emphasis>
+11 <emphasis role="comment">&#32;*</emphasis>
+12 <emphasis role="comment">&#32;*&#32;Permission&#32;is&#32;granted&#32;to&#32;anyone&#32;to&#32;use&#32;this&#32;software&#32;for&#32;any&#32;purpose,</emphasis>
+13 <emphasis role="comment">&#32;*&#32;including&#32;commercial&#32;applications,&#32;and&#32;to&#32;alter&#32;it&#32;and&#32;redistribute&#32;it</emphasis>
+14 <emphasis role="comment">&#32;*&#32;freely,&#32;subject&#32;to&#32;the&#32;following&#32;restrictions:</emphasis>
+15 <emphasis role="comment">&#32;*</emphasis>
+16 <emphasis role="comment">&#32;*&#32;1.&#32;The&#32;origin&#32;of&#32;this&#32;software&#32;must&#32;not&#32;be&#32;misrepresented;&#32;you&#32;must&#32;not</emphasis>
+17 <emphasis role="comment">&#32;*&#32;&#32;&#32;&#32;claim&#32;that&#32;you&#32;wrote&#32;the&#32;original&#32;software.&#32;If&#32;you&#32;use&#32;this&#32;software</emphasis>
+18 <emphasis role="comment">&#32;*&#32;&#32;&#32;&#32;in&#32;a&#32;product,&#32;an&#32;acknowledgment&#32;in&#32;the&#32;product&#32;documentation&#32;would</emphasis>
+19 <emphasis role="comment">&#32;*&#32;&#32;&#32;&#32;be&#32;appreciated&#32;but&#32;is&#32;not&#32;required.</emphasis>
+20 <emphasis role="comment">&#32;*</emphasis>
+21 <emphasis role="comment">&#32;*&#32;2.&#32;Altered&#32;source&#32;versions&#32;must&#32;be&#32;plainly&#32;marked&#32;as&#32;such,&#32;and&#32;must&#32;not</emphasis>
+22 <emphasis role="comment">&#32;*&#32;&#32;&#32;&#32;be&#32;misrepresented&#32;as&#32;being&#32;the&#32;original&#32;software.</emphasis>
+23 <emphasis role="comment">&#32;*</emphasis>
+24 <emphasis role="comment">&#32;*&#32;3.&#32;This&#32;notice&#32;may&#32;not&#32;be&#32;removed&#32;or&#32;altered&#32;from&#32;any&#32;source</emphasis>
+25 <emphasis role="comment">&#32;*&#32;&#32;&#32;&#32;distribution.</emphasis>
+26 <emphasis role="comment">&#32;*</emphasis>
+27 <emphasis role="comment">&#32;*************************************************************************/</emphasis>
+28 
+29 <emphasis role="preprocessor">#ifndef&#32;_glfw3_native_h_</emphasis>
+30 <emphasis role="preprocessor">#define&#32;_glfw3_native_h_</emphasis>
+31 
+32 <emphasis role="preprocessor">#ifdef&#32;__cplusplus</emphasis>
+33 <emphasis role="keyword">extern</emphasis>&#32;<emphasis role="stringliteral">&quot;C&quot;</emphasis>&#32;{
+34 <emphasis role="preprocessor">#endif</emphasis>
+35 
+36 
+37 <emphasis role="comment">/*************************************************************************</emphasis>
+38 <emphasis role="comment">&#32;*&#32;Doxygen&#32;documentation</emphasis>
+39 <emphasis role="comment">&#32;*************************************************************************/</emphasis>
+40 
+90 <emphasis role="comment">/*************************************************************************</emphasis>
+91 <emphasis role="comment">&#32;*&#32;System&#32;headers&#32;and&#32;types</emphasis>
+92 <emphasis role="comment">&#32;*************************************************************************/</emphasis>
+93 
+94 <emphasis role="preprocessor">#if&#32;!defined(GLFW_NATIVE_INCLUDE_NONE)</emphasis>
+95 
+96 <emphasis role="preprocessor">&#32;#if&#32;defined(GLFW_EXPOSE_NATIVE_WIN32)&#32;||&#32;defined(GLFW_EXPOSE_NATIVE_WGL)</emphasis>
+97 &#32;&#32;<emphasis role="comment">/*&#32;This&#32;is&#32;a&#32;workaround&#32;for&#32;the&#32;fact&#32;that&#32;glfw3.h&#32;needs&#32;to&#32;export&#32;APIENTRY&#32;(for</emphasis>
+98 <emphasis role="comment">&#32;&#32;&#32;*&#32;example&#32;to&#32;allow&#32;applications&#32;to&#32;correctly&#32;declare&#32;a&#32;GL_KHR_debug&#32;callback)</emphasis>
+99 <emphasis role="comment">&#32;&#32;&#32;*&#32;but&#32;windows.h&#32;assumes&#32;no&#32;one&#32;will&#32;define&#32;APIENTRY&#32;before&#32;it&#32;does</emphasis>
+100 <emphasis role="comment">&#32;&#32;&#32;*/</emphasis>
+101 <emphasis role="preprocessor">&#32;&#32;#if&#32;defined(GLFW_APIENTRY_DEFINED)</emphasis>
+102 <emphasis role="preprocessor">&#32;&#32;&#32;#undef&#32;APIENTRY</emphasis>
+103 <emphasis role="preprocessor">&#32;&#32;&#32;#undef&#32;GLFW_APIENTRY_DEFINED</emphasis>
+104 <emphasis role="preprocessor">&#32;&#32;#endif</emphasis>
+105 <emphasis role="preprocessor">&#32;&#32;#include&#32;&lt;windows.h&gt;</emphasis>
+106 <emphasis role="preprocessor">&#32;#endif</emphasis>
+107 
+108 <emphasis role="preprocessor">&#32;#if&#32;defined(GLFW_EXPOSE_NATIVE_COCOA)&#32;||&#32;defined(GLFW_EXPOSE_NATIVE_NSGL)</emphasis>
+109 <emphasis role="preprocessor">&#32;&#32;#if&#32;defined(__OBJC__)</emphasis>
+110 <emphasis role="preprocessor">&#32;&#32;&#32;#import&#32;&lt;Cocoa/Cocoa.h&gt;</emphasis>
+111 <emphasis role="preprocessor">&#32;&#32;#else</emphasis>
+112 <emphasis role="preprocessor">&#32;&#32;&#32;#include&#32;&lt;ApplicationServices/ApplicationServices.h&gt;</emphasis>
+113 <emphasis role="preprocessor">&#32;&#32;&#32;#include&#32;&lt;objc/objc.h&gt;</emphasis>
+114 <emphasis role="preprocessor">&#32;&#32;#endif</emphasis>
+115 <emphasis role="preprocessor">&#32;#endif</emphasis>
+116 
+117 <emphasis role="preprocessor">&#32;#if&#32;defined(GLFW_EXPOSE_NATIVE_X11)&#32;||&#32;defined(GLFW_EXPOSE_NATIVE_GLX)</emphasis>
+118 <emphasis role="preprocessor">&#32;&#32;#include&#32;&lt;X11/Xlib.h&gt;</emphasis>
+119 <emphasis role="preprocessor">&#32;&#32;#include&#32;&lt;X11/extensions/Xrandr.h&gt;</emphasis>
+120 <emphasis role="preprocessor">&#32;#endif</emphasis>
+121 
+122 <emphasis role="preprocessor">&#32;#if&#32;defined(GLFW_EXPOSE_NATIVE_WAYLAND)</emphasis>
+123 <emphasis role="preprocessor">&#32;&#32;#include&#32;&lt;wayland-client.h&gt;</emphasis>
+124 <emphasis role="preprocessor">&#32;#endif</emphasis>
+125 
+126 <emphasis role="preprocessor">&#32;#if&#32;defined(GLFW_EXPOSE_NATIVE_WGL)</emphasis>
+127 &#32;&#32;<emphasis role="comment">/*&#32;WGL&#32;is&#32;declared&#32;by&#32;windows.h&#32;*/</emphasis>
+128 <emphasis role="preprocessor">&#32;#endif</emphasis>
+129 <emphasis role="preprocessor">&#32;#if&#32;defined(GLFW_EXPOSE_NATIVE_NSGL)</emphasis>
+130 &#32;&#32;<emphasis role="comment">/*&#32;NSGL&#32;is&#32;declared&#32;by&#32;Cocoa.h&#32;*/</emphasis>
+131 <emphasis role="preprocessor">&#32;#endif</emphasis>
+132 <emphasis role="preprocessor">&#32;#if&#32;defined(GLFW_EXPOSE_NATIVE_GLX)</emphasis>
+133 &#32;&#32;<emphasis role="comment">/*&#32;This&#32;is&#32;a&#32;workaround&#32;for&#32;the&#32;fact&#32;that&#32;glfw3.h&#32;defines&#32;GLAPIENTRY&#32;because&#32;by</emphasis>
+134 <emphasis role="comment">&#32;&#32;&#32;*&#32;default&#32;it&#32;also&#32;acts&#32;as&#32;an&#32;OpenGL&#32;header</emphasis>
+135 <emphasis role="comment">&#32;&#32;&#32;*&#32;However,&#32;glx.h&#32;will&#32;include&#32;gl.h,&#32;which&#32;will&#32;define&#32;it&#32;unconditionally</emphasis>
+136 <emphasis role="comment">&#32;&#32;&#32;*/</emphasis>
+137 <emphasis role="preprocessor">&#32;&#32;#if&#32;defined(GLFW_GLAPIENTRY_DEFINED)</emphasis>
+138 <emphasis role="preprocessor">&#32;&#32;&#32;#undef&#32;GLAPIENTRY</emphasis>
+139 <emphasis role="preprocessor">&#32;&#32;&#32;#undef&#32;GLFW_GLAPIENTRY_DEFINED</emphasis>
+140 <emphasis role="preprocessor">&#32;&#32;#endif</emphasis>
+141 <emphasis role="preprocessor">&#32;&#32;#include&#32;&lt;GL/glx.h&gt;</emphasis>
+142 <emphasis role="preprocessor">&#32;#endif</emphasis>
+143 <emphasis role="preprocessor">&#32;#if&#32;defined(GLFW_EXPOSE_NATIVE_EGL)</emphasis>
+144 <emphasis role="preprocessor">&#32;&#32;#include&#32;&lt;EGL/egl.h&gt;</emphasis>
+145 <emphasis role="preprocessor">&#32;#endif</emphasis>
+146 <emphasis role="preprocessor">&#32;#if&#32;defined(GLFW_EXPOSE_NATIVE_OSMESA)</emphasis>
+147 &#32;&#32;<emphasis role="comment">/*&#32;This&#32;is&#32;a&#32;workaround&#32;for&#32;the&#32;fact&#32;that&#32;glfw3.h&#32;defines&#32;GLAPIENTRY&#32;because&#32;by</emphasis>
+148 <emphasis role="comment">&#32;&#32;&#32;*&#32;default&#32;it&#32;also&#32;acts&#32;as&#32;an&#32;OpenGL&#32;header</emphasis>
+149 <emphasis role="comment">&#32;&#32;&#32;*&#32;However,&#32;osmesa.h&#32;will&#32;include&#32;gl.h,&#32;which&#32;will&#32;define&#32;it&#32;unconditionally</emphasis>
+150 <emphasis role="comment">&#32;&#32;&#32;*/</emphasis>
+151 <emphasis role="preprocessor">&#32;&#32;#if&#32;defined(GLFW_GLAPIENTRY_DEFINED)</emphasis>
+152 <emphasis role="preprocessor">&#32;&#32;&#32;#undef&#32;GLAPIENTRY</emphasis>
+153 <emphasis role="preprocessor">&#32;&#32;&#32;#undef&#32;GLFW_GLAPIENTRY_DEFINED</emphasis>
+154 <emphasis role="preprocessor">&#32;&#32;#endif</emphasis>
+155 <emphasis role="preprocessor">&#32;&#32;#include&#32;&lt;GL/osmesa.h&gt;</emphasis>
+156 <emphasis role="preprocessor">&#32;#endif</emphasis>
+157 
+158 <emphasis role="preprocessor">#endif&#32;</emphasis><emphasis role="comment">/*GLFW_NATIVE_INCLUDE_NONE*/</emphasis><emphasis role="preprocessor"></emphasis>
+159 
+160 
+161 <emphasis role="comment">/*************************************************************************</emphasis>
+162 <emphasis role="comment">&#32;*&#32;Functions</emphasis>
+163 <emphasis role="comment">&#32;*************************************************************************/</emphasis>
+164 
+165 <emphasis role="preprocessor">#if&#32;defined(GLFW_EXPOSE_NATIVE_WIN32)</emphasis>
+182 <link linkend="_glfw3_8h_1a56da5036b2cc259351ae22fd6439bb47">GLFWAPI</link>&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;glfwGetWin32Adapter(<link linkend="_group__monitor_1ga8d9efd1cde9426692c73fe40437d0ae3">GLFWmonitor</link>*&#32;monitor);
+183 
+200 <link linkend="_glfw3_8h_1a56da5036b2cc259351ae22fd6439bb47">GLFWAPI</link>&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;glfwGetWin32Monitor(<link linkend="_group__monitor_1ga8d9efd1cde9426692c73fe40437d0ae3">GLFWmonitor</link>*&#32;monitor);
+201 
+225 <link linkend="_glfw3_8h_1a56da5036b2cc259351ae22fd6439bb47">GLFWAPI</link>&#32;HWND&#32;glfwGetWin32Window(<link linkend="_group__window_1ga3c96d80d363e67d13a41b5d1821f3242">GLFWwindow</link>*&#32;window);
+226 <emphasis role="preprocessor">#endif</emphasis>
+227 
+228 <emphasis role="preprocessor">#if&#32;defined(GLFW_EXPOSE_NATIVE_WGL)</emphasis>
+252 <link linkend="_glfw3_8h_1a56da5036b2cc259351ae22fd6439bb47">GLFWAPI</link>&#32;HGLRC&#32;glfwGetWGLContext(<link linkend="_group__window_1ga3c96d80d363e67d13a41b5d1821f3242">GLFWwindow</link>*&#32;window);
+253 <emphasis role="preprocessor">#endif</emphasis>
+254 
+255 <emphasis role="preprocessor">#if&#32;defined(GLFW_EXPOSE_NATIVE_COCOA)</emphasis>
+271 <link linkend="_glfw3_8h_1a56da5036b2cc259351ae22fd6439bb47">GLFWAPI</link>&#32;CGDirectDisplayID&#32;glfwGetCocoaMonitor(<link linkend="_group__monitor_1ga8d9efd1cde9426692c73fe40437d0ae3">GLFWmonitor</link>*&#32;monitor);
+272 
+288 <link linkend="_glfw3_8h_1a56da5036b2cc259351ae22fd6439bb47">GLFWAPI</link>&#32;<emphasis role="keywordtype">id</emphasis>&#32;glfwGetCocoaWindow(<link linkend="_group__window_1ga3c96d80d363e67d13a41b5d1821f3242">GLFWwindow</link>*&#32;window);
+289 
+305 <link linkend="_glfw3_8h_1a56da5036b2cc259351ae22fd6439bb47">GLFWAPI</link>&#32;<emphasis role="keywordtype">id</emphasis>&#32;glfwGetCocoaView(<link linkend="_group__window_1ga3c96d80d363e67d13a41b5d1821f3242">GLFWwindow</link>*&#32;window);
+306 <emphasis role="preprocessor">#endif</emphasis>
+307 
+308 <emphasis role="preprocessor">#if&#32;defined(GLFW_EXPOSE_NATIVE_NSGL)</emphasis>
+324 <link linkend="_glfw3_8h_1a56da5036b2cc259351ae22fd6439bb47">GLFWAPI</link>&#32;<emphasis role="keywordtype">id</emphasis>&#32;glfwGetNSGLContext(<link linkend="_group__window_1ga3c96d80d363e67d13a41b5d1821f3242">GLFWwindow</link>*&#32;window);
+325 <emphasis role="preprocessor">#endif</emphasis>
+326 
+327 <emphasis role="preprocessor">#if&#32;defined(GLFW_EXPOSE_NATIVE_X11)</emphasis>
+343 <link linkend="_glfw3_8h_1a56da5036b2cc259351ae22fd6439bb47">GLFWAPI</link>&#32;Display*&#32;glfwGetX11Display(<emphasis role="keywordtype">void</emphasis>);
+344 
+360 <link linkend="_glfw3_8h_1a56da5036b2cc259351ae22fd6439bb47">GLFWAPI</link>&#32;RRCrtc&#32;glfwGetX11Adapter(<link linkend="_group__monitor_1ga8d9efd1cde9426692c73fe40437d0ae3">GLFWmonitor</link>*&#32;monitor);
+361 
+377 <link linkend="_glfw3_8h_1a56da5036b2cc259351ae22fd6439bb47">GLFWAPI</link>&#32;RROutput&#32;glfwGetX11Monitor(<link linkend="_group__monitor_1ga8d9efd1cde9426692c73fe40437d0ae3">GLFWmonitor</link>*&#32;monitor);
+378 
+394 <link linkend="_glfw3_8h_1a56da5036b2cc259351ae22fd6439bb47">GLFWAPI</link>&#32;Window&#32;glfwGetX11Window(<link linkend="_group__window_1ga3c96d80d363e67d13a41b5d1821f3242">GLFWwindow</link>*&#32;window);
+395 
+416 <link linkend="_glfw3_8h_1a56da5036b2cc259351ae22fd6439bb47">GLFWAPI</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;glfwSetX11SelectionString(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<emphasis role="keywordtype">string</emphasis>);
+417 
+444 <link linkend="_glfw3_8h_1a56da5036b2cc259351ae22fd6439bb47">GLFWAPI</link>&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;glfwGetX11SelectionString(<emphasis role="keywordtype">void</emphasis>);
+445 <emphasis role="preprocessor">#endif</emphasis>
+446 
+447 <emphasis role="preprocessor">#if&#32;defined(GLFW_EXPOSE_NATIVE_GLX)</emphasis>
+463 <link linkend="_glfw3_8h_1a56da5036b2cc259351ae22fd6439bb47">GLFWAPI</link>&#32;GLXContext&#32;glfwGetGLXContext(<link linkend="_group__window_1ga3c96d80d363e67d13a41b5d1821f3242">GLFWwindow</link>*&#32;window);
+464 
+480 <link linkend="_glfw3_8h_1a56da5036b2cc259351ae22fd6439bb47">GLFWAPI</link>&#32;GLXWindow&#32;glfwGetGLXWindow(<link linkend="_group__window_1ga3c96d80d363e67d13a41b5d1821f3242">GLFWwindow</link>*&#32;window);
+481 <emphasis role="preprocessor">#endif</emphasis>
+482 
+483 <emphasis role="preprocessor">#if&#32;defined(GLFW_EXPOSE_NATIVE_WAYLAND)</emphasis>
+499 <link linkend="_glfw3_8h_1a56da5036b2cc259351ae22fd6439bb47">GLFWAPI</link>&#32;<emphasis role="keyword">struct&#32;</emphasis>wl_display*&#32;glfwGetWaylandDisplay(<emphasis role="keywordtype">void</emphasis>);
+500 
+516 <link linkend="_glfw3_8h_1a56da5036b2cc259351ae22fd6439bb47">GLFWAPI</link>&#32;<emphasis role="keyword">struct&#32;</emphasis>wl_output*&#32;glfwGetWaylandMonitor(<link linkend="_group__monitor_1ga8d9efd1cde9426692c73fe40437d0ae3">GLFWmonitor</link>*&#32;monitor);
+517 
+533 <link linkend="_glfw3_8h_1a56da5036b2cc259351ae22fd6439bb47">GLFWAPI</link>&#32;<emphasis role="keyword">struct&#32;</emphasis>wl_surface*&#32;glfwGetWaylandWindow(<link linkend="_group__window_1ga3c96d80d363e67d13a41b5d1821f3242">GLFWwindow</link>*&#32;window);
+534 <emphasis role="preprocessor">#endif</emphasis>
+535 
+536 <emphasis role="preprocessor">#if&#32;defined(GLFW_EXPOSE_NATIVE_EGL)</emphasis>
+554 <link linkend="_glfw3_8h_1a56da5036b2cc259351ae22fd6439bb47">GLFWAPI</link>&#32;EGLDisplay&#32;glfwGetEGLDisplay(<emphasis role="keywordtype">void</emphasis>);
+555 
+571 <link linkend="_glfw3_8h_1a56da5036b2cc259351ae22fd6439bb47">GLFWAPI</link>&#32;EGLContext&#32;glfwGetEGLContext(<link linkend="_group__window_1ga3c96d80d363e67d13a41b5d1821f3242">GLFWwindow</link>*&#32;window);
+572 
+588 <link linkend="_glfw3_8h_1a56da5036b2cc259351ae22fd6439bb47">GLFWAPI</link>&#32;EGLSurface&#32;glfwGetEGLSurface(<link linkend="_group__window_1ga3c96d80d363e67d13a41b5d1821f3242">GLFWwindow</link>*&#32;window);
+589 <emphasis role="preprocessor">#endif</emphasis>
+590 
+591 <emphasis role="preprocessor">#if&#32;defined(GLFW_EXPOSE_NATIVE_OSMESA)</emphasis>
+614 <link linkend="_glfw3_8h_1a56da5036b2cc259351ae22fd6439bb47">GLFWAPI</link>&#32;<emphasis role="keywordtype">int</emphasis>&#32;glfwGetOSMesaColorBuffer(<link linkend="_group__window_1ga3c96d80d363e67d13a41b5d1821f3242">GLFWwindow</link>*&#32;window,&#32;<emphasis role="keywordtype">int</emphasis>*&#32;<link linkend="_glad_8h_1a6879d830f164725df67adeeabca3ea47">width</link>,&#32;<emphasis role="keywordtype">int</emphasis>*&#32;<link linkend="_glad_8h_1a60075de22f90a1223dc0bea98d2ee4d5">height</link>,&#32;<emphasis role="keywordtype">int</emphasis>*&#32;<link linkend="_glad_8h_1a1e3b09934060e9d373139c3557730d37">format</link>,&#32;<emphasis role="keywordtype">void</emphasis>**&#32;<link linkend="_glad_8h_1a7fc54503e1a1cf98d128b839ebc0b4d0">buffer</link>);
+615 
+638 <link linkend="_glfw3_8h_1a56da5036b2cc259351ae22fd6439bb47">GLFWAPI</link>&#32;<emphasis role="keywordtype">int</emphasis>&#32;glfwGetOSMesaDepthBuffer(<link linkend="_group__window_1ga3c96d80d363e67d13a41b5d1821f3242">GLFWwindow</link>*&#32;window,&#32;<emphasis role="keywordtype">int</emphasis>*&#32;<link linkend="_glad_8h_1a6879d830f164725df67adeeabca3ea47">width</link>,&#32;<emphasis role="keywordtype">int</emphasis>*&#32;<link linkend="_glad_8h_1a60075de22f90a1223dc0bea98d2ee4d5">height</link>,&#32;<emphasis role="keywordtype">int</emphasis>*&#32;bytesPerValue,&#32;<emphasis role="keywordtype">void</emphasis>**&#32;<link linkend="_glad_8h_1a7fc54503e1a1cf98d128b839ebc0b4d0">buffer</link>);
+639 
+655 <link linkend="_glfw3_8h_1a56da5036b2cc259351ae22fd6439bb47">GLFWAPI</link>&#32;OSMesaContext&#32;glfwGetOSMesaContext(<link linkend="_group__window_1ga3c96d80d363e67d13a41b5d1821f3242">GLFWwindow</link>*&#32;window);
+656 <emphasis role="preprocessor">#endif</emphasis>
+657 
+658 <emphasis role="preprocessor">#ifdef&#32;__cplusplus</emphasis>
+659 }
+660 <emphasis role="preprocessor">#endif</emphasis>
+661 
+662 <emphasis role="preprocessor">#endif&#32;</emphasis><emphasis role="comment">/*&#32;_glfw3_native_h_&#32;*/</emphasis><emphasis role="preprocessor"></emphasis>
+663 
+</programlisting></section>

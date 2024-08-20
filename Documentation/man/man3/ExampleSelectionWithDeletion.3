@@ -1,0 +1,95 @@
+.TH "ExampleSelectionWithDeletion" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+ExampleSelectionWithDeletion
+.SH SYNOPSIS
+.br
+.PP
+.PP
+Inherits ImGuiSelectionBasicStorage\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "int \fBApplyDeletionPreLoop\fP (ImGuiMultiSelectIO *ms_io, int items_count)"
+.br
+.ti -1c
+.RI "template<typename ITEM_TYPE > void \fBApplyDeletionPostLoop\fP (ImGuiMultiSelectIO *ms_io, ImVector< ITEM_TYPE > &items, int item_curr_idx_to_select)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Definition at line \fB2957\fP of file \fBimgui_demo\&.cpp\fP\&.
+.SH "Member Function Documentation"
+.PP 
+.SS "template<typename ITEM_TYPE > void ExampleSelectionWithDeletion::ApplyDeletionPostLoop (ImGuiMultiSelectIO * ms_io, ImVector< ITEM_TYPE > & items, int item_curr_idx_to_select)\fR [inline]\fP"
+
+.PP
+Definition at line \fB2996\fP of file \fBimgui_demo\&.cpp\fP\&.
+.nf
+2997     {
+2998         // Rewrite item list (delete items) + convert old selection index (before deletion) to new selection index (after selection)\&.
+2999         // If NavId was not part of selection, we will stay on same item\&.
+3000         ImVector<ITEM_TYPE> new_items;
+3001         new_items\&.reserve(items\&.Size \- Size);
+3002         int item_next_idx_to_select = \-1;
+3003         for (int idx = 0; idx < items\&.Size; idx++)
+3004         {
+3005             if (!Contains(GetStorageIdFromIndex(idx)))
+3006                 new_items\&.push_back(items[idx]);
+3007             if (item_curr_idx_to_select == idx)
+3008                 item_next_idx_to_select = new_items\&.Size \- 1;
+3009         }
+3010         items\&.swap(new_items);
+3011 
+3012         // Update selection
+3013         Clear();
+3014         if (item_next_idx_to_select != \-1 && ms_io\->NavIdSelected)
+3015             SetItemSelected(GetStorageIdFromIndex(item_next_idx_to_select), true);
+3016     }
+.PP
+.fi
+
+.PP
+Referenced by \fBExampleAssetsBrowser::Draw()\fP\&.
+.SS "int ExampleSelectionWithDeletion::ApplyDeletionPreLoop (ImGuiMultiSelectIO * ms_io, int items_count)\fR [inline]\fP"
+
+.PP
+Definition at line \fB2966\fP of file \fBimgui_demo\&.cpp\fP\&.
+.nf
+2967     {
+2968         if (Size == 0)
+2969             return \-1;
+2970 
+2971         // If focused item is not selected\&.\&.\&.
+2972         const int focused_idx = (int)ms_io\->NavIdItem;  // Index of currently focused item
+2973         if (ms_io\->NavIdSelected == false)  // This is merely a shortcut, == Contains(adapter\->IndexToStorage(items, focused_idx))
+2974         {
+2975             ms_io\->RangeSrcReset = true;    // Request to recover RangeSrc from NavId next frame\&. Would be ok to reset even when NavIdSelected==true, but it would take an extra frame to recover RangeSrc when deleting a selected item\&.
+2976             return focused_idx;             // Request to focus same item after deletion\&.
+2977         }
+2978 
+2979         // If focused item is selected: land on first unselected item after focused item\&.
+2980         for (int idx = focused_idx + 1; idx < items_count; idx++)
+2981             if (!Contains(GetStorageIdFromIndex(idx)))
+2982                 return idx;
+2983 
+2984         // If focused item is selected: otherwise return last unselected item before focused item\&.
+2985         for (int idx = IM_MIN(focused_idx, items_count) \- 1; idx >= 0; idx\-\-)
+2986             if (!Contains(GetStorageIdFromIndex(idx)))
+2987                 return idx;
+2988 
+2989         return \-1;
+2990     }
+.PP
+.fi
+
+.PP
+References \fBIM_MIN\fP\&.
+.PP
+Referenced by \fBExampleAssetsBrowser::Draw()\fP\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

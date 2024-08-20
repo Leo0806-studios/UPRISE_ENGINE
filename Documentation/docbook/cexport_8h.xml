@@ -1,0 +1,346 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_cexport_8h" xml:lang="en-US">
+<title>adhed/assimp/cexport.h File Reference</title>
+<indexterm><primary>adhed/assimp/cexport.h</primary></indexterm>
+<para>
+
+<para>Defines the C-API for the <link linkend="_namespace_assimp">Assimp</link> export interface. </para>
+ 
+</para>
+<programlisting linenumbering="unnumbered">#include &lt;assimp/types.h&gt;<?linebreak?></programlisting><simplesect>
+    <title>Classes    </title>
+        <itemizedlist>
+            <listitem><para>struct <link linkend="_structai_export_format_desc">aiExportFormatDesc</link></para>
+
+<para>Describes an file format which <link linkend="_namespace_assimp">Assimp</link> can export to. </para>
+</listitem>
+            <listitem><para>struct <link linkend="_structai_export_data_blob">aiExportDataBlob</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Macros    </title>
+        <itemizedlist>
+            <listitem><para>#define <link linkend="_cexport_8h_1a22b1433c06c08cfaa37ab39c72a4e183">AI_EXPORT_H_INC</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Functions    </title>
+        <itemizedlist>
+            <listitem><para><link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link> size_t <link linkend="_cexport_8h_1a59cfffbc5b436da8ed8542108102b502">aiGetExportFormatCount</link> (<link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link>)</para>
+</listitem>
+            <listitem><para><link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link> const <link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link> <link linkend="_structai_export_format_desc">aiExportFormatDesc</link> * <link linkend="_cexport_8h_1a7105b05e5444480b197e99f56d88e387">aiGetExportFormatDescription</link> (size_t pIndex)</para>
+</listitem>
+            <listitem><para><link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link> <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> <link linkend="_cexport_8h_1aaac746cd3f93f8d46b047b21b5d51d99">aiReleaseExportFormatDescription</link> (const <link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link> <link linkend="_structai_export_format_desc">aiExportFormatDesc</link> *desc)</para>
+</listitem>
+            <listitem><para><link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link> <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> <link linkend="_cexport_8h_1a3b462a882e970cd7f492e293e5dee4fe">aiCopyScene</link> (const <link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link> <link linkend="_structai_scene">aiScene</link> *pIn, <link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link> <link linkend="_structai_scene">aiScene</link> **pOut)</para>
+</listitem>
+            <listitem><para><link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link> <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> <link linkend="_cexport_8h_1a59c30a6f75b024ae2da8bd4c4854320c">aiFreeScene</link> (const <link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link> <link linkend="_structai_scene">aiScene</link> *pIn)</para>
+</listitem>
+            <listitem><para><link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link> <link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link> <link linkend="_cexport_8h_1a9615510b8430a9da4f435a72148128dd">aiExportScene</link> (const <link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link> <link linkend="_structai_scene">aiScene</link> *pScene, const char *pFormatId, const char *pFileName, unsigned int pPreprocessing)</para>
+</listitem>
+            <listitem><para><link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link> <link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link> <link linkend="_cexport_8h_1a94fe06ba0fe03e934d387f2ed6e407d2">aiExportSceneEx</link> (const <link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link> <link linkend="_structai_scene">aiScene</link> *pScene, const char *pFormatId, const char *pFileName, <link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link> <link linkend="_structai_file_i_o">aiFileIO</link> *pIO, unsigned int pPreprocessing)</para>
+</listitem>
+            <listitem><para><link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link> const <link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link> <link linkend="_structai_export_data_blob">aiExportDataBlob</link> * <link linkend="_cexport_8h_1ae3b710975c7fe09f849ca989546dda05">aiExportSceneToBlob</link> (const <link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link> <link linkend="_structai_scene">aiScene</link> *pScene, const char *pFormatId, unsigned int pPreprocessing)</para>
+</listitem>
+            <listitem><para><link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link> <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> <link linkend="_cexport_8h_1a0998064849f2ef5544f6fd30cda0b964">aiReleaseExportBlob</link> (const <link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link> <link linkend="_structai_export_data_blob">aiExportDataBlob</link> *pData)</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para>Defines the C-API for the <link linkend="_namespace_assimp">Assimp</link> export interface. </para>
+</section>
+<section>
+<title>Macro Definition Documentation</title>
+<anchor xml:id="_cexport_8h_1a22b1433c06c08cfaa37ab39c72a4e183"/><section>
+    <title>AI_EXPORT_H_INC</title>
+<indexterm><primary>AI_EXPORT_H_INC</primary><secondary>cexport.h</secondary></indexterm>
+<indexterm><primary>cexport.h</primary><secondary>AI_EXPORT_H_INC</secondary></indexterm>
+<para><computeroutput>#define AI_EXPORT_H_INC</computeroutput></para></section>
+</section>
+<section>
+<title>Function Documentation</title>
+<anchor xml:id="_cexport_8h_1a3b462a882e970cd7f492e293e5dee4fe"/><section>
+    <title>aiCopyScene()</title>
+<indexterm><primary>aiCopyScene</primary><secondary>cexport.h</secondary></indexterm>
+<indexterm><primary>cexport.h</primary><secondary>aiCopyScene</secondary></indexterm>
+<para><computeroutput><link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link> <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> aiCopyScene (const <link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link> <link linkend="_structai_scene">aiScene</link> * pIn, <link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link> <link linkend="_structai_scene">aiScene</link> ** pOut)</computeroutput></para>
+<para>Create a modifiable copy of a scene. This is useful to import files via <link linkend="_namespace_assimp">Assimp</link>, change their topology and export them again. Since the scene returned by the various importer functions is const, a modifiable copy is needed. 
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>pIn</entry><entry>
+<para>Valid scene to be copied </para>
+</entry>
+                            </row>
+                            <row>
+<entry>pOut</entry><entry>
+<para>Receives a modifiable copy of the scene. Use <link linkend="_cexport_8h_1a59c30a6f75b024ae2da8bd4c4854320c">aiFreeScene()</link> to delete it again. </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                </para>
+</section>
+<anchor xml:id="_cexport_8h_1a9615510b8430a9da4f435a72148128dd"/><section>
+    <title>aiExportScene()</title>
+<indexterm><primary>aiExportScene</primary><secondary>cexport.h</secondary></indexterm>
+<indexterm><primary>cexport.h</primary><secondary>aiExportScene</secondary></indexterm>
+<para><computeroutput><link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link> <link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link> aiExportScene (const <link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link> <link linkend="_structai_scene">aiScene</link> * pScene, const char * pFormatId, const char * pFileName, unsigned int pPreprocessing)</computeroutput></para>
+<para>Exports the given scene to a chosen file format and writes the result file(s) to disk. 
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>pScene</entry><entry>
+<para>The scene to export. Stays in possession of the caller, is not changed by the function. The scene is expected to conform to <link linkend="_namespace_assimp">Assimp</link>&apos;s Importer output format as specified in the <link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">Data Structures Page </link>. In short, this means the model data should use a right-handed coordinate systems, face winding should be counter-clockwise and the UV coordinate origin is assumed to be in the upper left. If your input data uses different conventions, have a look at the last parameter. </para>
+</entry>
+                            </row>
+                            <row>
+<entry>pFormatId</entry><entry>
+<para>ID string to specify to which format you want to export to. Use <link linkend="_cexport_8h_1a59cfffbc5b436da8ed8542108102b502">aiGetExportFormatCount()</link> / <link linkend="_cexport_8h_1a7105b05e5444480b197e99f56d88e387">aiGetExportFormatDescription()</link> to learn which export formats are available. </para>
+</entry>
+                            </row>
+                            <row>
+<entry>pFileName</entry><entry>
+<para>Output file to write </para>
+</entry>
+                            </row>
+                            <row>
+<entry>pPreprocessing</entry><entry>
+<para>Accepts any choice of the <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410">aiPostProcessSteps</link> enumerated flags, but in reality only a subset of them makes sense here. Specifying &apos;preprocessing&apos; flags is useful if the input scene does not conform to <link linkend="_namespace_assimp">Assimp</link>&apos;s default conventions as specified in the <link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">Data Structures Page </link>. In short, this means the geometry data should use a right-handed coordinate systems, face winding should be counter-clockwise and the UV coordinate origin is assumed to be in the upper left. The <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a133fd1162674e68bf8cd17070898a936">aiProcess_MakeLeftHanded</link>, <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a06922b6a1f1cd8186f9fdafb471c813e">aiProcess_FlipUVs</link> and <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a429a11bf7ace46f039f55de895505d4a">aiProcess_FlipWindingOrder</link> flags are used in the import side to allow users to have those defaults automatically adapted to their conventions. Specifying those flags for exporting has the opposite effect, respectively. Some other of the <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410">aiPostProcessSteps</link> enumerated values may be useful as well, but you&apos;ll need to try out what their effect on the exported file is. Many formats impose their own restrictions on the structure of the geometry stored therein, so some preprocessing may have little or no effect at all, or may be redundant as exporters would apply them anyhow. A good example is triangulation - whilst you can enforce it by specifying the <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a9c3de834f0307f31fa2b1b6d05dd592b">aiProcess_Triangulate</link> flag, most export formats support only triangulate data so they would run the step anyway.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                If assimp detects that the input scene was directly taken from the importer side of the library (i.e. not copied using aiCopyScene and potentially modified afterwards), any post-processing steps already applied to the scene will not be applied again, unless they show non-idempotent behavior (<link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a133fd1162674e68bf8cd17070898a936">aiProcess_MakeLeftHanded</link>, <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a06922b6a1f1cd8186f9fdafb471c813e">aiProcess_FlipUVs</link> and <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a429a11bf7ace46f039f55de895505d4a">aiProcess_FlipWindingOrder</link>). <formalpara><title>Returns</title>
+
+<para>a status code indicating the result of the export </para>
+</formalpara>
+<note><title>Note</title>
+
+<para>Use <link linkend="_cexport_8h_1a3b462a882e970cd7f492e293e5dee4fe">aiCopyScene()</link> to get a modifiable copy of a previously imported scene. </para>
+</note>
+</para>
+</section>
+<anchor xml:id="_cexport_8h_1a94fe06ba0fe03e934d387f2ed6e407d2"/><section>
+    <title>aiExportSceneEx()</title>
+<indexterm><primary>aiExportSceneEx</primary><secondary>cexport.h</secondary></indexterm>
+<indexterm><primary>cexport.h</primary><secondary>aiExportSceneEx</secondary></indexterm>
+<para><computeroutput><link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link> <link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link> aiExportSceneEx (const <link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link> <link linkend="_structai_scene">aiScene</link> * pScene, const char * pFormatId, const char * pFileName, <link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link> <link linkend="_structai_file_i_o">aiFileIO</link> * pIO, unsigned int pPreprocessing)</computeroutput></para>
+<para>Exports the given scene to a chosen file format using custom IO logic supplied by you. 
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>pScene</entry><entry>
+<para>The scene to export. Stays in possession of the caller, is not changed by the function. </para>
+</entry>
+                            </row>
+                            <row>
+<entry>pFormatId</entry><entry>
+<para>ID string to specify to which format you want to export to. Use <link linkend="_cexport_8h_1a59cfffbc5b436da8ed8542108102b502">aiGetExportFormatCount()</link> / <link linkend="_cexport_8h_1a7105b05e5444480b197e99f56d88e387">aiGetExportFormatDescription()</link> to learn which export formats are available. </para>
+</entry>
+                            </row>
+                            <row>
+<entry>pFileName</entry><entry>
+<para>Output file to write </para>
+</entry>
+                            </row>
+                            <row>
+<entry>pIO</entry><entry>
+<para>custom IO implementation to be used. Use this if you use your own storage methods. If none is supplied, a default implementation using standard file IO is used. Note that <link linkend="_cexport_8h_1ae3b710975c7fe09f849ca989546dda05">aiExportSceneToBlob</link> is provided as convenience function to export to memory buffers. </para>
+</entry>
+                            </row>
+                            <row>
+<entry>pPreprocessing</entry><entry>
+<para>Please see the documentation for <link linkend="_cexport_8h_1a9615510b8430a9da4f435a72148128dd">aiExportScene</link> </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>a status code indicating the result of the export </para>
+</formalpara>
+<note><title>Note</title>
+
+<para>Include &lt;aiFileIO.h&gt; for the definition of <link linkend="_structai_file_i_o">aiFileIO</link>. </para>
+
+<para>Use <link linkend="_cexport_8h_1a3b462a882e970cd7f492e293e5dee4fe">aiCopyScene()</link> to get a modifiable copy of a previously imported scene. </para>
+</note>
+</para>
+</section>
+<anchor xml:id="_cexport_8h_1ae3b710975c7fe09f849ca989546dda05"/><section>
+    <title>aiExportSceneToBlob()</title>
+<indexterm><primary>aiExportSceneToBlob</primary><secondary>cexport.h</secondary></indexterm>
+<indexterm><primary>cexport.h</primary><secondary>aiExportSceneToBlob</secondary></indexterm>
+<para><computeroutput><link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link> const <link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link> <link linkend="_structai_export_data_blob">aiExportDataBlob</link> * aiExportSceneToBlob (const <link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link> <link linkend="_structai_scene">aiScene</link> * pScene, const char * pFormatId, unsigned int pPreprocessing)</computeroutput></para>
+<para>Exports the given scene to a chosen file format. Returns the exported data as a binary blob which you can write into a file or something. When you&apos;re done with the data, use <link linkend="_cexport_8h_1a0998064849f2ef5544f6fd30cda0b964">aiReleaseExportBlob()</link> to free the resources associated with the export. 
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>pScene</entry><entry>
+<para>The scene to export. Stays in possession of the caller, is not changed by the function. </para>
+</entry>
+                            </row>
+                            <row>
+<entry>pFormatId</entry><entry>
+<para>ID string to specify to which format you want to export to. Use <link linkend="_cexport_8h_1a59cfffbc5b436da8ed8542108102b502">aiGetExportFormatCount()</link> / <link linkend="_cexport_8h_1a7105b05e5444480b197e99f56d88e387">aiGetExportFormatDescription()</link> to learn which export formats are available. </para>
+</entry>
+                            </row>
+                            <row>
+<entry>pPreprocessing</entry><entry>
+<para>Please see the documentation for <link linkend="_cexport_8h_1a9615510b8430a9da4f435a72148128dd">aiExportScene</link> </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>the exported data or NULL in case of error </para>
+</formalpara>
+</para>
+</section>
+<anchor xml:id="_cexport_8h_1a59c30a6f75b024ae2da8bd4c4854320c"/><section>
+    <title>aiFreeScene()</title>
+<indexterm><primary>aiFreeScene</primary><secondary>cexport.h</secondary></indexterm>
+<indexterm><primary>cexport.h</primary><secondary>aiFreeScene</secondary></indexterm>
+<para><computeroutput><link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link> <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> aiFreeScene (const <link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link> <link linkend="_structai_scene">aiScene</link> * pIn)</computeroutput></para>
+<para>Frees a scene copy created using <link linkend="_cexport_8h_1a3b462a882e970cd7f492e293e5dee4fe">aiCopyScene()</link> </para>
+</section>
+<anchor xml:id="_cexport_8h_1a59cfffbc5b436da8ed8542108102b502"/><section>
+    <title>aiGetExportFormatCount()</title>
+<indexterm><primary>aiGetExportFormatCount</primary><secondary>cexport.h</secondary></indexterm>
+<indexterm><primary>cexport.h</primary><secondary>aiGetExportFormatCount</secondary></indexterm>
+<para><computeroutput><link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link> size_t aiGetExportFormatCount (<link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> )</computeroutput></para>
+<para>Returns the number of export file formats available in the current <link linkend="_namespace_assimp">Assimp</link> build. Use <link linkend="_cexport_8h_1a7105b05e5444480b197e99f56d88e387">aiGetExportFormatDescription()</link> to retrieve infos of a specific export format. </para>
+</section>
+<anchor xml:id="_cexport_8h_1a7105b05e5444480b197e99f56d88e387"/><section>
+    <title>aiGetExportFormatDescription()</title>
+<indexterm><primary>aiGetExportFormatDescription</primary><secondary>cexport.h</secondary></indexterm>
+<indexterm><primary>cexport.h</primary><secondary>aiGetExportFormatDescription</secondary></indexterm>
+<para><computeroutput><link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link> const <link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link> <link linkend="_structai_export_format_desc">aiExportFormatDesc</link> * aiGetExportFormatDescription (size_t pIndex)</computeroutput></para>
+<para>Returns a description of the nth export file format. Use <link linkend="_cexport_8h_1a59cfffbc5b436da8ed8542108102b502">aiGetExportFormatCount()</link> to learn how many export formats are supported. The description must be released by calling aiReleaseExportFormatDescription afterwards. 
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>pIndex</entry><entry>
+<para>Index of the export format to retrieve information for. Valid range is 0 to <link linkend="_cexport_8h_1a59cfffbc5b436da8ed8542108102b502">aiGetExportFormatCount()</link> </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>A description of that specific export format. NULL if pIndex is out of range. </para>
+</formalpara>
+</para>
+</section>
+<anchor xml:id="_cexport_8h_1a0998064849f2ef5544f6fd30cda0b964"/><section>
+    <title>aiReleaseExportBlob()</title>
+<indexterm><primary>aiReleaseExportBlob</primary><secondary>cexport.h</secondary></indexterm>
+<indexterm><primary>cexport.h</primary><secondary>aiReleaseExportBlob</secondary></indexterm>
+<para><computeroutput><link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link> <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> aiReleaseExportBlob (const <link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link> <link linkend="_structai_export_data_blob">aiExportDataBlob</link> * pData)</computeroutput></para>
+<para>Releases the memory associated with the given exported data. Use this function to free a data blob returned by <link linkend="_cexport_8h_1a9615510b8430a9da4f435a72148128dd">aiExportScene()</link>. 
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>pData</entry><entry>
+<para>the data blob returned by <link linkend="_cexport_8h_1ae3b710975c7fe09f849ca989546dda05">aiExportSceneToBlob</link> </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                </para>
+</section>
+<anchor xml:id="_cexport_8h_1aaac746cd3f93f8d46b047b21b5d51d99"/><section>
+    <title>aiReleaseExportFormatDescription()</title>
+<indexterm><primary>aiReleaseExportFormatDescription</primary><secondary>cexport.h</secondary></indexterm>
+<indexterm><primary>cexport.h</primary><secondary>aiReleaseExportFormatDescription</secondary></indexterm>
+<para><computeroutput><link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link> <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> aiReleaseExportFormatDescription (const <link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link> <link linkend="_structai_export_format_desc">aiExportFormatDesc</link> * desc)</computeroutput></para>
+<para>Release a description of the nth export file format. Must be returned by aiGetExportFormatDescription 
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>desc</entry><entry>
+<para>Pointer to the description </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                </para>
+</section>
+</section>
+</section>

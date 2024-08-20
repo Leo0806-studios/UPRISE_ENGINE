@@ -1,0 +1,87 @@
+.TH "aiNode" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+aiNode
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fR#include <scene\&.h>\fP
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBC_STRUCT\fP \fBaiString\fP \fBmName\fP"
+.br
+.ti -1c
+.RI "\fBC_STRUCT\fP \fBaiMatrix4x4\fP \fBmTransformation\fP"
+.br
+.ti -1c
+.RI "\fBC_STRUCT\fP \fBaiNode\fP * \fBmParent\fP"
+.br
+.ti -1c
+.RI "unsigned int \fBmNumChildren\fP"
+.br
+.ti -1c
+.RI "\fBC_STRUCT\fP \fBaiNode\fP ** \fBmChildren\fP"
+.br
+.ti -1c
+.RI "unsigned int \fBmNumMeshes\fP"
+.br
+.ti -1c
+.RI "unsigned int * \fBmMeshes\fP"
+.br
+.ti -1c
+.RI "\fBC_STRUCT\fP \fBaiMetadata\fP * \fBmMetaData\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+A node in the imported hierarchy\&.
+.PP
+Each node has name, a parent node (except for the root node), a transformation relative to its parent and possibly several child nodes\&. Simple file formats don't support hierarchical structures - for these formats the imported scene does consist of only a single root node without children\&. 
+.SH "Member Data Documentation"
+.PP 
+.SS "\fBC_STRUCT\fP \fBaiNode\fP** aiNode::mChildren"
+The child nodes of this node\&. nullptr if mNumChildren is 0\&. 
+.SS "unsigned int* aiNode::mMeshes"
+The meshes of this node\&. Each entry is an index into the mesh list of the \fBaiScene\fP\&. 
+.SS "\fBC_STRUCT\fP \fBaiMetadata\fP* aiNode::mMetaData"
+Metadata associated with this node or nullptr if there is no metadata\&. Whether any metadata is generated depends on the source file format\&. See the \fBimporter_notes\fP page for more information on every source file format\&. Importers that don't document any metadata don't write any\&. 
+.SS "\fBC_STRUCT\fP \fBaiString\fP aiNode::mName"
+The name of the node\&.
+.PP
+The name might be empty (length of zero) but all nodes which need to be referenced by either bones or animations are named\&. Multiple nodes may have the same name, except for nodes which are referenced by bones (see \fBaiBone\fP and \fBaiMesh::mBones\fP)\&. Their names \fImust\fP be unique\&.
+.PP
+Cameras and lights reference a specific node by name - if there are multiple nodes with this name, they are assigned to each of them\&. 
+.br
+ There are no limitations with regard to the characters contained in the name string as it is usually taken directly from the source file\&.
+.PP
+Implementations should be able to handle tokens such as whitespace, tabs, line feeds, quotation marks, ampersands etc\&.
+.PP
+Sometimes assimp introduces new nodes not present in the source file into the hierarchy (usually out of necessity because sometimes the source hierarchy format is simply not compatible)\&. Their names are surrounded by 
+.PP
+.nf
+<> 
+.fi
+.PP
+ e\&.g\&. 
+.PP
+.nf
+<DummyRootNode> 
+.fi
+.PP
+\&. 
+.SS "unsigned int aiNode::mNumChildren"
+The number of child nodes of this node\&. 
+.SS "unsigned int aiNode::mNumMeshes"
+The number of meshes of this node\&. 
+.SS "\fBC_STRUCT\fP \fBaiNode\fP* aiNode::mParent"
+Parent node\&. nullptr if this node is the root node\&. 
+.SS "\fBC_STRUCT\fP \fBaiMatrix4x4\fP aiNode::mTransformation"
+The transformation relative to the node's parent\&. 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

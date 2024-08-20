@@ -43,7 +43,7 @@ extern "C" {
 			std::cout << "mem adr of this " << this << " alingof i " << (((int)&(this->i)) - (int)(this)) << "i is " << i << "mem addr of i " << &(this->i) << "\n";
 		}
 		//std::shared_ptr<test> der;
-		static void Print(test* in) {
+		static void Prinet() {
 			//in->der->prnt();
 		}
 		virtual void prnt() {
@@ -67,7 +67,7 @@ void bb() {
 	//const  char* pth = "C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\GAMEDATA\\untitled.glb";
 	//auto mod = COMPONENTS::_Mesh(pth);
 
-	TestObj = GameObject::Create(DATATYPES::TS_P_Vector3(0, 0, 0), DATATYPES::Quaternion(1, 0, 0, 0),std::make_shared<COMPONENTS::_Mesh>( COMPONENTS::_Mesh(PAIN::Render::Modeldict["untitled.glb"])),0);
+	TestObj = GameObject::Create(DATATYPES::TSPVector3(0, 0, 0), DATATYPES::Quaternion(1, 0, 0, 0),std::make_shared<COMPONENTS::_Mesh>( COMPONENTS::_Mesh(PAIN::Render::Modeldict->operator[]("untitled.glb"))),0);
 	//if (mat.ID < PAIN::Render::mats->size() || PAIN::Render::mats->size() == 0) {
 	//	DATA->AddTORender(PAIN::MiniModel(TestObj->MESH->Model, TestObj->TrAnSfOrM), 0);
 	//	;
@@ -78,7 +78,7 @@ void bb() {
 	TestObj->name = s;
 	i++;
 	auto ppp = Test();
-	ppp.gameobject = TestObj.get();
+	ppp.Game_Object = TestObj.get();
 	ppp.oobj = TestObj.get();
 	void* msc = &ppp;
 
@@ -97,7 +97,7 @@ void bb() {
 extern "C" {
 	
 	//std::shared_ptr<DATALINK> DATA;
-	__declspec(dllexport)void _PRINT(test* in) {
+	__declspec(dllexport)void _PRINT() {
 		//test::Print(in);
 		bb();
 
@@ -112,13 +112,13 @@ extern "C" {
 				   //}
 
 				   shader = DATA->CreateSHADER("C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\x64\\Debug\\6.1.coordinate_systems.vs", "C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\x64\\Debug\\6.1.coordinate_systems.fs");
-				   DATA->CreateMaterial( shader);
+				   //DATA->CreateMaterial( shader);
 
 				   
 				   shadergood = true;
 			   }
 			   for (auto& a : tetsss) {
-				   DATA->creators_LINK->operator[](a()->compname) = a;
+				  // DATA->creators_LINK->operator[](a()->compname) = a;
 			   }
 			   
 			    //DATA = std::make_shared<DATALINK>();
@@ -135,11 +135,11 @@ extern "C" {
 			   CORE::Scene::activeScene->ObjectsInScene.clear();
 
 		   }
-		   __declspec(dllexport)test* _CREATE() {
-			   auto a = new test();
-			   std::cout << "mem adr of this " << a << " alingof i " << (((int)&(a->i)) - (int)(a)) << "i is " << a->i << "mem addr of i " << &(a->i) << "\n";
+		   __declspec(dllexport)void _CREATE() {
+			  // auto a = new test();
+			   //std::cout << "mem adr of this " << a << " alingof i " << (((int)&(a->i)) - (int)(a)) << "i is " << a->i << "mem addr of i " << &(a->i) << "\n";
 			  // a->der = std::make_shared< Dtest>();
-			   return a;
+			   //return a;
 		   }
 
 	
@@ -154,10 +154,10 @@ extern "C" {
 		//DATA->VOID_OBJECTS_LINK =&PAIN::Render::voidobjects;
 		//DATA->PTR_OBJECTS_LINK =&PAIN::Render::ptrobjects;
 		//DATA->OBJECT_LINK =&PAIN::Render::objects;
-		IMPORTANT::DATA->TERRAIN_LINK =&PAIN::Render::terrains;
+		IMPORTANT::DATA->TERRAIN_LINK =PAIN::Render::terrains;
 		//DATA->MATS_LINK =PAIN::Render::mats;
-		IMPORTANT::DATA->M_DICT_LINK =&PAIN::Render::Modeldict;
-		IMPORTANT::DATA->M_ID_LINK =&PAIN::Render::MaterialIdLinkDict;
+		IMPORTANT::DATA->M_DICT_LINK =PAIN::Render::Modeldict;
+		IMPORTANT::DATA->M_ID_LINK =PAIN::Render::MaterialIdLinkDict;
 
 		return IMPORTANT::DATA;
 	}
@@ -171,12 +171,12 @@ extern "C" {
 		//PAIN::Render::voidobjects = *in->VOID_OBJECTS_LINK;
 		//PAIN::Render::ptrobjects = *in->PTR_OBJECTS_LINK;
 		//PAIN::Render::objects = *in->OBJECT_LINK;
-		if(in->TERRAIN_LINK  )PAIN::Render::terrains = *in->TERRAIN_LINK;
+		if(in->TERRAIN_LINK  )PAIN::Render::terrains =in->TERRAIN_LINK;
 		if(in->MATS_LINK)PAIN::Render::mats = in->MATS_LINK;
-		if(in->M_DICT_LINK)PAIN::Render::Modeldict = *in->M_DICT_LINK;
-		if(in->M_ID_LINK)PAIN::Render::MaterialIdLinkDict = *in->M_ID_LINK;
-		if(in->ConfigDatabase_LINK)CORE::ConfigLoader::ConfigDatabase = *in->ConfigDatabase_LINK;
-		factT::creators = IMPORTANT::DATA->creators_LINK;
+		if(in->M_DICT_LINK)PAIN::Render::Modeldict = in->M_DICT_LINK;
+		if(in->M_ID_LINK)PAIN::Render::MaterialIdLinkDict = in->M_ID_LINK;
+		if(in->ConfigDatabase_LINK)CORE::ConfigLoader::ConfigDatabase = in->ConfigDatabase_LINK;
+//		factT::creators = IMPORTANT::DATA->creators_LINK;
 		CORE::Input::Init(in->window);
 		//factT::inst = IMPORTANT::DATA->inst_LINK;
 		//AddTORender = in->AddTORender;

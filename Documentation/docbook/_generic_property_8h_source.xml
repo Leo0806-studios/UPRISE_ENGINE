@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="__generic_property_8h_source" xml:lang="en-US">
+<title>GenericProperty.h</title>
+<indexterm><primary>adhed/assimp/GenericProperty.h</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 <emphasis role="comment">/*</emphasis>
+2 <emphasis role="comment">Open&#32;Asset&#32;Import&#32;Library&#32;(assimp)</emphasis>
+3 <emphasis role="comment">----------------------------------------------------------------------</emphasis>
+4 <emphasis role="comment"></emphasis>
+5 <emphasis role="comment">Copyright&#32;(c)&#32;2006-2022,&#32;assimp&#32;team</emphasis>
+6 <emphasis role="comment"></emphasis>
+7 <emphasis role="comment">All&#32;rights&#32;reserved.</emphasis>
+8 <emphasis role="comment"></emphasis>
+9 <emphasis role="comment">Redistribution&#32;and&#32;use&#32;of&#32;this&#32;software&#32;in&#32;source&#32;and&#32;binary&#32;forms,</emphasis>
+10 <emphasis role="comment">with&#32;or&#32;without&#32;modification,&#32;are&#32;permitted&#32;provided&#32;that&#32;the</emphasis>
+11 <emphasis role="comment">following&#32;conditions&#32;are&#32;met:</emphasis>
+12 <emphasis role="comment"></emphasis>
+13 <emphasis role="comment">*&#32;Redistributions&#32;of&#32;source&#32;code&#32;must&#32;retain&#32;the&#32;above</emphasis>
+14 <emphasis role="comment">&#32;&#32;copyright&#32;notice,&#32;this&#32;list&#32;of&#32;conditions&#32;and&#32;the</emphasis>
+15 <emphasis role="comment">&#32;&#32;following&#32;disclaimer.</emphasis>
+16 <emphasis role="comment"></emphasis>
+17 <emphasis role="comment">*&#32;Redistributions&#32;in&#32;binary&#32;form&#32;must&#32;reproduce&#32;the&#32;above</emphasis>
+18 <emphasis role="comment">&#32;&#32;copyright&#32;notice,&#32;this&#32;list&#32;of&#32;conditions&#32;and&#32;the</emphasis>
+19 <emphasis role="comment">&#32;&#32;following&#32;disclaimer&#32;in&#32;the&#32;documentation&#32;and/or&#32;other</emphasis>
+20 <emphasis role="comment">&#32;&#32;materials&#32;provided&#32;with&#32;the&#32;distribution.</emphasis>
+21 <emphasis role="comment"></emphasis>
+22 <emphasis role="comment">*&#32;Neither&#32;the&#32;name&#32;of&#32;the&#32;assimp&#32;team,&#32;nor&#32;the&#32;names&#32;of&#32;its</emphasis>
+23 <emphasis role="comment">&#32;&#32;contributors&#32;may&#32;be&#32;used&#32;to&#32;endorse&#32;or&#32;promote&#32;products</emphasis>
+24 <emphasis role="comment">&#32;&#32;derived&#32;from&#32;this&#32;software&#32;without&#32;specific&#32;prior</emphasis>
+25 <emphasis role="comment">&#32;&#32;written&#32;permission&#32;of&#32;the&#32;assimp&#32;team.</emphasis>
+26 <emphasis role="comment"></emphasis>
+27 <emphasis role="comment">THIS&#32;SOFTWARE&#32;IS&#32;PROVIDED&#32;BY&#32;THE&#32;COPYRIGHT&#32;HOLDERS&#32;AND&#32;CONTRIBUTORS</emphasis>
+28 <emphasis role="comment">&quot;AS&#32;IS&quot;&#32;AND&#32;ANY&#32;EXPRESS&#32;OR&#32;IMPLIED&#32;WARRANTIES,&#32;INCLUDING,&#32;BUT&#32;NOT</emphasis>
+29 <emphasis role="comment">LIMITED&#32;TO,&#32;THE&#32;IMPLIED&#32;WARRANTIES&#32;OF&#32;MERCHANTABILITY&#32;AND&#32;FITNESS&#32;FOR</emphasis>
+30 <emphasis role="comment">A&#32;PARTICULAR&#32;PURPOSE&#32;ARE&#32;DISCLAIMED.&#32;IN&#32;NO&#32;EVENT&#32;SHALL&#32;THE&#32;COPYRIGHT</emphasis>
+31 <emphasis role="comment">OWNER&#32;OR&#32;CONTRIBUTORS&#32;BE&#32;LIABLE&#32;FOR&#32;ANY&#32;DIRECT,&#32;INDIRECT,&#32;INCIDENTAL,</emphasis>
+32 <emphasis role="comment">SPECIAL,&#32;EXEMPLARY,&#32;OR&#32;CONSEQUENTIAL&#32;DAMAGES&#32;(INCLUDING,&#32;BUT&#32;NOT</emphasis>
+33 <emphasis role="comment">LIMITED&#32;TO,&#32;PROCUREMENT&#32;OF&#32;SUBSTITUTE&#32;GOODS&#32;OR&#32;SERVICES;&#32;LOSS&#32;OF&#32;USE,</emphasis>
+34 <emphasis role="comment">DATA,&#32;OR&#32;PROFITS;&#32;OR&#32;BUSINESS&#32;INTERRUPTION)&#32;HOWEVER&#32;CAUSED&#32;AND&#32;ON&#32;ANY</emphasis>
+35 <emphasis role="comment">THEORY&#32;OF&#32;LIABILITY,&#32;WHETHER&#32;IN&#32;CONTRACT,&#32;STRICT&#32;LIABILITY,&#32;OR&#32;TORT</emphasis>
+36 <emphasis role="comment">(INCLUDING&#32;NEGLIGENCE&#32;OR&#32;OTHERWISE)&#32;ARISING&#32;IN&#32;ANY&#32;WAY&#32;OUT&#32;OF&#32;THE&#32;USE</emphasis>
+37 <emphasis role="comment">OF&#32;THIS&#32;SOFTWARE,&#32;EVEN&#32;IF&#32;ADVISED&#32;OF&#32;THE&#32;POSSIBILITY&#32;OF&#32;SUCH&#32;DAMAGE.</emphasis>
+38 <emphasis role="comment"></emphasis>
+39 <emphasis role="comment">----------------------------------------------------------------------</emphasis>
+40 <emphasis role="comment">*/</emphasis>
+41 
+42 <emphasis role="preprocessor">#pragma&#32;once</emphasis>
+43 <emphasis role="preprocessor">#ifndef&#32;AI_GENERIC_PROPERTY_H_INCLUDED</emphasis>
+44 <emphasis role="preprocessor">#define&#32;AI_GENERIC_PROPERTY_H_INCLUDED</emphasis>
+45 
+46 <emphasis role="preprocessor">#ifdef&#32;__GNUC__</emphasis>
+47 <emphasis role="preprocessor">#&#32;&#32;&#32;&#32;pragma&#32;GCC&#32;system_header</emphasis>
+48 <emphasis role="preprocessor">#endif</emphasis>
+49 
+50 <emphasis role="preprocessor">#include&#32;&lt;<link linkend="__hash_8h">assimp/Hash.h</link>&gt;</emphasis>
+51 <emphasis role="preprocessor">#include&#32;&lt;<link linkend="_ai__assert_8h">assimp/ai_assert.h</link>&gt;</emphasis>
+52 <emphasis role="preprocessor">#include&#32;&lt;<link linkend="__importer_8hpp">assimp/Importer.hpp</link>&gt;</emphasis>
+53 
+54 <emphasis role="preprocessor">#include&#32;&lt;map&gt;</emphasis>
+55 
+56 <emphasis role="comment">//&#32;------------------------------------------------------------------------------------------------</emphasis>
+57 <emphasis role="keyword">template</emphasis>&#32;&lt;<emphasis role="keyword">class</emphasis>&#32;T&gt;
+58 <emphasis role="keyword">inline</emphasis>&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="__generic_property_8h_1a85fa8d7a3d4bb630960427916b37a6ab">SetGenericProperty</link>(std::map&lt;unsigned&#32;int,&#32;T&gt;&#32;&amp;list,
+59 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*szName,&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;&amp;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;{
+60 &#32;&#32;&#32;&#32;<link linkend="_ai__assert_8h_1a8cda16916af68d32c6add71ef3bb7af3">ai_assert</link>(<emphasis role="keyword">nullptr</emphasis>&#32;!=&#32;szName);
+61 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;uint32_t&#32;hash&#32;=&#32;<link linkend="__hash_8h_1ae981f4859f21df7e68c3b7925ed35600">SuperFastHash</link>(szName);
+62 
+63 &#32;&#32;&#32;&#32;<emphasis role="keyword">typename</emphasis>&#32;std::map&lt;unsigned&#32;int,&#32;T&gt;::iterator&#32;it&#32;=&#32;list.find(hash);
+64 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(it&#32;==&#32;list.end())&#32;{
+65 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;list.insert(std::pair&lt;unsigned&#32;int,&#32;T&gt;(hash,&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>));
+66 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">false</emphasis>;
+67 &#32;&#32;&#32;&#32;}
+68 &#32;&#32;&#32;&#32;(*it).second&#32;=&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>;
+69 
+70 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">true</emphasis>;
+71 }
+72 
+73 <emphasis role="comment">//&#32;------------------------------------------------------------------------------------------------</emphasis>
+74 <emphasis role="keyword">template</emphasis>&#32;&lt;<emphasis role="keyword">class</emphasis>&#32;T&gt;
+75 <emphasis role="keyword">inline</emphasis>&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;&amp;<link linkend="__generic_property_8h_1a82034801e2397217a1311bdfb578ef6e">GetGenericProperty</link>(<emphasis role="keyword">const</emphasis>&#32;std::map&lt;unsigned&#32;int,&#32;T&gt;&#32;&amp;list,
+76 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*szName,&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;&amp;errorReturn)&#32;{
+77 &#32;&#32;&#32;&#32;<link linkend="_ai__assert_8h_1a8cda16916af68d32c6add71ef3bb7af3">ai_assert</link>(<emphasis role="keyword">nullptr</emphasis>&#32;!=&#32;szName);
+78 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;uint32_t&#32;hash&#32;=&#32;<link linkend="__hash_8h_1ae981f4859f21df7e68c3b7925ed35600">SuperFastHash</link>(szName);
+79 
+80 &#32;&#32;&#32;&#32;<emphasis role="keyword">typename</emphasis>&#32;std::map&lt;unsigned&#32;int,&#32;T&gt;::const_iterator&#32;it&#32;=&#32;list.find(hash);
+81 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(it&#32;==&#32;list.end())&#32;{
+82 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;errorReturn;
+83 &#32;&#32;&#32;&#32;}
+84 
+85 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;(*it).second;
+86 }
+87 
+88 <emphasis role="comment">//&#32;------------------------------------------------------------------------------------------------</emphasis>
+89 <emphasis role="comment">//&#32;Special&#32;version&#32;for&#32;pointer&#32;types&#32;-&#32;they&#32;will&#32;be&#32;deleted&#32;when&#32;replaced&#32;with&#32;another&#32;value</emphasis>
+90 <emphasis role="comment">//&#32;passing&#32;nullptr&#32;removes&#32;the&#32;whole&#32;property</emphasis>
+91 <emphasis role="keyword">template</emphasis>&#32;&lt;<emphasis role="keyword">class</emphasis>&#32;T&gt;
+92 <emphasis role="keyword">inline</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="__generic_property_8h_1abc74bee46dea616f659b02e3abc50e9d">SetGenericPropertyPtr</link>(std::map&lt;unsigned&#32;int,&#32;T&#32;*&gt;&#32;&amp;list,
+93 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*szName,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;*<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;*bWasExisting&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>)&#32;{
+94 &#32;&#32;&#32;&#32;<link linkend="_ai__assert_8h_1a8cda16916af68d32c6add71ef3bb7af3">ai_assert</link>(<emphasis role="keyword">nullptr</emphasis>&#32;!=&#32;szName);
+95 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;uint32_t&#32;hash&#32;=&#32;<link linkend="__hash_8h_1ae981f4859f21df7e68c3b7925ed35600">SuperFastHash</link>(szName);
+96 
+97 &#32;&#32;&#32;&#32;<emphasis role="keyword">typename</emphasis>&#32;std::map&lt;unsigned&#32;int,&#32;T&#32;*&gt;::iterator&#32;it&#32;=&#32;list.find(hash);
+98 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(it&#32;==&#32;list.end())&#32;{
+99 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(bWasExisting)&#32;{
+100 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*bWasExisting&#32;=&#32;<emphasis role="keyword">false</emphasis>;
+101 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+102 
+103 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;list.insert(std::pair&lt;unsigned&#32;int,&#32;T&#32;*&gt;(hash,&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>));
+104 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>;
+105 &#32;&#32;&#32;&#32;}
+106 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;((*it).second&#32;!=&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;{
+107 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">delete</emphasis>&#32;(*it).second;
+108 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(*it).second&#32;=&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>;
+109 &#32;&#32;&#32;&#32;}
+110 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(!<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;{
+111 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;list.erase(it);
+112 &#32;&#32;&#32;&#32;}
+113 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(bWasExisting)&#32;{
+114 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*bWasExisting&#32;=&#32;<emphasis role="keyword">true</emphasis>;
+115 &#32;&#32;&#32;&#32;}
+116 }
+117 
+118 <emphasis role="comment">//&#32;------------------------------------------------------------------------------------------------</emphasis>
+119 <emphasis role="keyword">template</emphasis>&#32;&lt;<emphasis role="keyword">class</emphasis>&#32;T&gt;
+120 <emphasis role="keyword">inline</emphasis>&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="__generic_property_8h_1aeeac2b9cadb75b0e7f2d328d44cec21e">HasGenericProperty</link>(<emphasis role="keyword">const</emphasis>&#32;std::map&lt;unsigned&#32;int,&#32;T&gt;&#32;&amp;list,
+121 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*szName)&#32;{
+122 &#32;&#32;&#32;&#32;<link linkend="_ai__assert_8h_1a8cda16916af68d32c6add71ef3bb7af3">ai_assert</link>(<emphasis role="keyword">nullptr</emphasis>&#32;!=&#32;szName);
+123 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;uint32_t&#32;hash&#32;=&#32;<link linkend="__hash_8h_1ae981f4859f21df7e68c3b7925ed35600">SuperFastHash</link>(szName);
+124 
+125 &#32;&#32;&#32;&#32;<emphasis role="keyword">typename</emphasis>&#32;std::map&lt;unsigned&#32;int,&#32;T&gt;::const_iterator&#32;it&#32;=&#32;list.find(hash);
+126 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(it&#32;==&#32;list.end())&#32;{
+127 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">false</emphasis>;
+128 &#32;&#32;&#32;&#32;}
+129 
+130 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">true</emphasis>;
+131 }
+132 
+133 <emphasis role="preprocessor">#endif&#32;</emphasis><emphasis role="comment">//&#32;!!&#32;AI_GENERIC_PROPERTY_H_INCLUDED</emphasis>
+</programlisting></section>

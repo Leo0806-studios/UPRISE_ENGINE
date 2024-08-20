@@ -2,12 +2,13 @@
 #ifndef _CONFIGFILE_
 #define _CONFIGFILE_
 #include "pch.h"
-
+#include "SLOT.h"
+#include "NEED.h"
 #ifndef _LOCK_
 #define _LOCK_
 
 #endif // !1
-
+class GameObject;
 class Ressource;
 class ConfigFile {
 
@@ -16,7 +17,7 @@ public:
 	/// 
 	/// </summary>
 	enum ConfigType {
-		Building,
+		ConfigType_Building,
 		Vehicle,
 		Projectile,
 		Particle,
@@ -28,11 +29,11 @@ public:
 		FragmentShader,
 		GeometryShader,
 		ComputeShader,
-		Material
+		ConfigType_Material
 	};
 	static std::string toString(ConfigType type) {
 		switch (type) {
-		case Building: return "Building";
+		case ConfigType_Building: return "Building";
 		case Vehicle: return "Vehicle";
 		case Projectile: return "Projectile";
 		case Particle: return "Particle";
@@ -44,13 +45,13 @@ public:
 		case FragmentShader: return "FragmentShader";
 		case GeometryShader: return "GeometryShader";
 		case ComputeShader: return "ComputeShader";
-		case Material: return "Material";
+		case ConfigType_Material: return "Material";
 		default: return "Unknown";
 		}
 	}
 
-   static  ConfigType toConfigType(const std::string& str) {
-		if (str == "Building") return Building;
+	static  ConfigType toConfigType(const std::string& str) {
+		if (str == "Building") return ConfigType_Building;
 		if (str == "Vehicle") return Vehicle;
 		if (str == "Projectile") return Projectile;
 		if (str == "Particle") return Particle;
@@ -62,7 +63,7 @@ public:
 		if (str == "FragmentShader")return FragmentShader;
 		if (str == "GeometryShader")return GeometryShader;
 		if (str == "ComputeShader")return ComputeShader;
-		if (str == "Material") return Material;
+		if (str == "Material") return ConfigType_Material;
 		throw std::invalid_argument("Unknown ConfigType: " + str);
 	}
 	ConfigFile(std::string name, std::string modelpath, std::vector<std::string> texturepath, ConfigType configType, nlohmann::json data);
@@ -70,12 +71,13 @@ public:
 	std::string Modelpath;
 	std::vector<std::string> Texturepaths;
 	ConfigType ConfigType_;
+
 	//nlohmann::json Data;
 	virtual void Palceholder() {};
-	
+
 
 };
-class Buidling : public ConfigFile {
+class Building : public ConfigFile {
 public:
 	enum BuildingType {
 		Residential,
@@ -92,44 +94,83 @@ public:
 		Military,
 		Special,
 
-		
-	};
-	enum SlotType {
-		Ressource_O,
-		Energy_O,
-		Eco_O,
-		None_O,
-		Custom_O,
-		Ressource_I,
-		Energy_I,
-		Eco_I,
-		None_I,
-		Custom_I
-	};
-	class Slot {
-	public:
-		std::shared_ptr<Ressource> Resource;
-		int amount;
-		SlotType slotType;
+
 	};
 
 
-	short InputCount;
-	short OutputCount;
-	std::vector < Slot > Input;
-	std::vector<Slot> Output;
-	int HittPoints;
-	int EcoCost;
-	int PowerCost;
+
+
+
+
+	int Hit_Points;
+	int Eco_Cost;
+	int Power_Cost;
 	int Maintanece;
 	int Mannpower;
-
+	std::string _Material;
 
 
 	BuildingType buildinngType;
+	std::shared_ptr<Building> ref;
 
-	Buidling(std::string name, std::string modelpath, std::vector<std::string> texturepath, ConfigType configType, nlohmann::json data);
-		
+	Building(std::string name, std::string modelpath, std::vector<std::string> texturepath, ConfigType configType, nlohmann::json data);
+	virtual std::shared_ptr<GameObject> CreateFromCFG();;
+
+};
+class Residential :public Building {
+public:
+	unsigned short Max_Pop_Count;
+	std::shared_ptr<GameObject> CreateFromCFG()override;
+};
+class Prodiction : public Building {
+public:
+	unsigned short Input_Count;
+	VEC(Slot) Inputs;
+	unsigned short Output_Count;
+	VEC(Slot) Outputs;
+	std::shared_ptr<GameObject> CreateFromCFG()override;
+
+};
+class Needs :public Building {
+public:
+	Need _Need;
+	std::shared_ptr<GameObject> CreateFromCFG()override;
+
+};
+class Energy : public Building {
+public:
+	unsigned short Input_Count;
+	VEC(Slot) Input;
+	unsigned short Output_Count;
+	VEC(Slot) Output;
+	unsigned int Power_Produced;
+	std::shared_ptr<GameObject> CreateFromCFG()override;
+
+};
+class Eco : public Building {
+public:
+	unsigned short Input_Count;
+	VEC(Slot) Input;
+	unsigned short Output_Count;
+	VEC(Slot) Output;
+	unsigned int Eco_Improve;
+	bool Can_Go_Over_0;
+	std::shared_ptr<GameObject> CreateFromCFG()override;
+
+};
+class Decoration :public Building {
+public:
+	std::shared_ptr<GameObject> CreateFromCFG()override;
+
+};
+class Military :public Building {
+public:
+	std::shared_ptr<GameObject> CreateFromCFG()override;
+
+};
+class Special : public Building {
+public:
+	std::shared_ptr<GameObject> CreateFromCFG()override;
 };
 class Vehicle : public ConfigFile {
 public:
@@ -184,11 +225,12 @@ public:
 };
 class Material : public ConfigFile {
 public:
+	int Mat_ID;
 	int ShaderCount;
 	std::string VertexShader;
 	std::string FragmentShader;
 	std::string GeometryShader;
-	
+
 	Material(std::string name, std::string modelpath, std::vector<std::string> texturepath, ConfigType configType, nlohmann::json data);
 };
 class SettingsFile {

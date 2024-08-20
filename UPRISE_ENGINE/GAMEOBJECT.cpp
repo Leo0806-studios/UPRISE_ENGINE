@@ -9,7 +9,7 @@
 #include "MESH.h"
 #include "HeaderE/CORE/C_SCENE.h"
 
-::shared_ptr<GameObject> GameObject::Create(DATATYPES::TS_P_Vector3 pos, void* mesh,int materialID) {
+::shared_ptr<GameObject> GameObject::Create(DATATYPES::TSPVector3 pos, void* mesh,int materialID) {
 	TracyCZoneN(ctx, "Creating GameObject", true);
 
 	GameObject tmp;
@@ -44,7 +44,7 @@
 /// <param name="mesh"></param>
 /// <param name="materialID"></param>
 /// <returns> "shared_ptr GameObject"</returns>
-shared_ptr<GameObject> GameObject::Create(DATATYPES::TS_P_Vector3 pos, Quaternion rot,std::shared_ptr<COMPONENTS::_Mesh> mesh, int materialID) {
+shared_ptr<GameObject> GameObject::Create(DATATYPES::TSPVector3 pos, Quaternion rot,std::shared_ptr<COMPONENTS::_Mesh> mesh, int materialID) {
 	TracyCZoneN(ctx, "Creating GameObject", true);
 
 	GameObject tmp;
@@ -69,7 +69,7 @@ shared_ptr<GameObject> GameObject::Create(DATATYPES::TS_P_Vector3 pos, Quaternio
 	return a;
 
 }
-GameObject GameObject::CreateEmpty(DATATYPES::TS_P_Vector3 pos)
+GameObject GameObject::CreateEmpty(DATATYPES::TSPVector3 pos)
 {
 	GameObject tmp;
 	UuidCreate(&tmp.uuid);
@@ -84,7 +84,7 @@ GameObject GameObject::CreateEmpty(DATATYPES::TS_P_Vector3 pos)
 
 	return tmp;
 }
-GameObject GameObject::CreateCamera(DATATYPES::TS_P_Vector3 pos, Quaternion rot)
+GameObject GameObject::CreateCamera(DATATYPES::TSPVector3 pos, Quaternion rot)
 {
 	TracyCZoneN(ctx, "Creating Camera", true);
 
@@ -115,7 +115,7 @@ GameObject GameObject::CreateCamera(DATATYPES::TS_P_Vector3 pos, Quaternion rot)
 		//tmp->UUID = uuid;
 		tmp->uuID = uuid;
 	}
-	tmp->gameobject = this;
+	tmp->Game_Object = this;
 	tmp->TRANSFORM = this->TrAnSfOrM;
 	tmp->compname = name;
 	uuids.push_back(tmp->uuID);

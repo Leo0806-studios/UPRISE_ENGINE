@@ -1,0 +1,451 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="__tracy_d3_d11_8hpp_source" xml:lang="en-US">
+<title>TracyD3D11.hpp</title>
+<indexterm><primary>adhed/tracy/TracyD3D11.hpp</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 <emphasis role="preprocessor">#ifndef&#32;__TRACYD3D11_HPP__</emphasis>
+2 <emphasis role="preprocessor">#define&#32;__TRACYD3D11_HPP__</emphasis>
+3 
+4 <emphasis role="preprocessor">#ifndef&#32;TRACY_ENABLE</emphasis>
+5 
+6 <emphasis role="preprocessor">#define&#32;TracyD3D11Context(device,queue)&#32;nullptr</emphasis>
+7 <emphasis role="preprocessor">#define&#32;TracyD3D11Destroy(ctx)</emphasis>
+8 <emphasis role="preprocessor">#define&#32;TracyD3D11ContextName(ctx,&#32;name,&#32;size)</emphasis>
+9 
+10 <emphasis role="preprocessor">#define&#32;TracyD3D11NewFrame(ctx)</emphasis>
+11 
+12 <emphasis role="preprocessor">#define&#32;TracyD3D11Zone(ctx,&#32;name)</emphasis>
+13 <emphasis role="preprocessor">#define&#32;TracyD3D11ZoneC(ctx,&#32;name,&#32;color)</emphasis>
+14 <emphasis role="preprocessor">#define&#32;TracyD3D11NamedZone(ctx,&#32;varname,&#32;name,&#32;active)</emphasis>
+15 <emphasis role="preprocessor">#define&#32;TracyD3D11NamedZoneC(ctx,&#32;varname,&#32;name,&#32;color,&#32;active)</emphasis>
+16 <emphasis role="preprocessor">#define&#32;TracyD3D11ZoneTransient(ctx,&#32;varname,&#32;name,&#32;active)</emphasis>
+17 
+18 <emphasis role="preprocessor">#define&#32;TracyD3D11ZoneS(ctx,&#32;name,&#32;depth)</emphasis>
+19 <emphasis role="preprocessor">#define&#32;TracyD3D11ZoneCS(ctx,&#32;name,&#32;color,&#32;depth)</emphasis>
+20 <emphasis role="preprocessor">#define&#32;TracyD3D11NamedZoneS(ctx,&#32;varname,&#32;name,&#32;depth,&#32;active)</emphasis>
+21 <emphasis role="preprocessor">#define&#32;TracyD3D11NamedZoneCS(ctx,&#32;varname,&#32;name,&#32;color,&#32;depth,&#32;active)</emphasis>
+22 <emphasis role="preprocessor">#define&#32;TracyD3D11ZoneTransientS(ctx,&#32;varname,&#32;name,&#32;depth,&#32;active)</emphasis>
+23 
+24 <emphasis role="preprocessor">#define&#32;TracyD3D11Collect(ctx)</emphasis>
+25 
+26 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespacetracy">tracy</link>
+27 {
+28 <emphasis role="keyword">class&#32;</emphasis><link linkend="_classtracy_1_1_d3_d11_zone_scope">D3D11ZoneScope</link>&#32;{};
+29 }
+30 
+31 <emphasis role="keyword">using&#32;</emphasis><link linkend="__tracy_d3_d11_8hpp_1a28e24491c1a77cdbc2b662454d98d819">TracyD3D11Ctx</link>&#32;=&#32;<emphasis role="keywordtype">void</emphasis>*;
+32 
+33 <emphasis role="preprocessor">#else</emphasis>
+34 
+35 <emphasis role="preprocessor">#include&#32;&lt;atomic&gt;</emphasis>
+36 <emphasis role="preprocessor">#include&#32;&lt;assert.h&gt;</emphasis>
+37 <emphasis role="preprocessor">#include&#32;&lt;stdlib.h&gt;</emphasis>
+38 
+39 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__tracy_8hpp">Tracy.hpp</link>&quot;</emphasis>
+40 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__tracy_profiler_8hpp">../client/TracyProfiler.hpp</link>&quot;</emphasis>
+41 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__tracy_callstack_8hpp">../client/TracyCallstack.hpp</link>&quot;</emphasis>
+42 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__tracy_yield_8hpp">../common/TracyYield.hpp</link>&quot;</emphasis>
+43 
+44 <emphasis role="preprocessor">#include&#32;&lt;d3d11.h&gt;</emphasis>
+45 
+46 <emphasis role="preprocessor">#define&#32;TracyD3D11Panic(msg,&#32;...)&#32;do&#32;{&#32;assert(false&#32;&amp;&amp;&#32;&quot;TracyD3D11:&#32;&quot;&#32;msg);&#32;TracyMessageLC(&quot;TracyD3D11:&#32;&quot;&#32;msg,&#32;tracy::Color::Red4);&#32;__VA_ARGS__;&#32;}&#32;while(false);</emphasis>
+47 
+48 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespacetracy">tracy</link>
+49 {
+50 
+51 <emphasis role="keyword">class&#32;</emphasis>D3D11Ctx
+52 {
+53 &#32;&#32;&#32;&#32;<emphasis role="keyword">friend</emphasis>&#32;<emphasis role="keyword">class&#32;</emphasis>D3D11ZoneScope;
+54 
+55 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keyword">constexpr</emphasis>&#32;uint32_t&#32;MaxQueries&#32;=&#32;64&#32;*&#32;1024;
+56 
+57 &#32;&#32;&#32;&#32;<emphasis role="keyword">enum</emphasis>&#32;CollectMode&#32;{&#32;POLL,&#32;BLOCK&#32;};
+58 
+59 <emphasis role="keyword">public</emphasis>:
+60 &#32;&#32;&#32;&#32;D3D11Ctx(&#32;ID3D11Device*&#32;device,&#32;ID3D11DeviceContext*&#32;devicectx&#32;)
+61 &#32;&#32;&#32;&#32;{
+62 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;TODO:&#32;consider&#32;calling&#32;ID3D11Device::GetImmediateContext()&#32;instead&#32;of&#32;passing&#32;it&#32;as&#32;an&#32;argument</emphasis>
+63 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_device&#32;=&#32;device;
+64 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;device-&gt;AddRef();
+65 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_immediateDevCtx&#32;=&#32;devicectx;
+66 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;devicectx-&gt;AddRef();
+67 
+68 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+69 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;D3D11_QUERY_DESC&#32;desc&#32;=&#32;{&#32;};
+70 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;desc.Query&#32;=&#32;D3D11_QUERY_TIMESTAMP_DISJOINT;
+71 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(FAILED(m_device-&gt;CreateQuery(&amp;desc,&#32;&amp;m_disjointQuery)))
+72 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+73 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;TracyD3D11Panic(<emphasis role="stringliteral">&quot;unable&#32;to&#32;create&#32;disjoint&#32;timestamp&#32;query.&quot;</emphasis>,&#32;<emphasis role="keywordflow">return</emphasis>);
+74 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+75 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+76 
+77 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(ID3D11Query*&amp;&#32;query&#32;:&#32;m_queries)
+78 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+79 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;D3D11_QUERY_DESC&#32;desc&#32;=&#32;{&#32;};
+80 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;desc.Query&#32;=&#32;D3D11_QUERY_TIMESTAMP;
+81 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(FAILED(m_device-&gt;CreateQuery(&amp;desc,&#32;&amp;query)))
+82 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+83 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;TracyD3D11Panic(<emphasis role="stringliteral">&quot;unable&#32;to&#32;create&#32;timestamp&#32;query.&quot;</emphasis>,&#32;<emphasis role="keywordflow">return</emphasis>);
+84 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+85 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+86 
+87 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Calibrate&#32;CPU&#32;and&#32;GPU&#32;timestamps</emphasis>
+88 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int64_t&#32;tcpu&#32;=&#32;0;
+89 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int64_t&#32;tgpu&#32;=&#32;0;
+90 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(<emphasis role="keywordtype">int</emphasis>&#32;attempts&#32;=&#32;0;&#32;attempts&#32;&lt;&#32;50;&#32;attempts++)
+91 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+92 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_immediateDevCtx-&gt;Begin(m_disjointQuery);
+93 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_immediateDevCtx-&gt;End(m_queries[0]);
+94 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_immediateDevCtx-&gt;End(m_disjointQuery);
+95 
+96 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int64_t&#32;tcpu0&#32;=&#32;Profiler::GetTime();
+97 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;WaitForQuery(m_disjointQuery);
+98 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int64_t&#32;tcpu1&#32;=&#32;Profiler::GetTime();
+99 
+100 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;D3D11_QUERY_DATA_TIMESTAMP_DISJOINT&#32;disjoint&#32;=&#32;{&#32;};
+101 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(m_immediateDevCtx-&gt;GetData(m_disjointQuery,&#32;&amp;disjoint,&#32;<emphasis role="keyword">sizeof</emphasis>(disjoint),&#32;0)&#32;!=&#32;S_OK)
+102 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+103 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__tracy_8hpp_1a914e56ba2ccb01a91efff81b9eedaaf2">TracyMessageLC</link>(<emphasis role="stringliteral">&quot;TracyD3D11:&#32;unable&#32;to&#32;query&#32;GPU&#32;timestamp;&#32;retrying...&quot;</emphasis>,&#32;<link linkend="_structtracy_1_1_color_1a5620207be2fe7c1e74e4ae5c5df4a491a1e6c816b736937f7001aba82f62559b5">tracy::Color::Tomato</link>);
+104 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">continue</emphasis>;
+105 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+106 
+107 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(disjoint.Disjoint)
+108 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">continue</emphasis>;
+109 
+110 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;UINT64&#32;timestamp&#32;=&#32;0;
+111 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(m_immediateDevCtx-&gt;GetData(m_queries[0],&#32;&amp;timestamp,&#32;<emphasis role="keyword">sizeof</emphasis>(timestamp),&#32;0)&#32;!=&#32;S_OK)
+112 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">continue</emphasis>;&#32;&#32;&#32;<emphasis role="comment">//&#32;this&#32;should&#32;never&#32;happen,&#32;since&#32;the&#32;enclosing&#32;disjoint&#32;query&#32;succeeded</emphasis>
+113 
+114 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;tcpu&#32;=&#32;tcpu0&#32;+&#32;(tcpu1&#32;-&#32;tcpu0)&#32;*&#32;1&#32;/&#32;2;
+115 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;tgpu&#32;=&#32;timestamp&#32;*&#32;(1000000000&#32;/&#32;disjoint.Frequency);
+116 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">break</emphasis>;
+117 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+118 
+119 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;ready&#32;to&#32;roll</emphasis>
+120 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_contextId&#32;=&#32;GetGpuCtxCounter().fetch_add(1);
+121 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_immediateDevCtx-&gt;Begin(m_disjointQuery);
+122 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_previousCheckpoint&#32;=&#32;m_nextCheckpoint&#32;=&#32;0;
+123 
+124 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>*&#32;item&#32;=&#32;Profiler::QueueSerial();
+125 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;MemWrite(&#32;&amp;item-&gt;hdr.type,&#32;QueueType::GpuNewContext&#32;);
+126 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;MemWrite(&#32;&amp;item-&gt;gpuNewContext.cpuTime,&#32;tcpu&#32;);
+127 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;MemWrite(&#32;&amp;item-&gt;gpuNewContext.gpuTime,&#32;tgpu&#32;);
+128 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;MemWrite(&#32;&amp;item-&gt;gpuNewContext.thread,&#32;uint32_t(0)&#32;);&#32;&#32;&#32;<emphasis role="comment">//&#32;#TODO:&#32;why&#32;not&#32;GetThreadHandle()?</emphasis>
+129 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;MemWrite(&#32;&amp;item-&gt;gpuNewContext.period,&#32;1.0f&#32;);
+130 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;MemWrite(&#32;&amp;item-&gt;gpuNewContext.context,&#32;m_contextId);
+131 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;MemWrite(&#32;&amp;item-&gt;gpuNewContext.flags,&#32;uint8_t(0)&#32;);
+132 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;MemWrite(&#32;&amp;item-&gt;gpuNewContext.type,&#32;GpuContextType::Direct3D11&#32;);
+133 
+134 <emphasis role="preprocessor">#ifdef&#32;TRACY_ON_DEMAND</emphasis>
+135 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;GetProfiler().DeferItem(&#32;*item&#32;);
+136 <emphasis role="preprocessor">#endif</emphasis>
+137 
+138 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Profiler::QueueSerialFinish();
+139 &#32;&#32;&#32;&#32;}
+140 
+141 &#32;&#32;&#32;&#32;~D3D11Ctx()
+142 &#32;&#32;&#32;&#32;{
+143 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;collect&#32;all&#32;pending&#32;timestamps&#32;before&#32;destroying&#32;everything</emphasis>
+144 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">do</emphasis>
+145 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+146 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Collect(BLOCK);
+147 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}&#32;<emphasis role="keywordflow">while</emphasis>&#32;(m_previousCheckpoint&#32;!=&#32;m_queryCounter);
+148 
+149 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(ID3D11Query*&#32;query&#32;:&#32;m_queries)
+150 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+151 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;query-&gt;Release();
+152 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+153 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_immediateDevCtx-&gt;End(m_disjointQuery);
+154 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_disjointQuery-&gt;Release();
+155 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_immediateDevCtx-&gt;Release();
+156 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_device-&gt;Release();
+157 &#32;&#32;&#32;&#32;}
+158 
+159 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;Name(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>,&#32;uint16_t&#32;len&#32;)
+160 &#32;&#32;&#32;&#32;{
+161 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;ptr&#32;=&#32;(<emphasis role="keywordtype">char</emphasis>*)tracy_malloc(&#32;len&#32;);
+162 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memcpy(&#32;ptr,&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>,&#32;len&#32;);
+163 
+164 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;item&#32;=&#32;Profiler::QueueSerial();
+165 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;MemWrite(&#32;&amp;item-&gt;hdr.type,&#32;QueueType::GpuContextName&#32;);
+166 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;MemWrite(&#32;&amp;item-&gt;gpuContextNameFat.context,&#32;m_contextId&#32;);
+167 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;MemWrite(&#32;&amp;item-&gt;gpuContextNameFat.ptr,&#32;(uint64_t)ptr&#32;);
+168 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;MemWrite(&#32;&amp;item-&gt;gpuContextNameFat.size,&#32;len&#32;);
+169 <emphasis role="preprocessor">#ifdef&#32;TRACY_ON_DEMAND</emphasis>
+170 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;GetProfiler().DeferItem(&#32;*item&#32;);
+171 <emphasis role="preprocessor">#endif</emphasis>
+172 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Profiler::QueueSerialFinish();
+173 &#32;&#32;&#32;&#32;}
+174 
+175 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;Collect(CollectMode&#32;<link linkend="_glad_8h_1a1e71d9c196e4683cc06c4b54d53f7ef5">mode</link>&#32;=&#32;POLL)
+176 &#32;&#32;&#32;&#32;{
+177 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__tracy_8hpp_1abad2503f66ec4fa32c8a36fc1472bcca">ZoneScopedC</link>(&#32;Color::Red4&#32;);
+178 
+179 <emphasis role="preprocessor">#ifdef&#32;TRACY_ON_DEMAND</emphasis>
+180 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!GetProfiler().IsConnected()&#32;)
+181 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+182 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_previousCheckpoint&#32;=&#32;m_nextCheckpoint&#32;=&#32;m_queryCounter;
+183 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>;
+184 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+185 <emphasis role="preprocessor">#endif</emphasis>
+186 
+187 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(m_previousCheckpoint&#32;==&#32;m_nextCheckpoint)
+188 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+189 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uintptr_t&#32;nextCheckpoint&#32;=&#32;m_queryCounter;
+190 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(nextCheckpoint&#32;==&#32;m_nextCheckpoint)
+191 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+192 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>;
+193 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+194 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_nextCheckpoint&#32;=&#32;nextCheckpoint;
+195 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_immediateDevCtx-&gt;End(m_disjointQuery);
+196 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+197 
+198 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(<link linkend="_glad_8h_1a1e71d9c196e4683cc06c4b54d53f7ef5">mode</link>&#32;==&#32;CollectMode::BLOCK)
+199 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+200 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;WaitForQuery(m_disjointQuery);
+201 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+202 
+203 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;D3D11_QUERY_DATA_TIMESTAMP_DISJOINT&#32;disjoint&#32;=&#32;{&#32;};
+204 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(m_immediateDevCtx-&gt;GetData(m_disjointQuery,&#32;&amp;disjoint,&#32;<emphasis role="keyword">sizeof</emphasis>(disjoint),&#32;D3D11_ASYNC_GETDATA_DONOTFLUSH)&#32;!=&#32;S_OK)
+205 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+206 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>;
+207 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+208 
+209 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(disjoint.Disjoint&#32;==&#32;TRUE)
+210 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+211 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_previousCheckpoint&#32;=&#32;m_nextCheckpoint;
+212 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;TracyD3D11Panic(<emphasis role="stringliteral">&quot;disjoint&#32;timestamps&#32;detected;&#32;dropping.&quot;</emphasis>);
+213 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>;
+214 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+215 
+216 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;begin&#32;=&#32;m_previousCheckpoint;
+217 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;<link linkend="_glad_8h_1a432111147038972f06e049e18a837002">end</link>&#32;=&#32;m_nextCheckpoint;
+218 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(<emphasis role="keyword">auto</emphasis>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;=&#32;begin;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;!=&#32;<link linkend="_glad_8h_1a432111147038972f06e049e18a837002">end</link>;&#32;++<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>)
+219 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+220 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uint32_t&#32;k&#32;=&#32;RingIndex(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>);
+221 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;UINT64&#32;timestamp&#32;=&#32;0;
+222 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(m_immediateDevCtx-&gt;GetData(m_queries[k],&#32;&amp;timestamp,&#32;<emphasis role="keyword">sizeof</emphasis>(timestamp),&#32;0)&#32;!=&#32;S_OK)
+223 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+224 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;TracyD3D11Panic(<emphasis role="stringliteral">&quot;timestamp&#32;expected&#32;to&#32;be&#32;ready,&#32;but&#32;it&#32;was&#32;not!&quot;</emphasis>);
+225 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">break</emphasis>;
+226 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+227 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;timestamp&#32;*=&#32;(1000000000ull&#32;/&#32;disjoint.Frequency);
+228 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>*&#32;item&#32;=&#32;Profiler::QueueSerial();
+229 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;MemWrite(&amp;item-&gt;hdr.type,&#32;QueueType::GpuTime);
+230 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;MemWrite(&amp;item-&gt;gpuTime.gpuTime,&#32;<emphasis role="keyword">static_cast&lt;</emphasis>int64_t<emphasis role="keyword">&gt;</emphasis>(timestamp));
+231 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;MemWrite(&amp;item-&gt;gpuTime.queryId,&#32;<emphasis role="keyword">static_cast&lt;</emphasis>uint16_t<emphasis role="keyword">&gt;</emphasis>(k));
+232 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;MemWrite(&amp;item-&gt;gpuTime.context,&#32;m_contextId);
+233 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Profiler::QueueSerialFinish();
+234 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+235 
+236 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;disjoint&#32;timestamp&#32;queries&#32;should&#32;only&#32;be&#32;invoked&#32;once&#32;per&#32;frame&#32;or&#32;less</emphasis>
+237 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;https://learn.microsoft.com/en-us/windows/win32/api/d3d11/ne-d3d11-d3d11_query</emphasis>
+238 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_immediateDevCtx-&gt;Begin(m_disjointQuery);
+239 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_previousCheckpoint&#32;=&#32;m_nextCheckpoint;
+240 &#32;&#32;&#32;&#32;}
+241 
+242 <emphasis role="keyword">private</emphasis>:
+243 &#32;&#32;&#32;&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;uint32_t&#32;RingIndex(uintptr_t&#32;<link linkend="_glad_8h_1a57f14e05b1900f16a2da82ade47d0c6d">index</link>)
+244 &#32;&#32;&#32;&#32;{
+245 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a57f14e05b1900f16a2da82ade47d0c6d">index</link>&#32;%=&#32;MaxQueries;
+246 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">static_cast&lt;</emphasis>uint32_t<emphasis role="keyword">&gt;</emphasis>(<link linkend="_glad_8h_1a57f14e05b1900f16a2da82ade47d0c6d">index</link>);
+247 &#32;&#32;&#32;&#32;}
+248 
+249 &#32;&#32;&#32;&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;uint32_t&#32;RingCount(uintptr_t&#32;begin,&#32;uintptr_t&#32;<link linkend="_glad_8h_1a432111147038972f06e049e18a837002">end</link>)
+250 &#32;&#32;&#32;&#32;{
+251 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;wrap-around&#32;safe:&#32;all&#32;unsigned</emphasis>
+252 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uintptr_t&#32;<link linkend="_glad_8h_1a619bc20e8198de3bd3f3d7fc34de66b2">count</link>&#32;=&#32;<link linkend="_glad_8h_1a432111147038972f06e049e18a837002">end</link>&#32;-&#32;begin;
+253 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">static_cast&lt;</emphasis>uint32_t<emphasis role="keyword">&gt;</emphasis>(<link linkend="_glad_8h_1a619bc20e8198de3bd3f3d7fc34de66b2">count</link>);
+254 &#32;&#32;&#32;&#32;}
+255 
+256 &#32;&#32;&#32;&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;uint32_t&#32;NextQueryId()
+257 &#32;&#32;&#32;&#32;{
+258 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;<emphasis role="keywordtype">id</emphasis>&#32;=&#32;m_queryCounter++;
+259 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(RingCount(m_previousCheckpoint,&#32;<emphasis role="keywordtype">id</emphasis>)&#32;&gt;=&#32;MaxQueries)
+260 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+261 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;TracyD3D11Panic(<emphasis role="stringliteral">&quot;too&#32;many&#32;pending&#32;timestamp&#32;queries.&quot;</emphasis>);
+262 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;#TODO:&#32;return&#32;some&#32;sentinel&#32;value;&#32;ideally&#32;a&#32;&quot;hidden&quot;&#32;query&#32;index</emphasis>
+263 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+264 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;RingIndex(<emphasis role="keywordtype">id</emphasis>);
+265 &#32;&#32;&#32;&#32;}
+266 
+267 &#32;&#32;&#32;&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;ID3D11Query*&#32;GetQueryObjectFromId(uint32_t&#32;<emphasis role="keywordtype">id</emphasis>)
+268 &#32;&#32;&#32;&#32;{
+269 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;m_queries[<link linkend="_glad_8h_1a0f49c9e660c049e85b4735b5246b6258">id</link>];
+270 &#32;&#32;&#32;&#32;}
+271 
+272 &#32;&#32;&#32;&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;WaitForQuery(ID3D11Query*&#32;query)
+273 &#32;&#32;&#32;&#32;{
+274 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_immediateDevCtx-&gt;Flush();
+275 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">while</emphasis>&#32;(m_immediateDevCtx-&gt;GetData(query,&#32;<emphasis role="keyword">nullptr</emphasis>,&#32;0,&#32;0)&#32;!=&#32;S_OK)
+276 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;YieldThread();&#32;&#32;<emphasis role="comment">//&#32;busy-wait&#32;:-(&#32;attempt&#32;to&#32;reduce&#32;power&#32;usage&#32;with&#32;_mm_pause()&#32;&amp;&#32;friends...</emphasis>
+277 &#32;&#32;&#32;&#32;}
+278 
+279 &#32;&#32;&#32;&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;uint8_t&#32;GetContextId()<emphasis role="keyword">&#32;const</emphasis>
+280 <emphasis role="keyword">&#32;&#32;&#32;&#32;</emphasis>{
+281 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;m_contextId;
+282 &#32;&#32;&#32;&#32;}
+283 
+284 &#32;&#32;&#32;&#32;ID3D11Device*&#32;m_device&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>;
+285 &#32;&#32;&#32;&#32;ID3D11DeviceContext*&#32;m_immediateDevCtx&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>;
+286 
+287 &#32;&#32;&#32;&#32;ID3D11Query*&#32;m_queries[MaxQueries];
+288 &#32;&#32;&#32;&#32;ID3D11Query*&#32;m_disjointQuery&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>;
+289 
+290 &#32;&#32;&#32;&#32;uint8_t&#32;m_contextId&#32;=&#32;255;&#32;&#32;<emphasis role="comment">//&#32;NOTE:&#32;apparently,&#32;255&#32;means&#32;invalid&#32;id;&#32;is&#32;this&#32;documented&#32;anywhere?</emphasis>
+291 
+292 &#32;&#32;&#32;&#32;uintptr_t&#32;m_queryCounter&#32;=&#32;0;
+293 
+294 &#32;&#32;&#32;&#32;uintptr_t&#32;m_previousCheckpoint&#32;=&#32;0;
+295 &#32;&#32;&#32;&#32;uintptr_t&#32;m_nextCheckpoint&#32;=&#32;0;
+296 };
+297 
+298 <emphasis role="keyword">class&#32;</emphasis>D3D11ZoneScope
+299 {
+300 <emphasis role="keyword">public</emphasis>:
+301 &#32;&#32;&#32;&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;D3D11ZoneScope(&#32;D3D11Ctx*&#32;ctx,&#32;<emphasis role="keyword">const</emphasis>&#32;SourceLocationData*&#32;srcloc,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;active&#32;)
+302 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;D3D11ZoneScope(ctx,&#32;active)
+303 &#32;&#32;&#32;&#32;{
+304 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!m_active&#32;)&#32;<emphasis role="keywordflow">return</emphasis>;
+305 
+306 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>*&#32;item&#32;=&#32;<link linkend="_classtracy_1_1_profiler_1a1c67297cb68056b545e6573d46a60c13">Profiler::QueueSerial</link>();
+307 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;WriteQueueItem(item,&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330ad9ec106cca60c2763165a778aa857df5">QueueType::GpuZoneBeginSerial</link>,&#32;<emphasis role="keyword">reinterpret_cast&lt;</emphasis>uint64_t<emphasis role="keyword">&gt;</emphasis>(srcloc));
+308 &#32;&#32;&#32;&#32;}
+309 
+310 &#32;&#32;&#32;&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;D3D11ZoneScope(&#32;D3D11Ctx*&#32;ctx,&#32;<emphasis role="keyword">const</emphasis>&#32;SourceLocationData*&#32;srcloc,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a2aa5ce5567a58e4da543ce468fb1711a">depth</link>,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;active&#32;)
+311 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;D3D11ZoneScope(ctx,&#32;active)
+312 &#32;&#32;&#32;&#32;{
+313 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!m_active&#32;)&#32;<emphasis role="keywordflow">return</emphasis>;
+314 
+315 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>*&#32;item&#32;=&#32;<link linkend="_classtracy_1_1_profiler_1a0e6d9de3da4ba875ce4b82230c354117">Profiler::QueueSerialCallstack</link>(<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330a30650823a23b39a1a2f2c35d9b726127">Callstack</link>(<link linkend="_glad_8h_1a2aa5ce5567a58e4da543ce468fb1711a">depth</link>));
+316 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;WriteQueueItem(item,&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330af1650bb5a9848d1901789946cf9f9fd6">QueueType::GpuZoneBeginCallstackSerial</link>,&#32;<emphasis role="keyword">reinterpret_cast&lt;</emphasis>uint64_t<emphasis role="keyword">&gt;</emphasis>(srcloc));
+317 &#32;&#32;&#32;&#32;}
+318 
+319 &#32;&#32;&#32;&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;D3D11ZoneScope(D3D11Ctx*&#32;ctx,&#32;uint32_t&#32;line,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a6ffd2192cbc75d017665e95207ee36a7">source</link>,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;sourceSz,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;function,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;functionSz,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;nameSz,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;active)
+320 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;D3D11ZoneScope(ctx,&#32;active)
+321 &#32;&#32;&#32;&#32;{
+322 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!m_active&#32;)&#32;<emphasis role="keywordflow">return</emphasis>;
+323 
+324 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;sourceLocation&#32;=&#32;<link linkend="_classtracy_1_1_profiler_1ab869025334b66dbe8ad63dc0beffbc2c">Profiler::AllocSourceLocation</link>(line,&#32;<link linkend="_glad_8h_1a6ffd2192cbc75d017665e95207ee36a7">source</link>,&#32;sourceSz,&#32;function,&#32;functionSz,&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>,&#32;nameSz);
+325 
+326 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>*&#32;item&#32;=&#32;<link linkend="_classtracy_1_1_profiler_1a1c67297cb68056b545e6573d46a60c13">Profiler::QueueSerial</link>();
+327 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;WriteQueueItem(item,&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330a73d6d2dd3d887fe5e00e4b25c01055c0">QueueType::GpuZoneBeginAllocSrcLocSerial</link>,&#32;sourceLocation);
+328 &#32;&#32;&#32;&#32;}
+329 
+330 &#32;&#32;&#32;&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;D3D11ZoneScope(D3D11Ctx*&#32;ctx,&#32;uint32_t&#32;line,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a6ffd2192cbc75d017665e95207ee36a7">source</link>,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;sourceSz,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;function,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;functionSz,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;nameSz,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a2aa5ce5567a58e4da543ce468fb1711a">depth</link>,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;active)
+331 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;D3D11ZoneScope(ctx,&#32;active)
+332 &#32;&#32;&#32;&#32;{
+333 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!m_active&#32;)&#32;<emphasis role="keywordflow">return</emphasis>;
+334 
+335 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;sourceLocation&#32;=&#32;<link linkend="_classtracy_1_1_profiler_1ab869025334b66dbe8ad63dc0beffbc2c">Profiler::AllocSourceLocation</link>(line,&#32;<link linkend="_glad_8h_1a6ffd2192cbc75d017665e95207ee36a7">source</link>,&#32;sourceSz,&#32;function,&#32;functionSz,&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>,&#32;nameSz);
+336 
+337 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>*&#32;item&#32;=&#32;<link linkend="_classtracy_1_1_profiler_1a0e6d9de3da4ba875ce4b82230c354117">Profiler::QueueSerialCallstack</link>(<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330a30650823a23b39a1a2f2c35d9b726127">Callstack</link>(<link linkend="_glad_8h_1a2aa5ce5567a58e4da543ce468fb1711a">depth</link>));
+338 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;WriteQueueItem(item,&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330ab416c95e5f15df8d2189041d935a4394">QueueType::GpuZoneBeginAllocSrcLocCallstackSerial</link>,&#32;sourceLocation);
+339 &#32;&#32;&#32;&#32;}
+340 
+341 &#32;&#32;&#32;&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;~D3D11ZoneScope()
+342 &#32;&#32;&#32;&#32;{
+343 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!m_active&#32;)&#32;<emphasis role="keywordflow">return</emphasis>;
+344 
+345 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;queryId&#32;=&#32;m_ctx-&gt;NextQueryId();
+346 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_ctx-&gt;m_immediateDevCtx-&gt;End(m_ctx-&gt;GetQueryObjectFromId(queryId));
+347 
+348 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>*&#32;item&#32;=&#32;<link linkend="_classtracy_1_1_profiler_1a1c67297cb68056b545e6573d46a60c13">Profiler::QueueSerial</link>();
+349 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;hdr.type,&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330a567a6b6292a4660c3f349cb10bc00011">QueueType::GpuZoneEndSerial</link>&#32;);
+350 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;gpuZoneEnd.cpuTime,&#32;<link linkend="_classtracy_1_1_profiler_1a4131d199df7f0faeb8b2ddc860cade4e">Profiler::GetTime</link>()&#32;);
+351 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;gpuZoneEnd.thread,&#32;<link linkend="_namespacetracy_1aa3114ef7fe1a4fdc87e4e15fd5d86a63">GetThreadHandle</link>()&#32;);
+352 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;gpuZoneEnd.queryId,&#32;uint16_t(&#32;queryId&#32;)&#32;);
+353 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;gpuZoneEnd.context,&#32;m_ctx-&gt;GetContextId()&#32;);
+354 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_classtracy_1_1_profiler_1ac06b3d486f720701e598e5efa7fd460d">Profiler::QueueSerialFinish</link>();
+355 &#32;&#32;&#32;&#32;}
+356 
+357 <emphasis role="keyword">private</emphasis>:
+358 &#32;&#32;&#32;&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;D3D11ZoneScope(&#32;D3D11Ctx*&#32;ctx,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;active&#32;)
+359 <emphasis role="preprocessor">#ifdef&#32;TRACY_ON_DEMAND</emphasis>
+360 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;m_active(&#32;is_active&#32;&amp;&amp;&#32;<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>().IsConnected()&#32;)
+361 <emphasis role="preprocessor">#else</emphasis>
+362 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;m_active(&#32;active&#32;)
+363 <emphasis role="preprocessor">#endif</emphasis>
+364 &#32;&#32;&#32;&#32;{
+365 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!m_active&#32;)&#32;<emphasis role="keywordflow">return</emphasis>;
+366 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_ctx&#32;=&#32;ctx;
+367 &#32;&#32;&#32;&#32;}
+368 
+369 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;WriteQueueItem(<link linkend="_structtracy_1_1_queue_item">tracy::QueueItem</link>*&#32;item,&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330">tracy::QueueType</link>&#32;queueItemType,&#32;uint64_t&#32;sourceLocation)
+370 &#32;&#32;&#32;&#32;{
+371 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;queryId&#32;=&#32;m_ctx-&gt;NextQueryId();
+372 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_ctx-&gt;m_immediateDevCtx-&gt;End(m_ctx-&gt;GetQueryObjectFromId(queryId));
+373 
+374 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;<link linkend="_structtracy_1_1_queue_item_1aedd72db266a029fde9cff022ce1bfc8a">hdr</link>.<link linkend="_structtracy_1_1_queue_header_1aad5446a6c0581620ae807a344a214313">type</link>,&#32;queueItemType);
+375 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;<link linkend="_structtracy_1_1_queue_item_1a776fab0c7a66d2a433085bd0a6f0bc7b">gpuZoneBegin</link>.<link linkend="_structtracy_1_1_queue_gpu_zone_begin_lean_1a897b20a7667b3cf9d9d916dac49d4bf6">cpuTime</link>,&#32;<link linkend="_classtracy_1_1_profiler_1a4131d199df7f0faeb8b2ddc860cade4e">Profiler::GetTime</link>()&#32;);
+376 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;<link linkend="_structtracy_1_1_queue_item_1a776fab0c7a66d2a433085bd0a6f0bc7b">gpuZoneBegin</link>.<link linkend="_structtracy_1_1_queue_gpu_zone_begin_1a657f89abf8f7784d552dbbb2411b9bab">srcloc</link>,&#32;sourceLocation&#32;);
+377 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;<link linkend="_structtracy_1_1_queue_item_1a776fab0c7a66d2a433085bd0a6f0bc7b">gpuZoneBegin</link>.<link linkend="_structtracy_1_1_queue_gpu_zone_begin_lean_1abbccb3a2c3b370187ed84c118011b76d">thread</link>,&#32;<link linkend="_namespacetracy_1aa3114ef7fe1a4fdc87e4e15fd5d86a63">GetThreadHandle</link>()&#32;);
+378 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;<link linkend="_structtracy_1_1_queue_item_1a776fab0c7a66d2a433085bd0a6f0bc7b">gpuZoneBegin</link>.<link linkend="_structtracy_1_1_queue_gpu_zone_begin_lean_1a3d1434a17ff390e0c789c9885d8c70e3">queryId</link>,&#32;uint16_t(&#32;queryId&#32;)&#32;);
+379 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;<link linkend="_structtracy_1_1_queue_item_1a776fab0c7a66d2a433085bd0a6f0bc7b">gpuZoneBegin</link>.<link linkend="_structtracy_1_1_queue_gpu_zone_begin_lean_1a5f92b34a295c673ccf88803e981329fc">context</link>,&#32;m_ctx-&gt;GetContextId()&#32;);
+380 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_classtracy_1_1_profiler_1ac06b3d486f720701e598e5efa7fd460d">Profiler::QueueSerialFinish</link>();
+381 &#32;&#32;&#32;&#32;}
+382 
+383 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">bool</emphasis>&#32;m_active;
+384 
+385 &#32;&#32;&#32;&#32;D3D11Ctx*&#32;m_ctx;
+386 };
+387 
+388 <emphasis role="keyword">static</emphasis>&#32;<emphasis role="keyword">inline</emphasis>&#32;D3D11Ctx*&#32;CreateD3D11Context(&#32;ID3D11Device*&#32;device,&#32;ID3D11DeviceContext*&#32;devicectx&#32;)
+389 {
+390 &#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;ctx&#32;=&#32;(D3D11Ctx*)tracy_malloc(&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;D3D11Ctx&#32;)&#32;);
+391 &#32;&#32;&#32;&#32;<emphasis role="keyword">new</emphasis>(ctx)&#32;D3D11Ctx(&#32;device,&#32;devicectx&#32;);
+392 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;ctx;
+393 }
+394 
+395 <emphasis role="keyword">static</emphasis>&#32;<emphasis role="keyword">inline</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;DestroyD3D11Context(&#32;D3D11Ctx*&#32;ctx&#32;)
+396 {
+397 &#32;&#32;&#32;&#32;ctx-&gt;~D3D11Ctx();
+398 &#32;&#32;&#32;&#32;tracy_free(&#32;ctx&#32;);
+399 }
+400 }
+401 
+402 <emphasis role="preprocessor">#undef&#32;TracyD3D11Panic</emphasis>
+403 
+404 <emphasis role="keyword">using&#32;</emphasis><link linkend="__tracy_d3_d11_8hpp_1a28e24491c1a77cdbc2b662454d98d819">TracyD3D11Ctx</link>&#32;=&#32;tracy::D3D11Ctx*;
+405 
+406 <emphasis role="preprocessor">#define&#32;TracyD3D11Context(&#32;device,&#32;devicectx&#32;)&#32;tracy::CreateD3D11Context(&#32;device,&#32;devicectx&#32;);</emphasis>
+407 <emphasis role="preprocessor">#define&#32;TracyD3D11Destroy(ctx)&#32;tracy::DestroyD3D11Context(ctx);</emphasis>
+408 <emphasis role="preprocessor">#define&#32;TracyD3D11ContextName(ctx,&#32;name,&#32;size)&#32;ctx-&gt;Name(name,&#32;size);</emphasis>
+409 
+410 <emphasis role="preprocessor">#define&#32;TracyD3D11UnnamedZone&#32;___tracy_gpu_d3d11_zone</emphasis>
+411 <emphasis role="preprocessor">#define&#32;TracyD3D11SrcLocSymbol&#32;TracyConcat(__tracy_gpu_d3d11_source_location,TracyLine)</emphasis>
+412 <emphasis role="preprocessor">#define&#32;TracyD3D11SrcLocObject(name,&#32;color)&#32;static&#32;constexpr&#32;tracy::SourceLocationData&#32;TracyD3D11SrcLocSymbol&#32;{&#32;name,&#32;TracyFunction,&#32;TracyFile,&#32;(uint32_t)TracyLine,&#32;color&#32;};</emphasis>
+413 
+414 <emphasis role="preprocessor">#if&#32;defined&#32;TRACY_HAS_CALLSTACK&#32;&amp;&amp;&#32;defined&#32;TRACY_CALLSTACK</emphasis>
+415 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyD3D11Zone(&#32;ctx,&#32;name&#32;)&#32;TracyD3D11NamedZoneS(&#32;ctx,&#32;TracyD3D11UnnamedZone,&#32;name,&#32;TRACY_CALLSTACK,&#32;true&#32;)</emphasis>
+416 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyD3D11ZoneC(&#32;ctx,&#32;name,&#32;color&#32;)&#32;TracyD3D11NamedZoneCS(&#32;ctx,&#32;TracyD3D11UnnamedZone,&#32;name,&#32;color,&#32;TRACY_CALLSTACK,&#32;true&#32;)</emphasis>
+417 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyD3D11NamedZone(&#32;ctx,&#32;varname,&#32;name,&#32;active&#32;)&#32;TracyD3D11SrcLocObject(name,&#32;0);&#32;tracy::D3D11ZoneScope&#32;varname(&#32;ctx,&#32;&amp;TracyD3D11SrcLocSymbol,&#32;TRACY_CALLSTACK,&#32;active&#32;);</emphasis>
+418 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyD3D11NamedZoneC(&#32;ctx,&#32;varname,&#32;name,&#32;color,&#32;active&#32;)&#32;TracyD3D11SrcLocObject(name,&#32;color);&#32;tracy::D3D11ZoneScope&#32;varname(&#32;ctx,&#32;&amp;TracyD3D11SrcLocSymbol,&#32;TRACY_CALLSTACK,&#32;active&#32;);</emphasis>
+419 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyD3D11ZoneTransient(ctx,&#32;varname,&#32;name,&#32;active)&#32;TracyD3D11ZoneTransientS(ctx,&#32;varname,&#32;cmdList,&#32;name,&#32;TRACY_CALLSTACK,&#32;active)</emphasis>
+420 <emphasis role="preprocessor">#else</emphasis>
+421 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyD3D11Zone(&#32;ctx,&#32;name&#32;)&#32;TracyD3D11NamedZone(&#32;ctx,&#32;TracyD3D11UnnamedZone,&#32;name,&#32;true&#32;)</emphasis>
+422 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyD3D11ZoneC(&#32;ctx,&#32;name,&#32;color&#32;)&#32;TracyD3D11NamedZoneC(&#32;ctx,&#32;TracyD3D11UnnamedZone,&#32;name,&#32;color,&#32;true&#32;)</emphasis>
+423 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyD3D11NamedZone(&#32;ctx,&#32;varname,&#32;name,&#32;active&#32;)&#32;TracyD3D11SrcLocObject(name,&#32;0);&#32;tracy::D3D11ZoneScope&#32;varname(&#32;ctx,&#32;&amp;TracyD3D11SrcLocSymbol,&#32;active&#32;);</emphasis>
+424 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyD3D11NamedZoneC(&#32;ctx,&#32;varname,&#32;name,&#32;color,&#32;active&#32;)&#32;TracyD3D11SrcLocObject(name,&#32;color);&#32;tracy::D3D11ZoneScope&#32;varname(&#32;ctx,&#32;&amp;TracyD3D11SrcLocSymbol,&#32;active&#32;);</emphasis>
+425 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyD3D11ZoneTransient(ctx,&#32;varname,&#32;name,&#32;active)&#32;tracy::D3D11ZoneScope&#32;varname{&#32;ctx,&#32;TracyLine,&#32;TracyFile,&#32;strlen(TracyFile),&#32;TracyFunction,&#32;strlen(TracyFunction),&#32;name,&#32;strlen(name),&#32;active&#32;};</emphasis>
+426 <emphasis role="preprocessor">#endif</emphasis>
+427 
+428 <emphasis role="preprocessor">#ifdef&#32;TRACY_HAS_CALLSTACK</emphasis>
+429 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyD3D11ZoneS(&#32;ctx,&#32;name,&#32;depth&#32;)&#32;TracyD3D11NamedZoneS(&#32;ctx,&#32;TracyD3D11UnnamedZone,&#32;name,&#32;depth,&#32;true&#32;)</emphasis>
+430 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyD3D11ZoneCS(&#32;ctx,&#32;name,&#32;color,&#32;depth&#32;)&#32;TracyD3D11NamedZoneCS(&#32;ctx,&#32;TracyD3D11UnnamedZone,&#32;name,&#32;color,&#32;depth,&#32;true&#32;)</emphasis>
+431 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyD3D11NamedZoneS(&#32;ctx,&#32;varname,&#32;name,&#32;depth,&#32;active&#32;)&#32;TracyD3D11SrcLocObject(name,&#32;0);&#32;tracy::D3D11ZoneScope&#32;varname(&#32;ctx,&#32;&amp;TracyD3D11SrcLocSymbol,&#32;depth,&#32;active&#32;);</emphasis>
+432 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyD3D11NamedZoneCS(&#32;ctx,&#32;varname,&#32;name,&#32;color,&#32;depth,&#32;active&#32;)&#32;TracyD3D11SrcLocObject(name,&#32;color);&#32;tracy::D3D11ZoneScope&#32;varname(&#32;ctx,&#32;&amp;TracyD3D11SrcLocSymbol,&#32;depth,&#32;active&#32;);</emphasis>
+433 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyD3D11ZoneTransientS(ctx,&#32;varname,&#32;name,&#32;depth,&#32;active)&#32;tracy::D3D11ZoneScope&#32;varname{&#32;ctx,&#32;TracyLine,&#32;TracyFile,&#32;strlen(TracyFile),&#32;TracyFunction,&#32;strlen(TracyFunction),&#32;name,&#32;strlen(name),&#32;depth,&#32;active&#32;};</emphasis>
+434 <emphasis role="preprocessor">#else</emphasis>
+435 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyD3D11ZoneS(&#32;ctx,&#32;name,&#32;depth,&#32;active&#32;)&#32;TracyD3D11Zone(&#32;ctx,&#32;name&#32;)</emphasis>
+436 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyD3D11ZoneCS(&#32;ctx,&#32;name,&#32;color,&#32;depth,&#32;active&#32;)&#32;TracyD3D11ZoneC(&#32;name,&#32;color&#32;)</emphasis>
+437 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyD3D11NamedZoneS(&#32;ctx,&#32;varname,&#32;name,&#32;depth,&#32;active&#32;)&#32;TracyD3D11NamedZone(&#32;ctx,&#32;varname,&#32;name,&#32;active&#32;)</emphasis>
+438 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyD3D11NamedZoneCS(&#32;ctx,&#32;varname,&#32;name,&#32;color,&#32;depth,&#32;active&#32;)&#32;TracyD3D11NamedZoneC(&#32;ctx,&#32;varname,&#32;name,&#32;color,&#32;active&#32;)</emphasis>
+439 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyD3D11ZoneTransientS(ctx,&#32;varname,&#32;name,&#32;depth,&#32;active)&#32;TracyD3D11ZoneTransient(ctx,&#32;varname,&#32;name,&#32;active)</emphasis>
+440 <emphasis role="preprocessor">#endif</emphasis>
+441 
+442 <emphasis role="preprocessor">#define&#32;TracyD3D11Collect(&#32;ctx&#32;)&#32;ctx-&gt;Collect();</emphasis>
+443 
+444 <emphasis role="preprocessor">#endif</emphasis>
+445 
+446 <emphasis role="preprocessor">#endif</emphasis>
+</programlisting></section>

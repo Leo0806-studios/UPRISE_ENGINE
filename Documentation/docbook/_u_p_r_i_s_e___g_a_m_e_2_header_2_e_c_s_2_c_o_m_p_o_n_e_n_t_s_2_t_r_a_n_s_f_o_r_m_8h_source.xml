@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="__u_p_r_i_s_e___g_a_m_e_2_header_2_e_c_s_2_c_o_m_p_o_n_e_n_t_s_2_t_r_a_n_s_f_o_r_m_8h_source" xml:lang="en-US">
+<title>TRANSFORM.h</title>
+<indexterm><primary>UPRISE_GAME/Header/ECS/COMPONENTS/TRANSFORM.h</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 <emphasis role="preprocessor">#pragma&#32;once</emphasis>
+2 <emphasis role="preprocessor">#ifndef&#32;_TRANSFORM_</emphasis>
+3 <emphasis role="preprocessor">#define&#32;_TRANSFORM_</emphasis>
+4 
+5 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__u_p_r_i_s_e___g_a_m_e_2_header_2_c_o_r_e_2_c_o_r_e_8h">Header/CORE/CORE.h</link>&quot;</emphasis>
+6 
+8 <emphasis role="comment">//using&#32;namespace&#32;DATATYPESTEST;</emphasis>
+9 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__u_p_r_i_s_e___g_a_m_e_2_header_2_d_a_t_a_t_y_p_e_s_2_d___d_a_t_a_t_y_p_e_s_8h">Header/DATATYPES/D_DATATYPES.h</link>&quot;</emphasis>
+10 <emphasis role="preprocessor">#include&#32;&quot;DEBUG_LOGGER.h&quot;</emphasis>
+11 
+12 
+13 
+14 
+15 <emphasis role="keyword">class&#32;</emphasis><link linkend="_class_transform">Transform</link>&#32;:&#32;<emphasis role="keyword">public</emphasis>&#32;<link linkend="_class_c_o_r_e_1_1_behaviour">CORE::Behaviour</link>&#32;{
+16 <emphasis role="keyword">public</emphasis>:
+17 &#32;&#32;&#32;&#32;<link linkend="_class_transform_1a473265050406961d98c5ca3c8200ba5f">I_WINDOW</link>(
+18 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespace_im_gui_1a970a00fd1a4226c697ea5fb807fb62d8">ImGui::InputFloat3</link>(<emphasis role="stringliteral">&quot;Rotation&quot;</emphasis>,&#32;&amp;this-&gt;Vec3Rotation.x);
+19 &#32;&#32;&#32;&#32;this-&gt;SetRotation(this-&gt;Vec3Rotation);
+20 &#32;&#32;&#32;&#32;<link linkend="_namespace_im_gui_1a970a00fd1a4226c697ea5fb807fb62d8">ImGui::InputFloat3</link>(<emphasis role="stringliteral">&quot;Position&quot;</emphasis>,&#32;&amp;this-&gt;Position.x);
+21 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;)
+22 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___b_e_h_a_v_i_o_u_r_8h_1a24110a191034623d4a7374edef9b03c4">COPY</link>(<link linkend="_class_transform">Transform</link>,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_d_e_b_u_g___l_o_g_g_e_r_8h_1a7ec724fc36f207e8eee4924496b688fb">Log</link>&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;DONT!&quot;</emphasis>;&#32;<emphasis role="keywordflow">throw</emphasis>(std::exception());)
+23 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___b_e_h_a_v_i_o_u_r_8h_1add7d517015027aa2cc345e349f2b5bff">DEEP_COPY</link>(<link linkend="_class_transform">Transform</link>,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_d_e_b_u_g___l_o_g_g_e_r_8h_1a7ec724fc36f207e8eee4924496b688fb">Log</link>&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;DONT!&quot;</emphasis>;&#32;<emphasis role="keywordflow">throw</emphasis>(std::exception());&#32;,&#32;)
+24 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;UUID&#32;UUID;
+25 &#32;&#32;&#32;&#32;<link linkend="_class_game_object">GameObject</link>*&#32;oobj&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>;
+26 
+27 &#32;&#32;&#32;&#32;<link linkend="_struct_d_a_t_a_t_y_p_e_s_1_1_t_s___p___vector3">DATATYPES::TS_P_Vector3</link>&#32;Position;
+28 &#32;&#32;&#32;&#32;<link linkend="_struct_d_a_t_a_t_y_p_e_s_1_1_quaternion">DATATYPES::Quaternion</link>&#32;rotation;
+29 &#32;&#32;&#32;&#32;<link linkend="_struct_d_a_t_a_t_y_p_e_s_1_1_t_s___p___vector3">DATATYPES::TS_P_Vector3</link>&#32;Vec3Rotation;
+30 &#32;&#32;&#32;&#32;<link linkend="_struct_d_a_t_a_t_y_p_e_s_1_1_t_s___p___vector3">DATATYPES::TS_P_Vector3</link>&#32;forward;
+31 &#32;&#32;&#32;&#32;<link linkend="_struct_d_a_t_a_t_y_p_e_s_1_1_t_s___p___vector3">DATATYPES::TS_P_Vector3</link>&#32;up;
+32 &#32;&#32;&#32;&#32;<link linkend="_struct_d_a_t_a_t_y_p_e_s_1_1_t_s___p___vector3">DATATYPES::TS_P_Vector3</link>&#32;right;
+33 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;SetRotation(<link linkend="_struct_d_a_t_a_t_y_p_e_s_1_1_t_s___p___vector3">DATATYPES::TS_P_Vector3</link>&#32;vec);
+34 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;SetRotation(<link linkend="_struct_d_a_t_a_t_y_p_e_s_1_1_quaternion">DATATYPES::Quaternion</link>&#32;quat);
+35 &#32;&#32;&#32;&#32;<emphasis role="comment">//DATATYPES::TS_P_Vector3&#32;Rotation;;</emphasis>
+36 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_c_o_r_e_1_1_behaviour_1a4a0de0e3555170c221503bf59ea1ef49">Update</link>()<emphasis role="keyword">override</emphasis>;
+37 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_c_o_r_e_1_1_behaviour_1a9ee42bf018b419d29c80bdd3aa7b277d">Awake</link>()<emphasis role="keyword">override</emphasis>;
+38 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_c_o_r_e_1_1_behaviour_1a11a25e6600baa3c5a6924c33b0b86071">Start</link>()<emphasis role="keyword">override</emphasis>;
+39 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;UpdateDirections();
+40 
+41 
+42 
+43 
+44 };
+45 <emphasis role="comment">//static&#32;Registrar&lt;Transform&gt;&#32;transform(&quot;Transform&quot;);</emphasis>
+46 
+47 <emphasis role="preprocessor">#define&#32;ADDROTATION(X,Y,Z)&#32;TRANSFORM-&gt;SetRotation(DATATYPES::TS_P_Vector3(pos-&gt;Vec3Rotation.x+(X),&#32;pos-&gt;Vec3Rotation.y+(Y),&#32;pos-&gt;Vec3Rotation.z&#32;+(Z)));</emphasis>
+48 
+49 <emphasis role="preprocessor">#endif&#32;</emphasis><emphasis role="comment">//&#32;!_TRANSFORM_</emphasis>
+</programlisting></section>

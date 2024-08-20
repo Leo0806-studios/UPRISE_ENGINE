@@ -1,0 +1,263 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_classblink_1_1stream__reader" xml:lang="en-US">
+<title>blink::stream_reader Class Reference</title>
+<indexterm><primary>blink::stream_reader</primary></indexterm>
+<para>
+
+<para>Class which provides cached reading access to the content streams of a multi-stream file. </para>
+ 
+</para>
+<para>
+<computeroutput>#include &lt;pdb_reader.hpp&gt;</computeroutput>
+</para>
+<simplesect>
+    <title>Public Member Functions    </title>
+        <itemizedlist>
+            <listitem><para><link linkend="_classblink_1_1stream__reader_1ab4100f6aaae0c3b2c8ef41afa04527f4">stream_reader</link> ()=default</para>
+</listitem>
+            <listitem><para><link linkend="_classblink_1_1stream__reader_1a3e46606403730427938876ae8d8de02a">stream_reader</link> (std::vector&lt; char &gt; &amp;&amp;<link linkend="_glad_8h_1ad02d2488127e1cf9a27262c4ee30ba85">stream</link>)</para>
+</listitem>
+            <listitem><para><link linkend="_classblink_1_1stream__reader_1a9a73e40310d09ad2c5fd59b881e66cf7">stream_reader</link> (const std::vector&lt; char &gt; &amp;<link linkend="_glad_8h_1ad02d2488127e1cf9a27262c4ee30ba85">stream</link>)</para>
+</listitem>
+            <listitem><para>size_t <link linkend="_classblink_1_1stream__reader_1af2915866b483a2f32cb0cb7fb2cba541">size</link> () const</para>
+
+<para>Gets the total stream size in bytes. </para>
+</listitem>
+            <listitem><para>size_t <link linkend="_classblink_1_1stream__reader_1ae5c79c32b7aaa0548e1910f268a91ec0">tell</link> () const</para>
+
+<para>Gets the offset in bytes from stream start to the current input position. </para>
+</listitem>
+            <listitem><para>template&lt;typename <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>  = char&gt; </para><para><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link> * <link linkend="_classblink_1_1stream__reader_1aedf070ee90c6aae4ced3a109fc428eec">data</link> (size_t <link linkend="_glad_8h_1ae1b92ae085ddef4b1cdca7d749339fb0">offset</link>=0)</para>
+
+<para>Returns a pointer to the current data. </para>
+</listitem>
+            <listitem><para><link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> <link linkend="_classblink_1_1stream__reader_1af7c171ce646c6c41bb1975ae289a34d4">skip</link> (size_t <link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>)</para>
+
+<para>Increases the input position without reading any data from the stream. </para>
+</listitem>
+            <listitem><para><link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> <link linkend="_classblink_1_1stream__reader_1a209b68456d537d707e97b1e51ca19cad">seek</link> (size_t <link linkend="_glad_8h_1ae1b92ae085ddef4b1cdca7d749339fb0">offset</link>)</para>
+
+<para>Sets the input position. </para>
+</listitem>
+            <listitem><para><link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> <link linkend="_classblink_1_1stream__reader_1a8bd9230de12b1ab13917f385c9e75029">align</link> (size_t align)</para>
+
+<para>Aligns the current input position. </para>
+</listitem>
+            <listitem><para>size_t <link linkend="_classblink_1_1stream__reader_1afa619835beb3934d27ff4e79ff77aa69">read</link> (<link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> *<link linkend="_glad_8h_1a7fc54503e1a1cf98d128b839ebc0b4d0">buffer</link>, size_t <link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>)</para>
+
+<para>Extracts data from the stream. </para>
+</listitem>
+            <listitem><para>template&lt;typename <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link> &gt; </para><para><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link> &amp; <link linkend="_classblink_1_1stream__reader_1ab15b7bf7b93fef5ece1fd0d4cfab12dc">read</link> ()</para>
+
+<para>Extracts typed data from the stream. </para>
+</listitem>
+            <listitem><para>std::string_view <link linkend="_classblink_1_1stream__reader_1a496465116140abc80032ab95d5c628a1">read_string</link> ()</para>
+
+<para>Extracts a null-terminated string from the stream. </para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para>Class which provides cached reading access to the content streams of a multi-stream file. </para>
+</section>
+<section>
+<title>Constructor &amp; Destructor Documentation</title>
+<anchor xml:id="_classblink_1_1stream__reader_1ab4100f6aaae0c3b2c8ef41afa04527f4"/><section>
+    <title>stream_reader()<computeroutput>[1/3]</computeroutput></title>
+<indexterm><primary>stream_reader</primary><secondary>blink::stream_reader</secondary></indexterm>
+<indexterm><primary>blink::stream_reader</primary><secondary>stream_reader</secondary></indexterm>
+<para><computeroutput>blink::stream_reader::stream_reader ( )<computeroutput>[default]</computeroutput></computeroutput></para></section>
+<anchor xml:id="_classblink_1_1stream__reader_1a3e46606403730427938876ae8d8de02a"/><section>
+    <title>stream_reader()<computeroutput>[2/3]</computeroutput></title>
+<indexterm><primary>stream_reader</primary><secondary>blink::stream_reader</secondary></indexterm>
+<indexterm><primary>blink::stream_reader</primary><secondary>stream_reader</secondary></indexterm>
+<para><computeroutput>blink::stream_reader::stream_reader (std::vector&lt; char &gt; &amp;&amp; stream)<computeroutput>[inline]</computeroutput></computeroutput></para></section>
+<anchor xml:id="_classblink_1_1stream__reader_1a9a73e40310d09ad2c5fd59b881e66cf7"/><section>
+    <title>stream_reader()<computeroutput>[3/3]</computeroutput></title>
+<indexterm><primary>stream_reader</primary><secondary>blink::stream_reader</secondary></indexterm>
+<indexterm><primary>blink::stream_reader</primary><secondary>stream_reader</secondary></indexterm>
+<para><computeroutput>blink::stream_reader::stream_reader (const std::vector&lt; char &gt; &amp; stream)<computeroutput>[inline]</computeroutput></computeroutput></para></section>
+</section>
+<section>
+<title>Member Function Documentation</title>
+<anchor xml:id="_classblink_1_1stream__reader_1a8bd9230de12b1ab13917f385c9e75029"/><section>
+    <title>align()</title>
+<indexterm><primary>align</primary><secondary>blink::stream_reader</secondary></indexterm>
+<indexterm><primary>blink::stream_reader</primary><secondary>align</secondary></indexterm>
+<para><computeroutput><link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> blink::stream_reader::align (size_t align)<computeroutput>[inline]</computeroutput></computeroutput></para><para>
+
+<para>Aligns the current input position. </para>
+</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>align</entry><entry>
+<para>A value to align the input position to.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                </para>
+</section>
+<anchor xml:id="_classblink_1_1stream__reader_1aedf070ee90c6aae4ced3a109fc428eec"/><section>
+    <title>data()</title>
+<indexterm><primary>data</primary><secondary>blink::stream_reader</secondary></indexterm>
+<indexterm><primary>blink::stream_reader</primary><secondary>data</secondary></indexterm>
+<computeroutput>template&lt;typename <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>  = char&gt; </computeroutput><para><computeroutput><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link> * blink::stream_reader::data (size_t offset = <computeroutput>0</computeroutput>
+)<computeroutput>[inline]</computeroutput></computeroutput></para><para>
+
+<para>Returns a pointer to the current data. </para>
+</para>
+</section>
+<anchor xml:id="_classblink_1_1stream__reader_1ab15b7bf7b93fef5ece1fd0d4cfab12dc"/><section>
+    <title>read()<computeroutput>[1/2]</computeroutput></title>
+<indexterm><primary>read</primary><secondary>blink::stream_reader</secondary></indexterm>
+<indexterm><primary>blink::stream_reader</primary><secondary>read</secondary></indexterm>
+<computeroutput>template&lt;typename <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link> &gt; </computeroutput><para><computeroutput><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link> &amp; blink::stream_reader::read ( )<computeroutput>[inline]</computeroutput></computeroutput></para><para>
+
+<para>Extracts typed data from the stream. </para>
+</para>
+</section>
+<anchor xml:id="_classblink_1_1stream__reader_1afa619835beb3934d27ff4e79ff77aa69"/><section>
+    <title>read()<computeroutput>[2/2]</computeroutput></title>
+<indexterm><primary>read</primary><secondary>blink::stream_reader</secondary></indexterm>
+<indexterm><primary>blink::stream_reader</primary><secondary>read</secondary></indexterm>
+<para><computeroutput>size_t blink::stream_reader::read (<link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> * buffer, size_t size)<computeroutput>[inline]</computeroutput></computeroutput></para><para>
+
+<para>Extracts data from the stream. </para>
+</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>buffer</entry><entry>
+<para>A pointer to the byte array to store the data to.</para>
+</entry>
+                            </row>
+                            <row>
+<entry>size</entry><entry>
+<para>The amount of bytes to read from the stream into the buffer.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                </para>
+</section>
+<anchor xml:id="_classblink_1_1stream__reader_1a496465116140abc80032ab95d5c628a1"/><section>
+    <title>read_string()</title>
+<indexterm><primary>read_string</primary><secondary>blink::stream_reader</secondary></indexterm>
+<indexterm><primary>blink::stream_reader</primary><secondary>read_string</secondary></indexterm>
+<para><computeroutput>std::string_view blink::stream_reader::read_string ( )<computeroutput>[inline]</computeroutput></computeroutput></para><para>
+
+<para>Extracts a null-terminated string from the stream. </para>
+</para>
+</section>
+<anchor xml:id="_classblink_1_1stream__reader_1a209b68456d537d707e97b1e51ca19cad"/><section>
+    <title>seek()</title>
+<indexterm><primary>seek</primary><secondary>blink::stream_reader</secondary></indexterm>
+<indexterm><primary>blink::stream_reader</primary><secondary>seek</secondary></indexterm>
+<para><computeroutput><link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> blink::stream_reader::seek (size_t offset)<computeroutput>[inline]</computeroutput></computeroutput></para><para>
+
+<para>Sets the input position. </para>
+</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>offset</entry><entry>
+<para>An offset in bytes from stream start to the desired input position.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                </para>
+</section>
+<anchor xml:id="_classblink_1_1stream__reader_1af2915866b483a2f32cb0cb7fb2cba541"/><section>
+    <title>size()</title>
+<indexterm><primary>size</primary><secondary>blink::stream_reader</secondary></indexterm>
+<indexterm><primary>blink::stream_reader</primary><secondary>size</secondary></indexterm>
+<para><computeroutput>size_t blink::stream_reader::size ( ) const<computeroutput>[inline]</computeroutput></computeroutput></para><para>
+
+<para>Gets the total stream size in bytes. </para>
+</para>
+</section>
+<anchor xml:id="_classblink_1_1stream__reader_1af7c171ce646c6c41bb1975ae289a34d4"/><section>
+    <title>skip()</title>
+<indexterm><primary>skip</primary><secondary>blink::stream_reader</secondary></indexterm>
+<indexterm><primary>blink::stream_reader</primary><secondary>skip</secondary></indexterm>
+<para><computeroutput><link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> blink::stream_reader::skip (size_t size)<computeroutput>[inline]</computeroutput></computeroutput></para><para>
+
+<para>Increases the input position without reading any data from the stream. </para>
+</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>size</entry><entry>
+<para>An offset in bytes from the current input position to the desired input position.</para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                </para>
+</section>
+<anchor xml:id="_classblink_1_1stream__reader_1ae5c79c32b7aaa0548e1910f268a91ec0"/><section>
+    <title>tell()</title>
+<indexterm><primary>tell</primary><secondary>blink::stream_reader</secondary></indexterm>
+<indexterm><primary>blink::stream_reader</primary><secondary>tell</secondary></indexterm>
+<para><computeroutput>size_t blink::stream_reader::tell ( ) const<computeroutput>[inline]</computeroutput></computeroutput></para><para>
+
+<para>Gets the offset in bytes from stream start to the current input position. </para>
+</para>
+</section>
+<para>
+The documentation for this class was generated from the following file:</para>
+BLINK/source/<link linkend="_pdb__reader_8hpp">pdb_reader.hpp</link></section>
+</section>

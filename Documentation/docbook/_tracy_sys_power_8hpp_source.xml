@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="__tracy_sys_power_8hpp_source" xml:lang="en-US">
+<title>TracySysPower.hpp</title>
+<indexterm><primary>adhed/client/TracySysPower.hpp</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 <emphasis role="preprocessor">#ifndef&#32;__TRACYSYSPOWER_HPP__</emphasis>
+2 <emphasis role="preprocessor">#define&#32;__TRACYSYSPOWER_HPP__</emphasis>
+3 
+4 <emphasis role="preprocessor">#if&#32;defined&#32;__linux__</emphasis>
+5 <emphasis role="preprocessor">#&#32;&#32;define&#32;TRACY_HAS_SYSPOWER</emphasis>
+6 <emphasis role="preprocessor">#endif</emphasis>
+7 
+8 <emphasis role="preprocessor">#ifdef&#32;TRACY_HAS_SYSPOWER</emphasis>
+9 
+10 <emphasis role="preprocessor">#include&#32;&lt;stdint.h&gt;</emphasis>
+11 <emphasis role="preprocessor">#include&#32;&lt;stdio.h&gt;</emphasis>
+12 
+13 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__tracy_fast_vector_8hpp">TracyFastVector.hpp</link>&quot;</emphasis>
+14 
+15 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespacetracy">tracy</link>
+16 {
+17 
+18 <emphasis role="keyword">class&#32;</emphasis>SysPower
+19 {
+20 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis>Domain
+21 &#32;&#32;&#32;&#32;{
+22 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uint64_t&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>;
+23 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uint64_t&#32;<link linkend="_namespaceglm_1_1detail_1a61efe122333bc00e81c57e0927bfdfb3">overflow</link>;
+24 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;FILE*&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1a07fb37513c08cc03825e660c39fc34f6">handle</link>;
+25 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>;
+26 &#32;&#32;&#32;&#32;};
+27 
+28 <emphasis role="keyword">public</emphasis>:
+29 &#32;&#32;&#32;&#32;SysPower();
+30 &#32;&#32;&#32;&#32;~SysPower();
+31 
+32 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;Tick();
+33 
+34 <emphasis role="keyword">private</emphasis>:
+35 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;ScanDirectory(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;path,&#32;<emphasis role="keywordtype">int</emphasis>&#32;parent&#32;);
+36 
+37 &#32;&#32;&#32;&#32;FastVector&lt;Domain&gt;&#32;m_domains;
+38 &#32;&#32;&#32;&#32;uint64_t&#32;m_lastTime;
+39 };
+40 
+41 }
+42 <emphasis role="preprocessor">#endif</emphasis>
+43 
+44 <emphasis role="preprocessor">#endif</emphasis>
+</programlisting></section>

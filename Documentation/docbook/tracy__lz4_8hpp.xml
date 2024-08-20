@@ -1,0 +1,379 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_tracy__lz4_8hpp" xml:lang="en-US">
+<title>adhed/common/tracy_lz4.hpp File Reference</title>
+<indexterm><primary>adhed/common/tracy_lz4.hpp</primary></indexterm>
+<programlisting linenumbering="unnumbered">#include &lt;stddef.h&gt;<?linebreak?>#include &lt;stdint.h&gt;<?linebreak?></programlisting><simplesect>
+    <title>Classes    </title>
+        <itemizedlist>
+            <listitem><para>struct <link linkend="_structtracy_1_1_l_z4__stream__t__internal">tracy::LZ4_stream_t_internal</link></para>
+</listitem>
+            <listitem><para>union <link linkend="_uniontracy_1_1_l_z4__stream__u">tracy::LZ4_stream_u</link></para>
+</listitem>
+            <listitem><para>struct <link linkend="_structtracy_1_1_l_z4__stream_decode__t__internal">tracy::LZ4_streamDecode_t_internal</link></para>
+</listitem>
+            <listitem><para>union <link linkend="_uniontracy_1_1_l_z4__stream_decode__u">tracy::LZ4_streamDecode_u</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Namespaces    </title>
+        <itemizedlist>
+            <listitem><para>namespace <link linkend="_namespacetracy">tracy</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Macros    </title>
+        <itemizedlist>
+            <listitem><para>#define <link linkend="_tracy__lz4_8hpp_1a1d170c597149c837f4e0c5422dc8fc5d">LZ4LIB_VISIBILITY</link></para>
+</listitem>
+            <listitem><para>#define <link linkend="_tracy__lz4_8hpp_1a00a61e1435005f8a621edf4bbe0ef844">LZ4LIB_API</link>&#160;&#160;&#160;<link linkend="_tracy__lz4_8hpp_1a1d170c597149c837f4e0c5422dc8fc5d">LZ4LIB_VISIBILITY</link></para>
+</listitem>
+            <listitem><para>#define <link linkend="_tracy__lz4_8hpp_1aa999858a168415c635eb29be8822ac60">LZ4_FREESTANDING</link>&#160;&#160;&#160;0</para>
+</listitem>
+            <listitem><para>#define <link linkend="_tracy__lz4_8hpp_1a4a15eb1f8aa69834f917a50d7652413e">LZ4_VERSION_MAJOR</link>&#160;&#160;&#160;1    /* for breaking interface changes  */</para>
+</listitem>
+            <listitem><para>#define <link linkend="_tracy__lz4_8hpp_1af16952f74f68ac445da9fc7603609909">LZ4_VERSION_MINOR</link>&#160;&#160;&#160;9    /* for new (non-breaking) interface capabilities */</para>
+</listitem>
+            <listitem><para>#define <link linkend="_tracy__lz4_8hpp_1a19d496bbe4d8448bc2d42cfb576cf525">LZ4_VERSION_RELEASE</link>&#160;&#160;&#160;4    /* for tweaks, bug-fixes, or development */</para>
+</listitem>
+            <listitem><para>#define <link linkend="_tracy__lz4_8hpp_1aac7e910a11c45364a8b235d0d43a0265">LZ4_VERSION_NUMBER</link>&#160;&#160;&#160;(<link linkend="_tracy__lz4_8hpp_1a4a15eb1f8aa69834f917a50d7652413e">LZ4_VERSION_MAJOR</link> *100*100 + <link linkend="_tracy__lz4_8hpp_1af16952f74f68ac445da9fc7603609909">LZ4_VERSION_MINOR</link> *100 + <link linkend="_tracy__lz4_8hpp_1a19d496bbe4d8448bc2d42cfb576cf525">LZ4_VERSION_RELEASE</link>)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_tracy__lz4_8hpp_1acefd86d684fc67bca4c3d5a0e9675268">LZ4_LIB_VERSION</link>&#160;&#160;&#160;<link linkend="_tracy__lz4_8hpp_1a19d496bbe4d8448bc2d42cfb576cf525">LZ4_VERSION_MAJOR.LZ4_VERSION_MINOR.LZ4_VERSION_RELEASE</link></para>
+</listitem>
+            <listitem><para>#define <link linkend="_tracy__lz4_8hpp_1a094a758915b2bd38b0012856a45bbc10">LZ4_QUOTE</link>(str)&#160;&#160;&#160;#str</para>
+</listitem>
+            <listitem><para>#define <link linkend="_tracy__lz4_8hpp_1a988eddb5b68034df6d10b3f229315606">LZ4_EXPAND_AND_QUOTE</link>(str)&#160;&#160;&#160;<link linkend="_tracy__lz4_8hpp_1a094a758915b2bd38b0012856a45bbc10">LZ4_QUOTE</link>(str)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_tracy__lz4_8hpp_1a2eab5fe1369fa5559f6ad37898ed5e1b">LZ4_VERSION_STRING</link>&#160;&#160;&#160;<link linkend="_tracy__lz4_8hpp_1a988eddb5b68034df6d10b3f229315606">LZ4_EXPAND_AND_QUOTE</link>(<link linkend="_tracy__lz4_8hpp_1acefd86d684fc67bca4c3d5a0e9675268">LZ4_LIB_VERSION</link>)  /* requires v1.7.3+ */</para>
+</listitem>
+            <listitem><para>#define <link linkend="_tracy__lz4_8hpp_1a533d9aebfa4668c3ed98bb961d7c5731">LZ4_MEMORY_USAGE_MIN</link>&#160;&#160;&#160;10</para>
+</listitem>
+            <listitem><para>#define <link linkend="_tracy__lz4_8hpp_1a003849b5d7ae53e30ad147fdecc8fab3">LZ4_MEMORY_USAGE_DEFAULT</link>&#160;&#160;&#160;14</para>
+</listitem>
+            <listitem><para>#define <link linkend="_tracy__lz4_8hpp_1afdf396ddb66c966fc4a2f7f3cf7fd6ca">LZ4_MEMORY_USAGE_MAX</link>&#160;&#160;&#160;20</para>
+</listitem>
+            <listitem><para>#define <link linkend="_tracy__lz4_8hpp_1a24ddbc39e7379532031a91357e66a32c">LZ4_MEMORY_USAGE</link>&#160;&#160;&#160;<link linkend="_tracy__lz4_8hpp_1a003849b5d7ae53e30ad147fdecc8fab3">LZ4_MEMORY_USAGE_DEFAULT</link></para>
+</listitem>
+            <listitem><para>#define <link linkend="_tracy__lz4_8hpp_1a88ee51e36ca74cd0533e731c20572ea6">LZ4_MAX_INPUT_SIZE</link>&#160;&#160;&#160;0x7E000000   /* 2 113 929 216 bytes */</para>
+</listitem>
+            <listitem><para>#define <link linkend="_tracy__lz4_8hpp_1a2453a423fd34640a0afbbf57ed0a5399">LZ4_COMPRESSBOUND</link>(isize)&#160;&#160;&#160;((unsigned)(isize) &gt; (unsigned)<link linkend="_tracy__lz4_8hpp_1a88ee51e36ca74cd0533e731c20572ea6">LZ4_MAX_INPUT_SIZE</link> ? 0 : (isize) + ((isize)/255) + 16)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_tracy__lz4_8hpp_1a7ff55560faf20d3fefb924507c8d6c7c">LZ4_DECODER_RING_BUFFER_SIZE</link>(maxBlockSize)&#160;&#160;&#160;(65536 + 14 + (maxBlockSize))  /* for static allocation; maxBlockSize presumed valid */</para>
+</listitem>
+            <listitem><para>#define <link linkend="_tracy__lz4_8hpp_1acdb732ce533ddc8a67654877974d90ea">TRACY_LZ4_H_98237428734687</link></para>
+</listitem>
+            <listitem><para>#define <link linkend="_tracy__lz4_8hpp_1ac7f04539d94ce57826ef8b2f3d8408af">LZ4_HASHLOG</link>&#160;&#160;&#160;(<link linkend="_tracy__lz4_8hpp_1a24ddbc39e7379532031a91357e66a32c">LZ4_MEMORY_USAGE</link>-2)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_tracy__lz4_8hpp_1a1bb7a0fa34be27b67f43ce30be0fc905">LZ4_HASHTABLESIZE</link>&#160;&#160;&#160;(1 &lt;&lt; <link linkend="_tracy__lz4_8hpp_1a24ddbc39e7379532031a91357e66a32c">LZ4_MEMORY_USAGE</link>)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_tracy__lz4_8hpp_1a75fa199d8ad0949f67b62054171dc473">LZ4_HASH_SIZE_U32</link>&#160;&#160;&#160;(1 &lt;&lt; <link linkend="_tracy__lz4_8hpp_1ac7f04539d94ce57826ef8b2f3d8408af">LZ4_HASHLOG</link>)       /* required as macro for static allocation */</para>
+</listitem>
+            <listitem><para>#define <link linkend="_tracy__lz4_8hpp_1a77524430350829b04a24a85da4d163aa">LZ4_STREAM_MINSIZE</link>&#160;&#160;&#160;((1UL &lt;&lt; <link linkend="_tracy__lz4_8hpp_1a24ddbc39e7379532031a91357e66a32c">LZ4_MEMORY_USAGE</link>) + 32)  /* static <link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>, for inter-version compatibility */</para>
+</listitem>
+            <listitem><para>#define <link linkend="_tracy__lz4_8hpp_1a10759b51013350458e365b48a4ab853b">LZ4_STREAMDECODE_MINSIZE</link>&#160;&#160;&#160;32</para>
+</listitem>
+            <listitem><para>#define <link linkend="_tracy__lz4_8hpp_1afa2a2c9dbd9d88448d70c8fff093782b">LZ4_DEPRECATED</link>(message)&#160;&#160;&#160;/* disabled */</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Typedefs    </title>
+        <itemizedlist>
+            <listitem><para>typedef union <link linkend="_uniontracy_1_1_l_z4__stream__u">LZ4_stream_u</link> <link linkend="_namespacetracy_1ae60cc7aaa96bf624d3556bcf1329b642">tracy::LZ4_stream_t</link></para>
+</listitem>
+            <listitem><para>typedef union <link linkend="_uniontracy_1_1_l_z4__stream_decode__u">LZ4_streamDecode_u</link> <link linkend="_namespacetracy_1a925f81e284f23f4c369e1d8b64f619b8">tracy::LZ4_streamDecode_t</link></para>
+</listitem>
+            <listitem><para>typedef signed char <link linkend="_namespacetracy_1aed8bb1cbc5fa174543e97e7d776e5a96">tracy::LZ4_i8</link></para>
+</listitem>
+            <listitem><para>typedef unsigned char <link linkend="_namespacetracy_1a77fe2844c79f827050491f8ff5a9e8ab">tracy::LZ4_byte</link></para>
+</listitem>
+            <listitem><para>typedef unsigned short <link linkend="_namespacetracy_1aac8db5c490d899150df4499f7eeb1262">tracy::LZ4_u16</link></para>
+</listitem>
+            <listitem><para>typedef unsigned int <link linkend="_namespacetracy_1aedd8b351158cc5c487b7a24999b89804">tracy::LZ4_u32</link></para>
+</listitem>
+            <listitem><para>typedef <link linkend="_interfacestruct">struct</link> LZ4_stream_t_internal <link linkend="_namespacetracy_1af3a37571eab7dacce52f1be1ece67bd8">tracy::LZ4_stream_t_internal</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Functions    </title>
+        <itemizedlist>
+            <listitem><para>int <link linkend="_namespacetracy_1ac221395ab473f2b72d3c83f2a1e24070">tracy::LZ4_versionNumber</link> (<link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link>)</para>
+</listitem>
+            <listitem><para>const char * <link linkend="_namespacetracy_1a7078b9a2542031b56ad306dcd1effa7a">tracy::LZ4_versionString</link> (<link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link>)</para>
+</listitem>
+            <listitem><para>int <link linkend="_namespacetracy_1a978a0846b30dbbc05a120cd9a73511c0">tracy::LZ4_compress_default</link> (const char *<link linkend="_glad_8h_1a2a98ddb6f79ec1048ff9e15cdd2422ba">src</link>, char *<link linkend="_glad_8h_1a85e59cd56e10d0a7f49ab199f277d486">dst</link>, int <link linkend="_namespacetracy_1a25898e59ed2b01d5fe4fd29c5d7e5548">srcSize</link>, int <link linkend="_namespacetracy_1af9f0fd3a69aad7747a453f2e33f78537">maxOutputSize</link>)</para>
+</listitem>
+            <listitem><para><link linkend="_tracy__lz4_8cpp_1aef1e79d6717ef83db09e5ab432c0f085">LZ4_FORCE_O2</link> int <link linkend="_namespacetracy_1ae474896bb60ed62ac3f79ecc4275a9ff">tracy::LZ4_decompress_safe</link> (const char *<link linkend="_glad_8h_1a6ffd2192cbc75d017665e95207ee36a7">source</link>, char *<link linkend="_namespacetracy_1a60bb39cd566f6b81dae5d465e9aa1389">dest</link>, int <link linkend="_namespacetracy_1adc47f42db93f16142153b91d7eb10801">compressedSize</link>, int maxDecompressedSize)</para>
+</listitem>
+            <listitem><para>int <link linkend="_namespacetracy_1a46b27f83ad00fa5dc19ef89347a1d878">tracy::LZ4_compressBound</link> (int <link linkend="_namespacetracy_1a291ec994b73ee0c8da6a36ab23aa928d">isize</link>)</para>
+</listitem>
+            <listitem><para>int <link linkend="_namespacetracy_1adb2b4c49ab8edb3819cb733f85ebdf57">tracy::LZ4_compress_fast</link> (const char *<link linkend="_glad_8h_1a6ffd2192cbc75d017665e95207ee36a7">source</link>, char *<link linkend="_namespacetracy_1a60bb39cd566f6b81dae5d465e9aa1389">dest</link>, int <link linkend="_namespacetracy_1ae9691b7ca406d95aa2992363e84c0e8b">inputSize</link>, int <link linkend="_namespacetracy_1af9f0fd3a69aad7747a453f2e33f78537">maxOutputSize</link>, int acceleration)</para>
+</listitem>
+            <listitem><para>int <link linkend="_namespacetracy_1a6b6f9c6211ce5dcbc347006401d8ac66">tracy::LZ4_sizeofState</link> (<link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link>)</para>
+</listitem>
+            <listitem><para>int <link linkend="_namespacetracy_1a297567f481de09f065df02c9ca03769f">tracy::LZ4_compress_fast_extState</link> (<link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> *state, const char *<link linkend="_glad_8h_1a6ffd2192cbc75d017665e95207ee36a7">source</link>, char *<link linkend="_namespacetracy_1a60bb39cd566f6b81dae5d465e9aa1389">dest</link>, int <link linkend="_namespacetracy_1ae9691b7ca406d95aa2992363e84c0e8b">inputSize</link>, int <link linkend="_namespacetracy_1af9f0fd3a69aad7747a453f2e33f78537">maxOutputSize</link>, int acceleration)</para>
+</listitem>
+            <listitem><para>int <link linkend="_namespacetracy_1a06ed1af51c3112b20a37775e2e12bef2">tracy::LZ4_compress_destSize</link> (const char *<link linkend="_glad_8h_1a2a98ddb6f79ec1048ff9e15cdd2422ba">src</link>, char *<link linkend="_glad_8h_1a85e59cd56e10d0a7f49ab199f277d486">dst</link>, int *srcSizePtr, int targetDstSize)</para>
+</listitem>
+            <listitem><para><link linkend="_tracy__lz4_8cpp_1aef1e79d6717ef83db09e5ab432c0f085">LZ4_FORCE_O2</link> int <link linkend="_namespacetracy_1a8f437fbcb2f3f599ffb6bd1b710b6d92">tracy::LZ4_decompress_safe_partial</link> (const char *<link linkend="_glad_8h_1a2a98ddb6f79ec1048ff9e15cdd2422ba">src</link>, char *<link linkend="_glad_8h_1a85e59cd56e10d0a7f49ab199f277d486">dst</link>, int <link linkend="_namespacetracy_1adc47f42db93f16142153b91d7eb10801">compressedSize</link>, int targetOutputSize, int dstCapacity)</para>
+</listitem>
+            <listitem><para><link linkend="_namespacetracy_1ae60cc7aaa96bf624d3556bcf1329b642">LZ4_stream_t</link> * <link linkend="_namespacetracy_1a99d89b2e1a949b273ff626566fc3f289">tracy::LZ4_createStream</link> (<link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link>)</para>
+</listitem>
+            <listitem><para>int <link linkend="_namespacetracy_1ae18ed707f28ea32d299a357b25cc2dad">tracy::LZ4_freeStream</link> (<link linkend="_namespacetracy_1ae60cc7aaa96bf624d3556bcf1329b642">LZ4_stream_t</link> *LZ4_stream)</para>
+</listitem>
+            <listitem><para><link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> <link linkend="_namespacetracy_1aa372400c64c3bf74fa0cdf397e572476">tracy::LZ4_resetStream_fast</link> (<link linkend="_namespacetracy_1ae60cc7aaa96bf624d3556bcf1329b642">LZ4_stream_t</link> *ctx)</para>
+</listitem>
+            <listitem><para>int <link linkend="_namespacetracy_1af9d15459d0866f650d2b08dc356d6e0e">tracy::LZ4_loadDict</link> (<link linkend="_namespacetracy_1ae60cc7aaa96bf624d3556bcf1329b642">LZ4_stream_t</link> *LZ4_dict, const char *dictionary, int dictSize)</para>
+</listitem>
+            <listitem><para>int <link linkend="_namespacetracy_1ac4f3762d280a06ddf8f0032749aa5491">tracy::LZ4_compress_fast_continue</link> (<link linkend="_namespacetracy_1ae60cc7aaa96bf624d3556bcf1329b642">LZ4_stream_t</link> *LZ4_stream, const char *<link linkend="_glad_8h_1a6ffd2192cbc75d017665e95207ee36a7">source</link>, char *<link linkend="_namespacetracy_1a60bb39cd566f6b81dae5d465e9aa1389">dest</link>, int <link linkend="_namespacetracy_1ae9691b7ca406d95aa2992363e84c0e8b">inputSize</link>, int <link linkend="_namespacetracy_1af9f0fd3a69aad7747a453f2e33f78537">maxOutputSize</link>, int acceleration)</para>
+</listitem>
+            <listitem><para>int <link linkend="_namespacetracy_1a4be15036429f70d10ef592f352b9920d">tracy::LZ4_saveDict</link> (<link linkend="_namespacetracy_1ae60cc7aaa96bf624d3556bcf1329b642">LZ4_stream_t</link> *LZ4_dict, char *safeBuffer, int dictSize)</para>
+</listitem>
+            <listitem><para><link linkend="_namespacetracy_1a925f81e284f23f4c369e1d8b64f619b8">LZ4_streamDecode_t</link> * <link linkend="_namespacetracy_1a405eebf0f66b1689fe0eaf959736221a">tracy::LZ4_createStreamDecode</link> (<link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link>)</para>
+</listitem>
+            <listitem><para>int <link linkend="_namespacetracy_1aa85d4b74288d6ee0123694d5c324bb6d">tracy::LZ4_freeStreamDecode</link> (<link linkend="_namespacetracy_1a925f81e284f23f4c369e1d8b64f619b8">LZ4_streamDecode_t</link> *LZ4_stream)</para>
+</listitem>
+            <listitem><para>int <link linkend="_namespacetracy_1abbde8f3accdc282a0ac9ee3a29550a8f">tracy::LZ4_setStreamDecode</link> (<link linkend="_namespacetracy_1a925f81e284f23f4c369e1d8b64f619b8">LZ4_streamDecode_t</link> *LZ4_streamDecode, const char *dictionary, int dictSize)</para>
+</listitem>
+            <listitem><para>int <link linkend="_namespacetracy_1a4999247c7772c153deb7247d5b64e9eb">tracy::LZ4_decoderRingBufferSize</link> (int maxBlockSize)</para>
+</listitem>
+            <listitem><para><link linkend="_tracy__lz4_8cpp_1aef1e79d6717ef83db09e5ab432c0f085">LZ4_FORCE_O2</link> int <link linkend="_namespacetracy_1a3d350c7e82bf5bff06ccc72b31a6dc4f">tracy::LZ4_decompress_safe_continue</link> (<link linkend="_namespacetracy_1a925f81e284f23f4c369e1d8b64f619b8">LZ4_streamDecode_t</link> *LZ4_streamDecode, const char *<link linkend="_glad_8h_1a6ffd2192cbc75d017665e95207ee36a7">source</link>, char *<link linkend="_namespacetracy_1a60bb39cd566f6b81dae5d465e9aa1389">dest</link>, int <link linkend="_namespacetracy_1adc47f42db93f16142153b91d7eb10801">compressedSize</link>, int <link linkend="_namespacetracy_1af9f0fd3a69aad7747a453f2e33f78537">maxOutputSize</link>)</para>
+</listitem>
+            <listitem><para>int <link linkend="_namespacetracy_1a247c08db7fe3c953aa1b956ef0ae0faf">tracy::LZ4_decompress_safe_usingDict</link> (const char *<link linkend="_glad_8h_1a6ffd2192cbc75d017665e95207ee36a7">source</link>, char *<link linkend="_namespacetracy_1a60bb39cd566f6b81dae5d465e9aa1389">dest</link>, int <link linkend="_namespacetracy_1adc47f42db93f16142153b91d7eb10801">compressedSize</link>, int <link linkend="_namespacetracy_1af9f0fd3a69aad7747a453f2e33f78537">maxOutputSize</link>, const char *dictStart, int dictSize)</para>
+</listitem>
+            <listitem><para>int <link linkend="_namespacetracy_1a9a9279a3b2eeeb071b5f472869741fc0">tracy::LZ4_decompress_safe_partial_usingDict</link> (const char *<link linkend="_glad_8h_1a6ffd2192cbc75d017665e95207ee36a7">source</link>, char *<link linkend="_namespacetracy_1a60bb39cd566f6b81dae5d465e9aa1389">dest</link>, int <link linkend="_namespacetracy_1adc47f42db93f16142153b91d7eb10801">compressedSize</link>, int targetOutputSize, int dstCapacity, const char *dictStart, int dictSize)</para>
+</listitem>
+            <listitem><para><link linkend="_namespacetracy_1ae60cc7aaa96bf624d3556bcf1329b642">LZ4_stream_t</link> * <link linkend="_namespacetracy_1aab5ae51659b24ef33f77f8d4042f666d">tracy::LZ4_initStream</link> (<link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> *<link linkend="_glad_8h_1a7fc54503e1a1cf98d128b839ebc0b4d0">buffer</link>, size_t <link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>)</para>
+</listitem>
+            <listitem><para><link linkend="_namespacetracy_1ac52ba004e0673215d14dc21d9fb5fc0b">tracy::LZ4_DEPRECATED</link> (&quot;use <link linkend="_namespacetracy_1a978a0846b30dbbc05a120cd9a73511c0">LZ4_compress_default</link>() instead&quot;) <link linkend="_tracy__lz4_8hpp_1a00a61e1435005f8a621edf4bbe0ef844">LZ4LIB_API</link> int <link linkend="_namespacetracy_1a7a4aa6b4f5018a371d5b9774aa0671bd">LZ4_compress</link>(const char *<link linkend="_glad_8h_1a2a98ddb6f79ec1048ff9e15cdd2422ba">src</link></para>
+</listitem>
+            <listitem><para><link linkend="_namespacetracy_1a07a10896739a5b7fc82a1ece56da77e6">tracy::LZ4_DEPRECATED</link> (&quot;use <link linkend="_namespacetracy_1a297567f481de09f065df02c9ca03769f">LZ4_compress_fast_extState</link>() instead&quot;) <link linkend="_tracy__lz4_8hpp_1a00a61e1435005f8a621edf4bbe0ef844">LZ4LIB_API</link> int <link linkend="_namespacetracy_1a4804d66046489650d3cc8ae5d00e543b">LZ4_compress_withState</link>(<link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> *state</para>
+</listitem>
+            <listitem><para><link linkend="_namespacetracy_1a0dccd373472515c49ba237192bacf683">tracy::LZ4_DEPRECATED</link> (&quot;use <link linkend="_namespacetracy_1ac4f3762d280a06ddf8f0032749aa5491">LZ4_compress_fast_continue</link>() instead&quot;) <link linkend="_tracy__lz4_8hpp_1a00a61e1435005f8a621edf4bbe0ef844">LZ4LIB_API</link> int <link linkend="_namespacetracy_1ac00859bb7a28cf9069860b1b90a8b35f">LZ4_compress_continue</link>(<link linkend="_namespacetracy_1ae60cc7aaa96bf624d3556bcf1329b642">LZ4_stream_t</link> *LZ4_streamPtr</para>
+</listitem>
+            <listitem><para><link linkend="_namespacetracy_1a5861e83be1e52e40223f79b247366532">tracy::LZ4_DEPRECATED</link> (&quot;use <link linkend="_namespacetracy_1a9fa9b75fefe5997e39fc39ebf47dd9a5">LZ4_decompress_fast</link>() instead&quot;) <link linkend="_tracy__lz4_8hpp_1a00a61e1435005f8a621edf4bbe0ef844">LZ4LIB_API</link> int <link linkend="_namespacetracy_1a0866a49924ef3ec7ed544aa4ecdda6e4">LZ4_uncompress</link>(const char *<link linkend="_glad_8h_1a6ffd2192cbc75d017665e95207ee36a7">source</link></para>
+</listitem>
+            <listitem><para><link linkend="_namespacetracy_1a6a4aaf9b6f2f338cf2914445b77dd3dc">tracy::LZ4_DEPRECATED</link> (&quot;use <link linkend="_namespacetracy_1ae474896bb60ed62ac3f79ecc4275a9ff">LZ4_decompress_safe</link>() instead&quot;) <link linkend="_tracy__lz4_8hpp_1a00a61e1435005f8a621edf4bbe0ef844">LZ4LIB_API</link> int <link linkend="_namespacetracy_1af39d0df1e6bbd2b3f0e8e248383a16a0">LZ4_uncompress_unknownOutputSize</link>(const char *<link linkend="_glad_8h_1a6ffd2192cbc75d017665e95207ee36a7">source</link></para>
+</listitem>
+            <listitem><para><link linkend="_namespacetracy_1abff907b5ab1c812a1bdad00376818a86">tracy::LZ4_DEPRECATED</link> (&quot;Use <link linkend="_namespacetracy_1a99d89b2e1a949b273ff626566fc3f289">LZ4_createStream</link>() instead&quot;) <link linkend="_tracy__lz4_8hpp_1a00a61e1435005f8a621edf4bbe0ef844">LZ4LIB_API</link> <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> *<link linkend="_namespacetracy_1a70534465d983dcef2af8f9d0957b8515">LZ4_create</link>(char *<link linkend="_namespacetracy_1a81406fc39f666632b3c513d6e9ea433a">inputBuffer</link>)</para>
+</listitem>
+            <listitem><para><link linkend="_namespacetracy_1a9f3cb0085defce79df7e03542d7e6afa">tracy::LZ4_DEPRECATED</link> (&quot;Use <link linkend="_namespacetracy_1a524e0fa5946e7e78bbd4cf1b0e44e789">LZ4_resetStream</link>() instead&quot;) <link linkend="_tracy__lz4_8hpp_1a00a61e1435005f8a621edf4bbe0ef844">LZ4LIB_API</link> int <link linkend="_namespacetracy_1ae39389e259090118a94ab0e3b570720c">LZ4_resetStreamState</link>(<link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> *state</para>
+</listitem>
+            <listitem><para><link linkend="_namespacetracy_1a6f2e362f92f4460b103c52c46ff03a88">tracy::LZ4_DEPRECATED</link> (&quot;Use <link linkend="_namespacetracy_1a4be15036429f70d10ef592f352b9920d">LZ4_saveDict</link>() instead&quot;) <link linkend="_tracy__lz4_8hpp_1a00a61e1435005f8a621edf4bbe0ef844">LZ4LIB_API</link> char *<link linkend="_namespacetracy_1a9bd2a5a0844c0938b5b1daf82a1d709f">LZ4_slideInputBuffer</link>(<link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> *state)</para>
+</listitem>
+            <listitem><para><link linkend="_namespacetracy_1aa3468e3f4f2cf2574a448151b8982267">tracy::LZ4_DEPRECATED</link> (&quot;use <link linkend="_namespacetracy_1a247c08db7fe3c953aa1b956ef0ae0faf">LZ4_decompress_safe_usingDict</link>() instead&quot;) <link linkend="_tracy__lz4_8hpp_1a00a61e1435005f8a621edf4bbe0ef844">LZ4LIB_API</link> int <link linkend="_namespacetracy_1a79053584ae6a29be177b41f023d60d53">LZ4_decompress_safe_withPrefix64k</link>(const char *<link linkend="_glad_8h_1a2a98ddb6f79ec1048ff9e15cdd2422ba">src</link></para>
+</listitem>
+            <listitem><para><link linkend="_namespacetracy_1a323bcd2d51a863df46497f471d687994">tracy::LZ4_DEPRECATED</link> (&quot;use <link linkend="_namespacetracy_1afcb5c05a38a5997f1e4424c619e8a3ec">LZ4_decompress_fast_usingDict</link>() instead&quot;) <link linkend="_tracy__lz4_8hpp_1a00a61e1435005f8a621edf4bbe0ef844">LZ4LIB_API</link> int <link linkend="_namespacetracy_1a51d483e0de07843d51dfa885db8a0761">LZ4_decompress_fast_withPrefix64k</link>(const char *<link linkend="_glad_8h_1a2a98ddb6f79ec1048ff9e15cdd2422ba">src</link></para>
+</listitem>
+            <listitem><para><link linkend="_tracy__lz4_8cpp_1aef1e79d6717ef83db09e5ab432c0f085">LZ4_FORCE_O2</link> int <link linkend="_namespacetracy_1a9fa9b75fefe5997e39fc39ebf47dd9a5">tracy::LZ4_decompress_fast</link> (const char *<link linkend="_glad_8h_1a6ffd2192cbc75d017665e95207ee36a7">source</link>, char *<link linkend="_namespacetracy_1a60bb39cd566f6b81dae5d465e9aa1389">dest</link>, int <link linkend="_namespacetracy_1ad6bd8439a03aa96c21af57905de5f848">originalSize</link>)</para>
+</listitem>
+            <listitem><para><link linkend="_tracy__lz4_8cpp_1aef1e79d6717ef83db09e5ab432c0f085">LZ4_FORCE_O2</link> int <link linkend="_namespacetracy_1a468570ecdf84c302073754a76641822f">tracy::LZ4_decompress_fast_continue</link> (<link linkend="_namespacetracy_1a925f81e284f23f4c369e1d8b64f619b8">LZ4_streamDecode_t</link> *LZ4_streamDecode, const char *<link linkend="_glad_8h_1a6ffd2192cbc75d017665e95207ee36a7">source</link>, char *<link linkend="_namespacetracy_1a60bb39cd566f6b81dae5d465e9aa1389">dest</link>, int <link linkend="_namespacetracy_1ad6bd8439a03aa96c21af57905de5f848">originalSize</link>)</para>
+</listitem>
+            <listitem><para>int <link linkend="_namespacetracy_1afcb5c05a38a5997f1e4424c619e8a3ec">tracy::LZ4_decompress_fast_usingDict</link> (const char *<link linkend="_glad_8h_1a6ffd2192cbc75d017665e95207ee36a7">source</link>, char *<link linkend="_namespacetracy_1a60bb39cd566f6b81dae5d465e9aa1389">dest</link>, int <link linkend="_namespacetracy_1ad6bd8439a03aa96c21af57905de5f848">originalSize</link>, const char *dictStart, int dictSize)</para>
+</listitem>
+            <listitem><para><link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> <link linkend="_namespacetracy_1a524e0fa5946e7e78bbd4cf1b0e44e789">tracy::LZ4_resetStream</link> (<link linkend="_namespacetracy_1ae60cc7aaa96bf624d3556bcf1329b642">LZ4_stream_t</link> *LZ4_stream)</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Variables    </title>
+        <itemizedlist>
+            <listitem><para>char * <link linkend="_namespacetracy_1a60bb39cd566f6b81dae5d465e9aa1389">tracy::dest</link></para>
+</listitem>
+            <listitem><para>char int <link linkend="_namespacetracy_1a25898e59ed2b01d5fe4fd29c5d7e5548">tracy::srcSize</link></para>
+</listitem>
+            <listitem><para>char int int <link linkend="_namespacetracy_1af9f0fd3a69aad7747a453f2e33f78537">tracy::maxOutputSize</link></para>
+</listitem>
+            <listitem><para>const char * <link linkend="_namespacetracy_1a4a00ca14986435c3077f6b569553610b">tracy::source</link></para>
+</listitem>
+            <listitem><para>const char char int <link linkend="_namespacetracy_1ae9691b7ca406d95aa2992363e84c0e8b">tracy::inputSize</link></para>
+</listitem>
+            <listitem><para>char int <link linkend="_namespacetracy_1a8a495d55404c28ab119c205afac80e0b">tracy::outputSize</link></para>
+</listitem>
+            <listitem><para>char int <link linkend="_namespacetracy_1a291ec994b73ee0c8da6a36ab23aa928d">tracy::isize</link></para>
+</listitem>
+            <listitem><para>char * <link linkend="_namespacetracy_1a81406fc39f666632b3c513d6e9ea433a">tracy::inputBuffer</link></para>
+</listitem>
+            <listitem><para>char * <link linkend="_namespacetracy_1a04d7d81761e970abf8b31d2cacb9f5f1">tracy::dst</link></para>
+</listitem>
+            <listitem><para>char int <link linkend="_namespacetracy_1adc47f42db93f16142153b91d7eb10801">tracy::compressedSize</link></para>
+</listitem>
+            <listitem><para>char int int <link linkend="_namespacetracy_1af4f6a3f76a73fbcb17b02b14a304dcec">tracy::maxDstSize</link></para>
+</listitem>
+            <listitem><para>char int <link linkend="_namespacetracy_1ad6bd8439a03aa96c21af57905de5f848">tracy::originalSize</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Macro Definition Documentation</title>
+<anchor xml:id="_tracy__lz4_8hpp_1a2453a423fd34640a0afbbf57ed0a5399"/><section>
+    <title>LZ4_COMPRESSBOUND</title>
+<indexterm><primary>LZ4_COMPRESSBOUND</primary><secondary>tracy_lz4.hpp</secondary></indexterm>
+<indexterm><primary>tracy_lz4.hpp</primary><secondary>LZ4_COMPRESSBOUND</secondary></indexterm>
+<para><computeroutput>#define LZ4_COMPRESSBOUND( isize)&#160;&#160;&#160;((unsigned)(isize) &gt; (unsigned)<link linkend="_tracy__lz4_8hpp_1a88ee51e36ca74cd0533e731c20572ea6">LZ4_MAX_INPUT_SIZE</link> ? 0 : (isize) + ((isize)/255) + 16)</computeroutput></para></section>
+<anchor xml:id="_tracy__lz4_8hpp_1a7ff55560faf20d3fefb924507c8d6c7c"/><section>
+    <title>LZ4_DECODER_RING_BUFFER_SIZE</title>
+<indexterm><primary>LZ4_DECODER_RING_BUFFER_SIZE</primary><secondary>tracy_lz4.hpp</secondary></indexterm>
+<indexterm><primary>tracy_lz4.hpp</primary><secondary>LZ4_DECODER_RING_BUFFER_SIZE</secondary></indexterm>
+<para><computeroutput>#define LZ4_DECODER_RING_BUFFER_SIZE( maxBlockSize)&#160;&#160;&#160;(65536 + 14 + (maxBlockSize))  /* for static allocation; maxBlockSize presumed valid */</computeroutput></para></section>
+<anchor xml:id="_tracy__lz4_8hpp_1afa2a2c9dbd9d88448d70c8fff093782b"/><section>
+    <title>LZ4_DEPRECATED</title>
+<indexterm><primary>LZ4_DEPRECATED</primary><secondary>tracy_lz4.hpp</secondary></indexterm>
+<indexterm><primary>tracy_lz4.hpp</primary><secondary>LZ4_DEPRECATED</secondary></indexterm>
+<para><computeroutput>#define LZ4_DEPRECATED( message)&#160;&#160;&#160;/* disabled */</computeroutput></para>
+<para>Deprecation warnings</para>
+
+<para>Deprecated functions make the compiler generate a warning when invoked. This is meant to invite users to update their source code. Should deprecation warnings be a problem, it is generally possible to disable them, typically with -Wno-deprecated-declarations for gcc or _CRT_SECURE_NO_WARNINGS in Visual.</para>
+
+<para>Another method is to define LZ4_DISABLE_DEPRECATE_WARNINGS before including the header file. </para>
+</section>
+<anchor xml:id="_tracy__lz4_8hpp_1a988eddb5b68034df6d10b3f229315606"/><section>
+    <title>LZ4_EXPAND_AND_QUOTE</title>
+<indexterm><primary>LZ4_EXPAND_AND_QUOTE</primary><secondary>tracy_lz4.hpp</secondary></indexterm>
+<indexterm><primary>tracy_lz4.hpp</primary><secondary>LZ4_EXPAND_AND_QUOTE</secondary></indexterm>
+<para><computeroutput>#define LZ4_EXPAND_AND_QUOTE( str)&#160;&#160;&#160;<link linkend="_tracy__lz4_8hpp_1a094a758915b2bd38b0012856a45bbc10">LZ4_QUOTE</link>(str)</computeroutput></para></section>
+<anchor xml:id="_tracy__lz4_8hpp_1aa999858a168415c635eb29be8822ac60"/><section>
+    <title>LZ4_FREESTANDING</title>
+<indexterm><primary>LZ4_FREESTANDING</primary><secondary>tracy_lz4.hpp</secondary></indexterm>
+<indexterm><primary>tracy_lz4.hpp</primary><secondary>LZ4_FREESTANDING</secondary></indexterm>
+<para><computeroutput>#define LZ4_FREESTANDING&#160;&#160;&#160;0</computeroutput></para>
+<para>LZ4_FREESTANDING : When this macro is set to 1, it enables &quot;freestanding mode&quot; that is suitable for typical freestanding environment which doesn&apos;t support standard C library.</para>
+
+<para><itemizedlist>
+<listitem>
+<para>LZ4_FREESTANDING is a compile-time switch.</para>
+</listitem><listitem>
+<para>It requires the following macros to be defined: LZ4_memcpy, LZ4_memmove, LZ4_memset.</para>
+</listitem><listitem>
+<para>It only enables LZ4/HC functions which don&apos;t use heap. All LZ4F_* functions are not supported.</para>
+</listitem><listitem>
+<para>See tests/freestanding.c to check its basic setup. </para>
+</listitem></itemizedlist>
+</para>
+</section>
+<anchor xml:id="_tracy__lz4_8hpp_1a75fa199d8ad0949f67b62054171dc473"/><section>
+    <title>LZ4_HASH_SIZE_U32</title>
+<indexterm><primary>LZ4_HASH_SIZE_U32</primary><secondary>tracy_lz4.hpp</secondary></indexterm>
+<indexterm><primary>tracy_lz4.hpp</primary><secondary>LZ4_HASH_SIZE_U32</secondary></indexterm>
+<para><computeroutput>#define LZ4_HASH_SIZE_U32&#160;&#160;&#160;(1 &lt;&lt; <link linkend="_tracy__lz4_8hpp_1ac7f04539d94ce57826ef8b2f3d8408af">LZ4_HASHLOG</link>)       /* required as macro for static allocation */</computeroutput></para></section>
+<anchor xml:id="_tracy__lz4_8hpp_1ac7f04539d94ce57826ef8b2f3d8408af"/><section>
+    <title>LZ4_HASHLOG</title>
+<indexterm><primary>LZ4_HASHLOG</primary><secondary>tracy_lz4.hpp</secondary></indexterm>
+<indexterm><primary>tracy_lz4.hpp</primary><secondary>LZ4_HASHLOG</secondary></indexterm>
+<para><computeroutput>#define LZ4_HASHLOG&#160;&#160;&#160;(<link linkend="_tracy__lz4_8hpp_1a24ddbc39e7379532031a91357e66a32c">LZ4_MEMORY_USAGE</link>-2)</computeroutput></para></section>
+<anchor xml:id="_tracy__lz4_8hpp_1a1bb7a0fa34be27b67f43ce30be0fc905"/><section>
+    <title>LZ4_HASHTABLESIZE</title>
+<indexterm><primary>LZ4_HASHTABLESIZE</primary><secondary>tracy_lz4.hpp</secondary></indexterm>
+<indexterm><primary>tracy_lz4.hpp</primary><secondary>LZ4_HASHTABLESIZE</secondary></indexterm>
+<para><computeroutput>#define LZ4_HASHTABLESIZE&#160;&#160;&#160;(1 &lt;&lt; <link linkend="_tracy__lz4_8hpp_1a24ddbc39e7379532031a91357e66a32c">LZ4_MEMORY_USAGE</link>)</computeroutput></para></section>
+<anchor xml:id="_tracy__lz4_8hpp_1acefd86d684fc67bca4c3d5a0e9675268"/><section>
+    <title>LZ4_LIB_VERSION</title>
+<indexterm><primary>LZ4_LIB_VERSION</primary><secondary>tracy_lz4.hpp</secondary></indexterm>
+<indexterm><primary>tracy_lz4.hpp</primary><secondary>LZ4_LIB_VERSION</secondary></indexterm>
+<para><computeroutput>#define LZ4_LIB_VERSION&#160;&#160;&#160;<link linkend="_tracy__lz4_8hpp_1a19d496bbe4d8448bc2d42cfb576cf525">LZ4_VERSION_MAJOR.LZ4_VERSION_MINOR.LZ4_VERSION_RELEASE</link></computeroutput></para></section>
+<anchor xml:id="_tracy__lz4_8hpp_1a88ee51e36ca74cd0533e731c20572ea6"/><section>
+    <title>LZ4_MAX_INPUT_SIZE</title>
+<indexterm><primary>LZ4_MAX_INPUT_SIZE</primary><secondary>tracy_lz4.hpp</secondary></indexterm>
+<indexterm><primary>tracy_lz4.hpp</primary><secondary>LZ4_MAX_INPUT_SIZE</secondary></indexterm>
+<para><computeroutput>#define LZ4_MAX_INPUT_SIZE&#160;&#160;&#160;0x7E000000   /* 2 113 929 216 bytes */</computeroutput></para></section>
+<anchor xml:id="_tracy__lz4_8hpp_1a24ddbc39e7379532031a91357e66a32c"/><section>
+    <title>LZ4_MEMORY_USAGE</title>
+<indexterm><primary>LZ4_MEMORY_USAGE</primary><secondary>tracy_lz4.hpp</secondary></indexterm>
+<indexterm><primary>tracy_lz4.hpp</primary><secondary>LZ4_MEMORY_USAGE</secondary></indexterm>
+<para><computeroutput>#define LZ4_MEMORY_USAGE&#160;&#160;&#160;<link linkend="_tracy__lz4_8hpp_1a003849b5d7ae53e30ad147fdecc8fab3">LZ4_MEMORY_USAGE_DEFAULT</link></computeroutput></para>
+<para>LZ4_MEMORY_USAGE : Memory usage formula : N-&gt;2^N Bytes (examples : 10 -&gt; 1KB; 12 -&gt; 4KB ; 16 -&gt; 64KB; 20 -&gt; 1MB; ) Increasing memory usage improves compression ratio, at the cost of speed. Reduced memory usage may improve speed at the cost of ratio, thanks to better cache locality. Default value is 14, for 16KB, which nicely fits into Intel x86 L1 cache </para>
+</section>
+<anchor xml:id="_tracy__lz4_8hpp_1a003849b5d7ae53e30ad147fdecc8fab3"/><section>
+    <title>LZ4_MEMORY_USAGE_DEFAULT</title>
+<indexterm><primary>LZ4_MEMORY_USAGE_DEFAULT</primary><secondary>tracy_lz4.hpp</secondary></indexterm>
+<indexterm><primary>tracy_lz4.hpp</primary><secondary>LZ4_MEMORY_USAGE_DEFAULT</secondary></indexterm>
+<para><computeroutput>#define LZ4_MEMORY_USAGE_DEFAULT&#160;&#160;&#160;14</computeroutput></para></section>
+<anchor xml:id="_tracy__lz4_8hpp_1afdf396ddb66c966fc4a2f7f3cf7fd6ca"/><section>
+    <title>LZ4_MEMORY_USAGE_MAX</title>
+<indexterm><primary>LZ4_MEMORY_USAGE_MAX</primary><secondary>tracy_lz4.hpp</secondary></indexterm>
+<indexterm><primary>tracy_lz4.hpp</primary><secondary>LZ4_MEMORY_USAGE_MAX</secondary></indexterm>
+<para><computeroutput>#define LZ4_MEMORY_USAGE_MAX&#160;&#160;&#160;20</computeroutput></para></section>
+<anchor xml:id="_tracy__lz4_8hpp_1a533d9aebfa4668c3ed98bb961d7c5731"/><section>
+    <title>LZ4_MEMORY_USAGE_MIN</title>
+<indexterm><primary>LZ4_MEMORY_USAGE_MIN</primary><secondary>tracy_lz4.hpp</secondary></indexterm>
+<indexterm><primary>tracy_lz4.hpp</primary><secondary>LZ4_MEMORY_USAGE_MIN</secondary></indexterm>
+<para><computeroutput>#define LZ4_MEMORY_USAGE_MIN&#160;&#160;&#160;10</computeroutput></para></section>
+<anchor xml:id="_tracy__lz4_8hpp_1a094a758915b2bd38b0012856a45bbc10"/><section>
+    <title>LZ4_QUOTE</title>
+<indexterm><primary>LZ4_QUOTE</primary><secondary>tracy_lz4.hpp</secondary></indexterm>
+<indexterm><primary>tracy_lz4.hpp</primary><secondary>LZ4_QUOTE</secondary></indexterm>
+<para><computeroutput>#define LZ4_QUOTE( str)&#160;&#160;&#160;#str</computeroutput></para></section>
+<anchor xml:id="_tracy__lz4_8hpp_1a77524430350829b04a24a85da4d163aa"/><section>
+    <title>LZ4_STREAM_MINSIZE</title>
+<indexterm><primary>LZ4_STREAM_MINSIZE</primary><secondary>tracy_lz4.hpp</secondary></indexterm>
+<indexterm><primary>tracy_lz4.hpp</primary><secondary>LZ4_STREAM_MINSIZE</secondary></indexterm>
+<para><computeroutput>#define LZ4_STREAM_MINSIZE&#160;&#160;&#160;((1UL &lt;&lt; <link linkend="_tracy__lz4_8hpp_1a24ddbc39e7379532031a91357e66a32c">LZ4_MEMORY_USAGE</link>) + 32)  /* static <link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>, for inter-version compatibility */</computeroutput></para></section>
+<anchor xml:id="_tracy__lz4_8hpp_1a10759b51013350458e365b48a4ab853b"/><section>
+    <title>LZ4_STREAMDECODE_MINSIZE</title>
+<indexterm><primary>LZ4_STREAMDECODE_MINSIZE</primary><secondary>tracy_lz4.hpp</secondary></indexterm>
+<indexterm><primary>tracy_lz4.hpp</primary><secondary>LZ4_STREAMDECODE_MINSIZE</secondary></indexterm>
+<para><computeroutput>#define LZ4_STREAMDECODE_MINSIZE&#160;&#160;&#160;32</computeroutput></para></section>
+<anchor xml:id="_tracy__lz4_8hpp_1a4a15eb1f8aa69834f917a50d7652413e"/><section>
+    <title>LZ4_VERSION_MAJOR</title>
+<indexterm><primary>LZ4_VERSION_MAJOR</primary><secondary>tracy_lz4.hpp</secondary></indexterm>
+<indexterm><primary>tracy_lz4.hpp</primary><secondary>LZ4_VERSION_MAJOR</secondary></indexterm>
+<para><computeroutput>#define LZ4_VERSION_MAJOR&#160;&#160;&#160;1    /* for breaking interface changes  */</computeroutput></para></section>
+<anchor xml:id="_tracy__lz4_8hpp_1af16952f74f68ac445da9fc7603609909"/><section>
+    <title>LZ4_VERSION_MINOR</title>
+<indexterm><primary>LZ4_VERSION_MINOR</primary><secondary>tracy_lz4.hpp</secondary></indexterm>
+<indexterm><primary>tracy_lz4.hpp</primary><secondary>LZ4_VERSION_MINOR</secondary></indexterm>
+<para><computeroutput>#define LZ4_VERSION_MINOR&#160;&#160;&#160;9    /* for new (non-breaking) interface capabilities */</computeroutput></para></section>
+<anchor xml:id="_tracy__lz4_8hpp_1aac7e910a11c45364a8b235d0d43a0265"/><section>
+    <title>LZ4_VERSION_NUMBER</title>
+<indexterm><primary>LZ4_VERSION_NUMBER</primary><secondary>tracy_lz4.hpp</secondary></indexterm>
+<indexterm><primary>tracy_lz4.hpp</primary><secondary>LZ4_VERSION_NUMBER</secondary></indexterm>
+<para><computeroutput>#define LZ4_VERSION_NUMBER&#160;&#160;&#160;(<link linkend="_tracy__lz4_8hpp_1a4a15eb1f8aa69834f917a50d7652413e">LZ4_VERSION_MAJOR</link> *100*100 + <link linkend="_tracy__lz4_8hpp_1af16952f74f68ac445da9fc7603609909">LZ4_VERSION_MINOR</link> *100 + <link linkend="_tracy__lz4_8hpp_1a19d496bbe4d8448bc2d42cfb576cf525">LZ4_VERSION_RELEASE</link>)</computeroutput></para></section>
+<anchor xml:id="_tracy__lz4_8hpp_1a19d496bbe4d8448bc2d42cfb576cf525"/><section>
+    <title>LZ4_VERSION_RELEASE</title>
+<indexterm><primary>LZ4_VERSION_RELEASE</primary><secondary>tracy_lz4.hpp</secondary></indexterm>
+<indexterm><primary>tracy_lz4.hpp</primary><secondary>LZ4_VERSION_RELEASE</secondary></indexterm>
+<para><computeroutput>#define LZ4_VERSION_RELEASE&#160;&#160;&#160;4    /* for tweaks, bug-fixes, or development */</computeroutput></para></section>
+<anchor xml:id="_tracy__lz4_8hpp_1a2eab5fe1369fa5559f6ad37898ed5e1b"/><section>
+    <title>LZ4_VERSION_STRING</title>
+<indexterm><primary>LZ4_VERSION_STRING</primary><secondary>tracy_lz4.hpp</secondary></indexterm>
+<indexterm><primary>tracy_lz4.hpp</primary><secondary>LZ4_VERSION_STRING</secondary></indexterm>
+<para><computeroutput>#define LZ4_VERSION_STRING&#160;&#160;&#160;<link linkend="_tracy__lz4_8hpp_1a988eddb5b68034df6d10b3f229315606">LZ4_EXPAND_AND_QUOTE</link>(<link linkend="_tracy__lz4_8hpp_1acefd86d684fc67bca4c3d5a0e9675268">LZ4_LIB_VERSION</link>)  /* requires v1.7.3+ */</computeroutput></para></section>
+<anchor xml:id="_tracy__lz4_8hpp_1a00a61e1435005f8a621edf4bbe0ef844"/><section>
+    <title>LZ4LIB_API</title>
+<indexterm><primary>LZ4LIB_API</primary><secondary>tracy_lz4.hpp</secondary></indexterm>
+<indexterm><primary>tracy_lz4.hpp</primary><secondary>LZ4LIB_API</secondary></indexterm>
+<para><computeroutput>#define LZ4LIB_API&#160;&#160;&#160;<link linkend="_tracy__lz4_8hpp_1a1d170c597149c837f4e0c5422dc8fc5d">LZ4LIB_VISIBILITY</link></computeroutput></para></section>
+<anchor xml:id="_tracy__lz4_8hpp_1a1d170c597149c837f4e0c5422dc8fc5d"/><section>
+    <title>LZ4LIB_VISIBILITY</title>
+<indexterm><primary>LZ4LIB_VISIBILITY</primary><secondary>tracy_lz4.hpp</secondary></indexterm>
+<indexterm><primary>tracy_lz4.hpp</primary><secondary>LZ4LIB_VISIBILITY</secondary></indexterm>
+<para><computeroutput>#define LZ4LIB_VISIBILITY</computeroutput></para>
+<para>Introduction</para>
+
+<para>LZ4 is lossless compression algorithm, providing compression speed &gt;500 MB/s per core, scalable with multi-cores CPU. It features an extremely fast decoder, with speed in multiple GB/s per core, typically reaching RAM speed limits on multi-core systems.</para>
+
+<para>The LZ4 compression library provides in-memory compression and decompression functions. It gives full buffer control to user. Compression can be done in:<itemizedlist>
+<listitem>
+<para>a single step (described as Simple Functions)</para>
+</listitem><listitem>
+<para>a single step, reusing a context (described in Advanced Functions)</para>
+</listitem><listitem>
+<para>unbounded multiple steps (described as Streaming compression)</para>
+</listitem></itemizedlist>
+</para>
+
+<para>lz4.h generates and decodes LZ4-compressed blocks (doc/lz4_Block_format.md). Decompressing such a compressed block requires additional metadata. Exact metadata depends on exact decompression function. For the typical case of LZ4_decompress_safe(), metadata includes block&apos;s compressed size, and maximum bound of decompressed size. Each application is free to encode and pass such metadata in whichever way it wants.</para>
+
+<para>lz4.h only handle blocks, it can not generate Frames.</para>
+
+<para>Blocks are different from Frames (doc/lz4_Frame_format.md). Frames bundle both blocks and metadata in a specified manner. Embedding metadata is required for compressed data to be self-contained and portable. Frame format is delivered through a companion API, declared in lz4frame.h. The <computeroutput>lz4</computeroutput> CLI can only manage frames. </para>
+</section>
+<anchor xml:id="_tracy__lz4_8hpp_1acdb732ce533ddc8a67654877974d90ea"/><section>
+    <title>TRACY_LZ4_H_98237428734687</title>
+<indexterm><primary>TRACY_LZ4_H_98237428734687</primary><secondary>tracy_lz4.hpp</secondary></indexterm>
+<indexterm><primary>tracy_lz4.hpp</primary><secondary>TRACY_LZ4_H_98237428734687</secondary></indexterm>
+<para><computeroutput>#define TRACY_LZ4_H_98237428734687</computeroutput></para></section>
+</section>
+</section>

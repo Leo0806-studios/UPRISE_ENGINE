@@ -1,0 +1,592 @@
+.TH "ExampleAppConsole" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+ExampleAppConsole
+.SH SYNOPSIS
+.br
+.PP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBExampleAppConsole\fP ()"
+.br
+.ti -1c
+.RI "\fB~ExampleAppConsole\fP ()"
+.br
+.ti -1c
+.RI "void \fBClearLog\fP ()"
+.br
+.ti -1c
+.RI "void \fBAddLog\fP (const char *fmt,\&.\&.\&.) IM_FMTARGS(2)"
+.br
+.ti -1c
+.RI "void \fBDraw\fP (const char *title, bool *p_open)"
+.br
+.ti -1c
+.RI "void \fBExecCommand\fP (const char *command_line)"
+.br
+.ti -1c
+.RI "int \fBTextEditCallback\fP (ImGuiInputTextCallbackData *data)"
+.br
+.in -1c
+.SS "Static Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "static int \fBStricmp\fP (const char *s1, const char *s2)"
+.br
+.ti -1c
+.RI "static int \fBStrnicmp\fP (const char *s1, const char *s2, int n)"
+.br
+.ti -1c
+.RI "static char * \fBStrdup\fP (const char *s)"
+.br
+.ti -1c
+.RI "static void \fBStrtrim\fP (char *s)"
+.br
+.ti -1c
+.RI "static int \fBTextEditCallbackStub\fP (ImGuiInputTextCallbackData *data)"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "char \fBInputBuf\fP [256]"
+.br
+.ti -1c
+.RI "ImVector< char * > \fBItems\fP"
+.br
+.ti -1c
+.RI "ImVector< const char * > \fBCommands\fP"
+.br
+.ti -1c
+.RI "ImVector< char * > \fBHistory\fP"
+.br
+.ti -1c
+.RI "int \fBHistoryPos\fP"
+.br
+.ti -1c
+.RI "ImGuiTextFilter \fBFilter\fP"
+.br
+.ti -1c
+.RI "bool \fBAutoScroll\fP"
+.br
+.ti -1c
+.RI "bool \fBScrollToBottom\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Definition at line \fB8331\fP of file \fBimgui_demo\&.cpp\fP\&.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "ExampleAppConsole::ExampleAppConsole ()\fR [inline]\fP"
+
+.PP
+Definition at line \fB8342\fP of file \fBimgui_demo\&.cpp\fP\&.
+.nf
+8343     {
+8344         IMGUI_DEMO_MARKER("Examples/Console");
+8345         ClearLog();
+8346         memset(InputBuf, 0, sizeof(InputBuf));
+8347         HistoryPos = \-1;
+8348 
+8349         // "CLASSIFY" is here to provide the test case where "C"+[tab] completes to "CL" and display multiple matches\&.
+8350         Commands\&.push_back("HELP");
+8351         Commands\&.push_back("HISTORY");
+8352         Commands\&.push_back("CLEAR");
+8353         Commands\&.push_back("CLASSIFY");
+8354         AutoScroll = true;
+8355         ScrollToBottom = false;
+8356         AddLog("Welcome to Dear ImGui!");
+8357     }
+.PP
+.fi
+
+.PP
+References \fBAddLog()\fP, \fBAutoScroll\fP, \fBClearLog()\fP, \fBCommands\fP, \fBHistoryPos\fP, \fBIMGUI_DEMO_MARKER\fP, \fBInputBuf\fP, and \fBScrollToBottom\fP\&.
+.SS "ExampleAppConsole::~ExampleAppConsole ()\fR [inline]\fP"
+
+.PP
+Definition at line \fB8358\fP of file \fBimgui_demo\&.cpp\fP\&.
+.nf
+8359     {
+8360         ClearLog();
+8361         for (int i = 0; i < History\&.Size; i++)
+8362             ImGui::MemFree(History[i]);
+8363     }
+.PP
+.fi
+
+.PP
+References \fBClearLog()\fP, \fBHistory\fP, and \fBi\fP\&.
+.SH "Member Function Documentation"
+.PP 
+.SS "void ExampleAppConsole::AddLog (const char * fmt,  \&.\&.\&.)\fR [inline]\fP"
+
+.PP
+Definition at line \fB8378\fP of file \fBimgui_demo\&.cpp\fP\&.
+.nf
+8379     {
+8380         // FIXME\-OPT
+8381         char buf[1024];
+8382         va_list args;
+8383         va_start(args, fmt);
+8384         vsnprintf(buf, IM_ARRAYSIZE(buf), fmt, args);
+8385         buf[IM_ARRAYSIZE(buf)\-1] = 0;
+8386         va_end(args);
+8387         Items\&.push_back(Strdup(buf));
+8388     }
+.PP
+.fi
+
+.PP
+References \fBItems\fP, and \fBStrdup()\fP\&.
+.PP
+Referenced by \fBDraw()\fP, \fBExampleAppConsole()\fP, \fBExecCommand()\fP, and \fBTextEditCallback()\fP\&.
+.SS "void ExampleAppConsole::ClearLog ()\fR [inline]\fP"
+
+.PP
+Definition at line \fB8371\fP of file \fBimgui_demo\&.cpp\fP\&.
+.nf
+8372     {
+8373         for (int i = 0; i < Items\&.Size; i++)
+8374             ImGui::MemFree(Items[i]);
+8375         Items\&.clear();
+8376     }
+.PP
+.fi
+
+.PP
+References \fBi\fP, and \fBItems\fP\&.
+.PP
+Referenced by \fBDraw()\fP, \fBExampleAppConsole()\fP, \fBExecCommand()\fP, and \fB~ExampleAppConsole()\fP\&.
+.SS "void ExampleAppConsole::Draw (const char * title, bool * p_open)\fR [inline]\fP"
+
+.PP
+Definition at line \fB8390\fP of file \fBimgui_demo\&.cpp\fP\&.
+.nf
+8391     {
+8392         ImGui::SetNextWindowSize(ImVec2(520, 600), ImGuiCond_FirstUseEver);
+8393         if (!ImGui::Begin(title, p_open))
+8394         {
+8395             ImGui::End();
+8396             return;
+8397         }
+8398 
+8399         // As a specific feature guaranteed by the library, after calling Begin() the last Item represent the title bar\&.
+8400         // So e\&.g\&. IsItemHovered() will return true when hovering the title bar\&.
+8401         // Here we create a context menu only available from the title bar\&.
+8402         if (ImGui::BeginPopupContextItem())
+8403         {
+8404             if (ImGui::MenuItem("Close Console"))
+8405                 *p_open = false;
+8406             ImGui::EndPopup();
+8407         }
+8408 
+8409         ImGui::TextWrapped(
+8410             "This example implements a console with basic coloring, completion (TAB key) and history (Up/Down keys)\&. A more elaborate "
+8411             "implementation may want to store entries along with extra data such as timestamp, emitter, etc\&.");
+8412         ImGui::TextWrapped("Enter 'HELP' for help\&.");
+8413 
+8414         // TODO: display items starting from the bottom
+8415 
+8416         if (ImGui::SmallButton("Add Debug Text"))  { AddLog("%d some text", Items\&.Size); AddLog("some more text"); AddLog("display very important message here!"); }
+8417         ImGui::SameLine();
+8418         if (ImGui::SmallButton("Add Debug Error")) { AddLog("[error] something went wrong"); }
+8419         ImGui::SameLine();
+8420         if (ImGui::SmallButton("Clear"))           { ClearLog(); }
+8421         ImGui::SameLine();
+8422         bool copy_to_clipboard = ImGui::SmallButton("Copy");
+8423         //static float t = 0\&.0f; if (ImGui::GetTime() \- t > 0\&.02f) { t = ImGui::GetTime(); AddLog("Spam %f", t); }
+8424 
+8425         ImGui::Separator();
+8426 
+8427         // Options menu
+8428         if (ImGui::BeginPopup("Options"))
+8429         {
+8430             ImGui::Checkbox("Auto\-scroll", &AutoScroll);
+8431             ImGui::EndPopup();
+8432         }
+8433 
+8434         // Options, Filter
+8435         ImGui::SetNextItemShortcut(ImGuiMod_Ctrl | ImGuiKey_O, ImGuiInputFlags_Tooltip);
+8436         if (ImGui::Button("Options"))
+8437             ImGui::OpenPopup("Options");
+8438         ImGui::SameLine();
+8439         Filter\&.Draw("Filter (\\"incl,\-excl\\") (\\"error\\")", 180);
+8440         ImGui::Separator();
+8441 
+8442         // Reserve enough left\-over height for 1 separator + 1 input text
+8443         const float footer_height_to_reserve = ImGui::GetStyle()\&.ItemSpacing\&.y + ImGui::GetFrameHeightWithSpacing();
+8444         if (ImGui::BeginChild("ScrollingRegion", ImVec2(0, \-footer_height_to_reserve), ImGuiChildFlags_NavFlattened, ImGuiWindowFlags_HorizontalScrollbar))
+8445         {
+8446             if (ImGui::BeginPopupContextWindow())
+8447             {
+8448                 if (ImGui::Selectable("Clear")) ClearLog();
+8449                 ImGui::EndPopup();
+8450             }
+8451 
+8452             // Display every line as a separate entry so we can change their color or add custom widgets\&.
+8453             // If you only want raw text you can use ImGui::TextUnformatted(log\&.begin(), log\&.end());
+8454             // NB\- if you have thousands of entries this approach may be too inefficient and may require user\-side clipping
+8455             // to only process visible items\&. The clipper will automatically measure the height of your first item and then
+8456             // "seek" to display only items in the visible area\&.
+8457             // To use the clipper we can replace your standard loop:
+8458             //      for (int i = 0; i < Items\&.Size; i++)
+8459             //   With:
+8460             //      ImGuiListClipper clipper;
+8461             //      clipper\&.Begin(Items\&.Size);
+8462             //      while (clipper\&.Step())
+8463             //         for (int i = clipper\&.DisplayStart; i < clipper\&.DisplayEnd; i++)
+8464             // \- That your items are evenly spaced (same height)
+8465             // \- That you have cheap random access to your elements (you can access them given their index,
+8466             //   without processing all the ones before)
+8467             // You cannot this code as\-is if a filter is active because it breaks the 'cheap random\-access' property\&.
+8468             // We would need random\-access on the post\-filtered list\&.
+8469             // A typical application wanting coarse clipping and filtering may want to pre\-compute an array of indices
+8470             // or offsets of items that passed the filtering test, recomputing this array when user changes the filter,
+8471             // and appending newly elements as they are inserted\&. This is left as a task to the user until we can manage
+8472             // to improve this example code!
+8473             // If your items are of variable height:
+8474             // \- Split them into same height items would be simpler and facilitate random\-seeking into your list\&.
+8475             // \- Consider using manual call to IsRectVisible() and skipping extraneous decoration from your items\&.
+8476             ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(4, 1)); // Tighten spacing
+8477             if (copy_to_clipboard)
+8478                 ImGui::LogToClipboard();
+8479             for (const char* item : Items)
+8480             {
+8481                 if (!Filter\&.PassFilter(item))
+8482                     continue;
+8483 
+8484                 // Normally you would store more information in your item than just a string\&.
+8485                 // (e\&.g\&. make Items[] an array of structure, store color/type etc\&.)
+8486                 ImVec4 color;
+8487                 bool has_color = false;
+8488                 if (strstr(item, "[error]")) { color = ImVec4(1\&.0f, 0\&.4f, 0\&.4f, 1\&.0f); has_color = true; }
+8489                 else if (strncmp(item, "# ", 2) == 0) { color = ImVec4(1\&.0f, 0\&.8f, 0\&.6f, 1\&.0f); has_color = true; }
+8490                 if (has_color)
+8491                     ImGui::PushStyleColor(ImGuiCol_Text, color);
+8492                 ImGui::TextUnformatted(item);
+8493                 if (has_color)
+8494                     ImGui::PopStyleColor();
+8495             }
+8496             if (copy_to_clipboard)
+8497                 ImGui::LogFinish();
+8498 
+8499             // Keep up at the bottom of the scroll region if we were already at the bottom at the beginning of the frame\&.
+8500             // Using a scrollbar or mouse\-wheel will take away from the bottom edge\&.
+8501             if (ScrollToBottom || (AutoScroll && ImGui::GetScrollY() >= ImGui::GetScrollMaxY()))
+8502                 ImGui::SetScrollHereY(1\&.0f);
+8503             ScrollToBottom = false;
+8504 
+8505             ImGui::PopStyleVar();
+8506         }
+8507         ImGui::EndChild();
+8508         ImGui::Separator();
+8509 
+8510         // Command\-line
+8511         bool reclaim_focus = false;
+8512         ImGuiInputTextFlags input_text_flags = ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_EscapeClearsAll | ImGuiInputTextFlags_CallbackCompletion | ImGuiInputTextFlags_CallbackHistory;
+8513         if (ImGui::InputText("Input", InputBuf, IM_ARRAYSIZE(InputBuf), input_text_flags, &TextEditCallbackStub, (void*)this))
+8514         {
+8515             char* s = InputBuf;
+8516             Strtrim(s);
+8517             if (s[0])
+8518                 ExecCommand(s);
+8519             strcpy(s, "");
+8520             reclaim_focus = true;
+8521         }
+8522 
+8523         // Auto\-focus on window apparition
+8524         ImGui::SetItemDefaultFocus();
+8525         if (reclaim_focus)
+8526             ImGui::SetKeyboardFocusHere(\-1); // Auto focus previous widget
+8527 
+8528         ImGui::End();
+8529     }
+.PP
+.fi
+
+.PP
+References \fBAddLog()\fP, \fBAutoScroll\fP, \fBClearLog()\fP, \fBExecCommand()\fP, \fBFilter\fP, \fBInputBuf\fP, \fBItems\fP, \fBScrollToBottom\fP, \fBStrtrim()\fP, and \fBTextEditCallbackStub()\fP\&.
+.SS "void ExampleAppConsole::ExecCommand (const char * command_line)\fR [inline]\fP"
+
+.PP
+Definition at line \fB8531\fP of file \fBimgui_demo\&.cpp\fP\&.
+.nf
+8532     {
+8533         AddLog("# %s\\n", command_line);
+8534 
+8535         // Insert into history\&. First find match and delete it so it can be pushed to the back\&.
+8536         // This isn't trying to be smart or optimal\&.
+8537         HistoryPos = \-1;
+8538         for (int i = History\&.Size \- 1; i >= 0; i\-\-)
+8539             if (Stricmp(History[i], command_line) == 0)
+8540             {
+8541                 ImGui::MemFree(History[i]);
+8542                 History\&.erase(History\&.begin() + i);
+8543                 break;
+8544             }
+8545         History\&.push_back(Strdup(command_line));
+8546 
+8547         // Process command
+8548         if (Stricmp(command_line, "CLEAR") == 0)
+8549         {
+8550             ClearLog();
+8551         }
+8552         else if (Stricmp(command_line, "HELP") == 0)
+8553         {
+8554             AddLog("Commands:");
+8555             for (int i = 0; i < Commands\&.Size; i++)
+8556                 AddLog("\- %s", Commands[i]);
+8557         }
+8558         else if (Stricmp(command_line, "HISTORY") == 0)
+8559         {
+8560             int first = History\&.Size \- 10;
+8561             for (int i = first > 0 ? first : 0; i < History\&.Size; i++)
+8562                 AddLog("%3d: %s\\n", i, History[i]);
+8563         }
+8564         else
+8565         {
+8566             AddLog("Unknown command: '%s'\\n", command_line);
+8567         }
+8568 
+8569         // On command input, we scroll to bottom even if AutoScroll==false
+8570         ScrollToBottom = true;
+8571     }
+.PP
+.fi
+
+.PP
+References \fBAddLog()\fP, \fBClearLog()\fP, \fBCommands\fP, \fBHistory\fP, \fBHistoryPos\fP, \fBi\fP, \fBScrollToBottom\fP, \fBStrdup()\fP, and \fBStricmp()\fP\&.
+.PP
+Referenced by \fBDraw()\fP\&.
+.SS "static char * ExampleAppConsole::Strdup (const char * s)\fR [inline]\fP, \fR [static]\fP"
+
+.PP
+Definition at line \fB8368\fP of file \fBimgui_demo\&.cpp\fP\&.
+.nf
+8368 { IM_ASSERT(s); size_t len = strlen(s) + 1; void* buf = ImGui::MemAlloc(len); IM_ASSERT(buf); return (char*)memcpy(buf, (const void*)s, len); }
+.PP
+.fi
+
+.PP
+Referenced by \fBAddLog()\fP, and \fBExecCommand()\fP\&.
+.SS "static int ExampleAppConsole::Stricmp (const char * s1, const char * s2)\fR [inline]\fP, \fR [static]\fP"
+
+.PP
+Definition at line \fB8366\fP of file \fBimgui_demo\&.cpp\fP\&.
+.nf
+8366 { int d; while ((d = toupper(*s2) \- toupper(*s1)) == 0 && *s1) { s1++; s2++; } return d; }
+.PP
+.fi
+
+.PP
+Referenced by \fBExecCommand()\fP\&.
+.SS "static int ExampleAppConsole::Strnicmp (const char * s1, const char * s2, int n)\fR [inline]\fP, \fR [static]\fP"
+
+.PP
+Definition at line \fB8367\fP of file \fBimgui_demo\&.cpp\fP\&.
+.nf
+8367 { int d = 0; while (n > 0 && (d = toupper(*s2) \- toupper(*s1)) == 0 && *s1) { s1++; s2++; n\-\-; } return d; }
+.PP
+.fi
+
+.PP
+Referenced by \fBTextEditCallback()\fP\&.
+.SS "static void ExampleAppConsole::Strtrim (char * s)\fR [inline]\fP, \fR [static]\fP"
+
+.PP
+Definition at line \fB8369\fP of file \fBimgui_demo\&.cpp\fP\&.
+.nf
+8369 { char* str_end = s + strlen(s); while (str_end > s && str_end[\-1] == ' ') str_end\-\-; *str_end = 0; }
+.PP
+.fi
+
+.PP
+Referenced by \fBDraw()\fP\&.
+.SS "int ExampleAppConsole::TextEditCallback (ImGuiInputTextCallbackData * data)\fR [inline]\fP"
+
+.PP
+Definition at line \fB8580\fP of file \fBimgui_demo\&.cpp\fP\&.
+.nf
+8581     {
+8582         //AddLog("cursor: %d, selection: %d\-%d", data\->CursorPos, data\->SelectionStart, data\->SelectionEnd);
+8583         switch (data\->EventFlag)
+8584         {
+8585         case ImGuiInputTextFlags_CallbackCompletion:
+8586             {
+8587                 // Example of TEXT COMPLETION
+8588 
+8589                 // Locate beginning of current word
+8590                 const char* word_end = data\->Buf + data\->CursorPos;
+8591                 const char* word_start = word_end;
+8592                 while (word_start > data\->Buf)
+8593                 {
+8594                     const char c = word_start[\-1];
+8595                     if (c == ' ' || c == '\\t' || c == ',' || c == ';')
+8596                         break;
+8597                     word_start\-\-;
+8598                 }
+8599 
+8600                 // Build a list of candidates
+8601                 ImVector<const char*> candidates;
+8602                 for (int i = 0; i < Commands\&.Size; i++)
+8603                     if (Strnicmp(Commands[i], word_start, (int)(word_end \- word_start)) == 0)
+8604                         candidates\&.push_back(Commands[i]);
+8605 
+8606                 if (candidates\&.Size == 0)
+8607                 {
+8608                     // No match
+8609                     AddLog("No match for \\"%\&.*s\\"!\\n", (int)(word_end \- word_start), word_start);
+8610                 }
+8611                 else if (candidates\&.Size == 1)
+8612                 {
+8613                     // Single match\&. Delete the beginning of the word and replace it entirely so we've got nice casing\&.
+8614                     data\->DeleteChars((int)(word_start \- data\->Buf), (int)(word_end \- word_start));
+8615                     data\->InsertChars(data\->CursorPos, candidates[0]);
+8616                     data\->InsertChars(data\->CursorPos, " ");
+8617                 }
+8618                 else
+8619                 {
+8620                     // Multiple matches\&. Complete as much as we can\&.\&.
+8621                     // So inputing "C"+Tab will complete to "CL" then display "CLEAR" and "CLASSIFY" as matches\&.
+8622                     int match_len = (int)(word_end \- word_start);
+8623                     for (;;)
+8624                     {
+8625                         int c = 0;
+8626                         bool all_candidates_matches = true;
+8627                         for (int i = 0; i < candidates\&.Size && all_candidates_matches; i++)
+8628                             if (i == 0)
+8629                                 c = toupper(candidates[i][match_len]);
+8630                             else if (c == 0 || c != toupper(candidates[i][match_len]))
+8631                                 all_candidates_matches = false;
+8632                         if (!all_candidates_matches)
+8633                             break;
+8634                         match_len++;
+8635                     }
+8636 
+8637                     if (match_len > 0)
+8638                     {
+8639                         data\->DeleteChars((int)(word_start \- data\->Buf), (int)(word_end \- word_start));
+8640                         data\->InsertChars(data\->CursorPos, candidates[0], candidates[0] + match_len);
+8641                     }
+8642 
+8643                     // List matches
+8644                     AddLog("Possible matches:\\n");
+8645                     for (int i = 0; i < candidates\&.Size; i++)
+8646                         AddLog("\- %s\\n", candidates[i]);
+8647                 }
+8648 
+8649                 break;
+8650             }
+8651         case ImGuiInputTextFlags_CallbackHistory:
+8652             {
+8653                 // Example of HISTORY
+8654                 const int prev_history_pos = HistoryPos;
+8655                 if (data\->EventKey == ImGuiKey_UpArrow)
+8656                 {
+8657                     if (HistoryPos == \-1)
+8658                         HistoryPos = History\&.Size \- 1;
+8659                     else if (HistoryPos > 0)
+8660                         HistoryPos\-\-;
+8661                 }
+8662                 else if (data\->EventKey == ImGuiKey_DownArrow)
+8663                 {
+8664                     if (HistoryPos != \-1)
+8665                         if (++HistoryPos >= History\&.Size)
+8666                             HistoryPos = \-1;
+8667                 }
+8668 
+8669                 // A better implementation would preserve the data on the current input line along with cursor position\&.
+8670                 if (prev_history_pos != HistoryPos)
+8671                 {
+8672                     const char* history_str = (HistoryPos >= 0) ? History[HistoryPos] : "";
+8673                     data\->DeleteChars(0, data\->BufTextLen);
+8674                     data\->InsertChars(0, history_str);
+8675                 }
+8676             }
+8677         }
+8678         return 0;
+8679     }
+.PP
+.fi
+
+.PP
+References \fBAddLog()\fP, \fBCommands\fP, \fBHistory\fP, \fBHistoryPos\fP, \fBi\fP, and \fBStrnicmp()\fP\&.
+.PP
+Referenced by \fBTextEditCallbackStub()\fP\&.
+.SS "static int ExampleAppConsole::TextEditCallbackStub (ImGuiInputTextCallbackData * data)\fR [inline]\fP, \fR [static]\fP"
+
+.PP
+Definition at line \fB8574\fP of file \fBimgui_demo\&.cpp\fP\&.
+.nf
+8575     {
+8576         ExampleAppConsole* console = (ExampleAppConsole*)data\->UserData;
+8577         return console\->TextEditCallback(data);
+8578     }
+.PP
+.fi
+
+.PP
+References \fBTextEditCallback()\fP\&.
+.PP
+Referenced by \fBDraw()\fP\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "bool ExampleAppConsole::AutoScroll"
+
+.PP
+Definition at line \fB8339\fP of file \fBimgui_demo\&.cpp\fP\&.
+.PP
+Referenced by \fBDraw()\fP, and \fBExampleAppConsole()\fP\&.
+.SS "ImVector<const char*> ExampleAppConsole::Commands"
+
+.PP
+Definition at line \fB8335\fP of file \fBimgui_demo\&.cpp\fP\&.
+.PP
+Referenced by \fBExampleAppConsole()\fP, \fBExecCommand()\fP, and \fBTextEditCallback()\fP\&.
+.SS "ImGuiTextFilter ExampleAppConsole::Filter"
+
+.PP
+Definition at line \fB8338\fP of file \fBimgui_demo\&.cpp\fP\&.
+.PP
+Referenced by \fBDraw()\fP\&.
+.SS "ImVector<char*> ExampleAppConsole::History"
+
+.PP
+Definition at line \fB8336\fP of file \fBimgui_demo\&.cpp\fP\&.
+.PP
+Referenced by \fBExecCommand()\fP, \fBTextEditCallback()\fP, and \fB~ExampleAppConsole()\fP\&.
+.SS "int ExampleAppConsole::HistoryPos"
+
+.PP
+Definition at line \fB8337\fP of file \fBimgui_demo\&.cpp\fP\&.
+.PP
+Referenced by \fBExampleAppConsole()\fP, \fBExecCommand()\fP, and \fBTextEditCallback()\fP\&.
+.SS "char ExampleAppConsole::InputBuf[256]"
+
+.PP
+Definition at line \fB8333\fP of file \fBimgui_demo\&.cpp\fP\&.
+.PP
+Referenced by \fBDraw()\fP, and \fBExampleAppConsole()\fP\&.
+.SS "ImVector<char*> ExampleAppConsole::Items"
+
+.PP
+Definition at line \fB8334\fP of file \fBimgui_demo\&.cpp\fP\&.
+.PP
+Referenced by \fBAddLog()\fP, \fBClearLog()\fP, and \fBDraw()\fP\&.
+.SS "bool ExampleAppConsole::ScrollToBottom"
+
+.PP
+Definition at line \fB8340\fP of file \fBimgui_demo\&.cpp\fP\&.
+.PP
+Referenced by \fBDraw()\fP, \fBExampleAppConsole()\fP, and \fBExecCommand()\fP\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

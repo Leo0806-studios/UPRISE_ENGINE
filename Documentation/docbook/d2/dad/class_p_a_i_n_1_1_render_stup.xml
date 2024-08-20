@@ -1,0 +1,166 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_p_a_i_n_1_1_render_stup" xml:lang="en-US">
+<title>PAIN::RenderStup Class Reference</title>
+<indexterm><primary>PAIN::RenderStup</primary></indexterm>
+<para>
+<computeroutput>#include &lt;RENDERSETUP.h&gt;</computeroutput>
+</para>
+<simplesect>
+    <title>Static Public Member Functions    </title>
+        <itemizedlist>
+            <listitem><para>static GLFWwindow * <link linkend="_class_p_a_i_n_1_1_render_stup_1aa10a0bb6576d5cef6d9583c21f9f865d">Window</link> (int w, int h, const char *Title)</para>
+</listitem>
+            <listitem><para>static void <link linkend="_class_p_a_i_n_1_1_render_stup_1a32983352b39da110155405e27995d82b">framebuffer_size_callback</link> (GLFWwindow *window, int width, int height)</para>
+</listitem>
+            <listitem><para>static void <link linkend="_class_p_a_i_n_1_1_render_stup_1aadec0300ff6fa3730edca30381f85af5">Setup</link> (int w, int h, const char *Title)</para>
+
+<para>HAS TO BE CALLED TWICE!! </para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Static Public Attributes    </title>
+        <itemizedlist>
+            <listitem><para>static <link linkend="_class_game_object">GameObject</link> <link linkend="_class_p_a_i_n_1_1_render_stup_1a0ae9827ded31c306bad234e24f0cd372">Render_cam</link></para>
+</listitem>
+            <listitem><para>static GLFWwindow * <link linkend="_class_p_a_i_n_1_1_render_stup_1a882b2f1d89c369fc4bffd4e6bee28090">Windowvar</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+<para>
+Definition at line <link linkend="__r_e_n_d_e_r_s_e_t_u_p_8h_source_1l00011">11</link> of file <link linkend="__r_e_n_d_e_r_s_e_t_u_p_8h_source">RENDERSETUP.h</link>.</para>
+</section>
+<section>
+<title>Member Function Documentation</title>
+<anchor xml:id="_class_p_a_i_n_1_1_render_stup_1a32983352b39da110155405e27995d82b"/><section>
+    <title>framebuffer_size_callback()</title>
+<indexterm><primary>framebuffer_size_callback</primary><secondary>PAIN::RenderStup</secondary></indexterm>
+<indexterm><primary>PAIN::RenderStup</primary><secondary>framebuffer_size_callback</secondary></indexterm>
+<para><computeroutput>void PAIN::RenderStup::framebuffer_size_callback (GLFWwindow * window, int width, int height)<computeroutput>[static]</computeroutput></computeroutput></para><para>
+Definition at line <link linkend="__render_setup_8cpp_source_1l00038">38</link> of file <link linkend="__render_setup_8cpp_source">RenderSetup.cpp</link>.</para>
+<programlisting linenumbering="unnumbered">00039 {
+00040 &#32;&#32;&#32;&#32;glViewport(0,&#32;0,&#32;width,&#32;height);
+00041 }
+</programlisting><para>
+Referenced by <link linkend="__render_setup_8cpp_source_1l00017">Window()</link>.</para>
+</section>
+<anchor xml:id="_class_p_a_i_n_1_1_render_stup_1aadec0300ff6fa3730edca30381f85af5"/><section>
+    <title>Setup()</title>
+<indexterm><primary>Setup</primary><secondary>PAIN::RenderStup</secondary></indexterm>
+<indexterm><primary>PAIN::RenderStup</primary><secondary>Setup</secondary></indexterm>
+<para><computeroutput>void PAIN::RenderStup::Setup (int w, int h, const char * Title)<computeroutput>[static]</computeroutput></computeroutput></para><para>
+
+<para>HAS TO BE CALLED TWICE!! </para>
+</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>w</entry><entry></entry>
+                            </row>
+                            <row>
+<entry>h</entry><entry></entry>
+                            </row>
+                            <row>
+<entry>Title</entry><entry></entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                </para>
+<para>
+Definition at line <link linkend="__render_setup_8cpp_source_1l00043">43</link> of file <link linkend="__render_setup_8cpp_source">RenderSetup.cpp</link>.</para>
+<programlisting linenumbering="unnumbered">00044 {
+00045 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(setup_call&#32;==&#32;<emphasis role="keyword">true</emphasis>)&#32;{
+00046 
+00047 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>;
+00048 &#32;&#32;&#32;&#32;}
+00049 &#32;&#32;&#32;&#32;setup_call&#32;=&#32;<emphasis role="keyword">true</emphasis>;
+00050 &#32;&#32;&#32;&#32;<link linkend="__d_e_b_u_g___l_o_g_g_e_r_8h_1a7ec724fc36f207e8eee4924496b688fb">Log</link>&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;-&#32;GLFW&#32;Init&quot;</emphasis>;
+00051 &#32;&#32;&#32;&#32;glfwInit();
+00052 &#32;&#32;&#32;&#32;glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR,&#32;3);
+00053 &#32;&#32;&#32;&#32;glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR,&#32;3);
+00054 &#32;&#32;&#32;&#32;glfwWindowHint(GLFW_OPENGL_PROFILE,&#32;GLFW_OPENGL_CORE_PROFILE);
+00055 &#32;&#32;&#32;&#32;<link linkend="__d_e_b_u_g___l_o_g_g_e_r_8h_1a7ec724fc36f207e8eee4924496b688fb">Log</link>&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;-&#32;Creating&#32;Window&quot;</emphasis>;
+00056 &#32;&#32;&#32;&#32;&#32;<link linkend="_class_p_a_i_n_1_1_render_stup_1a882b2f1d89c369fc4bffd4e6bee28090">Windowvar</link>&#32;=&#32;<link linkend="_class_p_a_i_n_1_1_render_stup_1aa10a0bb6576d5cef6d9583c21f9f865d">Window</link>(w,h,Title);
+00057 &#32;&#32;&#32;&#32;&#32;<link linkend="__d_e_b_u_g___l_o_g_g_e_r_8h_1a7ec724fc36f207e8eee4924496b688fb">Log</link>&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&#32;&#32;&#32;&#32;&#32;&#32;&#32;-&#32;Creating&#32;Viewport&quot;</emphasis>;
+00058 &#32;&#32;&#32;&#32;&#32;glViewport(0,&#32;0,&#32;w,&#32;h);
+00059 &#32;&#32;&#32;&#32;&#32;<link linkend="__d_e_b_u_g___l_o_g_g_e_r_8h_1a7ec724fc36f207e8eee4924496b688fb">Log</link>&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&#32;&#32;&#32;&#32;&#32;&#32;&#32;-&#32;Creating&#32;Camera&quot;</emphasis>;
+00060 &#32;&#32;&#32;&#32;<link linkend="_class_p_a_i_n_1_1_render_stup_1a0ae9827ded31c306bad234e24f0cd372">Render_cam</link>&#32;=&#32;<link linkend="_class_game_object_1a1c7c9c5d99db209e58fb51421d70a077">GameObject::CreateCamera</link>(<link linkend="_struct_d_a_t_a_t_y_p_e_s_1_1_t_s___p___vector3">TS_P_Vector3</link>(0,0,0),<link linkend="_struct_d_a_t_a_t_y_p_e_s_1_1_quaternion">Quaternion</link>(1,0,0,0));
+00061 &#32;&#32;&#32;&#32;<link linkend="_class_p_a_i_n_1_1_render_stup_1a0ae9827ded31c306bad234e24f0cd372">Render_cam</link>.<link linkend="_class_game_object_1af542b33c8de269343e22c5629e6b66c0">name</link>&#32;=&#32;<emphasis role="stringliteral">&quot;CAMERA&quot;</emphasis>;
+00062 &#32;&#32;&#32;&#32;<emphasis role="comment">//CORE::Behaviour::updateAll();</emphasis>
+00063 &#32;&#32;&#32;&#32;<link linkend="_class_p_a_i_n_1_1_render_1a86d4278c37bd83b81c34f51f5afd7d7a">PAIN::Render::CAM</link>&#32;=&#32;std::dynamic_pointer_cast&lt;Camera&gt;(<link linkend="_class_p_a_i_n_1_1_render_stup_1a0ae9827ded31c306bad234e24f0cd372">Render_cam</link>.<link linkend="_class_game_object_1ac905417baef1933aee70fc7539f717b3">behaviours</link>[1]);
+00064 &#32;&#32;&#32;&#32;<link linkend="_class_p_a_i_n_1_1_render_1aa8941b0822d07c1f693c1cdde5a9b6d7">PAIN::Render::RenderCam</link>&#32;=&#32;&amp;<link linkend="_class_p_a_i_n_1_1_render_stup_1a0ae9827ded31c306bad234e24f0cd372">Render_cam</link>.<link linkend="_class_game_object_1abd33fe8fda4dc8026d9cdc5f193a32ea">GetComponentDynamic</link>(<link linkend="_class_camera">Camera</link>())-&gt;camera;
+00065 &#32;&#32;&#32;&#32;<emphasis role="comment">//PAIN::Render::RenderCam;</emphasis>
+00066 
+00067 }
+</programlisting><para>
+References <link linkend="__r_e_n_d_e_r___m_a_t_e_r_i_a_l_8h_source_1l00047">PAIN::Render::CAM</link>, <link linkend="__g_a_m_e_o_b_j_e_c_t_8cpp_source_1l00087">GameObject::CreateCamera()</link>, <link linkend="__d_e_b_u_g___l_o_g_g_e_r_8h_source_1l00058">Log</link>, and <link linkend="__r_e_n_d_e_r___m_a_t_e_r_i_a_l_8h_source_1l00046">PAIN::Render::RenderCam</link>.</para>
+<para>
+Referenced by <link linkend="__c___s_t_a_r_t_u_p_8cpp_source_1l00071">CORE::Startup::Start_Systems()</link>.</para>
+</section>
+<anchor xml:id="_class_p_a_i_n_1_1_render_stup_1aa10a0bb6576d5cef6d9583c21f9f865d"/><section>
+    <title>Window()</title>
+<indexterm><primary>Window</primary><secondary>PAIN::RenderStup</secondary></indexterm>
+<indexterm><primary>PAIN::RenderStup</primary><secondary>Window</secondary></indexterm>
+<para><computeroutput>GLFWwindow * PAIN::RenderStup::Window (int w, int h, const char * Title)<computeroutput>[static]</computeroutput></computeroutput></para><para>
+Definition at line <link linkend="__render_setup_8cpp_source_1l00017">17</link> of file <link linkend="__render_setup_8cpp_source">RenderSetup.cpp</link>.</para>
+<programlisting linenumbering="unnumbered">00018 {
+00019 &#32;&#32;&#32;&#32;GLFWwindow*&#32;window&#32;=&#32;glfwCreateWindow(w,&#32;h,&#32;<emphasis role="stringliteral">&quot;UPRISE&quot;</emphasis>,&#32;NULL,&#32;NULL);
+00020 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(window&#32;==&#32;NULL)&#32;{
+00021 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;Failed&#32;to&#32;create&#32;window\n&quot;</emphasis>;
+00022 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;either&#32;with&#32;or&#32;heeight&#32;or&#32;the&#32;window&#32;title&#32;is&#32;invalid.&#32;try&#32;deleting&#32;the&#32;config&#32;file&#32;to&#32;reset&#32;to&#32;default&#32;values&#32;\n&quot;</emphasis>&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&#32;or&#32;put&#32;a&#32;1&#32;at&#32;the&#32;first&#32;spot&#32;in&#32;the&#32;first&#32;line&#32;to&#32;start&#32;safe\n&quot;</emphasis>;
+00023 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;glfwTerminate();
+00024 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;exit(&#32;-&#32;1);
+00025 &#32;&#32;&#32;&#32;}
+00026 &#32;&#32;&#32;&#32;<link linkend="__d_e_b_u_g___l_o_g_g_e_r_8h_1a7ec724fc36f207e8eee4924496b688fb">Log</link>&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;-&#32;Setting&#32;Context&quot;</emphasis>;
+00027 &#32;&#32;&#32;&#32;glfwMakeContextCurrent(window);
+00028 
+00029 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))&#32;{
+00030 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::cout&#32;&lt;&lt;&#32;<emphasis role="stringliteral">&quot;womp&#32;womp&quot;</emphasis>;;
+00031 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;exit(-1);
+00032 &#32;&#32;&#32;&#32;}
+00033 &#32;&#32;&#32;&#32;glfwSetFramebufferSizeCallback(window,&#32;<link linkend="_class_p_a_i_n_1_1_render_stup_1a32983352b39da110155405e27995d82b">framebuffer_size_callback</link>);
+00034 
+00035 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;window;
+00036 }
+</programlisting><para>
+References <link linkend="__render_setup_8cpp_source_1l00038">framebuffer_size_callback()</link>, and <link linkend="__d_e_b_u_g___l_o_g_g_e_r_8h_source_1l00058">Log</link>.</para>
+</section>
+</section>
+<section>
+<title>Member Data Documentation</title>
+<anchor xml:id="_class_p_a_i_n_1_1_render_stup_1a0ae9827ded31c306bad234e24f0cd372"/><section>
+    <title>Render_cam</title>
+<indexterm><primary>Render_cam</primary><secondary>PAIN::RenderStup</secondary></indexterm>
+<indexterm><primary>PAIN::RenderStup</primary><secondary>Render_cam</secondary></indexterm>
+<para><computeroutput><link linkend="_class_game_object">GameObject</link> PAIN::RenderStup::Render_cam<computeroutput>[static]</computeroutput></computeroutput></para><para>
+Definition at line <link linkend="__r_e_n_d_e_r_s_e_t_u_p_8h_source_1l00015">15</link> of file <link linkend="__r_e_n_d_e_r_s_e_t_u_p_8h_source">RENDERSETUP.h</link>.</para>
+<para>
+Referenced by <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00253">main()</link>.</para>
+</section>
+<anchor xml:id="_class_p_a_i_n_1_1_render_stup_1a882b2f1d89c369fc4bffd4e6bee28090"/><section>
+    <title>Windowvar</title>
+<indexterm><primary>Windowvar</primary><secondary>PAIN::RenderStup</secondary></indexterm>
+<indexterm><primary>PAIN::RenderStup</primary><secondary>Windowvar</secondary></indexterm>
+<para><computeroutput>GLFWwindow * PAIN::RenderStup::Windowvar<computeroutput>[static]</computeroutput></computeroutput></para><para>
+Definition at line <link linkend="__r_e_n_d_e_r_s_e_t_u_p_8h_source_1l00017">17</link> of file <link linkend="__r_e_n_d_e_r_s_e_t_u_p_8h_source">RENDERSETUP.h</link>.</para>
+<para>
+Referenced by <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00253">main()</link>, and <link linkend="__c___s_t_a_r_t_u_p_8cpp_source_1l00071">CORE::Startup::Start_Systems()</link>.</para>
+</section>
+<para>
+The documentation for this class was generated from the following files:</para>
+UPRISE_ENGINE/<link linkend="__r_e_n_d_e_r_s_e_t_u_p_8h">RENDERSETUP.h</link>UPRISE_ENGINE/<link linkend="__render_setup_8cpp">RenderSetup.cpp</link></section>
+</section>

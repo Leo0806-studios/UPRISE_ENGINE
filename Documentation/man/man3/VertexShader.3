@@ -1,0 +1,106 @@
+.TH "VertexShader" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+VertexShader
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fR#include <D_CONFIGFILE\&.h>\fP
+.PP
+Inherits \fBConfigFile\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBVertexShader\fP (std::string name, std::string modelpath, std::vector< std::string > texturepath, \fBConfigType\fP configType, nlohmann::json data)"
+.br
+.in -1c
+
+Public Member Functions inherited from \fBConfigFile\fP
+.in +1c
+.ti -1c
+.RI "\fBConfigFile\fP (std::string name, std::string modelpath, std::vector< std::string > texturepath, \fBConfigType\fP configType, nlohmann::json data)"
+.br
+.ti -1c
+.RI "virtual void \fBPalceholder\fP ()"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "std::string \fBShaderCode\fP"
+.br
+.in -1c
+
+Public Attributes inherited from \fBConfigFile\fP
+.in +1c
+.ti -1c
+.RI "std::string \fBName\fP"
+.br
+.ti -1c
+.RI "std::string \fBModelpath\fP"
+.br
+.ti -1c
+.RI "std::vector< std::string > \fBTexturepaths\fP"
+.br
+.ti -1c
+.RI "\fBConfigType\fP \fBConfigType_\fP"
+.br
+.in -1c
+.SS "Additional Inherited Members"
+
+
+Public Types inherited from \fBConfigFile\fP
+.in +1c
+.ti -1c
+.RI "enum \fBConfigType\fP { \fBBuilding\fP, \fBVehicle\fP, \fBProjectile\fP, \fBParticle\fP, \fBIsland\fP, \fBAiObject\fP, \fBGlobal\fP, \fBManager\fP, \fBVertexShader\fP, \fBFragmentShader\fP, \fBGeometryShader\fP, \fBComputeShader\fP, \fBMaterial\fP }"
+.br
+.in -1c
+
+Static Public Member Functions inherited from \fBConfigFile\fP
+.in +1c
+.ti -1c
+.RI "static std::string \fBtoString\fP (\fBConfigType\fP type)"
+.br
+.ti -1c
+.RI "static \fBConfigType\fP \fBtoConfigType\fP (const std::string &str)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Definition at line \fB162\fP of file \fBD_CONFIGFILE\&.h\fP\&.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "VertexShader::VertexShader (std::string name, std::string modelpath, std::vector< std::string > texturepath, \fBConfigType\fP configType, nlohmann::json data)"
+
+.PP
+Definition at line \fB150\fP of file \fBD_CONFIGFILE\&.cpp\fP\&.
+.nf
+151       : ConfigFile(name, modelpath, texturepath, configType, data) {
+152       string shadercode = "";
+153       for (string s : data["shaderCode"]) {
+154           shadercode = shadercode + s+"\\n";
+155       }
+156       ShaderCode = shadercode;
+157 
+158   }
+.PP
+.fi
+
+.PP
+References \fBShaderCode\fP\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "std::string VertexShader::ShaderCode"
+
+.PP
+Definition at line \fB164\fP of file \fBD_CONFIGFILE\&.h\fP\&.
+.PP
+Referenced by \fBPAIN::Shader::Shader()\fP, and \fBVertexShader()\fP\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

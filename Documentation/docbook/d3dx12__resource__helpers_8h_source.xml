@@ -1,0 +1,607 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_d3dx12__resource__helpers_8h_source" xml:lang="en-US">
+<title>d3dx12_resource_helpers.h</title>
+<indexterm><primary>adhed/d3dx12_resource_helpers.h</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 <emphasis role="comment">//*********************************************************</emphasis>
+2 <emphasis role="comment">//</emphasis>
+3 <emphasis role="comment">//&#32;Copyright&#32;(c)&#32;Microsoft&#32;Corporation.</emphasis>
+4 <emphasis role="comment">//&#32;Licensed&#32;under&#32;the&#32;MIT&#32;License&#32;(MIT).</emphasis>
+5 <emphasis role="comment">//</emphasis>
+6 <emphasis role="comment">//*********************************************************</emphasis>
+7 
+8 <emphasis role="preprocessor">#pragma&#32;once</emphasis>
+9 
+10 <emphasis role="preprocessor">#ifndef&#32;__cplusplus</emphasis>
+11 <emphasis role="preprocessor">#error&#32;D3DX12&#32;requires&#32;C++</emphasis>
+12 <emphasis role="preprocessor">#endif</emphasis>
+13 
+14 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_d3dx12__property__format__table_8h">d3dx12_property_format_table.h</link>&quot;</emphasis>
+15 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_d3d12_8h">d3d12.h</link>&quot;</emphasis>
+16 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_d3dx12__core_8h">d3dx12_core.h</link>&quot;</emphasis>
+17 <emphasis role="comment">//------------------------------------------------------------------------------------------------</emphasis>
+18 <emphasis role="keyword">template</emphasis>&#32;&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;<emphasis role="keyword">typename</emphasis>&#32;U,&#32;<emphasis role="keyword">typename</emphasis>&#32;V&gt;
+19 <emphasis role="keyword">inline</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_d3dx12__resource__helpers_8h_1aedf26e64cd97ce8943be9f49d64a77f3">D3D12DecomposeSubresource</link>(&#32;UINT&#32;Subresource,&#32;UINT&#32;MipLevels,&#32;UINT&#32;ArraySize,&#32;_Out_&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&amp;&#32;MipSlice,&#32;_Out_&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1affc9cbf86b78292bdb405361761c47f5">U</link>&amp;&#32;ArraySlice,&#32;_Out_&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1af40a326b23c68a27cebe60f16634a2cb">V</link>&amp;&#32;PlaneSlice&#32;)&#32;<emphasis role="keyword">noexcept</emphasis>
+20 {
+21 &#32;&#32;&#32;&#32;MipSlice&#32;=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(Subresource&#32;%&#32;MipLevels);
+22 &#32;&#32;&#32;&#32;ArraySlice&#32;=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1affc9cbf86b78292bdb405361761c47f5">U</link><emphasis role="keyword">&gt;</emphasis>((Subresource&#32;/&#32;MipLevels)&#32;%&#32;ArraySize);
+23 &#32;&#32;&#32;&#32;PlaneSlice&#32;=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1af40a326b23c68a27cebe60f16634a2cb">V</link><emphasis role="keyword">&gt;</emphasis>(Subresource&#32;/&#32;(MipLevels&#32;*&#32;ArraySize));
+24 }
+25 
+26 <emphasis role="comment">//------------------------------------------------------------------------------------------------</emphasis>
+27 <emphasis role="comment">//&#32;Row-by-row&#32;memcpy</emphasis>
+28 <emphasis role="keyword">inline</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_d3dx12__resource__helpers_8h_1ad9649cfa551cc5e82a2fd436d427c342">MemcpySubresource</link>(
+29 &#32;&#32;&#32;&#32;_In_&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_struct_d3_d12___m_e_m_c_p_y___d_e_s_t">D3D12_MEMCPY_DEST</link>*&#32;pDest,
+30 &#32;&#32;&#32;&#32;_In_&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_d3d12_8idl_1a072d5f038136878079147a50e137e25e">D3D12_SUBRESOURCE_DATA</link>*&#32;pSrc,
+31 &#32;&#32;&#32;&#32;SIZE_T&#32;RowSizeInBytes,
+32 &#32;&#32;&#32;&#32;UINT&#32;NumRows,
+33 &#32;&#32;&#32;&#32;UINT&#32;NumSlices)&#32;<emphasis role="keyword">noexcept</emphasis>
+34 {
+35 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(UINT&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>&#32;=&#32;0;&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>&#32;&lt;&#32;NumSlices;&#32;++<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>)
+36 &#32;&#32;&#32;&#32;{
+37 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;pDestSlice&#32;=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="_tracy__lz4_8cpp_1a4ae1dab0fb4b072a66584546209e7d58">BYTE</link>*<emphasis role="keyword">&gt;</emphasis>(pDest-&gt;pData)&#32;+&#32;pDest-&gt;SlicePitch&#32;*&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>;
+38 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;pSrcSlice&#32;=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><emphasis role="keyword">const&#32;</emphasis><link linkend="_tracy__lz4_8cpp_1a4ae1dab0fb4b072a66584546209e7d58">BYTE</link>*<emphasis role="keyword">&gt;</emphasis>(pSrc-&gt;pData)&#32;+&#32;pSrc-&gt;SlicePitch&#32;*&#32;LONG_PTR(<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>);
+39 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(UINT&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>&#32;=&#32;0;&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>&#32;&lt;&#32;NumRows;&#32;++<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>)
+40 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+41 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memcpy(pDestSlice&#32;+&#32;pDest-&gt;RowPitch&#32;*&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>,
+42 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;pSrcSlice&#32;+&#32;pSrc-&gt;RowPitch&#32;*&#32;LONG_PTR(<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>),
+43 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;RowSizeInBytes);
+44 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+45 &#32;&#32;&#32;&#32;}
+46 }
+47 
+48 <emphasis role="comment">//------------------------------------------------------------------------------------------------</emphasis>
+49 <emphasis role="comment">//&#32;Row-by-row&#32;memcpy</emphasis>
+50 <emphasis role="keyword">inline</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_d3dx12__resource__helpers_8h_1ad9649cfa551cc5e82a2fd436d427c342">MemcpySubresource</link>(
+51 &#32;&#32;&#32;&#32;_In_&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_struct_d3_d12___m_e_m_c_p_y___d_e_s_t">D3D12_MEMCPY_DEST</link>*&#32;pDest,
+52 &#32;&#32;&#32;&#32;_In_&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>*&#32;pResourceData,
+53 &#32;&#32;&#32;&#32;_In_&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_struct_d3_d12___s_u_b_r_e_s_o_u_r_c_e___i_n_f_o">D3D12_SUBRESOURCE_INFO</link>*&#32;pSrc,
+54 &#32;&#32;&#32;&#32;SIZE_T&#32;RowSizeInBytes,
+55 &#32;&#32;&#32;&#32;UINT&#32;NumRows,
+56 &#32;&#32;&#32;&#32;UINT&#32;NumSlices)&#32;<emphasis role="keyword">noexcept</emphasis>
+57 {
+58 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(UINT&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>&#32;=&#32;0;&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>&#32;&lt;&#32;NumSlices;&#32;++<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>)
+59 &#32;&#32;&#32;&#32;{
+60 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;pDestSlice&#32;=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="_tracy__lz4_8cpp_1a4ae1dab0fb4b072a66584546209e7d58">BYTE</link>*<emphasis role="keyword">&gt;</emphasis>(pDest-&gt;pData)&#32;+&#32;pDest-&gt;SlicePitch&#32;*&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>;
+61 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;pSrcSlice&#32;=&#32;(<emphasis role="keyword">static_cast&lt;</emphasis><emphasis role="keyword">const&#32;</emphasis><link linkend="_tracy__lz4_8cpp_1a4ae1dab0fb4b072a66584546209e7d58">BYTE</link>*<emphasis role="keyword">&gt;</emphasis>(pResourceData)&#32;+&#32;pSrc-&gt;Offset)&#32;+&#32;pSrc-&gt;DepthPitch&#32;*&#32;ULONG_PTR(<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>);
+62 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(UINT&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>&#32;=&#32;0;&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>&#32;&lt;&#32;NumRows;&#32;++<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>)
+63 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+64 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memcpy(pDestSlice&#32;+&#32;pDest-&gt;RowPitch&#32;*&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>,
+65 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;pSrcSlice&#32;+&#32;pSrc-&gt;RowPitch&#32;*&#32;ULONG_PTR(<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>),
+66 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;RowSizeInBytes);
+67 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+68 &#32;&#32;&#32;&#32;}
+69 }
+70 
+71 <emphasis role="comment">//------------------------------------------------------------------------------------------------</emphasis>
+72 <emphasis role="comment">//&#32;Returns&#32;required&#32;size&#32;of&#32;a&#32;buffer&#32;to&#32;be&#32;used&#32;for&#32;data&#32;upload</emphasis>
+73 <emphasis role="keyword">inline</emphasis>&#32;UINT64&#32;<link linkend="_d3dx12__resource__helpers_8h_1a679b3e3f03893085e63c4e46f27f40d9">GetRequiredIntermediateSize</link>(
+74 &#32;&#32;&#32;&#32;_In_&#32;<link linkend="_interface_i_d3_d12_resource">ID3D12Resource</link>*&#32;pDestinationResource,
+75 &#32;&#32;&#32;&#32;_In_range_(0,<link linkend="_d3d12_8idl_1a5bf65743bf9d28952f6a3b40534d2688">D3D12_REQ_SUBRESOURCES</link>)&#32;UINT&#32;FirstSubresource,
+76 &#32;&#32;&#32;&#32;_In_range_(0,<link linkend="_d3d12_8idl_1a5bf65743bf9d28952f6a3b40534d2688">D3D12_REQ_SUBRESOURCES</link>-FirstSubresource)&#32;UINT&#32;NumSubresources)&#32;<emphasis role="keyword">noexcept</emphasis>
+77 {
+78 <emphasis role="preprocessor">#if&#32;defined(_MSC_VER)&#32;||&#32;!defined(_WIN32)</emphasis>
+79 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;Desc&#32;=&#32;pDestinationResource-&gt;GetDesc();
+80 <emphasis role="preprocessor">#else</emphasis>
+81 &#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___r_e_s_o_u_r_c_e___d_e_s_c">D3D12_RESOURCE_DESC</link>&#32;tmpDesc;
+82 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&amp;&#32;Desc&#32;=&#32;*pDestinationResource-&gt;GetDesc(&amp;tmpDesc);
+83 <emphasis role="preprocessor">#endif</emphasis>
+84 &#32;&#32;&#32;&#32;UINT64&#32;RequiredSize&#32;=&#32;0;
+85 
+86 &#32;&#32;&#32;&#32;<link linkend="_interface_i_d3_d12_device">ID3D12Device</link>*&#32;pDevice&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>;
+87 &#32;&#32;&#32;&#32;pDestinationResource-&gt;GetDevice(IID_ID3D12Device,&#32;<emphasis role="keyword">reinterpret_cast&lt;</emphasis><emphasis role="keywordtype">void</emphasis>**<emphasis role="keyword">&gt;</emphasis>(&amp;pDevice));
+88 &#32;&#32;&#32;&#32;pDevice-&gt;<link linkend="_interface_i_d3_d12_device_1a3b3cff584ca7180f02d124a49599378e">GetCopyableFootprints</link>(&amp;Desc,&#32;FirstSubresource,&#32;NumSubresources,&#32;0,&#32;<emphasis role="keyword">nullptr</emphasis>,&#32;<emphasis role="keyword">nullptr</emphasis>,&#32;<emphasis role="keyword">nullptr</emphasis>,&#32;&amp;RequiredSize);
+89 &#32;&#32;&#32;&#32;pDevice-&gt;Release();
+90 
+91 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;RequiredSize;
+92 }
+93 
+94 <emphasis role="comment">//------------------------------------------------------------------------------------------------</emphasis>
+95 <emphasis role="comment">//&#32;All&#32;arrays&#32;must&#32;be&#32;populated&#32;(e.g.&#32;by&#32;calling&#32;GetCopyableFootprints)</emphasis>
+96 <emphasis role="keyword">inline</emphasis>&#32;UINT64&#32;<link linkend="_d3dx12__resource__helpers_8h_1a5748b50878e41b77c4a139cb5864083e">UpdateSubresources</link>(
+97 &#32;&#32;&#32;&#32;_In_&#32;<link linkend="_interface_i_d3_d12_graphics_command_list">ID3D12GraphicsCommandList</link>*&#32;pCmdList,
+98 &#32;&#32;&#32;&#32;_In_&#32;<link linkend="_interface_i_d3_d12_resource">ID3D12Resource</link>*&#32;pDestinationResource,
+99 &#32;&#32;&#32;&#32;_In_&#32;<link linkend="_interface_i_d3_d12_resource">ID3D12Resource</link>*&#32;pIntermediate,
+100 &#32;&#32;&#32;&#32;_In_range_(0,<link linkend="_d3d12_8idl_1a5bf65743bf9d28952f6a3b40534d2688">D3D12_REQ_SUBRESOURCES</link>)&#32;UINT&#32;FirstSubresource,
+101 &#32;&#32;&#32;&#32;_In_range_(0,<link linkend="_d3d12_8idl_1a5bf65743bf9d28952f6a3b40534d2688">D3D12_REQ_SUBRESOURCES</link>-FirstSubresource)&#32;UINT&#32;NumSubresources,
+102 &#32;&#32;&#32;&#32;UINT64&#32;RequiredSize,
+103 &#32;&#32;&#32;&#32;_In_reads_(NumSubresources)&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_struct_d3_d12___p_l_a_c_e_d___s_u_b_r_e_s_o_u_r_c_e___f_o_o_t_p_r_i_n_t">D3D12_PLACED_SUBRESOURCE_FOOTPRINT</link>*&#32;pLayouts,
+104 &#32;&#32;&#32;&#32;_In_reads_(NumSubresources)&#32;<emphasis role="keyword">const</emphasis>&#32;UINT*&#32;pNumRows,
+105 &#32;&#32;&#32;&#32;_In_reads_(NumSubresources)&#32;<emphasis role="keyword">const</emphasis>&#32;UINT64*&#32;pRowSizesInBytes,
+106 &#32;&#32;&#32;&#32;_In_reads_(NumSubresources)&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_d3d12_8idl_1a072d5f038136878079147a50e137e25e">D3D12_SUBRESOURCE_DATA</link>*&#32;pSrcData)&#32;<emphasis role="keyword">noexcept</emphasis>
+107 {
+108 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Minor&#32;validation</emphasis>
+109 <emphasis role="preprocessor">#if&#32;defined(_MSC_VER)&#32;||&#32;!defined(_WIN32)</emphasis>
+110 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;IntermediateDesc&#32;=&#32;pIntermediate-&gt;GetDesc();
+111 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;DestinationDesc&#32;=&#32;pDestinationResource-&gt;GetDesc();
+112 <emphasis role="preprocessor">#else</emphasis>
+113 &#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___r_e_s_o_u_r_c_e___d_e_s_c">D3D12_RESOURCE_DESC</link>&#32;tmpDesc1,&#32;tmpDesc2;
+114 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&amp;&#32;IntermediateDesc&#32;=&#32;*pIntermediate-&gt;GetDesc(&amp;tmpDesc1);
+115 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&amp;&#32;DestinationDesc&#32;=&#32;*pDestinationResource-&gt;GetDesc(&amp;tmpDesc2);
+116 <emphasis role="preprocessor">#endif</emphasis>
+117 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(IntermediateDesc.Dimension&#32;!=&#32;<link linkend="_d3d12_8idl_1a61e5fb17cb9d5d0b7efb65a4183403f4a6ac4d51043ffcd58dd786e0b9dbacdbe">D3D12_RESOURCE_DIMENSION_BUFFER</link>&#32;||
+118 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;IntermediateDesc.Width&#32;&lt;&#32;RequiredSize&#32;+&#32;pLayouts[0].Offset&#32;||
+119 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;RequiredSize&#32;&gt;&#32;SIZE_T(-1)&#32;||
+120 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(DestinationDesc.Dimension&#32;==&#32;<link linkend="_d3d12_8idl_1a61e5fb17cb9d5d0b7efb65a4183403f4a6ac4d51043ffcd58dd786e0b9dbacdbe">D3D12_RESOURCE_DIMENSION_BUFFER</link>&#32;&amp;&amp;
+121 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(FirstSubresource&#32;!=&#32;0&#32;||&#32;NumSubresources&#32;!=&#32;1)))
+122 &#32;&#32;&#32;&#32;{
+123 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;0;
+124 &#32;&#32;&#32;&#32;}
+125 
+126 &#32;&#32;&#32;&#32;<link linkend="_tracy__lz4_8cpp_1a4ae1dab0fb4b072a66584546209e7d58">BYTE</link>*&#32;pData;
+127 &#32;&#32;&#32;&#32;HRESULT&#32;hr&#32;=&#32;pIntermediate-&gt;Map(0,&#32;<emphasis role="keyword">nullptr</emphasis>,&#32;<emphasis role="keyword">reinterpret_cast&lt;</emphasis><emphasis role="keywordtype">void</emphasis>**<emphasis role="keyword">&gt;</emphasis>(&amp;pData));
+128 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(FAILED(hr))
+129 &#32;&#32;&#32;&#32;{
+130 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;0;
+131 &#32;&#32;&#32;&#32;}
+132 
+133 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(UINT&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;=&#32;0;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;&lt;&#32;NumSubresources;&#32;++<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>)
+134 &#32;&#32;&#32;&#32;{
+135 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(pRowSizesInBytes[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>]&#32;&gt;&#32;SIZE_T(-1))&#32;<emphasis role="keywordflow">return</emphasis>&#32;0;
+136 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___m_e_m_c_p_y___d_e_s_t">D3D12_MEMCPY_DEST</link>&#32;DestData&#32;=&#32;{&#32;pData&#32;+&#32;pLayouts[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>].Offset,&#32;pLayouts[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>].Footprint.<link linkend="_struct_d3_d12___m_e_m_c_p_y___d_e_s_t_1ae1eddcba7b9c912c7bd58372197d5471">RowPitch</link>,&#32;SIZE_T(pLayouts[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>].Footprint.RowPitch)&#32;*&#32;SIZE_T(pNumRows[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>])&#32;};
+137 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3dx12__resource__helpers_8h_1ad9649cfa551cc5e82a2fd436d427c342">MemcpySubresource</link>(&amp;DestData,&#32;&amp;pSrcData[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>],&#32;<emphasis role="keyword">static_cast&lt;</emphasis>SIZE_T<emphasis role="keyword">&gt;</emphasis>(pRowSizesInBytes[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>]),&#32;pNumRows[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>],&#32;pLayouts[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>].Footprint.Depth);
+138 &#32;&#32;&#32;&#32;}
+139 &#32;&#32;&#32;&#32;pIntermediate-&gt;Unmap(0,&#32;<emphasis role="keyword">nullptr</emphasis>);
+140 
+141 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(DestinationDesc.Dimension&#32;==&#32;<link linkend="_d3d12_8idl_1a61e5fb17cb9d5d0b7efb65a4183403f4a6ac4d51043ffcd58dd786e0b9dbacdbe">D3D12_RESOURCE_DIMENSION_BUFFER</link>)
+142 &#32;&#32;&#32;&#32;{
+143 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;pCmdList-&gt;CopyBufferRegion(
+144 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;pDestinationResource,&#32;0,&#32;pIntermediate,&#32;pLayouts[0].Offset,&#32;pLayouts[0].Footprint.Width);
+145 &#32;&#32;&#32;&#32;}
+146 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+147 &#32;&#32;&#32;&#32;{
+148 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(UINT&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;=&#32;0;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;&lt;&#32;NumSubresources;&#32;++<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>)
+149 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+150 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_struct_c_d3_d_x12___t_e_x_t_u_r_e___c_o_p_y___l_o_c_a_t_i_o_n">CD3DX12_TEXTURE_COPY_LOCATION</link>&#32;Dst(pDestinationResource,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;+&#32;FirstSubresource);
+151 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_struct_c_d3_d_x12___t_e_x_t_u_r_e___c_o_p_y___l_o_c_a_t_i_o_n">CD3DX12_TEXTURE_COPY_LOCATION</link>&#32;Src(pIntermediate,&#32;pLayouts[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>]);
+152 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;pCmdList-&gt;CopyTextureRegion(&amp;Dst,&#32;0,&#32;0,&#32;0,&#32;&amp;Src,&#32;<emphasis role="keyword">nullptr</emphasis>);
+153 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+154 &#32;&#32;&#32;&#32;}
+155 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;RequiredSize;
+156 }
+157 
+158 <emphasis role="comment">//------------------------------------------------------------------------------------------------</emphasis>
+159 <emphasis role="comment">//&#32;All&#32;arrays&#32;must&#32;be&#32;populated&#32;(e.g.&#32;by&#32;calling&#32;GetCopyableFootprints)</emphasis>
+160 <emphasis role="keyword">inline</emphasis>&#32;UINT64&#32;<link linkend="_d3dx12__resource__helpers_8h_1a5748b50878e41b77c4a139cb5864083e">UpdateSubresources</link>(
+161 &#32;&#32;&#32;&#32;_In_&#32;<link linkend="_interface_i_d3_d12_graphics_command_list">ID3D12GraphicsCommandList</link>*&#32;pCmdList,
+162 &#32;&#32;&#32;&#32;_In_&#32;<link linkend="_interface_i_d3_d12_resource">ID3D12Resource</link>*&#32;pDestinationResource,
+163 &#32;&#32;&#32;&#32;_In_&#32;<link linkend="_interface_i_d3_d12_resource">ID3D12Resource</link>*&#32;pIntermediate,
+164 &#32;&#32;&#32;&#32;_In_range_(0,<link linkend="_d3d12_8idl_1a5bf65743bf9d28952f6a3b40534d2688">D3D12_REQ_SUBRESOURCES</link>)&#32;UINT&#32;FirstSubresource,
+165 &#32;&#32;&#32;&#32;_In_range_(0,<link linkend="_d3d12_8idl_1a5bf65743bf9d28952f6a3b40534d2688">D3D12_REQ_SUBRESOURCES</link>-FirstSubresource)&#32;UINT&#32;NumSubresources,
+166 &#32;&#32;&#32;&#32;UINT64&#32;RequiredSize,
+167 &#32;&#32;&#32;&#32;_In_reads_(NumSubresources)&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_struct_d3_d12___p_l_a_c_e_d___s_u_b_r_e_s_o_u_r_c_e___f_o_o_t_p_r_i_n_t">D3D12_PLACED_SUBRESOURCE_FOOTPRINT</link>*&#32;pLayouts,
+168 &#32;&#32;&#32;&#32;_In_reads_(NumSubresources)&#32;<emphasis role="keyword">const</emphasis>&#32;UINT*&#32;pNumRows,
+169 &#32;&#32;&#32;&#32;_In_reads_(NumSubresources)&#32;<emphasis role="keyword">const</emphasis>&#32;UINT64*&#32;pRowSizesInBytes,
+170 &#32;&#32;&#32;&#32;_In_&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>*&#32;pResourceData,
+171 &#32;&#32;&#32;&#32;_In_reads_(NumSubresources)&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_struct_d3_d12___s_u_b_r_e_s_o_u_r_c_e___i_n_f_o">D3D12_SUBRESOURCE_INFO</link>*&#32;pSrcData)&#32;<emphasis role="keyword">noexcept</emphasis>
+172 {
+173 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Minor&#32;validation</emphasis>
+174 <emphasis role="preprocessor">#if&#32;defined(_MSC_VER)&#32;||&#32;!defined(_WIN32)</emphasis>
+175 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;IntermediateDesc&#32;=&#32;pIntermediate-&gt;GetDesc();
+176 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;DestinationDesc&#32;=&#32;pDestinationResource-&gt;GetDesc();
+177 <emphasis role="preprocessor">#else</emphasis>
+178 &#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___r_e_s_o_u_r_c_e___d_e_s_c">D3D12_RESOURCE_DESC</link>&#32;tmpDesc1,&#32;tmpDesc2;
+179 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&amp;&#32;IntermediateDesc&#32;=&#32;*pIntermediate-&gt;GetDesc(&amp;tmpDesc1);
+180 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&amp;&#32;DestinationDesc&#32;=&#32;*pDestinationResource-&gt;GetDesc(&amp;tmpDesc2);
+181 <emphasis role="preprocessor">#endif</emphasis>
+182 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(IntermediateDesc.Dimension&#32;!=&#32;<link linkend="_d3d12_8idl_1a61e5fb17cb9d5d0b7efb65a4183403f4a6ac4d51043ffcd58dd786e0b9dbacdbe">D3D12_RESOURCE_DIMENSION_BUFFER</link>&#32;||
+183 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;IntermediateDesc.Width&#32;&lt;&#32;RequiredSize&#32;+&#32;pLayouts[0].Offset&#32;||
+184 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;RequiredSize&#32;&gt;&#32;SIZE_T(-1)&#32;||
+185 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(DestinationDesc.Dimension&#32;==&#32;<link linkend="_d3d12_8idl_1a61e5fb17cb9d5d0b7efb65a4183403f4a6ac4d51043ffcd58dd786e0b9dbacdbe">D3D12_RESOURCE_DIMENSION_BUFFER</link>&#32;&amp;&amp;
+186 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;(FirstSubresource&#32;!=&#32;0&#32;||&#32;NumSubresources&#32;!=&#32;1)))
+187 &#32;&#32;&#32;&#32;{
+188 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;0;
+189 &#32;&#32;&#32;&#32;}
+190 
+191 &#32;&#32;&#32;&#32;<link linkend="_tracy__lz4_8cpp_1a4ae1dab0fb4b072a66584546209e7d58">BYTE</link>*&#32;pData;
+192 &#32;&#32;&#32;&#32;HRESULT&#32;hr&#32;=&#32;pIntermediate-&gt;Map(0,&#32;<emphasis role="keyword">nullptr</emphasis>,&#32;<emphasis role="keyword">reinterpret_cast&lt;</emphasis><emphasis role="keywordtype">void</emphasis>**<emphasis role="keyword">&gt;</emphasis>(&amp;pData));
+193 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(FAILED(hr))
+194 &#32;&#32;&#32;&#32;{
+195 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;0;
+196 &#32;&#32;&#32;&#32;}
+197 
+198 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(UINT&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;=&#32;0;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;&lt;&#32;NumSubresources;&#32;++<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>)
+199 &#32;&#32;&#32;&#32;{
+200 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(pRowSizesInBytes[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>]&#32;&gt;&#32;SIZE_T(-1))&#32;<emphasis role="keywordflow">return</emphasis>&#32;0;
+201 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___m_e_m_c_p_y___d_e_s_t">D3D12_MEMCPY_DEST</link>&#32;DestData&#32;=&#32;{&#32;pData&#32;+&#32;pLayouts[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>].Offset,&#32;pLayouts[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>].Footprint.<link linkend="_struct_d3_d12___m_e_m_c_p_y___d_e_s_t_1ae1eddcba7b9c912c7bd58372197d5471">RowPitch</link>,&#32;SIZE_T(pLayouts[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>].Footprint.RowPitch)&#32;*&#32;SIZE_T(pNumRows[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>])&#32;};
+202 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3dx12__resource__helpers_8h_1ad9649cfa551cc5e82a2fd436d427c342">MemcpySubresource</link>(&amp;DestData,&#32;pResourceData,&#32;&amp;pSrcData[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>],&#32;<emphasis role="keyword">static_cast&lt;</emphasis>SIZE_T<emphasis role="keyword">&gt;</emphasis>(pRowSizesInBytes[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>]),&#32;pNumRows[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>],&#32;pLayouts[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>].Footprint.Depth);
+203 &#32;&#32;&#32;&#32;}
+204 &#32;&#32;&#32;&#32;pIntermediate-&gt;Unmap(0,&#32;<emphasis role="keyword">nullptr</emphasis>);
+205 
+206 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(DestinationDesc.Dimension&#32;==&#32;<link linkend="_d3d12_8idl_1a61e5fb17cb9d5d0b7efb65a4183403f4a6ac4d51043ffcd58dd786e0b9dbacdbe">D3D12_RESOURCE_DIMENSION_BUFFER</link>)
+207 &#32;&#32;&#32;&#32;{
+208 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;pCmdList-&gt;CopyBufferRegion(
+209 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;pDestinationResource,&#32;0,&#32;pIntermediate,&#32;pLayouts[0].Offset,&#32;pLayouts[0].Footprint.Width);
+210 &#32;&#32;&#32;&#32;}
+211 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+212 &#32;&#32;&#32;&#32;{
+213 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(UINT&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;=&#32;0;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;&lt;&#32;NumSubresources;&#32;++<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>)
+214 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+215 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_struct_c_d3_d_x12___t_e_x_t_u_r_e___c_o_p_y___l_o_c_a_t_i_o_n">CD3DX12_TEXTURE_COPY_LOCATION</link>&#32;Dst(pDestinationResource,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;+&#32;FirstSubresource);
+216 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_struct_c_d3_d_x12___t_e_x_t_u_r_e___c_o_p_y___l_o_c_a_t_i_o_n">CD3DX12_TEXTURE_COPY_LOCATION</link>&#32;Src(pIntermediate,&#32;pLayouts[<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>]);
+217 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;pCmdList-&gt;CopyTextureRegion(&amp;Dst,&#32;0,&#32;0,&#32;0,&#32;&amp;Src,&#32;<emphasis role="keyword">nullptr</emphasis>);
+218 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+219 &#32;&#32;&#32;&#32;}
+220 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;RequiredSize;
+221 }
+222 
+223 <emphasis role="comment">//------------------------------------------------------------------------------------------------</emphasis>
+224 <emphasis role="comment">//&#32;Heap-allocating&#32;UpdateSubresources&#32;implementation</emphasis>
+225 <emphasis role="keyword">inline</emphasis>&#32;UINT64&#32;<link linkend="_d3dx12__resource__helpers_8h_1a5748b50878e41b77c4a139cb5864083e">UpdateSubresources</link>(
+226 &#32;&#32;&#32;&#32;_In_&#32;<link linkend="_interface_i_d3_d12_graphics_command_list">ID3D12GraphicsCommandList</link>*&#32;pCmdList,
+227 &#32;&#32;&#32;&#32;_In_&#32;<link linkend="_interface_i_d3_d12_resource">ID3D12Resource</link>*&#32;pDestinationResource,
+228 &#32;&#32;&#32;&#32;_In_&#32;<link linkend="_interface_i_d3_d12_resource">ID3D12Resource</link>*&#32;pIntermediate,
+229 &#32;&#32;&#32;&#32;UINT64&#32;IntermediateOffset,
+230 &#32;&#32;&#32;&#32;_In_range_(0,<link linkend="_d3d12_8idl_1a5bf65743bf9d28952f6a3b40534d2688">D3D12_REQ_SUBRESOURCES</link>)&#32;UINT&#32;FirstSubresource,
+231 &#32;&#32;&#32;&#32;_In_range_(0,<link linkend="_d3d12_8idl_1a5bf65743bf9d28952f6a3b40534d2688">D3D12_REQ_SUBRESOURCES</link>-FirstSubresource)&#32;UINT&#32;NumSubresources,
+232 &#32;&#32;&#32;&#32;_In_reads_(NumSubresources)&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_d3d12_8idl_1a072d5f038136878079147a50e137e25e">D3D12_SUBRESOURCE_DATA</link>*&#32;pSrcData)&#32;<emphasis role="keyword">noexcept</emphasis>
+233 {
+234 &#32;&#32;&#32;&#32;UINT64&#32;RequiredSize&#32;=&#32;0;
+235 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;MemToAlloc&#32;=&#32;<emphasis role="keyword">static_cast&lt;</emphasis>UINT64<emphasis role="keyword">&gt;</emphasis>(<emphasis role="keyword">sizeof</emphasis>(<link linkend="_d3d12_8idl_1ae5706e71d33ad702172c9df61692d042">D3D12_PLACED_SUBRESOURCE_FOOTPRINT</link>)&#32;+&#32;<emphasis role="keyword">sizeof</emphasis>(UINT)&#32;+&#32;<emphasis role="keyword">sizeof</emphasis>(UINT64))&#32;*&#32;NumSubresources;
+236 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(MemToAlloc&#32;&gt;&#32;<link linkend="_pstdint_8h_1a3c75bb398badb69c7577b21486f9963f">SIZE_MAX</link>)
+237 &#32;&#32;&#32;&#32;{
+238 &#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;0;
+239 &#32;&#32;&#32;&#32;}
+240 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>*&#32;pMem&#32;=&#32;HeapAlloc(GetProcessHeap(),&#32;0,&#32;<emphasis role="keyword">static_cast&lt;</emphasis>SIZE_T<emphasis role="keyword">&gt;</emphasis>(MemToAlloc));
+241 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(pMem&#32;==&#32;<emphasis role="keyword">nullptr</emphasis>)
+242 &#32;&#32;&#32;&#32;{
+243 &#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;0;
+244 &#32;&#32;&#32;&#32;}
+245 &#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;pLayouts&#32;=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="_struct_d3_d12___p_l_a_c_e_d___s_u_b_r_e_s_o_u_r_c_e___f_o_o_t_p_r_i_n_t">D3D12_PLACED_SUBRESOURCE_FOOTPRINT</link>*<emphasis role="keyword">&gt;</emphasis>(pMem);
+246 &#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;pRowSizesInBytes&#32;=&#32;<emphasis role="keyword">reinterpret_cast&lt;</emphasis>UINT64*<emphasis role="keyword">&gt;</emphasis>(pLayouts&#32;+&#32;NumSubresources);
+247 &#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;pNumRows&#32;=&#32;<emphasis role="keyword">reinterpret_cast&lt;</emphasis>UINT*<emphasis role="keyword">&gt;</emphasis>(pRowSizesInBytes&#32;+&#32;NumSubresources);
+248 
+249 <emphasis role="preprocessor">#if&#32;defined(_MSC_VER)&#32;||&#32;!defined(_WIN32)</emphasis>
+250 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;Desc&#32;=&#32;pDestinationResource-&gt;GetDesc();
+251 <emphasis role="preprocessor">#else</emphasis>
+252 &#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___r_e_s_o_u_r_c_e___d_e_s_c">D3D12_RESOURCE_DESC</link>&#32;tmpDesc;
+253 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&amp;&#32;Desc&#32;=&#32;*pDestinationResource-&gt;GetDesc(&amp;tmpDesc);
+254 <emphasis role="preprocessor">#endif</emphasis>
+255 &#32;&#32;&#32;&#32;<link linkend="_interface_i_d3_d12_device">ID3D12Device</link>*&#32;pDevice&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>;
+256 &#32;&#32;&#32;&#32;pDestinationResource-&gt;GetDevice(IID_ID3D12Device,&#32;<emphasis role="keyword">reinterpret_cast&lt;</emphasis><emphasis role="keywordtype">void</emphasis>**<emphasis role="keyword">&gt;</emphasis>(&amp;pDevice));
+257 &#32;&#32;&#32;&#32;pDevice-&gt;<link linkend="_interface_i_d3_d12_device_1a3b3cff584ca7180f02d124a49599378e">GetCopyableFootprints</link>(&amp;Desc,&#32;FirstSubresource,&#32;NumSubresources,&#32;IntermediateOffset,&#32;pLayouts,&#32;pNumRows,&#32;pRowSizesInBytes,&#32;&amp;RequiredSize);
+258 &#32;&#32;&#32;&#32;pDevice-&gt;Release();
+259 
+260 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;UINT64&#32;Result&#32;=&#32;<link linkend="_d3dx12__resource__helpers_8h_1a5748b50878e41b77c4a139cb5864083e">UpdateSubresources</link>(pCmdList,&#32;pDestinationResource,&#32;pIntermediate,&#32;FirstSubresource,&#32;NumSubresources,&#32;RequiredSize,&#32;pLayouts,&#32;pNumRows,&#32;pRowSizesInBytes,&#32;pSrcData);
+261 &#32;&#32;&#32;&#32;HeapFree(GetProcessHeap(),&#32;0,&#32;pMem);
+262 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;Result;
+263 }
+264 
+265 <emphasis role="comment">//------------------------------------------------------------------------------------------------</emphasis>
+266 <emphasis role="comment">//&#32;Heap-allocating&#32;UpdateSubresources&#32;implementation</emphasis>
+267 <emphasis role="keyword">inline</emphasis>&#32;UINT64&#32;<link linkend="_d3dx12__resource__helpers_8h_1a5748b50878e41b77c4a139cb5864083e">UpdateSubresources</link>(
+268 &#32;&#32;&#32;&#32;_In_&#32;<link linkend="_interface_i_d3_d12_graphics_command_list">ID3D12GraphicsCommandList</link>*&#32;pCmdList,
+269 &#32;&#32;&#32;&#32;_In_&#32;<link linkend="_interface_i_d3_d12_resource">ID3D12Resource</link>*&#32;pDestinationResource,
+270 &#32;&#32;&#32;&#32;_In_&#32;<link linkend="_interface_i_d3_d12_resource">ID3D12Resource</link>*&#32;pIntermediate,
+271 &#32;&#32;&#32;&#32;UINT64&#32;IntermediateOffset,
+272 &#32;&#32;&#32;&#32;_In_range_(0,<link linkend="_d3d12_8idl_1a5bf65743bf9d28952f6a3b40534d2688">D3D12_REQ_SUBRESOURCES</link>)&#32;UINT&#32;FirstSubresource,
+273 &#32;&#32;&#32;&#32;_In_range_(0,<link linkend="_d3d12_8idl_1a5bf65743bf9d28952f6a3b40534d2688">D3D12_REQ_SUBRESOURCES</link>-FirstSubresource)&#32;UINT&#32;NumSubresources,
+274 &#32;&#32;&#32;&#32;_In_&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>*&#32;pResourceData,
+275 &#32;&#32;&#32;&#32;_In_reads_(NumSubresources)&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_struct_d3_d12___s_u_b_r_e_s_o_u_r_c_e___i_n_f_o">D3D12_SUBRESOURCE_INFO</link>*&#32;pSrcData)&#32;<emphasis role="keyword">noexcept</emphasis>
+276 {
+277 &#32;&#32;&#32;&#32;UINT64&#32;RequiredSize&#32;=&#32;0;
+278 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;MemToAlloc&#32;=&#32;<emphasis role="keyword">static_cast&lt;</emphasis>UINT64<emphasis role="keyword">&gt;</emphasis>(<emphasis role="keyword">sizeof</emphasis>(<link linkend="_d3d12_8idl_1ae5706e71d33ad702172c9df61692d042">D3D12_PLACED_SUBRESOURCE_FOOTPRINT</link>)&#32;+&#32;<emphasis role="keyword">sizeof</emphasis>(UINT)&#32;+&#32;<emphasis role="keyword">sizeof</emphasis>(UINT64))&#32;*&#32;NumSubresources;
+279 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(MemToAlloc&#32;&gt;&#32;<link linkend="_pstdint_8h_1a3c75bb398badb69c7577b21486f9963f">SIZE_MAX</link>)
+280 &#32;&#32;&#32;&#32;{
+281 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;0;
+282 &#32;&#32;&#32;&#32;}
+283 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>*&#32;pMem&#32;=&#32;HeapAlloc(GetProcessHeap(),&#32;0,&#32;<emphasis role="keyword">static_cast&lt;</emphasis>SIZE_T<emphasis role="keyword">&gt;</emphasis>(MemToAlloc));
+284 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(pMem&#32;==&#32;<emphasis role="keyword">nullptr</emphasis>)
+285 &#32;&#32;&#32;&#32;{
+286 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;0;
+287 &#32;&#32;&#32;&#32;}
+288 &#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;pLayouts&#32;=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="_struct_d3_d12___p_l_a_c_e_d___s_u_b_r_e_s_o_u_r_c_e___f_o_o_t_p_r_i_n_t">D3D12_PLACED_SUBRESOURCE_FOOTPRINT</link>*<emphasis role="keyword">&gt;</emphasis>(pMem);
+289 &#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;pRowSizesInBytes&#32;=&#32;<emphasis role="keyword">reinterpret_cast&lt;</emphasis>UINT64*<emphasis role="keyword">&gt;</emphasis>(pLayouts&#32;+&#32;NumSubresources);
+290 &#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;pNumRows&#32;=&#32;<emphasis role="keyword">reinterpret_cast&lt;</emphasis>UINT*<emphasis role="keyword">&gt;</emphasis>(pRowSizesInBytes&#32;+&#32;NumSubresources);
+291 
+292 <emphasis role="preprocessor">#if&#32;defined(_MSC_VER)&#32;||&#32;!defined(_WIN32)</emphasis>
+293 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;Desc&#32;=&#32;pDestinationResource-&gt;GetDesc();
+294 <emphasis role="preprocessor">#else</emphasis>
+295 &#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___r_e_s_o_u_r_c_e___d_e_s_c">D3D12_RESOURCE_DESC</link>&#32;tmpDesc;
+296 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&amp;&#32;Desc&#32;=&#32;*pDestinationResource-&gt;GetDesc(&amp;tmpDesc);
+297 <emphasis role="preprocessor">#endif</emphasis>
+298 &#32;&#32;&#32;&#32;<link linkend="_interface_i_d3_d12_device">ID3D12Device</link>*&#32;pDevice&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>;
+299 &#32;&#32;&#32;&#32;pDestinationResource-&gt;GetDevice(IID_ID3D12Device,&#32;<emphasis role="keyword">reinterpret_cast&lt;</emphasis><emphasis role="keywordtype">void</emphasis>**<emphasis role="keyword">&gt;</emphasis>(&amp;pDevice));
+300 &#32;&#32;&#32;&#32;pDevice-&gt;<link linkend="_interface_i_d3_d12_device_1a3b3cff584ca7180f02d124a49599378e">GetCopyableFootprints</link>(&amp;Desc,&#32;FirstSubresource,&#32;NumSubresources,&#32;IntermediateOffset,&#32;pLayouts,&#32;pNumRows,&#32;pRowSizesInBytes,&#32;&amp;RequiredSize);
+301 &#32;&#32;&#32;&#32;pDevice-&gt;Release();
+302 
+303 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;UINT64&#32;Result&#32;=&#32;<link linkend="_d3dx12__resource__helpers_8h_1a5748b50878e41b77c4a139cb5864083e">UpdateSubresources</link>(pCmdList,&#32;pDestinationResource,&#32;pIntermediate,&#32;FirstSubresource,&#32;NumSubresources,&#32;RequiredSize,&#32;pLayouts,&#32;pNumRows,&#32;pRowSizesInBytes,&#32;pResourceData,&#32;pSrcData);
+304 &#32;&#32;&#32;&#32;HeapFree(GetProcessHeap(),&#32;0,&#32;pMem);
+305 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;Result;
+306 }
+307 
+308 <emphasis role="comment">//------------------------------------------------------------------------------------------------</emphasis>
+309 <emphasis role="comment">//&#32;Stack-allocating&#32;UpdateSubresources&#32;implementation</emphasis>
+310 <emphasis role="keyword">template</emphasis>&#32;&lt;UINT&#32;MaxSubresources&gt;
+311 <emphasis role="keyword">inline</emphasis>&#32;UINT64&#32;<link linkend="_d3dx12__resource__helpers_8h_1a5748b50878e41b77c4a139cb5864083e">UpdateSubresources</link>(
+312 &#32;&#32;&#32;&#32;_In_&#32;<link linkend="_interface_i_d3_d12_graphics_command_list">ID3D12GraphicsCommandList</link>*&#32;pCmdList,
+313 &#32;&#32;&#32;&#32;_In_&#32;<link linkend="_interface_i_d3_d12_resource">ID3D12Resource</link>*&#32;pDestinationResource,
+314 &#32;&#32;&#32;&#32;_In_&#32;<link linkend="_interface_i_d3_d12_resource">ID3D12Resource</link>*&#32;pIntermediate,
+315 &#32;&#32;&#32;&#32;UINT64&#32;IntermediateOffset,
+316 &#32;&#32;&#32;&#32;_In_range_(0,MaxSubresources)&#32;UINT&#32;FirstSubresource,
+317 &#32;&#32;&#32;&#32;_In_range_(1,MaxSubresources-FirstSubresource)&#32;UINT&#32;NumSubresources,
+318 &#32;&#32;&#32;&#32;_In_reads_(NumSubresources)&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_d3d12_8idl_1a072d5f038136878079147a50e137e25e">D3D12_SUBRESOURCE_DATA</link>*&#32;pSrcData)&#32;<emphasis role="keyword">noexcept</emphasis>
+319 {
+320 &#32;&#32;&#32;&#32;UINT64&#32;RequiredSize&#32;=&#32;0;
+321 &#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___p_l_a_c_e_d___s_u_b_r_e_s_o_u_r_c_e___f_o_o_t_p_r_i_n_t">D3D12_PLACED_SUBRESOURCE_FOOTPRINT</link>&#32;Layouts[MaxSubresources];
+322 &#32;&#32;&#32;&#32;UINT&#32;NumRows[MaxSubresources];
+323 &#32;&#32;&#32;&#32;UINT64&#32;RowSizesInBytes[MaxSubresources];
+324 
+325 <emphasis role="preprocessor">#if&#32;defined(_MSC_VER)&#32;||&#32;!defined(_WIN32)</emphasis>
+326 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;Desc&#32;=&#32;pDestinationResource-&gt;GetDesc();
+327 <emphasis role="preprocessor">#else</emphasis>
+328 &#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___r_e_s_o_u_r_c_e___d_e_s_c">D3D12_RESOURCE_DESC</link>&#32;tmpDesc;
+329 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&amp;&#32;Desc&#32;=&#32;*pDestinationResource-&gt;GetDesc(&amp;tmpDesc);
+330 <emphasis role="preprocessor">#endif</emphasis>
+331 &#32;&#32;&#32;&#32;<link linkend="_interface_i_d3_d12_device">ID3D12Device</link>*&#32;pDevice&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>;
+332 &#32;&#32;&#32;&#32;pDestinationResource-&gt;GetDevice(IID_ID3D12Device,&#32;<emphasis role="keyword">reinterpret_cast&lt;</emphasis><emphasis role="keywordtype">void</emphasis>**<emphasis role="keyword">&gt;</emphasis>(&amp;pDevice));
+333 &#32;&#32;&#32;&#32;pDevice-&gt;<link linkend="_interface_i_d3_d12_device_1a3b3cff584ca7180f02d124a49599378e">GetCopyableFootprints</link>(&amp;Desc,&#32;FirstSubresource,&#32;NumSubresources,&#32;IntermediateOffset,&#32;Layouts,&#32;NumRows,&#32;RowSizesInBytes,&#32;&amp;RequiredSize);
+334 &#32;&#32;&#32;&#32;pDevice-&gt;Release();
+335 
+336 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_d3dx12__resource__helpers_8h_1a5748b50878e41b77c4a139cb5864083e">UpdateSubresources</link>(pCmdList,&#32;pDestinationResource,&#32;pIntermediate,&#32;FirstSubresource,&#32;NumSubresources,&#32;RequiredSize,&#32;Layouts,&#32;NumRows,&#32;RowSizesInBytes,&#32;pSrcData);
+337 }
+338 
+339 <emphasis role="comment">//------------------------------------------------------------------------------------------------</emphasis>
+340 <emphasis role="comment">//&#32;Stack-allocating&#32;UpdateSubresources&#32;implementation</emphasis>
+341 <emphasis role="keyword">template</emphasis>&#32;&lt;UINT&#32;MaxSubresources&gt;
+342 <emphasis role="keyword">inline</emphasis>&#32;UINT64&#32;<link linkend="_d3dx12__resource__helpers_8h_1a5748b50878e41b77c4a139cb5864083e">UpdateSubresources</link>(
+343 &#32;&#32;&#32;&#32;_In_&#32;<link linkend="_interface_i_d3_d12_graphics_command_list">ID3D12GraphicsCommandList</link>*&#32;pCmdList,
+344 &#32;&#32;&#32;&#32;_In_&#32;<link linkend="_interface_i_d3_d12_resource">ID3D12Resource</link>*&#32;pDestinationResource,
+345 &#32;&#32;&#32;&#32;_In_&#32;<link linkend="_interface_i_d3_d12_resource">ID3D12Resource</link>*&#32;pIntermediate,
+346 &#32;&#32;&#32;&#32;UINT64&#32;IntermediateOffset,
+347 &#32;&#32;&#32;&#32;_In_range_(0,MaxSubresources)&#32;UINT&#32;FirstSubresource,
+348 &#32;&#32;&#32;&#32;_In_range_(1,MaxSubresources-FirstSubresource)&#32;UINT&#32;NumSubresources,
+349 &#32;&#32;&#32;&#32;_In_&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>*&#32;pResourceData,
+350 &#32;&#32;&#32;&#32;_In_reads_(NumSubresources)&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_struct_d3_d12___s_u_b_r_e_s_o_u_r_c_e___i_n_f_o">D3D12_SUBRESOURCE_INFO</link>*&#32;pSrcData)&#32;<emphasis role="keyword">noexcept</emphasis>
+351 {
+352 &#32;&#32;&#32;&#32;UINT64&#32;RequiredSize&#32;=&#32;0;
+353 &#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___p_l_a_c_e_d___s_u_b_r_e_s_o_u_r_c_e___f_o_o_t_p_r_i_n_t">D3D12_PLACED_SUBRESOURCE_FOOTPRINT</link>&#32;Layouts[MaxSubresources];
+354 &#32;&#32;&#32;&#32;UINT&#32;NumRows[MaxSubresources];
+355 &#32;&#32;&#32;&#32;UINT64&#32;RowSizesInBytes[MaxSubresources];
+356 
+357 <emphasis role="preprocessor">#if&#32;defined(_MSC_VER)&#32;||&#32;!defined(_WIN32)</emphasis>
+358 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;Desc&#32;=&#32;pDestinationResource-&gt;GetDesc();
+359 <emphasis role="preprocessor">#else</emphasis>
+360 &#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___r_e_s_o_u_r_c_e___d_e_s_c">D3D12_RESOURCE_DESC</link>&#32;tmpDesc;
+361 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&amp;&#32;Desc&#32;=&#32;*pDestinationResource-&gt;GetDesc(&amp;tmpDesc);
+362 <emphasis role="preprocessor">#endif</emphasis>
+363 &#32;&#32;&#32;&#32;<link linkend="_interface_i_d3_d12_device">ID3D12Device</link>*&#32;pDevice&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>;
+364 &#32;&#32;&#32;&#32;pDestinationResource-&gt;GetDevice(IID_ID3D12Device,&#32;<emphasis role="keyword">reinterpret_cast&lt;</emphasis><emphasis role="keywordtype">void</emphasis>**<emphasis role="keyword">&gt;</emphasis>(&amp;pDevice));
+365 &#32;&#32;&#32;&#32;pDevice-&gt;<link linkend="_interface_i_d3_d12_device_1a3b3cff584ca7180f02d124a49599378e">GetCopyableFootprints</link>(&amp;Desc,&#32;FirstSubresource,&#32;NumSubresources,&#32;IntermediateOffset,&#32;Layouts,&#32;NumRows,&#32;RowSizesInBytes,&#32;&amp;RequiredSize);
+366 &#32;&#32;&#32;&#32;pDevice-&gt;Release();
+367 
+368 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_d3dx12__resource__helpers_8h_1a5748b50878e41b77c4a139cb5864083e">UpdateSubresources</link>(pCmdList,&#32;pDestinationResource,&#32;pIntermediate,&#32;FirstSubresource,&#32;NumSubresources,&#32;RequiredSize,&#32;Layouts,&#32;NumRows,&#32;RowSizesInBytes,&#32;pResourceData,&#32;pSrcData);
+369 }
+370 
+371 <emphasis role="comment">//------------------------------------------------------------------------------------------------</emphasis>
+372 <emphasis role="keyword">constexpr</emphasis>&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_d3dx12__resource__helpers_8h_1aa2b615a66da7605f297f2c2cb28a568f">D3D12IsLayoutOpaque</link>(&#32;<link linkend="_d3d12_8idl_1aab7964382fa3325cea6ce8f30d067dcd">D3D12_TEXTURE_LAYOUT</link>&#32;Layout&#32;)&#32;<emphasis role="keyword">noexcept</emphasis>
+373 {&#32;<emphasis role="keywordflow">return</emphasis>&#32;Layout&#32;==&#32;<link linkend="_d3d12_8idl_1aab7964382fa3325cea6ce8f30d067dcda83a1d7b114372fb5193a6137c1871506">D3D12_TEXTURE_LAYOUT_UNKNOWN</link>&#32;||&#32;Layout&#32;==&#32;<link linkend="_d3d12_8idl_1aab7964382fa3325cea6ce8f30d067dcdacf434d7beedc63ce2348cec969de0d81">D3D12_TEXTURE_LAYOUT_64KB_UNDEFINED_SWIZZLE</link>;&#32;}
+374 
+375 <emphasis role="comment">//------------------------------------------------------------------------------------------------</emphasis>
+376 <emphasis role="keyword">template</emphasis>&lt;&#32;<emphasis role="keyword">typename</emphasis>&#32;T&#32;&gt;
+377 <emphasis role="keyword">inline</emphasis>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;<link linkend="_d3dx12__resource__helpers_8h_1aae211ddc6e15ca27ebe95933db27bf2f">D3DX12Align</link>(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;uValue,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;uAlign)
+378 {
+379 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Assert&#32;power&#32;of&#32;2&#32;alignment</emphasis>
+380 &#32;&#32;&#32;&#32;<link linkend="_d3dx12__core_8h_1a46c942a778c19f8e927219eb87900f89">D3DX12_ASSERT</link>(0&#32;==&#32;(uAlign&#32;&amp;&#32;(uAlign&#32;-&#32;1)));
+381 &#32;&#32;&#32;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;uMask&#32;=&#32;uAlign&#32;-&#32;1;
+382 &#32;&#32;&#32;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;uResult&#32;=&#32;(uValue&#32;+&#32;uMask)&#32;&amp;&#32;~uMask;
+383 &#32;&#32;&#32;&#32;<link linkend="_d3dx12__core_8h_1a46c942a778c19f8e927219eb87900f89">D3DX12_ASSERT</link>(uResult&#32;&gt;=&#32;uValue);
+384 &#32;&#32;&#32;&#32;<link linkend="_d3dx12__core_8h_1a46c942a778c19f8e927219eb87900f89">D3DX12_ASSERT</link>(0&#32;==&#32;(uResult&#32;%&#32;uAlign));
+385 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;uResult;
+386 }
+387 
+388 <emphasis role="comment">//------------------------------------------------------------------------------------------------</emphasis>
+389 <emphasis role="keyword">template</emphasis>&lt;&#32;<emphasis role="keyword">typename</emphasis>&#32;T&#32;&gt;
+390 <emphasis role="keyword">inline</emphasis>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;<link linkend="_d3dx12__resource__helpers_8h_1a1eb40ebeb7d2f3ead3e77f2930507a97">D3DX12AlignAtLeast</link>(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;uValue,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;uAlign)
+391 {
+392 &#32;&#32;&#32;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;aligned&#32;=&#32;<link linkend="_d3dx12__resource__helpers_8h_1aae211ddc6e15ca27ebe95933db27bf2f">D3DX12Align</link>(uValue,&#32;uAlign);
+393 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;aligned&#32;&gt;&#32;uAlign&#32;?&#32;aligned&#32;:&#32;uAlign;
+394 }
+395 
+396 <emphasis role="keyword">inline</emphasis>&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_struct_c_d3_d_x12___r_e_s_o_u_r_c_e___d_e_s_c1">CD3DX12_RESOURCE_DESC1</link>*&#32;<link linkend="_d3dx12__resource__helpers_8h_1a362935f159592faeb025608f35906a31">D3DX12ConditionallyExpandAPIDesc</link>(
+397 &#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___r_e_s_o_u_r_c_e___d_e_s_c1">D3D12_RESOURCE_DESC1</link>&amp;&#32;LclDesc,
+398 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_struct_d3_d12___r_e_s_o_u_r_c_e___d_e_s_c1">D3D12_RESOURCE_DESC1</link>*&#32;pDesc)
+399 {
+400 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_d3dx12__resource__helpers_8h_1a362935f159592faeb025608f35906a31">D3DX12ConditionallyExpandAPIDesc</link>(<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="_struct_c_d3_d_x12___r_e_s_o_u_r_c_e___d_e_s_c1">CD3DX12_RESOURCE_DESC1</link>&amp;<emphasis role="keyword">&gt;</emphasis>(LclDesc),&#32;<emphasis role="keyword">static_cast&lt;</emphasis><emphasis role="keyword">const&#32;</emphasis><link linkend="_struct_c_d3_d_x12___r_e_s_o_u_r_c_e___d_e_s_c1">CD3DX12_RESOURCE_DESC1</link>*<emphasis role="keyword">&gt;</emphasis>(pDesc));
+401 }
+402 
+403 <emphasis role="preprocessor">#if&#32;defined(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;606)</emphasis>
+404 <emphasis role="comment">//------------------------------------------------------------------------------------------------</emphasis>
+405 <emphasis role="comment">//&#32;The&#32;difference&#32;between&#32;D3DX12GetCopyableFootprints&#32;and&#32;ID3D12Device::GetCopyableFootprints</emphasis>
+406 <emphasis role="comment">//&#32;is&#32;that&#32;this&#32;one&#32;loses&#32;a&#32;lot&#32;of&#32;error&#32;checking&#32;by&#32;assuming&#32;the&#32;arguments&#32;are&#32;correct</emphasis>
+407 <emphasis role="keyword">inline</emphasis>&#32;<emphasis role="keywordtype">bool</emphasis>&#32;D3DX12GetCopyableFootprints(
+408 &#32;&#32;&#32;&#32;_In_&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_struct_d3_d12___r_e_s_o_u_r_c_e___d_e_s_c1">D3D12_RESOURCE_DESC1</link>&amp;&#32;ResourceDesc,
+409 &#32;&#32;&#32;&#32;_In_range_(0,&#32;<link linkend="_d3d12_8idl_1a5bf65743bf9d28952f6a3b40534d2688">D3D12_REQ_SUBRESOURCES</link>)&#32;UINT&#32;FirstSubresource,
+410 &#32;&#32;&#32;&#32;_In_range_(0,&#32;<link linkend="_d3d12_8idl_1a5bf65743bf9d28952f6a3b40534d2688">D3D12_REQ_SUBRESOURCES</link>&#32;-&#32;FirstSubresource)&#32;UINT&#32;NumSubresources,
+411 &#32;&#32;&#32;&#32;UINT64&#32;BaseOffset,
+412 &#32;&#32;&#32;&#32;_Out_writes_opt_(NumSubresources)&#32;<link linkend="_struct_d3_d12___p_l_a_c_e_d___s_u_b_r_e_s_o_u_r_c_e___f_o_o_t_p_r_i_n_t">D3D12_PLACED_SUBRESOURCE_FOOTPRINT</link>*&#32;pLayouts,
+413 &#32;&#32;&#32;&#32;_Out_writes_opt_(NumSubresources)&#32;UINT*&#32;pNumRows,
+414 &#32;&#32;&#32;&#32;_Out_writes_opt_(NumSubresources)&#32;UINT64*&#32;pRowSizeInBytes,
+415 &#32;&#32;&#32;&#32;_Out_opt_&#32;UINT64*&#32;pTotalBytes)
+416 {
+417 &#32;&#32;&#32;&#32;<emphasis role="keyword">constexpr</emphasis>&#32;UINT64&#32;uint64_max&#32;=&#32;~0ull;
+418 &#32;&#32;&#32;&#32;UINT64&#32;TotalBytes&#32;=&#32;uint64_max;
+419 &#32;&#32;&#32;&#32;UINT&#32;uSubRes&#32;=&#32;0;
+420 
+421 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;bResourceOverflow&#32;=&#32;<emphasis role="keyword">false</emphasis>;
+422 &#32;&#32;&#32;&#32;TotalBytes&#32;=&#32;0;
+423 
+424 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_dxgiformat_8h_1a6a9cbc7eff00c7ec769e4e6c3b2cb3bc">DXGI_FORMAT</link>&#32;Format&#32;=&#32;ResourceDesc.Format;
+425 
+426 &#32;&#32;&#32;&#32;<link linkend="_struct_c_d3_d_x12___r_e_s_o_u_r_c_e___d_e_s_c1">CD3DX12_RESOURCE_DESC1</link>&#32;LresourceDesc;
+427 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_struct_c_d3_d_x12___r_e_s_o_u_r_c_e___d_e_s_c1">CD3DX12_RESOURCE_DESC1</link>&amp;&#32;resourceDesc&#32;=&#32;*<link linkend="_d3dx12__resource__helpers_8h_1a362935f159592faeb025608f35906a31">D3DX12ConditionallyExpandAPIDesc</link>(LresourceDesc,&#32;&amp;ResourceDesc);
+428 
+429 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Check&#32;if&#32;its&#32;a&#32;valid&#32;format</emphasis>
+430 &#32;&#32;&#32;&#32;<link linkend="_d3dx12__core_8h_1a46c942a778c19f8e927219eb87900f89">D3DX12_ASSERT</link>(<link linkend="_struct_d3_d12___p_r_o_p_e_r_t_y___l_a_y_o_u_t___f_o_r_m_a_t___t_a_b_l_e_1a03ef7e71a130c96badff6588fde8367f">D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::FormatExists</link>(Format));
+431 
+432 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;UINT&#32;WidthAlignment&#32;=&#32;<link linkend="_struct_d3_d12___p_r_o_p_e_r_t_y___l_a_y_o_u_t___f_o_r_m_a_t___t_a_b_l_e_1af80827e1e964851b88523d573d25fbab">D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::GetWidthAlignment</link>(&#32;Format&#32;);
+433 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;UINT&#32;HeightAlignment&#32;=&#32;<link linkend="_struct_d3_d12___p_r_o_p_e_r_t_y___l_a_y_o_u_t___f_o_r_m_a_t___t_a_b_l_e_1ab0e2a2104daa17c744d6441a2d02c8f4">D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::GetHeightAlignment</link>(&#32;Format&#32;);
+434 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;UINT16&#32;DepthAlignment&#32;=&#32;UINT16(&#32;<link linkend="_struct_d3_d12___p_r_o_p_e_r_t_y___l_a_y_o_u_t___f_o_r_m_a_t___t_a_b_l_e_1af8b7e85e0bfed14dc60e11ed916c1304">D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::GetDepthAlignment</link>(&#32;Format&#32;)&#32;);
+435 
+436 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(;&#32;uSubRes&#32;&lt;&#32;NumSubresources;&#32;++uSubRes)
+437 &#32;&#32;&#32;&#32;{
+438 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;bOverflow&#32;=&#32;<emphasis role="keyword">false</emphasis>;
+439 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;UINT&#32;Subresource&#32;=&#32;FirstSubresource&#32;+&#32;uSubRes;
+440 
+441 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3dx12__core_8h_1a46c942a778c19f8e927219eb87900f89">D3DX12_ASSERT</link>(resourceDesc.<link linkend="_struct_d3_d12___r_e_s_o_u_r_c_e___d_e_s_c1_1ac0dbfd8572e3b86ed7c080b9d2592e41">MipLevels</link>&#32;!=&#32;0);
+442 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;UINT&#32;subresourceCount&#32;=&#32;resourceDesc.<link linkend="_struct_d3_d12___r_e_s_o_u_r_c_e___d_e_s_c1_1ac0dbfd8572e3b86ed7c080b9d2592e41">MipLevels</link>&#32;*&#32;resourceDesc.<link linkend="_struct_c_d3_d_x12___r_e_s_o_u_r_c_e___d_e_s_c1_1aebf3cde98f772d7dcab6ed93dbab98db">ArraySize</link>()&#32;*&#32;<link linkend="_struct_d3_d12___p_r_o_p_e_r_t_y___l_a_y_o_u_t___f_o_r_m_a_t___t_a_b_l_e_1a752cb1404b2d731513a983ac1e0b0a6a">D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::GetPlaneCount</link>(resourceDesc.<link linkend="_struct_d3_d12___r_e_s_o_u_r_c_e___d_e_s_c1_1a8be9a33ef09697502dba9b05e4340216">Format</link>);
+443 
+444 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(Subresource&#32;&gt;&#32;subresourceCount)
+445 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+446 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">break</emphasis>;
+447 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+448 
+449 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;TotalBytes&#32;=&#32;<link linkend="_d3dx12__resource__helpers_8h_1aae211ddc6e15ca27ebe95933db27bf2f">D3DX12Align&lt; UINT64 &gt;</link>(&#32;TotalBytes,&#32;<link linkend="_d3d12_8idl_1abf4241e7f5193619ed40b453d2709b2d">D3D12_TEXTURE_DATA_PLACEMENT_ALIGNMENT</link>&#32;);
+450 
+451 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;UINT&#32;MipLevel,&#32;ArraySlice,&#32;PlaneSlice;
+452 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3dx12__resource__helpers_8h_1aedf26e64cd97ce8943be9f49d64a77f3">D3D12DecomposeSubresource</link>(Subresource,&#32;resourceDesc.<link linkend="_struct_d3_d12___r_e_s_o_u_r_c_e___d_e_s_c1_1ac0dbfd8572e3b86ed7c080b9d2592e41">MipLevels</link>,&#32;resourceDesc.<link linkend="_struct_c_d3_d_x12___r_e_s_o_u_r_c_e___d_e_s_c1_1aebf3cde98f772d7dcab6ed93dbab98db">ArraySize</link>(),&#32;<emphasis role="comment">/*_Out_*/</emphasis>MipLevel,&#32;<emphasis role="comment">/*_Out_*/</emphasis>ArraySlice,&#32;<emphasis role="comment">/*_Out_*/</emphasis>PlaneSlice);
+453 
+454 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;UINT64&#32;Width&#32;=&#32;<link linkend="_d3dx12__resource__helpers_8h_1a1eb40ebeb7d2f3ead3e77f2930507a97">D3DX12AlignAtLeast&lt;UINT64&gt;</link>(resourceDesc.<link linkend="_struct_d3_d12___r_e_s_o_u_r_c_e___d_e_s_c1_1aef7bf92edf265e6d9f827527adb67d67">Width</link>&#32;&gt;&gt;&#32;MipLevel,&#32;WidthAlignment);
+455 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;UINT&#32;Height&#32;=&#32;&#32;<link linkend="_d3dx12__resource__helpers_8h_1a1eb40ebeb7d2f3ead3e77f2930507a97">D3DX12AlignAtLeast</link>(resourceDesc.<link linkend="_struct_d3_d12___r_e_s_o_u_r_c_e___d_e_s_c1_1aeb7443de75d222efcb292d4b93658162">Height</link>&#32;&gt;&gt;&#32;MipLevel,&#32;HeightAlignment);
+456 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;UINT16&#32;Depth&#32;=&#32;<link linkend="_d3dx12__resource__helpers_8h_1a1eb40ebeb7d2f3ead3e77f2930507a97">D3DX12AlignAtLeast&lt;UINT16&gt;</link>(resourceDesc.<link linkend="_struct_c_d3_d_x12___r_e_s_o_u_r_c_e___d_e_s_c1_1a6d6e18411c82d61174556f917b7e05b4">Depth</link>()&#32;&gt;&gt;&#32;MipLevel,&#32;DepthAlignment);
+457 
+458 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Adjust&#32;for&#32;the&#32;current&#32;PlaneSlice.&#32;&#32;Most&#32;formats&#32;have&#32;only&#32;one&#32;plane.</emphasis>
+459 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_dxgiformat_8h_1a6a9cbc7eff00c7ec769e4e6c3b2cb3bc">DXGI_FORMAT</link>&#32;PlaneFormat;
+460 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;UINT32&#32;MinPlanePitchWidth,&#32;PlaneWidth,&#32;PlaneHeight;
+461 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___p_r_o_p_e_r_t_y___l_a_y_o_u_t___f_o_r_m_a_t___t_a_b_l_e_1a8e439c07a3d6771e647558a89eb920d5">D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::GetPlaneSubsampledSizeAndFormatForCopyableLayout</link>(PlaneSlice,&#32;Format,&#32;(UINT)Width,&#32;Height,&#32;<emphasis role="comment">/*_Out_*/</emphasis>&#32;PlaneFormat,&#32;<emphasis role="comment">/*_Out_*/</emphasis>&#32;MinPlanePitchWidth,&#32;<emphasis role="comment">/*&#32;_Out_&#32;*/</emphasis>&#32;PlaneWidth,&#32;<emphasis role="comment">/*_Out_*/</emphasis>&#32;PlaneHeight);
+462 
+463 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___s_u_b_r_e_s_o_u_r_c_e___f_o_o_t_p_r_i_n_t">D3D12_SUBRESOURCE_FOOTPRINT</link>&#32;LocalPlacement;
+464 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&amp;&#32;Placement&#32;=&#32;pLayouts&#32;?&#32;pLayouts[uSubRes].Footprint&#32;:&#32;LocalPlacement;
+465 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Placement.<link linkend="_struct_d3_d12___s_u_b_r_e_s_o_u_r_c_e___f_o_o_t_p_r_i_n_t_1aab7c073bfb2d99b50e6f57cb54d3e8b1">Format</link>&#32;=&#32;PlaneFormat;
+466 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Placement.Width&#32;=&#32;PlaneWidth;
+467 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Placement.Height&#32;=&#32;PlaneHeight;
+468 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Placement.Depth&#32;=&#32;Depth;
+469 
+470 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Calculate&#32;row&#32;pitch</emphasis>
+471 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;UINT&#32;MinPlaneRowPitch&#32;=&#32;0;
+472 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___p_r_o_p_e_r_t_y___l_a_y_o_u_t___f_o_r_m_a_t___t_a_b_l_e_1a6c31045cbc57650b0019797586e1e4fb">D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::CalculateMinimumRowMajorRowPitch</link>(PlaneFormat,&#32;MinPlanePitchWidth,&#32;MinPlaneRowPitch);
+473 
+474 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Formats&#32;with&#32;more&#32;than&#32;one&#32;plane&#32;choose&#32;a&#32;larger&#32;pitch&#32;alignment&#32;to&#32;ensure&#32;that&#32;each&#32;plane&#32;begins&#32;on&#32;the&#32;row</emphasis>
+475 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;immediately&#32;following&#32;the&#32;previous&#32;plane&#32;while&#32;still&#32;adhering&#32;to&#32;subresource&#32;alignment&#32;restrictions.</emphasis>
+476 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static_assert</emphasis>(&#32;&#32;&#32;<link linkend="_d3d12_8idl_1abf4241e7f5193619ed40b453d2709b2d">D3D12_TEXTURE_DATA_PLACEMENT_ALIGNMENT</link>&#32;&gt;=&#32;<link linkend="_d3d12_8idl_1a8639e787fa258a46043fc613e491bfec">D3D12_TEXTURE_DATA_PITCH_ALIGNMENT</link>
+477 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&amp;&amp;&#32;((<link linkend="_d3d12_8idl_1abf4241e7f5193619ed40b453d2709b2d">D3D12_TEXTURE_DATA_PLACEMENT_ALIGNMENT</link>&#32;%&#32;<link linkend="_d3d12_8idl_1a8639e787fa258a46043fc613e491bfec">D3D12_TEXTURE_DATA_PITCH_ALIGNMENT</link>)&#32;==&#32;0),
+478 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;D3D12_TEXTURE_DATA_PLACEMENT_ALIGNMENT&#32;&#32;must&#32;be&#32;&gt;=&#32;and&#32;evenly&#32;divisible&#32;by&#32;D3D12_TEXTURE_DATA_PITCH_ALIGNMENT.&quot;</emphasis>&#32;);
+479 
+480 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Placement.RowPitch&#32;=&#32;<link linkend="_struct_d3_d12___p_r_o_p_e_r_t_y___l_a_y_o_u_t___f_o_r_m_a_t___t_a_b_l_e_1aebd1a5f1faa3734544d10852f4d899fc">D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::Planar</link>(Format)
+481 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;?&#32;<link linkend="_d3dx12__resource__helpers_8h_1aae211ddc6e15ca27ebe95933db27bf2f">D3DX12Align&lt; UINT &gt;</link>(&#32;MinPlaneRowPitch,&#32;<link linkend="_d3d12_8idl_1abf4241e7f5193619ed40b453d2709b2d">D3D12_TEXTURE_DATA_PLACEMENT_ALIGNMENT</link>&#32;)
+482 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;<link linkend="_d3dx12__resource__helpers_8h_1aae211ddc6e15ca27ebe95933db27bf2f">D3DX12Align</link>&lt;&#32;UINT&#32;&gt;(&#32;MinPlaneRowPitch,&#32;<link linkend="_d3d12_8idl_1a8639e787fa258a46043fc613e491bfec">D3D12_TEXTURE_DATA_PITCH_ALIGNMENT</link>&#32;);
+483 
+484 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(pRowSizeInBytes)
+485 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+486 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;UINT&#32;PlaneRowSize&#32;=&#32;0;
+487 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___p_r_o_p_e_r_t_y___l_a_y_o_u_t___f_o_r_m_a_t___t_a_b_l_e_1a6c31045cbc57650b0019797586e1e4fb">D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::CalculateMinimumRowMajorRowPitch</link>(PlaneFormat,&#32;PlaneWidth,&#32;PlaneRowSize);
+488 
+489 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;pRowSizeInBytes[uSubRes]&#32;=&#32;PlaneRowSize;
+490 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+491 
+492 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Number&#32;of&#32;rows&#32;(accounting&#32;for&#32;block&#32;compression&#32;and&#32;additional&#32;planes)</emphasis>
+493 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;UINT&#32;NumRows&#32;=&#32;0;
+494 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(<link linkend="_struct_d3_d12___p_r_o_p_e_r_t_y___l_a_y_o_u_t___f_o_r_m_a_t___t_a_b_l_e_1aebd1a5f1faa3734544d10852f4d899fc">D3D12_PROPERTY_LAYOUT_FORMAT_TABLE::Planar</link>(Format))
+495 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+496 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;NumRows&#32;=&#32;PlaneHeight;
+497 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+498 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+499 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+500 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3dx12__core_8h_1a46c942a778c19f8e927219eb87900f89">D3DX12_ASSERT</link>(Height&#32;%&#32;HeightAlignment&#32;==&#32;0);
+501 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;NumRows&#32;=&#32;Height&#32;/&#32;HeightAlignment;
+502 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+503 
+504 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(pNumRows)
+505 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+506 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;pNumRows[uSubRes]&#32;=&#32;NumRows;
+507 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+508 
+509 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Offsetting</emphasis>
+510 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(pLayouts)
+511 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+512 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;pLayouts[uSubRes].Offset&#32;=&#32;(bOverflow&#32;?&#32;uint64_max&#32;:&#32;TotalBytes&#32;+&#32;BaseOffset);
+513 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+514 
+515 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;UINT16&#32;NumSlices&#32;=&#32;Depth;
+516 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;UINT64&#32;SubresourceSize&#32;=&#32;(NumRows&#32;*&#32;NumSlices&#32;-&#32;1)&#32;*&#32;Placement.RowPitch&#32;+&#32;MinPlaneRowPitch;
+517 
+518 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;uint64&#32;addition&#32;with&#32;overflow&#32;checking</emphasis>
+519 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;TotalBytes&#32;=&#32;TotalBytes&#32;+&#32;SubresourceSize;
+520 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(TotalBytes&#32;&lt;&#32;SubresourceSize)
+521 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+522 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;TotalBytes&#32;=&#32;uint64_max;
+523 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+524 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;bResourceOverflow&#32;&#32;=&#32;bResourceOverflow&#32;&#32;||&#32;bOverflow;
+525 &#32;&#32;&#32;&#32;}
+526 
+527 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Overflow&#32;error</emphasis>
+528 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(bResourceOverflow)
+529 &#32;&#32;&#32;&#32;{
+530 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;TotalBytes&#32;=&#32;uint64_max;
+531 &#32;&#32;&#32;&#32;}
+532 
+533 
+534 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(pLayouts)
+535 &#32;&#32;&#32;&#32;{
+536 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memset(&#32;pLayouts&#32;+&#32;uSubRes,&#32;-1,&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;*pLayouts&#32;)&#32;*&#32;(NumSubresources&#32;-&#32;uSubRes)&#32;);
+537 &#32;&#32;&#32;&#32;}
+538 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(pNumRows)
+539 &#32;&#32;&#32;&#32;{
+540 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memset(pNumRows&#32;+&#32;uSubRes,&#32;-1,&#32;<emphasis role="keyword">sizeof</emphasis>(*pNumRows)&#32;*&#32;(NumSubresources&#32;-&#32;uSubRes));
+541 &#32;&#32;&#32;&#32;}
+542 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(pRowSizeInBytes)
+543 &#32;&#32;&#32;&#32;{
+544 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memset(pRowSizeInBytes&#32;+&#32;uSubRes,&#32;-1,&#32;<emphasis role="keyword">sizeof</emphasis>(*pRowSizeInBytes)&#32;*&#32;(NumSubresources&#32;-&#32;uSubRes));
+545 &#32;&#32;&#32;&#32;}
+546 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(pTotalBytes)
+547 &#32;&#32;&#32;&#32;{
+548 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*pTotalBytes&#32;=&#32;TotalBytes;
+549 &#32;&#32;&#32;&#32;}
+550 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(TotalBytes&#32;==&#32;uint64_max)
+551 &#32;&#32;&#32;&#32;{
+552 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">false</emphasis>;
+553 &#32;&#32;&#32;&#32;}
+554 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">true</emphasis>;
+555 }
+556 
+557 <emphasis role="comment">//------------------------------------------------------------------------------------------------</emphasis>
+558 <emphasis role="keyword">inline</emphasis>&#32;<link linkend="_struct_d3_d12___r_e_s_o_u_r_c_e___d_e_s_c1">D3D12_RESOURCE_DESC1</link>&#32;D3DX12ResourceDesc0ToDesc1(<link linkend="_struct_d3_d12___r_e_s_o_u_r_c_e___d_e_s_c">D3D12_RESOURCE_DESC</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;desc0)
+559 {
+560 &#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___r_e_s_o_u_r_c_e___d_e_s_c1">D3D12_RESOURCE_DESC1</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;desc1;
+561 &#32;&#32;&#32;&#32;desc1.<link linkend="_struct_d3_d12___r_e_s_o_u_r_c_e___d_e_s_c1_1a2198bddf4be62bfcf342d8c61c436a84">Dimension</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;=&#32;desc0.<link linkend="_struct_d3_d12___r_e_s_o_u_r_c_e___d_e_s_c_1a899cba60b06d75ec2522b3ed8df6feb0">Dimension</link>;
+562 &#32;&#32;&#32;&#32;desc1.<link linkend="_struct_d3_d12___r_e_s_o_u_r_c_e___d_e_s_c1_1a0c102d744de373565d42b83722daa789">Alignment</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;=&#32;desc0.<link linkend="_struct_d3_d12___r_e_s_o_u_r_c_e___d_e_s_c_1ae92d5b56262a58acf25ecc96fde078d8">Alignment</link>;
+563 &#32;&#32;&#32;&#32;desc1.<link linkend="_struct_d3_d12___r_e_s_o_u_r_c_e___d_e_s_c1_1aef7bf92edf265e6d9f827527adb67d67">Width</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;=&#32;desc0.<link linkend="_struct_d3_d12___r_e_s_o_u_r_c_e___d_e_s_c_1aaecd8161d95a8a533ba4586990b8e85a">Width</link>;
+564 &#32;&#32;&#32;&#32;desc1.<link linkend="_struct_d3_d12___r_e_s_o_u_r_c_e___d_e_s_c1_1aeb7443de75d222efcb292d4b93658162">Height</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;=&#32;desc0.<link linkend="_struct_d3_d12___r_e_s_o_u_r_c_e___d_e_s_c_1a9037125128e3e4a735965bd6d9479a6c">Height</link>;
+565 &#32;&#32;&#32;&#32;desc1.<link linkend="_struct_d3_d12___r_e_s_o_u_r_c_e___d_e_s_c1_1acd2238b4a8963834976a3446d2b413fe">DepthOrArraySize</link>&#32;&#32;&#32;=&#32;desc0.<link linkend="_struct_d3_d12___r_e_s_o_u_r_c_e___d_e_s_c_1a777704f97f1a7aa767a53c7c779d4c4e">DepthOrArraySize</link>;
+566 &#32;&#32;&#32;&#32;desc1.<link linkend="_struct_d3_d12___r_e_s_o_u_r_c_e___d_e_s_c1_1ac0dbfd8572e3b86ed7c080b9d2592e41">MipLevels</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;=&#32;desc0.<link linkend="_struct_d3_d12___r_e_s_o_u_r_c_e___d_e_s_c_1afbf8dd67775ba004616f1a1dbf5f1734">MipLevels</link>;
+567 &#32;&#32;&#32;&#32;desc1.<link linkend="_struct_d3_d12___r_e_s_o_u_r_c_e___d_e_s_c1_1a8be9a33ef09697502dba9b05e4340216">Format</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;=&#32;desc0.<link linkend="_struct_d3_d12___r_e_s_o_u_r_c_e___d_e_s_c_1abd3e99c11844928b9bc52a7491d71bfc">Format</link>;
+568 &#32;&#32;&#32;&#32;desc1.<link linkend="_struct_d3_d12___r_e_s_o_u_r_c_e___d_e_s_c1_1a6da2a746c56605fa4bd404a6473017e8">SampleDesc</link>.<link linkend="_struct_d_x_g_i___s_a_m_p_l_e___d_e_s_c_1ade4623104f822ea63cbbcf43a365a87f">Count</link>&#32;&#32;&#32;=&#32;desc0.<link linkend="_struct_d3_d12___r_e_s_o_u_r_c_e___d_e_s_c_1aaef1f4fc888dee88e2830e57418b6615">SampleDesc</link>.<link linkend="_struct_d_x_g_i___s_a_m_p_l_e___d_e_s_c_1ade4623104f822ea63cbbcf43a365a87f">Count</link>;
+569 &#32;&#32;&#32;&#32;desc1.<link linkend="_struct_d3_d12___r_e_s_o_u_r_c_e___d_e_s_c1_1a6da2a746c56605fa4bd404a6473017e8">SampleDesc</link>.<link linkend="_struct_d_x_g_i___s_a_m_p_l_e___d_e_s_c_1a5801818269211925865000f66756dcb8">Quality</link>&#32;=&#32;desc0.<link linkend="_struct_d3_d12___r_e_s_o_u_r_c_e___d_e_s_c_1aaef1f4fc888dee88e2830e57418b6615">SampleDesc</link>.<link linkend="_struct_d_x_g_i___s_a_m_p_l_e___d_e_s_c_1a5801818269211925865000f66756dcb8">Quality</link>;
+570 &#32;&#32;&#32;&#32;desc1.<link linkend="_struct_d3_d12___r_e_s_o_u_r_c_e___d_e_s_c1_1a60a92901c437e61a6358ccf3b2b6ce34">Layout</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;=&#32;desc0.<link linkend="_struct_d3_d12___r_e_s_o_u_r_c_e___d_e_s_c_1a9c7c2164db8ba8936950748fd75d8fdf">Layout</link>;
+571 &#32;&#32;&#32;&#32;desc1.<link linkend="_struct_d3_d12___r_e_s_o_u_r_c_e___d_e_s_c1_1a2cd943ed701a858563d9f5dbb06fdc80">Flags</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;=&#32;desc0.<link linkend="_struct_d3_d12___r_e_s_o_u_r_c_e___d_e_s_c_1ab2ed4c1f2993dec9cecf8c30ab1866bb">Flags</link>;
+572 &#32;&#32;&#32;&#32;desc1.<link linkend="_struct_d3_d12___r_e_s_o_u_r_c_e___d_e_s_c1_1aa44a4bf8fff41968746a9cd6468f8adc">SamplerFeedbackMipRegion</link>.Width&#32;=&#32;0;
+573 &#32;&#32;&#32;&#32;desc1.<link linkend="_struct_d3_d12___r_e_s_o_u_r_c_e___d_e_s_c1_1aa44a4bf8fff41968746a9cd6468f8adc">SamplerFeedbackMipRegion</link>.Height&#32;=&#32;0;
+574 &#32;&#32;&#32;&#32;desc1.<link linkend="_struct_d3_d12___r_e_s_o_u_r_c_e___d_e_s_c1_1aa44a4bf8fff41968746a9cd6468f8adc">SamplerFeedbackMipRegion</link>.Depth&#32;=&#32;0;
+575 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;desc1;
+576 }
+577 
+578 <emphasis role="comment">//------------------------------------------------------------------------------------------------</emphasis>
+579 <emphasis role="keyword">inline</emphasis>&#32;<emphasis role="keywordtype">bool</emphasis>&#32;D3DX12GetCopyableFootprints(
+580 &#32;&#32;&#32;&#32;_In_&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_struct_d3_d12___r_e_s_o_u_r_c_e___d_e_s_c">D3D12_RESOURCE_DESC</link>&amp;&#32;pResourceDesc,
+581 &#32;&#32;&#32;&#32;_In_range_(0,&#32;<link linkend="_d3d12_8idl_1a5bf65743bf9d28952f6a3b40534d2688">D3D12_REQ_SUBRESOURCES</link>)&#32;UINT&#32;FirstSubresource,
+582 &#32;&#32;&#32;&#32;_In_range_(0,&#32;<link linkend="_d3d12_8idl_1a5bf65743bf9d28952f6a3b40534d2688">D3D12_REQ_SUBRESOURCES</link>&#32;-&#32;FirstSubresource)&#32;UINT&#32;NumSubresources,
+583 &#32;&#32;&#32;&#32;UINT64&#32;BaseOffset,
+584 &#32;&#32;&#32;&#32;_Out_writes_opt_(NumSubresources)&#32;<link linkend="_struct_d3_d12___p_l_a_c_e_d___s_u_b_r_e_s_o_u_r_c_e___f_o_o_t_p_r_i_n_t">D3D12_PLACED_SUBRESOURCE_FOOTPRINT</link>*&#32;pLayouts,
+585 &#32;&#32;&#32;&#32;_Out_writes_opt_(NumSubresources)&#32;UINT*&#32;pNumRows,
+586 &#32;&#32;&#32;&#32;_Out_writes_opt_(NumSubresources)&#32;UINT64*&#32;pRowSizeInBytes,
+587 &#32;&#32;&#32;&#32;_Out_opt_&#32;UINT64*&#32;pTotalBytes)
+588 {
+589 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;From&#32;D3D12_RESOURCE_DESC&#32;to&#32;D3D12_RESOURCE_DESC1</emphasis>
+590 &#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___r_e_s_o_u_r_c_e___d_e_s_c1">D3D12_RESOURCE_DESC1</link>&#32;desc&#32;=&#32;D3DX12ResourceDesc0ToDesc1(pResourceDesc);
+591 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;D3DX12GetCopyableFootprints(
+592 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="_struct_c_d3_d_x12___r_e_s_o_u_r_c_e___d_e_s_c1">CD3DX12_RESOURCE_DESC1</link>*<emphasis role="keyword">&gt;</emphasis>(&amp;desc),<emphasis role="comment">//&#32;From&#32;D3D12_RESOURCE_DESC1&#32;to&#32;CD3DX12_RESOURCE_DESC1</emphasis>
+593 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;FirstSubresource,
+594 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;NumSubresources,
+595 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;BaseOffset,
+596 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;pLayouts,
+597 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;pNumRows,
+598 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;pRowSizeInBytes,
+599 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;pTotalBytes);
+600 }
+601 
+602 <emphasis role="preprocessor">#endif&#32;</emphasis><emphasis role="comment">//&#32;D3D12_SDK_VERSION&#32;&gt;=&#32;606</emphasis>
+</programlisting></section>

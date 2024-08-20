@@ -11,9 +11,9 @@
 #include "DLL-ENGINE-LINK.h"
 //#include "CUSTOM_STD.h"
 
-::shared_ptr<GameObject> GameObject::Create(DATATYPES::TS_P_Vector3 pos, void* mesh, int materialID) {
+::shared_ptr<GameObject> GameObject::Create(DATATYPES::TSPVector3 pos, void* mesh, int materialID) {
 	TracyCZoneN(ctx, "Creating GameObject", true);
-
+	GOP;
 	GameObject tmp;
 	UuidCreate(&tmp.uuid);
 	Transform transf = Transform();
@@ -43,9 +43,9 @@
 /// <param name="mesh"></param>
 /// <param name="materialID"></param>
 /// <returns> "shared_ptr GameObject"</returns>
-shared_ptr<GameObject> GameObject::Create(DATATYPES::TS_P_Vector3 pos, Quaternion rot, std::shared_ptr<COMPONENTS::_Mesh> mesh, int materialID) {
+shared_ptr<GameObject> GameObject::Create(DATATYPES::TSPVector3 pos, Quaternion rot, std::shared_ptr<COMPONENTS::_Mesh> mesh, int materialID) {
 	TracyCZoneN(ctx, "Creating GameObject", true);
-
+	GOP;
 	GameObject tmp;
 	UuidCreate(&tmp.uuid);
 	Transform transf = Transform();
@@ -66,8 +66,9 @@ shared_ptr<GameObject> GameObject::Create(DATATYPES::TS_P_Vector3 pos, Quaternio
 	return a;
 
 }
-GameObject GameObject::CreateEmpty(DATATYPES::TS_P_Vector3 pos)
+GameObject GameObject::CreateEmpty(DATATYPES::TSPVector3 pos)
 {
+	GOP;
 	GameObject tmp;
 	UuidCreate(&tmp.uuid);
 	Transform transf = Transform();
@@ -81,10 +82,10 @@ GameObject GameObject::CreateEmpty(DATATYPES::TS_P_Vector3 pos)
 
 	return tmp;
 }
-GameObject GameObject::CreateCamera(DATATYPES::TS_P_Vector3 pos, Quaternion rot)
+GameObject GameObject::CreateCamera(DATATYPES::TSPVector3 pos, Quaternion rot)
 {
 	TracyCZoneN(ctx, "Creating Camera", true);
-
+	GOP;
 	GameObject tmp;
 	tmp.IsCamera = true;
 	UuidCreate(&tmp.uuid);
@@ -107,7 +108,7 @@ bool GameObject::Delete(std::shared_ptr<GameObject> Object)
 	if (std::find(CORE::Scene::Backups_SCENE->ObjectsInScene.begin(), CORE::Scene::Backups_SCENE->ObjectsInScene.end(), Object) != CORE::Scene::Backups_SCENE->ObjectsInScene.end()){
 		int cnt = Object->behaviours.size() - 1;
 		IMPORTANT::DATA->RemoveFromRender(Object->MESH->MMLnik, Object->MESH->Material_ID);
-
+		GOM;
 		for (; cnt >= 0; cnt--) {
 			RemoveComponent(Object->behaviours[cnt]);
 		}
@@ -168,7 +169,7 @@ std::shared_ptr<CORE::Behaviour> GameObject::AddComponent(std::shared_ptr<CORE::
 		//tmp->UUID = uuid;
 		tmp->uuID = uuid;
 	}
-	tmp->gameobject = this;
+	tmp->Game_Object = this;
 	tmp->TRANSFORM = this->TrAnSfOrM;
 	tmp->compname = name;
 	uuids.push_back(tmp->uuID);

@@ -1,0 +1,643 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_imgui__impl__glfw_8cpp" xml:lang="en-US">
+<title>UPRISE_ENGINE/imgui_impl_glfw.cpp File Reference</title>
+<indexterm><primary>UPRISE_ENGINE/imgui_impl_glfw.cpp</primary></indexterm>
+<programlisting linenumbering="unnumbered">#include &quot;imgui.h&quot;<?linebreak?>#include &quot;imgui_impl_glfw.h&quot;<?linebreak?>#include &lt;glfw3.h&gt;<?linebreak?>#include &lt;unistd.h&gt;<?linebreak?></programlisting><simplesect>
+    <title>Classes    </title>
+        <itemizedlist>
+            <listitem><para>struct <link linkend="_struct_im_gui___impl_glfw___data">ImGui_ImplGlfw_Data</link></para>
+</listitem>
+            <listitem><para>struct <link linkend="_struct_im_gui___impl_glfw___viewport_data">ImGui_ImplGlfw_ViewportData</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Macros    </title>
+        <itemizedlist>
+            <listitem><para>#define <link linkend="_imgui__impl__glfw_8cpp_1aee966a60cedeab1426e1f85893d97d2c">GLFW_VERSION_COMBINED</link>&#160;&#160;&#160;(GLFW_VERSION_MAJOR * 1000 + GLFW_VERSION_MINOR * 100 + GLFW_VERSION_REVISION)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_imgui__impl__glfw_8cpp_1af81f1903ed3f6ea6f2182e856b87a6b2">GLFW_HAS_WINDOW_TOPMOST</link>&#160;&#160;&#160;(<link linkend="_imgui__impl__glfw_8cpp_1aee966a60cedeab1426e1f85893d97d2c">GLFW_VERSION_COMBINED</link> &gt;= 3200)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_imgui__impl__glfw_8cpp_1a962141962262d1961f4189f70a505a29">GLFW_HAS_WINDOW_HOVERED</link>&#160;&#160;&#160;(<link linkend="_imgui__impl__glfw_8cpp_1aee966a60cedeab1426e1f85893d97d2c">GLFW_VERSION_COMBINED</link> &gt;= 3300)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_imgui__impl__glfw_8cpp_1ae64ad564e536847807e36c670c8ac9fc">GLFW_HAS_WINDOW_ALPHA</link>&#160;&#160;&#160;(<link linkend="_imgui__impl__glfw_8cpp_1aee966a60cedeab1426e1f85893d97d2c">GLFW_VERSION_COMBINED</link> &gt;= 3300)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_imgui__impl__glfw_8cpp_1ac70b8597a58988c599e0f0a80b4a28e1">GLFW_HAS_PER_MONITOR_DPI</link>&#160;&#160;&#160;(<link linkend="_imgui__impl__glfw_8cpp_1aee966a60cedeab1426e1f85893d97d2c">GLFW_VERSION_COMBINED</link> &gt;= 3300)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_imgui__impl__glfw_8cpp_1aaf81690ad26c92c85a6acdd7f1d3a3bc">GLFW_HAS_VULKAN</link>&#160;&#160;&#160;(<link linkend="_imgui__impl__glfw_8cpp_1aee966a60cedeab1426e1f85893d97d2c">GLFW_VERSION_COMBINED</link> &gt;= 3200)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_imgui__impl__glfw_8cpp_1ac4efe87b7e4ee1ae23e923a71e994864">GLFW_HAS_FOCUS_WINDOW</link>&#160;&#160;&#160;(<link linkend="_imgui__impl__glfw_8cpp_1aee966a60cedeab1426e1f85893d97d2c">GLFW_VERSION_COMBINED</link> &gt;= 3200)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_imgui__impl__glfw_8cpp_1a7f40dd59f893b49baf121d1b9641f764">GLFW_HAS_FOCUS_ON_SHOW</link>&#160;&#160;&#160;(<link linkend="_imgui__impl__glfw_8cpp_1aee966a60cedeab1426e1f85893d97d2c">GLFW_VERSION_COMBINED</link> &gt;= 3300)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_imgui__impl__glfw_8cpp_1ab929270f100e46e21b24c84e9a4ac300">GLFW_HAS_MONITOR_WORK_AREA</link>&#160;&#160;&#160;(<link linkend="_imgui__impl__glfw_8cpp_1aee966a60cedeab1426e1f85893d97d2c">GLFW_VERSION_COMBINED</link> &gt;= 3300)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_imgui__impl__glfw_8cpp_1aabae7554d4c6fde2a28c969b3d4db942">GLFW_HAS_OSX_WINDOW_POS_FIX</link>&#160;&#160;&#160;(<link linkend="_imgui__impl__glfw_8cpp_1aee966a60cedeab1426e1f85893d97d2c">GLFW_VERSION_COMBINED</link> &gt;= 3301)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_imgui__impl__glfw_8cpp_1a58ac1869ab11654688bc0ea77bf224fe">GLFW_HAS_NEW_CURSORS</link>&#160;&#160;&#160;(0)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_imgui__impl__glfw_8cpp_1ab73091e86863ff6a79e14edc7ad85c58">GLFW_HAS_MOUSE_PASSTHROUGH</link>&#160;&#160;&#160;(0)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_imgui__impl__glfw_8cpp_1ad255402ad8fe11dc0abae162cc28d1b7">GLFW_HAS_GAMEPAD_API</link>&#160;&#160;&#160;(<link linkend="_imgui__impl__glfw_8cpp_1aee966a60cedeab1426e1f85893d97d2c">GLFW_VERSION_COMBINED</link> &gt;= 3300)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_imgui__impl__glfw_8cpp_1a33146f8ee47a87da71c112e599827f55">GLFW_HAS_GETKEYNAME</link>&#160;&#160;&#160;(<link linkend="_imgui__impl__glfw_8cpp_1aee966a60cedeab1426e1f85893d97d2c">GLFW_VERSION_COMBINED</link> &gt;= 3200)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_imgui__impl__glfw_8cpp_1aef783fc59bbf51dd44c19b3bf3b694af">GLFW_HAS_GETERROR</link>&#160;&#160;&#160;(<link linkend="_imgui__impl__glfw_8cpp_1aee966a60cedeab1426e1f85893d97d2c">GLFW_VERSION_COMBINED</link> &gt;= 3300)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_imgui__impl__glfw_8cpp_1a260637e5a9303a72f59a33757b3881b3">MAP_BUTTON</link>(KEY_NO,  _UNUSED,  BUTTON_NO)&#160;&#160;&#160;do { io.AddKeyEvent(KEY_NO, (buttons_count &gt; BUTTON_NO &amp;&amp; buttons[BUTTON_NO] == GLFW_PRESS)); } while (0)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_imgui__impl__glfw_8cpp_1a9f278ea488f471a9c1ad2ed71488f8fd">MAP_ANALOG</link>(KEY_NO,  _UNUSED,  AXIS_NO,  V0,  V1)&#160;&#160;&#160;do { float v = (axes_count &gt; AXIS_NO) ? axes[AXIS_NO] : V0; v = (v - V0) / (V1 - V0); io.AddKeyAnalogEvent(KEY_NO, v &gt; 0.10f, Saturate(v)); } while (0)</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Enumerations    </title>
+        <itemizedlist>
+            <listitem><para>enum <link linkend="_imgui__impl__glfw_8cpp_1abfd5392e93ee3c4e7f86cc5515e2d413">GlfwClientApi</link> { <link linkend="_imgui__impl__glfw_8cpp_1abfd5392e93ee3c4e7f86cc5515e2d413a64b18e86183bf2f895418038ae86fd97">GlfwClientApi_Unknown</link>
+, <link linkend="_imgui__impl__glfw_8cpp_1abfd5392e93ee3c4e7f86cc5515e2d413a4bdb1206a80d2fecbccc1ba13a194189">GlfwClientApi_OpenGL</link>
+, <link linkend="_imgui__impl__glfw_8cpp_1abfd5392e93ee3c4e7f86cc5515e2d413aea35a390f6542022f5704637f7cbefb5">GlfwClientApi_Vulkan</link>
+ }</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Functions    </title>
+        <itemizedlist>
+            <listitem><para>void <link linkend="_imgui__impl__glfw_8cpp_1a075e351f00b5c13086cacb05b5b6ee08">ImGui_ImplGlfw_MouseButtonCallback</link> (GLFWwindow *window, int button, int action, int mods)</para>
+</listitem>
+            <listitem><para>void <link linkend="_imgui__impl__glfw_8cpp_1a59c26c674cfd04975ac49c7d83339113">ImGui_ImplGlfw_ScrollCallback</link> (GLFWwindow *window, double xoffset, double yoffset)</para>
+</listitem>
+            <listitem><para>void <link linkend="_imgui__impl__glfw_8cpp_1a66afe6468f3645befeb50a75f82b5efc">ImGui_ImplGlfw_KeyCallback</link> (GLFWwindow *window, int keycode, int scancode, int action, int mods)</para>
+</listitem>
+            <listitem><para>void <link linkend="_imgui__impl__glfw_8cpp_1a64954a853e7f22592743e177b29780d6">ImGui_ImplGlfw_WindowFocusCallback</link> (GLFWwindow *window, int focused)</para>
+</listitem>
+            <listitem><para>void <link linkend="_imgui__impl__glfw_8cpp_1aff2e41a5905ff393a8c6a458809f8c8e">ImGui_ImplGlfw_CursorPosCallback</link> (GLFWwindow *window, double x, double y)</para>
+</listitem>
+            <listitem><para>void <link linkend="_imgui__impl__glfw_8cpp_1a36cddf1dc9af69c03ea52450a32d3818">ImGui_ImplGlfw_CursorEnterCallback</link> (GLFWwindow *window, int entered)</para>
+</listitem>
+            <listitem><para>void <link linkend="_imgui__impl__glfw_8cpp_1afe604d459cc5c4a173ce9e331af6735b">ImGui_ImplGlfw_CharCallback</link> (GLFWwindow *window, unsigned int c)</para>
+</listitem>
+            <listitem><para>void <link linkend="_imgui__impl__glfw_8cpp_1a9acaa23c8338d1ef4ba82b48142ee895">ImGui_ImplGlfw_MonitorCallback</link> (GLFWmonitor *, int)</para>
+</listitem>
+            <listitem><para>void <link linkend="_imgui__impl__glfw_8cpp_1a6fe1ba0e49c2da76f4f28856bc8511fb">ImGui_ImplGlfw_InstallCallbacks</link> (GLFWwindow *window)</para>
+</listitem>
+            <listitem><para>void <link linkend="_imgui__impl__glfw_8cpp_1aa7cddd7ef946da421374a6bea12db744">ImGui_ImplGlfw_RestoreCallbacks</link> (GLFWwindow *window)</para>
+</listitem>
+            <listitem><para>void <link linkend="_imgui__impl__glfw_8cpp_1addd8948824f9bd78b0c8ec4c81213c9e">ImGui_ImplGlfw_SetCallbacksChainForAllWindows</link> (bool chain_for_all_windows)</para>
+</listitem>
+            <listitem><para>bool <link linkend="_imgui__impl__glfw_8cpp_1a3d472e598f8e218a0bd994e840b865ab">ImGui_ImplGlfw_InitForOpenGL</link> (GLFWwindow *window, bool install_callbacks)</para>
+</listitem>
+            <listitem><para>bool <link linkend="_imgui__impl__glfw_8cpp_1ac7cab00e5027bccc3b536afb0e07bc8f">ImGui_ImplGlfw_InitForVulkan</link> (GLFWwindow *window, bool install_callbacks)</para>
+</listitem>
+            <listitem><para>bool <link linkend="_imgui__impl__glfw_8cpp_1ab1ec1d0dc53754ef893e6ab23ec564e5">ImGui_ImplGlfw_InitForOther</link> (GLFWwindow *window, bool install_callbacks)</para>
+</listitem>
+            <listitem><para>void <link linkend="_imgui__impl__glfw_8cpp_1a983c2903ccb938fea5ecdd4d53e54704">ImGui_ImplGlfw_Shutdown</link> ()</para>
+</listitem>
+            <listitem><para>void <link linkend="_imgui__impl__glfw_8cpp_1a206e99434f63c4b8e24e8a4208c11b65">ImGui_ImplGlfw_NewFrame</link> ()</para>
+</listitem>
+            <listitem><para>void <link linkend="_imgui__impl__glfw_8cpp_1a76f4eb755b660ac33c672fbed7455c39">ImGui_ImplGlfw_Sleep</link> (int milliseconds)</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Macro Definition Documentation</title>
+<anchor xml:id="_imgui__impl__glfw_8cpp_1a7f40dd59f893b49baf121d1b9641f764"/><section>
+    <title>GLFW_HAS_FOCUS_ON_SHOW</title>
+<indexterm><primary>GLFW_HAS_FOCUS_ON_SHOW</primary><secondary>imgui_impl_glfw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_impl_glfw.cpp</primary><secondary>GLFW_HAS_FOCUS_ON_SHOW</secondary></indexterm>
+<para><computeroutput>#define GLFW_HAS_FOCUS_ON_SHOW&#160;&#160;&#160;(<link linkend="_imgui__impl__glfw_8cpp_1aee966a60cedeab1426e1f85893d97d2c">GLFW_VERSION_COMBINED</link> &gt;= 3300)</computeroutput></para><para>
+Definition at line <link linkend="_imgui__impl__glfw_8cpp_source_1l00134">134</link> of file <link linkend="_imgui__impl__glfw_8cpp_source">imgui_impl_glfw.cpp</link>.</para>
+</section>
+<anchor xml:id="_imgui__impl__glfw_8cpp_1ac4efe87b7e4ee1ae23e923a71e994864"/><section>
+    <title>GLFW_HAS_FOCUS_WINDOW</title>
+<indexterm><primary>GLFW_HAS_FOCUS_WINDOW</primary><secondary>imgui_impl_glfw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_impl_glfw.cpp</primary><secondary>GLFW_HAS_FOCUS_WINDOW</secondary></indexterm>
+<para><computeroutput>#define GLFW_HAS_FOCUS_WINDOW&#160;&#160;&#160;(<link linkend="_imgui__impl__glfw_8cpp_1aee966a60cedeab1426e1f85893d97d2c">GLFW_VERSION_COMBINED</link> &gt;= 3200)</computeroutput></para><para>
+Definition at line <link linkend="_imgui__impl__glfw_8cpp_source_1l00133">133</link> of file <link linkend="_imgui__impl__glfw_8cpp_source">imgui_impl_glfw.cpp</link>.</para>
+</section>
+<anchor xml:id="_imgui__impl__glfw_8cpp_1ad255402ad8fe11dc0abae162cc28d1b7"/><section>
+    <title>GLFW_HAS_GAMEPAD_API</title>
+<indexterm><primary>GLFW_HAS_GAMEPAD_API</primary><secondary>imgui_impl_glfw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_impl_glfw.cpp</primary><secondary>GLFW_HAS_GAMEPAD_API</secondary></indexterm>
+<para><computeroutput>#define GLFW_HAS_GAMEPAD_API&#160;&#160;&#160;(<link linkend="_imgui__impl__glfw_8cpp_1aee966a60cedeab1426e1f85893d97d2c">GLFW_VERSION_COMBINED</link> &gt;= 3300)</computeroutput></para><para>
+Definition at line <link linkend="_imgui__impl__glfw_8cpp_source_1l00147">147</link> of file <link linkend="_imgui__impl__glfw_8cpp_source">imgui_impl_glfw.cpp</link>.</para>
+</section>
+<anchor xml:id="_imgui__impl__glfw_8cpp_1aef783fc59bbf51dd44c19b3bf3b694af"/><section>
+    <title>GLFW_HAS_GETERROR</title>
+<indexterm><primary>GLFW_HAS_GETERROR</primary><secondary>imgui_impl_glfw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_impl_glfw.cpp</primary><secondary>GLFW_HAS_GETERROR</secondary></indexterm>
+<para><computeroutput>#define GLFW_HAS_GETERROR&#160;&#160;&#160;(<link linkend="_imgui__impl__glfw_8cpp_1aee966a60cedeab1426e1f85893d97d2c">GLFW_VERSION_COMBINED</link> &gt;= 3300)</computeroutput></para><para>
+Definition at line <link linkend="_imgui__impl__glfw_8cpp_source_1l00149">149</link> of file <link linkend="_imgui__impl__glfw_8cpp_source">imgui_impl_glfw.cpp</link>.</para>
+</section>
+<anchor xml:id="_imgui__impl__glfw_8cpp_1a33146f8ee47a87da71c112e599827f55"/><section>
+    <title>GLFW_HAS_GETKEYNAME</title>
+<indexterm><primary>GLFW_HAS_GETKEYNAME</primary><secondary>imgui_impl_glfw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_impl_glfw.cpp</primary><secondary>GLFW_HAS_GETKEYNAME</secondary></indexterm>
+<para><computeroutput>#define GLFW_HAS_GETKEYNAME&#160;&#160;&#160;(<link linkend="_imgui__impl__glfw_8cpp_1aee966a60cedeab1426e1f85893d97d2c">GLFW_VERSION_COMBINED</link> &gt;= 3200)</computeroutput></para><para>
+Definition at line <link linkend="_imgui__impl__glfw_8cpp_source_1l00148">148</link> of file <link linkend="_imgui__impl__glfw_8cpp_source">imgui_impl_glfw.cpp</link>.</para>
+</section>
+<anchor xml:id="_imgui__impl__glfw_8cpp_1ab929270f100e46e21b24c84e9a4ac300"/><section>
+    <title>GLFW_HAS_MONITOR_WORK_AREA</title>
+<indexterm><primary>GLFW_HAS_MONITOR_WORK_AREA</primary><secondary>imgui_impl_glfw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_impl_glfw.cpp</primary><secondary>GLFW_HAS_MONITOR_WORK_AREA</secondary></indexterm>
+<para><computeroutput>#define GLFW_HAS_MONITOR_WORK_AREA&#160;&#160;&#160;(<link linkend="_imgui__impl__glfw_8cpp_1aee966a60cedeab1426e1f85893d97d2c">GLFW_VERSION_COMBINED</link> &gt;= 3300)</computeroutput></para><para>
+Definition at line <link linkend="_imgui__impl__glfw_8cpp_source_1l00135">135</link> of file <link linkend="_imgui__impl__glfw_8cpp_source">imgui_impl_glfw.cpp</link>.</para>
+</section>
+<anchor xml:id="_imgui__impl__glfw_8cpp_1ab73091e86863ff6a79e14edc7ad85c58"/><section>
+    <title>GLFW_HAS_MOUSE_PASSTHROUGH</title>
+<indexterm><primary>GLFW_HAS_MOUSE_PASSTHROUGH</primary><secondary>imgui_impl_glfw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_impl_glfw.cpp</primary><secondary>GLFW_HAS_MOUSE_PASSTHROUGH</secondary></indexterm>
+<para><computeroutput>#define GLFW_HAS_MOUSE_PASSTHROUGH&#160;&#160;&#160;(0)</computeroutput></para><para>
+Definition at line <link linkend="_imgui__impl__glfw_8cpp_source_1l00145">145</link> of file <link linkend="_imgui__impl__glfw_8cpp_source">imgui_impl_glfw.cpp</link>.</para>
+</section>
+<anchor xml:id="_imgui__impl__glfw_8cpp_1a58ac1869ab11654688bc0ea77bf224fe"/><section>
+    <title>GLFW_HAS_NEW_CURSORS</title>
+<indexterm><primary>GLFW_HAS_NEW_CURSORS</primary><secondary>imgui_impl_glfw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_impl_glfw.cpp</primary><secondary>GLFW_HAS_NEW_CURSORS</secondary></indexterm>
+<para><computeroutput>#define GLFW_HAS_NEW_CURSORS&#160;&#160;&#160;(0)</computeroutput></para><para>
+Definition at line <link linkend="_imgui__impl__glfw_8cpp_source_1l00140">140</link> of file <link linkend="_imgui__impl__glfw_8cpp_source">imgui_impl_glfw.cpp</link>.</para>
+</section>
+<anchor xml:id="_imgui__impl__glfw_8cpp_1aabae7554d4c6fde2a28c969b3d4db942"/><section>
+    <title>GLFW_HAS_OSX_WINDOW_POS_FIX</title>
+<indexterm><primary>GLFW_HAS_OSX_WINDOW_POS_FIX</primary><secondary>imgui_impl_glfw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_impl_glfw.cpp</primary><secondary>GLFW_HAS_OSX_WINDOW_POS_FIX</secondary></indexterm>
+<para><computeroutput>#define GLFW_HAS_OSX_WINDOW_POS_FIX&#160;&#160;&#160;(<link linkend="_imgui__impl__glfw_8cpp_1aee966a60cedeab1426e1f85893d97d2c">GLFW_VERSION_COMBINED</link> &gt;= 3301)</computeroutput></para><para>
+Definition at line <link linkend="_imgui__impl__glfw_8cpp_source_1l00136">136</link> of file <link linkend="_imgui__impl__glfw_8cpp_source">imgui_impl_glfw.cpp</link>.</para>
+</section>
+<anchor xml:id="_imgui__impl__glfw_8cpp_1ac70b8597a58988c599e0f0a80b4a28e1"/><section>
+    <title>GLFW_HAS_PER_MONITOR_DPI</title>
+<indexterm><primary>GLFW_HAS_PER_MONITOR_DPI</primary><secondary>imgui_impl_glfw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_impl_glfw.cpp</primary><secondary>GLFW_HAS_PER_MONITOR_DPI</secondary></indexterm>
+<para><computeroutput>#define GLFW_HAS_PER_MONITOR_DPI&#160;&#160;&#160;(<link linkend="_imgui__impl__glfw_8cpp_1aee966a60cedeab1426e1f85893d97d2c">GLFW_VERSION_COMBINED</link> &gt;= 3300)</computeroutput></para><para>
+Definition at line <link linkend="_imgui__impl__glfw_8cpp_source_1l00127">127</link> of file <link linkend="_imgui__impl__glfw_8cpp_source">imgui_impl_glfw.cpp</link>.</para>
+</section>
+<anchor xml:id="_imgui__impl__glfw_8cpp_1aaf81690ad26c92c85a6acdd7f1d3a3bc"/><section>
+    <title>GLFW_HAS_VULKAN</title>
+<indexterm><primary>GLFW_HAS_VULKAN</primary><secondary>imgui_impl_glfw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_impl_glfw.cpp</primary><secondary>GLFW_HAS_VULKAN</secondary></indexterm>
+<para><computeroutput>#define GLFW_HAS_VULKAN&#160;&#160;&#160;(<link linkend="_imgui__impl__glfw_8cpp_1aee966a60cedeab1426e1f85893d97d2c">GLFW_VERSION_COMBINED</link> &gt;= 3200)</computeroutput></para><para>
+Definition at line <link linkend="_imgui__impl__glfw_8cpp_source_1l00131">131</link> of file <link linkend="_imgui__impl__glfw_8cpp_source">imgui_impl_glfw.cpp</link>.</para>
+</section>
+<anchor xml:id="_imgui__impl__glfw_8cpp_1ae64ad564e536847807e36c670c8ac9fc"/><section>
+    <title>GLFW_HAS_WINDOW_ALPHA</title>
+<indexterm><primary>GLFW_HAS_WINDOW_ALPHA</primary><secondary>imgui_impl_glfw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_impl_glfw.cpp</primary><secondary>GLFW_HAS_WINDOW_ALPHA</secondary></indexterm>
+<para><computeroutput>#define GLFW_HAS_WINDOW_ALPHA&#160;&#160;&#160;(<link linkend="_imgui__impl__glfw_8cpp_1aee966a60cedeab1426e1f85893d97d2c">GLFW_VERSION_COMBINED</link> &gt;= 3300)</computeroutput></para><para>
+Definition at line <link linkend="_imgui__impl__glfw_8cpp_source_1l00126">126</link> of file <link linkend="_imgui__impl__glfw_8cpp_source">imgui_impl_glfw.cpp</link>.</para>
+</section>
+<anchor xml:id="_imgui__impl__glfw_8cpp_1a962141962262d1961f4189f70a505a29"/><section>
+    <title>GLFW_HAS_WINDOW_HOVERED</title>
+<indexterm><primary>GLFW_HAS_WINDOW_HOVERED</primary><secondary>imgui_impl_glfw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_impl_glfw.cpp</primary><secondary>GLFW_HAS_WINDOW_HOVERED</secondary></indexterm>
+<para><computeroutput>#define GLFW_HAS_WINDOW_HOVERED&#160;&#160;&#160;(<link linkend="_imgui__impl__glfw_8cpp_1aee966a60cedeab1426e1f85893d97d2c">GLFW_VERSION_COMBINED</link> &gt;= 3300)</computeroutput></para><para>
+Definition at line <link linkend="_imgui__impl__glfw_8cpp_source_1l00125">125</link> of file <link linkend="_imgui__impl__glfw_8cpp_source">imgui_impl_glfw.cpp</link>.</para>
+</section>
+<anchor xml:id="_imgui__impl__glfw_8cpp_1af81f1903ed3f6ea6f2182e856b87a6b2"/><section>
+    <title>GLFW_HAS_WINDOW_TOPMOST</title>
+<indexterm><primary>GLFW_HAS_WINDOW_TOPMOST</primary><secondary>imgui_impl_glfw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_impl_glfw.cpp</primary><secondary>GLFW_HAS_WINDOW_TOPMOST</secondary></indexterm>
+<para><computeroutput>#define GLFW_HAS_WINDOW_TOPMOST&#160;&#160;&#160;(<link linkend="_imgui__impl__glfw_8cpp_1aee966a60cedeab1426e1f85893d97d2c">GLFW_VERSION_COMBINED</link> &gt;= 3200)</computeroutput></para><para>
+Definition at line <link linkend="_imgui__impl__glfw_8cpp_source_1l00124">124</link> of file <link linkend="_imgui__impl__glfw_8cpp_source">imgui_impl_glfw.cpp</link>.</para>
+</section>
+<anchor xml:id="_imgui__impl__glfw_8cpp_1aee966a60cedeab1426e1f85893d97d2c"/><section>
+    <title>GLFW_VERSION_COMBINED</title>
+<indexterm><primary>GLFW_VERSION_COMBINED</primary><secondary>imgui_impl_glfw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_impl_glfw.cpp</primary><secondary>GLFW_VERSION_COMBINED</secondary></indexterm>
+<para><computeroutput>#define GLFW_VERSION_COMBINED&#160;&#160;&#160;(GLFW_VERSION_MAJOR * 1000 + GLFW_VERSION_MINOR * 100 + GLFW_VERSION_REVISION)</computeroutput></para><para>
+Definition at line <link linkend="_imgui__impl__glfw_8cpp_source_1l00123">123</link> of file <link linkend="_imgui__impl__glfw_8cpp_source">imgui_impl_glfw.cpp</link>.</para>
+</section>
+<anchor xml:id="_imgui__impl__glfw_8cpp_1a9f278ea488f471a9c1ad2ed71488f8fd"/><section>
+    <title>MAP_ANALOG</title>
+<indexterm><primary>MAP_ANALOG</primary><secondary>imgui_impl_glfw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_impl_glfw.cpp</primary><secondary>MAP_ANALOG</secondary></indexterm>
+<para><computeroutput>#define MAP_ANALOG( KEY_NO,  _UNUSED,  AXIS_NO,  V0,  V1)&#160;&#160;&#160;do { float v = (axes_count &gt; AXIS_NO) ? axes[AXIS_NO] : V0; v = (v - V0) / (V1 - V0); io.AddKeyAnalogEvent(KEY_NO, v &gt; 0.10f, Saturate(v)); } while (0)</computeroutput></para></section>
+<anchor xml:id="_imgui__impl__glfw_8cpp_1a260637e5a9303a72f59a33757b3881b3"/><section>
+    <title>MAP_BUTTON</title>
+<indexterm><primary>MAP_BUTTON</primary><secondary>imgui_impl_glfw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_impl_glfw.cpp</primary><secondary>MAP_BUTTON</secondary></indexterm>
+<para><computeroutput>#define MAP_BUTTON( KEY_NO,  _UNUSED,  BUTTON_NO)&#160;&#160;&#160;do { io.AddKeyEvent(KEY_NO, (buttons_count &gt; BUTTON_NO &amp;&amp; buttons[BUTTON_NO] == GLFW_PRESS)); } while (0)</computeroutput></para></section>
+</section>
+<section>
+<title>Enumeration Type Documentation</title>
+<anchor xml:id="_imgui__impl__glfw_8cpp_1abfd5392e93ee3c4e7f86cc5515e2d413"/><section>
+    <title>GlfwClientApi</title>
+<indexterm><primary>GlfwClientApi</primary><secondary>imgui_impl_glfw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_impl_glfw.cpp</primary><secondary>GlfwClientApi</secondary></indexterm>
+<para><computeroutput>enum <link linkend="_imgui__impl__glfw_8cpp_1abfd5392e93ee3c4e7f86cc5515e2d413">GlfwClientApi</link></computeroutput></para><informaltable frame="all">
+<title>Enumerator</title>
+    <tgroup cols="2" align="left" colsep="1" rowsep="1">
+      <colspec colname='c1'/>
+      <colspec colname='c2'/>
+<tbody>
+<row><entry><indexterm><primary>GlfwClientApi_Unknown</primary><secondary>imgui_impl_glfw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_impl_glfw.cpp</primary><secondary>GlfwClientApi_Unknown</secondary></indexterm>
+<anchor xml:id="_imgui__impl__glfw_8cpp_1abfd5392e93ee3c4e7f86cc5515e2d413a64b18e86183bf2f895418038ae86fd97"/>GlfwClientApi_Unknown</entry><entry></entry></row><row><entry><indexterm><primary>GlfwClientApi_OpenGL</primary><secondary>imgui_impl_glfw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_impl_glfw.cpp</primary><secondary>GlfwClientApi_OpenGL</secondary></indexterm>
+<anchor xml:id="_imgui__impl__glfw_8cpp_1abfd5392e93ee3c4e7f86cc5515e2d413a4bdb1206a80d2fecbccc1ba13a194189"/>GlfwClientApi_OpenGL</entry><entry></entry></row><row><entry><indexterm><primary>GlfwClientApi_Vulkan</primary><secondary>imgui_impl_glfw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_impl_glfw.cpp</primary><secondary>GlfwClientApi_Vulkan</secondary></indexterm>
+<anchor xml:id="_imgui__impl__glfw_8cpp_1abfd5392e93ee3c4e7f86cc5515e2d413aea35a390f6542022f5704637f7cbefb5"/>GlfwClientApi_Vulkan</entry><entry></entry></row>    </tbody>
+    </tgroup>
+</informaltable>
+<para>
+Definition at line <link linkend="_imgui__impl__glfw_8cpp_source_1l00152">152</link> of file <link linkend="_imgui__impl__glfw_8cpp_source">imgui_impl_glfw.cpp</link>.</para>
+<programlisting linenumbering="unnumbered">00153 {
+00154 &#32;&#32;&#32;&#32;<link linkend="_imgui__impl__glfw_8cpp_1abfd5392e93ee3c4e7f86cc5515e2d413a64b18e86183bf2f895418038ae86fd97">GlfwClientApi_Unknown</link>,
+00155 &#32;&#32;&#32;&#32;<link linkend="_imgui__impl__glfw_8cpp_1abfd5392e93ee3c4e7f86cc5515e2d413a4bdb1206a80d2fecbccc1ba13a194189">GlfwClientApi_OpenGL</link>,
+00156 &#32;&#32;&#32;&#32;<link linkend="_imgui__impl__glfw_8cpp_1abfd5392e93ee3c4e7f86cc5515e2d413aea35a390f6542022f5704637f7cbefb5">GlfwClientApi_Vulkan</link>,
+00157 };
+</programlisting></section>
+</section>
+<section>
+<title>Function Documentation</title>
+<anchor xml:id="_imgui__impl__glfw_8cpp_1afe604d459cc5c4a173ce9e331af6735b"/><section>
+    <title>ImGui_ImplGlfw_CharCallback()</title>
+<indexterm><primary>ImGui_ImplGlfw_CharCallback</primary><secondary>imgui_impl_glfw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_impl_glfw.cpp</primary><secondary>ImGui_ImplGlfw_CharCallback</secondary></indexterm>
+<para><computeroutput>void ImGui_ImplGlfw_CharCallback (GLFWwindow * window, unsigned int c)</computeroutput></para><para>
+Definition at line <link linkend="_imgui__impl__glfw_8cpp_source_1l00494">494</link> of file <link linkend="_imgui__impl__glfw_8cpp_source">imgui_impl_glfw.cpp</link>.</para>
+<programlisting linenumbering="unnumbered">00495 {
+00496 &#32;&#32;&#32;&#32;<link linkend="_struct_im_gui___impl_glfw___data">ImGui_ImplGlfw_Data</link>*&#32;bd&#32;=&#32;ImGui_ImplGlfw_GetBackendData();
+00497 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1a537697690bd14a0a11be72f3ef874793">PrevUserCallbackChar</link>&#32;!=&#32;<emphasis role="keyword">nullptr</emphasis>&#32;&amp;&amp;&#32;ImGui_ImplGlfw_ShouldChainCallback(window))
+00498 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1a537697690bd14a0a11be72f3ef874793">PrevUserCallbackChar</link>(window,&#32;c);
+00499 
+00500 &#32;&#32;&#32;&#32;ImGuiIO&amp;&#32;io&#32;=&#32;ImGui::GetIO();
+00501 &#32;&#32;&#32;&#32;io.AddInputCharacter(c);
+00502 }
+</programlisting><para>
+References <link linkend="_imgui__impl__glfw_8cpp_source_1l00182">ImGui_ImplGlfw_Data::PrevUserCallbackChar</link>.</para>
+<para>
+Referenced by <link linkend="_imgui__impl__glfw_8cpp_source_1l00532">ImGui_ImplGlfw_InstallCallbacks()</link>.</para>
+</section>
+<anchor xml:id="_imgui__impl__glfw_8cpp_1a36cddf1dc9af69c03ea52450a32d3818"/><section>
+    <title>ImGui_ImplGlfw_CursorEnterCallback()</title>
+<indexterm><primary>ImGui_ImplGlfw_CursorEnterCallback</primary><secondary>imgui_impl_glfw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_impl_glfw.cpp</primary><secondary>ImGui_ImplGlfw_CursorEnterCallback</secondary></indexterm>
+<para><computeroutput>void ImGui_ImplGlfw_CursorEnterCallback (GLFWwindow * window, int entered)</computeroutput></para><para>
+Definition at line <link linkend="_imgui__impl__glfw_8cpp_source_1l00474">474</link> of file <link linkend="_imgui__impl__glfw_8cpp_source">imgui_impl_glfw.cpp</link>.</para>
+<programlisting linenumbering="unnumbered">00475 {
+00476 &#32;&#32;&#32;&#32;<link linkend="_struct_im_gui___impl_glfw___data">ImGui_ImplGlfw_Data</link>*&#32;bd&#32;=&#32;ImGui_ImplGlfw_GetBackendData();
+00477 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1a0bb12cf6a91ce6e42900a5c1fb58369e">PrevUserCallbackCursorEnter</link>&#32;!=&#32;<emphasis role="keyword">nullptr</emphasis>&#32;&amp;&amp;&#32;ImGui_ImplGlfw_ShouldChainCallback(window))
+00478 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1a0bb12cf6a91ce6e42900a5c1fb58369e">PrevUserCallbackCursorEnter</link>(window,&#32;entered);
+00479 
+00480 &#32;&#32;&#32;&#32;ImGuiIO&amp;&#32;io&#32;=&#32;ImGui::GetIO();
+00481 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(entered)
+00482 &#32;&#32;&#32;&#32;{
+00483 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1a0cd83054e5f18b548ad7030e56e44fa7">MouseWindow</link>&#32;=&#32;window;
+00484 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;io.AddMousePosEvent(bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1a71c8194d82a00e458884c50552e21933">LastValidMousePos</link>.x,&#32;bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1a71c8194d82a00e458884c50552e21933">LastValidMousePos</link>.y);
+00485 &#32;&#32;&#32;&#32;}
+00486 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>&#32;<emphasis role="keywordflow">if</emphasis>&#32;(!entered&#32;&amp;&amp;&#32;bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1a0cd83054e5f18b548ad7030e56e44fa7">MouseWindow</link>&#32;==&#32;window)
+00487 &#32;&#32;&#32;&#32;{
+00488 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1a71c8194d82a00e458884c50552e21933">LastValidMousePos</link>&#32;=&#32;io.MousePos;
+00489 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1a0cd83054e5f18b548ad7030e56e44fa7">MouseWindow</link>&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>;
+00490 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;io.AddMousePosEvent(-FLT_MAX,&#32;-FLT_MAX);
+00491 &#32;&#32;&#32;&#32;}
+00492 }
+</programlisting><para>
+References <link linkend="_imgui__impl__glfw_8cpp_source_1l00166">ImGui_ImplGlfw_Data::LastValidMousePos</link>, <link linkend="_imgui__impl__glfw_8cpp_source_1l00164">ImGui_ImplGlfw_Data::MouseWindow</link>, and <link linkend="_imgui__impl__glfw_8cpp_source_1l00178">ImGui_ImplGlfw_Data::PrevUserCallbackCursorEnter</link>.</para>
+<para>
+Referenced by <link linkend="_imgui__impl__glfw_8cpp_source_1l00532">ImGui_ImplGlfw_InstallCallbacks()</link>.</para>
+</section>
+<anchor xml:id="_imgui__impl__glfw_8cpp_1aff2e41a5905ff393a8c6a458809f8c8e"/><section>
+    <title>ImGui_ImplGlfw_CursorPosCallback()</title>
+<indexterm><primary>ImGui_ImplGlfw_CursorPosCallback</primary><secondary>imgui_impl_glfw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_impl_glfw.cpp</primary><secondary>ImGui_ImplGlfw_CursorPosCallback</secondary></indexterm>
+<para><computeroutput>void ImGui_ImplGlfw_CursorPosCallback (GLFWwindow * window, double x, double y)</computeroutput></para><para>
+Definition at line <link linkend="_imgui__impl__glfw_8cpp_source_1l00454">454</link> of file <link linkend="_imgui__impl__glfw_8cpp_source">imgui_impl_glfw.cpp</link>.</para>
+<programlisting linenumbering="unnumbered">00455 {
+00456 &#32;&#32;&#32;&#32;<link linkend="_struct_im_gui___impl_glfw___data">ImGui_ImplGlfw_Data</link>*&#32;bd&#32;=&#32;ImGui_ImplGlfw_GetBackendData();
+00457 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1a58577fb2f4a4f9657802712f728e5d17">PrevUserCallbackCursorPos</link>&#32;!=&#32;<emphasis role="keyword">nullptr</emphasis>&#32;&amp;&amp;&#32;ImGui_ImplGlfw_ShouldChainCallback(window))
+00458 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1a58577fb2f4a4f9657802712f728e5d17">PrevUserCallbackCursorPos</link>(window,&#32;x,&#32;y);
+00459 
+00460 &#32;&#32;&#32;&#32;ImGuiIO&amp;&#32;io&#32;=&#32;ImGui::GetIO();
+00461 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(io.ConfigFlags&#32;&amp;&#32;ImGuiConfigFlags_ViewportsEnable)
+00462 &#32;&#32;&#32;&#32;{
+00463 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;window_x,&#32;window_y;
+00464 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;glfwGetWindowPos(window,&#32;&amp;window_x,&#32;&amp;window_y);
+00465 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;x&#32;+=&#32;window_x;
+00466 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;y&#32;+=&#32;window_y;
+00467 &#32;&#32;&#32;&#32;}
+00468 &#32;&#32;&#32;&#32;io.AddMousePosEvent((<emphasis role="keywordtype">float</emphasis>)x,&#32;(<emphasis role="keywordtype">float</emphasis>)y);
+00469 &#32;&#32;&#32;&#32;bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1a71c8194d82a00e458884c50552e21933">LastValidMousePos</link>&#32;=&#32;ImVec2((<emphasis role="keywordtype">float</emphasis>)x,&#32;(<emphasis role="keywordtype">float</emphasis>)y);
+00470 }
+</programlisting><para>
+References <link linkend="_imgui__impl__glfw_8cpp_source_1l00166">ImGui_ImplGlfw_Data::LastValidMousePos</link>, and <link linkend="_imgui__impl__glfw_8cpp_source_1l00177">ImGui_ImplGlfw_Data::PrevUserCallbackCursorPos</link>.</para>
+<para>
+Referenced by <link linkend="_imgui__impl__glfw_8cpp_source_1l00532">ImGui_ImplGlfw_InstallCallbacks()</link>.</para>
+</section>
+<anchor xml:id="_imgui__impl__glfw_8cpp_1a3d472e598f8e218a0bd994e840b865ab"/><section>
+    <title>ImGui_ImplGlfw_InitForOpenGL()</title>
+<indexterm><primary>ImGui_ImplGlfw_InitForOpenGL</primary><secondary>imgui_impl_glfw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_impl_glfw.cpp</primary><secondary>ImGui_ImplGlfw_InitForOpenGL</secondary></indexterm>
+<para><computeroutput>bool ImGui_ImplGlfw_InitForOpenGL (GLFWwindow * window, bool install_callbacks)</computeroutput></para><para>
+Definition at line <link linkend="_imgui__impl__glfw_8cpp_source_1l00677">677</link> of file <link linkend="_imgui__impl__glfw_8cpp_source">imgui_impl_glfw.cpp</link>.</para>
+<programlisting linenumbering="unnumbered">00678 {
+00679 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;ImGui_ImplGlfw_Init(window,&#32;install_callbacks,&#32;<link linkend="_imgui__impl__glfw_8cpp_1abfd5392e93ee3c4e7f86cc5515e2d413a4bdb1206a80d2fecbccc1ba13a194189">GlfwClientApi_OpenGL</link>);
+00680 }
+</programlisting><para>
+References <link linkend="_imgui__impl__glfw_8cpp_source_1l00155">GlfwClientApi_OpenGL</link>.</para>
+<para>
+Referenced by <link linkend="__c___s_t_a_r_t_u_p_8cpp_source_1l00048">CORE::Startup::StartEditor()</link>.</para>
+</section>
+<anchor xml:id="_imgui__impl__glfw_8cpp_1ab1ec1d0dc53754ef893e6ab23ec564e5"/><section>
+    <title>ImGui_ImplGlfw_InitForOther()</title>
+<indexterm><primary>ImGui_ImplGlfw_InitForOther</primary><secondary>imgui_impl_glfw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_impl_glfw.cpp</primary><secondary>ImGui_ImplGlfw_InitForOther</secondary></indexterm>
+<para><computeroutput>bool ImGui_ImplGlfw_InitForOther (GLFWwindow * window, bool install_callbacks)</computeroutput></para><para>
+Definition at line <link linkend="_imgui__impl__glfw_8cpp_source_1l00687">687</link> of file <link linkend="_imgui__impl__glfw_8cpp_source">imgui_impl_glfw.cpp</link>.</para>
+<programlisting linenumbering="unnumbered">00688 {
+00689 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;ImGui_ImplGlfw_Init(window,&#32;install_callbacks,&#32;<link linkend="_imgui__impl__glfw_8cpp_1abfd5392e93ee3c4e7f86cc5515e2d413a64b18e86183bf2f895418038ae86fd97">GlfwClientApi_Unknown</link>);
+00690 }
+</programlisting><para>
+References <link linkend="_imgui__impl__glfw_8cpp_source_1l00154">GlfwClientApi_Unknown</link>.</para>
+</section>
+<anchor xml:id="_imgui__impl__glfw_8cpp_1ac7cab00e5027bccc3b536afb0e07bc8f"/><section>
+    <title>ImGui_ImplGlfw_InitForVulkan()</title>
+<indexterm><primary>ImGui_ImplGlfw_InitForVulkan</primary><secondary>imgui_impl_glfw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_impl_glfw.cpp</primary><secondary>ImGui_ImplGlfw_InitForVulkan</secondary></indexterm>
+<para><computeroutput>bool ImGui_ImplGlfw_InitForVulkan (GLFWwindow * window, bool install_callbacks)</computeroutput></para><para>
+Definition at line <link linkend="_imgui__impl__glfw_8cpp_source_1l00682">682</link> of file <link linkend="_imgui__impl__glfw_8cpp_source">imgui_impl_glfw.cpp</link>.</para>
+<programlisting linenumbering="unnumbered">00683 {
+00684 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;ImGui_ImplGlfw_Init(window,&#32;install_callbacks,&#32;<link linkend="_imgui__impl__glfw_8cpp_1abfd5392e93ee3c4e7f86cc5515e2d413aea35a390f6542022f5704637f7cbefb5">GlfwClientApi_Vulkan</link>);
+00685 }
+</programlisting><para>
+References <link linkend="_imgui__impl__glfw_8cpp_source_1l00156">GlfwClientApi_Vulkan</link>.</para>
+</section>
+<anchor xml:id="_imgui__impl__glfw_8cpp_1a6fe1ba0e49c2da76f4f28856bc8511fb"/><section>
+    <title>ImGui_ImplGlfw_InstallCallbacks()</title>
+<indexterm><primary>ImGui_ImplGlfw_InstallCallbacks</primary><secondary>imgui_impl_glfw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_impl_glfw.cpp</primary><secondary>ImGui_ImplGlfw_InstallCallbacks</secondary></indexterm>
+<para><computeroutput>void ImGui_ImplGlfw_InstallCallbacks (GLFWwindow * window)</computeroutput></para><para>
+Definition at line <link linkend="_imgui__impl__glfw_8cpp_source_1l00532">532</link> of file <link linkend="_imgui__impl__glfw_8cpp_source">imgui_impl_glfw.cpp</link>.</para>
+<programlisting linenumbering="unnumbered">00533 {
+00534 &#32;&#32;&#32;&#32;<link linkend="_struct_im_gui___impl_glfw___data">ImGui_ImplGlfw_Data</link>*&#32;bd&#32;=&#32;ImGui_ImplGlfw_GetBackendData();
+00535 &#32;&#32;&#32;&#32;IM_ASSERT(bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1a2cd25c9a1afd831a20c9ec5a6dc52b91">InstalledCallbacks</link>&#32;==&#32;<emphasis role="keyword">false</emphasis>&#32;&amp;&amp;&#32;<emphasis role="stringliteral">&quot;Callbacks&#32;already&#32;installed!&quot;</emphasis>);
+00536 &#32;&#32;&#32;&#32;IM_ASSERT(bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1aad8ecdab1cb486c427254f2032214da7">Window</link>&#32;==&#32;window);
+00537 
+00538 &#32;&#32;&#32;&#32;bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1ab2d6f0997eee54b310ab657e48b50033">PrevUserCallbackWindowFocus</link>&#32;=&#32;glfwSetWindowFocusCallback(window,&#32;<link linkend="_imgui__impl__glfw_8cpp_1a64954a853e7f22592743e177b29780d6">ImGui_ImplGlfw_WindowFocusCallback</link>);
+00539 &#32;&#32;&#32;&#32;bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1a0bb12cf6a91ce6e42900a5c1fb58369e">PrevUserCallbackCursorEnter</link>&#32;=&#32;glfwSetCursorEnterCallback(window,&#32;<link linkend="_imgui__impl__glfw_8cpp_1a36cddf1dc9af69c03ea52450a32d3818">ImGui_ImplGlfw_CursorEnterCallback</link>);
+00540 &#32;&#32;&#32;&#32;bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1a58577fb2f4a4f9657802712f728e5d17">PrevUserCallbackCursorPos</link>&#32;=&#32;glfwSetCursorPosCallback(window,&#32;<link linkend="_imgui__impl__glfw_8cpp_1aff2e41a5905ff393a8c6a458809f8c8e">ImGui_ImplGlfw_CursorPosCallback</link>);
+00541 &#32;&#32;&#32;&#32;bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1a4f072029ab315c801b69849648bd5e86">PrevUserCallbackMousebutton</link>&#32;=&#32;glfwSetMouseButtonCallback(window,&#32;<link linkend="_imgui__impl__glfw_8cpp_1a075e351f00b5c13086cacb05b5b6ee08">ImGui_ImplGlfw_MouseButtonCallback</link>);
+00542 &#32;&#32;&#32;&#32;bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1a37a806957eff842793b1010bf55b3a49">PrevUserCallbackScroll</link>&#32;=&#32;glfwSetScrollCallback(window,&#32;<link linkend="_imgui__impl__glfw_8cpp_1a59c26c674cfd04975ac49c7d83339113">ImGui_ImplGlfw_ScrollCallback</link>);
+00543 &#32;&#32;&#32;&#32;bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1a61c7fb5bae79f2296c361912ef0c7179">PrevUserCallbackKey</link>&#32;=&#32;glfwSetKeyCallback(window,&#32;<link linkend="_imgui__impl__glfw_8cpp_1a66afe6468f3645befeb50a75f82b5efc">ImGui_ImplGlfw_KeyCallback</link>);
+00544 &#32;&#32;&#32;&#32;bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1a537697690bd14a0a11be72f3ef874793">PrevUserCallbackChar</link>&#32;=&#32;glfwSetCharCallback(window,&#32;<link linkend="_imgui__impl__glfw_8cpp_1afe604d459cc5c4a173ce9e331af6735b">ImGui_ImplGlfw_CharCallback</link>);
+00545 &#32;&#32;&#32;&#32;bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1a874ea29cb2f17f07255a738b9eda8118">PrevUserCallbackMonitor</link>&#32;=&#32;glfwSetMonitorCallback(<link linkend="_imgui__impl__glfw_8cpp_1a9acaa23c8338d1ef4ba82b48142ee895">ImGui_ImplGlfw_MonitorCallback</link>);
+00546 &#32;&#32;&#32;&#32;bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1a2cd25c9a1afd831a20c9ec5a6dc52b91">InstalledCallbacks</link>&#32;=&#32;<emphasis role="keyword">true</emphasis>;
+00547 }
+</programlisting><para>
+References <link linkend="_imgui__impl__glfw_8cpp_source_1l00494">ImGui_ImplGlfw_CharCallback()</link>, <link linkend="_imgui__impl__glfw_8cpp_source_1l00474">ImGui_ImplGlfw_CursorEnterCallback()</link>, <link linkend="_imgui__impl__glfw_8cpp_source_1l00454">ImGui_ImplGlfw_CursorPosCallback()</link>, <link linkend="_imgui__impl__glfw_8cpp_source_1l00422">ImGui_ImplGlfw_KeyCallback()</link>, <link linkend="_imgui__impl__glfw_8cpp_source_1l00504">ImGui_ImplGlfw_MonitorCallback()</link>, <link linkend="_imgui__impl__glfw_8cpp_source_1l00361">ImGui_ImplGlfw_MouseButtonCallback()</link>, <link linkend="_imgui__impl__glfw_8cpp_source_1l00374">ImGui_ImplGlfw_ScrollCallback()</link>, <link linkend="_imgui__impl__glfw_8cpp_source_1l00444">ImGui_ImplGlfw_WindowFocusCallback()</link>, <link linkend="_imgui__impl__glfw_8cpp_source_1l00168">ImGui_ImplGlfw_Data::InstalledCallbacks</link>, <link linkend="_imgui__impl__glfw_8cpp_source_1l00182">ImGui_ImplGlfw_Data::PrevUserCallbackChar</link>, <link linkend="_imgui__impl__glfw_8cpp_source_1l00178">ImGui_ImplGlfw_Data::PrevUserCallbackCursorEnter</link>, <link linkend="_imgui__impl__glfw_8cpp_source_1l00177">ImGui_ImplGlfw_Data::PrevUserCallbackCursorPos</link>, <link linkend="_imgui__impl__glfw_8cpp_source_1l00181">ImGui_ImplGlfw_Data::PrevUserCallbackKey</link>, <link linkend="_imgui__impl__glfw_8cpp_source_1l00183">ImGui_ImplGlfw_Data::PrevUserCallbackMonitor</link>, <link linkend="_imgui__impl__glfw_8cpp_source_1l00179">ImGui_ImplGlfw_Data::PrevUserCallbackMousebutton</link>, <link linkend="_imgui__impl__glfw_8cpp_source_1l00180">ImGui_ImplGlfw_Data::PrevUserCallbackScroll</link>, <link linkend="_imgui__impl__glfw_8cpp_source_1l00176">ImGui_ImplGlfw_Data::PrevUserCallbackWindowFocus</link>, and <link linkend="_imgui__impl__glfw_8cpp_source_1l00161">ImGui_ImplGlfw_Data::Window</link>.</para>
+</section>
+<anchor xml:id="_imgui__impl__glfw_8cpp_1a66afe6468f3645befeb50a75f82b5efc"/><section>
+    <title>ImGui_ImplGlfw_KeyCallback()</title>
+<indexterm><primary>ImGui_ImplGlfw_KeyCallback</primary><secondary>imgui_impl_glfw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_impl_glfw.cpp</primary><secondary>ImGui_ImplGlfw_KeyCallback</secondary></indexterm>
+<para><computeroutput>void ImGui_ImplGlfw_KeyCallback (GLFWwindow * window, int keycode, int scancode, int action, int mods)</computeroutput></para><para>
+Definition at line <link linkend="_imgui__impl__glfw_8cpp_source_1l00422">422</link> of file <link linkend="_imgui__impl__glfw_8cpp_source">imgui_impl_glfw.cpp</link>.</para>
+<programlisting linenumbering="unnumbered">00423 {
+00424 &#32;&#32;&#32;&#32;<link linkend="_struct_im_gui___impl_glfw___data">ImGui_ImplGlfw_Data</link>*&#32;bd&#32;=&#32;ImGui_ImplGlfw_GetBackendData();
+00425 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1a61c7fb5bae79f2296c361912ef0c7179">PrevUserCallbackKey</link>&#32;!=&#32;<emphasis role="keyword">nullptr</emphasis>&#32;&amp;&amp;&#32;ImGui_ImplGlfw_ShouldChainCallback(window))
+00426 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1a61c7fb5bae79f2296c361912ef0c7179">PrevUserCallbackKey</link>(window,&#32;keycode,&#32;scancode,&#32;action,&#32;mods);
+00427 
+00428 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(action&#32;!=&#32;GLFW_PRESS&#32;&amp;&amp;&#32;action&#32;!=&#32;GLFW_RELEASE)
+00429 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>;
+00430 
+00431 &#32;&#32;&#32;&#32;ImGui_ImplGlfw_UpdateKeyModifiers(window);
+00432 
+00433 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(keycode&#32;&gt;=&#32;0&#32;&amp;&amp;&#32;keycode&#32;&lt;&#32;IM_ARRAYSIZE(bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1a1f72881be454c26f948dcc10a9516bd3">KeyOwnerWindows</link>))
+00434 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1a1f72881be454c26f948dcc10a9516bd3">KeyOwnerWindows</link>[keycode]&#32;=&#32;(action&#32;==&#32;GLFW_PRESS)&#32;?&#32;window&#32;:&#32;nullptr;
+00435 
+00436 &#32;&#32;&#32;&#32;keycode&#32;=&#32;ImGui_ImplGlfw_TranslateUntranslatedKey(keycode,&#32;scancode);
+00437 
+00438 &#32;&#32;&#32;&#32;ImGuiIO&amp;&#32;io&#32;=&#32;ImGui::GetIO();
+00439 &#32;&#32;&#32;&#32;ImGuiKey&#32;imgui_key&#32;=&#32;ImGui_ImplGlfw_KeyToImGuiKey(keycode);
+00440 &#32;&#32;&#32;&#32;io.AddKeyEvent(imgui_key,&#32;(action&#32;==&#32;GLFW_PRESS));
+00441 &#32;&#32;&#32;&#32;io.SetKeyEventNativeData(imgui_key,&#32;keycode,&#32;scancode);&#32;<emphasis role="comment">//&#32;To&#32;support&#32;legacy&#32;indexing&#32;(&lt;1.87&#32;user&#32;code)</emphasis>
+00442 }
+</programlisting><para>
+References <link linkend="_imgui__impl__glfw_8cpp_source_1l00167">ImGui_ImplGlfw_Data::KeyOwnerWindows</link>, and <link linkend="_imgui__impl__glfw_8cpp_source_1l00181">ImGui_ImplGlfw_Data::PrevUserCallbackKey</link>.</para>
+<para>
+Referenced by <link linkend="_imgui__impl__glfw_8cpp_source_1l00532">ImGui_ImplGlfw_InstallCallbacks()</link>.</para>
+</section>
+<anchor xml:id="_imgui__impl__glfw_8cpp_1a9acaa23c8338d1ef4ba82b48142ee895"/><section>
+    <title>ImGui_ImplGlfw_MonitorCallback()</title>
+<indexterm><primary>ImGui_ImplGlfw_MonitorCallback</primary><secondary>imgui_impl_glfw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_impl_glfw.cpp</primary><secondary>ImGui_ImplGlfw_MonitorCallback</secondary></indexterm>
+<para><computeroutput>void ImGui_ImplGlfw_MonitorCallback (GLFWmonitor * , int )</computeroutput></para><para>
+Definition at line <link linkend="_imgui__impl__glfw_8cpp_source_1l00504">504</link> of file <link linkend="_imgui__impl__glfw_8cpp_source">imgui_impl_glfw.cpp</link>.</para>
+<programlisting linenumbering="unnumbered">00505 {
+00506 &#32;&#32;&#32;&#32;<link linkend="_struct_im_gui___impl_glfw___data">ImGui_ImplGlfw_Data</link>*&#32;bd&#32;=&#32;ImGui_ImplGlfw_GetBackendData();
+00507 &#32;&#32;&#32;&#32;bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1a33abd3a5a812826e9adc90443e9e2f93">WantUpdateMonitors</link>&#32;=&#32;<emphasis role="keyword">true</emphasis>;
+00508 }
+</programlisting><para>
+References <link linkend="_imgui__impl__glfw_8cpp_source_1l00170">ImGui_ImplGlfw_Data::WantUpdateMonitors</link>.</para>
+<para>
+Referenced by <link linkend="_imgui__impl__glfw_8cpp_source_1l00532">ImGui_ImplGlfw_InstallCallbacks()</link>.</para>
+</section>
+<anchor xml:id="_imgui__impl__glfw_8cpp_1a075e351f00b5c13086cacb05b5b6ee08"/><section>
+    <title>ImGui_ImplGlfw_MouseButtonCallback()</title>
+<indexterm><primary>ImGui_ImplGlfw_MouseButtonCallback</primary><secondary>imgui_impl_glfw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_impl_glfw.cpp</primary><secondary>ImGui_ImplGlfw_MouseButtonCallback</secondary></indexterm>
+<para><computeroutput>void ImGui_ImplGlfw_MouseButtonCallback (GLFWwindow * window, int button, int action, int mods)</computeroutput></para><para>
+Definition at line <link linkend="_imgui__impl__glfw_8cpp_source_1l00361">361</link> of file <link linkend="_imgui__impl__glfw_8cpp_source">imgui_impl_glfw.cpp</link>.</para>
+<programlisting linenumbering="unnumbered">00362 {
+00363 &#32;&#32;&#32;&#32;<link linkend="_struct_im_gui___impl_glfw___data">ImGui_ImplGlfw_Data</link>*&#32;bd&#32;=&#32;ImGui_ImplGlfw_GetBackendData();
+00364 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1a4f072029ab315c801b69849648bd5e86">PrevUserCallbackMousebutton</link>&#32;!=&#32;<emphasis role="keyword">nullptr</emphasis>&#32;&amp;&amp;&#32;ImGui_ImplGlfw_ShouldChainCallback(window))
+00365 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1a4f072029ab315c801b69849648bd5e86">PrevUserCallbackMousebutton</link>(window,&#32;button,&#32;action,&#32;mods);
+00366 
+00367 &#32;&#32;&#32;&#32;ImGui_ImplGlfw_UpdateKeyModifiers(window);
+00368 
+00369 &#32;&#32;&#32;&#32;ImGuiIO&amp;&#32;io&#32;=&#32;ImGui::GetIO();
+00370 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(button&#32;&gt;=&#32;0&#32;&amp;&amp;&#32;button&#32;&lt;&#32;ImGuiMouseButton_COUNT)
+00371 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;io.AddMouseButtonEvent(button,&#32;action&#32;==&#32;GLFW_PRESS);
+00372 }
+</programlisting><para>
+References <link linkend="_imgui__impl__glfw_8cpp_source_1l00179">ImGui_ImplGlfw_Data::PrevUserCallbackMousebutton</link>.</para>
+<para>
+Referenced by <link linkend="_imgui__impl__glfw_8cpp_source_1l00532">ImGui_ImplGlfw_InstallCallbacks()</link>.</para>
+</section>
+<anchor xml:id="_imgui__impl__glfw_8cpp_1a206e99434f63c4b8e24e8a4208c11b65"/><section>
+    <title>ImGui_ImplGlfw_NewFrame()</title>
+<indexterm><primary>ImGui_ImplGlfw_NewFrame</primary><secondary>imgui_impl_glfw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_impl_glfw.cpp</primary><secondary>ImGui_ImplGlfw_NewFrame</secondary></indexterm>
+<para><computeroutput>void ImGui_ImplGlfw_NewFrame ( )</computeroutput></para><para>
+Definition at line <link linkend="_imgui__impl__glfw_8cpp_source_1l00916">916</link> of file <link linkend="_imgui__impl__glfw_8cpp_source">imgui_impl_glfw.cpp</link>.</para>
+<programlisting linenumbering="unnumbered">00917 {
+00918 &#32;&#32;&#32;&#32;ImGuiIO&amp;&#32;io&#32;=&#32;ImGui::GetIO();
+00919 &#32;&#32;&#32;&#32;<link linkend="_struct_im_gui___impl_glfw___data">ImGui_ImplGlfw_Data</link>*&#32;bd&#32;=&#32;ImGui_ImplGlfw_GetBackendData();
+00920 &#32;&#32;&#32;&#32;IM_ASSERT(bd&#32;!=&#32;<emphasis role="keyword">nullptr</emphasis>&#32;&amp;&amp;&#32;<emphasis role="stringliteral">&quot;Context&#32;or&#32;backend&#32;not&#32;initialized!&#32;Did&#32;you&#32;call&#32;ImGui_ImplGlfw_InitForXXX()?&quot;</emphasis>);
+00921 
+00922 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Setup&#32;display&#32;size&#32;(every&#32;frame&#32;to&#32;accommodate&#32;for&#32;window&#32;resizing)</emphasis>
+00923 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;w,&#32;h;
+00924 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;display_w,&#32;display_h;
+00925 &#32;&#32;&#32;&#32;glfwGetWindowSize(bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1aad8ecdab1cb486c427254f2032214da7">Window</link>,&#32;&amp;w,&#32;&amp;h);
+00926 &#32;&#32;&#32;&#32;glfwGetFramebufferSize(bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1aad8ecdab1cb486c427254f2032214da7">Window</link>,&#32;&amp;display_w,&#32;&amp;display_h);
+00927 &#32;&#32;&#32;&#32;io.DisplaySize&#32;=&#32;ImVec2((<emphasis role="keywordtype">float</emphasis>)w,&#32;(<emphasis role="keywordtype">float</emphasis>)h);
+00928 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(w&#32;&gt;&#32;0&#32;&amp;&amp;&#32;h&#32;&gt;&#32;0)
+00929 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;io.DisplayFramebufferScale&#32;=&#32;ImVec2((<emphasis role="keywordtype">float</emphasis>)display_w&#32;/&#32;(<emphasis role="keywordtype">float</emphasis>)w,&#32;(<emphasis role="keywordtype">float</emphasis>)display_h&#32;/&#32;(<emphasis role="keywordtype">float</emphasis>)h);
+00930 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1a33abd3a5a812826e9adc90443e9e2f93">WantUpdateMonitors</link>)
+00931 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ImGui_ImplGlfw_UpdateMonitors();
+00932 
+00933 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Setup&#32;time&#32;step</emphasis>
+00934 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;(Accept&#32;glfwGetTime()&#32;not&#32;returning&#32;a&#32;monotonically&#32;increasing&#32;value.&#32;Seems&#32;to&#32;happens&#32;on&#32;disconnecting&#32;peripherals&#32;and&#32;probably&#32;on&#32;VMs&#32;and&#32;Emscripten,&#32;see&#32;#6491,&#32;#6189,&#32;#6114,&#32;#3644)</emphasis>
+00935 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;current_time&#32;=&#32;glfwGetTime();
+00936 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(current_time&#32;&lt;=&#32;bd-&gt;Time)
+00937 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;current_time&#32;=&#32;bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1a63f538471c9e5113975333df9494d526">Time</link>&#32;+&#32;0.00001f;
+00938 &#32;&#32;&#32;&#32;io.DeltaTime&#32;=&#32;bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1a63f538471c9e5113975333df9494d526">Time</link>&#32;&gt;&#32;0.0&#32;?&#32;(float)(current_time&#32;-&#32;bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1a63f538471c9e5113975333df9494d526">Time</link>)&#32;:&#32;(float)(1.0f&#32;/&#32;60.0f);
+00939 &#32;&#32;&#32;&#32;bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1a63f538471c9e5113975333df9494d526">Time</link>&#32;=&#32;current_time;
+00940 
+00941 &#32;&#32;&#32;&#32;ImGui_ImplGlfw_UpdateMouseData();
+00942 &#32;&#32;&#32;&#32;ImGui_ImplGlfw_UpdateMouseCursor();
+00943 
+00944 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Update&#32;game&#32;controllers&#32;(if&#32;enabled&#32;and&#32;available)</emphasis>
+00945 &#32;&#32;&#32;&#32;ImGui_ImplGlfw_UpdateGamepads();
+00946 }
+</programlisting><para>
+References <link linkend="_imgui__impl__glfw_8cpp_source_1l00163">ImGui_ImplGlfw_Data::Time</link>, <link linkend="_imgui__impl__glfw_8cpp_source_1l00170">ImGui_ImplGlfw_Data::WantUpdateMonitors</link>, and <link linkend="_imgui__impl__glfw_8cpp_source_1l00161">ImGui_ImplGlfw_Data::Window</link>.</para>
+<para>
+Referenced by <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00253">main()</link>.</para>
+</section>
+<anchor xml:id="_imgui__impl__glfw_8cpp_1aa7cddd7ef946da421374a6bea12db744"/><section>
+    <title>ImGui_ImplGlfw_RestoreCallbacks()</title>
+<indexterm><primary>ImGui_ImplGlfw_RestoreCallbacks</primary><secondary>imgui_impl_glfw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_impl_glfw.cpp</primary><secondary>ImGui_ImplGlfw_RestoreCallbacks</secondary></indexterm>
+<para><computeroutput>void ImGui_ImplGlfw_RestoreCallbacks (GLFWwindow * window)</computeroutput></para><para>
+Definition at line <link linkend="_imgui__impl__glfw_8cpp_source_1l00549">549</link> of file <link linkend="_imgui__impl__glfw_8cpp_source">imgui_impl_glfw.cpp</link>.</para>
+<programlisting linenumbering="unnumbered">00550 {
+00551 &#32;&#32;&#32;&#32;<link linkend="_struct_im_gui___impl_glfw___data">ImGui_ImplGlfw_Data</link>*&#32;bd&#32;=&#32;ImGui_ImplGlfw_GetBackendData();
+00552 &#32;&#32;&#32;&#32;IM_ASSERT(bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1a2cd25c9a1afd831a20c9ec5a6dc52b91">InstalledCallbacks</link>&#32;==&#32;<emphasis role="keyword">true</emphasis>&#32;&amp;&amp;&#32;<emphasis role="stringliteral">&quot;Callbacks&#32;not&#32;installed!&quot;</emphasis>);
+00553 &#32;&#32;&#32;&#32;IM_ASSERT(bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1aad8ecdab1cb486c427254f2032214da7">Window</link>&#32;==&#32;window);
+00554 
+00555 &#32;&#32;&#32;&#32;glfwSetWindowFocusCallback(window,&#32;bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1ab2d6f0997eee54b310ab657e48b50033">PrevUserCallbackWindowFocus</link>);
+00556 &#32;&#32;&#32;&#32;glfwSetCursorEnterCallback(window,&#32;bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1a0bb12cf6a91ce6e42900a5c1fb58369e">PrevUserCallbackCursorEnter</link>);
+00557 &#32;&#32;&#32;&#32;glfwSetCursorPosCallback(window,&#32;bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1a58577fb2f4a4f9657802712f728e5d17">PrevUserCallbackCursorPos</link>);
+00558 &#32;&#32;&#32;&#32;glfwSetMouseButtonCallback(window,&#32;bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1a4f072029ab315c801b69849648bd5e86">PrevUserCallbackMousebutton</link>);
+00559 &#32;&#32;&#32;&#32;glfwSetScrollCallback(window,&#32;bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1a37a806957eff842793b1010bf55b3a49">PrevUserCallbackScroll</link>);
+00560 &#32;&#32;&#32;&#32;glfwSetKeyCallback(window,&#32;bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1a61c7fb5bae79f2296c361912ef0c7179">PrevUserCallbackKey</link>);
+00561 &#32;&#32;&#32;&#32;glfwSetCharCallback(window,&#32;bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1a537697690bd14a0a11be72f3ef874793">PrevUserCallbackChar</link>);
+00562 &#32;&#32;&#32;&#32;glfwSetMonitorCallback(bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1a874ea29cb2f17f07255a738b9eda8118">PrevUserCallbackMonitor</link>);
+00563 &#32;&#32;&#32;&#32;bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1a2cd25c9a1afd831a20c9ec5a6dc52b91">InstalledCallbacks</link>&#32;=&#32;<emphasis role="keyword">false</emphasis>;
+00564 &#32;&#32;&#32;&#32;bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1ab2d6f0997eee54b310ab657e48b50033">PrevUserCallbackWindowFocus</link>&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>;
+00565 &#32;&#32;&#32;&#32;bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1a0bb12cf6a91ce6e42900a5c1fb58369e">PrevUserCallbackCursorEnter</link>&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>;
+00566 &#32;&#32;&#32;&#32;bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1a58577fb2f4a4f9657802712f728e5d17">PrevUserCallbackCursorPos</link>&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>;
+00567 &#32;&#32;&#32;&#32;bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1a4f072029ab315c801b69849648bd5e86">PrevUserCallbackMousebutton</link>&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>;
+00568 &#32;&#32;&#32;&#32;bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1a37a806957eff842793b1010bf55b3a49">PrevUserCallbackScroll</link>&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>;
+00569 &#32;&#32;&#32;&#32;bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1a61c7fb5bae79f2296c361912ef0c7179">PrevUserCallbackKey</link>&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>;
+00570 &#32;&#32;&#32;&#32;bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1a537697690bd14a0a11be72f3ef874793">PrevUserCallbackChar</link>&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>;
+00571 &#32;&#32;&#32;&#32;bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1a874ea29cb2f17f07255a738b9eda8118">PrevUserCallbackMonitor</link>&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>;
+00572 }
+</programlisting><para>
+References <link linkend="_imgui__impl__glfw_8cpp_source_1l00168">ImGui_ImplGlfw_Data::InstalledCallbacks</link>, <link linkend="_imgui__impl__glfw_8cpp_source_1l00182">ImGui_ImplGlfw_Data::PrevUserCallbackChar</link>, <link linkend="_imgui__impl__glfw_8cpp_source_1l00178">ImGui_ImplGlfw_Data::PrevUserCallbackCursorEnter</link>, <link linkend="_imgui__impl__glfw_8cpp_source_1l00177">ImGui_ImplGlfw_Data::PrevUserCallbackCursorPos</link>, <link linkend="_imgui__impl__glfw_8cpp_source_1l00181">ImGui_ImplGlfw_Data::PrevUserCallbackKey</link>, <link linkend="_imgui__impl__glfw_8cpp_source_1l00183">ImGui_ImplGlfw_Data::PrevUserCallbackMonitor</link>, <link linkend="_imgui__impl__glfw_8cpp_source_1l00179">ImGui_ImplGlfw_Data::PrevUserCallbackMousebutton</link>, <link linkend="_imgui__impl__glfw_8cpp_source_1l00180">ImGui_ImplGlfw_Data::PrevUserCallbackScroll</link>, <link linkend="_imgui__impl__glfw_8cpp_source_1l00176">ImGui_ImplGlfw_Data::PrevUserCallbackWindowFocus</link>, and <link linkend="_imgui__impl__glfw_8cpp_source_1l00161">ImGui_ImplGlfw_Data::Window</link>.</para>
+<para>
+Referenced by <link linkend="_imgui__impl__glfw_8cpp_source_1l00692">ImGui_ImplGlfw_Shutdown()</link>.</para>
+</section>
+<anchor xml:id="_imgui__impl__glfw_8cpp_1a59c26c674cfd04975ac49c7d83339113"/><section>
+    <title>ImGui_ImplGlfw_ScrollCallback()</title>
+<indexterm><primary>ImGui_ImplGlfw_ScrollCallback</primary><secondary>imgui_impl_glfw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_impl_glfw.cpp</primary><secondary>ImGui_ImplGlfw_ScrollCallback</secondary></indexterm>
+<para><computeroutput>void ImGui_ImplGlfw_ScrollCallback (GLFWwindow * window, double xoffset, double yoffset)</computeroutput></para><para>
+Definition at line <link linkend="_imgui__impl__glfw_8cpp_source_1l00374">374</link> of file <link linkend="_imgui__impl__glfw_8cpp_source">imgui_impl_glfw.cpp</link>.</para>
+<programlisting linenumbering="unnumbered">00375 {
+00376 &#32;&#32;&#32;&#32;<link linkend="_struct_im_gui___impl_glfw___data">ImGui_ImplGlfw_Data</link>*&#32;bd&#32;=&#32;ImGui_ImplGlfw_GetBackendData();
+00377 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1a37a806957eff842793b1010bf55b3a49">PrevUserCallbackScroll</link>&#32;!=&#32;<emphasis role="keyword">nullptr</emphasis>&#32;&amp;&amp;&#32;ImGui_ImplGlfw_ShouldChainCallback(window))
+00378 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1a37a806957eff842793b1010bf55b3a49">PrevUserCallbackScroll</link>(window,&#32;xoffset,&#32;yoffset);
+00379 
+00380 <emphasis role="preprocessor">#ifdef&#32;EMSCRIPTEN_USE_EMBEDDED_GLFW3</emphasis>
+00381 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Ignore&#32;GLFW&#32;events:&#32;will&#32;be&#32;processed&#32;in&#32;ImGui_ImplEmscripten_WheelCallback().</emphasis>
+00382 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>;
+00383 <emphasis role="preprocessor">#endif</emphasis>
+00384 
+00385 &#32;&#32;&#32;&#32;ImGuiIO&amp;&#32;io&#32;=&#32;ImGui::GetIO();
+00386 &#32;&#32;&#32;&#32;io.AddMouseWheelEvent((<emphasis role="keywordtype">float</emphasis>)xoffset,&#32;(<emphasis role="keywordtype">float</emphasis>)yoffset);
+00387 }
+</programlisting><para>
+References <link linkend="_imgui__impl__glfw_8cpp_source_1l00180">ImGui_ImplGlfw_Data::PrevUserCallbackScroll</link>.</para>
+<para>
+Referenced by <link linkend="_imgui__impl__glfw_8cpp_source_1l00532">ImGui_ImplGlfw_InstallCallbacks()</link>.</para>
+</section>
+<anchor xml:id="_imgui__impl__glfw_8cpp_1addd8948824f9bd78b0c8ec4c81213c9e"/><section>
+    <title>ImGui_ImplGlfw_SetCallbacksChainForAllWindows()</title>
+<indexterm><primary>ImGui_ImplGlfw_SetCallbacksChainForAllWindows</primary><secondary>imgui_impl_glfw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_impl_glfw.cpp</primary><secondary>ImGui_ImplGlfw_SetCallbacksChainForAllWindows</secondary></indexterm>
+<para><computeroutput>void ImGui_ImplGlfw_SetCallbacksChainForAllWindows (bool chain_for_all_windows)</computeroutput></para><para>
+Definition at line <link linkend="_imgui__impl__glfw_8cpp_source_1l00578">578</link> of file <link linkend="_imgui__impl__glfw_8cpp_source">imgui_impl_glfw.cpp</link>.</para>
+<programlisting linenumbering="unnumbered">00579 {
+00580 &#32;&#32;&#32;&#32;<link linkend="_struct_im_gui___impl_glfw___data">ImGui_ImplGlfw_Data</link>*&#32;bd&#32;=&#32;ImGui_ImplGlfw_GetBackendData();
+00581 &#32;&#32;&#32;&#32;bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1a2a8575611eb554c3acb0e8c8228cdc44">CallbacksChainForAllWindows</link>&#32;=&#32;chain_for_all_windows;
+00582 }
+</programlisting><para>
+References <link linkend="_imgui__impl__glfw_8cpp_source_1l00169">ImGui_ImplGlfw_Data::CallbacksChainForAllWindows</link>.</para>
+</section>
+<anchor xml:id="_imgui__impl__glfw_8cpp_1a983c2903ccb938fea5ecdd4d53e54704"/><section>
+    <title>ImGui_ImplGlfw_Shutdown()</title>
+<indexterm><primary>ImGui_ImplGlfw_Shutdown</primary><secondary>imgui_impl_glfw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_impl_glfw.cpp</primary><secondary>ImGui_ImplGlfw_Shutdown</secondary></indexterm>
+<para><computeroutput>void ImGui_ImplGlfw_Shutdown ( )</computeroutput></para><para>
+Definition at line <link linkend="_imgui__impl__glfw_8cpp_source_1l00692">692</link> of file <link linkend="_imgui__impl__glfw_8cpp_source">imgui_impl_glfw.cpp</link>.</para>
+<programlisting linenumbering="unnumbered">00693 {
+00694 &#32;&#32;&#32;&#32;<link linkend="_struct_im_gui___impl_glfw___data">ImGui_ImplGlfw_Data</link>*&#32;bd&#32;=&#32;ImGui_ImplGlfw_GetBackendData();
+00695 &#32;&#32;&#32;&#32;IM_ASSERT(bd&#32;!=&#32;<emphasis role="keyword">nullptr</emphasis>&#32;&amp;&amp;&#32;<emphasis role="stringliteral">&quot;No&#32;platform&#32;backend&#32;to&#32;shutdown,&#32;or&#32;already&#32;shutdown?&quot;</emphasis>);
+00696 &#32;&#32;&#32;&#32;ImGuiIO&amp;&#32;io&#32;=&#32;ImGui::GetIO();
+00697 
+00698 &#32;&#32;&#32;&#32;ImGui_ImplGlfw_ShutdownPlatformInterface();
+00699 
+00700 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1a2cd25c9a1afd831a20c9ec5a6dc52b91">InstalledCallbacks</link>)
+00701 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_imgui__impl__glfw_8cpp_1aa7cddd7ef946da421374a6bea12db744">ImGui_ImplGlfw_RestoreCallbacks</link>(bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1aad8ecdab1cb486c427254f2032214da7">Window</link>);
+00702 <emphasis role="preprocessor">#ifdef&#32;EMSCRIPTEN_USE_EMBEDDED_GLFW3</emphasis>
+00703 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(bd-&gt;CanvasSelector)
+00704 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;emscripten_set_wheel_callback(bd-&gt;CanvasSelector,&#32;<emphasis role="keyword">nullptr</emphasis>,&#32;<emphasis role="keyword">false</emphasis>,&#32;<emphasis role="keyword">nullptr</emphasis>);
+00705 <emphasis role="preprocessor">#endif</emphasis>
+00706 
+00707 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(ImGuiMouseCursor&#32;cursor_n&#32;=&#32;0;&#32;cursor_n&#32;&lt;&#32;ImGuiMouseCursor_COUNT;&#32;cursor_n++)
+00708 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;glfwDestroyCursor(bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1ad7072d22c235f2e6d53e1a5a0e54cc0c">MouseCursors</link>[cursor_n]);
+00709 
+00710 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Windows:&#32;restore&#32;our&#32;WndProc&#32;hook</emphasis>
+00711 <emphasis role="preprocessor">#ifdef&#32;_WIN32</emphasis>
+00712 &#32;&#32;&#32;&#32;ImGuiViewport*&#32;main_viewport&#32;=&#32;ImGui::GetMainViewport();
+00713 &#32;&#32;&#32;&#32;::SetWindowLongPtrW((HWND)main_viewport-&gt;PlatformHandleRaw,&#32;GWLP_WNDPROC,&#32;(LONG_PTR)bd-&gt;PrevWndProc);
+00714 &#32;&#32;&#32;&#32;bd-&gt;PrevWndProc&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>;
+00715 <emphasis role="preprocessor">#endif</emphasis>
+00716 
+00717 &#32;&#32;&#32;&#32;io.BackendPlatformName&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>;
+00718 &#32;&#32;&#32;&#32;io.BackendPlatformUserData&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>;
+00719 &#32;&#32;&#32;&#32;io.BackendFlags&#32;&amp;=&#32;~(ImGuiBackendFlags_HasMouseCursors&#32;|&#32;ImGuiBackendFlags_HasSetMousePos&#32;|&#32;ImGuiBackendFlags_HasGamepad&#32;|&#32;ImGuiBackendFlags_PlatformHasViewports&#32;|&#32;ImGuiBackendFlags_HasMouseHoveredViewport);
+00720 &#32;&#32;&#32;&#32;IM_DELETE(bd);
+00721 }
+</programlisting><para>
+References <link linkend="_imgui__impl__glfw_8cpp_source_1l00549">ImGui_ImplGlfw_RestoreCallbacks()</link>, <link linkend="_imgui__impl__glfw_8cpp_source_1l00168">ImGui_ImplGlfw_Data::InstalledCallbacks</link>, <link linkend="_imgui__impl__glfw_8cpp_source_1l00165">ImGui_ImplGlfw_Data::MouseCursors</link>, and <link linkend="_imgui__impl__glfw_8cpp_source_1l00161">ImGui_ImplGlfw_Data::Window</link>.</para>
+<para>
+Referenced by <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00253">main()</link>.</para>
+</section>
+<anchor xml:id="_imgui__impl__glfw_8cpp_1a76f4eb755b660ac33c672fbed7455c39"/><section>
+    <title>ImGui_ImplGlfw_Sleep()</title>
+<indexterm><primary>ImGui_ImplGlfw_Sleep</primary><secondary>imgui_impl_glfw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_impl_glfw.cpp</primary><secondary>ImGui_ImplGlfw_Sleep</secondary></indexterm>
+<para><computeroutput>void ImGui_ImplGlfw_Sleep (int milliseconds)</computeroutput></para><para>
+Definition at line <link linkend="_imgui__impl__glfw_8cpp_source_1l00949">949</link> of file <link linkend="_imgui__impl__glfw_8cpp_source">imgui_impl_glfw.cpp</link>.</para>
+<programlisting linenumbering="unnumbered">00950 {
+00951 <emphasis role="preprocessor">#ifdef&#32;_WIN32</emphasis>
+00952 &#32;&#32;&#32;&#32;::Sleep(milliseconds);
+00953 <emphasis role="preprocessor">#else</emphasis>
+00954 &#32;&#32;&#32;&#32;usleep(milliseconds&#32;*&#32;1000);
+00955 <emphasis role="preprocessor">#endif</emphasis>
+00956 }
+</programlisting></section>
+<anchor xml:id="_imgui__impl__glfw_8cpp_1a64954a853e7f22592743e177b29780d6"/><section>
+    <title>ImGui_ImplGlfw_WindowFocusCallback()</title>
+<indexterm><primary>ImGui_ImplGlfw_WindowFocusCallback</primary><secondary>imgui_impl_glfw.cpp</secondary></indexterm>
+<indexterm><primary>imgui_impl_glfw.cpp</primary><secondary>ImGui_ImplGlfw_WindowFocusCallback</secondary></indexterm>
+<para><computeroutput>void ImGui_ImplGlfw_WindowFocusCallback (GLFWwindow * window, int focused)</computeroutput></para><para>
+Definition at line <link linkend="_imgui__impl__glfw_8cpp_source_1l00444">444</link> of file <link linkend="_imgui__impl__glfw_8cpp_source">imgui_impl_glfw.cpp</link>.</para>
+<programlisting linenumbering="unnumbered">00445 {
+00446 &#32;&#32;&#32;&#32;<link linkend="_struct_im_gui___impl_glfw___data">ImGui_ImplGlfw_Data</link>*&#32;bd&#32;=&#32;ImGui_ImplGlfw_GetBackendData();
+00447 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1ab2d6f0997eee54b310ab657e48b50033">PrevUserCallbackWindowFocus</link>&#32;!=&#32;<emphasis role="keyword">nullptr</emphasis>&#32;&amp;&amp;&#32;ImGui_ImplGlfw_ShouldChainCallback(window))
+00448 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;bd-&gt;<link linkend="_struct_im_gui___impl_glfw___data_1ab2d6f0997eee54b310ab657e48b50033">PrevUserCallbackWindowFocus</link>(window,&#32;focused);
+00449 
+00450 &#32;&#32;&#32;&#32;ImGuiIO&amp;&#32;io&#32;=&#32;ImGui::GetIO();
+00451 &#32;&#32;&#32;&#32;io.AddFocusEvent(focused&#32;!=&#32;0);
+00452 }
+</programlisting><para>
+References <link linkend="_imgui__impl__glfw_8cpp_source_1l00176">ImGui_ImplGlfw_Data::PrevUserCallbackWindowFocus</link>.</para>
+<para>
+Referenced by <link linkend="_imgui__impl__glfw_8cpp_source_1l00532">ImGui_ImplGlfw_InstallCallbacks()</link>.</para>
+</section>
+</section>
+</section>

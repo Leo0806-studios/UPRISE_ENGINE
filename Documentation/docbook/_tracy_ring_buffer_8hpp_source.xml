@@ -1,0 +1,146 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="__tracy_ring_buffer_8hpp_source" xml:lang="en-US">
+<title>TracyRingBuffer.hpp</title>
+<indexterm><primary>adhed/client/TracyRingBuffer.hpp</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 <emphasis role="preprocessor">#include&#32;&lt;atomic&gt;</emphasis>
+2 <emphasis role="preprocessor">#include&#32;&lt;assert.h&gt;</emphasis>
+3 <emphasis role="preprocessor">#include&#32;&lt;errno.h&gt;</emphasis>
+4 <emphasis role="preprocessor">#include&#32;&lt;linux/perf_event.h&gt;</emphasis>
+5 <emphasis role="preprocessor">#include&#32;&lt;stdint.h&gt;</emphasis>
+6 <emphasis role="preprocessor">#include&#32;&lt;string.h&gt;</emphasis>
+7 <emphasis role="preprocessor">#include&#32;&lt;sys/ioctl.h&gt;</emphasis>
+8 <emphasis role="preprocessor">#include&#32;&lt;sys/mman.h&gt;</emphasis>
+9 <emphasis role="preprocessor">#include&#32;&lt;unistd.h&gt;</emphasis>
+10 
+11 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__tracy_debug_8hpp">TracyDebug.hpp</link>&quot;</emphasis>
+12 
+13 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespacetracy">tracy</link>
+14 {
+15 
+16 <emphasis role="keyword">class&#32;</emphasis><link linkend="_classtracy_1_1_ring_buffer">RingBuffer</link>
+17 {
+18 <emphasis role="keyword">public</emphasis>:
+19 &#32;&#32;&#32;&#32;<link linkend="_classtracy_1_1_ring_buffer_1af0eb089f06709369693b87267fd9af6e">RingBuffer</link>(&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>,&#32;<emphasis role="keywordtype">int</emphasis>&#32;fd,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<emphasis role="keywordtype">id</emphasis>,&#32;<emphasis role="keywordtype">int</emphasis>&#32;cpu&#32;=&#32;-1&#32;)
+20 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;m_size(&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>&#32;)
+21 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;m_id(&#32;<link linkend="_glad_8h_1a0f49c9e660c049e85b4735b5246b6258">id</link>&#32;)
+22 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;m_cpu(&#32;cpu&#32;)
+23 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;m_fd(&#32;fd&#32;)
+24 &#32;&#32;&#32;&#32;{
+25 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;pageSize&#32;=&#32;uint32_t(&#32;<link linkend="_mmapio_8cpp_1a638757347bd9bf886b3d442b98033cf1">getpagesize</link>()&#32;);
+26 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_tracy__lz4_8cpp_1acdcc5aaebf3f273c1762f24a6ece2e5e">assert</link>(&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>&#32;&gt;=&#32;pageSize&#32;);
+27 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_tracy__lz4_8cpp_1acdcc5aaebf3f273c1762f24a6ece2e5e">assert</link>(&#32;__builtin_popcount(&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>&#32;)&#32;==&#32;1&#32;);
+28 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_mapSize&#32;=&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>&#32;+&#32;pageSize;
+29 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;mapAddr&#32;=&#32;mmap(&#32;<emphasis role="keyword">nullptr</emphasis>,&#32;m_mapSize,&#32;PROT_READ&#32;|&#32;PROT_WRITE,&#32;MAP_SHARED,&#32;fd,&#32;0&#32;);
+30 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;mapAddr&#32;==&#32;<link linkend="_mmapio_8cpp_1a8523dcf952f6ff059a3bed717e4f1296">MAP_FAILED</link>&#32;)
+31 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+32 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__tracy_debug_8hpp_1a10a67c5ce6f5b8f18164b27cd55c75e8">TracyDebug</link>(&#32;<emphasis role="stringliteral">&quot;mmap&#32;failed:&#32;errno&#32;%i&#32;(%s)\n&quot;</emphasis>,&#32;errno,&#32;strerror(&#32;errno&#32;)&#32;);
+33 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_fd&#32;=&#32;0;
+34 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_metadata&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>;
+35 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;close(&#32;fd&#32;);
+36 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>;
+37 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+38 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_metadata&#32;=&#32;(perf_event_mmap_page*)mapAddr;
+39 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_tracy__lz4_8cpp_1acdcc5aaebf3f273c1762f24a6ece2e5e">assert</link>(&#32;m_metadata-&gt;data_offset&#32;==&#32;pageSize&#32;);
+40 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_buffer&#32;=&#32;((<emphasis role="keywordtype">char</emphasis>*)mapAddr)&#32;+&#32;pageSize;
+41 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_tail&#32;=&#32;m_metadata-&gt;data_tail;
+42 &#32;&#32;&#32;&#32;}
+43 
+44 &#32;&#32;&#32;&#32;<link linkend="_classtracy_1_1_ring_buffer_1a4a8d6ea7c34c7a973582b5e95d619041">~RingBuffer</link>()
+45 &#32;&#32;&#32;&#32;{
+46 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;m_metadata&#32;)&#32;munmap(&#32;m_metadata,&#32;m_mapSize&#32;);
+47 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;m_fd&#32;)&#32;close(&#32;m_fd&#32;);
+48 &#32;&#32;&#32;&#32;}
+49 
+50 &#32;&#32;&#32;&#32;<link linkend="_classtracy_1_1_ring_buffer_1af3522113c27903ad24bda18d1ac6250c">RingBuffer</link>(&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_classtracy_1_1_ring_buffer">RingBuffer</link>&amp;&#32;)&#32;=&#32;<emphasis role="keyword">delete</emphasis>;
+51 &#32;&#32;&#32;&#32;<link linkend="_classtracy_1_1_ring_buffer">RingBuffer</link>&amp;&#32;<link linkend="_classtracy_1_1_ring_buffer_1a737524b336d02fd4a4774c171f4f5f69">operator=</link>(&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_classtracy_1_1_ring_buffer">RingBuffer</link>&amp;&#32;)&#32;=&#32;<emphasis role="keyword">delete</emphasis>;
+52 
+53 &#32;&#32;&#32;&#32;<link linkend="_classtracy_1_1_ring_buffer_1a9fee465a9271b7ea63a3c9bc2d856893">RingBuffer</link>(&#32;<link linkend="_classtracy_1_1_ring_buffer">RingBuffer</link>&amp;&amp;&#32;other&#32;)
+54 &#32;&#32;&#32;&#32;{
+55 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memcpy(&#32;(<emphasis role="keywordtype">char</emphasis>*)&amp;other,&#32;(<emphasis role="keywordtype">char</emphasis>*)<emphasis role="keyword">this</emphasis>,&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;<link linkend="_classtracy_1_1_ring_buffer">RingBuffer</link>&#32;)&#32;);
+56 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_metadata&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>;
+57 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_fd&#32;=&#32;0;
+58 &#32;&#32;&#32;&#32;}
+59 
+60 &#32;&#32;&#32;&#32;<link linkend="_classtracy_1_1_ring_buffer">RingBuffer</link>&amp;&#32;<link linkend="_classtracy_1_1_ring_buffer_1aa0841a79ec3e15406f234a7d3eddbcd5">operator=</link>(&#32;<link linkend="_classtracy_1_1_ring_buffer">RingBuffer</link>&amp;&amp;&#32;other&#32;)
+61 &#32;&#32;&#32;&#32;{
+62 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memcpy(&#32;(<emphasis role="keywordtype">char</emphasis>*)&amp;other,&#32;(<emphasis role="keywordtype">char</emphasis>*)<emphasis role="keyword">this</emphasis>,&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;<link linkend="_classtracy_1_1_ring_buffer">RingBuffer</link>&#32;)&#32;);
+63 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_metadata&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>;
+64 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_fd&#32;=&#32;0;
+65 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;*<emphasis role="keyword">this</emphasis>;
+66 &#32;&#32;&#32;&#32;}
+67 
+68 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_classtracy_1_1_ring_buffer_1ab422c95cfa37ecfc55741ae6300ae316">IsValid</link>()<emphasis role="keyword">&#32;const&#32;</emphasis>{&#32;<emphasis role="keywordflow">return</emphasis>&#32;m_metadata&#32;!=&#32;<emphasis role="keyword">nullptr</emphasis>;&#32;}
+69 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_classtracy_1_1_ring_buffer_1a6d26d9b11abeff85a2970e8fa4ddcca2">GetId</link>()<emphasis role="keyword">&#32;const&#32;</emphasis>{&#32;<emphasis role="keywordflow">return</emphasis>&#32;m_id;&#32;}
+70 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_classtracy_1_1_ring_buffer_1a6c3245f2ff481e486e4e87e28f77cf5c">GetCpu</link>()<emphasis role="keyword">&#32;const&#32;</emphasis>{&#32;<emphasis role="keywordflow">return</emphasis>&#32;m_cpu;&#32;}
+71 
+72 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_classtracy_1_1_ring_buffer_1a5ba505f8a928159abc474bbaf67a8138">Enable</link>()
+73 &#32;&#32;&#32;&#32;{
+74 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ioctl(&#32;m_fd,&#32;PERF_EVENT_IOC_ENABLE,&#32;0&#32;);
+75 &#32;&#32;&#32;&#32;}
+76 
+77 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_classtracy_1_1_ring_buffer_1a4d7e8aa1b745715991ff669364fbe70d">Read</link>(&#32;<emphasis role="keywordtype">void</emphasis>*&#32;<link linkend="_glad_8h_1a85e59cd56e10d0a7f49ab199f277d486">dst</link>,&#32;uint64_t&#32;<link linkend="_glad_8h_1ae1b92ae085ddef4b1cdca7d749339fb0">offset</link>,&#32;uint64_t&#32;cnt&#32;)
+78 &#32;&#32;&#32;&#32;{
+79 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>&#32;=&#32;m_size;
+80 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;<link linkend="_glad_8h_1a2a98ddb6f79ec1048ff9e15cdd2422ba">src</link>&#32;=&#32;(&#32;m_tail&#32;+&#32;<link linkend="_glad_8h_1ae1b92ae085ddef4b1cdca7d749339fb0">offset</link>&#32;)&#32;%&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>;
+81 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;<link linkend="_glad_8h_1a2a98ddb6f79ec1048ff9e15cdd2422ba">src</link>&#32;+&#32;cnt&#32;&lt;=&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>&#32;)
+82 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+83 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memcpy(&#32;<link linkend="_glad_8h_1a85e59cd56e10d0a7f49ab199f277d486">dst</link>,&#32;m_buffer&#32;+&#32;<link linkend="_glad_8h_1a2a98ddb6f79ec1048ff9e15cdd2422ba">src</link>,&#32;cnt&#32;);
+84 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+85 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+86 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+87 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;s0&#32;=&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>&#32;-&#32;<link linkend="_glad_8h_1a2a98ddb6f79ec1048ff9e15cdd2422ba">src</link>;
+88 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;buf&#32;=&#32;m_buffer;
+89 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memcpy(&#32;<link linkend="_glad_8h_1a85e59cd56e10d0a7f49ab199f277d486">dst</link>,&#32;buf&#32;+&#32;<link linkend="_glad_8h_1a2a98ddb6f79ec1048ff9e15cdd2422ba">src</link>,&#32;s0&#32;);
+90 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memcpy(&#32;(<emphasis role="keywordtype">char</emphasis>*)<link linkend="_glad_8h_1a85e59cd56e10d0a7f49ab199f277d486">dst</link>&#32;+&#32;s0,&#32;buf,&#32;cnt&#32;-&#32;s0&#32;);
+91 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+92 &#32;&#32;&#32;&#32;}
+93 
+94 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_classtracy_1_1_ring_buffer_1afdaf610aff6ac9a1e339cbe192ad4cb8">Advance</link>(&#32;uint64_t&#32;cnt&#32;)
+95 &#32;&#32;&#32;&#32;{
+96 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_tail&#32;+=&#32;cnt;
+97 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;StoreTail();
+98 &#32;&#32;&#32;&#32;}
+99 
+100 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_classtracy_1_1_ring_buffer_1ad0d717819916879771e23e6103397ee8">CheckTscCaps</link>()<emphasis role="keyword">&#32;const</emphasis>
+101 <emphasis role="keyword">&#32;&#32;&#32;&#32;</emphasis>{
+102 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;m_metadata-&gt;cap_user_time_zero;
+103 &#32;&#32;&#32;&#32;}
+104 
+105 &#32;&#32;&#32;&#32;int64_t&#32;<link linkend="_classtracy_1_1_ring_buffer_1a3b14941846c36b4fb4e1dfe9c6cbbbd6">ConvertTimeToTsc</link>(&#32;int64_t&#32;timestamp&#32;)<emphasis role="keyword">&#32;const</emphasis>
+106 <emphasis role="keyword">&#32;&#32;&#32;&#32;</emphasis>{
+107 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!m_metadata-&gt;cap_user_time_zero&#32;)&#32;<emphasis role="keywordflow">return</emphasis>&#32;0;
+108 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;time&#32;=&#32;timestamp&#32;-&#32;m_metadata-&gt;time_zero;
+109 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;quot&#32;=&#32;time&#32;/&#32;m_metadata-&gt;time_mult;
+110 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;rem&#32;=&#32;time&#32;%&#32;m_metadata-&gt;time_mult;
+111 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;(&#32;quot&#32;&lt;&lt;&#32;m_metadata-&gt;time_shift&#32;)&#32;+&#32;(&#32;rem&#32;&lt;&lt;&#32;m_metadata-&gt;time_shift&#32;)&#32;/&#32;m_metadata-&gt;time_mult;
+112 &#32;&#32;&#32;&#32;}
+113 
+114 &#32;&#32;&#32;&#32;uint64_t&#32;<link linkend="_classtracy_1_1_ring_buffer_1ac412732b3e4aa49dbb375efdb8b4f791">LoadHead</link>()<emphasis role="keyword">&#32;const</emphasis>
+115 <emphasis role="keyword">&#32;&#32;&#32;&#32;</emphasis>{
+116 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;std::atomic_load_explicit(&#32;(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">volatile</emphasis>&#32;std::atomic&lt;uint64_t&gt;*)&amp;m_metadata-&gt;data_head,&#32;std::memory_order_acquire&#32;);
+117 &#32;&#32;&#32;&#32;}
+118 
+119 &#32;&#32;&#32;&#32;uint64_t&#32;<link linkend="_classtracy_1_1_ring_buffer_1a885c2d2e15f55313678dbd61d7b7cc2b">GetTail</link>()<emphasis role="keyword">&#32;const</emphasis>
+120 <emphasis role="keyword">&#32;&#32;&#32;&#32;</emphasis>{
+121 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;m_tail;
+122 &#32;&#32;&#32;&#32;}
+123 
+124 <emphasis role="keyword">private</emphasis>:
+125 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;StoreTail()
+126 &#32;&#32;&#32;&#32;{
+127 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::atomic_store_explicit(&#32;(<emphasis role="keyword">volatile</emphasis>&#32;std::atomic&lt;uint64_t&gt;*)&amp;m_metadata-&gt;data_tail,&#32;m_tail,&#32;std::memory_order_release&#32;);
+128 &#32;&#32;&#32;&#32;}
+129 
+130 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;m_size;
+131 &#32;&#32;&#32;&#32;uint64_t&#32;m_tail;
+132 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">char</emphasis>*&#32;m_buffer;
+133 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;m_id;
+134 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;m_cpu;
+135 &#32;&#32;&#32;&#32;perf_event_mmap_page*&#32;m_metadata;
+136 
+137 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;m_mapSize;
+138 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;m_fd;
+139 };
+140 
+141 }
+</programlisting></section>

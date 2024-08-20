@@ -2,6 +2,7 @@
 #include "RENDER.h"
 #include "RENDER_DATATYPES.h"
 #include "RENDER_SHADER_UTILLS.h"
+#include "RENDER_MATERIAL.h"
 
 
 namespace PAIN {
@@ -20,6 +21,7 @@ namespace PAIN {
 	{
 		unsigned int diffuseNr = 1;
 		unsigned int specularNr = 1;
+		TrPr(ctx,"Textures")
 		for (unsigned int i = 0; i < textures.size(); i++)
 		{
 			glActiveTexture(GL_TEXTURE0 + i); // activate texture unit first
@@ -34,10 +36,16 @@ namespace PAIN {
 			glBindTexture(GL_TEXTURE_2D, textures[i].id);
 		}
 		glActiveTexture(GL_TEXTURE0);
+		TrPrE(ctx);
 		// draw mesh
+//		glBindFramebuffer(GL_FRAMEBUFFER, PAIN::Render::FBO);
+		TrPr(ctx1, "Draw Call");
 		glBindVertexArray(VAO);
 		glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
+		TrPrE(ctx1);
+	//	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
 	}
 
 	 void Mesh::Draw(ShaderU& shader)
@@ -109,8 +117,12 @@ namespace PAIN {
 
 	 void Model::Draw(Shader& shader)
 	{
-		for (unsigned int i = 0; i < meshes.size(); i++)
+		 TrPr(ctx, "Draw Objects");
+		for (unsigned int i = 0; i < meshes.size(); i++){
 			meshes[i].Draw(shader);
+		}
+
+		TrPrE(ctx);
 	}
 
 	 void Model::loadModel(string path)

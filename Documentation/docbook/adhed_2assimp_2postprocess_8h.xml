@@ -1,0 +1,584 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_adhed_2assimp_2postprocess_8h" xml:lang="en-US">
+<title>adhed/assimp/postprocess.h File Reference</title>
+<indexterm><primary>adhed/assimp/postprocess.h</primary></indexterm>
+<para>
+
+<para>Definitions for import post processing steps. </para>
+ 
+</para>
+<programlisting linenumbering="unnumbered">#include &lt;assimp/types.h&gt;<?linebreak?></programlisting><simplesect>
+    <title>Macros    </title>
+        <itemizedlist>
+            <listitem><para>#define <link linkend="_adhed_2assimp_2postprocess_8h_1a200ca079124fc0497c1fb811efe9479f">AI_POSTPROCESS_H_INC</link></para>
+</listitem>
+            <listitem><para>#define <link linkend="_adhed_2assimp_2postprocess_8h_1acd2361a766665ce2dbfb3eae201b784d">aiProcess_ConvertToLeftHanded</link></para>
+
+<para>Shortcut flag for Direct3D-based applications. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_adhed_2assimp_2postprocess_8h_1ac72dfcb11eae3f0403430b2d9bd6aaac">aiProcessPreset_TargetRealtime_Fast</link></para>
+
+<para>Default postprocess configuration optimizing the data for real-time rendering. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_adhed_2assimp_2postprocess_8h_1a450d38c62891ec72077a011098ee4412">aiProcessPreset_TargetRealtime_Quality</link></para>
+
+<para>Default postprocess configuration optimizing the data for real-time rendering. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_adhed_2assimp_2postprocess_8h_1aaa612ed3f167a8999405d53fc309594b">aiProcessPreset_TargetRealtime_MaxQuality</link></para>
+
+<para>Default postprocess configuration optimizing the data for real-time rendering. </para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Enumerations    </title>
+        <itemizedlist>
+            <listitem><para>enum <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410">aiPostProcessSteps</link> { <?linebreak?><link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a8857a0e30688127a82c7b8939958c6dc">aiProcess_CalcTangentSpace</link> = 0x1
+, <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a444a6c9d8b63e6dc9e1e2e1edd3cbcd4">aiProcess_JoinIdenticalVertices</link> = 0x2
+, <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a133fd1162674e68bf8cd17070898a936">aiProcess_MakeLeftHanded</link> = 0x4
+, <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a9c3de834f0307f31fa2b1b6d05dd592b">aiProcess_Triangulate</link> = 0x8
+, <?linebreak?><link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a0ab270168bd7a707c0f279045c265e08">aiProcess_RemoveComponent</link> = 0x10
+, <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a4e0d60129724464915ebc5533a9bba78">aiProcess_GenNormals</link> = 0x20
+, <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a6afb4fee42eca4482674859196cb8685">aiProcess_GenSmoothNormals</link> = 0x40
+, <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a7bb8f16468032a3ba9a23fa37df82174">aiProcess_SplitLargeMeshes</link> = 0x80
+, <?linebreak?><link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a6e50fab95214a33996e28fae3efc7582">aiProcess_PreTransformVertices</link> = 0x100
+, <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a9fc450a103aa2831c145c49bc56c9439">aiProcess_LimitBoneWeights</link> = 0x200
+, <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410ae420ce22fbbac9d0fd21fd92f2b630fa">aiProcess_ValidateDataStructure</link> = 0x400
+, <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a16979c68f93d283c6886abf580d557b1">aiProcess_ImproveCacheLocality</link> = 0x800
+, <?linebreak?><link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a052d2921c33cd21141480b8f25524bb1">aiProcess_RemoveRedundantMaterials</link> = 0x1000
+, <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a620b08f185e87a67a3efd9295eed6e82">aiProcess_FixInfacingNormals</link> = 0x2000
+, <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a1814162ab2122ee45c8e2ec56660717c">aiProcess_PopulateArmatureData</link> = 0x4000
+, <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410ab4484f73635d633cd79973bac1431ed6">aiProcess_SortByPType</link> = 0x8000
+, <?linebreak?><link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410ae1311236ea7a55b7355c5aa535586ad0">aiProcess_FindDegenerates</link> = 0x10000
+, <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a42a93fc16a7a3b6df509bab503945421">aiProcess_FindInvalidData</link> = 0x20000
+, <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410aa4ae05f45c5682ab245cf8e87986426f">aiProcess_GenUVCoords</link> = 0x40000
+, <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a87577c60885b193571a10237341b237f">aiProcess_TransformUVCoords</link> = 0x80000
+, <?linebreak?><link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a4982e6ac69991617b1481bce00d1fc0e">aiProcess_FindInstances</link> = 0x100000
+, <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410af5fe0d6ee720c91359dc61cb849f2ebf">aiProcess_OptimizeMeshes</link> = 0x200000
+, <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a3bf6b8cb30289fd27fb2734d67a0889f">aiProcess_OptimizeGraph</link> = 0x400000
+, <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a06922b6a1f1cd8186f9fdafb471c813e">aiProcess_FlipUVs</link> = 0x800000
+, <?linebreak?><link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a429a11bf7ace46f039f55de895505d4a">aiProcess_FlipWindingOrder</link> = 0x1000000
+, <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410ac662c1d8f4e37cdf2a54023b174da192">aiProcess_SplitByBoneCount</link> = 0x2000000
+, <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a8e14bca58301e2ee29cf928156c3a9f9">aiProcess_Debone</link> = 0x4000000
+, <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a9290b1203f1cbe8883606fc09dc3e93e">aiProcess_GlobalScale</link> = 0x8000000
+, <?linebreak?><link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410ac8889361ff08f3da78792ace616c47e0">aiProcess_EmbedTextures</link> = 0x10000000
+, <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a72367a4d49efd4a42394cc5c377c1353">aiProcess_ForceGenNormals</link> = 0x20000000
+, <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a4d499b6b8ce7c1cdaf3ef3935ad17ce8">aiProcess_DropNormals</link> = 0x40000000
+, <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a26bd09ed23ff03da0b2c3d64ee7018bf">aiProcess_GenBoundingBoxes</link> = 0x80000000
+ }</para>
+
+<para>Defines the flags for all possible post processing steps. </para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para>Definitions for import post processing steps. </para>
+</section>
+<section>
+<title>Macro Definition Documentation</title>
+<anchor xml:id="_adhed_2assimp_2postprocess_8h_1a200ca079124fc0497c1fb811efe9479f"/><section>
+    <title>AI_POSTPROCESS_H_INC</title>
+<indexterm><primary>AI_POSTPROCESS_H_INC</primary><secondary>postprocess.h</secondary></indexterm>
+<indexterm><primary>postprocess.h</primary><secondary>AI_POSTPROCESS_H_INC</secondary></indexterm>
+<para><computeroutput>#define AI_POSTPROCESS_H_INC</computeroutput></para></section>
+<anchor xml:id="_adhed_2assimp_2postprocess_8h_1acd2361a766665ce2dbfb3eae201b784d"/><section>
+    <title>aiProcess_ConvertToLeftHanded</title>
+<indexterm><primary>aiProcess_ConvertToLeftHanded</primary><secondary>postprocess.h</secondary></indexterm>
+<indexterm><primary>postprocess.h</primary><secondary>aiProcess_ConvertToLeftHanded</secondary></indexterm>
+<para><computeroutput>#define aiProcess_ConvertToLeftHanded</computeroutput></para><emphasis role="strong">Value:</emphasis><programlisting linenumbering="unnumbered">&#32;&#32;&#32;&#32;(&#32;\
+&#32;&#32;&#32;&#32;<link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a133fd1162674e68bf8cd17070898a936">aiProcess_MakeLeftHanded</link>&#32;&#32;&#32;&#32;&#32;|&#32;\
+&#32;&#32;&#32;&#32;<link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a06922b6a1f1cd8186f9fdafb471c813e">aiProcess_FlipUVs</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;|&#32;\
+&#32;&#32;&#32;&#32;<link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a429a11bf7ace46f039f55de895505d4a">aiProcess_FlipWindingOrder</link>&#32;&#32;&#32;|&#32;\
+&#32;&#32;&#32;&#32;0&#32;)
+</programlisting><para>
+
+<para>Shortcut flag for Direct3D-based applications. </para>
+</para>
+
+<para>Supersedes the <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a133fd1162674e68bf8cd17070898a936">aiProcess_MakeLeftHanded</link> and <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a06922b6a1f1cd8186f9fdafb471c813e">aiProcess_FlipUVs</link> and <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a429a11bf7ace46f039f55de895505d4a">aiProcess_FlipWindingOrder</link> flags. The output data matches Direct3D&apos;s conventions: left-handed geometry, upper-left origin for UV coordinates and finally clockwise face order, suitable for CCW culling.</para>
+
+<para><para><link linkend="_deprecated_1_deprecated000001">Deprecated</link> </para></para>
+</section>
+<anchor xml:id="_adhed_2assimp_2postprocess_8h_1ac72dfcb11eae3f0403430b2d9bd6aaac"/><section>
+    <title>aiProcessPreset_TargetRealtime_Fast</title>
+<indexterm><primary>aiProcessPreset_TargetRealtime_Fast</primary><secondary>postprocess.h</secondary></indexterm>
+<indexterm><primary>postprocess.h</primary><secondary>aiProcessPreset_TargetRealtime_Fast</secondary></indexterm>
+<para><computeroutput>#define aiProcessPreset_TargetRealtime_Fast</computeroutput></para><emphasis role="strong">Value:</emphasis><programlisting linenumbering="unnumbered">&#32;&#32;&#32;&#32;(&#32;\
+&#32;&#32;&#32;&#32;<link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a8857a0e30688127a82c7b8939958c6dc">aiProcess_CalcTangentSpace</link>&#32;&#32;&#32;&#32;&#32;&#32;|&#32;&#32;\
+&#32;&#32;&#32;&#32;<link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a4e0d60129724464915ebc5533a9bba78">aiProcess_GenNormals</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;|&#32;&#32;\
+&#32;&#32;&#32;&#32;<link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a444a6c9d8b63e6dc9e1e2e1edd3cbcd4">aiProcess_JoinIdenticalVertices</link>&#32;|&#32;&#32;\
+&#32;&#32;&#32;&#32;<link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a9c3de834f0307f31fa2b1b6d05dd592b">aiProcess_Triangulate</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;|&#32;&#32;\
+&#32;&#32;&#32;&#32;<link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410aa4ae05f45c5682ab245cf8e87986426f">aiProcess_GenUVCoords</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;|&#32;&#32;\
+&#32;&#32;&#32;&#32;<link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410ab4484f73635d633cd79973bac1431ed6">aiProcess_SortByPType</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;|&#32;&#32;\
+&#32;&#32;&#32;&#32;0&#32;)
+</programlisting><para>
+
+<para>Default postprocess configuration optimizing the data for real-time rendering. </para>
+</para>
+
+<para>Applications would want to use this preset to load models on end-user PCs, maybe for direct use in game.</para>
+
+<para>If you&apos;re using <link linkend="_namespace_direct_x">DirectX</link>, don&apos;t forget to combine this value with the <link linkend="_adhed_2assimp_2postprocess_8h_1acd2361a766665ce2dbfb3eae201b784d">aiProcess_ConvertToLeftHanded</link> step. If you don&apos;t support UV transformations in your application apply the <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a87577c60885b193571a10237341b237f">aiProcess_TransformUVCoords</link> step, too. <note><title>Note</title>
+
+<para>Please take the time to read the docs for the steps enabled by this preset. Some of them offer further configurable properties, while some of them might not be of use for you so it might be better to not specify them. </para>
+</note>
+</para>
+</section>
+<anchor xml:id="_adhed_2assimp_2postprocess_8h_1aaa612ed3f167a8999405d53fc309594b"/><section>
+    <title>aiProcessPreset_TargetRealtime_MaxQuality</title>
+<indexterm><primary>aiProcessPreset_TargetRealtime_MaxQuality</primary><secondary>postprocess.h</secondary></indexterm>
+<indexterm><primary>postprocess.h</primary><secondary>aiProcessPreset_TargetRealtime_MaxQuality</secondary></indexterm>
+<para><computeroutput>#define aiProcessPreset_TargetRealtime_MaxQuality</computeroutput></para><emphasis role="strong">Value:</emphasis><programlisting linenumbering="unnumbered">&#32;&#32;&#32;&#32;(&#32;\
+&#32;&#32;&#32;&#32;<link linkend="_adhed_2assimp_2postprocess_8h_1a450d38c62891ec72077a011098ee4412">aiProcessPreset_TargetRealtime_Quality</link>&#32;&#32;&#32;|&#32;&#32;\
+&#32;&#32;&#32;&#32;<link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a4982e6ac69991617b1481bce00d1fc0e">aiProcess_FindInstances</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;|&#32;&#32;\
+&#32;&#32;&#32;&#32;<link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410ae420ce22fbbac9d0fd21fd92f2b630fa">aiProcess_ValidateDataStructure</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;|&#32;&#32;\
+&#32;&#32;&#32;&#32;<link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410af5fe0d6ee720c91359dc61cb849f2ebf">aiProcess_OptimizeMeshes</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;|&#32;&#32;\
+&#32;&#32;&#32;&#32;0&#32;)
+</programlisting><para>
+
+<para>Default postprocess configuration optimizing the data for real-time rendering. </para>
+</para>
+
+<para>This preset enables almost every optimization step to achieve perfectly optimized data. It&apos;s your choice for level editor environments where import speed is not important.</para>
+
+<para>If you&apos;re using <link linkend="_namespace_direct_x">DirectX</link>, don&apos;t forget to combine this value with the <link linkend="_adhed_2assimp_2postprocess_8h_1acd2361a766665ce2dbfb3eae201b784d">aiProcess_ConvertToLeftHanded</link> step. If you don&apos;t support UV transformations in your application, apply the <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a87577c60885b193571a10237341b237f">aiProcess_TransformUVCoords</link> step, too. <note><title>Note</title>
+
+<para>Please take the time to read the docs for the steps enabled by this preset. Some of them offer further configurable properties, while some of them might not be of use for you so it might be better to not specify them. </para>
+</note>
+</para>
+</section>
+<anchor xml:id="_adhed_2assimp_2postprocess_8h_1a450d38c62891ec72077a011098ee4412"/><section>
+    <title>aiProcessPreset_TargetRealtime_Quality</title>
+<indexterm><primary>aiProcessPreset_TargetRealtime_Quality</primary><secondary>postprocess.h</secondary></indexterm>
+<indexterm><primary>postprocess.h</primary><secondary>aiProcessPreset_TargetRealtime_Quality</secondary></indexterm>
+<para><computeroutput>#define aiProcessPreset_TargetRealtime_Quality</computeroutput></para><emphasis role="strong">Value:</emphasis><programlisting linenumbering="unnumbered">&#32;&#32;&#32;&#32;(&#32;\
+&#32;&#32;&#32;&#32;<link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a8857a0e30688127a82c7b8939958c6dc">aiProcess_CalcTangentSpace</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;|&#32;&#32;\
+&#32;&#32;&#32;&#32;<link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a6afb4fee42eca4482674859196cb8685">aiProcess_GenSmoothNormals</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;|&#32;&#32;\
+&#32;&#32;&#32;&#32;<link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a444a6c9d8b63e6dc9e1e2e1edd3cbcd4">aiProcess_JoinIdenticalVertices</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;|&#32;&#32;\
+&#32;&#32;&#32;&#32;<link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a16979c68f93d283c6886abf580d557b1">aiProcess_ImproveCacheLocality</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;|&#32;&#32;\
+&#32;&#32;&#32;&#32;<link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a9fc450a103aa2831c145c49bc56c9439">aiProcess_LimitBoneWeights</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;|&#32;&#32;\
+&#32;&#32;&#32;&#32;<link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a052d2921c33cd21141480b8f25524bb1">aiProcess_RemoveRedundantMaterials</link>&#32;&#32;&#32;&#32;&#32;&#32;|&#32;&#32;\
+&#32;&#32;&#32;&#32;<link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a7bb8f16468032a3ba9a23fa37df82174">aiProcess_SplitLargeMeshes</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;|&#32;&#32;\
+&#32;&#32;&#32;&#32;<link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a9c3de834f0307f31fa2b1b6d05dd592b">aiProcess_Triangulate</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;|&#32;&#32;\
+&#32;&#32;&#32;&#32;<link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410aa4ae05f45c5682ab245cf8e87986426f">aiProcess_GenUVCoords</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;|&#32;&#32;\
+&#32;&#32;&#32;&#32;<link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410ab4484f73635d633cd79973bac1431ed6">aiProcess_SortByPType</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;|&#32;&#32;\
+&#32;&#32;&#32;&#32;<link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410ae1311236ea7a55b7355c5aa535586ad0">aiProcess_FindDegenerates</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;|&#32;&#32;\
+&#32;&#32;&#32;&#32;<link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a42a93fc16a7a3b6df509bab503945421">aiProcess_FindInvalidData</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;|&#32;&#32;\
+&#32;&#32;&#32;&#32;0&#32;)
+</programlisting><para>
+
+<para>Default postprocess configuration optimizing the data for real-time rendering. </para>
+</para>
+
+<para>Unlike <link linkend="_adhed_2assimp_2postprocess_8h_1ac72dfcb11eae3f0403430b2d9bd6aaac">aiProcessPreset_TargetRealtime_Fast</link>, this configuration performs some extra optimizations to improve rendering speed and to minimize memory usage. It could be a good choice for a level editor environment where import speed is not so important.</para>
+
+<para>If you&apos;re using <link linkend="_namespace_direct_x">DirectX</link>, don&apos;t forget to combine this value with the <link linkend="_adhed_2assimp_2postprocess_8h_1acd2361a766665ce2dbfb3eae201b784d">aiProcess_ConvertToLeftHanded</link> step. If you don&apos;t support UV transformations in your application apply the <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a87577c60885b193571a10237341b237f">aiProcess_TransformUVCoords</link> step, too. <note><title>Note</title>
+
+<para>Please take the time to read the docs for the steps enabled by this preset. Some of them offer further configurable properties, while some of them might not be of use for you so it might be better to not specify them. </para>
+</note>
+</para>
+</section>
+</section>
+<section>
+<title>Enumeration Type Documentation</title>
+<anchor xml:id="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410"/><section>
+    <title>aiPostProcessSteps</title>
+<indexterm><primary>aiPostProcessSteps</primary><secondary>postprocess.h</secondary></indexterm>
+<indexterm><primary>postprocess.h</primary><secondary>aiPostProcessSteps</secondary></indexterm>
+<para><computeroutput><link linkend="_interfaceenum">enum</link> <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410">aiPostProcessSteps</link></computeroutput></para><para>
+
+<para>Defines the flags for all possible post processing steps. </para>
+</para>
+
+<para><note><title>Note</title>
+
+<para>Some steps are influenced by properties set on the <link linkend="_class_assimp_1_1_importer">Assimp::Importer</link> itself</para>
+</note>
+<formalpara><title>See also</title>
+
+<para><link linkend="_class_assimp_1_1_importer_1a075ccc3ef0cd2b005a8f624e75ca8909">Assimp::Importer::ReadFile()</link> </para>
+
+<para><link linkend="_class_assimp_1_1_importer_1a2542eed3d5f491025c4095b4e55fa068">Assimp::Importer::SetPropertyInteger()</link> </para>
+
+<para><link linkend="_cimport_8h_1a5b07b5b6589ad33033c2d456cd95da2b">aiImportFile</link> </para>
+
+<para><link linkend="_cimport_8h_1a5345c1c24a0e4b71fff9b485adb11e00">aiImportFileEx</link> </para>
+</formalpara>
+</para>
+<informaltable frame="all">
+<title>Enumerator</title>
+    <tgroup cols="2" align="left" colsep="1" rowsep="1">
+      <colspec colname='c1'/>
+      <colspec colname='c2'/>
+<tbody>
+<row><entry><indexterm><primary>aiProcess_CalcTangentSpace</primary><secondary>postprocess.h</secondary></indexterm>
+<indexterm><primary>postprocess.h</primary><secondary>aiProcess_CalcTangentSpace</secondary></indexterm>
+<anchor xml:id="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a8857a0e30688127a82c7b8939958c6dc"/>aiProcess_CalcTangentSpace</entry><entry>
+<para><informaltable frame='bottom'><tgroup cols='1'><colspec align='center'/><tbody><row><entry align='center'>
+</entry></row></tbody></tgroup></informaltable>
+Calculates the tangents and bitangents for the imported meshes.</para>
+
+<para>Does nothing if a mesh does not have normals. You might want this post processing step to be executed if you plan to use tangent space calculations such as normal mapping applied to the meshes. There&apos;s an importer property, <computeroutput><link linkend="_assimp_2config_8h_1a17376a5a00287843581a4f668291f49d">AI_CONFIG_PP_CT_MAX_SMOOTHING_ANGLE</link></computeroutput>, which allows you to specify a maximum smoothing angle for the algorithm. However, usually you&apos;ll want to leave it at the default value. </para>
+</entry></row><row><entry><indexterm><primary>aiProcess_JoinIdenticalVertices</primary><secondary>postprocess.h</secondary></indexterm>
+<indexterm><primary>postprocess.h</primary><secondary>aiProcess_JoinIdenticalVertices</secondary></indexterm>
+<anchor xml:id="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a444a6c9d8b63e6dc9e1e2e1edd3cbcd4"/>aiProcess_JoinIdenticalVertices</entry><entry>
+<para><informaltable frame='bottom'><tgroup cols='1'><colspec align='center'/><tbody><row><entry align='center'>
+</entry></row></tbody></tgroup></informaltable>
+Identifies and joins identical vertex data sets within all imported meshes.</para>
+
+<para>After this step is run, each mesh contains unique vertices, so a vertex may be used by multiple faces. You usually want to use this post processing step. If your application deals with indexed geometry, this step is compulsory or you&apos;ll just waste rendering time. <emphasis role="bold">If this flag is not specified</emphasis>, no vertices are referenced by more than one face and <emphasis role="bold">no index buffer is required</emphasis> for rendering. </para>
+</entry></row><row><entry><indexterm><primary>aiProcess_MakeLeftHanded</primary><secondary>postprocess.h</secondary></indexterm>
+<indexterm><primary>postprocess.h</primary><secondary>aiProcess_MakeLeftHanded</secondary></indexterm>
+<anchor xml:id="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a133fd1162674e68bf8cd17070898a936"/>aiProcess_MakeLeftHanded</entry><entry>
+<para><informaltable frame='bottom'><tgroup cols='1'><colspec align='center'/><tbody><row><entry align='center'>
+</entry></row></tbody></tgroup></informaltable>
+Converts all the imported data to a left-handed coordinate space.</para>
+
+<para>By default the data is returned in a right-handed coordinate space (which OpenGL prefers). In this space, +X points to the right, +Z points towards the viewer, and +Y points upwards. In the <link linkend="_namespace_direct_x">DirectX</link> coordinate space +X points to the right, +Y points upwards, and +Z points away from the viewer.</para>
+
+<para>You&apos;ll probably want to consider this flag if you use Direct3D for rendering. The <link linkend="_adhed_2assimp_2postprocess_8h_1acd2361a766665ce2dbfb3eae201b784d">aiProcess_ConvertToLeftHanded</link> flag supersedes this setting and bundles all conversions typically required for D3D-based applications. </para>
+</entry></row><row><entry><indexterm><primary>aiProcess_Triangulate</primary><secondary>postprocess.h</secondary></indexterm>
+<indexterm><primary>postprocess.h</primary><secondary>aiProcess_Triangulate</secondary></indexterm>
+<anchor xml:id="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a9c3de834f0307f31fa2b1b6d05dd592b"/>aiProcess_Triangulate</entry><entry>
+<para><informaltable frame='bottom'><tgroup cols='1'><colspec align='center'/><tbody><row><entry align='center'>
+</entry></row></tbody></tgroup></informaltable>
+Triangulates all faces of all meshes.</para>
+
+<para>By default the imported mesh data might contain faces with more than 3 indices. For rendering you&apos;ll usually want all faces to be triangles. This post processing step splits up faces with more than 3 indices into triangles. Line and point primitives are <emphasis>not</emphasis> modified! If you want &apos;triangles only&apos; with no other kinds of primitives, try the following solution: <itemizedlist>
+<listitem>
+
+<para>Specify both <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a9c3de834f0307f31fa2b1b6d05dd592b">aiProcess_Triangulate</link> and <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410ab4484f73635d633cd79973bac1431ed6">aiProcess_SortByPType</link>  </para>
+</listitem>
+<listitem>
+
+<para>Ignore all point and line meshes when you process assimp&apos;s output </para>
+</listitem>
+</itemizedlist>
+</para>
+</entry></row><row><entry><indexterm><primary>aiProcess_RemoveComponent</primary><secondary>postprocess.h</secondary></indexterm>
+<indexterm><primary>postprocess.h</primary><secondary>aiProcess_RemoveComponent</secondary></indexterm>
+<anchor xml:id="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a0ab270168bd7a707c0f279045c265e08"/>aiProcess_RemoveComponent</entry><entry>
+<para><informaltable frame='bottom'><tgroup cols='1'><colspec align='center'/><tbody><row><entry align='center'>
+</entry></row></tbody></tgroup></informaltable>
+Removes some parts of the data structure (animations, materials, light sources, cameras, textures, vertex components).</para>
+
+<para>The components to be removed are specified in a separate importer property, <computeroutput><link linkend="_assimp_2config_8h_1afc0a4c00fb90c345eb38fe3f7d7c8637">AI_CONFIG_PP_RVC_FLAGS</link></computeroutput>. This is quite useful if you don&apos;t need all parts of the output structure. Vertex colors are rarely used today for example... Calling this step to remove unneeded data from the pipeline as early as possible results in increased performance and a more optimized output data structure. This step is also useful if you want to force <link linkend="_namespace_assimp">Assimp</link> to recompute normals or tangents. The corresponding steps don&apos;t recompute them if they&apos;re already there (loaded from the source asset). By using this step you can make sure they are NOT there.</para>
+
+<para>This flag is a poor one, mainly because its purpose is usually misunderstood. Consider the following case: a 3D model has been exported from a CAD app, and it has per-face vertex colors. Vertex positions can&apos;t be shared, thus the <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a444a6c9d8b63e6dc9e1e2e1edd3cbcd4">aiProcess_JoinIdenticalVertices</link> step fails to optimize the data because of these nasty little vertex colors. Most apps don&apos;t even process them, so it&apos;s all for nothing. By using this step, unneeded components are excluded as early as possible thus opening more room for internal optimizations. </para>
+</entry></row><row><entry><indexterm><primary>aiProcess_GenNormals</primary><secondary>postprocess.h</secondary></indexterm>
+<indexterm><primary>postprocess.h</primary><secondary>aiProcess_GenNormals</secondary></indexterm>
+<anchor xml:id="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a4e0d60129724464915ebc5533a9bba78"/>aiProcess_GenNormals</entry><entry>
+<para><informaltable frame='bottom'><tgroup cols='1'><colspec align='center'/><tbody><row><entry align='center'>
+</entry></row></tbody></tgroup></informaltable>
+Generates normals for all faces of all meshes.</para>
+
+<para>This is ignored if normals are already there at the time this flag is evaluated. Model importers try to load them from the source file, so they&apos;re usually already there. Face normals are shared between all points of a single face, so a single point can have multiple normals, which forces the library to duplicate vertices in some cases. <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a444a6c9d8b63e6dc9e1e2e1edd3cbcd4">aiProcess_JoinIdenticalVertices</link> is <emphasis>senseless</emphasis> then.</para>
+
+<para>This flag may not be specified together with <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a6afb4fee42eca4482674859196cb8685">aiProcess_GenSmoothNormals</link>. </para>
+</entry></row><row><entry><indexterm><primary>aiProcess_GenSmoothNormals</primary><secondary>postprocess.h</secondary></indexterm>
+<indexterm><primary>postprocess.h</primary><secondary>aiProcess_GenSmoothNormals</secondary></indexterm>
+<anchor xml:id="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a6afb4fee42eca4482674859196cb8685"/>aiProcess_GenSmoothNormals</entry><entry>
+<para><informaltable frame='bottom'><tgroup cols='1'><colspec align='center'/><tbody><row><entry align='center'>
+</entry></row></tbody></tgroup></informaltable>
+Generates smooth normals for all vertices in the mesh.</para>
+
+<para>This is ignored if normals are already there at the time this flag is evaluated. Model importers try to load them from the source file, so they&apos;re usually already there.</para>
+
+<para>This flag may not be specified together with <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a4e0d60129724464915ebc5533a9bba78">aiProcess_GenNormals</link>. There&apos;s a importer property, <computeroutput><link linkend="_assimp_2config_8h_1a412ab4b92d48adbddc81c1c9a190493f">AI_CONFIG_PP_GSN_MAX_SMOOTHING_ANGLE</link></computeroutput> which allows you to specify an angle maximum for the normal smoothing algorithm. Normals exceeding this limit are not smoothed, resulting in a &apos;hard&apos; seam between two faces. Using a decent angle here (e.g. 80 degrees) results in very good visual appearance. </para>
+</entry></row><row><entry><indexterm><primary>aiProcess_SplitLargeMeshes</primary><secondary>postprocess.h</secondary></indexterm>
+<indexterm><primary>postprocess.h</primary><secondary>aiProcess_SplitLargeMeshes</secondary></indexterm>
+<anchor xml:id="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a7bb8f16468032a3ba9a23fa37df82174"/>aiProcess_SplitLargeMeshes</entry><entry>
+<para><informaltable frame='bottom'><tgroup cols='1'><colspec align='center'/><tbody><row><entry align='center'>
+</entry></row></tbody></tgroup></informaltable>
+Splits large meshes into smaller sub-meshes.</para>
+
+<para>This is quite useful for real-time rendering, where the number of triangles which can be maximally processed in a single draw-call is limited by the video driver/hardware. The maximum vertex buffer is usually limited too. Both requirements can be met with this step: you may specify both a triangle and vertex limit for a single mesh.</para>
+
+<para>The split limits can (and should!) be set through the <computeroutput><link linkend="_assimp_2config_8h_1a67d3e772a82c3bbb921ce4d8f2448f2f">AI_CONFIG_PP_SLM_VERTEX_LIMIT</link></computeroutput> and <computeroutput><link linkend="_assimp_2config_8h_1a28b904b69e6e5261aaae50b858316041">AI_CONFIG_PP_SLM_TRIANGLE_LIMIT</link></computeroutput> importer properties. The default values are <computeroutput><link linkend="_assimp_2config_8h_1a3d82573abff7d733ec1f24456662a99d">AI_SLM_DEFAULT_MAX_VERTICES</link></computeroutput> and <computeroutput><link linkend="_assimp_2config_8h_1abfe0ddcde0e04816e7bc9e429dcd8185">AI_SLM_DEFAULT_MAX_TRIANGLES</link></computeroutput>.</para>
+
+<para>Note that splitting is generally a time-consuming task, but only if there&apos;s something to split. The use of this step is recommended for most users. </para>
+</entry></row><row><entry><indexterm><primary>aiProcess_PreTransformVertices</primary><secondary>postprocess.h</secondary></indexterm>
+<indexterm><primary>postprocess.h</primary><secondary>aiProcess_PreTransformVertices</secondary></indexterm>
+<anchor xml:id="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a6e50fab95214a33996e28fae3efc7582"/>aiProcess_PreTransformVertices</entry><entry>
+<para><informaltable frame='bottom'><tgroup cols='1'><colspec align='center'/><tbody><row><entry align='center'>
+</entry></row></tbody></tgroup></informaltable>
+Removes the node graph and pre-transforms all vertices with the local transformation matrices of their nodes.</para>
+
+<para>If the resulting scene can be reduced to a single mesh, with a single material, no lights, and no cameras, then the output scene will contain only a root node (with no children) that references the single mesh. Otherwise, the output scene will be reduced to a root node with a single level of child nodes, each one referencing one mesh, and each mesh referencing one material.</para>
+
+<para>In either case, for rendering, you can simply render all meshes in order - you don&apos;t need to pay attention to local transformations and the node hierarchy. Animations are removed during this step. This step is intended for applications without a scenegraph. The step CAN cause some problems: if e.g. a mesh of the asset contains normals and another, using the same material index, does not, they will be brought together, but the first meshes&apos;s part of the normal list is zeroed. However, these artifacts are rare. <note><title>Note</title>
+
+<para>The <computeroutput><link linkend="_assimp_2config_8h_1ad1bf07f321c6f075e9c67f26b551b323">AI_CONFIG_PP_PTV_NORMALIZE</link></computeroutput> configuration property can be set to normalize the scene&apos;s spatial dimension to the -1...1 range. </para>
+</note>
+</para>
+</entry></row><row><entry><indexterm><primary>aiProcess_LimitBoneWeights</primary><secondary>postprocess.h</secondary></indexterm>
+<indexterm><primary>postprocess.h</primary><secondary>aiProcess_LimitBoneWeights</secondary></indexterm>
+<anchor xml:id="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a9fc450a103aa2831c145c49bc56c9439"/>aiProcess_LimitBoneWeights</entry><entry>
+<para><informaltable frame='bottom'><tgroup cols='1'><colspec align='center'/><tbody><row><entry align='center'>
+</entry></row></tbody></tgroup></informaltable>
+Limits the number of bones simultaneously affecting a single vertex to a maximum value.</para>
+
+<para>If any vertex is affected by more than the maximum number of bones, the least important vertex weights are removed and the remaining vertex weights are renormalized so that the weights still sum up to 1. The default bone weight limit is 4 (defined as <computeroutput><link linkend="_assimp_2config_8h_1ab0dbe36911bd9df0661bdb69ecadb2e1">AI_LMW_MAX_WEIGHTS</link></computeroutput> in config.h), but you can use the <computeroutput><link linkend="_assimp_2config_8h_1a37c3ad7872523b615d42761f2dc1bdf5">AI_CONFIG_PP_LBW_MAX_WEIGHTS</link></computeroutput> importer property to supply your own limit to the post processing step.</para>
+
+<para>If you intend to perform the skinning in hardware, this post processing step might be of interest to you. </para>
+</entry></row><row><entry><indexterm><primary>aiProcess_ValidateDataStructure</primary><secondary>postprocess.h</secondary></indexterm>
+<indexterm><primary>postprocess.h</primary><secondary>aiProcess_ValidateDataStructure</secondary></indexterm>
+<anchor xml:id="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410ae420ce22fbbac9d0fd21fd92f2b630fa"/>aiProcess_ValidateDataStructure</entry><entry>
+<para><informaltable frame='bottom'><tgroup cols='1'><colspec align='center'/><tbody><row><entry align='center'>
+</entry></row></tbody></tgroup></informaltable>
+Validates the imported scene data structure. This makes sure that all indices are valid, all animations and bones are linked correctly, all material references are correct .. etc.</para>
+
+<para>It is recommended that you capture <link linkend="_namespace_assimp">Assimp</link>&apos;s log output if you use this flag, so you can easily find out what&apos;s wrong if a file fails the validation. The validator is quite strict and will find <emphasis>all</emphasis> inconsistencies in the data structure... It is recommended that plugin developers use it to debug their loaders. There are two types of validation failures: <itemizedlist>
+<listitem>
+
+<para>Error: There&apos;s something wrong with the imported data. Further postprocessing is not possible and the data is not usable at all. The import fails. #Importer::GetErrorString() or <link linkend="_cimport_8h_1a512bfa5aca8613168d8c5246e09b3935">aiGetErrorString()</link> carry the error message around. </para>
+</listitem>
+<listitem>
+
+<para>Warning: There are some minor issues (e.g. 1000000 animation keyframes with the same time), but further postprocessing and use of the data structure is still safe. Warning details are written to the log file, <computeroutput><link linkend="_scene_8h_1a0a1ef5c25053dbc47106e84cd737ca86">AI_SCENE_FLAGS_VALIDATION_WARNING</link></computeroutput> is set in <link linkend="_structai_scene_1a4091f10bb81e05db00ebc34f40c48f38">aiScene::mFlags</link> </para>
+</listitem>
+</itemizedlist>
+</para>
+
+<para>This post-processing step is not time-consuming. Its use is not compulsory, but recommended. </para>
+</entry></row><row><entry><indexterm><primary>aiProcess_ImproveCacheLocality</primary><secondary>postprocess.h</secondary></indexterm>
+<indexterm><primary>postprocess.h</primary><secondary>aiProcess_ImproveCacheLocality</secondary></indexterm>
+<anchor xml:id="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a16979c68f93d283c6886abf580d557b1"/>aiProcess_ImproveCacheLocality</entry><entry>
+<para><informaltable frame='bottom'><tgroup cols='1'><colspec align='center'/><tbody><row><entry align='center'>
+</entry></row></tbody></tgroup></informaltable>
+Reorders triangles for better vertex cache locality.</para>
+
+<para>The step tries to improve the ACMR (average post-transform vertex cache miss ratio) for all meshes. The implementation runs in <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a396fecfabe3105afc15a61c209f910f0">O(n)</link> and is roughly based on the &apos;tipsify&apos; algorithm (see <link xlink:href="
+http://www.cs.princeton.edu/gfx/pubs/Sander_2007_%3ETR/tipsy.pdf">this paper</link>).</para>
+
+<para>If you intend to render huge models in hardware, this step might be of interest to you. The <computeroutput><link linkend="_assimp_2config_8h_1a851b513ea20c4d66a1c012d63dd8e78b">AI_CONFIG_PP_ICL_PTCACHE_SIZE</link></computeroutput> importer property can be used to fine-tune the cache optimization. </para>
+</entry></row><row><entry><indexterm><primary>aiProcess_RemoveRedundantMaterials</primary><secondary>postprocess.h</secondary></indexterm>
+<indexterm><primary>postprocess.h</primary><secondary>aiProcess_RemoveRedundantMaterials</secondary></indexterm>
+<anchor xml:id="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a052d2921c33cd21141480b8f25524bb1"/>aiProcess_RemoveRedundantMaterials</entry><entry>
+<para><informaltable frame='bottom'><tgroup cols='1'><colspec align='center'/><tbody><row><entry align='center'>
+</entry></row></tbody></tgroup></informaltable>
+Searches for redundant/unreferenced materials and removes them.</para>
+
+<para>This is especially useful in combination with the <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a6e50fab95214a33996e28fae3efc7582">aiProcess_PreTransformVertices</link> and <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410af5fe0d6ee720c91359dc61cb849f2ebf">aiProcess_OptimizeMeshes</link> flags. Both join small meshes with equal characteristics, but they can&apos;t do their work if two meshes have different materials. Because several material settings are lost during <link linkend="_namespace_assimp">Assimp</link>&apos;s import filters, (and because many exporters don&apos;t check for redundant materials), huge models often have materials which are are defined several times with exactly the same settings.</para>
+
+<para>Several material settings not contributing to the final appearance of a surface are ignored in all comparisons (e.g. the material name). So, if you&apos;re passing additional information through the content pipeline (probably using <emphasis>magic</emphasis> material names), don&apos;t specify this flag. Alternatively take a look at the <computeroutput><link linkend="_assimp_2config_8h_1a5a7a5d8c18ffe39d29834a0737e2bce9">AI_CONFIG_PP_RRM_EXCLUDE_LIST</link></computeroutput> importer property. </para>
+</entry></row><row><entry><indexterm><primary>aiProcess_FixInfacingNormals</primary><secondary>postprocess.h</secondary></indexterm>
+<indexterm><primary>postprocess.h</primary><secondary>aiProcess_FixInfacingNormals</secondary></indexterm>
+<anchor xml:id="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a620b08f185e87a67a3efd9295eed6e82"/>aiProcess_FixInfacingNormals</entry><entry>
+<para><informaltable frame='bottom'><tgroup cols='1'><colspec align='center'/><tbody><row><entry align='center'>
+</entry></row></tbody></tgroup></informaltable>
+This step tries to determine which meshes have normal vectors that are facing inwards and inverts them.</para>
+
+<para>The algorithm is simple but effective: the bounding box of all vertices + their normals is compared against the volume of the bounding box of all vertices without their normals. This works well for most objects, problems might occur with planar surfaces. However, the step tries to filter such cases. The step inverts all in-facing normals. Generally it is recommended to enable this step, although the result is not always correct. </para>
+</entry></row><row><entry><indexterm><primary>aiProcess_PopulateArmatureData</primary><secondary>postprocess.h</secondary></indexterm>
+<indexterm><primary>postprocess.h</primary><secondary>aiProcess_PopulateArmatureData</secondary></indexterm>
+<anchor xml:id="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a1814162ab2122ee45c8e2ec56660717c"/>aiProcess_PopulateArmatureData</entry><entry>
+<para>This step generically populates aiBone-&gt;mArmature and aiBone-&gt;mNode generically The point of these is it saves you later having to calculate these elements This is useful when handling rest information or skin information If you have multiple armatures on your models we strongly recommend enabling this Instead of writing your own multi-root, multi-armature lookups we have done the hard work for you :) </para>
+</entry></row><row><entry><indexterm><primary>aiProcess_SortByPType</primary><secondary>postprocess.h</secondary></indexterm>
+<indexterm><primary>postprocess.h</primary><secondary>aiProcess_SortByPType</secondary></indexterm>
+<anchor xml:id="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410ab4484f73635d633cd79973bac1431ed6"/>aiProcess_SortByPType</entry><entry>
+<para><informaltable frame='bottom'><tgroup cols='1'><colspec align='center'/><tbody><row><entry align='center'>
+</entry></row></tbody></tgroup></informaltable>
+This step splits meshes with more than one primitive type in homogeneous sub-meshes.</para>
+
+<para>The step is executed after the triangulation step. After the step returns, just one bit is set in <link linkend="_structai_mesh_1a99d66ac0a444068c1b252b30265cbf53">aiMesh::mPrimitiveTypes</link>. This is especially useful for real-time rendering where point and line primitives are often ignored or rendered separately. You can use the <computeroutput><link linkend="_assimp_2config_8h_1a971e337cb0d526861142586b8341cb98">AI_CONFIG_PP_SBP_REMOVE</link></computeroutput> importer property to specify which primitive types you need. This can be used to easily exclude lines and points, which are rarely used, from the import. </para>
+</entry></row><row><entry><indexterm><primary>aiProcess_FindDegenerates</primary><secondary>postprocess.h</secondary></indexterm>
+<indexterm><primary>postprocess.h</primary><secondary>aiProcess_FindDegenerates</secondary></indexterm>
+<anchor xml:id="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410ae1311236ea7a55b7355c5aa535586ad0"/>aiProcess_FindDegenerates</entry><entry>
+<para><informaltable frame='bottom'><tgroup cols='1'><colspec align='center'/><tbody><row><entry align='center'>
+</entry></row></tbody></tgroup></informaltable>
+This step searches all meshes for degenerate primitives and converts them to proper lines or points.</para>
+
+<para>A face is &apos;degenerate&apos; if one or more of its points are identical. To have the degenerate stuff not only detected and collapsed but removed, try one of the following procedures: <?linebreak?><emphasis role="bold">1.</emphasis> (if you support lines and points for rendering but don&apos;t want the degenerates)<?linebreak?> <itemizedlist>
+<listitem>
+
+<para>Specify the <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410ae1311236ea7a55b7355c5aa535586ad0">aiProcess_FindDegenerates</link> flag.  </para>
+</listitem>
+<listitem>
+
+<para>Set the <computeroutput><link linkend="_assimp_2config_8h_1a3d9c02c1676aae7baf5e079fc72e08d1">AI_CONFIG_PP_FD_REMOVE</link></computeroutput> importer property to<orderedlist>
+<listitem>
+<para>This will cause the step to remove degenerate triangles from the import as soon as they&apos;re detected. They won&apos;t pass any further pipeline steps. </para>
+</listitem></orderedlist>
+</para>
+</listitem>
+</itemizedlist>
+<?linebreak?><emphasis role="bold">2.</emphasis>(if you don&apos;t support lines and points at all)<?linebreak?> <itemizedlist>
+<listitem>
+
+<para>Specify the <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410ae1311236ea7a55b7355c5aa535586ad0">aiProcess_FindDegenerates</link> flag.  </para>
+</listitem>
+<listitem>
+
+<para>Specify the <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410ab4484f73635d633cd79973bac1431ed6">aiProcess_SortByPType</link> flag. This moves line and point primitives to separate meshes.  </para>
+</listitem>
+<listitem>
+
+<para>Set the <computeroutput><link linkend="_assimp_2config_8h_1a971e337cb0d526861142586b8341cb98">AI_CONFIG_PP_SBP_REMOVE</link></computeroutput> importer property to <literallayout><computeroutput>aiPrimitiveType_POINTS&#32;|&#32;aiPrimitiveType_LINES
+</computeroutput></literallayout> to cause SortByPType to reject point and line meshes from the scene.  </para>
+</listitem>
+</itemizedlist>
+</para>
+
+<para>This step also removes very small triangles with a surface area smaller than 10^-6. If you rely on having these small triangles, or notice holes in your model, set the property <computeroutput><link linkend="_assimp_2config_8h_1a33d048b80565becd64af1ebd824bfd26">AI_CONFIG_PP_FD_CHECKAREA</link></computeroutput> to false. <note><title>Note</title>
+
+<para>Degenerate polygons are not necessarily evil and that&apos;s why they&apos;re not removed by default. There are several file formats which don&apos;t support lines or points, and some exporters bypass the format specification and write them as degenerate triangles instead. </para>
+</note>
+</para>
+</entry></row><row><entry><indexterm><primary>aiProcess_FindInvalidData</primary><secondary>postprocess.h</secondary></indexterm>
+<indexterm><primary>postprocess.h</primary><secondary>aiProcess_FindInvalidData</secondary></indexterm>
+<anchor xml:id="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a42a93fc16a7a3b6df509bab503945421"/>aiProcess_FindInvalidData</entry><entry>
+<para><informaltable frame='bottom'><tgroup cols='1'><colspec align='center'/><tbody><row><entry align='center'>
+</entry></row></tbody></tgroup></informaltable>
+This step searches all meshes for invalid data, such as zeroed normal vectors or invalid UV coords and removes/fixes them. This is intended to get rid of some common exporter errors.</para>
+
+<para>This is especially useful for normals. If they are invalid, and the step recognizes this, they will be removed and can later be recomputed, i.e. by the <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a6afb4fee42eca4482674859196cb8685">aiProcess_GenSmoothNormals</link> flag.<?linebreak?> The step will also remove meshes that are infinitely small and reduce animation tracks consisting of hundreds if redundant keys to a single key. The <computeroutput>AI_CONFIG_PP_FID_ANIM_ACCURACY</computeroutput> config property decides the accuracy of the check for duplicate animation tracks. </para>
+</entry></row><row><entry><indexterm><primary>aiProcess_GenUVCoords</primary><secondary>postprocess.h</secondary></indexterm>
+<indexterm><primary>postprocess.h</primary><secondary>aiProcess_GenUVCoords</secondary></indexterm>
+<anchor xml:id="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410aa4ae05f45c5682ab245cf8e87986426f"/>aiProcess_GenUVCoords</entry><entry>
+<para><informaltable frame='bottom'><tgroup cols='1'><colspec align='center'/><tbody><row><entry align='center'>
+</entry></row></tbody></tgroup></informaltable>
+This step converts non-UV mappings (such as spherical or cylindrical mapping) to proper texture coordinate channels.</para>
+
+<para>Most applications will support UV mapping only, so you will probably want to specify this step in every case. Note that <link linkend="_namespace_assimp">Assimp</link> is not always able to match the original mapping implementation of the 3D app which produced a model perfectly. It&apos;s always better to let the modelling app compute the UV channels - 3ds max, Maya, Blender, LightWave, and Modo do this for example.</para>
+
+<para><note><title>Note</title>
+
+<para>If this step is not requested, you&apos;ll need to process the <computeroutput><link linkend="_material_8h_1af72d0714d106aa52da2dbdf10d975c54">AI_MATKEY_MAPPING</link></computeroutput> material property in order to display all assets properly. </para>
+</note>
+</para>
+</entry></row><row><entry><indexterm><primary>aiProcess_TransformUVCoords</primary><secondary>postprocess.h</secondary></indexterm>
+<indexterm><primary>postprocess.h</primary><secondary>aiProcess_TransformUVCoords</secondary></indexterm>
+<anchor xml:id="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a87577c60885b193571a10237341b237f"/>aiProcess_TransformUVCoords</entry><entry>
+<para><informaltable frame='bottom'><tgroup cols='1'><colspec align='center'/><tbody><row><entry align='center'>
+</entry></row></tbody></tgroup></informaltable>
+This step applies per-texture UV transformations and bakes them into stand-alone vtexture coordinate channels.</para>
+
+<para>UV transformations are specified per-texture - see the <computeroutput><link linkend="_material_8h_1ab24f58c983cf26acc9389ed2530316a9">AI_MATKEY_UVTRANSFORM</link></computeroutput> material key for more information. This step processes all textures with transformed input UV coordinates and generates a new (pre-transformed) UV channel which replaces the old channel. Most applications won&apos;t support UV transformations, so you will probably want to specify this step.</para>
+
+<para><note><title>Note</title>
+
+<para>UV transformations are usually implemented in real-time apps by transforming texture coordinates at vertex shader stage with a 3x3 (homogeneous) transformation matrix. </para>
+</note>
+</para>
+</entry></row><row><entry><indexterm><primary>aiProcess_FindInstances</primary><secondary>postprocess.h</secondary></indexterm>
+<indexterm><primary>postprocess.h</primary><secondary>aiProcess_FindInstances</secondary></indexterm>
+<anchor xml:id="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a4982e6ac69991617b1481bce00d1fc0e"/>aiProcess_FindInstances</entry><entry>
+<para><informaltable frame='bottom'><tgroup cols='1'><colspec align='center'/><tbody><row><entry align='center'>
+</entry></row></tbody></tgroup></informaltable>
+This step searches for duplicate meshes and replaces them with references to the first mesh.</para>
+
+<para>This step takes a while, so don&apos;t use it if speed is a concern. Its main purpose is to workaround the fact that many export file formats don&apos;t support instanced meshes, so exporters need to duplicate meshes. This step removes the duplicates again. Please note that <link linkend="_namespace_assimp">Assimp</link> does not currently support per-node material assignment to meshes, which means that identical meshes with different materials are currently <emphasis>not</emphasis> joined, although this is planned for future versions. </para>
+</entry></row><row><entry><indexterm><primary>aiProcess_OptimizeMeshes</primary><secondary>postprocess.h</secondary></indexterm>
+<indexterm><primary>postprocess.h</primary><secondary>aiProcess_OptimizeMeshes</secondary></indexterm>
+<anchor xml:id="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410af5fe0d6ee720c91359dc61cb849f2ebf"/>aiProcess_OptimizeMeshes</entry><entry>
+<para><informaltable frame='bottom'><tgroup cols='1'><colspec align='center'/><tbody><row><entry align='center'>
+</entry></row></tbody></tgroup></informaltable>
+A post-processing step to reduce the number of meshes.</para>
+
+<para>This will, in fact, reduce the number of draw calls.</para>
+
+<para>This is a very effective optimization and is recommended to be used together with <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a3bf6b8cb30289fd27fb2734d67a0889f">aiProcess_OptimizeGraph</link>, if possible. The flag is fully compatible with both <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a7bb8f16468032a3ba9a23fa37df82174">aiProcess_SplitLargeMeshes</link> and <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410ab4484f73635d633cd79973bac1431ed6">aiProcess_SortByPType</link>. </para>
+</entry></row><row><entry><indexterm><primary>aiProcess_OptimizeGraph</primary><secondary>postprocess.h</secondary></indexterm>
+<indexterm><primary>postprocess.h</primary><secondary>aiProcess_OptimizeGraph</secondary></indexterm>
+<anchor xml:id="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a3bf6b8cb30289fd27fb2734d67a0889f"/>aiProcess_OptimizeGraph</entry><entry>
+<para><informaltable frame='bottom'><tgroup cols='1'><colspec align='center'/><tbody><row><entry align='center'>
+</entry></row></tbody></tgroup></informaltable>
+A post-processing step to optimize the scene hierarchy.</para>
+
+<para>Nodes without animations, bones, lights or cameras assigned are collapsed and joined.</para>
+
+<para>Node names can be lost during this step. If you use special &apos;tag nodes&apos; to pass additional information through your content pipeline, use the <computeroutput><link linkend="_assimp_2config_8h_1aa5943736f9c90b709c4bd819afca9798">AI_CONFIG_PP_OG_EXCLUDE_LIST</link></computeroutput> importer property to specify a list of node names you want to be kept. Nodes matching one of the names in this list won&apos;t be touched or modified.</para>
+
+<para>Use this flag with caution. Most simple files will be collapsed to a single node, so complex hierarchies are usually completely lost. This is not useful for editor environments, but probably a very effective optimization if you just want to get the model data, convert it to your own format, and render it as fast as possible.</para>
+
+<para>This flag is designed to be used with <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410af5fe0d6ee720c91359dc61cb849f2ebf">aiProcess_OptimizeMeshes</link> for best results.</para>
+
+<para><note><title>Note</title>
+
+<para>&apos;Crappy&apos; scenes with thousands of extremely small meshes packed in deeply nested nodes exist for almost all file formats. <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410af5fe0d6ee720c91359dc61cb849f2ebf">aiProcess_OptimizeMeshes</link> in combination with <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a3bf6b8cb30289fd27fb2734d67a0889f">aiProcess_OptimizeGraph</link> usually fixes them all and makes them renderable. </para>
+</note>
+</para>
+</entry></row><row><entry><indexterm><primary>aiProcess_FlipUVs</primary><secondary>postprocess.h</secondary></indexterm>
+<indexterm><primary>postprocess.h</primary><secondary>aiProcess_FlipUVs</secondary></indexterm>
+<anchor xml:id="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a06922b6a1f1cd8186f9fdafb471c813e"/>aiProcess_FlipUVs</entry><entry>
+<para><informaltable frame='bottom'><tgroup cols='1'><colspec align='center'/><tbody><row><entry align='center'>
+</entry></row></tbody></tgroup></informaltable>
+This step flips all UV coordinates along the y-axis and adjusts material settings and bitangents accordingly.</para>
+
+<para><emphasis role="bold">Output UV coordinate system:</emphasis> <literallayout><computeroutput>0y|0y&#32;----------&#32;1x|0y
+|&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;|
+|&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;|
+|&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;|
+0x|1y&#32;----------&#32;1x|1y
+</computeroutput></literallayout></para>
+
+<para>You&apos;ll probably want to consider this flag if you use Direct3D for rendering. The <link linkend="_adhed_2assimp_2postprocess_8h_1acd2361a766665ce2dbfb3eae201b784d">aiProcess_ConvertToLeftHanded</link> flag supersedes this setting and bundles all conversions typically required for D3D-based applications. </para>
+</entry></row><row><entry><indexterm><primary>aiProcess_FlipWindingOrder</primary><secondary>postprocess.h</secondary></indexterm>
+<indexterm><primary>postprocess.h</primary><secondary>aiProcess_FlipWindingOrder</secondary></indexterm>
+<anchor xml:id="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a429a11bf7ace46f039f55de895505d4a"/>aiProcess_FlipWindingOrder</entry><entry>
+<para><informaltable frame='bottom'><tgroup cols='1'><colspec align='center'/><tbody><row><entry align='center'>
+</entry></row></tbody></tgroup></informaltable>
+This step adjusts the output face winding order to be CW.</para>
+
+<para>The default face winding order is counter clockwise (CCW).</para>
+
+<para><emphasis role="bold">Output face order:</emphasis> <literallayout><computeroutput>&#32;&#32;&#32;&#32;&#32;x2
+
+&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;x0
+x1
+</computeroutput></literallayout> </para>
+</entry></row><row><entry><indexterm><primary>aiProcess_SplitByBoneCount</primary><secondary>postprocess.h</secondary></indexterm>
+<indexterm><primary>postprocess.h</primary><secondary>aiProcess_SplitByBoneCount</secondary></indexterm>
+<anchor xml:id="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410ac662c1d8f4e37cdf2a54023b174da192"/>aiProcess_SplitByBoneCount</entry><entry>
+<para><informaltable frame='bottom'><tgroup cols='1'><colspec align='center'/><tbody><row><entry align='center'>
+</entry></row></tbody></tgroup></informaltable>
+This step splits meshes with many bones into sub-meshes so that each sub-mesh has fewer or as many bones as a given limit. </para>
+</entry></row><row><entry><indexterm><primary>aiProcess_Debone</primary><secondary>postprocess.h</secondary></indexterm>
+<indexterm><primary>postprocess.h</primary><secondary>aiProcess_Debone</secondary></indexterm>
+<anchor xml:id="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a8e14bca58301e2ee29cf928156c3a9f9"/>aiProcess_Debone</entry><entry>
+<para><informaltable frame='bottom'><tgroup cols='1'><colspec align='center'/><tbody><row><entry align='center'>
+</entry></row></tbody></tgroup></informaltable>
+This step removes bones losslessly or according to some threshold.</para>
+
+<para>In some cases (i.e. formats that require it) exporters are forced to assign dummy bone weights to otherwise static meshes assigned to animated meshes. Full, weight-based skinning is expensive while animating nodes is extremely cheap, so this step is offered to clean up the data in that regard.</para>
+
+<para>Use <computeroutput><link linkend="_assimp_2config_8h_1a3f19ce3619d0d54a1bc51cd5e6c73e41">AI_CONFIG_PP_DB_THRESHOLD</link></computeroutput> to control this. Use <computeroutput><link linkend="_assimp_2config_8h_1a884736c7d7809ad88eec646e9cccbfba">AI_CONFIG_PP_DB_ALL_OR_NONE</link></computeroutput> if you want bones removed if and only if all bones within the scene qualify for removal. </para>
+</entry></row><row><entry><indexterm><primary>aiProcess_GlobalScale</primary><secondary>postprocess.h</secondary></indexterm>
+<indexterm><primary>postprocess.h</primary><secondary>aiProcess_GlobalScale</secondary></indexterm>
+<anchor xml:id="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a9290b1203f1cbe8883606fc09dc3e93e"/>aiProcess_GlobalScale</entry><entry>
+<para><informaltable frame='bottom'><tgroup cols='1'><colspec align='center'/><tbody><row><entry align='center'>
+</entry></row></tbody></tgroup></informaltable>
+This step will perform a global scale of the model.</para>
+
+<para>Some importers are providing a mechanism to define a scaling unit for the model. This post processing step can be used to do so. You need to get the global scaling from your importer settings like in FBX. Use the flag AI_CONFIG_GLOBAL_SCALE_FACTOR_KEY from the global property table to configure this.</para>
+
+<para>Use <computeroutput><link linkend="_assimp_2config_8h_1a93baf6bd6c094cdc598b26120f4d3873">AI_CONFIG_GLOBAL_SCALE_FACTOR_KEY</link></computeroutput> to setup the global scaling factor. </para>
+</entry></row><row><entry><indexterm><primary>aiProcess_EmbedTextures</primary><secondary>postprocess.h</secondary></indexterm>
+<indexterm><primary>postprocess.h</primary><secondary>aiProcess_EmbedTextures</secondary></indexterm>
+<anchor xml:id="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410ac8889361ff08f3da78792ace616c47e0"/>aiProcess_EmbedTextures</entry><entry>
+<para><informaltable frame='bottom'><tgroup cols='1'><colspec align='center'/><tbody><row><entry align='center'>
+</entry></row></tbody></tgroup></informaltable>
+A postprocessing step to embed of textures.</para>
+
+<para>This will remove external data dependencies for textures. If a texture&apos;s file does not exist at the specified path (due, for instance, to an absolute path generated on another system), it will check if a file with the same name exists at the root folder of the imported model. And if so, it uses that. </para>
+</entry></row><row><entry><indexterm><primary>aiProcess_ForceGenNormals</primary><secondary>postprocess.h</secondary></indexterm>
+<indexterm><primary>postprocess.h</primary><secondary>aiProcess_ForceGenNormals</secondary></indexterm>
+<anchor xml:id="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a72367a4d49efd4a42394cc5c377c1353"/>aiProcess_ForceGenNormals</entry><entry></entry></row><row><entry><indexterm><primary>aiProcess_DropNormals</primary><secondary>postprocess.h</secondary></indexterm>
+<indexterm><primary>postprocess.h</primary><secondary>aiProcess_DropNormals</secondary></indexterm>
+<anchor xml:id="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a4d499b6b8ce7c1cdaf3ef3935ad17ce8"/>aiProcess_DropNormals</entry><entry>
+<para><informaltable frame='bottom'><tgroup cols='1'><colspec align='center'/><tbody><row><entry align='center'>
+</entry></row></tbody></tgroup></informaltable>
+Drops normals for all faces of all meshes.</para>
+
+<para>This is ignored if no normals are present. Face normals are shared between all points of a single face, so a single point can have multiple normals, which forces the library to duplicate vertices in some cases. <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a444a6c9d8b63e6dc9e1e2e1edd3cbcd4">aiProcess_JoinIdenticalVertices</link> is <emphasis>senseless</emphasis> then. This process gives sense back to aiProcess_JoinIdenticalVertices </para>
+</entry></row><row><entry><indexterm><primary>aiProcess_GenBoundingBoxes</primary><secondary>postprocess.h</secondary></indexterm>
+<indexterm><primary>postprocess.h</primary><secondary>aiProcess_GenBoundingBoxes</secondary></indexterm>
+<anchor xml:id="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a26bd09ed23ff03da0b2c3d64ee7018bf"/>aiProcess_GenBoundingBoxes</entry><entry></entry></row>    </tbody>
+    </tgroup>
+</informaltable>
+</section>
+</section>
+</section>

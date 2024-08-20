@@ -1,0 +1,737 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_imgui__impl__opengl3_8cpp" xml:lang="en-US">
+<title>UPRISE_ENGINE/imgui_impl_opengl3.cpp File Reference</title>
+<indexterm><primary>UPRISE_ENGINE/imgui_impl_opengl3.cpp</primary></indexterm>
+<programlisting linenumbering="unnumbered">#include &quot;imgui.h&quot;<?linebreak?>#include &quot;imgui_impl_opengl3.h&quot;<?linebreak?>#include &lt;stdio.h&gt;<?linebreak?>#include &lt;stdint.h&gt;<?linebreak?>#include &quot;imgui_impl_opengl3_loader.h&quot;<?linebreak?></programlisting><simplesect>
+    <title>Classes    </title>
+        <itemizedlist>
+            <listitem><para>struct <link linkend="_struct_im_gui___impl_open_g_l3___data">ImGui_ImplOpenGL3_Data</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Macros    </title>
+        <itemizedlist>
+            <listitem><para>#define <link linkend="_imgui__impl__opengl3_8cpp_1a7dcfb597d9879faf16deecf3874e58d4">IMGL3W_IMPL</link></para>
+</listitem>
+            <listitem><para>#define <link linkend="_imgui__impl__opengl3_8cpp_1a7ae930dc349a186d20cfd7ec01cb1f1d">IMGUI_IMPL_OPENGL_USE_VERTEX_ARRAY</link></para>
+</listitem>
+            <listitem><para>#define <link linkend="_imgui__impl__opengl3_8cpp_1adbec2f9206e8462a71fc4a8b1f710c08">IMGUI_IMPL_OPENGL_HAS_EXTENSIONS</link></para>
+</listitem>
+            <listitem><para>#define <link linkend="_imgui__impl__opengl3_8cpp_1aae9cd16a14ad6048fa7d834b87f6c78a">IMGUI_IMPL_OPENGL_MAY_HAVE_POLYGON_MODE</link></para>
+</listitem>
+            <listitem><para>#define <link linkend="_imgui__impl__opengl3_8cpp_1a551110c2b149cc6e2c67aca93305d2ec">IMGUI_IMPL_OPENGL_MAY_HAVE_BIND_BUFFER_PIXEL_UNPACK</link></para>
+</listitem>
+            <listitem><para>#define <link linkend="_imgui__impl__opengl3_8cpp_1adefa3150bdf88f59f2b8daa899f0f80c">GL_CALL</link>(_CALL)&#160;&#160;&#160;_CALL</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Functions    </title>
+        <itemizedlist>
+            <listitem><para>bool <link linkend="_imgui__impl__opengl3_8cpp_1a0475f257dc97d1daceee89cb4b19744d">ImGui_ImplOpenGL3_Init</link> (const char *glsl_version)</para>
+</listitem>
+            <listitem><para>void <link linkend="_imgui__impl__opengl3_8cpp_1acbd53376e6135ad71e7bcd9879278e37">ImGui_ImplOpenGL3_Shutdown</link> ()</para>
+</listitem>
+            <listitem><para>void <link linkend="_imgui__impl__opengl3_8cpp_1a900e74add4e56e74f97a210eb329aa91">ImGui_ImplOpenGL3_NewFrame</link> ()</para>
+</listitem>
+            <listitem><para>void <link linkend="_imgui__impl__opengl3_8cpp_1ad215190229f4f300593911aa7b3821de">ImGui_ImplOpenGL3_RenderDrawData</link> (ImDrawData *draw_data)</para>
+</listitem>
+            <listitem><para>bool <link linkend="_imgui__impl__opengl3_8cpp_1a3dc4f80532d710de41d4075214eb363e">ImGui_ImplOpenGL3_CreateFontsTexture</link> ()</para>
+</listitem>
+            <listitem><para>void <link linkend="_imgui__impl__opengl3_8cpp_1a539aaad4aa185838297fb13b2409c405">ImGui_ImplOpenGL3_DestroyFontsTexture</link> ()</para>
+</listitem>
+            <listitem><para>bool <link linkend="_imgui__impl__opengl3_8cpp_1ab27f12289d6fe9fcd412f92af280b398">ImGui_ImplOpenGL3_CreateDeviceObjects</link> ()</para>
+</listitem>
+            <listitem><para>void <link linkend="_imgui__impl__opengl3_8cpp_1a605e340c346791d9c9e927add2392d0e">ImGui_ImplOpenGL3_DestroyDeviceObjects</link> ()</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Macro Definition Documentation</title>
+<anchor xml:id="_imgui__impl__opengl3_8cpp_1adefa3150bdf88f59f2b8daa899f0f80c"/><section>
+    <title>GL_CALL</title>
+<indexterm><primary>GL_CALL</primary><secondary>imgui_impl_opengl3.cpp</secondary></indexterm>
+<indexterm><primary>imgui_impl_opengl3.cpp</primary><secondary>GL_CALL</secondary></indexterm>
+<para><computeroutput>#define GL_CALL( _CALL)&#160;&#160;&#160;_CALL</computeroutput></para><para>
+Definition at line <link linkend="_imgui__impl__opengl3_8cpp_source_1l00218">218</link> of file <link linkend="_imgui__impl__opengl3_8cpp_source">imgui_impl_opengl3.cpp</link>.</para>
+<para>
+Referenced by <link linkend="_imgui__impl__opengl3_8cpp_source_1l00677">ImGui_ImplOpenGL3_CreateFontsTexture()</link>, and <link linkend="_imgui__impl__opengl3_8cpp_source_1l00499">ImGui_ImplOpenGL3_RenderDrawData()</link>.</para>
+</section>
+<anchor xml:id="_imgui__impl__opengl3_8cpp_1a7dcfb597d9879faf16deecf3874e58d4"/><section>
+    <title>IMGL3W_IMPL</title>
+<indexterm><primary>IMGL3W_IMPL</primary><secondary>imgui_impl_opengl3.cpp</secondary></indexterm>
+<indexterm><primary>imgui_impl_opengl3.cpp</primary><secondary>IMGL3W_IMPL</secondary></indexterm>
+<para><computeroutput>#define IMGL3W_IMPL</computeroutput></para><para>
+Definition at line <link linkend="_imgui__impl__opengl3_8cpp_source_1l00170">170</link> of file <link linkend="_imgui__impl__opengl3_8cpp_source">imgui_impl_opengl3.cpp</link>.</para>
+</section>
+<anchor xml:id="_imgui__impl__opengl3_8cpp_1adbec2f9206e8462a71fc4a8b1f710c08"/><section>
+    <title>IMGUI_IMPL_OPENGL_HAS_EXTENSIONS</title>
+<indexterm><primary>IMGUI_IMPL_OPENGL_HAS_EXTENSIONS</primary><secondary>imgui_impl_opengl3.cpp</secondary></indexterm>
+<indexterm><primary>imgui_impl_opengl3.cpp</primary><secondary>IMGUI_IMPL_OPENGL_HAS_EXTENSIONS</secondary></indexterm>
+<para><computeroutput>#define IMGUI_IMPL_OPENGL_HAS_EXTENSIONS</computeroutput></para><para>
+Definition at line <link linkend="_imgui__impl__opengl3_8cpp_source_1l00188">188</link> of file <link linkend="_imgui__impl__opengl3_8cpp_source">imgui_impl_opengl3.cpp</link>.</para>
+</section>
+<anchor xml:id="_imgui__impl__opengl3_8cpp_1a551110c2b149cc6e2c67aca93305d2ec"/><section>
+    <title>IMGUI_IMPL_OPENGL_MAY_HAVE_BIND_BUFFER_PIXEL_UNPACK</title>
+<indexterm><primary>IMGUI_IMPL_OPENGL_MAY_HAVE_BIND_BUFFER_PIXEL_UNPACK</primary><secondary>imgui_impl_opengl3.cpp</secondary></indexterm>
+<indexterm><primary>imgui_impl_opengl3.cpp</primary><secondary>IMGUI_IMPL_OPENGL_MAY_HAVE_BIND_BUFFER_PIXEL_UNPACK</secondary></indexterm>
+<para><computeroutput>#define IMGUI_IMPL_OPENGL_MAY_HAVE_BIND_BUFFER_PIXEL_UNPACK</computeroutput></para><para>
+Definition at line <link linkend="_imgui__impl__opengl3_8cpp_source_1l00194">194</link> of file <link linkend="_imgui__impl__opengl3_8cpp_source">imgui_impl_opengl3.cpp</link>.</para>
+</section>
+<anchor xml:id="_imgui__impl__opengl3_8cpp_1aae9cd16a14ad6048fa7d834b87f6c78a"/><section>
+    <title>IMGUI_IMPL_OPENGL_MAY_HAVE_POLYGON_MODE</title>
+<indexterm><primary>IMGUI_IMPL_OPENGL_MAY_HAVE_POLYGON_MODE</primary><secondary>imgui_impl_opengl3.cpp</secondary></indexterm>
+<indexterm><primary>imgui_impl_opengl3.cpp</primary><secondary>IMGUI_IMPL_OPENGL_MAY_HAVE_POLYGON_MODE</secondary></indexterm>
+<para><computeroutput>#define IMGUI_IMPL_OPENGL_MAY_HAVE_POLYGON_MODE</computeroutput></para><para>
+Definition at line <link linkend="_imgui__impl__opengl3_8cpp_source_1l00189">189</link> of file <link linkend="_imgui__impl__opengl3_8cpp_source">imgui_impl_opengl3.cpp</link>.</para>
+</section>
+<anchor xml:id="_imgui__impl__opengl3_8cpp_1a7ae930dc349a186d20cfd7ec01cb1f1d"/><section>
+    <title>IMGUI_IMPL_OPENGL_USE_VERTEX_ARRAY</title>
+<indexterm><primary>IMGUI_IMPL_OPENGL_USE_VERTEX_ARRAY</primary><secondary>imgui_impl_opengl3.cpp</secondary></indexterm>
+<indexterm><primary>imgui_impl_opengl3.cpp</primary><secondary>IMGUI_IMPL_OPENGL_USE_VERTEX_ARRAY</secondary></indexterm>
+<para><computeroutput>#define IMGUI_IMPL_OPENGL_USE_VERTEX_ARRAY</computeroutput></para><para>
+Definition at line <link linkend="_imgui__impl__opengl3_8cpp_source_1l00176">176</link> of file <link linkend="_imgui__impl__opengl3_8cpp_source">imgui_impl_opengl3.cpp</link>.</para>
+</section>
+</section>
+<section>
+<title>Function Documentation</title>
+<anchor xml:id="_imgui__impl__opengl3_8cpp_1ab27f12289d6fe9fcd412f92af280b398"/><section>
+    <title>ImGui_ImplOpenGL3_CreateDeviceObjects()</title>
+<indexterm><primary>ImGui_ImplOpenGL3_CreateDeviceObjects</primary><secondary>imgui_impl_opengl3.cpp</secondary></indexterm>
+<indexterm><primary>imgui_impl_opengl3.cpp</primary><secondary>ImGui_ImplOpenGL3_CreateDeviceObjects</secondary></indexterm>
+<para><computeroutput>bool ImGui_ImplOpenGL3_CreateDeviceObjects ( )</computeroutput></para><para>
+Definition at line <link linkend="_imgui__impl__opengl3_8cpp_source_1l00759">759</link> of file <link linkend="_imgui__impl__opengl3_8cpp_source">imgui_impl_opengl3.cpp</link>.</para>
+<programlisting linenumbering="unnumbered">00760 {
+00761 &#32;&#32;&#32;&#32;<link linkend="_struct_im_gui___impl_open_g_l3___data">ImGui_ImplOpenGL3_Data</link>*&#32;bd&#32;=&#32;ImGui_ImplOpenGL3_GetBackendData();
+00762 
+00763 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Backup&#32;GL&#32;state</emphasis>
+00764 &#32;&#32;&#32;&#32;GLint&#32;last_texture,&#32;last_array_buffer;
+00765 &#32;&#32;&#32;&#32;glGetIntegerv(GL_TEXTURE_BINDING_2D,&#32;&amp;last_texture);
+00766 &#32;&#32;&#32;&#32;glGetIntegerv(GL_ARRAY_BUFFER_BINDING,&#32;&amp;last_array_buffer);
+00767 <emphasis role="preprocessor">#ifdef&#32;IMGUI_IMPL_OPENGL_MAY_HAVE_BIND_BUFFER_PIXEL_UNPACK</emphasis>
+00768 &#32;&#32;&#32;&#32;GLint&#32;last_pixel_unpack_buffer&#32;=&#32;0;
+00769 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1ad26fc0f928dab8b5e47fc5c8d7226314">GlVersion</link>&#32;&gt;=&#32;210)&#32;{&#32;glGetIntegerv(GL_PIXEL_UNPACK_BUFFER_BINDING,&#32;&amp;last_pixel_unpack_buffer);&#32;glBindBuffer(GL_PIXEL_UNPACK_BUFFER,&#32;0);&#32;}
+00770 <emphasis role="preprocessor">#endif</emphasis>
+00771 <emphasis role="preprocessor">#ifdef&#32;IMGUI_IMPL_OPENGL_USE_VERTEX_ARRAY</emphasis>
+00772 &#32;&#32;&#32;&#32;GLint&#32;last_vertex_array;
+00773 &#32;&#32;&#32;&#32;glGetIntegerv(GL_VERTEX_ARRAY_BINDING,&#32;&amp;last_vertex_array);
+00774 <emphasis role="preprocessor">#endif</emphasis>
+00775 
+00776 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Parse&#32;GLSL&#32;version&#32;string</emphasis>
+00777 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;glsl_version&#32;=&#32;130;
+00778 &#32;&#32;&#32;&#32;sscanf(bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1a207e0bc0e956f26b8a3279e7242707c5">GlslVersionString</link>,&#32;<emphasis role="stringliteral">&quot;#version&#32;%d&quot;</emphasis>,&#32;&amp;glsl_version);
+00779 
+00780 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;GLchar*&#32;vertex_shader_glsl_120&#32;=
+00781 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;uniform&#32;mat4&#32;ProjMtx;\n&quot;</emphasis>
+00782 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;attribute&#32;vec2&#32;Position;\n&quot;</emphasis>
+00783 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;attribute&#32;vec2&#32;UV;\n&quot;</emphasis>
+00784 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;attribute&#32;vec4&#32;Color;\n&quot;</emphasis>
+00785 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;varying&#32;vec2&#32;Frag_UV;\n&quot;</emphasis>
+00786 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;varying&#32;vec4&#32;Frag_Color;\n&quot;</emphasis>
+00787 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;void&#32;main()\n&quot;</emphasis>
+00788 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;{\n&quot;</emphasis>
+00789 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;&#32;&#32;&#32;&#32;Frag_UV&#32;=&#32;UV;\n&quot;</emphasis>
+00790 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;&#32;&#32;&#32;&#32;Frag_Color&#32;=&#32;Color;\n&quot;</emphasis>
+00791 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;&#32;&#32;&#32;&#32;gl_Position&#32;=&#32;ProjMtx&#32;*&#32;vec4(Position.xy,0,1);\n&quot;</emphasis>
+00792 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;}\n&quot;</emphasis>;
+00793 
+00794 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;GLchar*&#32;vertex_shader_glsl_130&#32;=
+00795 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;uniform&#32;mat4&#32;ProjMtx;\n&quot;</emphasis>
+00796 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;in&#32;vec2&#32;Position;\n&quot;</emphasis>
+00797 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;in&#32;vec2&#32;UV;\n&quot;</emphasis>
+00798 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;in&#32;vec4&#32;Color;\n&quot;</emphasis>
+00799 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;out&#32;vec2&#32;Frag_UV;\n&quot;</emphasis>
+00800 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;out&#32;vec4&#32;Frag_Color;\n&quot;</emphasis>
+00801 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;void&#32;main()\n&quot;</emphasis>
+00802 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;{\n&quot;</emphasis>
+00803 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;&#32;&#32;&#32;&#32;Frag_UV&#32;=&#32;UV;\n&quot;</emphasis>
+00804 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;&#32;&#32;&#32;&#32;Frag_Color&#32;=&#32;Color;\n&quot;</emphasis>
+00805 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;&#32;&#32;&#32;&#32;gl_Position&#32;=&#32;ProjMtx&#32;*&#32;vec4(Position.xy,0,1);\n&quot;</emphasis>
+00806 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;}\n&quot;</emphasis>;
+00807 
+00808 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;GLchar*&#32;vertex_shader_glsl_300_es&#32;=
+00809 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;precision&#32;highp&#32;float;\n&quot;</emphasis>
+00810 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;layout&#32;(location&#32;=&#32;0)&#32;in&#32;vec2&#32;Position;\n&quot;</emphasis>
+00811 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;layout&#32;(location&#32;=&#32;1)&#32;in&#32;vec2&#32;UV;\n&quot;</emphasis>
+00812 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;layout&#32;(location&#32;=&#32;2)&#32;in&#32;vec4&#32;Color;\n&quot;</emphasis>
+00813 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;uniform&#32;mat4&#32;ProjMtx;\n&quot;</emphasis>
+00814 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;out&#32;vec2&#32;Frag_UV;\n&quot;</emphasis>
+00815 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;out&#32;vec4&#32;Frag_Color;\n&quot;</emphasis>
+00816 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;void&#32;main()\n&quot;</emphasis>
+00817 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;{\n&quot;</emphasis>
+00818 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;&#32;&#32;&#32;&#32;Frag_UV&#32;=&#32;UV;\n&quot;</emphasis>
+00819 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;&#32;&#32;&#32;&#32;Frag_Color&#32;=&#32;Color;\n&quot;</emphasis>
+00820 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;&#32;&#32;&#32;&#32;gl_Position&#32;=&#32;ProjMtx&#32;*&#32;vec4(Position.xy,0,1);\n&quot;</emphasis>
+00821 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;}\n&quot;</emphasis>;
+00822 
+00823 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;GLchar*&#32;vertex_shader_glsl_410_core&#32;=
+00824 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;layout&#32;(location&#32;=&#32;0)&#32;in&#32;vec2&#32;Position;\n&quot;</emphasis>
+00825 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;layout&#32;(location&#32;=&#32;1)&#32;in&#32;vec2&#32;UV;\n&quot;</emphasis>
+00826 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;layout&#32;(location&#32;=&#32;2)&#32;in&#32;vec4&#32;Color;\n&quot;</emphasis>
+00827 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;uniform&#32;mat4&#32;ProjMtx;\n&quot;</emphasis>
+00828 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;out&#32;vec2&#32;Frag_UV;\n&quot;</emphasis>
+00829 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;out&#32;vec4&#32;Frag_Color;\n&quot;</emphasis>
+00830 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;void&#32;main()\n&quot;</emphasis>
+00831 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;{\n&quot;</emphasis>
+00832 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;&#32;&#32;&#32;&#32;Frag_UV&#32;=&#32;UV;\n&quot;</emphasis>
+00833 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;&#32;&#32;&#32;&#32;Frag_Color&#32;=&#32;Color;\n&quot;</emphasis>
+00834 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;&#32;&#32;&#32;&#32;gl_Position&#32;=&#32;ProjMtx&#32;*&#32;vec4(Position.xy,0,1);\n&quot;</emphasis>
+00835 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;}\n&quot;</emphasis>;
+00836 
+00837 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;GLchar*&#32;fragment_shader_glsl_120&#32;=
+00838 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;#ifdef&#32;GL_ES\n&quot;</emphasis>
+00839 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;&#32;&#32;&#32;&#32;precision&#32;mediump&#32;float;\n&quot;</emphasis>
+00840 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;#endif\n&quot;</emphasis>
+00841 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;uniform&#32;sampler2D&#32;Texture;\n&quot;</emphasis>
+00842 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;varying&#32;vec2&#32;Frag_UV;\n&quot;</emphasis>
+00843 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;varying&#32;vec4&#32;Frag_Color;\n&quot;</emphasis>
+00844 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;void&#32;main()\n&quot;</emphasis>
+00845 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;{\n&quot;</emphasis>
+00846 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;&#32;&#32;&#32;&#32;gl_FragColor&#32;=&#32;Frag_Color&#32;*&#32;texture2D(Texture,&#32;Frag_UV.st);\n&quot;</emphasis>
+00847 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;}\n&quot;</emphasis>;
+00848 
+00849 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;GLchar*&#32;fragment_shader_glsl_130&#32;=
+00850 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;uniform&#32;sampler2D&#32;Texture;\n&quot;</emphasis>
+00851 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;in&#32;vec2&#32;Frag_UV;\n&quot;</emphasis>
+00852 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;in&#32;vec4&#32;Frag_Color;\n&quot;</emphasis>
+00853 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;out&#32;vec4&#32;Out_Color;\n&quot;</emphasis>
+00854 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;void&#32;main()\n&quot;</emphasis>
+00855 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;{\n&quot;</emphasis>
+00856 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;&#32;&#32;&#32;&#32;Out_Color&#32;=&#32;Frag_Color&#32;*&#32;texture(Texture,&#32;Frag_UV.st);\n&quot;</emphasis>
+00857 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;}\n&quot;</emphasis>;
+00858 
+00859 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;GLchar*&#32;fragment_shader_glsl_300_es&#32;=
+00860 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;precision&#32;mediump&#32;float;\n&quot;</emphasis>
+00861 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;uniform&#32;sampler2D&#32;Texture;\n&quot;</emphasis>
+00862 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;in&#32;vec2&#32;Frag_UV;\n&quot;</emphasis>
+00863 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;in&#32;vec4&#32;Frag_Color;\n&quot;</emphasis>
+00864 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;layout&#32;(location&#32;=&#32;0)&#32;out&#32;vec4&#32;Out_Color;\n&quot;</emphasis>
+00865 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;void&#32;main()\n&quot;</emphasis>
+00866 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;{\n&quot;</emphasis>
+00867 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;&#32;&#32;&#32;&#32;Out_Color&#32;=&#32;Frag_Color&#32;*&#32;texture(Texture,&#32;Frag_UV.st);\n&quot;</emphasis>
+00868 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;}\n&quot;</emphasis>;
+00869 
+00870 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;GLchar*&#32;fragment_shader_glsl_410_core&#32;=
+00871 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;in&#32;vec2&#32;Frag_UV;\n&quot;</emphasis>
+00872 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;in&#32;vec4&#32;Frag_Color;\n&quot;</emphasis>
+00873 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;uniform&#32;sampler2D&#32;Texture;\n&quot;</emphasis>
+00874 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;layout&#32;(location&#32;=&#32;0)&#32;out&#32;vec4&#32;Out_Color;\n&quot;</emphasis>
+00875 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;void&#32;main()\n&quot;</emphasis>
+00876 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;{\n&quot;</emphasis>
+00877 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;&#32;&#32;&#32;&#32;Out_Color&#32;=&#32;Frag_Color&#32;*&#32;texture(Texture,&#32;Frag_UV.st);\n&quot;</emphasis>
+00878 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;}\n&quot;</emphasis>;
+00879 
+00880 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Select&#32;shaders&#32;matching&#32;our&#32;GLSL&#32;versions</emphasis>
+00881 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;GLchar*&#32;vertex_shader&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>;
+00882 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;GLchar*&#32;fragment_shader&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>;
+00883 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(glsl_version&#32;&lt;&#32;130)
+00884 &#32;&#32;&#32;&#32;{
+00885 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;vertex_shader&#32;=&#32;vertex_shader_glsl_120;
+00886 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fragment_shader&#32;=&#32;fragment_shader_glsl_120;
+00887 &#32;&#32;&#32;&#32;}
+00888 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>&#32;<emphasis role="keywordflow">if</emphasis>&#32;(glsl_version&#32;&gt;=&#32;410)
+00889 &#32;&#32;&#32;&#32;{
+00890 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;vertex_shader&#32;=&#32;vertex_shader_glsl_410_core;
+00891 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fragment_shader&#32;=&#32;fragment_shader_glsl_410_core;
+00892 &#32;&#32;&#32;&#32;}
+00893 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>&#32;<emphasis role="keywordflow">if</emphasis>&#32;(glsl_version&#32;==&#32;300)
+00894 &#32;&#32;&#32;&#32;{
+00895 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;vertex_shader&#32;=&#32;vertex_shader_glsl_300_es;
+00896 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fragment_shader&#32;=&#32;fragment_shader_glsl_300_es;
+00897 &#32;&#32;&#32;&#32;}
+00898 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+00899 &#32;&#32;&#32;&#32;{
+00900 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;vertex_shader&#32;=&#32;vertex_shader_glsl_130;
+00901 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fragment_shader&#32;=&#32;fragment_shader_glsl_130;
+00902 &#32;&#32;&#32;&#32;}
+00903 
+00904 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Create&#32;shaders</emphasis>
+00905 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;GLchar*&#32;vertex_shader_with_version[2]&#32;=&#32;{&#32;bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1a207e0bc0e956f26b8a3279e7242707c5">GlslVersionString</link>,&#32;vertex_shader&#32;};
+00906 &#32;&#32;&#32;&#32;GLuint&#32;vert_handle&#32;=&#32;glCreateShader(GL_VERTEX_SHADER);
+00907 &#32;&#32;&#32;&#32;glShaderSource(vert_handle,&#32;2,&#32;vertex_shader_with_version,&#32;<emphasis role="keyword">nullptr</emphasis>);
+00908 &#32;&#32;&#32;&#32;glCompileShader(vert_handle);
+00909 &#32;&#32;&#32;&#32;CheckShader(vert_handle,&#32;<emphasis role="stringliteral">&quot;vertex&#32;shader&quot;</emphasis>);
+00910 
+00911 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;GLchar*&#32;fragment_shader_with_version[2]&#32;=&#32;{&#32;bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1a207e0bc0e956f26b8a3279e7242707c5">GlslVersionString</link>,&#32;fragment_shader&#32;};
+00912 &#32;&#32;&#32;&#32;GLuint&#32;frag_handle&#32;=&#32;glCreateShader(GL_FRAGMENT_SHADER);
+00913 &#32;&#32;&#32;&#32;glShaderSource(frag_handle,&#32;2,&#32;fragment_shader_with_version,&#32;<emphasis role="keyword">nullptr</emphasis>);
+00914 &#32;&#32;&#32;&#32;glCompileShader(frag_handle);
+00915 &#32;&#32;&#32;&#32;CheckShader(frag_handle,&#32;<emphasis role="stringliteral">&quot;fragment&#32;shader&quot;</emphasis>);
+00916 
+00917 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Link</emphasis>
+00918 &#32;&#32;&#32;&#32;bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1ab3fde53e314b2d7e6192c2bdb33c1a2c">ShaderHandle</link>&#32;=&#32;glCreateProgram();
+00919 &#32;&#32;&#32;&#32;glAttachShader(bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1ab3fde53e314b2d7e6192c2bdb33c1a2c">ShaderHandle</link>,&#32;vert_handle);
+00920 &#32;&#32;&#32;&#32;glAttachShader(bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1ab3fde53e314b2d7e6192c2bdb33c1a2c">ShaderHandle</link>,&#32;frag_handle);
+00921 &#32;&#32;&#32;&#32;glLinkProgram(bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1ab3fde53e314b2d7e6192c2bdb33c1a2c">ShaderHandle</link>);
+00922 &#32;&#32;&#32;&#32;CheckProgram(bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1ab3fde53e314b2d7e6192c2bdb33c1a2c">ShaderHandle</link>,&#32;<emphasis role="stringliteral">&quot;shader&#32;program&quot;</emphasis>);
+00923 
+00924 &#32;&#32;&#32;&#32;glDetachShader(bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1ab3fde53e314b2d7e6192c2bdb33c1a2c">ShaderHandle</link>,&#32;vert_handle);
+00925 &#32;&#32;&#32;&#32;glDetachShader(bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1ab3fde53e314b2d7e6192c2bdb33c1a2c">ShaderHandle</link>,&#32;frag_handle);
+00926 &#32;&#32;&#32;&#32;glDeleteShader(vert_handle);
+00927 &#32;&#32;&#32;&#32;glDeleteShader(frag_handle);
+00928 
+00929 &#32;&#32;&#32;&#32;bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1af2b8d0074411d6ddc4a8b33e092aa297">AttribLocationTex</link>&#32;=&#32;glGetUniformLocation(bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1ab3fde53e314b2d7e6192c2bdb33c1a2c">ShaderHandle</link>,&#32;<emphasis role="stringliteral">&quot;Texture&quot;</emphasis>);
+00930 &#32;&#32;&#32;&#32;bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1a0fe508e011d4b62e6a27883c1fc0b19a">AttribLocationProjMtx</link>&#32;=&#32;glGetUniformLocation(bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1ab3fde53e314b2d7e6192c2bdb33c1a2c">ShaderHandle</link>,&#32;<emphasis role="stringliteral">&quot;ProjMtx&quot;</emphasis>);
+00931 &#32;&#32;&#32;&#32;bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1a9b6dcb44ef2b2bcfaa1415973b8bbe0b">AttribLocationVtxPos</link>&#32;=&#32;(GLuint)glGetAttribLocation(bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1ab3fde53e314b2d7e6192c2bdb33c1a2c">ShaderHandle</link>,&#32;<emphasis role="stringliteral">&quot;Position&quot;</emphasis>);
+00932 &#32;&#32;&#32;&#32;bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1ab02168ff54e9054e1dcc662861ac20ab">AttribLocationVtxUV</link>&#32;=&#32;(GLuint)glGetAttribLocation(bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1ab3fde53e314b2d7e6192c2bdb33c1a2c">ShaderHandle</link>,&#32;<emphasis role="stringliteral">&quot;UV&quot;</emphasis>);
+00933 &#32;&#32;&#32;&#32;bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1abf21e94d95a5faec538d101f0cd941de">AttribLocationVtxColor</link>&#32;=&#32;(GLuint)glGetAttribLocation(bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1ab3fde53e314b2d7e6192c2bdb33c1a2c">ShaderHandle</link>,&#32;<emphasis role="stringliteral">&quot;Color&quot;</emphasis>);
+00934 
+00935 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Create&#32;buffers</emphasis>
+00936 &#32;&#32;&#32;&#32;glGenBuffers(1,&#32;&amp;bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1a53b57a562a470fa751e2f8fe78576ebd">VboHandle</link>);
+00937 &#32;&#32;&#32;&#32;glGenBuffers(1,&#32;&amp;bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1aa32b349732369524312429a49cedd7d6">ElementsHandle</link>);
+00938 
+00939 &#32;&#32;&#32;&#32;<link linkend="_imgui__impl__opengl3_8cpp_1a3dc4f80532d710de41d4075214eb363e">ImGui_ImplOpenGL3_CreateFontsTexture</link>();
+00940 
+00941 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Restore&#32;modified&#32;GL&#32;state</emphasis>
+00942 &#32;&#32;&#32;&#32;glBindTexture(GL_TEXTURE_2D,&#32;last_texture);
+00943 &#32;&#32;&#32;&#32;glBindBuffer(GL_ARRAY_BUFFER,&#32;last_array_buffer);
+00944 <emphasis role="preprocessor">#ifdef&#32;IMGUI_IMPL_OPENGL_MAY_HAVE_BIND_BUFFER_PIXEL_UNPACK</emphasis>
+00945 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1ad26fc0f928dab8b5e47fc5c8d7226314">GlVersion</link>&#32;&gt;=&#32;210)&#32;{&#32;glBindBuffer(GL_PIXEL_UNPACK_BUFFER,&#32;last_pixel_unpack_buffer);&#32;}
+00946 <emphasis role="preprocessor">#endif</emphasis>
+00947 <emphasis role="preprocessor">#ifdef&#32;IMGUI_IMPL_OPENGL_USE_VERTEX_ARRAY</emphasis>
+00948 &#32;&#32;&#32;&#32;glBindVertexArray(last_vertex_array);
+00949 <emphasis role="preprocessor">#endif</emphasis>
+00950 
+00951 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">true</emphasis>;
+00952 }
+</programlisting><para>
+References <link linkend="_imgui__impl__opengl3_8cpp_source_1l00233">ImGui_ImplOpenGL3_Data::AttribLocationProjMtx</link>, <link linkend="_imgui__impl__opengl3_8cpp_source_1l00232">ImGui_ImplOpenGL3_Data::AttribLocationTex</link>, <link linkend="_imgui__impl__opengl3_8cpp_source_1l00236">ImGui_ImplOpenGL3_Data::AttribLocationVtxColor</link>, <link linkend="_imgui__impl__opengl3_8cpp_source_1l00234">ImGui_ImplOpenGL3_Data::AttribLocationVtxPos</link>, <link linkend="_imgui__impl__opengl3_8cpp_source_1l00235">ImGui_ImplOpenGL3_Data::AttribLocationVtxUV</link>, <link linkend="_imgui__impl__opengl3_8cpp_source_1l00237">ImGui_ImplOpenGL3_Data::ElementsHandle</link>, <link linkend="_imgui__impl__opengl3_8cpp_source_1l00225">ImGui_ImplOpenGL3_Data::GlslVersionString</link>, <link linkend="_imgui__impl__opengl3_8cpp_source_1l00224">ImGui_ImplOpenGL3_Data::GlVersion</link>, <link linkend="_imgui__impl__opengl3_8cpp_source_1l00677">ImGui_ImplOpenGL3_CreateFontsTexture()</link>, <link linkend="_imgui__impl__opengl3_8cpp_source_1l00231">ImGui_ImplOpenGL3_Data::ShaderHandle</link>, and <link linkend="_imgui__impl__opengl3_8cpp_source_1l00237">ImGui_ImplOpenGL3_Data::VboHandle</link>.</para>
+<para>
+Referenced by <link linkend="_imgui__impl__opengl3_8cpp_source_1l00411">ImGui_ImplOpenGL3_NewFrame()</link>.</para>
+</section>
+<anchor xml:id="_imgui__impl__opengl3_8cpp_1a3dc4f80532d710de41d4075214eb363e"/><section>
+    <title>ImGui_ImplOpenGL3_CreateFontsTexture()</title>
+<indexterm><primary>ImGui_ImplOpenGL3_CreateFontsTexture</primary><secondary>imgui_impl_opengl3.cpp</secondary></indexterm>
+<indexterm><primary>imgui_impl_opengl3.cpp</primary><secondary>ImGui_ImplOpenGL3_CreateFontsTexture</secondary></indexterm>
+<para><computeroutput>bool ImGui_ImplOpenGL3_CreateFontsTexture ( )</computeroutput></para><para>
+Definition at line <link linkend="_imgui__impl__opengl3_8cpp_source_1l00677">677</link> of file <link linkend="_imgui__impl__opengl3_8cpp_source">imgui_impl_opengl3.cpp</link>.</para>
+<programlisting linenumbering="unnumbered">00678 {
+00679 &#32;&#32;&#32;&#32;ImGuiIO&amp;&#32;io&#32;=&#32;ImGui::GetIO();
+00680 &#32;&#32;&#32;&#32;<link linkend="_struct_im_gui___impl_open_g_l3___data">ImGui_ImplOpenGL3_Data</link>*&#32;bd&#32;=&#32;ImGui_ImplOpenGL3_GetBackendData();
+00681 
+00682 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Build&#32;texture&#32;atlas</emphasis>
+00683 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;pixels;
+00684 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;width,&#32;height;
+00685 &#32;&#32;&#32;&#32;io.Fonts-&gt;GetTexDataAsRGBA32(&amp;pixels,&#32;&amp;width,&#32;&amp;height);&#32;&#32;&#32;<emphasis role="comment">//&#32;Load&#32;as&#32;RGBA&#32;32-bit&#32;(75%&#32;of&#32;the&#32;memory&#32;is&#32;wasted,&#32;but&#32;default&#32;font&#32;is&#32;so&#32;small)&#32;because&#32;it&#32;is&#32;more&#32;likely&#32;to&#32;be&#32;compatible&#32;with&#32;user&apos;s&#32;existing&#32;shaders.&#32;If&#32;your&#32;ImTextureId&#32;represent&#32;a&#32;higher-level&#32;concept&#32;than&#32;just&#32;a&#32;GL&#32;texture&#32;id,&#32;consider&#32;calling&#32;GetTexDataAsAlpha8()&#32;instead&#32;to&#32;save&#32;on&#32;GPU&#32;memory.</emphasis>
+00686 
+00687 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Upload&#32;texture&#32;to&#32;graphics&#32;system</emphasis>
+00688 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;(Bilinear&#32;sampling&#32;is&#32;required&#32;by&#32;default.&#32;Set&#32;&apos;io.Fonts-&gt;Flags&#32;|=&#32;ImFontAtlasFlags_NoBakedLines&apos;&#32;or&#32;&apos;style.AntiAliasedLinesUseTex&#32;=&#32;false&apos;&#32;to&#32;allow&#32;point/nearest&#32;sampling)</emphasis>
+00689 &#32;&#32;&#32;&#32;GLint&#32;last_texture;
+00690 &#32;&#32;&#32;&#32;<link linkend="_imgui__impl__opengl3_8cpp_1adefa3150bdf88f59f2b8daa899f0f80c">GL_CALL</link>(glGetIntegerv(GL_TEXTURE_BINDING_2D,&#32;&amp;last_texture));
+00691 &#32;&#32;&#32;&#32;<link linkend="_imgui__impl__opengl3_8cpp_1adefa3150bdf88f59f2b8daa899f0f80c">GL_CALL</link>(glGenTextures(1,&#32;&amp;bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1a4fd7c22c817ba322c6e7d708c7eceed4">FontTexture</link>));
+00692 &#32;&#32;&#32;&#32;<link linkend="_imgui__impl__opengl3_8cpp_1adefa3150bdf88f59f2b8daa899f0f80c">GL_CALL</link>(glBindTexture(GL_TEXTURE_2D,&#32;bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1a4fd7c22c817ba322c6e7d708c7eceed4">FontTexture</link>));
+00693 &#32;&#32;&#32;&#32;<link linkend="_imgui__impl__opengl3_8cpp_1adefa3150bdf88f59f2b8daa899f0f80c">GL_CALL</link>(glTexParameteri(GL_TEXTURE_2D,&#32;GL_TEXTURE_MIN_FILTER,&#32;GL_LINEAR));
+00694 &#32;&#32;&#32;&#32;<link linkend="_imgui__impl__opengl3_8cpp_1adefa3150bdf88f59f2b8daa899f0f80c">GL_CALL</link>(glTexParameteri(GL_TEXTURE_2D,&#32;GL_TEXTURE_MAG_FILTER,&#32;GL_LINEAR));
+00695 <emphasis role="preprocessor">#ifdef&#32;GL_UNPACK_ROW_LENGTH&#32;</emphasis><emphasis role="comment">//&#32;Not&#32;on&#32;WebGL/ES</emphasis>
+00696 &#32;&#32;&#32;&#32;<link linkend="_imgui__impl__opengl3_8cpp_1adefa3150bdf88f59f2b8daa899f0f80c">GL_CALL</link>(glPixelStorei(GL_UNPACK_ROW_LENGTH,&#32;0));
+00697 <emphasis role="preprocessor">#endif</emphasis>
+00698 &#32;&#32;&#32;&#32;<link linkend="_imgui__impl__opengl3_8cpp_1adefa3150bdf88f59f2b8daa899f0f80c">GL_CALL</link>(glTexImage2D(GL_TEXTURE_2D,&#32;0,&#32;GL_RGBA,&#32;width,&#32;height,&#32;0,&#32;GL_RGBA,&#32;GL_UNSIGNED_BYTE,&#32;pixels));
+00699 
+00700 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Store&#32;our&#32;identifier</emphasis>
+00701 &#32;&#32;&#32;&#32;io.Fonts-&gt;SetTexID((ImTextureID)(intptr_t)bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1a4fd7c22c817ba322c6e7d708c7eceed4">FontTexture</link>);
+00702 
+00703 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Restore&#32;state</emphasis>
+00704 &#32;&#32;&#32;&#32;<link linkend="_imgui__impl__opengl3_8cpp_1adefa3150bdf88f59f2b8daa899f0f80c">GL_CALL</link>(glBindTexture(GL_TEXTURE_2D,&#32;last_texture));
+00705 
+00706 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">true</emphasis>;
+00707 }
+</programlisting><para>
+References <link linkend="_imgui__impl__opengl3_8cpp_source_1l00230">ImGui_ImplOpenGL3_Data::FontTexture</link>, and <link linkend="_imgui__impl__opengl3_8cpp_source_1l00218">GL_CALL</link>.</para>
+<para>
+Referenced by <link linkend="_imgui__impl__opengl3_8cpp_source_1l00759">ImGui_ImplOpenGL3_CreateDeviceObjects()</link>, and <link linkend="_imgui__impl__opengl3_8cpp_source_1l00411">ImGui_ImplOpenGL3_NewFrame()</link>.</para>
+</section>
+<anchor xml:id="_imgui__impl__opengl3_8cpp_1a605e340c346791d9c9e927add2392d0e"/><section>
+    <title>ImGui_ImplOpenGL3_DestroyDeviceObjects()</title>
+<indexterm><primary>ImGui_ImplOpenGL3_DestroyDeviceObjects</primary><secondary>imgui_impl_opengl3.cpp</secondary></indexterm>
+<indexterm><primary>imgui_impl_opengl3.cpp</primary><secondary>ImGui_ImplOpenGL3_DestroyDeviceObjects</secondary></indexterm>
+<para><computeroutput>void ImGui_ImplOpenGL3_DestroyDeviceObjects ( )</computeroutput></para><para>
+Definition at line <link linkend="_imgui__impl__opengl3_8cpp_source_1l00954">954</link> of file <link linkend="_imgui__impl__opengl3_8cpp_source">imgui_impl_opengl3.cpp</link>.</para>
+<programlisting linenumbering="unnumbered">00955 {
+00956 &#32;&#32;&#32;&#32;<link linkend="_struct_im_gui___impl_open_g_l3___data">ImGui_ImplOpenGL3_Data</link>*&#32;bd&#32;=&#32;ImGui_ImplOpenGL3_GetBackendData();
+00957 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1a53b57a562a470fa751e2f8fe78576ebd">VboHandle</link>)&#32;&#32;&#32;&#32;&#32;&#32;{&#32;glDeleteBuffers(1,&#32;&amp;bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1a53b57a562a470fa751e2f8fe78576ebd">VboHandle</link>);&#32;bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1a53b57a562a470fa751e2f8fe78576ebd">VboHandle</link>&#32;=&#32;0;&#32;}
+00958 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1aa32b349732369524312429a49cedd7d6">ElementsHandle</link>)&#32;{&#32;glDeleteBuffers(1,&#32;&amp;bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1aa32b349732369524312429a49cedd7d6">ElementsHandle</link>);&#32;bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1aa32b349732369524312429a49cedd7d6">ElementsHandle</link>&#32;=&#32;0;&#32;}
+00959 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1ab3fde53e314b2d7e6192c2bdb33c1a2c">ShaderHandle</link>)&#32;&#32;&#32;{&#32;glDeleteProgram(bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1ab3fde53e314b2d7e6192c2bdb33c1a2c">ShaderHandle</link>);&#32;bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1ab3fde53e314b2d7e6192c2bdb33c1a2c">ShaderHandle</link>&#32;=&#32;0;&#32;}
+00960 &#32;&#32;&#32;&#32;<link linkend="_imgui__impl__opengl3_8cpp_1a539aaad4aa185838297fb13b2409c405">ImGui_ImplOpenGL3_DestroyFontsTexture</link>();
+00961 }
+</programlisting><para>
+References <link linkend="_imgui__impl__opengl3_8cpp_source_1l00237">ImGui_ImplOpenGL3_Data::ElementsHandle</link>, <link linkend="_imgui__impl__opengl3_8cpp_source_1l00709">ImGui_ImplOpenGL3_DestroyFontsTexture()</link>, <link linkend="_imgui__impl__opengl3_8cpp_source_1l00231">ImGui_ImplOpenGL3_Data::ShaderHandle</link>, and <link linkend="_imgui__impl__opengl3_8cpp_source_1l00237">ImGui_ImplOpenGL3_Data::VboHandle</link>.</para>
+<para>
+Referenced by <link linkend="_imgui__impl__opengl3_8cpp_source_1l00397">ImGui_ImplOpenGL3_Shutdown()</link>.</para>
+</section>
+<anchor xml:id="_imgui__impl__opengl3_8cpp_1a539aaad4aa185838297fb13b2409c405"/><section>
+    <title>ImGui_ImplOpenGL3_DestroyFontsTexture()</title>
+<indexterm><primary>ImGui_ImplOpenGL3_DestroyFontsTexture</primary><secondary>imgui_impl_opengl3.cpp</secondary></indexterm>
+<indexterm><primary>imgui_impl_opengl3.cpp</primary><secondary>ImGui_ImplOpenGL3_DestroyFontsTexture</secondary></indexterm>
+<para><computeroutput>void ImGui_ImplOpenGL3_DestroyFontsTexture ( )</computeroutput></para><para>
+Definition at line <link linkend="_imgui__impl__opengl3_8cpp_source_1l00709">709</link> of file <link linkend="_imgui__impl__opengl3_8cpp_source">imgui_impl_opengl3.cpp</link>.</para>
+<programlisting linenumbering="unnumbered">00710 {
+00711 &#32;&#32;&#32;&#32;ImGuiIO&amp;&#32;io&#32;=&#32;ImGui::GetIO();
+00712 &#32;&#32;&#32;&#32;<link linkend="_struct_im_gui___impl_open_g_l3___data">ImGui_ImplOpenGL3_Data</link>*&#32;bd&#32;=&#32;ImGui_ImplOpenGL3_GetBackendData();
+00713 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1a4fd7c22c817ba322c6e7d708c7eceed4">FontTexture</link>)
+00714 &#32;&#32;&#32;&#32;{
+00715 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;glDeleteTextures(1,&#32;&amp;bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1a4fd7c22c817ba322c6e7d708c7eceed4">FontTexture</link>);
+00716 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;io.Fonts-&gt;SetTexID(0);
+00717 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1a4fd7c22c817ba322c6e7d708c7eceed4">FontTexture</link>&#32;=&#32;0;
+00718 &#32;&#32;&#32;&#32;}
+00719 }
+</programlisting><para>
+References <link linkend="_imgui__impl__opengl3_8cpp_source_1l00230">ImGui_ImplOpenGL3_Data::FontTexture</link>.</para>
+<para>
+Referenced by <link linkend="_imgui__impl__opengl3_8cpp_source_1l00954">ImGui_ImplOpenGL3_DestroyDeviceObjects()</link>.</para>
+</section>
+<anchor xml:id="_imgui__impl__opengl3_8cpp_1a0475f257dc97d1daceee89cb4b19744d"/><section>
+    <title>ImGui_ImplOpenGL3_Init()</title>
+<indexterm><primary>ImGui_ImplOpenGL3_Init</primary><secondary>imgui_impl_opengl3.cpp</secondary></indexterm>
+<indexterm><primary>imgui_impl_opengl3.cpp</primary><secondary>ImGui_ImplOpenGL3_Init</secondary></indexterm>
+<para><computeroutput>bool ImGui_ImplOpenGL3_Init (const char * glsl_version)</computeroutput></para><para>
+Definition at line <link linkend="_imgui__impl__opengl3_8cpp_source_1l00283">283</link> of file <link linkend="_imgui__impl__opengl3_8cpp_source">imgui_impl_opengl3.cpp</link>.</para>
+<programlisting linenumbering="unnumbered">00284 {
+00285 &#32;&#32;&#32;&#32;ImGuiIO&amp;&#32;io&#32;=&#32;ImGui::GetIO();
+00286 &#32;&#32;&#32;&#32;IMGUI_CHECKVERSION();
+00287 &#32;&#32;&#32;&#32;IM_ASSERT(io.BackendRendererUserData&#32;==&#32;<emphasis role="keyword">nullptr</emphasis>&#32;&amp;&amp;&#32;<emphasis role="stringliteral">&quot;Already&#32;initialized&#32;a&#32;renderer&#32;backend!&quot;</emphasis>);
+00288 
+00289 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Initialize&#32;our&#32;loader</emphasis>
+00290 <emphasis role="preprocessor">#if&#32;!defined(IMGUI_IMPL_OPENGL_ES2)&#32;&amp;&amp;&#32;!defined(IMGUI_IMPL_OPENGL_ES3)&#32;&amp;&amp;&#32;!defined(IMGUI_IMPL_OPENGL_LOADER_CUSTOM)</emphasis>
+00291 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(imgl3wInit()&#32;!=&#32;0)
+00292 &#32;&#32;&#32;&#32;{
+00293 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fprintf(stderr,&#32;<emphasis role="stringliteral">&quot;Failed&#32;to&#32;initialize&#32;OpenGL&#32;loader!\n&quot;</emphasis>);
+00294 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">false</emphasis>;
+00295 &#32;&#32;&#32;&#32;}
+00296 <emphasis role="preprocessor">#endif</emphasis>
+00297 
+00298 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Setup&#32;backend&#32;capabilities&#32;flags</emphasis>
+00299 &#32;&#32;&#32;&#32;<link linkend="_struct_im_gui___impl_open_g_l3___data">ImGui_ImplOpenGL3_Data</link>*&#32;bd&#32;=&#32;IM_NEW(<link linkend="_struct_im_gui___impl_open_g_l3___data">ImGui_ImplOpenGL3_Data</link>)();
+00300 &#32;&#32;&#32;&#32;io.BackendRendererUserData&#32;=&#32;(<emphasis role="keywordtype">void</emphasis>*)bd;
+00301 &#32;&#32;&#32;&#32;io.BackendRendererName&#32;=&#32;<emphasis role="stringliteral">&quot;imgui_impl_opengl3&quot;</emphasis>;
+00302 
+00303 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Query&#32;for&#32;GL&#32;version&#32;(e.g.&#32;320&#32;for&#32;GL&#32;3.2)</emphasis>
+00304 <emphasis role="preprocessor">#if&#32;defined(IMGUI_IMPL_OPENGL_ES2)</emphasis>
+00305 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;GLES&#32;2</emphasis>
+00306 &#32;&#32;&#32;&#32;bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1ad26fc0f928dab8b5e47fc5c8d7226314">GlVersion</link>&#32;=&#32;200;
+00307 &#32;&#32;&#32;&#32;bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1a87f73a98eed8bef47bf268113ab1e487">GlProfileIsES2</link>&#32;=&#32;<emphasis role="keyword">true</emphasis>;
+00308 <emphasis role="preprocessor">#else</emphasis>
+00309 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Desktop&#32;or&#32;GLES&#32;3</emphasis>
+00310 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;gl_version_str&#32;=&#32;(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*)glGetString(GL_VERSION);
+00311 &#32;&#32;&#32;&#32;GLint&#32;major&#32;=&#32;0;
+00312 &#32;&#32;&#32;&#32;GLint&#32;minor&#32;=&#32;0;
+00313 &#32;&#32;&#32;&#32;glGetIntegerv(GL_MAJOR_VERSION,&#32;&amp;major);
+00314 &#32;&#32;&#32;&#32;glGetIntegerv(GL_MINOR_VERSION,&#32;&amp;minor);
+00315 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(major&#32;==&#32;0&#32;&amp;&amp;&#32;minor&#32;==&#32;0)
+00316 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sscanf(gl_version_str,&#32;<emphasis role="stringliteral">&quot;%d.%d&quot;</emphasis>,&#32;&amp;major,&#32;&amp;minor);&#32;<emphasis role="comment">//&#32;Query&#32;GL_VERSION&#32;in&#32;desktop&#32;GL&#32;2.x,&#32;the&#32;string&#32;will&#32;start&#32;with&#32;&quot;&lt;major&gt;.&lt;minor&gt;&quot;</emphasis>
+00317 &#32;&#32;&#32;&#32;bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1ad26fc0f928dab8b5e47fc5c8d7226314">GlVersion</link>&#32;=&#32;(GLuint)(major&#32;*&#32;100&#32;+&#32;minor&#32;*&#32;10);
+00318 <emphasis role="preprocessor">#if&#32;defined(GL_CONTEXT_PROFILE_MASK)</emphasis>
+00319 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1ad26fc0f928dab8b5e47fc5c8d7226314">GlVersion</link>&#32;&gt;=&#32;320)
+00320 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;glGetIntegerv(GL_CONTEXT_PROFILE_MASK,&#32;&amp;bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1ab4506489dfe51ddf5c978f6d072d6956">GlProfileMask</link>);
+00321 &#32;&#32;&#32;&#32;bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1a509c50b6469ce2b9a6db8b70acf49199">GlProfileIsCompat</link>&#32;=&#32;(bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1ab4506489dfe51ddf5c978f6d072d6956">GlProfileMask</link>&#32;&amp;&#32;GL_CONTEXT_COMPATIBILITY_PROFILE_BIT)&#32;!=&#32;0;
+00322 <emphasis role="preprocessor">#endif</emphasis>
+00323 
+00324 <emphasis role="preprocessor">#if&#32;defined(IMGUI_IMPL_OPENGL_ES3)</emphasis>
+00325 &#32;&#32;&#32;&#32;bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1a471c9bee70d528144387b4f9dc44c240">GlProfileIsES3</link>&#32;=&#32;<emphasis role="keyword">true</emphasis>;
+00326 <emphasis role="preprocessor">#else</emphasis>
+00327 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(strncmp(gl_version_str,&#32;<emphasis role="stringliteral">&quot;OpenGL&#32;ES&#32;3&quot;</emphasis>,&#32;11)&#32;==&#32;0)
+00328 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1a471c9bee70d528144387b4f9dc44c240">GlProfileIsES3</link>&#32;=&#32;<emphasis role="keyword">true</emphasis>;
+00329 <emphasis role="preprocessor">#endif</emphasis>
+00330 
+00331 &#32;&#32;&#32;&#32;bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1a7e52bd10bd4d2688df2fbdc915f0e075">UseBufferSubData</link>&#32;=&#32;<emphasis role="keyword">false</emphasis>;
+00332 &#32;&#32;&#32;&#32;<emphasis role="comment">/*</emphasis>
+00333 <emphasis role="comment">&#32;&#32;&#32;&#32;//&#32;Query&#32;vendor&#32;to&#32;enable&#32;glBufferSubData&#32;kludge</emphasis>
+00334 <emphasis role="comment">#ifdef&#32;_WIN32</emphasis>
+00335 <emphasis role="comment">&#32;&#32;&#32;&#32;if&#32;(const&#32;char*&#32;vendor&#32;=&#32;(const&#32;char*)glGetString(GL_VENDOR))</emphasis>
+00336 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;if&#32;(strncmp(vendor,&#32;&quot;Intel&quot;,&#32;5)&#32;==&#32;0)</emphasis>
+00337 <emphasis role="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;bd-&gt;UseBufferSubData&#32;=&#32;true;</emphasis>
+00338 <emphasis role="comment">#endif</emphasis>
+00339 <emphasis role="comment">&#32;&#32;&#32;&#32;*/</emphasis>
+00340 <emphasis role="preprocessor">#endif</emphasis>
+00341 
+00342 <emphasis role="preprocessor">#ifdef&#32;IMGUI_IMPL_OPENGL_DEBUG</emphasis>
+00343 &#32;&#32;&#32;&#32;printf(<emphasis role="stringliteral">&quot;GlVersion&#32;=&#32;%d,&#32;\&quot;%s\&quot;\nGlProfileIsCompat&#32;=&#32;%d\nGlProfileMask&#32;=&#32;0x%X\nGlProfileIsES2&#32;=&#32;%d,&#32;GlProfileIsES3&#32;=&#32;%d\nGL_VENDOR&#32;=&#32;&apos;%s&apos;\nGL_RENDERER&#32;=&#32;&apos;%s&apos;\n&quot;</emphasis>,&#32;bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1ad26fc0f928dab8b5e47fc5c8d7226314">GlVersion</link>,&#32;gl_version_str,&#32;bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1a509c50b6469ce2b9a6db8b70acf49199">GlProfileIsCompat</link>,&#32;bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1ab4506489dfe51ddf5c978f6d072d6956">GlProfileMask</link>,&#32;bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1a87f73a98eed8bef47bf268113ab1e487">GlProfileIsES2</link>,&#32;bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1a471c9bee70d528144387b4f9dc44c240">GlProfileIsES3</link>,&#32;(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*)glGetString(GL_VENDOR),&#32;(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*)glGetString(GL_RENDERER));&#32;<emphasis role="comment">//&#32;[DEBUG]</emphasis>
+00344 <emphasis role="preprocessor">#endif</emphasis>
+00345 
+00346 <emphasis role="preprocessor">#ifdef&#32;IMGUI_IMPL_OPENGL_MAY_HAVE_VTX_OFFSET</emphasis>
+00347 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1ad26fc0f928dab8b5e47fc5c8d7226314">GlVersion</link>&#32;&gt;=&#32;320)
+00348 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;io.BackendFlags&#32;|=&#32;ImGuiBackendFlags_RendererHasVtxOffset;&#32;&#32;<emphasis role="comment">//&#32;We&#32;can&#32;honor&#32;the&#32;ImDrawCmd::VtxOffset&#32;field,&#32;allowing&#32;for&#32;large&#32;meshes.</emphasis>
+00349 <emphasis role="preprocessor">#endif</emphasis>
+00350 &#32;&#32;&#32;&#32;io.BackendFlags&#32;|=&#32;ImGuiBackendFlags_RendererHasViewports;&#32;&#32;<emphasis role="comment">//&#32;We&#32;can&#32;create&#32;multi-viewports&#32;on&#32;the&#32;Renderer&#32;side&#32;(optional)</emphasis>
+00351 
+00352 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Store&#32;GLSL&#32;version&#32;string&#32;so&#32;we&#32;can&#32;refer&#32;to&#32;it&#32;later&#32;in&#32;case&#32;we&#32;recreate&#32;shaders.</emphasis>
+00353 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Note:&#32;GLSL&#32;version&#32;is&#32;NOT&#32;the&#32;same&#32;as&#32;GL&#32;version.&#32;Leave&#32;this&#32;to&#32;nullptr&#32;if&#32;unsure.</emphasis>
+00354 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(glsl_version&#32;==&#32;<emphasis role="keyword">nullptr</emphasis>)
+00355 &#32;&#32;&#32;&#32;{
+00356 <emphasis role="preprocessor">#if&#32;defined(IMGUI_IMPL_OPENGL_ES2)</emphasis>
+00357 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;glsl_version&#32;=&#32;<emphasis role="stringliteral">&quot;#version&#32;100&quot;</emphasis>;
+00358 <emphasis role="preprocessor">#elif&#32;defined(IMGUI_IMPL_OPENGL_ES3)</emphasis>
+00359 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;glsl_version&#32;=&#32;<emphasis role="stringliteral">&quot;#version&#32;300&#32;es&quot;</emphasis>;
+00360 <emphasis role="preprocessor">#elif&#32;defined(__APPLE__)</emphasis>
+00361 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;glsl_version&#32;=&#32;<emphasis role="stringliteral">&quot;#version&#32;150&quot;</emphasis>;
+00362 <emphasis role="preprocessor">#else</emphasis>
+00363 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;glsl_version&#32;=&#32;<emphasis role="stringliteral">&quot;#version&#32;130&quot;</emphasis>;
+00364 <emphasis role="preprocessor">#endif</emphasis>
+00365 &#32;&#32;&#32;&#32;}
+00366 &#32;&#32;&#32;&#32;IM_ASSERT((<emphasis role="keywordtype">int</emphasis>)strlen(glsl_version)&#32;+&#32;2&#32;&lt;&#32;IM_ARRAYSIZE(bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1a207e0bc0e956f26b8a3279e7242707c5">GlslVersionString</link>));
+00367 &#32;&#32;&#32;&#32;strcpy(bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1a207e0bc0e956f26b8a3279e7242707c5">GlslVersionString</link>,&#32;glsl_version);
+00368 &#32;&#32;&#32;&#32;strcat(bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1a207e0bc0e956f26b8a3279e7242707c5">GlslVersionString</link>,&#32;<emphasis role="stringliteral">&quot;\n&quot;</emphasis>);
+00369 
+00370 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Make&#32;an&#32;arbitrary&#32;GL&#32;call&#32;(we&#32;don&apos;t&#32;actually&#32;need&#32;the&#32;result)</emphasis>
+00371 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;IF&#32;YOU&#32;GET&#32;A&#32;CRASH&#32;HERE:&#32;it&#32;probably&#32;means&#32;the&#32;OpenGL&#32;function&#32;loader&#32;didn&apos;t&#32;do&#32;its&#32;job.&#32;Let&#32;us&#32;know!</emphasis>
+00372 &#32;&#32;&#32;&#32;GLint&#32;current_texture;
+00373 &#32;&#32;&#32;&#32;glGetIntegerv(GL_TEXTURE_BINDING_2D,&#32;&amp;current_texture);
+00374 
+00375 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Detect&#32;extensions&#32;we&#32;support</emphasis>
+00376 <emphasis role="preprocessor">#ifdef&#32;IMGUI_IMPL_OPENGL_MAY_HAVE_POLYGON_MODE</emphasis>
+00377 &#32;&#32;&#32;&#32;bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1a2c1913777648318ae2e5b2d25b897549">HasPolygonMode</link>&#32;=&#32;(!bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1a87f73a98eed8bef47bf268113ab1e487">GlProfileIsES2</link>&#32;&amp;&amp;&#32;!bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1a471c9bee70d528144387b4f9dc44c240">GlProfileIsES3</link>);
+00378 <emphasis role="preprocessor">#endif</emphasis>
+00379 &#32;&#32;&#32;&#32;bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1a2778e5caad83bc7b69981c53d5e9ed5e">HasClipOrigin</link>&#32;=&#32;(bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1ad26fc0f928dab8b5e47fc5c8d7226314">GlVersion</link>&#32;&gt;=&#32;450);
+00380 <emphasis role="preprocessor">#ifdef&#32;IMGUI_IMPL_OPENGL_HAS_EXTENSIONS</emphasis>
+00381 &#32;&#32;&#32;&#32;GLint&#32;num_extensions&#32;=&#32;0;
+00382 &#32;&#32;&#32;&#32;glGetIntegerv(GL_NUM_EXTENSIONS,&#32;&amp;num_extensions);
+00383 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(GLint&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;=&#32;0;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;&lt;&#32;num_extensions;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>++)
+00384 &#32;&#32;&#32;&#32;{
+00385 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;extension&#32;=&#32;(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*)glGetStringi(GL_EXTENSIONS,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>);
+00386 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(extension&#32;!=&#32;<emphasis role="keyword">nullptr</emphasis>&#32;&amp;&amp;&#32;strcmp(extension,&#32;<emphasis role="stringliteral">&quot;GL_ARB_clip_control&quot;</emphasis>)&#32;==&#32;0)
+00387 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1a2778e5caad83bc7b69981c53d5e9ed5e">HasClipOrigin</link>&#32;=&#32;<emphasis role="keyword">true</emphasis>;
+00388 &#32;&#32;&#32;&#32;}
+00389 <emphasis role="preprocessor">#endif</emphasis>
+00390 
+00391 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(io.ConfigFlags&#32;&amp;&#32;ImGuiConfigFlags_ViewportsEnable)
+00392 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ImGui_ImplOpenGL3_InitPlatformInterface();
+00393 
+00394 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">true</emphasis>;
+00395 }
+</programlisting><para>
+References <link linkend="_imgui__impl__opengl3_8cpp_source_1l00228">ImGui_ImplOpenGL3_Data::GlProfileIsCompat</link>, <link linkend="_imgui__impl__opengl3_8cpp_source_1l00226">ImGui_ImplOpenGL3_Data::GlProfileIsES2</link>, <link linkend="_imgui__impl__opengl3_8cpp_source_1l00227">ImGui_ImplOpenGL3_Data::GlProfileIsES3</link>, <link linkend="_imgui__impl__opengl3_8cpp_source_1l00229">ImGui_ImplOpenGL3_Data::GlProfileMask</link>, <link linkend="_imgui__impl__opengl3_8cpp_source_1l00225">ImGui_ImplOpenGL3_Data::GlslVersionString</link>, <link linkend="_imgui__impl__opengl3_8cpp_source_1l00224">ImGui_ImplOpenGL3_Data::GlVersion</link>, <link linkend="_imgui__impl__opengl3_8cpp_source_1l00241">ImGui_ImplOpenGL3_Data::HasClipOrigin</link>, <link linkend="_imgui__impl__opengl3_8cpp_source_1l00240">ImGui_ImplOpenGL3_Data::HasPolygonMode</link>, <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00073">i</link>, and <link linkend="_imgui__impl__opengl3_8cpp_source_1l00242">ImGui_ImplOpenGL3_Data::UseBufferSubData</link>.</para>
+<para>
+Referenced by <link linkend="__c___s_t_a_r_t_u_p_8cpp_source_1l00048">CORE::Startup::StartEditor()</link>.</para>
+</section>
+<anchor xml:id="_imgui__impl__opengl3_8cpp_1a900e74add4e56e74f97a210eb329aa91"/><section>
+    <title>ImGui_ImplOpenGL3_NewFrame()</title>
+<indexterm><primary>ImGui_ImplOpenGL3_NewFrame</primary><secondary>imgui_impl_opengl3.cpp</secondary></indexterm>
+<indexterm><primary>imgui_impl_opengl3.cpp</primary><secondary>ImGui_ImplOpenGL3_NewFrame</secondary></indexterm>
+<para><computeroutput>void ImGui_ImplOpenGL3_NewFrame ( )</computeroutput></para><para>
+Definition at line <link linkend="_imgui__impl__opengl3_8cpp_source_1l00411">411</link> of file <link linkend="_imgui__impl__opengl3_8cpp_source">imgui_impl_opengl3.cpp</link>.</para>
+<programlisting linenumbering="unnumbered">00412 {
+00413 &#32;&#32;&#32;&#32;<link linkend="_struct_im_gui___impl_open_g_l3___data">ImGui_ImplOpenGL3_Data</link>*&#32;bd&#32;=&#32;ImGui_ImplOpenGL3_GetBackendData();
+00414 &#32;&#32;&#32;&#32;IM_ASSERT(bd&#32;!=&#32;<emphasis role="keyword">nullptr</emphasis>&#32;&amp;&amp;&#32;<emphasis role="stringliteral">&quot;Context&#32;or&#32;backend&#32;not&#32;initialized!&#32;Did&#32;you&#32;call&#32;ImGui_ImplOpenGL3_Init()?&quot;</emphasis>);
+00415 
+00416 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(!bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1ab3fde53e314b2d7e6192c2bdb33c1a2c">ShaderHandle</link>)
+00417 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_imgui__impl__opengl3_8cpp_1ab27f12289d6fe9fcd412f92af280b398">ImGui_ImplOpenGL3_CreateDeviceObjects</link>();
+00418 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(!bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1a4fd7c22c817ba322c6e7d708c7eceed4">FontTexture</link>)
+00419 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_imgui__impl__opengl3_8cpp_1a3dc4f80532d710de41d4075214eb363e">ImGui_ImplOpenGL3_CreateFontsTexture</link>();
+00420 }
+</programlisting><para>
+References <link linkend="_imgui__impl__opengl3_8cpp_source_1l00230">ImGui_ImplOpenGL3_Data::FontTexture</link>, <link linkend="_imgui__impl__opengl3_8cpp_source_1l00759">ImGui_ImplOpenGL3_CreateDeviceObjects()</link>, <link linkend="_imgui__impl__opengl3_8cpp_source_1l00677">ImGui_ImplOpenGL3_CreateFontsTexture()</link>, and <link linkend="_imgui__impl__opengl3_8cpp_source_1l00231">ImGui_ImplOpenGL3_Data::ShaderHandle</link>.</para>
+<para>
+Referenced by <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00253">main()</link>.</para>
+</section>
+<anchor xml:id="_imgui__impl__opengl3_8cpp_1ad215190229f4f300593911aa7b3821de"/><section>
+    <title>ImGui_ImplOpenGL3_RenderDrawData()</title>
+<indexterm><primary>ImGui_ImplOpenGL3_RenderDrawData</primary><secondary>imgui_impl_opengl3.cpp</secondary></indexterm>
+<indexterm><primary>imgui_impl_opengl3.cpp</primary><secondary>ImGui_ImplOpenGL3_RenderDrawData</secondary></indexterm>
+<para><computeroutput>void ImGui_ImplOpenGL3_RenderDrawData (ImDrawData * draw_data)</computeroutput></para><para>
+Definition at line <link linkend="_imgui__impl__opengl3_8cpp_source_1l00499">499</link> of file <link linkend="_imgui__impl__opengl3_8cpp_source">imgui_impl_opengl3.cpp</link>.</para>
+<programlisting linenumbering="unnumbered">00500 {
+00501 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Avoid&#32;rendering&#32;when&#32;minimized,&#32;scale&#32;coordinates&#32;for&#32;retina&#32;displays&#32;(screen&#32;coordinates&#32;!=&#32;framebuffer&#32;coordinates)</emphasis>
+00502 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;fb_width&#32;=&#32;(int)(draw_data-&gt;DisplaySize.x&#32;*&#32;draw_data-&gt;FramebufferScale.x);
+00503 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;fb_height&#32;=&#32;(int)(draw_data-&gt;DisplaySize.y&#32;*&#32;draw_data-&gt;FramebufferScale.y);
+00504 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(fb_width&#32;&lt;=&#32;0&#32;||&#32;fb_height&#32;&lt;=&#32;0)
+00505 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>;
+00506 
+00507 &#32;&#32;&#32;&#32;<link linkend="_struct_im_gui___impl_open_g_l3___data">ImGui_ImplOpenGL3_Data</link>*&#32;bd&#32;=&#32;ImGui_ImplOpenGL3_GetBackendData();
+00508 
+00509 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Backup&#32;GL&#32;state</emphasis>
+00510 &#32;&#32;&#32;&#32;GLenum&#32;last_active_texture;&#32;glGetIntegerv(GL_ACTIVE_TEXTURE,&#32;(GLint*)&amp;last_active_texture);
+00511 &#32;&#32;&#32;&#32;glActiveTexture(GL_TEXTURE0);
+00512 &#32;&#32;&#32;&#32;GLuint&#32;last_program;&#32;glGetIntegerv(GL_CURRENT_PROGRAM,&#32;(GLint*)&amp;last_program);
+00513 &#32;&#32;&#32;&#32;GLuint&#32;last_texture;&#32;glGetIntegerv(GL_TEXTURE_BINDING_2D,&#32;(GLint*)&amp;last_texture);
+00514 <emphasis role="preprocessor">#ifdef&#32;IMGUI_IMPL_OPENGL_MAY_HAVE_BIND_SAMPLER</emphasis>
+00515 &#32;&#32;&#32;&#32;GLuint&#32;last_sampler;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1ad26fc0f928dab8b5e47fc5c8d7226314">GlVersion</link>&#32;&gt;=&#32;330&#32;||&#32;bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1a471c9bee70d528144387b4f9dc44c240">GlProfileIsES3</link>)&#32;{&#32;glGetIntegerv(GL_SAMPLER_BINDING,&#32;(GLint*)&amp;last_sampler);&#32;}&#32;<emphasis role="keywordflow">else</emphasis>&#32;{&#32;last_sampler&#32;=&#32;0;&#32;}
+00516 <emphasis role="preprocessor">#endif</emphasis>
+00517 &#32;&#32;&#32;&#32;GLuint&#32;last_array_buffer;&#32;glGetIntegerv(GL_ARRAY_BUFFER_BINDING,&#32;(GLint*)&amp;last_array_buffer);
+00518 <emphasis role="preprocessor">#ifndef&#32;IMGUI_IMPL_OPENGL_USE_VERTEX_ARRAY</emphasis>
+00519 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;This&#32;is&#32;part&#32;of&#32;VAO&#32;on&#32;OpenGL&#32;3.0+&#32;and&#32;OpenGL&#32;ES&#32;3.0+.</emphasis>
+00520 &#32;&#32;&#32;&#32;GLint&#32;last_element_array_buffer;&#32;glGetIntegerv(GL_ELEMENT_ARRAY_BUFFER_BINDING,&#32;&amp;last_element_array_buffer);
+00521 &#32;&#32;&#32;&#32;ImGui_ImplOpenGL3_VtxAttribState&#32;last_vtx_attrib_state_pos;&#32;last_vtx_attrib_state_pos.GetState(bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1a9b6dcb44ef2b2bcfaa1415973b8bbe0b">AttribLocationVtxPos</link>);
+00522 &#32;&#32;&#32;&#32;ImGui_ImplOpenGL3_VtxAttribState&#32;last_vtx_attrib_state_uv;&#32;last_vtx_attrib_state_uv.GetState(bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1ab02168ff54e9054e1dcc662861ac20ab">AttribLocationVtxUV</link>);
+00523 &#32;&#32;&#32;&#32;ImGui_ImplOpenGL3_VtxAttribState&#32;last_vtx_attrib_state_color;&#32;last_vtx_attrib_state_color.GetState(bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1abf21e94d95a5faec538d101f0cd941de">AttribLocationVtxColor</link>);
+00524 <emphasis role="preprocessor">#endif</emphasis>
+00525 <emphasis role="preprocessor">#ifdef&#32;IMGUI_IMPL_OPENGL_USE_VERTEX_ARRAY</emphasis>
+00526 &#32;&#32;&#32;&#32;GLuint&#32;last_vertex_array_object;&#32;glGetIntegerv(GL_VERTEX_ARRAY_BINDING,&#32;(GLint*)&amp;last_vertex_array_object);
+00527 <emphasis role="preprocessor">#endif</emphasis>
+00528 <emphasis role="preprocessor">#ifdef&#32;IMGUI_IMPL_OPENGL_MAY_HAVE_POLYGON_MODE</emphasis>
+00529 &#32;&#32;&#32;&#32;GLint&#32;last_polygon_mode[2];&#32;<emphasis role="keywordflow">if</emphasis>&#32;(bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1a2c1913777648318ae2e5b2d25b897549">HasPolygonMode</link>)&#32;{&#32;glGetIntegerv(GL_POLYGON_MODE,&#32;last_polygon_mode);&#32;}
+00530 <emphasis role="preprocessor">#endif</emphasis>
+00531 &#32;&#32;&#32;&#32;GLint&#32;last_viewport[4];&#32;glGetIntegerv(GL_VIEWPORT,&#32;last_viewport);
+00532 &#32;&#32;&#32;&#32;GLint&#32;last_scissor_box[4];&#32;glGetIntegerv(GL_SCISSOR_BOX,&#32;last_scissor_box);
+00533 &#32;&#32;&#32;&#32;GLenum&#32;last_blend_src_rgb;&#32;glGetIntegerv(GL_BLEND_SRC_RGB,&#32;(GLint*)&amp;last_blend_src_rgb);
+00534 &#32;&#32;&#32;&#32;GLenum&#32;last_blend_dst_rgb;&#32;glGetIntegerv(GL_BLEND_DST_RGB,&#32;(GLint*)&amp;last_blend_dst_rgb);
+00535 &#32;&#32;&#32;&#32;GLenum&#32;last_blend_src_alpha;&#32;glGetIntegerv(GL_BLEND_SRC_ALPHA,&#32;(GLint*)&amp;last_blend_src_alpha);
+00536 &#32;&#32;&#32;&#32;GLenum&#32;last_blend_dst_alpha;&#32;glGetIntegerv(GL_BLEND_DST_ALPHA,&#32;(GLint*)&amp;last_blend_dst_alpha);
+00537 &#32;&#32;&#32;&#32;GLenum&#32;last_blend_equation_rgb;&#32;glGetIntegerv(GL_BLEND_EQUATION_RGB,&#32;(GLint*)&amp;last_blend_equation_rgb);
+00538 &#32;&#32;&#32;&#32;GLenum&#32;last_blend_equation_alpha;&#32;glGetIntegerv(GL_BLEND_EQUATION_ALPHA,&#32;(GLint*)&amp;last_blend_equation_alpha);
+00539 &#32;&#32;&#32;&#32;GLboolean&#32;last_enable_blend&#32;=&#32;glIsEnabled(GL_BLEND);
+00540 &#32;&#32;&#32;&#32;GLboolean&#32;last_enable_cull_face&#32;=&#32;glIsEnabled(GL_CULL_FACE);
+00541 &#32;&#32;&#32;&#32;GLboolean&#32;last_enable_depth_test&#32;=&#32;glIsEnabled(GL_DEPTH_TEST);
+00542 &#32;&#32;&#32;&#32;GLboolean&#32;last_enable_stencil_test&#32;=&#32;glIsEnabled(GL_STENCIL_TEST);
+00543 &#32;&#32;&#32;&#32;GLboolean&#32;last_enable_scissor_test&#32;=&#32;glIsEnabled(GL_SCISSOR_TEST);
+00544 <emphasis role="preprocessor">#ifdef&#32;IMGUI_IMPL_OPENGL_MAY_HAVE_PRIMITIVE_RESTART</emphasis>
+00545 &#32;&#32;&#32;&#32;GLboolean&#32;last_enable_primitive_restart&#32;=&#32;(bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1ad26fc0f928dab8b5e47fc5c8d7226314">GlVersion</link>&#32;&gt;=&#32;310)&#32;?&#32;glIsEnabled(GL_PRIMITIVE_RESTART)&#32;:&#32;GL_FALSE;
+00546 <emphasis role="preprocessor">#endif</emphasis>
+00547 
+00548 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Setup&#32;desired&#32;GL&#32;state</emphasis>
+00549 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Recreate&#32;the&#32;VAO&#32;every&#32;time&#32;(this&#32;is&#32;to&#32;easily&#32;allow&#32;multiple&#32;GL&#32;contexts&#32;to&#32;be&#32;rendered&#32;to.&#32;VAO&#32;are&#32;not&#32;shared&#32;among&#32;GL&#32;contexts)</emphasis>
+00550 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;The&#32;renderer&#32;would&#32;actually&#32;work&#32;without&#32;any&#32;VAO&#32;bound,&#32;but&#32;then&#32;our&#32;VertexAttrib&#32;calls&#32;would&#32;overwrite&#32;the&#32;default&#32;one&#32;currently&#32;bound.</emphasis>
+00551 &#32;&#32;&#32;&#32;GLuint&#32;vertex_array_object&#32;=&#32;0;
+00552 <emphasis role="preprocessor">#ifdef&#32;IMGUI_IMPL_OPENGL_USE_VERTEX_ARRAY</emphasis>
+00553 &#32;&#32;&#32;&#32;<link linkend="_imgui__impl__opengl3_8cpp_1adefa3150bdf88f59f2b8daa899f0f80c">GL_CALL</link>(glGenVertexArrays(1,&#32;&amp;vertex_array_object));
+00554 <emphasis role="preprocessor">#endif</emphasis>
+00555 &#32;&#32;&#32;&#32;ImGui_ImplOpenGL3_SetupRenderState(draw_data,&#32;fb_width,&#32;fb_height,&#32;vertex_array_object);
+00556 
+00557 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Will&#32;project&#32;scissor/clipping&#32;rectangles&#32;into&#32;framebuffer&#32;space</emphasis>
+00558 &#32;&#32;&#32;&#32;ImVec2&#32;clip_off&#32;=&#32;draw_data-&gt;DisplayPos;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;(0,0)&#32;unless&#32;using&#32;multi-viewports</emphasis>
+00559 &#32;&#32;&#32;&#32;ImVec2&#32;clip_scale&#32;=&#32;draw_data-&gt;FramebufferScale;&#32;<emphasis role="comment">//&#32;(1,1)&#32;unless&#32;using&#32;retina&#32;display&#32;which&#32;are&#32;often&#32;(2,2)</emphasis>
+00560 
+00561 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Render&#32;command&#32;lists</emphasis>
+00562 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(<emphasis role="keywordtype">int</emphasis>&#32;n&#32;=&#32;0;&#32;n&#32;&lt;&#32;draw_data-&gt;CmdListsCount;&#32;n++)
+00563 &#32;&#32;&#32;&#32;{
+00564 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;ImDrawList*&#32;cmd_list&#32;=&#32;draw_data-&gt;CmdLists[n];
+00565 
+00566 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Upload&#32;vertex/index&#32;buffers</emphasis>
+00567 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-&#32;OpenGL&#32;drivers&#32;are&#32;in&#32;a&#32;very&#32;sorry&#32;state&#32;nowadays....</emphasis>
+00568 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;&#32;During&#32;2021&#32;we&#32;attempted&#32;to&#32;switch&#32;from&#32;glBufferData()&#32;to&#32;orphaning+glBufferSubData()&#32;following&#32;reports</emphasis>
+00569 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;&#32;of&#32;leaks&#32;on&#32;Intel&#32;GPU&#32;when&#32;using&#32;multi-viewports&#32;on&#32;Windows.</emphasis>
+00570 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-&#32;After&#32;this&#32;we&#32;kept&#32;hearing&#32;of&#32;various&#32;display&#32;corruptions&#32;issues.&#32;We&#32;started&#32;disabling&#32;on&#32;non-Intel&#32;GPU,&#32;but&#32;issues&#32;still&#32;got&#32;reported&#32;on&#32;Intel.</emphasis>
+00571 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-&#32;We&#32;are&#32;now&#32;back&#32;to&#32;using&#32;exclusively&#32;glBufferData().&#32;So&#32;bd-&gt;UseBufferSubData&#32;IS&#32;ALWAYS&#32;FALSE&#32;in&#32;this&#32;code.</emphasis>
+00572 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;&#32;We&#32;are&#32;keeping&#32;the&#32;old&#32;code&#32;path&#32;for&#32;a&#32;while&#32;in&#32;case&#32;people&#32;finding&#32;new&#32;issues&#32;may&#32;want&#32;to&#32;test&#32;the&#32;bd-&gt;UseBufferSubData&#32;path.</emphasis>
+00573 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-&#32;See&#32;https://github.com/ocornut/imgui/issues/4468&#32;and&#32;please&#32;report&#32;any&#32;corruption&#32;issues.</emphasis>
+00574 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;GLsizeiptr&#32;vtx_buffer_size&#32;=&#32;(GLsizeiptr)cmd_list-&gt;VtxBuffer.Size&#32;*&#32;(<emphasis role="keywordtype">int</emphasis>)<emphasis role="keyword">sizeof</emphasis>(ImDrawVert);
+00575 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;GLsizeiptr&#32;idx_buffer_size&#32;=&#32;(GLsizeiptr)cmd_list-&gt;IdxBuffer.Size&#32;*&#32;(<emphasis role="keywordtype">int</emphasis>)<emphasis role="keyword">sizeof</emphasis>(ImDrawIdx);
+00576 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1a7e52bd10bd4d2688df2fbdc915f0e075">UseBufferSubData</link>)
+00577 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+00578 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1a8f348c0ed41f34ec5ca6032537526491">VertexBufferSize</link>&#32;&lt;&#32;vtx_buffer_size)
+00579 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+00580 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1a8f348c0ed41f34ec5ca6032537526491">VertexBufferSize</link>&#32;=&#32;vtx_buffer_size;
+00581 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_imgui__impl__opengl3_8cpp_1adefa3150bdf88f59f2b8daa899f0f80c">GL_CALL</link>(glBufferData(GL_ARRAY_BUFFER,&#32;bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1a8f348c0ed41f34ec5ca6032537526491">VertexBufferSize</link>,&#32;<emphasis role="keyword">nullptr</emphasis>,&#32;GL_STREAM_DRAW));
+00582 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+00583 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1a4fff755aff6cc130aab106a8b20e3041">IndexBufferSize</link>&#32;&lt;&#32;idx_buffer_size)
+00584 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+00585 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1a4fff755aff6cc130aab106a8b20e3041">IndexBufferSize</link>&#32;=&#32;idx_buffer_size;
+00586 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_imgui__impl__opengl3_8cpp_1adefa3150bdf88f59f2b8daa899f0f80c">GL_CALL</link>(glBufferData(GL_ELEMENT_ARRAY_BUFFER,&#32;bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1a4fff755aff6cc130aab106a8b20e3041">IndexBufferSize</link>,&#32;<emphasis role="keyword">nullptr</emphasis>,&#32;GL_STREAM_DRAW));
+00587 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+00588 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_imgui__impl__opengl3_8cpp_1adefa3150bdf88f59f2b8daa899f0f80c">GL_CALL</link>(glBufferSubData(GL_ARRAY_BUFFER,&#32;0,&#32;vtx_buffer_size,&#32;(<emphasis role="keyword">const</emphasis>&#32;GLvoid*)cmd_list-&gt;VtxBuffer.Data));
+00589 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_imgui__impl__opengl3_8cpp_1adefa3150bdf88f59f2b8daa899f0f80c">GL_CALL</link>(glBufferSubData(GL_ELEMENT_ARRAY_BUFFER,&#32;0,&#32;idx_buffer_size,&#32;(<emphasis role="keyword">const</emphasis>&#32;GLvoid*)cmd_list-&gt;IdxBuffer.Data));
+00590 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+00591 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+00592 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+00593 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_imgui__impl__opengl3_8cpp_1adefa3150bdf88f59f2b8daa899f0f80c">GL_CALL</link>(glBufferData(GL_ARRAY_BUFFER,&#32;vtx_buffer_size,&#32;(<emphasis role="keyword">const</emphasis>&#32;GLvoid*)cmd_list-&gt;VtxBuffer.Data,&#32;GL_STREAM_DRAW));
+00594 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_imgui__impl__opengl3_8cpp_1adefa3150bdf88f59f2b8daa899f0f80c">GL_CALL</link>(glBufferData(GL_ELEMENT_ARRAY_BUFFER,&#32;idx_buffer_size,&#32;(<emphasis role="keyword">const</emphasis>&#32;GLvoid*)cmd_list-&gt;IdxBuffer.Data,&#32;GL_STREAM_DRAW));
+00595 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+00596 
+00597 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(<emphasis role="keywordtype">int</emphasis>&#32;cmd_i&#32;=&#32;0;&#32;cmd_i&#32;&lt;&#32;cmd_list-&gt;CmdBuffer.Size;&#32;cmd_i++)
+00598 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+00599 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;ImDrawCmd*&#32;pcmd&#32;=&#32;&amp;cmd_list-&gt;CmdBuffer[cmd_i];
+00600 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(pcmd-&gt;UserCallback&#32;!=&#32;<emphasis role="keyword">nullptr</emphasis>)
+00601 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+00602 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;User&#32;callback,&#32;registered&#32;via&#32;ImDrawList::AddCallback()</emphasis>
+00603 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;(ImDrawCallback_ResetRenderState&#32;is&#32;a&#32;special&#32;callback&#32;value&#32;used&#32;by&#32;the&#32;user&#32;to&#32;request&#32;the&#32;renderer&#32;to&#32;reset&#32;render&#32;state.)</emphasis>
+00604 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(pcmd-&gt;UserCallback&#32;==&#32;ImDrawCallback_ResetRenderState)
+00605 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ImGui_ImplOpenGL3_SetupRenderState(draw_data,&#32;fb_width,&#32;fb_height,&#32;vertex_array_object);
+00606 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+00607 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;pcmd-&gt;UserCallback(cmd_list,&#32;pcmd);
+00608 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+00609 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+00610 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+00611 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Project&#32;scissor/clipping&#32;rectangles&#32;into&#32;framebuffer&#32;space</emphasis>
+00612 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ImVec2&#32;clip_min((pcmd-&gt;ClipRect.x&#32;-&#32;clip_off.x)&#32;*&#32;clip_scale.x,&#32;(pcmd-&gt;ClipRect.y&#32;-&#32;clip_off.y)&#32;*&#32;clip_scale.y);
+00613 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ImVec2&#32;clip_max((pcmd-&gt;ClipRect.z&#32;-&#32;clip_off.x)&#32;*&#32;clip_scale.x,&#32;(pcmd-&gt;ClipRect.w&#32;-&#32;clip_off.y)&#32;*&#32;clip_scale.y);
+00614 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(clip_max.x&#32;&lt;=&#32;clip_min.x&#32;||&#32;clip_max.y&#32;&lt;=&#32;clip_min.y)
+00615 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">continue</emphasis>;
+00616 
+00617 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Apply&#32;scissor/clipping&#32;rectangle&#32;(Y&#32;is&#32;inverted&#32;in&#32;OpenGL)</emphasis>
+00618 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_imgui__impl__opengl3_8cpp_1adefa3150bdf88f59f2b8daa899f0f80c">GL_CALL</link>(glScissor((<emphasis role="keywordtype">int</emphasis>)clip_min.x,&#32;(<emphasis role="keywordtype">int</emphasis>)((<emphasis role="keywordtype">float</emphasis>)fb_height&#32;-&#32;clip_max.y),&#32;(<emphasis role="keywordtype">int</emphasis>)(clip_max.x&#32;-&#32;clip_min.x),&#32;(<emphasis role="keywordtype">int</emphasis>)(clip_max.y&#32;-&#32;clip_min.y)));
+00619 
+00620 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Bind&#32;texture,&#32;Draw</emphasis>
+00621 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_imgui__impl__opengl3_8cpp_1adefa3150bdf88f59f2b8daa899f0f80c">GL_CALL</link>(glBindTexture(GL_TEXTURE_2D,&#32;(GLuint)(intptr_t)pcmd-&gt;GetTexID()));
+00622 <emphasis role="preprocessor">#ifdef&#32;IMGUI_IMPL_OPENGL_MAY_HAVE_VTX_OFFSET</emphasis>
+00623 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1ad26fc0f928dab8b5e47fc5c8d7226314">GlVersion</link>&#32;&gt;=&#32;320)
+00624 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_imgui__impl__opengl3_8cpp_1adefa3150bdf88f59f2b8daa899f0f80c">GL_CALL</link>(glDrawElementsBaseVertex(GL_TRIANGLES,&#32;(GLsizei)pcmd-&gt;ElemCount,&#32;<emphasis role="keyword">sizeof</emphasis>(ImDrawIdx)&#32;==&#32;2&#32;?&#32;GL_UNSIGNED_SHORT&#32;:&#32;GL_UNSIGNED_INT,&#32;(void*)(intptr_t)(pcmd-&gt;IdxOffset&#32;*&#32;sizeof(ImDrawIdx)),&#32;(GLint)pcmd-&gt;VtxOffset));
+00625 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>
+00626 <emphasis role="preprocessor">#endif</emphasis>
+00627 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_imgui__impl__opengl3_8cpp_1adefa3150bdf88f59f2b8daa899f0f80c">GL_CALL</link>(glDrawElements(GL_TRIANGLES,&#32;(GLsizei)pcmd-&gt;ElemCount,&#32;<emphasis role="keyword">sizeof</emphasis>(ImDrawIdx)&#32;==&#32;2&#32;?&#32;GL_UNSIGNED_SHORT&#32;:&#32;GL_UNSIGNED_INT,&#32;(void*)(intptr_t)(pcmd-&gt;IdxOffset&#32;*&#32;sizeof(ImDrawIdx))));
+00628 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+00629 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+00630 &#32;&#32;&#32;&#32;}
+00631 
+00632 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Destroy&#32;the&#32;temporary&#32;VAO</emphasis>
+00633 <emphasis role="preprocessor">#ifdef&#32;IMGUI_IMPL_OPENGL_USE_VERTEX_ARRAY</emphasis>
+00634 &#32;&#32;&#32;&#32;<link linkend="_imgui__impl__opengl3_8cpp_1adefa3150bdf88f59f2b8daa899f0f80c">GL_CALL</link>(glDeleteVertexArrays(1,&#32;&amp;vertex_array_object));
+00635 <emphasis role="preprocessor">#endif</emphasis>
+00636 
+00637 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Restore&#32;modified&#32;GL&#32;state</emphasis>
+00638 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;This&#32;&quot;glIsProgram()&quot;&#32;check&#32;is&#32;required&#32;because&#32;if&#32;the&#32;program&#32;is&#32;&quot;pending&#32;deletion&quot;&#32;at&#32;the&#32;time&#32;of&#32;binding&#32;backup,&#32;it&#32;will&#32;have&#32;been&#32;deleted&#32;by&#32;now&#32;and&#32;will&#32;cause&#32;an&#32;OpenGL&#32;error.&#32;See&#32;#6220.</emphasis>
+00639 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(last_program&#32;==&#32;0&#32;||&#32;glIsProgram(last_program))&#32;glUseProgram(last_program);
+00640 &#32;&#32;&#32;&#32;glBindTexture(GL_TEXTURE_2D,&#32;last_texture);
+00641 <emphasis role="preprocessor">#ifdef&#32;IMGUI_IMPL_OPENGL_MAY_HAVE_BIND_SAMPLER</emphasis>
+00642 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1ad26fc0f928dab8b5e47fc5c8d7226314">GlVersion</link>&#32;&gt;=&#32;330&#32;||&#32;bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1a471c9bee70d528144387b4f9dc44c240">GlProfileIsES3</link>)
+00643 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;glBindSampler(0,&#32;last_sampler);
+00644 <emphasis role="preprocessor">#endif</emphasis>
+00645 &#32;&#32;&#32;&#32;glActiveTexture(last_active_texture);
+00646 <emphasis role="preprocessor">#ifdef&#32;IMGUI_IMPL_OPENGL_USE_VERTEX_ARRAY</emphasis>
+00647 &#32;&#32;&#32;&#32;glBindVertexArray(last_vertex_array_object);
+00648 <emphasis role="preprocessor">#endif</emphasis>
+00649 &#32;&#32;&#32;&#32;glBindBuffer(GL_ARRAY_BUFFER,&#32;last_array_buffer);
+00650 <emphasis role="preprocessor">#ifndef&#32;IMGUI_IMPL_OPENGL_USE_VERTEX_ARRAY</emphasis>
+00651 &#32;&#32;&#32;&#32;glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,&#32;last_element_array_buffer);
+00652 &#32;&#32;&#32;&#32;last_vtx_attrib_state_pos.SetState(bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1a9b6dcb44ef2b2bcfaa1415973b8bbe0b">AttribLocationVtxPos</link>);
+00653 &#32;&#32;&#32;&#32;last_vtx_attrib_state_uv.SetState(bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1ab02168ff54e9054e1dcc662861ac20ab">AttribLocationVtxUV</link>);
+00654 &#32;&#32;&#32;&#32;last_vtx_attrib_state_color.SetState(bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1abf21e94d95a5faec538d101f0cd941de">AttribLocationVtxColor</link>);
+00655 <emphasis role="preprocessor">#endif</emphasis>
+00656 &#32;&#32;&#32;&#32;glBlendEquationSeparate(last_blend_equation_rgb,&#32;last_blend_equation_alpha);
+00657 &#32;&#32;&#32;&#32;glBlendFuncSeparate(last_blend_src_rgb,&#32;last_blend_dst_rgb,&#32;last_blend_src_alpha,&#32;last_blend_dst_alpha);
+00658 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(last_enable_blend)&#32;glEnable(GL_BLEND);&#32;<emphasis role="keywordflow">else</emphasis>&#32;glDisable(GL_BLEND);
+00659 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(last_enable_cull_face)&#32;glEnable(GL_CULL_FACE);&#32;<emphasis role="keywordflow">else</emphasis>&#32;glDisable(GL_CULL_FACE);
+00660 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(last_enable_depth_test)&#32;glEnable(GL_DEPTH_TEST);&#32;<emphasis role="keywordflow">else</emphasis>&#32;glDisable(GL_DEPTH_TEST);
+00661 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(last_enable_stencil_test)&#32;glEnable(GL_STENCIL_TEST);&#32;<emphasis role="keywordflow">else</emphasis>&#32;glDisable(GL_STENCIL_TEST);
+00662 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(last_enable_scissor_test)&#32;glEnable(GL_SCISSOR_TEST);&#32;<emphasis role="keywordflow">else</emphasis>&#32;glDisable(GL_SCISSOR_TEST);
+00663 <emphasis role="preprocessor">#ifdef&#32;IMGUI_IMPL_OPENGL_MAY_HAVE_PRIMITIVE_RESTART</emphasis>
+00664 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1ad26fc0f928dab8b5e47fc5c8d7226314">GlVersion</link>&#32;&gt;=&#32;310)&#32;{&#32;<emphasis role="keywordflow">if</emphasis>&#32;(last_enable_primitive_restart)&#32;glEnable(GL_PRIMITIVE_RESTART);&#32;<emphasis role="keywordflow">else</emphasis>&#32;glDisable(GL_PRIMITIVE_RESTART);&#32;}
+00665 <emphasis role="preprocessor">#endif</emphasis>
+00666 
+00667 <emphasis role="preprocessor">#ifdef&#32;IMGUI_IMPL_OPENGL_MAY_HAVE_POLYGON_MODE</emphasis>
+00668 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Desktop&#32;OpenGL&#32;3.0&#32;and&#32;OpenGL&#32;3.1&#32;had&#32;separate&#32;polygon&#32;draw&#32;modes&#32;for&#32;front-facing&#32;and&#32;back-facing&#32;faces&#32;of&#32;polygons</emphasis>
+00669 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1a2c1913777648318ae2e5b2d25b897549">HasPolygonMode</link>)&#32;{&#32;<emphasis role="keywordflow">if</emphasis>&#32;(bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1ad26fc0f928dab8b5e47fc5c8d7226314">GlVersion</link>&#32;&lt;=&#32;310&#32;||&#32;bd-&gt;<link linkend="_struct_im_gui___impl_open_g_l3___data_1a509c50b6469ce2b9a6db8b70acf49199">GlProfileIsCompat</link>)&#32;{&#32;glPolygonMode(GL_FRONT,&#32;(GLenum)last_polygon_mode[0]);&#32;glPolygonMode(GL_BACK,&#32;(GLenum)last_polygon_mode[1]);&#32;}&#32;<emphasis role="keywordflow">else</emphasis>&#32;{&#32;glPolygonMode(GL_FRONT_AND_BACK,&#32;(GLenum)last_polygon_mode[0]);&#32;}&#32;}
+00670 <emphasis role="preprocessor">#endif&#32;</emphasis><emphasis role="comment">//&#32;IMGUI_IMPL_OPENGL_MAY_HAVE_POLYGON_MODE</emphasis>
+00671 
+00672 &#32;&#32;&#32;&#32;glViewport(last_viewport[0],&#32;last_viewport[1],&#32;(GLsizei)last_viewport[2],&#32;(GLsizei)last_viewport[3]);
+00673 &#32;&#32;&#32;&#32;glScissor(last_scissor_box[0],&#32;last_scissor_box[1],&#32;(GLsizei)last_scissor_box[2],&#32;(GLsizei)last_scissor_box[3]);
+00674 &#32;&#32;&#32;&#32;(void)bd;&#32;<emphasis role="comment">//&#32;Not&#32;all&#32;compilation&#32;paths&#32;use&#32;this</emphasis>
+00675 }
+</programlisting><para>
+References <link linkend="_imgui__impl__opengl3_8cpp_source_1l00236">ImGui_ImplOpenGL3_Data::AttribLocationVtxColor</link>, <link linkend="_imgui__impl__opengl3_8cpp_source_1l00234">ImGui_ImplOpenGL3_Data::AttribLocationVtxPos</link>, <link linkend="_imgui__impl__opengl3_8cpp_source_1l00235">ImGui_ImplOpenGL3_Data::AttribLocationVtxUV</link>, <link linkend="_imgui__impl__opengl3_8cpp_source_1l00218">GL_CALL</link>, <link linkend="_imgui__impl__opengl3_8cpp_source_1l00228">ImGui_ImplOpenGL3_Data::GlProfileIsCompat</link>, <link linkend="_imgui__impl__opengl3_8cpp_source_1l00227">ImGui_ImplOpenGL3_Data::GlProfileIsES3</link>, <link linkend="_imgui__impl__opengl3_8cpp_source_1l00224">ImGui_ImplOpenGL3_Data::GlVersion</link>, <link linkend="_imgui__impl__opengl3_8cpp_source_1l00240">ImGui_ImplOpenGL3_Data::HasPolygonMode</link>, <link linkend="_imgui__impl__opengl3_8cpp_source_1l00239">ImGui_ImplOpenGL3_Data::IndexBufferSize</link>, <link linkend="_imgui__impl__opengl3_8cpp_source_1l00242">ImGui_ImplOpenGL3_Data::UseBufferSubData</link>, and <link linkend="_imgui__impl__opengl3_8cpp_source_1l00238">ImGui_ImplOpenGL3_Data::VertexBufferSize</link>.</para>
+<para>
+Referenced by <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00253">main()</link>.</para>
+</section>
+<anchor xml:id="_imgui__impl__opengl3_8cpp_1acbd53376e6135ad71e7bcd9879278e37"/><section>
+    <title>ImGui_ImplOpenGL3_Shutdown()</title>
+<indexterm><primary>ImGui_ImplOpenGL3_Shutdown</primary><secondary>imgui_impl_opengl3.cpp</secondary></indexterm>
+<indexterm><primary>imgui_impl_opengl3.cpp</primary><secondary>ImGui_ImplOpenGL3_Shutdown</secondary></indexterm>
+<para><computeroutput>void ImGui_ImplOpenGL3_Shutdown ( )</computeroutput></para><para>
+Definition at line <link linkend="_imgui__impl__opengl3_8cpp_source_1l00397">397</link> of file <link linkend="_imgui__impl__opengl3_8cpp_source">imgui_impl_opengl3.cpp</link>.</para>
+<programlisting linenumbering="unnumbered">00398 {
+00399 &#32;&#32;&#32;&#32;<link linkend="_struct_im_gui___impl_open_g_l3___data">ImGui_ImplOpenGL3_Data</link>*&#32;bd&#32;=&#32;ImGui_ImplOpenGL3_GetBackendData();
+00400 &#32;&#32;&#32;&#32;IM_ASSERT(bd&#32;!=&#32;<emphasis role="keyword">nullptr</emphasis>&#32;&amp;&amp;&#32;<emphasis role="stringliteral">&quot;No&#32;renderer&#32;backend&#32;to&#32;shutdown,&#32;or&#32;already&#32;shutdown?&quot;</emphasis>);
+00401 &#32;&#32;&#32;&#32;ImGuiIO&amp;&#32;io&#32;=&#32;ImGui::GetIO();
+00402 
+00403 &#32;&#32;&#32;&#32;ImGui_ImplOpenGL3_ShutdownPlatformInterface();
+00404 &#32;&#32;&#32;&#32;<link linkend="_imgui__impl__opengl3_8cpp_1a605e340c346791d9c9e927add2392d0e">ImGui_ImplOpenGL3_DestroyDeviceObjects</link>();
+00405 &#32;&#32;&#32;&#32;io.BackendRendererName&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>;
+00406 &#32;&#32;&#32;&#32;io.BackendRendererUserData&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>;
+00407 &#32;&#32;&#32;&#32;io.BackendFlags&#32;&amp;=&#32;~(ImGuiBackendFlags_RendererHasVtxOffset&#32;|&#32;ImGuiBackendFlags_RendererHasViewports);
+00408 &#32;&#32;&#32;&#32;IM_DELETE(bd);
+00409 }
+</programlisting><para>
+References <link linkend="_imgui__impl__opengl3_8cpp_source_1l00954">ImGui_ImplOpenGL3_DestroyDeviceObjects()</link>.</para>
+<para>
+Referenced by <link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_source_1l00253">main()</link>.</para>
+</section>
+</section>
+</section>

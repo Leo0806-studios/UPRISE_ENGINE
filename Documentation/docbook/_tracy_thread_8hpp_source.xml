@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="__tracy_thread_8hpp_source" xml:lang="en-US">
+<title>TracyThread.hpp</title>
+<indexterm><primary>adhed/client/TracyThread.hpp</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 <emphasis role="preprocessor">#ifndef&#32;__TRACYTHREAD_HPP__</emphasis>
+2 <emphasis role="preprocessor">#define&#32;__TRACYTHREAD_HPP__</emphasis>
+3 
+4 <emphasis role="preprocessor">#if&#32;defined&#32;_WIN32</emphasis>
+5 <emphasis role="preprocessor">#&#32;&#32;include&#32;&lt;windows.h&gt;</emphasis>
+6 <emphasis role="preprocessor">#else</emphasis>
+7 <emphasis role="preprocessor">#&#32;&#32;include&#32;&lt;pthread.h&gt;</emphasis>
+8 <emphasis role="preprocessor">#endif</emphasis>
+9 
+10 <emphasis role="preprocessor">#ifdef&#32;TRACY_MANUAL_LIFETIME</emphasis>
+11 <emphasis role="preprocessor">#&#32;&#32;include&#32;&quot;<link linkend="_tracy__rpmalloc_8hpp">tracy_rpmalloc.hpp</link>&quot;</emphasis>
+12 <emphasis role="preprocessor">#endif</emphasis>
+13 
+14 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespacetracy">tracy</link>
+15 {
+16 
+17 <emphasis role="preprocessor">#ifdef&#32;TRACY_MANUAL_LIFETIME</emphasis>
+18 <emphasis role="keyword">extern</emphasis>&#32;<emphasis role="keyword">thread_local</emphasis>&#32;<emphasis role="keywordtype">bool</emphasis>&#32;RpThreadInitDone;
+19 <emphasis role="preprocessor">#endif</emphasis>
+20 
+21 <emphasis role="keyword">class&#32;</emphasis><link linkend="_classtracy_1_1_thread_exit_handler">ThreadExitHandler</link>
+22 {
+23 <emphasis role="keyword">public</emphasis>:
+24 &#32;&#32;&#32;&#32;<link linkend="_classtracy_1_1_thread_exit_handler_1a39995dda98fb24a2245d6ed0727e1574">~ThreadExitHandler</link>()
+25 &#32;&#32;&#32;&#32;{
+26 <emphasis role="preprocessor">#ifdef&#32;TRACY_MANUAL_LIFETIME</emphasis>
+27 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a8c26965af4d0000ce7afe8a50aab8e7f">rpmalloc_thread_finalize</link>(&#32;1&#32;);
+28 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;RpThreadInitDone&#32;=&#32;<emphasis role="keyword">false</emphasis>;
+29 <emphasis role="preprocessor">#endif</emphasis>
+30 &#32;&#32;&#32;&#32;}
+31 };
+32 
+33 <emphasis role="preprocessor">#if&#32;defined&#32;_WIN32</emphasis>
+34 
+35 <emphasis role="keyword">class&#32;</emphasis>Thread
+36 {
+37 <emphasis role="keyword">public</emphasis>:
+38 &#32;&#32;&#32;&#32;<link linkend="_classtracy_1_1_thread_1a6f2ba5cccf19f0eef0aa364d19d00ba8">Thread</link>(&#32;<emphasis role="keywordtype">void</emphasis>(*<link linkend="_glad_8h_1a18ae3ab36a07e388833b568cfdfa90c8">func</link>)(&#32;<emphasis role="keywordtype">void</emphasis>*&#32;ptr&#32;),&#32;<emphasis role="keywordtype">void</emphasis>*&#32;ptr&#32;)
+39 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;m_func(&#32;<link linkend="_glad_8h_1a18ae3ab36a07e388833b568cfdfa90c8">func</link>&#32;)
+40 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;m_ptr(&#32;ptr&#32;)
+41 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;m_hnd(&#32;CreateThread(&#32;nullptr,&#32;0,&#32;Launch,&#32;this,&#32;0,&#32;nullptr&#32;)&#32;)
+42 &#32;&#32;&#32;&#32;{}
+43 
+44 &#32;&#32;&#32;&#32;<link linkend="_classtracy_1_1_thread_1a4135989c4c044ac53683f776c954d37c">~Thread</link>()
+45 &#32;&#32;&#32;&#32;{
+46 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;WaitForSingleObject(&#32;m_hnd,&#32;INFINITE&#32;);
+47 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;CloseHandle(&#32;m_hnd&#32;);
+48 &#32;&#32;&#32;&#32;}
+49 
+50 &#32;&#32;&#32;&#32;HANDLE&#32;<link linkend="_classtracy_1_1_thread_1ab2915e1782e31e0a72dd0644e4dd8453">Handle</link>()<emphasis role="keyword">&#32;const&#32;</emphasis>{&#32;<emphasis role="keywordflow">return</emphasis>&#32;m_hnd;&#32;}
+51 
+52 <emphasis role="keyword">private</emphasis>:
+53 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;DWORD&#32;WINAPI&#32;Launch(&#32;<emphasis role="keywordtype">void</emphasis>*&#32;ptr&#32;)&#32;{&#32;((<link linkend="_classtracy_1_1_thread_1a6f2ba5cccf19f0eef0aa364d19d00ba8">Thread</link>*)ptr)-&gt;m_func(&#32;((<link linkend="_classtracy_1_1_thread_1a6f2ba5cccf19f0eef0aa364d19d00ba8">Thread</link>*)ptr)-&gt;m_ptr&#32;);&#32;<emphasis role="keywordflow">return</emphasis>&#32;0;&#32;}
+54 
+55 &#32;&#32;&#32;&#32;<link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link>(*m_func)(&#32;<emphasis role="keywordtype">void</emphasis>*&#32;ptr&#32;);
+56 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>*&#32;m_ptr;
+57 &#32;&#32;&#32;&#32;HANDLE&#32;m_hnd;
+58 };
+59 
+60 <emphasis role="preprocessor">#else</emphasis>
+61 
+62 <emphasis role="keyword">class&#32;</emphasis><link linkend="_classtracy_1_1_thread">Thread</link>
+63 {
+64 <emphasis role="keyword">public</emphasis>:
+65 &#32;&#32;&#32;&#32;<link linkend="_classtracy_1_1_thread_1a6f2ba5cccf19f0eef0aa364d19d00ba8">Thread</link>(&#32;<emphasis role="keywordtype">void</emphasis>(*<link linkend="_glad_8h_1a18ae3ab36a07e388833b568cfdfa90c8">func</link>)(&#32;<emphasis role="keywordtype">void</emphasis>*&#32;ptr&#32;),&#32;<emphasis role="keywordtype">void</emphasis>*&#32;ptr&#32;)
+66 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;m_func(&#32;<link linkend="_glad_8h_1a18ae3ab36a07e388833b568cfdfa90c8">func</link>&#32;)
+67 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;m_ptr(&#32;ptr&#32;)
+68 &#32;&#32;&#32;&#32;{
+69 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;pthread_create(&#32;&amp;m_thread,&#32;<emphasis role="keyword">nullptr</emphasis>,&#32;Launch,&#32;<emphasis role="keyword">this</emphasis>&#32;);
+70 &#32;&#32;&#32;&#32;}
+71 
+72 &#32;&#32;&#32;&#32;<link linkend="_classtracy_1_1_thread_1a4135989c4c044ac53683f776c954d37c">~Thread</link>()
+73 &#32;&#32;&#32;&#32;{
+74 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;pthread_join(&#32;m_thread,&#32;<emphasis role="keyword">nullptr</emphasis>&#32;);
+75 &#32;&#32;&#32;&#32;}
+76 
+77 &#32;&#32;&#32;&#32;pthread_t&#32;<link linkend="_classtracy_1_1_thread_1ab2915e1782e31e0a72dd0644e4dd8453">Handle</link>()<emphasis role="keyword">&#32;const&#32;</emphasis>{&#32;<emphasis role="keywordflow">return</emphasis>&#32;m_thread;&#32;}
+78 
+79 <emphasis role="keyword">private</emphasis>:
+80 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>*&#32;Launch(&#32;<emphasis role="keywordtype">void</emphasis>*&#32;ptr&#32;)&#32;{&#32;((<link linkend="_classtracy_1_1_thread">Thread</link>*)ptr)-&gt;m_func(&#32;((<link linkend="_classtracy_1_1_thread">Thread</link>*)ptr)-&gt;m_ptr&#32;);&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">nullptr</emphasis>;&#32;}
+81 &#32;&#32;&#32;&#32;<link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link>(*m_func)(&#32;<emphasis role="keywordtype">void</emphasis>*&#32;ptr&#32;);
+82 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>*&#32;m_ptr;
+83 &#32;&#32;&#32;&#32;pthread_t&#32;m_thread;
+84 };
+85 
+86 <emphasis role="preprocessor">#endif</emphasis>
+87 
+88 }
+89 
+90 <emphasis role="preprocessor">#endif</emphasis>
+</programlisting></section>

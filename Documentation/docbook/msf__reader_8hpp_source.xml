@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_msf__reader_8hpp_source" xml:lang="en-US">
+<title>msf_reader.hpp</title>
+<indexterm><primary>BLINK/source/msf_reader.hpp</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 
+6 <emphasis role="preprocessor">#pragma&#32;once</emphasis>
+7 
+8 <emphasis role="preprocessor">#include&#32;&lt;string&gt;</emphasis>
+9 <emphasis role="preprocessor">#include&#32;&lt;vector&gt;</emphasis>
+10 <emphasis role="preprocessor">#include&#32;&lt;fstream&gt;</emphasis>
+11 
+12 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespaceblink">blink</link>
+13 {
+17 &#32;&#32;&#32;&#32;<emphasis role="keyword">class&#32;</emphasis><link linkend="_classblink_1_1msf__reader">msf_reader</link>
+18 &#32;&#32;&#32;&#32;{
+19 &#32;&#32;&#32;&#32;<emphasis role="keyword">public</emphasis>:
+24 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">explicit</emphasis>&#32;<link linkend="_classblink_1_1msf__reader_1a3d05ecf2ac9e41ea5786c0f785492d46">msf_reader</link>(<emphasis role="keyword">const</emphasis>&#32;std::string&#32;&amp;path);
+25 
+29 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_classblink_1_1msf__reader_1a6202d37ffc1e3acd6ecb50ab81bbc62e">is_valid</link>()<emphasis role="keyword">&#32;const&#32;</emphasis>{&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_classblink_1_1msf__reader_1a5015bad68affaf87307cf0bc2702545c">_is_valid</link>;&#32;}
+30 
+34 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_classblink_1_1msf__reader_1a0e07e37ea9747651e9f4772e6ba76d8d">stream_count</link>()<emphasis role="keyword">&#32;const&#32;</emphasis>{&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_classblink_1_1msf__reader_1ac9150ae23b97ade5e22408b2e1a5ce09">_streams</link>.size();&#32;}
+39 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::vector&lt;char&gt;&#32;<link linkend="_glad_8h_1ad02d2488127e1cf9a27262c4ee30ba85">stream</link>(<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1a57f14e05b1900f16a2da82ade47d0c6d">index</link>);
+40 
+41 &#32;&#32;&#32;&#32;<emphasis role="keyword">protected</emphasis>:
+42 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis><link linkend="_structblink_1_1msf__reader_1_1content__stream">content_stream</link>
+43 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+44 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uint32_t&#32;<link linkend="_structblink_1_1msf__reader_1_1content__stream_1a1647234e8e249787ceb93a0201e8cf3d">size</link>;
+45 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::vector&lt;uint32_t&gt;&#32;<link linkend="_structblink_1_1msf__reader_1_1content__stream_1a64a8144ff98ba2f0766c7fcc09b987f4">page_indices</link>;
+46 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+47 
+48 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_classblink_1_1msf__reader_1a5015bad68affaf87307cf0bc2702545c">_is_valid</link>&#32;=&#32;<emphasis role="keyword">false</emphasis>;
+49 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::vector&lt;content_stream&gt;&#32;<link linkend="_classblink_1_1msf__reader_1ac9150ae23b97ade5e22408b2e1a5ce09">_streams</link>;
+50 
+51 &#32;&#32;&#32;&#32;<emphasis role="keyword">private</emphasis>:
+52 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uint32_t&#32;_page_size;
+53 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::ifstream&#32;_file_stream;
+54 &#32;&#32;&#32;&#32;};
+55 }
+</programlisting></section>

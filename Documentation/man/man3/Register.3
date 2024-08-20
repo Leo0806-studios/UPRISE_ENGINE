@@ -1,0 +1,56 @@
+.TH "Register< _T >" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Register< _T >
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fR#include <C_BEHAVIOUR\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBRegister\fP (_T arg, const std::string className)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.SS "template<typename _T>
+.br
+class Register< _T >"
+.PP
+Definition at line \fB61\fP of file \fBC_BEHAVIOUR\&.h\fP\&.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "template<typename _T > \fBRegister\fP< _T >\fB::Register\fP (_T arg, const std::string className)\fR [inline]\fP, \fR [explicit]\fP"
+
+.PP
+Definition at line \fB65\fP of file \fBC_BEHAVIOUR\&.h\fP\&.
+.nf
+65                                                          {
+66         if (arg\&.UUID == GUID_NULL) {
+67             UUID uuid;
+68             UuidCreate(&uuid);
+69 
+70 
+71             arg\&.UUID = uuid;
+72             arg\&.uuID = arg\&.UUID;
+73             std::shared_ptr<CORE::Behaviour> aa = std::make_shared<_T>();
+74             fact::inst\&.push_back(aa);
+75             //fact::anys\&.push_back(arg);
+76             fact::creators[className] = []()\->std::shared_ptr<CORE::Behaviour> {std::shared_ptr<CORE::Behaviour> a = std::make_shared<_T>(); return a; };
+77         }
+78 
+79     }
+.PP
+.fi
+
+.PP
+References \fBfact::creators\fP\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

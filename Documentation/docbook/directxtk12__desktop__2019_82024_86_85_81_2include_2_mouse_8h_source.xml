@@ -1,0 +1,177 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_directxtk12__desktop__2019_82024_86_85_81_2include_2_mouse_8h_source" xml:lang="en-US">
+<title>Mouse.h</title>
+<indexterm><primary>packages/directxtk12_desktop_2019.2024.6.5.1/include/Mouse.h</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 <emphasis role="comment">//--------------------------------------------------------------------------------------</emphasis>
+2 <emphasis role="comment">//&#32;File:&#32;Mouse.h</emphasis>
+3 <emphasis role="comment">//</emphasis>
+4 <emphasis role="comment">//&#32;Copyright&#32;(c)&#32;Microsoft&#32;Corporation.</emphasis>
+5 <emphasis role="comment">//&#32;Licensed&#32;under&#32;the&#32;MIT&#32;License.</emphasis>
+6 <emphasis role="comment">//</emphasis>
+7 <emphasis role="comment">//&#32;http://go.microsoft.com/fwlink/?LinkId=248929</emphasis>
+8 <emphasis role="comment">//&#32;http://go.microsoft.com/fwlink/?LinkID=615561</emphasis>
+9 <emphasis role="comment">//--------------------------------------------------------------------------------------</emphasis>
+10 
+11 <emphasis role="preprocessor">#pragma&#32;once</emphasis>
+12 
+13 <emphasis role="preprocessor">#if&#32;!defined(USING_XINPUT)&#32;&amp;&amp;&#32;!defined(USING_GAMEINPUT)&#32;&amp;&amp;&#32;!defined(USING_COREWINDOW)</emphasis>
+14 
+15 <emphasis role="preprocessor">#ifdef&#32;_GAMING_DESKTOP</emphasis>
+16 <emphasis role="preprocessor">#include&#32;&lt;grdk.h&gt;</emphasis>
+17 <emphasis role="preprocessor">#endif</emphasis>
+18 
+19 <emphasis role="preprocessor">#if&#32;(defined(WINAPI_FAMILY)&#32;&amp;&amp;&#32;(WINAPI_FAMILY&#32;==&#32;WINAPI_FAMILY_GAMES))&#32;||&#32;(defined(_GAMING_DESKTOP)&#32;&amp;&amp;&#32;(_GRDK_EDITION&#32;&gt;=&#32;220600))</emphasis>
+20 <emphasis role="preprocessor">#define&#32;USING_GAMEINPUT</emphasis>
+21 <emphasis role="preprocessor">#elif&#32;(defined(WINAPI_FAMILY)&#32;&amp;&amp;&#32;(WINAPI_FAMILY&#32;==&#32;WINAPI_FAMILY_APP))&#32;||&#32;(defined(_XBOX_ONE)&#32;&amp;&amp;&#32;defined(_TITLE))</emphasis>
+22 <emphasis role="preprocessor">#define&#32;USING_COREWINDOW</emphasis>
+23 <emphasis role="preprocessor">#endif</emphasis>
+24 
+25 <emphasis role="preprocessor">#endif&#32;</emphasis><emphasis role="comment">//&#32;!USING_XINPUT&#32;&amp;&amp;&#32;!USING_GAMEINPUT&#32;&amp;&amp;&#32;!USING_WINDOWS_GAMING_INPUT</emphasis>
+26 
+27 <emphasis role="preprocessor">#if&#32;defined(USING_GAMEINPUT)&#32;&amp;&amp;&#32;!defined(_GAMING_XBOX)&#32;&amp;&amp;&#32;defined(_MSC_VER)</emphasis>
+28 <emphasis role="preprocessor">#pragma&#32;comment(lib,&quot;gameinput.lib&quot;)</emphasis>
+29 <emphasis role="preprocessor">#endif</emphasis>
+30 
+31 <emphasis role="preprocessor">#include&#32;&lt;memory&gt;</emphasis>
+32 
+33 <emphasis role="preprocessor">#ifdef&#32;USING_COREWINDOW</emphasis>
+34 <emphasis role="keyword">namespace&#32;</emphasis>ABI&#32;{&#32;<emphasis role="keyword">namespace&#32;</emphasis>Windows&#32;{&#32;<emphasis role="keyword">namespace&#32;</emphasis>UI&#32;{&#32;<emphasis role="keyword">namespace&#32;</emphasis>Core&#32;{&#32;<emphasis role="keyword">struct&#32;</emphasis>ICoreWindow;&#32;}&#32;}&#32;}&#32;}
+35 <emphasis role="preprocessor">#endif</emphasis>
+36 
+37 <emphasis role="preprocessor">#ifdef&#32;__clang__</emphasis>
+38 <emphasis role="preprocessor">#pragma&#32;clang&#32;diagnostic&#32;push</emphasis>
+39 <emphasis role="preprocessor">#pragma&#32;clang&#32;diagnostic&#32;ignored&#32;&quot;-Wunknown-pragmas&quot;</emphasis>
+40 <emphasis role="preprocessor">#endif</emphasis>
+41 
+42 
+43 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespace_direct_x">DirectX</link>
+44 {
+45 &#32;&#32;&#32;&#32;<emphasis role="keyword">class&#32;</emphasis>Mouse
+46 &#32;&#32;&#32;&#32;{
+47 &#32;&#32;&#32;&#32;<emphasis role="keyword">public</emphasis>:
+48 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_mouse_1ab463c2ebe424e29319232ff1aae262f0">Mouse</link>()&#32;noexcept(false);
+49 
+50 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_mouse">Mouse</link>(<link linkend="_class_direct_x_1_1_mouse">Mouse</link>&amp;&amp;)&#32;noexcept;
+51 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_mouse">Mouse</link>&amp;&#32;operator=&#32;(<link linkend="_class_direct_x_1_1_mouse">Mouse</link>&amp;&amp;)&#32;noexcept;
+52 
+53 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_mouse">Mouse</link>(<link linkend="_class_direct_x_1_1_mouse">Mouse</link>&#32;const&amp;)&#32;=&#32;delete;
+54 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_mouse">Mouse</link>&amp;&#32;operator=(<link linkend="_class_direct_x_1_1_mouse">Mouse</link>&#32;const&amp;)&#32;=&#32;delete;
+55 
+56 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;virtual&#32;~<link linkend="_class_direct_x_1_1_mouse">Mouse</link>();
+57 
+58 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_interfaceenum">enum</link>&#32;<link linkend="_class_direct_x_1_1_mouse_1a9d9e9b87ccbf64356742def4433ce061">Mode</link>
+59 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+60 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_mouse_1a9d9e9b87ccbf64356742def4433ce061a54c3c8cc68e9397df4cc715ea52a1a69">MODE_ABSOLUTE</link>&#32;=&#32;0,
+61 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_mouse_1a9d9e9b87ccbf64356742def4433ce061ad07a2b1a303ce3a942f8a34e0d33c1a3">MODE_RELATIVE</link>,
+62 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+63 
+64 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis>State
+65 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+66 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;&#32;&#32;&#32;<link linkend="_struct_direct_x_1_1_mouse_1_1_state_1ab2653883f131c4b6a1173d6a980f8c45">leftButton</link>;
+67 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;&#32;&#32;&#32;<link linkend="_struct_direct_x_1_1_mouse_1_1_state_1a34320a804ea932a1428df91e17bfcea4">middleButton</link>;
+68 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;&#32;&#32;&#32;<link linkend="_struct_direct_x_1_1_mouse_1_1_state_1a0ac9361e775a961b318086410e4e4625">rightButton</link>;
+69 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;&#32;&#32;&#32;<link linkend="_struct_direct_x_1_1_mouse_1_1_state_1a3acb8c1739513179a987cca34de87bf6">xButton1</link>;
+70 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;&#32;&#32;&#32;<link linkend="_struct_direct_x_1_1_mouse_1_1_state_1a3213d24e22d2a56967b8923943f37714">xButton2</link>;
+71 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_direct_x_1_1_mouse_1_1_state_1af2982f573ac3b5382d1b2944c2760e78">x</link>;
+72 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_direct_x_1_1_mouse_1_1_state_1a0227ab84a6c5a8d11c7f2f0faefcc02a">y</link>;
+73 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_direct_x_1_1_mouse_1_1_state_1a215682ddf85a2e305bfbf4c648a5c618">scrollWheelValue</link>;
+74 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_mouse_1a9d9e9b87ccbf64356742def4433ce061">Mode</link>&#32;&#32;&#32;&#32;<link linkend="_struct_direct_x_1_1_mouse_1_1_state_1abf414e540c6e17c1b58092b51d20a0cd">positionMode</link>;
+75 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+76 
+77 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">class&#32;</emphasis><link linkend="_class_direct_x_1_1_mouse_1_1_button_state_tracker">ButtonStateTracker</link>
+78 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+79 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">public</emphasis>:
+80 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">enum</emphasis>&#32;<link linkend="_class_direct_x_1_1_mouse_1_1_button_state_tracker_1a6e87252646b4cf9c74c127de03c0e44f">ButtonState</link>
+81 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+82 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_mouse_1_1_button_state_tracker_1a6e87252646b4cf9c74c127de03c0e44fa9ba0c6593ef884fd1485c55e70e3c4b9">UP</link>&#32;=&#32;0,&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Button&#32;is&#32;up</emphasis>
+83 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_mouse_1_1_button_state_tracker_1a6e87252646b4cf9c74c127de03c0e44fa7cd6014b1db7a16a1d2d6ab54e1fa8ba">HELD</link>&#32;=&#32;1,&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Button&#32;is&#32;held&#32;down</emphasis>
+84 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_mouse_1_1_button_state_tracker_1a6e87252646b4cf9c74c127de03c0e44fa1864244b7d6c10f0e93d13cb6821e422">RELEASED</link>&#32;=&#32;2,&#32;&#32;&#32;<emphasis role="comment">//&#32;Button&#32;was&#32;just&#32;released</emphasis>
+85 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_mouse_1_1_button_state_tracker_1a6e87252646b4cf9c74c127de03c0e44fa925ed0444c6b97ede509a0d47d35e7c2">PRESSED</link>&#32;=&#32;3,&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Buton&#32;was&#32;just&#32;pressed</emphasis>
+86 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+87 
+88 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_mouse_1_1_button_state_tracker_1a6e87252646b4cf9c74c127de03c0e44f">ButtonState</link>&#32;<link linkend="_class_direct_x_1_1_mouse_1_1_button_state_tracker_1abf1a8faf22f41fd833143b5f4f41d7f4">leftButton</link>;
+89 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_mouse_1_1_button_state_tracker_1a6e87252646b4cf9c74c127de03c0e44f">ButtonState</link>&#32;<link linkend="_class_direct_x_1_1_mouse_1_1_button_state_tracker_1af49ade856ec31e62a8a5e8539eb3e56c">middleButton</link>;
+90 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_mouse_1_1_button_state_tracker_1a6e87252646b4cf9c74c127de03c0e44f">ButtonState</link>&#32;<link linkend="_class_direct_x_1_1_mouse_1_1_button_state_tracker_1ab1ca0ef4d6a2b445d779d968638e635c">rightButton</link>;
+91 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_mouse_1_1_button_state_tracker_1a6e87252646b4cf9c74c127de03c0e44f">ButtonState</link>&#32;<link linkend="_class_direct_x_1_1_mouse_1_1_button_state_tracker_1ae7ddca4a9758e9fa7bf2ff3c82d8d7c2">xButton1</link>;
+92 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_mouse_1_1_button_state_tracker_1a6e87252646b4cf9c74c127de03c0e44f">ButtonState</link>&#32;<link linkend="_class_direct_x_1_1_mouse_1_1_button_state_tracker_1a3d210f7236d62189159092a0d9c32d5f">xButton2</link>;
+93 
+94 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;#ifdef&#32;_PREFAST_</emphasis>
+95 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;#pragma&#32;prefast(push)</emphasis>
+96 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;#pragma&#32;prefast(disable&#32;:&#32;26495,&#32;&quot;Reset()&#32;performs&#32;the&#32;initialization&quot;)</emphasis>
+97 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;#endif</emphasis>
+98 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_mouse_1_1_button_state_tracker_1a4494095bb7a04e1631343d4d8018d7c0">ButtonStateTracker</link>()&#32;noexcept&#32;{&#32;<link linkend="_class_direct_x_1_1_mouse_1_1_button_state_tracker_1a4c76c0082304c25c97c81147c52b0bad">Reset</link>();&#32;}
+99 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;#ifdef&#32;_PREFAST_</emphasis>
+100 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;#pragma&#32;prefast(pop)</emphasis>
+101 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;#endif</emphasis>
+102 
+103 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_mouse_1_1_button_state_tracker_1a6b7cb45611c30743c8abfe8e60e8d5f9">Update</link>(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_struct_direct_x_1_1_mouse_1_1_state">State</link>&amp;&#32;state)&#32;<emphasis role="keyword">noexcept</emphasis>;
+104 
+105 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_mouse_1_1_button_state_tracker_1a4c76c0082304c25c97c81147c52b0bad">Reset</link>()&#32;noexcept;
+106 
+107 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_direct_x_1_1_mouse_1_1_state">State</link>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_mouse_1_1_button_state_tracker_1aa2b568b323cd540d534c5946ebca06dd">GetLastState</link>()&#32;const&#32;noexcept&#32;{&#32;<emphasis role="keywordflow">return</emphasis>&#32;lastState;&#32;}
+108 
+109 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">private</emphasis>:
+110 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_direct_x_1_1_mouse_1_1_state">State</link>&#32;lastState;
+111 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+112 
+113 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Retrieve&#32;the&#32;current&#32;state&#32;of&#32;the&#32;mouse</emphasis>
+114 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_direct_x_1_1_mouse_1_1_state">State</link>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_mouse_1a88f994f092ac466985fd672f2adfa96d">GetState</link>()&#32;<emphasis role="keyword">const</emphasis>;
+115 
+116 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Resets&#32;the&#32;accumulated&#32;scroll&#32;wheel&#32;value</emphasis>
+117 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_mouse_1af47ba732c81ccad69640e72d04c28ba6">ResetScrollWheelValue</link>()&#32;noexcept;
+118 
+119 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Sets&#32;mouse&#32;mode&#32;(defaults&#32;to&#32;absolute)</emphasis>
+120 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_mouse_1ad6f06e6022c29172f898e9dbe543f070">SetMode</link>(<link linkend="_class_direct_x_1_1_mouse_1a9d9e9b87ccbf64356742def4433ce061">Mode</link>&#32;<link linkend="_glad_8h_1a1e71d9c196e4683cc06c4b54d53f7ef5">mode</link>);
+121 
+122 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Signals&#32;the&#32;end&#32;of&#32;frame&#32;(recommended,&#32;but&#32;optional)</emphasis>
+123 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_mouse_1a800ef59b3d91018502b1ad885088280c">EndOfInputFrame</link>()&#32;noexcept;
+124 
+125 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Feature&#32;detection</emphasis>
+126 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_mouse_1a60dcaffc54ae1d89b52166b576924124">IsConnected</link>()&#32;const;
+127 
+128 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Cursor&#32;visibility</emphasis>
+129 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_mouse_1a5f5d6264f531543cf09df8c6c0c8be99">IsVisible</link>()&#32;const&#32;noexcept;
+130 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_mouse_1ac8467cea76365ca63e41e15f0507a440">SetVisible</link>(<emphasis role="keywordtype">bool</emphasis>&#32;visible);
+131 
+132 &#32;&#32;&#32;&#32;<emphasis role="preprocessor">#ifdef&#32;USING_COREWINDOW</emphasis>
+133 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;SetWindow(ABI::Windows::UI::Core::ICoreWindow*&#32;window);
+134 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;#ifdef&#32;__cplusplus_winrt</emphasis>
+135 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;SetWindow(Windows::UI::Core::CoreWindow^&#32;window)
+136 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+137 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;See&#32;https://msdn.microsoft.com/en-us/library/hh755802.aspx</emphasis>
+138 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;SetWindow(<emphasis role="keyword">reinterpret_cast&lt;</emphasis>ABI::Windows::UI::Core::ICoreWindow*<emphasis role="keyword">&gt;</emphasis>(window));
+139 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+140 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;#endif</emphasis>
+141 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;#ifdef&#32;CPPWINRT_VERSION</emphasis>
+142 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;SetWindow(winrt::Windows::UI::Core::CoreWindow&#32;window)
+143 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+144 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;See&#32;https://docs.microsoft.com/en-us/windows/uwp/cpp-and-winrt-apis/interop-winrt-abi</emphasis>
+145 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;SetWindow(<emphasis role="keyword">reinterpret_cast&lt;</emphasis>ABI::Windows::UI::Core::ICoreWindow*<emphasis role="keyword">&gt;</emphasis>(winrt::get_abi(window)));
+146 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+147 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;#endif</emphasis>
+148 
+149 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;SetDpi(<emphasis role="keywordtype">float</emphasis>&#32;dpi);
+150 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;#elif&#32;defined(WM_USER)</emphasis>
+151 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;SetWindow(HWND&#32;window);
+152 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;ProcessMessage(UINT&#32;message,&#32;WPARAM&#32;wParam,&#32;LPARAM&#32;lParam);
+153 
+154 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;#ifdef&#32;_GAMING_XBOX</emphasis>
+155 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;SetResolution(<emphasis role="keywordtype">float</emphasis>&#32;scale);
+156 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;#endif</emphasis>
+157 <emphasis role="preprocessor">&#32;&#32;&#32;&#32;#endif</emphasis>
+158 
+159 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Singleton</emphasis>
+160 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="_class_direct_x_1_1_mouse">Mouse</link>&amp;&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_mouse_1ab04f0f4551091bde8d0b4fdd94ccdecb">Get</link>();
+161 
+162 &#32;&#32;&#32;&#32;<emphasis role="keyword">private</emphasis>:
+163 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Private&#32;implementation.</emphasis>
+164 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">class&#32;</emphasis>Impl;
+165 
+166 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::unique_ptr&lt;Impl&gt;&#32;pImpl;
+167 &#32;&#32;&#32;&#32;};
+168 }
+169 
+170 <emphasis role="preprocessor">#ifdef&#32;__clang__</emphasis>
+171 <emphasis role="preprocessor">#pragma&#32;clang&#32;diagnostic&#32;pop</emphasis>
+172 <emphasis role="preprocessor">#endif</emphasis>
+</programlisting></section>

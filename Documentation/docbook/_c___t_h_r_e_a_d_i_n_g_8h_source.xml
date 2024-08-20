@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="__c___t_h_r_e_a_d_i_n_g_8h_source" xml:lang="en-US">
+<title>C_THREADING.h</title>
+<indexterm><primary>UPRISE_ENGINE/HeaderE/CORE/C_THREADING.h</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 <emphasis role="preprocessor">#pragma&#32;once</emphasis>
+2 <emphasis role="preprocessor">#ifndef&#32;_THREADING_</emphasis>
+3 <emphasis role="preprocessor">#define&#32;_THREADING_</emphasis>
+4 
+5 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_pch_8h">pch.h</link>&quot;</emphasis>
+6 
+7 <emphasis role="comment">//#include&#32;&quot;thread&quot;</emphasis>
+8 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespace_c_o_r_e">CORE</link>&#32;{
+9 &#32;&#32;&#32;&#32;
+10 &#32;&#32;&#32;&#32;<emphasis role="keyword">class&#32;</emphasis>Thread;
+11 &#32;&#32;&#32;&#32;<emphasis role="keyword">class&#32;</emphasis><link linkend="_class_c_o_r_e_1_1_thread___manager">Thread_Manager</link>&#32;{
+12 
+13 &#32;&#32;&#32;&#32;<emphasis role="keyword">public</emphasis>:
+14 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;std::vector&lt;Thread*&gt;&#32;<link linkend="_class_c_o_r_e_1_1_thread___manager_1a5ef1a3b600ea01858495d6034b8cb7f1">Threads</link>;
+15 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_c_o_r_e_1_1_thread___manager_1a59a3fe14bbe9cfd2ea36f4d9192c1490">Thread_Manager</link>();
+16 
+17 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="_class_c_o_r_e_1_1_thread">Thread</link>&#32;<link linkend="_class_c_o_r_e_1_1_thread___manager_1ae2b96ee0744f873ad8038c426507eb47">CreateThread</link>(std::function&lt;<emphasis role="keywordtype">void</emphasis>()&gt;&#32;f);
+18 
+19 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">class&#32;</emphasis>_Fn,&#32;<emphasis role="keyword">class&#32;</emphasis>..._Args&gt;
+20 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="_class_c_o_r_e_1_1_thread">Thread</link>&#32;<link linkend="_class_c_o_r_e_1_1_thread___manager_1ad37620b2181680a60402d249f1beaeae">CreateThreadWithArgs</link>(_Fn&amp;&amp;&#32;_Fx,&#32;_Args&amp;&amp;...&#32;_Ax)&#32;{
+21 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_c_o_r_e_1_1_thread">Thread</link>&#32;tmp(_Fx,&#32;_Ax);
+22 
+23 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+24 &#32;&#32;&#32;&#32;};
+25 &#32;&#32;&#32;&#32;<emphasis role="keyword">class&#32;</emphasis><link linkend="_class_c_o_r_e_1_1_thread">Thread</link>&#32;{
+26 &#32;&#32;&#32;&#32;<emphasis role="keyword">private</emphasis>:
+27 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::thread&#32;thread;
+28 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::function&lt;void()&gt;&#32;func;
+29 
+30 
+31 &#32;&#32;&#32;&#32;<emphasis role="keyword">public</emphasis>:
+32 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_c_o_r_e_1_1_thread_1a10566e95ea79ba1e45d25e43b8f2541a">Thread</link>(std::function&lt;<emphasis role="keywordtype">void</emphasis>()&gt;&#32;f)&#32;:&#32;func(f)&#32;{};
+33 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">class&#32;</emphasis>_Fn,&#32;<emphasis role="keyword">class&#32;</emphasis>..._Args&gt;
+34 
+35 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_c_o_r_e_1_1_thread_1a90f1969ae133ce0bb7e488ece20d1143">Thread</link>(_Fn&amp;&amp;&#32;_Fx,&#32;_Args&amp;&amp;...&#32;_Ax)&#32;{
+36 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;func&#32;=&#32;std::bind(std::forward&lt;_Fn&gt;(_Fx),&#32;std::forward&lt;_Args&gt;(_Ax)...);
+37 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_c_o_r_e_1_1_thread___manager_1a5ef1a3b600ea01858495d6034b8cb7f1">Thread_Manager::Threads</link>.push_back(<emphasis role="keyword">this</emphasis>);
+38 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+39 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//template&lt;class&#32;_Fn,&#32;class&#32;..._Args&gt;</emphasis>
+40 
+41 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//Thread(_Fn&amp;&amp;&#32;_Fx&#32;)&#32;{</emphasis>
+42 
+43 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;func&#32;=&#32;_Fn;</emphasis>
+44 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;Thread_Manager::Threads.push_back(this);</emphasis>
+45 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//}</emphasis>
+46 
+47 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_c_o_r_e_1_1_thread_1a414e0420e36fc5dbb968b66984635332">Schedule</link>()&#32;{
+48 
+49 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;this-&gt;thread&#32;=&#32;std::thread(func);
+50 
+51 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+52 
+53 
+54 &#32;&#32;&#32;&#32;};
+55 
+56 
+57 
+58 
+59 
+60 &#32;&#32;&#32;&#32;<emphasis role="keyword">class&#32;</emphasis><link linkend="_class_c_o_r_e_1_1_threading___interface">Threading_Interface</link>&#32;{
+61 &#32;&#32;&#32;&#32;<emphasis role="keyword">private</emphasis>:
+62 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;std::mutex&#32;instanceMutex;
+63 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;std::mutex&#32;staticMutex;
+64 
+65 &#32;&#32;&#32;&#32;<emphasis role="keyword">public</emphasis>:
+66 
+67 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">class</emphasis>&#32;_CL,&#32;<emphasis role="keyword">class</emphasis>&#32;_Var,&#32;<emphasis role="keyword">class</emphasis>&#32;_Val&gt;
+68 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_c_o_r_e_1_1_threading___interface_1adac3d22a6eb95ff80e06886b41162b62">SetVar</link>(_CL&amp;&#32;obj,&#32;_Var&#32;_CL::*&#32;variable,&#32;_Val&#32;value)&#32;{
+69 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::lock_guard&lt;std::mutex&gt;&#32;lock(instanceMutex);
+70 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;obj.*variable&#32;=&#32;value;
+71 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+72 
+73 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">class</emphasis>&#32;_CL,&#32;<emphasis role="keyword">class</emphasis>&#32;_Var,&#32;<emphasis role="keyword">class</emphasis>&#32;_Val&gt;
+74 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_c_o_r_e_1_1_threading___interface_1a2889b4e9f667508179d30c330019c954">SetStaticVar</link>(_Var&amp;&#32;variable,&#32;_Val&#32;value)&#32;{
+75 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::lock_guard&lt;std::mutex&gt;&#32;lock(staticMutex);
+76 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;variable&#32;=&#32;value;
+77 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+78 
+79 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">class</emphasis>&#32;_CL,&#32;<emphasis role="keyword">class</emphasis>&#32;_Elem&gt;
+80 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_c_o_r_e_1_1_threading___interface_1a2c749fa7d9cc486b6a70a1db92924663">AddToVector</link>(std::vector&lt;_Elem&gt;&amp;&#32;vec,&#32;<emphasis role="keyword">const</emphasis>&#32;_Elem&amp;&#32;element)&#32;{
+81 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::lock_guard&lt;std::mutex&gt;&#32;lock(instanceMutex);
+82 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;vec.push_back(element);
+83 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+84 
+85 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">class</emphasis>&#32;_Elem&gt;
+86 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_c_o_r_e_1_1_threading___interface_1a2d5748fe0336e05bfc6c97e6eb926126">AddToStaticVector</link>(std::vector&lt;_Elem&gt;&amp;&#32;vec,&#32;<emphasis role="keyword">const</emphasis>&#32;_Elem&amp;&#32;element)&#32;{
+87 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::lock_guard&lt;std::mutex&gt;&#32;lock(staticMutex);
+88 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;vec.push_back(element);
+89 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+90 
+91 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">class</emphasis>&#32;_CL,&#32;<emphasis role="keyword">class</emphasis>&#32;_Elem,&#32;<emphasis role="keyword">class</emphasis>&#32;_Fn&gt;
+92 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_c_o_r_e_1_1_threading___interface_1a4cc776df3e0d084f232e05c37198d8a2">IterateVector</link>(<emphasis role="keyword">const</emphasis>&#32;std::vector&lt;_Elem&gt;&amp;&#32;vec,&#32;_Fn&#32;func)&#32;{
+93 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::lock_guard&lt;std::mutex&gt;&#32;lock(instanceMutex);
+94 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&amp;&#32;elem&#32;:&#32;vec)&#32;{
+95 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;func(elem);
+96 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+97 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+98 
+99 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">class</emphasis>&#32;_Elem,&#32;<emphasis role="keyword">class</emphasis>&#32;_Fn&gt;
+100 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_c_o_r_e_1_1_threading___interface_1ad298aaee86f7c468dba30f043149a7e9">IterateStaticVector</link>(<emphasis role="keyword">const</emphasis>&#32;std::vector&lt;_Elem&gt;&amp;&#32;vec,&#32;_Fn&#32;func)&#32;{
+101 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::lock_guard&lt;std::mutex&gt;&#32;lock(staticMutex);
+102 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&amp;&#32;elem&#32;:&#32;vec)&#32;{
+103 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;func(elem);
+104 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+105 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+106 
+107 &#32;&#32;&#32;&#32;};
+108 }
+109 <emphasis role="preprocessor">#endif&#32;</emphasis><emphasis role="comment">//&#32;!_THREADING_</emphasis>
+</programlisting></section>

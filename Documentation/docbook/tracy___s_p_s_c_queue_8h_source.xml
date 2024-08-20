@@ -1,0 +1,153 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_tracy___s_p_s_c_queue_8h_source" xml:lang="en-US">
+<title>tracy_SPSCQueue.h</title>
+<indexterm><primary>adhed/client/tracy_SPSCQueue.h</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 <emphasis role="comment">/*</emphasis>
+2 <emphasis role="comment">Copyright&#32;(c)&#32;2020&#32;Erik&#32;Rigtorp&#32;&lt;erik@rigtorp.se&gt;</emphasis>
+3 <emphasis role="comment"></emphasis>
+4 <emphasis role="comment">Permission&#32;is&#32;hereby&#32;granted,&#32;free&#32;of&#32;charge,&#32;to&#32;any&#32;person&#32;obtaining&#32;a&#32;copy</emphasis>
+5 <emphasis role="comment">of&#32;this&#32;software&#32;and&#32;associated&#32;documentation&#32;files&#32;(the&#32;&quot;Software&quot;),&#32;to&#32;deal</emphasis>
+6 <emphasis role="comment">in&#32;the&#32;Software&#32;without&#32;restriction,&#32;including&#32;without&#32;limitation&#32;the&#32;rights</emphasis>
+7 <emphasis role="comment">to&#32;use,&#32;copy,&#32;modify,&#32;merge,&#32;publish,&#32;distribute,&#32;sublicense,&#32;and/or&#32;sell</emphasis>
+8 <emphasis role="comment">copies&#32;of&#32;the&#32;Software,&#32;and&#32;to&#32;permit&#32;persons&#32;to&#32;whom&#32;the&#32;Software&#32;is</emphasis>
+9 <emphasis role="comment">furnished&#32;to&#32;do&#32;so,&#32;subject&#32;to&#32;the&#32;following&#32;conditions:</emphasis>
+10 <emphasis role="comment"></emphasis>
+11 <emphasis role="comment">The&#32;above&#32;copyright&#32;notice&#32;and&#32;this&#32;permission&#32;notice&#32;shall&#32;be&#32;included&#32;in&#32;all</emphasis>
+12 <emphasis role="comment">copies&#32;or&#32;substantial&#32;portions&#32;of&#32;the&#32;Software.</emphasis>
+13 <emphasis role="comment"></emphasis>
+14 <emphasis role="comment">THE&#32;SOFTWARE&#32;IS&#32;PROVIDED&#32;&quot;AS&#32;IS&quot;,&#32;WITHOUT&#32;WARRANTY&#32;OF&#32;ANY&#32;KIND,&#32;EXPRESS&#32;OR</emphasis>
+15 <emphasis role="comment">IMPLIED,&#32;INCLUDING&#32;BUT&#32;NOT&#32;LIMITED&#32;TO&#32;THE&#32;WARRANTIES&#32;OF&#32;MERCHANTABILITY,</emphasis>
+16 <emphasis role="comment">FITNESS&#32;FOR&#32;A&#32;PARTICULAR&#32;PURPOSE&#32;AND&#32;NONINFRINGEMENT.&#32;IN&#32;NO&#32;EVENT&#32;SHALL&#32;THE</emphasis>
+17 <emphasis role="comment">AUTHORS&#32;OR&#32;COPYRIGHT&#32;HOLDERS&#32;BE&#32;LIABLE&#32;FOR&#32;ANY&#32;CLAIM,&#32;DAMAGES&#32;OR&#32;OTHER</emphasis>
+18 <emphasis role="comment">LIABILITY,&#32;WHETHER&#32;IN&#32;AN&#32;ACTION&#32;OF&#32;CONTRACT,&#32;TORT&#32;OR&#32;OTHERWISE,&#32;ARISING&#32;FROM,</emphasis>
+19 <emphasis role="comment">OUT&#32;OF&#32;OR&#32;IN&#32;CONNECTION&#32;WITH&#32;THE&#32;SOFTWARE&#32;OR&#32;THE&#32;USE&#32;OR&#32;OTHER&#32;DEALINGS&#32;IN&#32;THE</emphasis>
+20 <emphasis role="comment">SOFTWARE.</emphasis>
+21 <emphasis role="comment">&#32;*/</emphasis>
+22 
+23 <emphasis role="preprocessor">#pragma&#32;once</emphasis>
+24 
+25 <emphasis role="preprocessor">#include&#32;&lt;atomic&gt;</emphasis>
+26 <emphasis role="preprocessor">#include&#32;&lt;cassert&gt;</emphasis>
+27 <emphasis role="preprocessor">#include&#32;&lt;cstddef&gt;</emphasis>
+28 <emphasis role="preprocessor">#include&#32;&lt;stdexcept&gt;</emphasis>
+29 <emphasis role="preprocessor">#include&#32;&lt;type_traits&gt;</emphasis>&#32;<emphasis role="comment">//&#32;std::enable_if,&#32;std::is_*_constructible</emphasis>
+30 
+31 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__tracy_alloc_8hpp">../common/TracyAlloc.hpp</link>&quot;</emphasis>
+32 
+33 <emphasis role="preprocessor">#if&#32;defined&#32;(_MSC_VER)</emphasis>
+34 <emphasis role="preprocessor">#pragma&#32;warning(push)</emphasis>
+35 <emphasis role="preprocessor">#pragma&#32;warning(disable:4324)</emphasis>
+36 <emphasis role="preprocessor">#endif</emphasis>
+37 
+38 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespacetracy">tracy</link>&#32;{
+39 
+40 <emphasis role="keyword">template</emphasis>&#32;&lt;<emphasis role="keyword">typename</emphasis>&#32;T&gt;&#32;<emphasis role="keyword">class&#32;</emphasis><link linkend="_classtracy_1_1_s_p_s_c_queue">SPSCQueue</link>&#32;{
+41 <emphasis role="keyword">public</emphasis>:
+42 &#32;&#32;<emphasis role="keyword">explicit</emphasis>&#32;<link linkend="_classtracy_1_1_s_p_s_c_queue_1a5dda0ab6a44aca93e2c2915ba83022f9">SPSCQueue</link>(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_classtracy_1_1_s_p_s_c_queue_1a67644dca79ca298f9fe43e5871f367fc">capacity</link>)
+43 &#32;&#32;&#32;&#32;&#32;&#32;:&#32;capacity_(<link linkend="_classtracy_1_1_s_p_s_c_queue_1a67644dca79ca298f9fe43e5871f367fc">capacity</link>)&#32;{
+44 &#32;&#32;&#32;&#32;capacity_++;&#32;<emphasis role="comment">//&#32;Needs&#32;one&#32;slack&#32;element</emphasis>
+45 &#32;&#32;&#32;&#32;slots_&#32;=&#32;(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>*)tracy_malloc(<emphasis role="keyword">sizeof</emphasis>(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>)&#32;*&#32;(capacity_&#32;+&#32;2&#32;*&#32;kPadding));
+46 
+47 &#32;&#32;&#32;&#32;<emphasis role="keyword">static_assert</emphasis>(<emphasis role="keyword">alignof</emphasis>(<link linkend="_classtracy_1_1_s_p_s_c_queue">SPSCQueue&lt;T&gt;</link>)&#32;==&#32;kCacheLineSize,&#32;<emphasis role="stringliteral">&quot;&quot;</emphasis>);
+48 &#32;&#32;&#32;&#32;<emphasis role="keyword">static_assert</emphasis>(<emphasis role="keyword">sizeof</emphasis>(<link linkend="_classtracy_1_1_s_p_s_c_queue">SPSCQueue&lt;T&gt;</link>)&#32;&gt;=&#32;3&#32;*&#32;kCacheLineSize,&#32;<emphasis role="stringliteral">&quot;&quot;</emphasis>);
+49 &#32;&#32;&#32;&#32;<link linkend="_tracy__lz4_8cpp_1acdcc5aaebf3f273c1762f24a6ece2e5e">assert</link>(<emphasis role="keyword">reinterpret_cast&lt;</emphasis><emphasis role="keywordtype">char</emphasis>&#32;*<emphasis role="keyword">&gt;</emphasis>(&amp;readIdx_)&#32;-
+50 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">reinterpret_cast&lt;</emphasis><emphasis role="keywordtype">char</emphasis>&#32;*<emphasis role="keyword">&gt;</emphasis>(&amp;writeIdx_)&#32;&gt;=
+51 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static_cast&lt;</emphasis>std::ptrdiff_t<emphasis role="keyword">&gt;</emphasis>(kCacheLineSize));
+52 &#32;&#32;}
+53 
+54 &#32;&#32;<link linkend="_classtracy_1_1_s_p_s_c_queue_1a7ed3a89ba00d3006762036b45592d6f1">~SPSCQueue</link>()&#32;{
+55 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">while</emphasis>&#32;(<link linkend="_classtracy_1_1_s_p_s_c_queue_1a0a585d05af2342d61673a195081c162d">front</link>())&#32;{
+56 &#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_classtracy_1_1_s_p_s_c_queue_1a8e495f3c795d3732cbdc89a8f62e2d3b">pop</link>();
+57 &#32;&#32;&#32;&#32;}
+58 &#32;&#32;&#32;&#32;tracy_free(slots_);
+59 &#32;&#32;}
+60 
+61 &#32;&#32;<emphasis role="comment">//&#32;non-copyable&#32;and&#32;non-movable</emphasis>
+62 &#32;&#32;<link linkend="_classtracy_1_1_s_p_s_c_queue_1abf4feb5c18425e3665ec2f8d33b1fcc5">SPSCQueue</link>(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_classtracy_1_1_s_p_s_c_queue">SPSCQueue</link>&#32;&amp;)&#32;=&#32;<emphasis role="keyword">delete</emphasis>;
+63 &#32;&#32;<link linkend="_classtracy_1_1_s_p_s_c_queue">SPSCQueue</link>&#32;&amp;<link linkend="_classtracy_1_1_s_p_s_c_queue_1a0704d6bcd240d50e3ea4346c444d858d">operator=</link>(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_classtracy_1_1_s_p_s_c_queue">SPSCQueue</link>&#32;&amp;)&#32;=&#32;<emphasis role="keyword">delete</emphasis>;
+64 
+65 &#32;&#32;<emphasis role="keyword">template</emphasis>&#32;&lt;<emphasis role="keyword">typename</emphasis>...&#32;Args&gt;
+66 &#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_classtracy_1_1_s_p_s_c_queue_1a0fcc890b9363aeb911023ece35089e41">emplace</link>(Args&#32;&amp;&amp;...args)&#32;<emphasis role="keyword">noexcept</emphasis>(
+67 &#32;&#32;&#32;&#32;&#32;&#32;std::is_nothrow_constructible&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>,&#32;Args&#32;&amp;&amp;...&gt;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">::value</link>)&#32;{
+68 &#32;&#32;&#32;&#32;<emphasis role="keyword">static_assert</emphasis>(std::is_constructible&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>,&#32;Args&#32;&amp;&amp;...&gt;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">::value</link>,
+69 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;T&#32;must&#32;be&#32;constructible&#32;with&#32;Args&amp;&amp;...&quot;</emphasis>);
+70 &#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;<emphasis role="keyword">const</emphasis>&#32;writeIdx&#32;=&#32;writeIdx_.load(std::memory_order_relaxed);
+71 &#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;nextWriteIdx&#32;=&#32;writeIdx&#32;+&#32;1;
+72 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(nextWriteIdx&#32;==&#32;capacity_)&#32;{
+73 &#32;&#32;&#32;&#32;&#32;&#32;nextWriteIdx&#32;=&#32;0;
+74 &#32;&#32;&#32;&#32;}
+75 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">while</emphasis>&#32;(nextWriteIdx&#32;==&#32;readIdxCache_)&#32;{
+76 &#32;&#32;&#32;&#32;&#32;&#32;readIdxCache_&#32;=&#32;readIdx_.load(std::memory_order_acquire);
+77 &#32;&#32;&#32;&#32;}
+78 &#32;&#32;&#32;&#32;<emphasis role="keyword">new</emphasis>&#32;(&amp;slots_[writeIdx&#32;+&#32;kPadding])&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>(std::forward&lt;Args&gt;(args)...);
+79 &#32;&#32;&#32;&#32;writeIdx_.store(nextWriteIdx,&#32;std::memory_order_release);
+80 &#32;&#32;}
+81 
+82 &#32;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;*<link linkend="_classtracy_1_1_s_p_s_c_queue_1a0a585d05af2342d61673a195081c162d">front</link>()&#32;noexcept&#32;{
+83 &#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;<emphasis role="keyword">const</emphasis>&#32;readIdx&#32;=&#32;readIdx_.load(std::memory_order_relaxed);
+84 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(readIdx&#32;==&#32;writeIdxCache_)&#32;{
+85 &#32;&#32;&#32;&#32;&#32;&#32;writeIdxCache_&#32;=&#32;writeIdx_.load(std::memory_order_acquire);
+86 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(writeIdxCache_&#32;==&#32;readIdx)&#32;{
+87 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">nullptr</emphasis>;
+88 &#32;&#32;&#32;&#32;&#32;&#32;}
+89 &#32;&#32;&#32;&#32;}
+90 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;&amp;slots_[readIdx&#32;+&#32;kPadding];
+91 &#32;&#32;}
+92 
+93 &#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_classtracy_1_1_s_p_s_c_queue_1a8e495f3c795d3732cbdc89a8f62e2d3b">pop</link>()&#32;noexcept&#32;{
+94 &#32;&#32;&#32;&#32;<emphasis role="keyword">static_assert</emphasis>(std::is_nothrow_destructible&lt;T&gt;::value,
+95 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="stringliteral">&quot;T&#32;must&#32;be&#32;nothrow&#32;destructible&quot;</emphasis>);
+96 &#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;<emphasis role="keyword">const</emphasis>&#32;readIdx&#32;=&#32;readIdx_.load(std::memory_order_relaxed);
+97 &#32;&#32;&#32;&#32;<link linkend="_tracy__lz4_8cpp_1acdcc5aaebf3f273c1762f24a6ece2e5e">assert</link>(writeIdx_.load(std::memory_order_acquire)&#32;!=&#32;readIdx);
+98 &#32;&#32;&#32;&#32;slots_[readIdx&#32;+&#32;kPadding].~T();
+99 &#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;nextReadIdx&#32;=&#32;readIdx&#32;+&#32;1;
+100 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(nextReadIdx&#32;==&#32;capacity_)&#32;{
+101 &#32;&#32;&#32;&#32;&#32;&#32;nextReadIdx&#32;=&#32;0;
+102 &#32;&#32;&#32;&#32;}
+103 &#32;&#32;&#32;&#32;readIdx_.store(nextReadIdx,&#32;std::memory_order_release);
+104 &#32;&#32;}
+105 
+106 &#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_classtracy_1_1_s_p_s_c_queue_1a947ceaa4ec8ee326facb602bfa493066">size</link>()&#32;const&#32;noexcept&#32;{
+107 &#32;&#32;&#32;&#32;std::ptrdiff_t&#32;diff&#32;=&#32;writeIdx_.load(std::memory_order_acquire)&#32;-
+108 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;readIdx_.load(std::memory_order_acquire);
+109 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(diff&#32;&lt;&#32;0)&#32;{
+110 &#32;&#32;&#32;&#32;&#32;&#32;diff&#32;+=&#32;capacity_;
+111 &#32;&#32;&#32;&#32;}
+112 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">static_cast&lt;</emphasis><emphasis role="keywordtype">size_t</emphasis><emphasis role="keyword">&gt;</emphasis>(diff);
+113 &#32;&#32;}
+114 
+115 &#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_classtracy_1_1_s_p_s_c_queue_1ab749c20aeb024d43e0b21ea77c1c8f39">empty</link>()&#32;const&#32;noexcept&#32;{
+116 &#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;writeIdx_.load(std::memory_order_acquire)&#32;==
+117 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;readIdx_.load(std::memory_order_acquire);
+118 &#32;&#32;}
+119 
+120 &#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_classtracy_1_1_s_p_s_c_queue_1a67644dca79ca298f9fe43e5871f367fc">capacity</link>()&#32;const&#32;noexcept&#32;{&#32;<emphasis role="keywordflow">return</emphasis>&#32;capacity_&#32;-&#32;1;&#32;}
+121 
+122 <emphasis role="keyword">private</emphasis>:
+123 &#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keyword">constexpr</emphasis>&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;kCacheLineSize&#32;=&#32;64;
+124 
+125 &#32;&#32;<emphasis role="comment">//&#32;Padding&#32;to&#32;avoid&#32;false&#32;sharing&#32;between&#32;slots_&#32;and&#32;adjacent&#32;allocations</emphasis>
+126 &#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keyword">constexpr</emphasis>&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;kPadding&#32;=&#32;(kCacheLineSize&#32;-&#32;1)&#32;/&#32;<emphasis role="keyword">sizeof</emphasis>(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>)&#32;+&#32;1;
+127 
+128 <emphasis role="keyword">private</emphasis>:
+129 &#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;capacity_;
+130 &#32;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;*slots_;
+131 
+132 &#32;&#32;<emphasis role="comment">//&#32;Align&#32;to&#32;cache&#32;line&#32;size&#32;in&#32;order&#32;to&#32;avoid&#32;false&#32;sharing</emphasis>
+133 &#32;&#32;<emphasis role="comment">//&#32;readIdxCache_&#32;and&#32;writeIdxCache_&#32;is&#32;used&#32;to&#32;reduce&#32;the&#32;amount&#32;of&#32;cache</emphasis>
+134 &#32;&#32;<emphasis role="comment">//&#32;coherency&#32;traffic</emphasis>
+135 &#32;&#32;<emphasis role="keyword">alignas</emphasis>(kCacheLineSize)&#32;std::atomic&lt;size_t&gt;&#32;writeIdx_&#32;=&#32;{0};
+136 &#32;&#32;<emphasis role="keyword">alignas</emphasis>(kCacheLineSize)&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;readIdxCache_&#32;=&#32;0;
+137 &#32;&#32;<emphasis role="keyword">alignas</emphasis>(kCacheLineSize)&#32;std::atomic&lt;size_t&gt;&#32;readIdx_&#32;=&#32;{0};
+138 &#32;&#32;<emphasis role="keyword">alignas</emphasis>(kCacheLineSize)&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;writeIdxCache_&#32;=&#32;0;
+139 
+140 &#32;&#32;<emphasis role="comment">//&#32;Padding&#32;to&#32;avoid&#32;adjacent&#32;allocations&#32;to&#32;share&#32;cache&#32;line&#32;with</emphasis>
+141 &#32;&#32;<emphasis role="comment">//&#32;writeIdxCache_</emphasis>
+142 &#32;&#32;<emphasis role="keywordtype">char</emphasis>&#32;padding_[kCacheLineSize&#32;-&#32;<emphasis role="keyword">sizeof</emphasis>(SPSCQueue&lt;T&gt;::writeIdxCache_)];
+143 };
+144 }&#32;<emphasis role="comment">//&#32;namespace&#32;rigtorp</emphasis>
+145 
+146 <emphasis role="preprocessor">#if&#32;defined&#32;(_MSC_VER)</emphasis>
+147 <emphasis role="preprocessor">#pragma&#32;warning(pop)</emphasis>
+148 <emphasis role="preprocessor">#endif</emphasis>
+</programlisting></section>

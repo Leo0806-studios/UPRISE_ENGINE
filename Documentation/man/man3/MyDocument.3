@@ -1,0 +1,147 @@
+.TH "MyDocument" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+MyDocument
+.SH SYNOPSIS
+.br
+.PP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBMyDocument\fP (int uid, const char *name, bool open=true, const ImVec4 &color=ImVec4(1\&.0f, 1\&.0f, 1\&.0f, 1\&.0f))"
+.br
+.ti -1c
+.RI "void \fBDoOpen\fP ()"
+.br
+.ti -1c
+.RI "void \fBDoForceClose\fP ()"
+.br
+.ti -1c
+.RI "void \fBDoSave\fP ()"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "char \fBName\fP [32]"
+.br
+.ti -1c
+.RI "int \fBUID\fP"
+.br
+.ti -1c
+.RI "bool \fBOpen\fP"
+.br
+.ti -1c
+.RI "bool \fBOpenPrev\fP"
+.br
+.ti -1c
+.RI "bool \fBDirty\fP"
+.br
+.ti -1c
+.RI "ImVec4 \fBColor\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Definition at line \fB9826\fP of file \fBimgui_demo\&.cpp\fP\&.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "MyDocument::MyDocument (int uid, const char * name, bool open = \fRtrue\fP, const ImVec4 & color = \fRImVec4(1\&.0f, 1\&.0f, 1\&.0f, 1\&.0f)\fP)\fR [inline]\fP"
+
+.PP
+Definition at line \fB9835\fP of file \fBimgui_demo\&.cpp\fP\&.
+.nf
+9836     {
+9837         UID = uid;
+9838         snprintf(Name, sizeof(Name), "%s", name);
+9839         Open = OpenPrev = open;
+9840         Dirty = false;
+9841         Color = color;
+9842     }
+.PP
+.fi
+
+.PP
+References \fBColor\fP, \fBDirty\fP, \fBName\fP, \fBOpen\fP, \fBOpenPrev\fP, and \fBUID\fP\&.
+.SH "Member Function Documentation"
+.PP 
+.SS "void MyDocument::DoForceClose ()\fR [inline]\fP"
+
+.PP
+Definition at line \fB9844\fP of file \fBimgui_demo\&.cpp\fP\&.
+.nf
+9844 { Open = false; Dirty = false; }
+.PP
+.fi
+
+.PP
+References \fBDirty\fP, and \fBOpen\fP\&.
+.SS "void MyDocument::DoOpen ()\fR [inline]\fP"
+
+.PP
+Definition at line \fB9843\fP of file \fBimgui_demo\&.cpp\fP\&.
+.nf
+9843 { Open = true; }
+.PP
+.fi
+
+.PP
+References \fBOpen\fP\&.
+.SS "void MyDocument::DoSave ()\fR [inline]\fP"
+
+.PP
+Definition at line \fB9845\fP of file \fBimgui_demo\&.cpp\fP\&.
+.nf
+9845 { Dirty = false; }
+.PP
+.fi
+
+.PP
+References \fBDirty\fP\&.
+.PP
+Referenced by \fBExampleAppDocuments::DisplayDocContents()\fP, and \fBExampleAppDocuments::DisplayDocContextMenu()\fP\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "ImVec4 MyDocument::Color"
+
+.PP
+Definition at line \fB9833\fP of file \fBimgui_demo\&.cpp\fP\&.
+.PP
+Referenced by \fBExampleAppDocuments::DisplayDocContents()\fP, and \fBMyDocument()\fP\&.
+.SS "bool MyDocument::Dirty"
+
+.PP
+Definition at line \fB9832\fP of file \fBimgui_demo\&.cpp\fP\&.
+.PP
+Referenced by \fBExampleAppDocuments::DisplayDocContents()\fP, \fBDoForceClose()\fP, \fBDoSave()\fP, and \fBMyDocument()\fP\&.
+.SS "char MyDocument::Name[32]"
+
+.PP
+Definition at line \fB9828\fP of file \fBimgui_demo\&.cpp\fP\&.
+.PP
+Referenced by \fBExampleAppDocuments::DisplayDocContents()\fP, \fBExampleAppDocuments::DisplayDocContextMenu()\fP, \fBExampleAppDocuments::GetTabName()\fP, and \fBMyDocument()\fP\&.
+.SS "bool MyDocument::Open"
+
+.PP
+Definition at line \fB9830\fP of file \fBimgui_demo\&.cpp\fP\&.
+.PP
+Referenced by \fBExampleAppDocuments::DisplayDocContextMenu()\fP, \fBDoForceClose()\fP, \fBDoOpen()\fP, and \fBMyDocument()\fP\&.
+.SS "bool MyDocument::OpenPrev"
+
+.PP
+Definition at line \fB9831\fP of file \fBimgui_demo\&.cpp\fP\&.
+.PP
+Referenced by \fBMyDocument()\fP\&.
+.SS "int MyDocument::UID"
+
+.PP
+Definition at line \fB9829\fP of file \fBimgui_demo\&.cpp\fP\&.
+.PP
+Referenced by \fBExampleAppDocuments::GetTabName()\fP, and \fBMyDocument()\fP\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

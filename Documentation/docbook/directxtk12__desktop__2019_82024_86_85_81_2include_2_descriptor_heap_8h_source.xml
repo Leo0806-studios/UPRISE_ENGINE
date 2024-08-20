@@ -1,0 +1,226 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_directxtk12__desktop__2019_82024_86_85_81_2include_2_descriptor_heap_8h_source" xml:lang="en-US">
+<title>DescriptorHeap.h</title>
+<indexterm><primary>packages/directxtk12_desktop_2019.2024.6.5.1/include/DescriptorHeap.h</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 <emphasis role="comment">//--------------------------------------------------------------------------------------</emphasis>
+2 <emphasis role="comment">//&#32;File:&#32;DescriptorHeap.h</emphasis>
+3 <emphasis role="comment">//</emphasis>
+4 <emphasis role="comment">//&#32;Copyright&#32;(c)&#32;Microsoft&#32;Corporation.</emphasis>
+5 <emphasis role="comment">//&#32;Licensed&#32;under&#32;the&#32;MIT&#32;License.</emphasis>
+6 <emphasis role="comment">//</emphasis>
+7 <emphasis role="comment">//&#32;http://go.microsoft.com/fwlink/?LinkID=615561</emphasis>
+8 <emphasis role="comment">//--------------------------------------------------------------------------------------</emphasis>
+9 
+10 <emphasis role="preprocessor">#pragma&#32;once</emphasis>
+11 
+12 <emphasis role="preprocessor">#ifdef&#32;_GAMING_XBOX_SCARLETT</emphasis>
+13 <emphasis role="preprocessor">#include&#32;&lt;d3d12_xs.h&gt;</emphasis>
+14 <emphasis role="preprocessor">#elif&#32;(defined(_XBOX_ONE)&#32;&amp;&amp;&#32;defined(_TITLE))&#32;||&#32;defined(_GAMING_XBOX)</emphasis>
+15 <emphasis role="preprocessor">#include&#32;&lt;d3d12_x.h&gt;</emphasis>
+16 <emphasis role="preprocessor">#elif&#32;defined(USING_DIRECTX_HEADERS)</emphasis>
+17 <emphasis role="preprocessor">#include&#32;&lt;directx/d3d12.h&gt;</emphasis>
+18 <emphasis role="preprocessor">#include&#32;&lt;dxguids/dxguids.h&gt;</emphasis>
+19 <emphasis role="preprocessor">#else</emphasis>
+20 <emphasis role="preprocessor">#include&#32;&lt;<link linkend="_d3d12_8h">d3d12.h</link>&gt;</emphasis>
+21 <emphasis role="preprocessor">#endif</emphasis>
+22 
+23 <emphasis role="preprocessor">#include&#32;&lt;cassert&gt;</emphasis>
+24 <emphasis role="preprocessor">#include&#32;&lt;cstddef&gt;</emphasis>
+25 <emphasis role="preprocessor">#include&#32;&lt;cstdint&gt;</emphasis>
+26 <emphasis role="preprocessor">#include&#32;&lt;stdexcept&gt;</emphasis>
+27 
+28 <emphasis role="preprocessor">#include&#32;&lt;wrl/client.h&gt;</emphasis>
+29 
+30 
+31 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespace_direct_x">DirectX</link>
+32 {
+33 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;A&#32;contiguous&#32;linear&#32;random-access&#32;descriptor&#32;heap</emphasis>
+34 &#32;&#32;&#32;&#32;<emphasis role="keyword">class&#32;</emphasis>DescriptorHeap
+35 &#32;&#32;&#32;&#32;{
+36 &#32;&#32;&#32;&#32;<emphasis role="keyword">public</emphasis>:
+37 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_descriptor_heap_1a44d185544d5ed7b1d7eb759171ec93c9">DescriptorHeap</link>(
+38 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_In_&#32;<link linkend="_interface_i_d3_d12_descriptor_heap">ID3D12DescriptorHeap</link>*&#32;pExistingHeap)&#32;<emphasis role="keyword">noexcept</emphasis>;
+39 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_descriptor_heap_1a7b6a6afb7302e1674ee376b6603073bd">DescriptorHeap</link>(
+40 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_In_&#32;<link linkend="_interface_i_d3_d12_device">ID3D12Device</link>*&#32;device,
+41 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_In_&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_d3d12_8idl_1aad632fa80d3d35a2c4b1491a2587c062">D3D12_DESCRIPTOR_HEAP_DESC</link>*&#32;pDesc)&#32;<emphasis role="keyword">noexcept</emphasis>(<emphasis role="keyword">false</emphasis>);
+42 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_descriptor_heap_1af35ae7bfd034ff943ba6c2b3ce167ba7">DescriptorHeap</link>(
+43 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_In_&#32;<link linkend="_interface_i_d3_d12_device">ID3D12Device</link>*&#32;device,
+44 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1ad48f91971eb4cc5f27213d96cefae504">D3D12_DESCRIPTOR_HEAP_TYPE</link>&#32;<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>,
+45 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1a8719c063a8b3f958471d9dcc2345a4a6">D3D12_DESCRIPTOR_HEAP_FLAGS</link>&#32;<link linkend="_glad_8h_1ac7ba7d3cce3d19ca020e056b37231289">flags</link>,
+46 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1a619bc20e8198de3bd3f3d7fc34de66b2">count</link>)&#32;<emphasis role="keyword">noexcept</emphasis>(<emphasis role="keyword">false</emphasis>);
+47 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_descriptor_heap_1abf08f73faaae948bfdba81d77035187b">DescriptorHeap</link>(
+48 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_In_&#32;<link linkend="_interface_i_d3_d12_device">ID3D12Device</link>*&#32;device,
+49 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1a619bc20e8198de3bd3f3d7fc34de66b2">count</link>)&#32;<emphasis role="keyword">noexcept</emphasis>(<emphasis role="keyword">false</emphasis>)&#32;:
+50 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_descriptor_heap">DescriptorHeap</link>(device,
+51 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV,
+52 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1a8719c063a8b3f958471d9dcc2345a4a6af4f2a33c7ea5adf266f45ee9d3a08ed4">D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE</link>,&#32;<link linkend="_glad_8h_1a619bc20e8198de3bd3f3d7fc34de66b2">count</link>)
+53 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+54 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+55 
+56 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_descriptor_heap_1ac09a69c29ebc77d5f2f2c634f9b1e4e1">DescriptorHeap</link>(<link linkend="_class_direct_x_1_1_descriptor_heap">DescriptorHeap</link>&amp;&amp;)&#32;=&#32;<emphasis role="keywordflow">default</emphasis>;
+57 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_descriptor_heap">DescriptorHeap</link>&amp;&#32;<link linkend="_class_direct_x_1_1_descriptor_heap_1a6feddcc1f4412853190ef3be8cfbf029">operator=</link>(<link linkend="_class_direct_x_1_1_descriptor_heap">DescriptorHeap</link>&amp;&amp;)&#32;=&#32;<emphasis role="keywordflow">default</emphasis>;
+58 
+59 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_descriptor_heap_1ab2f7964751403e53c796e5bb5835b209">DescriptorHeap</link>(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_class_direct_x_1_1_descriptor_heap">DescriptorHeap</link>&amp;)&#32;=&#32;<emphasis role="keyword">delete</emphasis>;
+60 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_descriptor_heap">DescriptorHeap</link>&amp;&#32;<link linkend="_class_direct_x_1_1_descriptor_heap_1a2ab01428e6445243e0ce1fe0e3a2e093">operator=</link>(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_class_direct_x_1_1_descriptor_heap">DescriptorHeap</link>&amp;)&#32;=&#32;<emphasis role="keyword">delete</emphasis>;
+61 
+62 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___g_p_u___d_e_s_c_r_i_p_t_o_r___h_a_n_d_l_e">D3D12_GPU_DESCRIPTOR_HANDLE</link>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_descriptor_heap_1a17bd25fa2c28149d4c47ba8f0e185231">WriteDescriptors</link>(
+63 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_In_&#32;<link linkend="_interface_i_d3_d12_device">ID3D12Device</link>*&#32;device,
+64 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uint32_t&#32;offsetIntoHeap,
+65 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uint32_t&#32;totalDescriptorCount,
+66 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_In_reads_(descriptorRangeCount)&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_struct_d3_d12___c_p_u___d_e_s_c_r_i_p_t_o_r___h_a_n_d_l_e">D3D12_CPU_DESCRIPTOR_HANDLE</link>*&#32;pDescriptorRangeStarts,
+67 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_In_reads_(descriptorRangeCount)&#32;<emphasis role="keyword">const</emphasis>&#32;uint32_t*&#32;pDescriptorRangeSizes,
+68 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uint32_t&#32;descriptorRangeCount);
+69 
+70 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___g_p_u___d_e_s_c_r_i_p_t_o_r___h_a_n_d_l_e">D3D12_GPU_DESCRIPTOR_HANDLE</link>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_descriptor_heap_1aa979753a7090e077855ce0c33c4f2a86">WriteDescriptors</link>(
+71 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_In_&#32;<link linkend="_interface_i_d3_d12_device">ID3D12Device</link>*&#32;device,
+72 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uint32_t&#32;offsetIntoHeap,
+73 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_In_reads_(descriptorRangeCount)&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_struct_d3_d12___c_p_u___d_e_s_c_r_i_p_t_o_r___h_a_n_d_l_e">D3D12_CPU_DESCRIPTOR_HANDLE</link>*&#32;pDescriptorRangeStarts,
+74 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_In_reads_(descriptorRangeCount)&#32;<emphasis role="keyword">const</emphasis>&#32;uint32_t*&#32;pDescriptorRangeSizes,
+75 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uint32_t&#32;descriptorRangeCount);
+76 
+77 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___g_p_u___d_e_s_c_r_i_p_t_o_r___h_a_n_d_l_e">D3D12_GPU_DESCRIPTOR_HANDLE</link>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_descriptor_heap_1a84e8c77640a2aedbad3dc3e323d4c933">WriteDescriptors</link>(
+78 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_In_&#32;<link linkend="_interface_i_d3_d12_device">ID3D12Device</link>*&#32;device,
+79 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uint32_t&#32;offsetIntoHeap,
+80 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_In_reads_(descriptorCount)&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_struct_d3_d12___c_p_u___d_e_s_c_r_i_p_t_o_r___h_a_n_d_l_e">D3D12_CPU_DESCRIPTOR_HANDLE</link>*&#32;pDescriptors,
+81 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uint32_t&#32;descriptorCount);
+82 
+83 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___g_p_u___d_e_s_c_r_i_p_t_o_r___h_a_n_d_l_e">D3D12_GPU_DESCRIPTOR_HANDLE</link>&#32;<link linkend="_class_direct_x_1_1_descriptor_heap_1a721bf4ff5920a10630bac46fd0fd8801">GetFirstGpuHandle</link>()&#32;const&#32;noexcept
+84 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+85 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_tracy__lz4_8cpp_1acdcc5aaebf3f273c1762f24a6ece2e5e">assert</link>(m_desc.Flags&#32;&amp;&#32;<link linkend="_d3d12_8idl_1a8719c063a8b3f958471d9dcc2345a4a6af4f2a33c7ea5adf266f45ee9d3a08ed4">D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE</link>);
+86 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_tracy__lz4_8cpp_1acdcc5aaebf3f273c1762f24a6ece2e5e">assert</link>(m_pHeap&#32;!=&#32;<emphasis role="keyword">nullptr</emphasis>);
+87 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;m_hGPU;
+88 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+89 
+90 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___c_p_u___d_e_s_c_r_i_p_t_o_r___h_a_n_d_l_e">D3D12_CPU_DESCRIPTOR_HANDLE</link>&#32;<link linkend="_class_direct_x_1_1_descriptor_heap_1aaeda2e47199656755e802665eac36c06">GetFirstCpuHandle</link>()&#32;const&#32;noexcept
+91 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+92 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_tracy__lz4_8cpp_1acdcc5aaebf3f273c1762f24a6ece2e5e">assert</link>(m_pHeap&#32;!=&#32;<emphasis role="keyword">nullptr</emphasis>);
+93 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;m_hCPU;
+94 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+95 
+96 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___g_p_u___d_e_s_c_r_i_p_t_o_r___h_a_n_d_l_e">D3D12_GPU_DESCRIPTOR_HANDLE</link>&#32;<link linkend="_class_direct_x_1_1_descriptor_heap_1ad7058c3c0f76011f1f80b4243acdc091">GetGpuHandle</link>(_In_&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1a57f14e05b1900f16a2da82ade47d0c6d">index</link>)<emphasis role="keyword">&#32;const</emphasis>
+97 <emphasis role="keyword">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;</emphasis>{
+98 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_tracy__lz4_8cpp_1acdcc5aaebf3f273c1762f24a6ece2e5e">assert</link>(m_pHeap&#32;!=&#32;<emphasis role="keyword">nullptr</emphasis>);
+99 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(<link linkend="_glad_8h_1a57f14e05b1900f16a2da82ade47d0c6d">index</link>&#32;&gt;=&#32;m_desc.NumDescriptors)
+100 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+101 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">throw</emphasis>&#32;std::out_of_range(<emphasis role="stringliteral">&quot;D3DX12_GPU_DESCRIPTOR_HANDLE&quot;</emphasis>);
+102 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+103 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_tracy__lz4_8cpp_1acdcc5aaebf3f273c1762f24a6ece2e5e">assert</link>(m_desc.Flags&#32;&amp;&#32;<link linkend="_d3d12_8idl_1a8719c063a8b3f958471d9dcc2345a4a6af4f2a33c7ea5adf266f45ee9d3a08ed4">D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE</link>);
+104 
+105 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___g_p_u___d_e_s_c_r_i_p_t_o_r___h_a_n_d_l_e">D3D12_GPU_DESCRIPTOR_HANDLE</link>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1a07fb37513c08cc03825e660c39fc34f6">handle</link>;
+106 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1a07fb37513c08cc03825e660c39fc34f6">handle</link>.<link linkend="_struct_d3_d12___g_p_u___d_e_s_c_r_i_p_t_o_r___h_a_n_d_l_e_1ac82e64a5621b3000d6b19a01ed1c8a0c">ptr</link>&#32;=&#32;m_hGPU.<link linkend="_struct_d3_d12___g_p_u___d_e_s_c_r_i_p_t_o_r___h_a_n_d_l_e_1ac82e64a5621b3000d6b19a01ed1c8a0c">ptr</link>&#32;+&#32;UINT64(<link linkend="_glad_8h_1a57f14e05b1900f16a2da82ade47d0c6d">index</link>)&#32;*&#32;UINT64(m_increment);
+107 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1a07fb37513c08cc03825e660c39fc34f6">handle</link>;
+108 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+109 
+110 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___c_p_u___d_e_s_c_r_i_p_t_o_r___h_a_n_d_l_e">D3D12_CPU_DESCRIPTOR_HANDLE</link>&#32;<link linkend="_class_direct_x_1_1_descriptor_heap_1ac42bb7cc661c8e99803155bd278630de">GetCpuHandle</link>(_In_&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1a57f14e05b1900f16a2da82ade47d0c6d">index</link>)<emphasis role="keyword">&#32;const</emphasis>
+111 <emphasis role="keyword">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;</emphasis>{
+112 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_tracy__lz4_8cpp_1acdcc5aaebf3f273c1762f24a6ece2e5e">assert</link>(m_pHeap&#32;!=&#32;<emphasis role="keyword">nullptr</emphasis>);
+113 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(<link linkend="_glad_8h_1a57f14e05b1900f16a2da82ade47d0c6d">index</link>&#32;&gt;=&#32;m_desc.NumDescriptors)
+114 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+115 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">throw</emphasis>&#32;std::out_of_range(<emphasis role="stringliteral">&quot;D3DX12_CPU_DESCRIPTOR_HANDLE&quot;</emphasis>);
+116 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+117 
+118 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___c_p_u___d_e_s_c_r_i_p_t_o_r___h_a_n_d_l_e">D3D12_CPU_DESCRIPTOR_HANDLE</link>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1a07fb37513c08cc03825e660c39fc34f6">handle</link>;
+119 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1a07fb37513c08cc03825e660c39fc34f6">handle</link>.<link linkend="_struct_d3_d12___c_p_u___d_e_s_c_r_i_p_t_o_r___h_a_n_d_l_e_1a15d2c59bd37db5cdb89378c2e8008bb2">ptr</link>&#32;=&#32;<emphasis role="keyword">static_cast&lt;</emphasis>SIZE_T<emphasis role="keyword">&gt;</emphasis>(m_hCPU.<link linkend="_struct_d3_d12___c_p_u___d_e_s_c_r_i_p_t_o_r___h_a_n_d_l_e_1a15d2c59bd37db5cdb89378c2e8008bb2">ptr</link>&#32;+&#32;UINT64(<link linkend="_glad_8h_1a57f14e05b1900f16a2da82ade47d0c6d">index</link>)&#32;*&#32;UINT64(m_increment));
+120 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1a07fb37513c08cc03825e660c39fc34f6">handle</link>;
+121 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+122 
+123 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_class_direct_x_1_1_descriptor_heap_1ae32d0445793efb09fc5f6d9583b632b6">Count</link>()&#32;const&#32;noexcept&#32;{&#32;<emphasis role="keywordflow">return</emphasis>&#32;m_desc.NumDescriptors;&#32;}
+124 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_class_direct_x_1_1_descriptor_heap_1a2a733ceb25dda6ecb741790807750dfa">Flags</link>()&#32;const&#32;noexcept&#32;{&#32;<emphasis role="keywordflow">return</emphasis>&#32;m_desc.Flags;&#32;}
+125 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1ad48f91971eb4cc5f27213d96cefae504">D3D12_DESCRIPTOR_HEAP_TYPE</link>&#32;<link linkend="_class_direct_x_1_1_descriptor_heap_1a1d2ce33047a41e731c2d303a5f1d349b">Type</link>()&#32;const&#32;noexcept&#32;{&#32;<emphasis role="keywordflow">return</emphasis>&#32;m_desc.Type;&#32;}
+126 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uint32_t&#32;<link linkend="_class_direct_x_1_1_descriptor_heap_1af6079da04e11ddfdb365a2d9c742a1c4">Increment</link>()&#32;const&#32;noexcept&#32;{&#32;<emphasis role="keywordflow">return</emphasis>&#32;m_increment;&#32;}
+127 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_interface_i_d3_d12_descriptor_heap">ID3D12DescriptorHeap</link>*&#32;<link linkend="_class_direct_x_1_1_descriptor_heap_1ab26414959518fcc3344b001660504bf9">Heap</link>()&#32;const&#32;noexcept&#32;{&#32;<emphasis role="keywordflow">return</emphasis>&#32;m_pHeap.Get();&#32;}
+128 
+129 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_descriptor_heap_1a9d95b1dc0a1ef86f96551ac23d3712b8">DefaultDesc</link>(
+130 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_In_&#32;<link linkend="_d3d12_8idl_1ad48f91971eb4cc5f27213d96cefae504">D3D12_DESCRIPTOR_HEAP_TYPE</link>&#32;<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>,
+131 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_Out_&#32;<link linkend="_d3d12_8idl_1aad632fa80d3d35a2c4b1491a2587c062">D3D12_DESCRIPTOR_HEAP_DESC</link>*&#32;pDesc)&#32;<emphasis role="keyword">noexcept</emphasis>;
+132 
+133 &#32;&#32;&#32;&#32;<emphasis role="keyword">private</emphasis>:
+134 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;Create(_In_&#32;<link linkend="_interface_i_d3_d12_device">ID3D12Device</link>*&#32;pDevice,&#32;_In_&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_d3d12_8idl_1aad632fa80d3d35a2c4b1491a2587c062">D3D12_DESCRIPTOR_HEAP_DESC</link>*&#32;pDesc);
+135 
+136 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Microsoft::WRL::ComPtr&lt;ID3D12DescriptorHeap&gt;&#32;&#32;&#32;&#32;m_pHeap;
+137 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1aad632fa80d3d35a2c4b1491a2587c062">D3D12_DESCRIPTOR_HEAP_DESC</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_desc;
+138 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___c_p_u___d_e_s_c_r_i_p_t_o_r___h_a_n_d_l_e">D3D12_CPU_DESCRIPTOR_HANDLE</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_hCPU;
+139 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___g_p_u___d_e_s_c_r_i_p_t_o_r___h_a_n_d_l_e">D3D12_GPU_DESCRIPTOR_HANDLE</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_hGPU;
+140 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uint32_t&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_increment;
+141 &#32;&#32;&#32;&#32;};
+142 
+143 
+144 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Helper&#32;class&#32;for&#32;dynamically&#32;allocating&#32;descriptor&#32;indices.</emphasis>
+145 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;The&#32;pile&#32;is&#32;statically&#32;sized&#32;and&#32;will&#32;throw&#32;an&#32;exception&#32;if&#32;it&#32;becomes&#32;full.</emphasis>
+146 &#32;&#32;&#32;&#32;<emphasis role="keyword">class&#32;</emphasis><link linkend="_class_direct_x_1_1_descriptor_pile">DescriptorPile</link>&#32;:&#32;<emphasis role="keyword">public</emphasis>&#32;<link linkend="_class_direct_x_1_1_descriptor_heap">DescriptorHeap</link>
+147 &#32;&#32;&#32;&#32;{
+148 &#32;&#32;&#32;&#32;<emphasis role="keyword">public</emphasis>:
+149 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">using&#32;</emphasis><link linkend="_class_direct_x_1_1_descriptor_pile_1a7718f4e5bb01ec671e50a8dd57887271">IndexType</link>&#32;=&#32;size_t;
+150 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keyword">constexpr</emphasis>&#32;<link linkend="_class_direct_x_1_1_descriptor_pile_1a7718f4e5bb01ec671e50a8dd57887271">IndexType</link>&#32;<link linkend="_class_direct_x_1_1_descriptor_pile_1a896fc7ab4a92bc60e419c0608b81d690">INVALID_INDEX</link>&#32;=&#32;size_t(-1);
+151 
+152 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_descriptor_pile_1a1d08435c8a7848b39456f393e6a49a7d">DescriptorPile</link>(
+153 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_In_&#32;<link linkend="_interface_i_d3_d12_descriptor_heap">ID3D12DescriptorHeap</link>*&#32;pExistingHeap,
+154 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;reserve&#32;=&#32;0)&#32;noexcept(false)
+155 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;<link linkend="_class_direct_x_1_1_descriptor_heap">DescriptorHeap</link>(pExistingHeap),
+156 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_top(reserve)
+157 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+158 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(reserve&#32;&gt;&#32;0&#32;&amp;&amp;&#32;m_top&#32;&gt;=&#32;<link linkend="_class_direct_x_1_1_descriptor_heap_1ae32d0445793efb09fc5f6d9583b632b6">Count</link>())
+159 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+160 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">throw</emphasis>&#32;std::out_of_range(<emphasis role="stringliteral">&quot;Reserve&#32;descriptor&#32;range&#32;is&#32;too&#32;large&quot;</emphasis>);
+161 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+162 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+163 
+164 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_descriptor_pile_1a5b79753529fda46bbc40f411be28b60e">DescriptorPile</link>(
+165 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_In_&#32;<link linkend="_interface_i_d3_d12_device">ID3D12Device</link>*&#32;device,
+166 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_In_&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_d3d12_8idl_1aad632fa80d3d35a2c4b1491a2587c062">D3D12_DESCRIPTOR_HEAP_DESC</link>*&#32;pDesc,
+167 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;reserve&#32;=&#32;0)&#32;noexcept(false)
+168 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;<link linkend="_class_direct_x_1_1_descriptor_heap">DescriptorHeap</link>(device,&#32;pDesc),
+169 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_top(reserve)
+170 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+171 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(reserve&#32;&gt;&#32;0&#32;&amp;&amp;&#32;m_top&#32;&gt;=&#32;<link linkend="_class_direct_x_1_1_descriptor_heap_1ae32d0445793efb09fc5f6d9583b632b6">Count</link>())
+172 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+173 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">throw</emphasis>&#32;std::out_of_range(<emphasis role="stringliteral">&quot;Reserve&#32;descriptor&#32;range&#32;is&#32;too&#32;large&quot;</emphasis>);
+174 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+175 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+176 
+177 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_descriptor_pile_1a884092cd9f891cb00c577fc0b3457c17">DescriptorPile</link>(
+178 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_In_&#32;<link linkend="_interface_i_d3_d12_device">ID3D12Device</link>*&#32;device,
+179 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1ad48f91971eb4cc5f27213d96cefae504">D3D12_DESCRIPTOR_HEAP_TYPE</link>&#32;<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>,
+180 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1a8719c063a8b3f958471d9dcc2345a4a6">D3D12_DESCRIPTOR_HEAP_FLAGS</link>&#32;<link linkend="_glad_8h_1ac7ba7d3cce3d19ca020e056b37231289">flags</link>,
+181 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;capacity,
+182 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;reserve&#32;=&#32;0)&#32;noexcept(false)
+183 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;<link linkend="_class_direct_x_1_1_descriptor_heap">DescriptorHeap</link>(device,&#32;<link linkend="_glad_8h_1a63267399cd2a2ee217572c11d2e54f07">type</link>,&#32;<link linkend="_glad_8h_1ac7ba7d3cce3d19ca020e056b37231289">flags</link>,&#32;capacity),
+184 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_top(reserve)
+185 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+186 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(reserve&#32;&gt;&#32;0&#32;&amp;&amp;&#32;m_top&#32;&gt;=&#32;<link linkend="_class_direct_x_1_1_descriptor_heap_1ae32d0445793efb09fc5f6d9583b632b6">Count</link>())
+187 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+188 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">throw</emphasis>&#32;std::out_of_range(<emphasis role="stringliteral">&quot;Reserve&#32;descriptor&#32;range&#32;is&#32;too&#32;large&quot;</emphasis>);
+189 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+190 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+191 
+192 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_descriptor_pile_1a2f99071cd289d4c51edf8ef3fb7da16f">DescriptorPile</link>(
+193 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_In_&#32;<link linkend="_interface_i_d3_d12_device">ID3D12Device</link>*&#32;device,
+194 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1a619bc20e8198de3bd3f3d7fc34de66b2">count</link>,
+195 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;reserve&#32;=&#32;0)&#32;noexcept(false)&#32;:
+196 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_descriptor_pile">DescriptorPile</link>(device,
+197 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV,
+198 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1a8719c063a8b3f958471d9dcc2345a4a6af4f2a33c7ea5adf266f45ee9d3a08ed4">D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE</link>,&#32;<link linkend="_glad_8h_1a619bc20e8198de3bd3f3d7fc34de66b2">count</link>,&#32;reserve)
+199 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+200 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+201 
+202 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_descriptor_pile_1aa9d60ca967ecdb2ef190fd9d7db083d3">DescriptorPile</link>(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_class_direct_x_1_1_descriptor_pile">DescriptorPile</link>&amp;)&#32;=&#32;<emphasis role="keyword">delete</emphasis>;
+203 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_descriptor_pile">DescriptorPile</link>&amp;&#32;<link linkend="_class_direct_x_1_1_descriptor_pile_1ad1fb8c1d4a06081529a7aa4b050a439b">operator=</link>(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_class_direct_x_1_1_descriptor_pile">DescriptorPile</link>&amp;)&#32;=&#32;<emphasis role="keyword">delete</emphasis>;
+204 
+205 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_descriptor_pile_1aca09ead1824bee5d3150f9f7e10bd998">DescriptorPile</link>(<link linkend="_class_direct_x_1_1_descriptor_pile">DescriptorPile</link>&amp;&amp;)&#32;=&#32;<emphasis role="keywordflow">default</emphasis>;
+206 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_descriptor_pile">DescriptorPile</link>&amp;&#32;<link linkend="_class_direct_x_1_1_descriptor_pile_1ae9156fdde5503bc2af210f6250c71101">operator=</link>(<link linkend="_class_direct_x_1_1_descriptor_pile">DescriptorPile</link>&amp;&amp;)&#32;=&#32;<emphasis role="keywordflow">default</emphasis>;
+207 
+208 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_descriptor_pile_1a7718f4e5bb01ec671e50a8dd57887271">IndexType</link>&#32;<link linkend="_class_direct_x_1_1_descriptor_pile_1ae14b88b5117c22faf4d1b2ade85b9893">Allocate</link>()
+209 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+210 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_descriptor_pile_1a7718f4e5bb01ec671e50a8dd57887271">IndexType</link>&#32;<link linkend="_glad_8h_1ac55adc720a3098c1b454d2a4647f4361">start</link>,&#32;<link linkend="_glad_8h_1a432111147038972f06e049e18a837002">end</link>;
+211 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_descriptor_pile_1ae910f5d393d20594130a1531d1a251d9">AllocateRange</link>(1,&#32;<link linkend="_glad_8h_1ac55adc720a3098c1b454d2a4647f4361">start</link>,&#32;<link linkend="_glad_8h_1a432111147038972f06e049e18a837002">end</link>);
+212 
+213 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_glad_8h_1ac55adc720a3098c1b454d2a4647f4361">start</link>;
+214 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+215 
+216 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_direct_x_1_1_descriptor_pile_1ae910f5d393d20594130a1531d1a251d9">AllocateRange</link>(<emphasis role="keywordtype">size_t</emphasis>&#32;numDescriptors,&#32;_Out_&#32;<link linkend="_class_direct_x_1_1_descriptor_pile_1a7718f4e5bb01ec671e50a8dd57887271">IndexType</link>&amp;&#32;<link linkend="_glad_8h_1ac55adc720a3098c1b454d2a4647f4361">start</link>,&#32;_Out_&#32;<link linkend="_class_direct_x_1_1_descriptor_pile_1a7718f4e5bb01ec671e50a8dd57887271">IndexType</link>&amp;&#32;<link linkend="_glad_8h_1a432111147038972f06e049e18a837002">end</link>);
+217 
+218 &#32;&#32;&#32;&#32;<emphasis role="keyword">private</emphasis>:
+219 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_descriptor_pile_1a7718f4e5bb01ec671e50a8dd57887271">IndexType</link>&#32;m_top;
+220 &#32;&#32;&#32;&#32;};
+221 }
+</programlisting></section>

@@ -1,0 +1,179 @@
+.TH "ExampleAppPropertyEditor" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+ExampleAppPropertyEditor
+.SH SYNOPSIS
+.br
+.PP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBDraw\fP (\fBExampleTreeNode\fP *root_node)"
+.br
+.ti -1c
+.RI "void \fBDrawTreeNode\fP (\fBExampleTreeNode\fP *node)"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "ImGuiTextFilter \fBFilter\fP"
+.br
+.ti -1c
+.RI "\fBExampleTreeNode\fP * \fBVisibleNode\fP = NULL"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Definition at line \fB8926\fP of file \fBimgui_demo\&.cpp\fP\&.
+.SH "Member Function Documentation"
+.PP 
+.SS "void ExampleAppPropertyEditor::Draw (\fBExampleTreeNode\fP * root_node)\fR [inline]\fP"
+
+.PP
+Definition at line \fB8931\fP of file \fBimgui_demo\&.cpp\fP\&.
+.nf
+8932     {
+8933         // Left side: draw tree
+8934         // \- Currently using a table to benefit from RowBg feature
+8935         if (ImGui::BeginChild("##tree", ImVec2(300, 0), ImGuiChildFlags_ResizeX | ImGuiChildFlags_Border | ImGuiChildFlags_NavFlattened))
+8936         {
+8937             ImGui::SetNextItemWidth(\-FLT_MIN);
+8938             ImGui::SetNextItemShortcut(ImGuiMod_Ctrl | ImGuiKey_F, ImGuiInputFlags_Tooltip);
+8939             ImGui::PushItemFlag(ImGuiItemFlags_NoNavDefaultFocus, true);
+8940             if (ImGui::InputTextWithHint("##Filter", "incl,\-excl", Filter\&.InputBuf, IM_ARRAYSIZE(Filter\&.InputBuf), ImGuiInputTextFlags_EscapeClearsAll))
+8941                 Filter\&.Build();
+8942             ImGui::PopItemFlag();
+8943 
+8944             if (ImGui::BeginTable("##bg", 1, ImGuiTableFlags_RowBg))
+8945             {
+8946                 for (ExampleTreeNode* node : root_node\->Childs)
+8947                     if (Filter\&.PassFilter(node\->Name)) // Filter root node
+8948                         DrawTreeNode(node);
+8949                 ImGui::EndTable();
+8950             }
+8951         }
+8952         ImGui::EndChild();
+8953 
+8954         // Right side: draw properties
+8955         ImGui::SameLine();
+8956 
+8957         ImGui::BeginGroup(); // Lock X position
+8958         if (ExampleTreeNode* node = VisibleNode)
+8959         {
+8960             ImGui::Text("%s", node\->Name);
+8961             ImGui::TextDisabled("UID: 0x%08X", node\->UID);
+8962             ImGui::Separator();
+8963             if (ImGui::BeginTable("##properties", 2, ImGuiTableFlags_Resizable | ImGuiTableFlags_ScrollY))
+8964             {
+8965                 ImGui::TableSetupColumn("", ImGuiTableColumnFlags_WidthFixed);
+8966                 ImGui::TableSetupColumn("", ImGuiTableColumnFlags_WidthStretch, 2\&.0f); // Default twice larger
+8967                 if (node\->HasData)
+8968                 {
+8969                     // In a typical application, the structure description would be derived from a data\-driven system\&.
+8970                     // \- We try to mimic this with our ExampleMemberInfo structure and the ExampleTreeNodeMemberInfos[] array\&.
+8971                     // \- Limits and some details are hard\-coded to simplify the demo\&.
+8972                     for (const ExampleMemberInfo& field_desc : ExampleTreeNodeMemberInfos)
+8973                     {
+8974                         ImGui::TableNextRow();
+8975                         ImGui::PushID(field_desc\&.Name);
+8976                         ImGui::TableNextColumn();
+8977                         ImGui::AlignTextToFramePadding();
+8978                         ImGui::TextUnformatted(field_desc\&.Name);
+8979                         ImGui::TableNextColumn();
+8980                         void* field_ptr = (void*)(((unsigned char*)node) + field_desc\&.Offset);
+8981                         switch (field_desc\&.DataType)
+8982                         {
+8983                         case ImGuiDataType_Bool:
+8984                         {
+8985                             IM_ASSERT(field_desc\&.DataCount == 1);
+8986                             ImGui::Checkbox("##Editor", (bool*)field_ptr);
+8987                             break;
+8988                         }
+8989                         case ImGuiDataType_S32:
+8990                         {
+8991                             int v_min = INT_MIN, v_max = INT_MAX;
+8992                             ImGui::SetNextItemWidth(\-FLT_MIN);
+8993                             ImGui::DragScalarN("##Editor", field_desc\&.DataType, field_ptr, field_desc\&.DataCount, 1\&.0f, &v_min, &v_max);
+8994                             break;
+8995                         }
+8996                         case ImGuiDataType_Float:
+8997                         {
+8998                             float v_min = 0\&.0f, v_max = 1\&.0f;
+8999                             ImGui::SetNextItemWidth(\-FLT_MIN);
+9000                             ImGui::SliderScalarN("##Editor", field_desc\&.DataType, field_ptr, field_desc\&.DataCount, &v_min, &v_max);
+9001                             break;
+9002                         }
+9003                         }
+9004                         ImGui::PopID();
+9005                     }
+9006                 }
+9007                 ImGui::EndTable();
+9008             }
+9009         }
+9010         ImGui::EndGroup();
+9011     }
+.PP
+.fi
+
+.PP
+References \fBExampleTreeNode::Childs\fP, \fBDrawTreeNode()\fP, \fBFilter\fP, and \fBVisibleNode\fP\&.
+.SS "void ExampleAppPropertyEditor::DrawTreeNode (\fBExampleTreeNode\fP * node)\fR [inline]\fP"
+
+.PP
+Definition at line \fB9013\fP of file \fBimgui_demo\&.cpp\fP\&.
+.nf
+9014     {
+9015         ImGui::TableNextRow();
+9016         ImGui::TableNextColumn();
+9017         ImGui::PushID(node\->UID);
+9018         ImGuiTreeNodeFlags tree_flags = ImGuiTreeNodeFlags_None;
+9019         tree_flags |= ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick;    // Standard opening mode as we are likely to want to add selection afterwards
+9020         tree_flags |= ImGuiTreeNodeFlags_NavLeftJumpsBackHere;                                  // Left arrow support
+9021         if (node == VisibleNode)
+9022             tree_flags |= ImGuiTreeNodeFlags_Selected;
+9023         if (node\->Childs\&.Size == 0)
+9024             tree_flags |= ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_Bullet;
+9025         if (node\->DataMyBool == false)
+9026             ImGui::PushStyleColor(ImGuiCol_Text, ImGui::GetStyle()\&.Colors[ImGuiCol_TextDisabled]);
+9027         bool node_open = ImGui::TreeNodeEx("", tree_flags, "%s", node\->Name);
+9028         if (node\->DataMyBool == false)
+9029             ImGui::PopStyleColor();
+9030         if (ImGui::IsItemFocused())
+9031             VisibleNode = node;
+9032         if (node_open)
+9033         {
+9034             for (ExampleTreeNode* child : node\->Childs)
+9035                 DrawTreeNode(child);
+9036             ImGui::TreePop();
+9037         }
+9038         ImGui::PopID();
+9039     }
+.PP
+.fi
+
+.PP
+References \fBExampleTreeNode::Childs\fP, \fBExampleTreeNode::DataMyBool\fP, \fBDrawTreeNode()\fP, \fBExampleTreeNode::Name\fP, \fBExampleTreeNode::UID\fP, and \fBVisibleNode\fP\&.
+.PP
+Referenced by \fBDraw()\fP, and \fBDrawTreeNode()\fP\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "ImGuiTextFilter ExampleAppPropertyEditor::Filter"
+
+.PP
+Definition at line \fB8928\fP of file \fBimgui_demo\&.cpp\fP\&.
+.PP
+Referenced by \fBDraw()\fP\&.
+.SS "\fBExampleTreeNode\fP* ExampleAppPropertyEditor::VisibleNode = NULL"
+
+.PP
+Definition at line \fB8929\fP of file \fBimgui_demo\&.cpp\fP\&.
+.PP
+Referenced by \fBDraw()\fP, and \fBDrawTreeNode()\fP\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

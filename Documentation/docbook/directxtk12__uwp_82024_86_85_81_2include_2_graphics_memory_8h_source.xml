@@ -1,0 +1,231 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_directxtk12__uwp_82024_86_85_81_2include_2_graphics_memory_8h_source" xml:lang="en-US">
+<title>GraphicsMemory.h</title>
+<indexterm><primary>packages/directxtk12_uwp.2024.6.5.1/include/GraphicsMemory.h</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 <emphasis role="comment">//--------------------------------------------------------------------------------------</emphasis>
+2 <emphasis role="comment">//&#32;File:&#32;GraphicsMemory.h</emphasis>
+3 <emphasis role="comment">//</emphasis>
+4 <emphasis role="comment">//&#32;Copyright&#32;(c)&#32;Microsoft&#32;Corporation.</emphasis>
+5 <emphasis role="comment">//&#32;Licensed&#32;under&#32;the&#32;MIT&#32;License.</emphasis>
+6 <emphasis role="comment">//</emphasis>
+7 <emphasis role="comment">//&#32;http://go.microsoft.com/fwlink/?LinkID=615561</emphasis>
+8 <emphasis role="comment">//--------------------------------------------------------------------------------------</emphasis>
+9 
+10 <emphasis role="preprocessor">#pragma&#32;once</emphasis>
+11 
+12 <emphasis role="preprocessor">#ifdef&#32;_GAMING_XBOX_SCARLETT</emphasis>
+13 <emphasis role="preprocessor">#include&#32;&lt;d3d12_xs.h&gt;</emphasis>
+14 <emphasis role="preprocessor">#elif&#32;(defined(_XBOX_ONE)&#32;&amp;&amp;&#32;defined(_TITLE))&#32;||&#32;defined(_GAMING_XBOX)</emphasis>
+15 <emphasis role="preprocessor">#include&#32;&lt;d3d12_x.h&gt;</emphasis>
+16 <emphasis role="preprocessor">#elif&#32;defined(USING_DIRECTX_HEADERS)</emphasis>
+17 <emphasis role="preprocessor">#include&#32;&lt;directx/d3d12.h&gt;</emphasis>
+18 <emphasis role="preprocessor">#include&#32;&lt;dxguids/dxguids.h&gt;</emphasis>
+19 <emphasis role="preprocessor">#else</emphasis>
+20 <emphasis role="preprocessor">#include&#32;&lt;<link linkend="_d3d12_8h">d3d12.h</link>&gt;</emphasis>
+21 <emphasis role="preprocessor">#endif</emphasis>
+22 
+23 <emphasis role="preprocessor">#include&#32;&lt;cstddef&gt;</emphasis>
+24 <emphasis role="preprocessor">#include&#32;&lt;cstring&gt;</emphasis>
+25 <emphasis role="preprocessor">#include&#32;&lt;memory&gt;</emphasis>
+26 
+27 <emphasis role="preprocessor">#ifdef&#32;_GAMING_XBOX</emphasis>
+28 <emphasis role="preprocessor">#include&#32;&lt;gxdk.h&gt;</emphasis>
+29 <emphasis role="preprocessor">#endif</emphasis>
+30 
+31 <emphasis role="preprocessor">#if&#32;defined(_GAMING_XBOX)&#32;&amp;&amp;&#32;(defined(_DEBUG)&#32;||&#32;defined(PROFILE))&#32;&amp;&amp;&#32;(_GXDK_VER&#32;&gt;=&#32;0x585D073C)&#32;</emphasis><emphasis role="comment">/*&#32;GDK&#32;Edition&#32;221000&#32;*/</emphasis><emphasis role="preprocessor"></emphasis>
+32 <emphasis role="preprocessor">#define&#32;USING_PIX_CUSTOM_MEMORY_EVENTS</emphasis>
+33 <emphasis role="preprocessor">#include&#32;&lt;tuple&gt;</emphasis>
+34 <emphasis role="preprocessor">#endif</emphasis>
+35 
+36 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespace_direct_x">DirectX</link>
+37 {
+38 &#32;&#32;&#32;&#32;<emphasis role="keyword">class&#32;</emphasis>LinearAllocatorPage;
+39 
+40 &#32;&#32;&#32;&#32;<emphasis role="keyword">inline</emphasis>&#32;<emphasis role="keyword">namespace&#32;</emphasis>DX12
+41 &#32;&#32;&#32;&#32;{
+42 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Works&#32;a&#32;little&#32;like&#32;a&#32;smart&#32;pointer.&#32;The&#32;memory&#32;will&#32;only&#32;be&#32;fenced&#32;by&#32;the&#32;GPU&#32;once&#32;the&#32;pointer</emphasis>
+43 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;has&#32;been&#32;invalidated&#32;or&#32;the&#32;user&#32;explicitly&#32;marks&#32;it&#32;for&#32;fencing.</emphasis>
+44 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">class&#32;</emphasis><link linkend="_class_direct_x_1_1_d_x12_1_1_graphics_resource">GraphicsResource</link>
+45 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+46 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">public</emphasis>:
+47 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_graphics_resource_1a8d91f1d6e346806b3b6015766c5f88b3">GraphicsResource</link>()&#32;noexcept;
+48 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_graphics_resource">GraphicsResource</link>(
+49 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_In_&#32;LinearAllocatorPage*&#32;page,
+50 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_In_&#32;<link linkend="_d3d12_8idl_1afeb1de8e4bd6026ccd23d8cbd37f7736">D3D12_GPU_VIRTUAL_ADDRESS</link>&#32;gpuAddress,
+51 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_In_&#32;<link linkend="_interface_i_d3_d12_resource">ID3D12Resource</link>*&#32;resource,
+52 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_In_&#32;<emphasis role="keywordtype">void</emphasis>*&#32;memory,
+53 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_In_&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1ae1b92ae085ddef4b1cdca7d749339fb0">offset</link>,
+54 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_In_&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>)&#32;noexcept;
+55 
+56 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_graphics_resource">GraphicsResource</link>(<link linkend="_class_direct_x_1_1_d_x12_1_1_graphics_resource">GraphicsResource</link>&amp;&amp;&#32;other)&#32;noexcept;
+57 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_graphics_resource">GraphicsResource</link>&amp;&amp;&#32;operator=&#32;(<link linkend="_class_direct_x_1_1_d_x12_1_1_graphics_resource">GraphicsResource</link>&amp;&amp;)&#32;noexcept;
+58 
+59 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_graphics_resource">GraphicsResource</link>(const&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_graphics_resource">GraphicsResource</link>&amp;)&#32;=&#32;delete;
+60 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_graphics_resource">GraphicsResource</link>&amp;&#32;operator=&#32;(const&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_graphics_resource">GraphicsResource</link>&amp;)&#32;=&#32;delete;
+61 
+62 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;~<link linkend="_class_direct_x_1_1_d_x12_1_1_graphics_resource">GraphicsResource</link>();
+63 
+64 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1afeb1de8e4bd6026ccd23d8cbd37f7736">D3D12_GPU_VIRTUAL_ADDRESS</link>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_graphics_resource_1a08f102bbf05192422a82f2cb6a1ef5d5">GpuAddress</link>()&#32;const&#32;noexcept&#32;{&#32;<emphasis role="keywordflow">return</emphasis>&#32;mGpuAddress;&#32;}
+65 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_interface_i_d3_d12_resource">ID3D12Resource</link>*&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_graphics_resource_1aaa1f97148fed475bf6ba080f0714c16a">Resource</link>()&#32;const&#32;noexcept&#32;{&#32;<emphasis role="keywordflow">return</emphasis>&#32;mResource;&#32;}
+66 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>*&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_graphics_resource_1af4b82ba00c4fcbef13ecdb2a3a412698">Memory</link>()&#32;const&#32;noexcept&#32;{&#32;<emphasis role="keywordflow">return</emphasis>&#32;mMemory;&#32;}
+67 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_graphics_resource_1ac8210e952a2a5e1a6db0751583a82e51">ResourceOffset</link>()&#32;const&#32;noexcept&#32;{&#32;<emphasis role="keywordflow">return</emphasis>&#32;mBufferOffset;&#32;}
+68 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_graphics_resource_1ace8ab026cc2454b9d9672ebe534635f4">Size</link>()&#32;const&#32;noexcept&#32;{&#32;<emphasis role="keywordflow">return</emphasis>&#32;mSize;&#32;}
+69 
+70 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">explicit</emphasis>&#32;<emphasis role="keyword">operator</emphasis>&#32;bool()&#32;const&#32;noexcept&#32;{&#32;<emphasis role="keywordflow">return</emphasis>&#32;mResource&#32;!=&#32;<emphasis role="keyword">nullptr</emphasis>;&#32;}
+71 
+72 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Clear&#32;the&#32;pointer.&#32;Using&#32;operator&#32;-&gt;&#32;will&#32;produce&#32;bad&#32;results.</emphasis>
+73 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_graphics_resource_1acbaad2db656e3f9efac31498fcd2a009">Reset</link>()&#32;noexcept;
+74 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_graphics_resource_1acbaad2db656e3f9efac31498fcd2a009">Reset</link>(<link linkend="_class_direct_x_1_1_d_x12_1_1_graphics_resource">GraphicsResource</link>&amp;&amp;)&#32;noexcept;
+75 
+76 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;private:
+77 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;LinearAllocatorPage*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;mPage;
+78 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1afeb1de8e4bd6026ccd23d8cbd37f7736">D3D12_GPU_VIRTUAL_ADDRESS</link>&#32;&#32;&#32;mGpuAddress;
+79 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_interface_i_d3_d12_resource">ID3D12Resource</link>*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;mResource;
+80 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>*&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;mMemory;
+81 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;mBufferOffset;
+82 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;mSize;
+83 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+84 
+85 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;class&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_shared_graphics_resource">SharedGraphicsResource</link>
+86 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+87 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">public</emphasis>:
+88 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_shared_graphics_resource_1a1338f9bae4794bb00ea1c3a17ee3715a">SharedGraphicsResource</link>()&#32;noexcept;
+89 
+90 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_shared_graphics_resource">SharedGraphicsResource</link>(<link linkend="_class_direct_x_1_1_d_x12_1_1_shared_graphics_resource">SharedGraphicsResource</link>&amp;&amp;)&#32;noexcept;
+91 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_shared_graphics_resource">SharedGraphicsResource</link>&amp;&amp;&#32;operator=&#32;(<link linkend="_class_direct_x_1_1_d_x12_1_1_shared_graphics_resource">SharedGraphicsResource</link>&amp;&amp;)&#32;noexcept;
+92 
+93 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_shared_graphics_resource">SharedGraphicsResource</link>(<link linkend="_class_direct_x_1_1_d_x12_1_1_graphics_resource">GraphicsResource</link>&amp;&amp;);
+94 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_shared_graphics_resource">SharedGraphicsResource</link>&amp;&amp;&#32;operator=&#32;(<link linkend="_class_direct_x_1_1_d_x12_1_1_graphics_resource">GraphicsResource</link>&amp;&amp;);
+95 
+96 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_shared_graphics_resource">SharedGraphicsResource</link>(const&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_shared_graphics_resource">SharedGraphicsResource</link>&amp;)&#32;noexcept;
+97 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_shared_graphics_resource">SharedGraphicsResource</link>&amp;&#32;operator=&#32;(const&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_shared_graphics_resource">SharedGraphicsResource</link>&amp;)&#32;noexcept;
+98 
+99 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_shared_graphics_resource">SharedGraphicsResource</link>(const&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_graphics_resource">GraphicsResource</link>&amp;)&#32;=&#32;delete;
+100 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_shared_graphics_resource">SharedGraphicsResource</link>&amp;&#32;operator=&#32;(const&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_graphics_resource">GraphicsResource</link>&amp;)&#32;=&#32;delete;
+101 
+102 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;~<link linkend="_class_direct_x_1_1_d_x12_1_1_shared_graphics_resource">SharedGraphicsResource</link>();
+103 
+104 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1afeb1de8e4bd6026ccd23d8cbd37f7736">D3D12_GPU_VIRTUAL_ADDRESS</link>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_graphics_resource_1a08f102bbf05192422a82f2cb6a1ef5d5">GpuAddress</link>()&#32;const&#32;noexcept&#32;{&#32;<emphasis role="keywordflow">return</emphasis>&#32;mSharedResource-&gt;<link linkend="_class_direct_x_1_1_d_x12_1_1_shared_graphics_resource_1a0fb68543d0c6e8421202e520dbf28461">GpuAddress</link>();&#32;}
+105 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_interface_i_d3_d12_resource">ID3D12Resource</link>*&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_shared_graphics_resource_1a657937c500ee29e25abddd002216a230">Resource</link>()&#32;const&#32;noexcept&#32;{&#32;<emphasis role="keywordflow">return</emphasis>&#32;mSharedResource-&gt;Resource();&#32;}
+106 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>*&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_shared_graphics_resource_1a68f01f94af9a2142c0df89295e5727aa">Memory</link>()&#32;const&#32;noexcept&#32;{&#32;<emphasis role="keywordflow">return</emphasis>&#32;mSharedResource-&gt;Memory();&#32;}
+107 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_shared_graphics_resource_1af2994b37ab01b0564466c8db6fd3a4c9">ResourceOffset</link>()&#32;const&#32;noexcept&#32;{&#32;<emphasis role="keywordflow">return</emphasis>&#32;mSharedResource-&gt;ResourceOffset();&#32;}
+108 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_shared_graphics_resource_1a9d478fdc511c892c219a5873fc4d6573">Size</link>()&#32;const&#32;noexcept&#32;{&#32;<emphasis role="keywordflow">return</emphasis>&#32;mSharedResource-&gt;Size();&#32;}
+109 
+110 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">explicit</emphasis>&#32;<emphasis role="keyword">operator</emphasis>&#32;bool()&#32;const&#32;noexcept&#32;{&#32;<emphasis role="keywordflow">return</emphasis>&#32;mSharedResource&#32;!=&#32;<emphasis role="keyword">nullptr</emphasis>;&#32;}
+111 
+112 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_d3dx12__core_8h_1abaa7b9c9360889b3da29669bdf7103a6">operator == </link>(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_shared_graphics_resource">SharedGraphicsResource</link>&amp;&#32;other)&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">noexcept</emphasis>&#32;{&#32;<emphasis role="keywordflow">return</emphasis>&#32;mSharedResource.get()&#32;==&#32;other.mSharedResource.get();&#32;}
+113 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_d3dx12__core_8h_1a9db3eda2cb0b747ec337ec87a15d4b0a">operator != </link>(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_shared_graphics_resource">SharedGraphicsResource</link>&amp;&#32;other)&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">noexcept</emphasis>&#32;{&#32;<emphasis role="keywordflow">return</emphasis>&#32;mSharedResource.get()&#32;!=&#32;other.mSharedResource.get();&#32;}
+114 
+115 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Clear&#32;the&#32;pointer.&#32;Using&#32;operator&#32;-&gt;&#32;will&#32;produce&#32;bad&#32;results.</emphasis>
+116 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_shared_graphics_resource_1aabbd44b7a82d1a283ec8c48bb1abe115">Reset</link>()&#32;noexcept;
+117 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_graphics_resource_1acbaad2db656e3f9efac31498fcd2a009">Reset</link>(<link linkend="_class_direct_x_1_1_d_x12_1_1_graphics_resource">GraphicsResource</link>&amp;&amp;);
+118 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_graphics_resource_1acbaad2db656e3f9efac31498fcd2a009">Reset</link>(<link linkend="_class_direct_x_1_1_d_x12_1_1_shared_graphics_resource">SharedGraphicsResource</link>&amp;&amp;)&#32;noexcept;
+119 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_graphics_resource_1acbaad2db656e3f9efac31498fcd2a009">Reset</link>(const&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_shared_graphics_resource">SharedGraphicsResource</link>&amp;&#32;resource)&#32;noexcept;
+120 
+121 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;private:
+122 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacestd">std</link>::shared_ptr&lt;<link linkend="_class_direct_x_1_1_d_x12_1_1_graphics_resource">GraphicsResource</link>&gt;&#32;mSharedResource;
+123 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+124 
+125 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//------------------------------------------------------------------------------</emphasis>
+126 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_interfacestruct">struct</link>&#32;<link linkend="_struct_direct_x_1_1_d_x12_1_1_graphics_memory_statistics">GraphicsMemoryStatistics</link>
+127 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+128 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;committedMemory;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Bytes&#32;of&#32;memory&#32;currently&#32;committed/in-flight</emphasis>
+129 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;totalMemory;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Total&#32;bytes&#32;of&#32;memory&#32;used&#32;by&#32;the&#32;allocators</emphasis>
+130 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;totalPages;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Total&#32;page&#32;count</emphasis>
+131 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;peakCommitedMemory;&#32;&#32;<emphasis role="comment">//&#32;Peak&#32;commited&#32;memory&#32;value&#32;since&#32;last&#32;reset</emphasis>
+132 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;peakTotalMemory;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Peak&#32;total&#32;bytes</emphasis>
+133 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;peakTotalPages;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Peak&#32;total&#32;page&#32;count</emphasis>
+134 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+135 
+136 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//------------------------------------------------------------------------------</emphasis>
+137 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">class&#32;</emphasis><link linkend="_class_direct_x_1_1_d_x12_1_1_graphics_memory">GraphicsMemory</link>
+138 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+139 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">public</emphasis>:
+140 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">enum</emphasis>&#32;<link linkend="_class_tag">Tag</link>
+141 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+142 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;TAG_GENERIC&#32;=&#32;0,
+143 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;TAG_CONSTANT,
+144 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;TAG_VERTEX,
+145 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;TAG_INDEX,
+146 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;TAG_SPRITES,
+147 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;TAG_TEXTURE,
+148 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;TAG_COMPUTE,
+149 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+150 
+151 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">explicit</emphasis>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_graphics_memory_1a338684899f13028f60fc69d6428c7a93">GraphicsMemory</link>(_In_&#32;<link linkend="_interface_i_d3_d12_device">ID3D12Device</link>*&#32;device);
+152 
+153 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_graphics_memory_1a66186be6223949b527bd6ff93a1e64e1">GraphicsMemory</link>(<link linkend="_class_direct_x_1_1_d_x12_1_1_graphics_memory">GraphicsMemory</link>&amp;&amp;)&#32;noexcept;
+154 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_graphics_memory">GraphicsMemory</link>&amp;&#32;operator=&#32;(<link linkend="_class_direct_x_1_1_d_x12_1_1_graphics_memory">GraphicsMemory</link>&amp;&amp;)&#32;noexcept;
+155 
+156 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_graphics_memory">GraphicsMemory</link>(<link linkend="_class_direct_x_1_1_d_x12_1_1_graphics_memory">GraphicsMemory</link>&#32;const&amp;)&#32;=&#32;delete;
+157 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_graphics_memory">GraphicsMemory</link>&amp;&#32;operator=(<link linkend="_class_direct_x_1_1_d_x12_1_1_graphics_memory">GraphicsMemory</link>&#32;const&amp;)&#32;=&#32;delete;
+158 
+159 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;virtual&#32;~<link linkend="_class_direct_x_1_1_d_x12_1_1_graphics_memory">GraphicsMemory</link>();
+160 
+161 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Make&#32;sure&#32;to&#32;keep&#32;the&#32;GraphicsResource&#32;handle&#32;alive&#32;as&#32;long&#32;as&#32;you&#32;need&#32;to&#32;access</emphasis>
+162 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;the&#32;memory&#32;on&#32;the&#32;CPU.&#32;For&#32;example,&#32;do&#32;not&#32;simply&#32;cache&#32;GpuAddress()&#32;and&#32;discard</emphasis>
+163 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;the&#32;GraphicsResource&#32;object,&#32;or&#32;your&#32;memory&#32;may&#32;be&#32;overwritten&#32;later.</emphasis>
+164 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_graphics_resource">GraphicsResource</link>&#32;__cdecl&#32;Allocate(<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;alignment&#32;=&#32;16,&#32;uint32_t&#32;tag&#32;=&#32;TAG_GENERIC)
+165 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+166 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;alloc&#32;=&#32;AllocateImpl(<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>,&#32;alignment);
+167 <emphasis role="preprocessor">#ifdef&#32;USING_PIX_CUSTOM_MEMORY_EVENTS</emphasis>
+168 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::ignore&#32;=&#32;ReportCustomMemoryAlloc(alloc.Memory(),&#32;alloc.Size(),&#32;tag);
+169 <emphasis role="preprocessor">#else</emphasis>
+170 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;UNREFERENCED_PARAMETER(tag);
+171 <emphasis role="preprocessor">#endif</emphasis>
+172 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;alloc;
+173 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+174 
+175 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Version&#32;of&#32;Allocate&#32;that&#32;aligns&#32;to&#32;D3D12&#32;constant&#32;buffer&#32;requirements</emphasis>
+176 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T&gt;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_graphics_resource">GraphicsResource</link>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_graphics_memory_1a5348241f83a5c262666536d3921b6ff2">AllocateConstant</link>()
+177 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+178 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">constexpr</emphasis>&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;alignment&#32;=&#32;<link linkend="_d3d12_8idl_1add32f4d830af2aff3aede30f72679f52">D3D12_CONSTANT_BUFFER_DATA_PLACEMENT_ALIGNMENT</link>;
+179 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">constexpr</emphasis>&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;alignedSize&#32;=&#32;(<emphasis role="keyword">sizeof</emphasis>(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>)&#32;+&#32;alignment&#32;-&#32;1)&#32;&amp;&#32;~(alignment&#32;-&#32;1);
+180 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;alloc&#32;=&#32;AllocateImpl(alignedSize,&#32;alignment);
+181 <emphasis role="preprocessor">#ifdef&#32;USING_PIX_CUSTOM_MEMORY_EVENTS</emphasis>
+182 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;This&#32;cast&#32;is&#32;needed&#32;to&#32;capture&#32;the&#32;type&#32;information&#32;in&#32;the&#32;PDB</emphasis>
+183 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::ignore&#32;=&#32;<emphasis role="keyword">reinterpret_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>*<emphasis role="keyword">&gt;</emphasis>(ReportCustomMemoryAlloc(alloc.Memory(),&#32;alloc.Size(),&#32;TAG_CONSTANT));
+184 <emphasis role="preprocessor">#endif</emphasis>
+185 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;alloc;
+186 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+187 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T&gt;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_graphics_resource">GraphicsResource</link>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_graphics_memory_1acc6c81ef9aa07d4a4b39e25350242d5c">AllocateConstant</link>(<emphasis role="keyword">const</emphasis>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&amp;&#32;setData)
+188 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+189 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_graphics_resource">GraphicsResource</link>&#32;alloc&#32;=&#32;AllocateConstant&lt;T&gt;();
+190 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memcpy(alloc.<link linkend="_class_direct_x_1_1_d_x12_1_1_graphics_resource_1af4b82ba00c4fcbef13ecdb2a3a412698">Memory</link>(),&#32;&amp;setData,&#32;<emphasis role="keyword">sizeof</emphasis>(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>));
+191 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;alloc;
+192 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+193 
+194 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Submits&#32;all&#32;the&#32;pending&#32;one-shot&#32;memory&#32;to&#32;the&#32;GPU.</emphasis>
+195 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;The&#32;memory&#32;will&#32;be&#32;recycled&#32;once&#32;the&#32;GPU&#32;is&#32;done&#32;with&#32;it.</emphasis>
+196 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_graphics_memory_1a3e2b02c158bd42bb83006360b3fb3e80">Commit</link>(_In_&#32;<link linkend="_interface_i_d3_d12_command_queue">ID3D12CommandQueue</link>*&#32;commandQueue);
+197 
+198 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;This&#32;frees&#32;up&#32;any&#32;unused&#32;memory.</emphasis>
+199 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;If&#32;you&#32;want&#32;to&#32;make&#32;sure&#32;all&#32;memory&#32;is&#32;reclaimed,&#32;idle&#32;the&#32;GPU&#32;before&#32;calling&#32;this.</emphasis>
+200 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;It&#32;is&#32;not&#32;recommended&#32;that&#32;you&#32;call&#32;this&#32;unless&#32;absolutely&#32;necessary&#32;(e.g.&#32;your</emphasis>
+201 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;memory&#32;budget&#32;changes&#32;at&#32;run-time,&#32;or&#32;perhaps&#32;you&apos;re&#32;changing&#32;levels&#32;in&#32;your&#32;game.)</emphasis>
+202 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_graphics_memory_1a509b6a281c7e1ae7a730780fea9c809c">GarbageCollect</link>();
+203 
+204 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Memory&#32;statistics</emphasis>
+205 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_direct_x_1_1_d_x12_1_1_graphics_memory_statistics">GraphicsMemoryStatistics</link>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_graphics_memory_1a2ee372b2c94140ab8c2f52c35a5baeb6">GetStatistics</link>();
+206 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_graphics_memory_1a75e034902647e38b689248499ebc12a9">ResetStatistics</link>();
+207 
+208 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Singleton</emphasis>
+209 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Should&#32;only&#32;use&#32;nullptr&#32;for&#32;single&#32;GPU&#32;scenarios;&#32;mGPU&#32;requires&#32;a&#32;specific&#32;device</emphasis>
+210 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_graphics_memory">GraphicsMemory</link>&amp;&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_graphics_memory_1a26979f4edd9f6d72407f7912a1373c1b">Get</link>(_In_opt_&#32;<link linkend="_interface_i_d3_d12_device">ID3D12Device</link>*&#32;device&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>);
+211 
+212 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">private</emphasis>:
+213 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Private&#32;implementation.</emphasis>
+214 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">class&#32;</emphasis>Impl;
+215 
+216 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_graphics_resource">GraphicsResource</link>&#32;__cdecl&#32;AllocateImpl(<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;alignment);
+217 
+218 <emphasis role="preprocessor">#ifdef&#32;USING_PIX_CUSTOM_MEMORY_EVENTS</emphasis>
+219 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;The&#32;declspec&#32;is&#32;required&#32;to&#32;ensure&#32;the&#32;proper&#32;information&#32;is&#32;captured&#32;in&#32;the&#32;PDB</emphasis>
+220 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_main_8cpp_1ac9c59c375045745993123bc68f44f575">__declspec</link>(allocator)&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>*&#32;__cdecl&#32;ReportCustomMemoryAlloc(<emphasis role="keywordtype">void</emphasis>*&#32;pMem,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>,&#32;UINT64&#32;metadata);
+221 <emphasis role="preprocessor">#endif</emphasis>
+222 
+223 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::unique_ptr&lt;Impl&gt;&#32;pImpl;
+224 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+225 &#32;&#32;&#32;&#32;}
+226 }
+</programlisting></section>

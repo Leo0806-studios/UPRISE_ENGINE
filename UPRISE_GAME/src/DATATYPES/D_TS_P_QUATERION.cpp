@@ -3,7 +3,7 @@
 #define _USE_MATH_DEFINES
 #include "math.h"
 
- DATATYPES::Quaternion DATATYPES::Quaternion::FromEulerAngles(DATATYPES::TS_P_Vector3 vec) {
+ DATATYPES::Quaternion DATATYPES::Quaternion::FromEulerAngles(DATATYPES::TSPVector3 vec) {
 	 float cy = std::cos(vec.y * 0.5);
 	 float sy = std::sin(vec.y * 0.5);
 	 float cp = std::cos(vec.z* 0.5);
@@ -34,7 +34,7 @@ DATATYPES:: Quaternion DATATYPES::Quaternion::operator*(const Quaternion& other)
 	);
  }
 
- DATATYPES::TS_P_Vector3 DATATYPES::Quaternion::ToRotationVector() const {
+ DATATYPES::TSPVector3 DATATYPES::Quaternion::ToRotationVector() const {
 	 //DATATYPES::TS_P_Vector3 ot;
 	 //double sinr_cosp = 2 * (w * x + y * z);
 	 //double cosr_cosp = 1 - 2 * (x * x + y * y);
@@ -67,13 +67,13 @@ DATATYPES:: Quaternion DATATYPES::Quaternion::operator*(const Quaternion& other)
 	 float s = std::sqrt(1.0f - nw * nw);
 	 if (s < 0.0001f) {
 		 // If s is close to zero, return the axis as (1, 0, 0)
-		 return DATATYPES::TS_P_Vector3(1, 0, 0) * angle;
+		 return DATATYPES::TSPVector3(1, 0, 0) * angle;
 	 }
 	 else {
-		 return DATATYPES::TS_P_Vector3(nx / s, ny / s, nz / s) * angle;
+		 return DATATYPES::TSPVector3(nx / s, ny / s, nz / s) * angle;
 	 }
  }
- DATATYPES::TS_P_Vector3 DATATYPES::Quaternion::operator*(DATATYPES::TS_P_Vector3 vec)
+ DATATYPES::TSPVector3 DATATYPES::Quaternion::operator*(DATATYPES::TSPVector3 vec)
  {
 	 float num = x * 2;
 	 float num2 = y * 2;
@@ -87,7 +87,7 @@ DATATYPES:: Quaternion DATATYPES::Quaternion::operator*(const Quaternion& other)
 	 float num10 = w * num;
 	 float num11 = w * num2;
 	 float num12 = w * num3;
-	 DATATYPES::TS_P_Vector3 result;
+	 DATATYPES::TSPVector3 result;
 	 result.x = (1 - (num5 + num6)) * vec.x + (num7 - num12) * vec.y + (num8 + num11) * vec.z;
 	 result.y = (num7 + num12) * vec.x + (1 - (num4 + num6)) * vec.y + (num9 - num10) * vec.z;
 	 result.z = (num8 - num11) * vec.x + (num9 + num10) * vec.y + (1 - (num4 + num5)) * vec.z;

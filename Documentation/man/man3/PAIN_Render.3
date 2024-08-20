@@ -1,4 +1,4 @@
-.TH "PAIN::Render" 3 "Version 0.0.0.1" "My Project" \" -*- nroff -*-
+.TH "PAIN::Render" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -13,6 +13,9 @@ Inherited by \fBPAIN::Material\fP, and \fBPAIN::TerrainModel\fP\fR [private]\fP\
 .SS "Public Member Functions"
 
 .in +1c
+.ti -1c
+.RI "\fBVEC\fP (std::shared_ptr< \fBMiniModel\fP >) Object_ModelSubstitute"
+.br
 .ti -1c
 .RI "virtual void \fBDrawObj\fP ()=0"
 .br
@@ -44,6 +47,12 @@ Inherited by \fBPAIN::Material\fP, and \fBPAIN::TerrainModel\fP\fR [private]\fP\
 
 .in +1c
 .ti -1c
+.RI "static unsigned int \fBFBO\fP"
+.br
+.ti -1c
+.RI "static std::unordered_map< std::string, int > \fBMaterialIdLinkDict\fP"
+.br
+.ti -1c
 .RI "static std::unordered_map< std::string, std::shared_ptr< \fBPAIN::Model\fP > > \fBModeldict\fP"
 .br
 .ti -1c
@@ -56,18 +65,42 @@ Inherited by \fBPAIN::Material\fP, and \fBPAIN::TerrainModel\fP\fR [private]\fP\
 .RI "static \fBPAIN::Render_Camera\fP * \fBRenderCam\fP"
 .br
 .ti -1c
-.RI "static std::shared_ptr< \fBCORE::Behaviour\fP > \fBCAM\fP"
+.RI "static std::shared_ptr< \fBCamera\fP > \fBCAM\fP"
+.br
+.ti -1c
+.RI "static bool \fBCheck_Removed\fP = false"
 .br
 .in -1c
 .SH "Detailed Description"
 .PP 
-Definition at line \fB11\fP of file \fBRENDER_MATERIAL\&.h\fP\&.
+Definition at line \fB32\fP of file \fBRENDER_MATERIAL\&.h\fP\&.
 .SH "Member Function Documentation"
 .PP 
 .SS "void PAIN::Render::DrawAll ()\fR [static]\fP"
 
 .PP
-Definition at line \fB47\fP of file \fBRENDER_MATERIAL\&.cpp\fP\&.
+Definition at line \fB69\fP of file \fBRENDER_MATERIAL\&.cpp\fP\&.
+.nf
+69                            {
+70     int i = mats\&.size() \- 1;
+71     for (; i >= 0; i\-\-) {
+72 
+73 
+74         mats[i]\&.DrawObj();
+75     }
+76     int s = terrains\&.size()\-1;
+77     for (; s >= 0; s\-\-) {
+78         terrains[s]\&.get()\->DrawObj();
+79     }
+80     Check_Removed = false;
+81 }
+.PP
+.fi
+
+.PP
+References \fBi\fP\&.
+.PP
+Referenced by \fBmain()\fP\&.
 .SS "virtual void PAIN::Render::DrawObj ()\fR [pure virtual]\fP"
 
 .PP
@@ -75,41 +108,75 @@ Implemented in \fBPAIN::Material\fP, and \fBPAIN::TerrainModel\fP\&.
 .SS "void PAIN::Render::Init ()\fR [static]\fP"
 
 .PP
-Definition at line \fB60\fP of file \fBRENDER_MATERIAL\&.cpp\fP\&.
+Definition at line \fB83\fP of file \fBRENDER_MATERIAL\&.cpp\fP\&.
+.nf
+84   {
+85   }
+.PP
+.fi
+
+.SS "PAIN::Render::VEC (std::shared_ptr< \fBMiniModel\fP > )"
+
 .SH "Member Data Documentation"
 .PP 
-.SS "std::shared_ptr< \fBCORE::Behaviour\fP > PAIN::Render::CAM\fR [static]\fP"
+.SS "std::shared_ptr< \fBCamera\fP > PAIN::Render::CAM\fR [static]\fP"
 
 .PP
-Definition at line \fB23\fP of file \fBRENDER_MATERIAL\&.h\fP\&.
+Definition at line \fB47\fP of file \fBRENDER_MATERIAL\&.h\fP\&.
+.PP
+Referenced by \fBmain()\fP, and \fBPAIN::RenderStup::Setup()\fP\&.
+.SS "bool PAIN::Render::Check_Removed = false\fR [static]\fP"
+
+.PP
+Definition at line \fB48\fP of file \fBRENDER_MATERIAL\&.h\fP\&.
+.PP
+Referenced by \fBRemoveFromRender()\fP\&.
+.SS "unsigned int PAIN::Render::FBO\fR [static]\fP"
+
+.PP
+Definition at line \fB37\fP of file \fBRENDER_MATERIAL\&.h\fP\&.
+.SS "std::unordered_map< std::string, int > PAIN::Render::MaterialIdLinkDict\fR [static]\fP"
+
+.PP
+Definition at line \fB38\fP of file \fBRENDER_MATERIAL\&.h\fP\&.
+.PP
+Referenced by \fBmain()\fP\&.
 .SS "std::vector< \fBPAIN::Material\fP > PAIN::Render::mats\fR [static]\fP"
 
 .PP
-Definition at line \fB17\fP of file \fBRENDER_MATERIAL\&.h\fP\&.
+Definition at line \fB40\fP of file \fBRENDER_MATERIAL\&.h\fP\&.
+.PP
+Referenced by \fBAddTORender()\fP, \fBbb()\fP, \fBGameObject::Create()\fP, \fBGameObject::Create()\fP, \fBCreateMaterial()\fP, \fBCORE::ConfigLoader::LoadMaterials()\fP, \fBmain()\fP, \fBprocessInput()\fP, and \fBRemoveFromRender()\fP\&.
 .SS "std::unordered_map< std::string, std::shared_ptr< \fBPAIN::Model\fP > > PAIN::Render::Modeldict\fR [static]\fP"
 
 .PP
-Definition at line \fB16\fP of file \fBRENDER_MATERIAL\&.h\fP\&.
+Definition at line \fB39\fP of file \fBRENDER_MATERIAL\&.h\fP\&.
+.PP
+Referenced by \fBCORE::ConfigLoader::LoadModels()\fP, and \fBmain()\fP\&.
 .SS "std::vector< std::shared_ptr<\fBGameObject\fP> > PAIN::Render::objects"
 
 .PP
-Definition at line \fB19\fP of file \fBRENDER_MATERIAL\&.h\fP\&.
+Definition at line \fB42\fP of file \fBRENDER_MATERIAL\&.h\fP\&.
 .SS "std::vector< std::shared_ptr<\fBCORE::Object\fP> > PAIN::Render::ptrobjects"
 
 .PP
-Definition at line \fB20\fP of file \fBRENDER_MATERIAL\&.h\fP\&.
+Definition at line \fB44\fP of file \fBRENDER_MATERIAL\&.h\fP\&.
 .SS "\fBPAIN::Render_Camera\fP * PAIN::Render::RenderCam\fR [static]\fP"
 
 .PP
-Definition at line \fB22\fP of file \fBRENDER_MATERIAL\&.h\fP\&.
+Definition at line \fB46\fP of file \fBRENDER_MATERIAL\&.h\fP\&.
+.PP
+Referenced by \fBmain()\fP, and \fBPAIN::RenderStup::Setup()\fP\&.
 .SS "std::vector< std::shared_ptr< \fBPAIN::TerrainModel\fP > > PAIN::Render::terrains\fR [static]\fP"
 
 .PP
-Definition at line \fB18\fP of file \fBRENDER_MATERIAL\&.h\fP\&.
+Definition at line \fB41\fP of file \fBRENDER_MATERIAL\&.h\fP\&.
+.PP
+Referenced by \fBmain()\fP\&.
 .SS "std::vector< void* > PAIN::Render::voidobjects"
 
 .PP
-Definition at line \fB21\fP of file \fBRENDER_MATERIAL\&.h\fP\&.
+Definition at line \fB45\fP of file \fBRENDER_MATERIAL\&.h\fP\&.
 
 .SH "Author"
 .PP 

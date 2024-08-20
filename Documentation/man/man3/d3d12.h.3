@@ -1,0 +1,1191 @@
+.TH "adhed/d3d12.h" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+adhed/d3d12.h
+.SH SYNOPSIS
+.br
+.PP
+\fR#include 'rpc\&.h'\fP
+.br
+\fR#include 'rpcndr\&.h'\fP
+.br
+\fR#include 'windows\&.h'\fP
+.br
+\fR#include 'ole2\&.h'\fP
+.br
+\fR#include 'oaidl\&.h'\fP
+.br
+\fR#include 'ocidl\&.h'\fP
+.br
+\fR#include 'dxgicommon\&.h'\fP
+.br
+\fR#include 'dxgiformat\&.h'\fP
+.br
+\fR#include 'd3dcommon\&.h'\fP
+.br
+\fR#include <winapifamily\&.h>\fP
+.br
+
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fB__REQUIRED_RPCNDR_H_VERSION__\fP   500"
+.br
+.ti -1c
+.RI "#define \fB__REQUIRED_RPCSAL_H_VERSION__\fP   100"
+.br
+.ti -1c
+.RI "#define \fBDECLSPEC_XFGVIRT\fP(base,  \fBfunc\fP)"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12Object_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12DeviceChild_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12RootSignature_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12RootSignatureDeserializer_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12VersionedRootSignatureDeserializer_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12Pageable_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12Heap_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12Resource_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12CommandAllocator_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12Fence_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12Fence1_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12PipelineState_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12DescriptorHeap_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12QueryHeap_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12CommandSignature_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12CommandList_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12GraphicsCommandList_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12GraphicsCommandList1_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12GraphicsCommandList2_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12CommandQueue_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12Device_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12PipelineLibrary_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12PipelineLibrary1_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12Device1_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12Device2_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12Device3_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12ProtectedSession_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12ProtectedResourceSession_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12Device4_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12LifetimeOwner_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12SwapChainAssistant_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12LifetimeTracker_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12StateObject_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12StateObjectProperties_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12StateObjectProperties1_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12WorkGraphProperties_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12Device5_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12DeviceRemovedExtendedDataSettings_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12DeviceRemovedExtendedDataSettings1_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12DeviceRemovedExtendedDataSettings2_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12DeviceRemovedExtendedData_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12DeviceRemovedExtendedData1_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12DeviceRemovedExtendedData2_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12Device6_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12ProtectedResourceSession1_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12Device7_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12Device8_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12Resource1_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12Resource2_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12Heap1_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12GraphicsCommandList3_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12MetaCommand_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12GraphicsCommandList4_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12ShaderCacheSession_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12Device9_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12Device10_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12Device11_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12Device12_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12Device13_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12Device14_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12VirtualizationGuestDevice_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12Tools_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12SDKConfiguration_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12SDKConfiguration1_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12DeviceFactory_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12DeviceConfiguration_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12DeviceConfiguration1_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12GraphicsCommandList5_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12GraphicsCommandList6_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12GraphicsCommandList7_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12GraphicsCommandList8_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12GraphicsCommandList9_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12GraphicsCommandList10_FWD_DEFINED__\fP"
+.br
+.ti -1c
+.RI "#define \fB__ID3D12GBVDiagnostics_FWD_DEFINED__\fP"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef interface ID3D12Object \fBID3D12Object\fP"
+.br
+.ti -1c
+.RI "typedef interface ID3D12DeviceChild \fBID3D12DeviceChild\fP"
+.br
+.ti -1c
+.RI "typedef interface \fBID3D12RootSignature\fP \fBID3D12RootSignature\fP"
+.br
+.ti -1c
+.RI "typedef interface ID3D12RootSignatureDeserializer \fBID3D12RootSignatureDeserializer\fP"
+.br
+.ti -1c
+.RI "typedef interface ID3D12VersionedRootSignatureDeserializer \fBID3D12VersionedRootSignatureDeserializer\fP"
+.br
+.ti -1c
+.RI "typedef interface ID3D12Pageable \fBID3D12Pageable\fP"
+.br
+.ti -1c
+.RI "typedef interface ID3D12Heap \fBID3D12Heap\fP"
+.br
+.ti -1c
+.RI "typedef interface ID3D12Resource \fBID3D12Resource\fP"
+.br
+.ti -1c
+.RI "typedef interface ID3D12CommandAllocator \fBID3D12CommandAllocator\fP"
+.br
+.ti -1c
+.RI "typedef interface ID3D12Fence \fBID3D12Fence\fP"
+.br
+.ti -1c
+.RI "typedef interface ID3D12Fence1 \fBID3D12Fence1\fP"
+.br
+.ti -1c
+.RI "typedef interface ID3D12PipelineState \fBID3D12PipelineState\fP"
+.br
+.ti -1c
+.RI "typedef interface ID3D12DescriptorHeap \fBID3D12DescriptorHeap\fP"
+.br
+.ti -1c
+.RI "typedef interface ID3D12QueryHeap \fBID3D12QueryHeap\fP"
+.br
+.ti -1c
+.RI "typedef interface ID3D12CommandSignature \fBID3D12CommandSignature\fP"
+.br
+.ti -1c
+.RI "typedef interface ID3D12CommandList \fBID3D12CommandList\fP"
+.br
+.ti -1c
+.RI "typedef interface ID3D12GraphicsCommandList \fBID3D12GraphicsCommandList\fP"
+.br
+.ti -1c
+.RI "typedef interface \fBID3D12GraphicsCommandList1\fP \fBID3D12GraphicsCommandList1\fP"
+.br
+.ti -1c
+.RI "typedef interface ID3D12GraphicsCommandList2 \fBID3D12GraphicsCommandList2\fP"
+.br
+.ti -1c
+.RI "typedef interface ID3D12CommandQueue \fBID3D12CommandQueue\fP"
+.br
+.ti -1c
+.RI "typedef interface ID3D12Device \fBID3D12Device\fP"
+.br
+.ti -1c
+.RI "typedef interface ID3D12PipelineLibrary \fBID3D12PipelineLibrary\fP"
+.br
+.ti -1c
+.RI "typedef interface \fBID3D12PipelineLibrary1\fP \fBID3D12PipelineLibrary1\fP"
+.br
+.ti -1c
+.RI "typedef interface ID3D12Device1 \fBID3D12Device1\fP"
+.br
+.ti -1c
+.RI "typedef interface \fBID3D12Device2\fP \fBID3D12Device2\fP"
+.br
+.ti -1c
+.RI "typedef interface \fBID3D12Device3\fP \fBID3D12Device3\fP"
+.br
+.ti -1c
+.RI "typedef interface \fBID3D12ProtectedSession\fP \fBID3D12ProtectedSession\fP"
+.br
+.ti -1c
+.RI "typedef interface ID3D12ProtectedResourceSession \fBID3D12ProtectedResourceSession\fP"
+.br
+.ti -1c
+.RI "typedef interface \fBID3D12Device4\fP \fBID3D12Device4\fP"
+.br
+.ti -1c
+.RI "typedef interface ID3D12LifetimeOwner \fBID3D12LifetimeOwner\fP"
+.br
+.ti -1c
+.RI "typedef interface ID3D12SwapChainAssistant \fBID3D12SwapChainAssistant\fP"
+.br
+.ti -1c
+.RI "typedef interface \fBID3D12LifetimeTracker\fP \fBID3D12LifetimeTracker\fP"
+.br
+.ti -1c
+.RI "typedef interface ID3D12StateObject \fBID3D12StateObject\fP"
+.br
+.ti -1c
+.RI "typedef interface \fBID3D12StateObjectProperties\fP \fBID3D12StateObjectProperties\fP"
+.br
+.ti -1c
+.RI "typedef interface \fBID3D12StateObjectProperties1\fP \fBID3D12StateObjectProperties1\fP"
+.br
+.ti -1c
+.RI "typedef interface \fBID3D12WorkGraphProperties\fP \fBID3D12WorkGraphProperties\fP"
+.br
+.ti -1c
+.RI "typedef interface \fBID3D12Device5\fP \fBID3D12Device5\fP"
+.br
+.ti -1c
+.RI "typedef interface ID3D12DeviceRemovedExtendedDataSettings \fBID3D12DeviceRemovedExtendedDataSettings\fP"
+.br
+.ti -1c
+.RI "typedef interface ID3D12DeviceRemovedExtendedDataSettings1 \fBID3D12DeviceRemovedExtendedDataSettings1\fP"
+.br
+.ti -1c
+.RI "typedef interface ID3D12DeviceRemovedExtendedDataSettings2 \fBID3D12DeviceRemovedExtendedDataSettings2\fP"
+.br
+.ti -1c
+.RI "typedef interface ID3D12DeviceRemovedExtendedData \fBID3D12DeviceRemovedExtendedData\fP"
+.br
+.ti -1c
+.RI "typedef interface ID3D12DeviceRemovedExtendedData1 \fBID3D12DeviceRemovedExtendedData1\fP"
+.br
+.ti -1c
+.RI "typedef interface ID3D12DeviceRemovedExtendedData2 \fBID3D12DeviceRemovedExtendedData2\fP"
+.br
+.ti -1c
+.RI "typedef interface ID3D12Device6 \fBID3D12Device6\fP"
+.br
+.ti -1c
+.RI "typedef interface ID3D12ProtectedResourceSession1 \fBID3D12ProtectedResourceSession1\fP"
+.br
+.ti -1c
+.RI "typedef interface ID3D12Device7 \fBID3D12Device7\fP"
+.br
+.ti -1c
+.RI "typedef interface ID3D12Device8 \fBID3D12Device8\fP"
+.br
+.ti -1c
+.RI "typedef interface ID3D12Resource1 \fBID3D12Resource1\fP"
+.br
+.ti -1c
+.RI "typedef interface ID3D12Resource2 \fBID3D12Resource2\fP"
+.br
+.ti -1c
+.RI "typedef interface ID3D12Heap1 \fBID3D12Heap1\fP"
+.br
+.ti -1c
+.RI "typedef interface ID3D12GraphicsCommandList3 \fBID3D12GraphicsCommandList3\fP"
+.br
+.ti -1c
+.RI "typedef interface \fBID3D12MetaCommand\fP \fBID3D12MetaCommand\fP"
+.br
+.ti -1c
+.RI "typedef interface \fBID3D12GraphicsCommandList4\fP \fBID3D12GraphicsCommandList4\fP"
+.br
+.ti -1c
+.RI "typedef interface ID3D12ShaderCacheSession \fBID3D12ShaderCacheSession\fP"
+.br
+.ti -1c
+.RI "typedef interface \fBID3D12Device9\fP \fBID3D12Device9\fP"
+.br
+.ti -1c
+.RI "typedef interface ID3D12Device10 \fBID3D12Device10\fP"
+.br
+.ti -1c
+.RI "typedef interface ID3D12Device11 \fBID3D12Device11\fP"
+.br
+.ti -1c
+.RI "typedef interface ID3D12Device12 \fBID3D12Device12\fP"
+.br
+.ti -1c
+.RI "typedef interface ID3D12Device13 \fBID3D12Device13\fP"
+.br
+.ti -1c
+.RI "typedef interface ID3D12Device14 \fBID3D12Device14\fP"
+.br
+.ti -1c
+.RI "typedef interface ID3D12VirtualizationGuestDevice \fBID3D12VirtualizationGuestDevice\fP"
+.br
+.ti -1c
+.RI "typedef interface \fBID3D12Tools\fP \fBID3D12Tools\fP"
+.br
+.ti -1c
+.RI "typedef interface ID3D12SDKConfiguration \fBID3D12SDKConfiguration\fP"
+.br
+.ti -1c
+.RI "typedef interface \fBID3D12SDKConfiguration1\fP \fBID3D12SDKConfiguration1\fP"
+.br
+.ti -1c
+.RI "typedef interface \fBID3D12DeviceFactory\fP \fBID3D12DeviceFactory\fP"
+.br
+.ti -1c
+.RI "typedef interface ID3D12DeviceConfiguration \fBID3D12DeviceConfiguration\fP"
+.br
+.ti -1c
+.RI "typedef interface ID3D12DeviceConfiguration1 \fBID3D12DeviceConfiguration1\fP"
+.br
+.ti -1c
+.RI "typedef interface \fBID3D12GraphicsCommandList5\fP \fBID3D12GraphicsCommandList5\fP"
+.br
+.ti -1c
+.RI "typedef interface ID3D12GraphicsCommandList6 \fBID3D12GraphicsCommandList6\fP"
+.br
+.ti -1c
+.RI "typedef interface ID3D12GraphicsCommandList7 \fBID3D12GraphicsCommandList7\fP"
+.br
+.ti -1c
+.RI "typedef interface ID3D12GraphicsCommandList8 \fBID3D12GraphicsCommandList8\fP"
+.br
+.ti -1c
+.RI "typedef interface ID3D12GraphicsCommandList9 \fBID3D12GraphicsCommandList9\fP"
+.br
+.ti -1c
+.RI "typedef interface ID3D12GraphicsCommandList10 \fBID3D12GraphicsCommandList10\fP"
+.br
+.ti -1c
+.RI "typedef interface ID3D12GBVDiagnostics \fBID3D12GBVDiagnostics\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12Object, 0xc4fec28f, 0x7966, 0x4e95, 0x9f, 0x94, 0xf4, 0x31, 0xcb, 0x56, 0xc3, 0xb8)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12DeviceChild, 0x905db94b, 0xa00c, 0x4140, 0x9d, 0xf5, 0x2b, 0x64, 0xca, 0x9e, 0xa3, 0x57)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12RootSignature, 0xc54a6b66, 0x72df, 0x4ee8, 0x8b, 0xe5, 0xa9, 0x46, 0xa1, 0x42, 0x92, 0x14)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12RootSignatureDeserializer, 0x34AB647B, 0x3CC8, 0x46AC, 0x84, 0x1B, 0xC0, 0x96, 0x56, 0x45, 0xC0, 0x46)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12VersionedRootSignatureDeserializer, 0x7F91CE67, 0x090C, 0x4BB7, 0xB7, 0x8E, 0xED, 0x8F, 0xF2, 0xE3, 0x1D, 0xA0)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12Pageable, 0x63ee58fb, 0x1268, 0x4835, 0x86, 0xda, 0xf0, 0x08, 0xce, 0x62, 0xf0, 0xd6)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12Heap, 0x6b3b2502, 0x6e51, 0x45b3, 0x90, 0xee, 0x98, 0x84, 0x26, 0x5e, 0x8d, 0xf3)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12Resource, 0x696442be, 0xa72e, 0x4059, 0xbc, 0x79, 0x5b, 0x5c, 0x98, 0x04, 0x0f, 0xad)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12CommandAllocator, 0x6102dee4, 0xaf59, 0x4b09, 0xb9, 0x99, 0xb4, 0x4d, 0x73, 0xf0, 0x9b, 0x24)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12Fence, 0x0a753dcf, 0xc4d8, 0x4b91, 0xad, 0xf6, 0xbe, 0x5a, 0x60, 0xd9, 0x5a, 0x76)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12Fence1, 0x433685fe, 0xe22b, 0x4ca0, 0xa8, 0xdb, 0xb5, 0xb4, 0xf4, 0xdd, 0x0e, 0x4a)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12PipelineState, 0x765a30f3, 0xf624, 0x4c6f, 0xa8, 0x28, 0xac, 0xe9, 0x48, 0x62, 0x24, 0x45)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12DescriptorHeap, 0x8efb471d, 0x616c, 0x4f49, 0x90, 0xf7, 0x12, 0x7b, 0xb7, 0x63, 0xfa, 0x51)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12QueryHeap, 0x0d9658ae, 0xed45, 0x469e, 0xa6, 0x1d, 0x97, 0x0e, 0xc5, 0x83, 0xca, 0xb4)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12CommandSignature, 0xc36a797c, 0xec80, 0x4f0a, 0x89, 0x85, 0xa7, 0xb2, 0x47, 0x50, 0x82, 0xd1)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12CommandList, 0x7116d91c, 0xe7e4, 0x47ce, 0xb8, 0xc6, 0xec, 0x81, 0x68, 0xf4, 0x37, 0xe5)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12GraphicsCommandList, 0x5b160d0f, 0xac1b, 0x4185, 0x8b, 0xa8, 0xb3, 0xae, 0x42, 0xa5, 0xa4, 0x55)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12GraphicsCommandList1, 0x553103fb, 0x1fe7, 0x4557, 0xbb, 0x38, 0x94, 0x6d, 0x7d, 0x0e, 0x7c, 0xa7)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12GraphicsCommandList2, 0x38C3E585, 0xFF17, 0x412C, 0x91, 0x50, 0x4F, 0xC6, 0xF9, 0xD7, 0x2A, 0x28)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12CommandQueue, 0x0ec870a6, 0x5d7e, 0x4c22, 0x8c, 0xfc, 0x5b, 0xaa, 0xe0, 0x76, 0x16, 0xed)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12Device, 0x189819f1, 0x1db6, 0x4b57, 0xbe, 0x54, 0x18, 0x21, 0x33, 0x9b, 0x85, 0xf7)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12PipelineLibrary, 0xc64226a8, 0x9201, 0x46af, 0xb4, 0xcc, 0x53, 0xfb, 0x9f, 0xf7, 0x41, 0x4f)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12PipelineLibrary1, 0x80eabf42, 0x2568, 0x4e5e, 0xbd, 0x82, 0xc3, 0x7f, 0x86, 0x96, 0x1d, 0xc3)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12Device1, 0x77acce80, 0x638e, 0x4e65, 0x88, 0x95, 0xc1, 0xf2, 0x33, 0x86, 0x86, 0x3e)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12Device2, 0x30baa41e, 0xb15b, 0x475c, 0xa0, 0xbb, 0x1a, 0xf5, 0xc5, 0xb6, 0x43, 0x28)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12Device3, 0x81dadc15, 0x2bad, 0x4392, 0x93, 0xc5, 0x10, 0x13, 0x45, 0xc4, 0xaa, 0x98)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12ProtectedSession, 0xA1533D18, 0x0AC1, 0x4084, 0x85, 0xB9, 0x89, 0xA9, 0x61, 0x16, 0x80, 0x6B)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12ProtectedResourceSession, 0x6CD696F4, 0xF289, 0x40CC, 0x80, 0x91, 0x5A, 0x6C, 0x0A, 0x09, 0x9C, 0x3D)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12Device4, 0xe865df17, 0xa9ee, 0x46f9, 0xa4, 0x63, 0x30, 0x98, 0x31, 0x5a, 0xa2, 0xe5)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12LifetimeOwner, 0xe667af9f, 0xcd56, 0x4f46, 0x83, 0xce, 0x03, 0x2e, 0x59, 0x5d, 0x70, 0xa8)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12SwapChainAssistant, 0xf1df64b6, 0x57fd, 0x49cd, 0x88, 0x07, 0xc0, 0xeb, 0x88, 0xb4, 0x5c, 0x8f)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12LifetimeTracker, 0x3fd03d36, 0x4eb1, 0x424a, 0xa5, 0x82, 0x49, 0x4e, 0xcb, 0x8b, 0xa8, 0x13)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12StateObject, 0x47016943, 0xfca8, 0x4594, 0x93, 0xea, 0xaf, 0x25, 0x8b, 0x55, 0x34, 0x6d)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12StateObjectProperties, 0xde5fa827, 0x9bf9, 0x4f26, 0x89, 0xff, 0xd7, 0xf5, 0x6f, 0xde, 0x38, 0x60)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12StateObjectProperties1, 0x460caac7, 0x1d24, 0x446a, 0xa1, 0x84, 0xca, 0x67, 0xdb, 0x49, 0x41, 0x38)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12WorkGraphProperties, 0x065acf71, 0xf863, 0x4b89, 0x82, 0xf4, 0x02, 0xe4, 0xd5, 0x88, 0x67, 0x57)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12Device5, 0x8b4f173b, 0x2fea, 0x4b80, 0x8f, 0x58, 0x43, 0x07, 0x19, 0x1a, 0xb9, 0x5d)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12DeviceRemovedExtendedDataSettings, 0x82BC481C, 0x6B9B, 0x4030, 0xAE, 0xDB, 0x7E, 0xE3, 0xD1, 0xDF, 0x1E, 0x63)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12DeviceRemovedExtendedDataSettings1, 0xDBD5AE51, 0x3317, 0x4F0A, 0xAD, 0xF9, 0x1D, 0x7C, 0xED, 0xCA, 0xAE, 0x0B)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12DeviceRemovedExtendedDataSettings2, 0x61552388, 0x01ab, 0x4008, 0xa4, 0x36, 0x83, 0xdb, 0x18, 0x95, 0x66, 0xea)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12DeviceRemovedExtendedData, 0x98931D33, 0x5AE8, 0x4791, 0xAA, 0x3C, 0x1A, 0x73, 0xA2, 0x93, 0x4E, 0x71)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12DeviceRemovedExtendedData1, 0x9727A022, 0xCF1D, 0x4DDA, 0x9E, 0xBA, 0xEF, 0xFA, 0x65, 0x3F, 0xC5, 0x06)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12DeviceRemovedExtendedData2, 0x67FC5816, 0xE4CA, 0x4915, 0xBF, 0x18, 0x42, 0x54, 0x12, 0x72, 0xDA, 0x54)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12Device6, 0xc70b221b, 0x40e4, 0x4a17, 0x89, 0xaf, 0x02, 0x5a, 0x07, 0x27, 0xa6, 0xdc)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12ProtectedResourceSession1, 0xD6F12DD6, 0x76FB, 0x406E, 0x89, 0x61, 0x42, 0x96, 0xEE, 0xFC, 0x04, 0x09)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12Device7, 0x5c014b53, 0x68a1, 0x4b9b, 0x8b, 0xd1, 0xdd, 0x60, 0x46, 0xb9, 0x35, 0x8b)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12Device8, 0x9218E6BB, 0xF944, 0x4F7E, 0xA7, 0x5C, 0xB1, 0xB2, 0xC7, 0xB7, 0x01, 0xF3)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12Resource1, 0x9D5E227A, 0x4430, 0x4161, 0x88, 0xB3, 0x3E, 0xCA, 0x6B, 0xB1, 0x6E, 0x19)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12Resource2, 0xBE36EC3B, 0xEA85, 0x4AEB, 0xA4, 0x5A, 0xE9, 0xD7, 0x64, 0x04, 0xA4, 0x95)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12Heap1, 0x572F7389, 0x2168, 0x49E3, 0x96, 0x93, 0xD6, 0xDF, 0x58, 0x71, 0xBF, 0x6D)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12GraphicsCommandList3, 0x6FDA83A7, 0xB84C, 0x4E38, 0x9A, 0xC8, 0xC7, 0xBD, 0x22, 0x01, 0x6B, 0x3D)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12MetaCommand, 0xDBB84C27, 0x36CE, 0x4FC9, 0xB8, 0x01, 0xF0, 0x48, 0xC4, 0x6A, 0xC5, 0x70)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12GraphicsCommandList4, 0x8754318e, 0xd3a9, 0x4541, 0x98, 0xcf, 0x64, 0x5b, 0x50, 0xdc, 0x48, 0x74)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12ShaderCacheSession, 0x28e2495d, 0x0f64, 0x4ae4, 0xa6, 0xec, 0x12, 0x92, 0x55, 0xdc, 0x49, 0xa8)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12Device9, 0x4c80e962, 0xf032, 0x4f60, 0xbc, 0x9e, 0xeb, 0xc2, 0xcf, 0xa1, 0xd8, 0x3c)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12Device10, 0x517f8718, 0xaa66, 0x49f9, 0xb0, 0x2b, 0xa7, 0xab, 0x89, 0xc0, 0x60, 0x31)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12Device11, 0x5405c344, 0xd457, 0x444e, 0xb4, 0xdd, 0x23, 0x66, 0xe4, 0x5a, 0xee, 0x39)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12Device12, 0x5af5c532, 0x4c91, 0x4cd0, 0xb5, 0x41, 0x15, 0xa4, 0x05, 0x39, 0x5f, 0xc5)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12Device13, 0x14eecffc, 0x4df8, 0x40f7, 0xa1, 0x18, 0x5c, 0x81, 0x6f, 0x45, 0x69, 0x5e)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12Device14, 0x5f6e592d, 0xd895, 0x44c2, 0x8e, 0x4a, 0x88, 0xad, 0x49, 0x26, 0xd3, 0x23)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12VirtualizationGuestDevice, 0xbc66d368, 0x7373, 0x4943, 0x87, 0x57, 0xfc, 0x87, 0xdc, 0x79, 0xe4, 0x76)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12Tools, 0x7071e1f0, 0xe84b, 0x4b33, 0x97, 0x4f, 0x12, 0xfa, 0x49, 0xde, 0x65, 0xc5)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12SDKConfiguration, 0xe9eb5314, 0x33aa, 0x42b2, 0xa7, 0x18, 0xd7, 0x7f, 0x58, 0xb1, 0xf1, 0xc7)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12SDKConfiguration1, 0x8aaf9303, 0xad25, 0x48b9, 0x9a, 0x57, 0xd9, 0xc3, 0x7e, 0x00, 0x9d, 0x9f)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12DeviceFactory, 0x61f307d3, 0xd34e, 0x4e7c, 0x83, 0x74, 0x3b, 0xa4, 0xde, 0x23, 0xcc, 0xcb)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12DeviceConfiguration, 0x78dbf87b, 0xf766, 0x422b, 0xa6, 0x1c, 0xc8, 0xc4, 0x46, 0xbd, 0xb9, 0xad)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12DeviceConfiguration1, 0xed342442, 0x6343, 0x4e16, 0xbb, 0x82, 0xa3, 0xa5, 0x77, 0x87, 0x4e, 0x56)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12GraphicsCommandList5, 0x55050859, 0x4024, 0x474c, 0x87, 0xf5, 0x64, 0x72, 0xea, 0xee, 0x44, 0xea)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12GraphicsCommandList6, 0xc3827890, 0xe548, 0x4cfa, 0x96, 0xcf, 0x56, 0x89, 0xa9, 0x37, 0x0f, 0x80)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12GraphicsCommandList7, 0xdd171223, 0x8b61, 0x4769, 0x90, 0xe3, 0x16, 0x0c, 0xcd, 0xe4, 0xe2, 0xc1)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12GraphicsCommandList8, 0xee936ef9, 0x599d, 0x4d28, 0x93, 0x8e, 0x23, 0xc4, 0xad, 0x05, 0xce, 0x51)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12GraphicsCommandList9, 0x34ed2808, 0xffe6, 0x4c2b, 0xb1, 0x1a, 0xca, 0xbd, 0x2b, 0x0c, 0x59, 0xe1)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12GraphicsCommandList10, 0x7013c015, 0xd161, 0x4b63, 0xa0, 0x8c, 0x23, 0x85, 0x52, 0xdd, 0x8a, 0xcc)"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12GBVDiagnostics, 0x597985ab, 0x9b75, 0x4dbb, 0xbe, 0x23, 0x07, 0x61, 0x19, 0x5b, 0xeb, 0xee)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "RPC_IF_HANDLE \fB__MIDL_itf_d3d12_0000_0074_v0_0_c_ifspec\fP"
+.br
+.ti -1c
+.RI "RPC_IF_HANDLE \fB__MIDL_itf_d3d12_0000_0074_v0_0_s_ifspec\fP"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define __ID3D12CommandAllocator_FWD_DEFINED__"
+
+.SS "#define __ID3D12CommandList_FWD_DEFINED__"
+
+.SS "#define __ID3D12CommandQueue_FWD_DEFINED__"
+
+.SS "#define __ID3D12CommandSignature_FWD_DEFINED__"
+
+.SS "#define __ID3D12DescriptorHeap_FWD_DEFINED__"
+
+.SS "#define __ID3D12Device10_FWD_DEFINED__"
+
+.SS "#define __ID3D12Device11_FWD_DEFINED__"
+
+.SS "#define __ID3D12Device12_FWD_DEFINED__"
+
+.SS "#define __ID3D12Device13_FWD_DEFINED__"
+
+.SS "#define __ID3D12Device14_FWD_DEFINED__"
+
+.SS "#define __ID3D12Device1_FWD_DEFINED__"
+
+.SS "#define __ID3D12Device2_FWD_DEFINED__"
+
+.SS "#define __ID3D12Device3_FWD_DEFINED__"
+
+.SS "#define __ID3D12Device4_FWD_DEFINED__"
+
+.SS "#define __ID3D12Device5_FWD_DEFINED__"
+
+.SS "#define __ID3D12Device6_FWD_DEFINED__"
+
+.SS "#define __ID3D12Device7_FWD_DEFINED__"
+
+.SS "#define __ID3D12Device8_FWD_DEFINED__"
+
+.SS "#define __ID3D12Device9_FWD_DEFINED__"
+
+.SS "#define __ID3D12Device_FWD_DEFINED__"
+
+.SS "#define __ID3D12DeviceChild_FWD_DEFINED__"
+
+.SS "#define __ID3D12DeviceConfiguration1_FWD_DEFINED__"
+
+.SS "#define __ID3D12DeviceConfiguration_FWD_DEFINED__"
+
+.SS "#define __ID3D12DeviceFactory_FWD_DEFINED__"
+
+.SS "#define __ID3D12DeviceRemovedExtendedData1_FWD_DEFINED__"
+
+.SS "#define __ID3D12DeviceRemovedExtendedData2_FWD_DEFINED__"
+
+.SS "#define __ID3D12DeviceRemovedExtendedData_FWD_DEFINED__"
+
+.SS "#define __ID3D12DeviceRemovedExtendedDataSettings1_FWD_DEFINED__"
+
+.SS "#define __ID3D12DeviceRemovedExtendedDataSettings2_FWD_DEFINED__"
+
+.SS "#define __ID3D12DeviceRemovedExtendedDataSettings_FWD_DEFINED__"
+
+.SS "#define __ID3D12Fence1_FWD_DEFINED__"
+
+.SS "#define __ID3D12Fence_FWD_DEFINED__"
+
+.SS "#define __ID3D12GBVDiagnostics_FWD_DEFINED__"
+
+.SS "#define __ID3D12GraphicsCommandList10_FWD_DEFINED__"
+
+.SS "#define __ID3D12GraphicsCommandList1_FWD_DEFINED__"
+
+.SS "#define __ID3D12GraphicsCommandList2_FWD_DEFINED__"
+
+.SS "#define __ID3D12GraphicsCommandList3_FWD_DEFINED__"
+
+.SS "#define __ID3D12GraphicsCommandList4_FWD_DEFINED__"
+
+.SS "#define __ID3D12GraphicsCommandList5_FWD_DEFINED__"
+
+.SS "#define __ID3D12GraphicsCommandList6_FWD_DEFINED__"
+
+.SS "#define __ID3D12GraphicsCommandList7_FWD_DEFINED__"
+
+.SS "#define __ID3D12GraphicsCommandList8_FWD_DEFINED__"
+
+.SS "#define __ID3D12GraphicsCommandList9_FWD_DEFINED__"
+
+.SS "#define __ID3D12GraphicsCommandList_FWD_DEFINED__"
+
+.SS "#define __ID3D12Heap1_FWD_DEFINED__"
+
+.SS "#define __ID3D12Heap_FWD_DEFINED__"
+
+.SS "#define __ID3D12LifetimeOwner_FWD_DEFINED__"
+
+.SS "#define __ID3D12LifetimeTracker_FWD_DEFINED__"
+
+.SS "#define __ID3D12MetaCommand_FWD_DEFINED__"
+
+.SS "#define __ID3D12Object_FWD_DEFINED__"
+
+.SS "#define __ID3D12Pageable_FWD_DEFINED__"
+
+.SS "#define __ID3D12PipelineLibrary1_FWD_DEFINED__"
+
+.SS "#define __ID3D12PipelineLibrary_FWD_DEFINED__"
+
+.SS "#define __ID3D12PipelineState_FWD_DEFINED__"
+
+.SS "#define __ID3D12ProtectedResourceSession1_FWD_DEFINED__"
+
+.SS "#define __ID3D12ProtectedResourceSession_FWD_DEFINED__"
+
+.SS "#define __ID3D12ProtectedSession_FWD_DEFINED__"
+
+.SS "#define __ID3D12QueryHeap_FWD_DEFINED__"
+
+.SS "#define __ID3D12Resource1_FWD_DEFINED__"
+
+.SS "#define __ID3D12Resource2_FWD_DEFINED__"
+
+.SS "#define __ID3D12Resource_FWD_DEFINED__"
+
+.SS "#define __ID3D12RootSignature_FWD_DEFINED__"
+
+.SS "#define __ID3D12RootSignatureDeserializer_FWD_DEFINED__"
+
+.SS "#define __ID3D12SDKConfiguration1_FWD_DEFINED__"
+
+.SS "#define __ID3D12SDKConfiguration_FWD_DEFINED__"
+
+.SS "#define __ID3D12ShaderCacheSession_FWD_DEFINED__"
+
+.SS "#define __ID3D12StateObject_FWD_DEFINED__"
+
+.SS "#define __ID3D12StateObjectProperties1_FWD_DEFINED__"
+
+.SS "#define __ID3D12StateObjectProperties_FWD_DEFINED__"
+
+.SS "#define __ID3D12SwapChainAssistant_FWD_DEFINED__"
+
+.SS "#define __ID3D12Tools_FWD_DEFINED__"
+
+.SS "#define __ID3D12VersionedRootSignatureDeserializer_FWD_DEFINED__"
+
+.SS "#define __ID3D12VirtualizationGuestDevice_FWD_DEFINED__"
+
+.SS "#define __ID3D12WorkGraphProperties_FWD_DEFINED__"
+
+.SS "#define __REQUIRED_RPCNDR_H_VERSION__   500"
+
+.SS "#define __REQUIRED_RPCSAL_H_VERSION__   100"
+
+.SS "#define DECLSPEC_XFGVIRT( base,  \fBfunc\fP)"
+
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef interface ID3D12CommandAllocator ID3D12CommandAllocator"
+
+.SS "typedef interface ID3D12CommandList ID3D12CommandList"
+
+.SS "typedef interface ID3D12CommandQueue ID3D12CommandQueue"
+
+.SS "typedef interface ID3D12CommandSignature ID3D12CommandSignature"
+
+.SS "typedef interface ID3D12DescriptorHeap ID3D12DescriptorHeap"
+
+.SS "typedef interface ID3D12Device ID3D12Device"
+
+.SS "typedef interface ID3D12Device1 ID3D12Device1"
+
+.SS "typedef interface ID3D12Device10 ID3D12Device10"
+
+.SS "typedef interface ID3D12Device11 ID3D12Device11"
+
+.SS "typedef interface ID3D12Device12 ID3D12Device12"
+
+.SS "typedef interface ID3D12Device13 ID3D12Device13"
+
+.SS "typedef interface ID3D12Device14 ID3D12Device14"
+
+.SS "typedef interface \fBID3D12Device2\fP \fBID3D12Device2\fP"
+
+.SS "typedef interface \fBID3D12Device3\fP \fBID3D12Device3\fP"
+
+.SS "typedef interface \fBID3D12Device4\fP \fBID3D12Device4\fP"
+
+.SS "typedef interface \fBID3D12Device5\fP \fBID3D12Device5\fP"
+
+.SS "typedef interface ID3D12Device6 ID3D12Device6"
+
+.SS "typedef interface ID3D12Device7 ID3D12Device7"
+
+.SS "typedef interface ID3D12Device8 ID3D12Device8"
+
+.SS "typedef interface \fBID3D12Device9\fP \fBID3D12Device9\fP"
+
+.SS "typedef interface ID3D12DeviceChild ID3D12DeviceChild"
+
+.SS "typedef interface ID3D12DeviceConfiguration ID3D12DeviceConfiguration"
+
+.SS "typedef interface ID3D12DeviceConfiguration1 ID3D12DeviceConfiguration1"
+
+.SS "typedef interface \fBID3D12DeviceFactory\fP \fBID3D12DeviceFactory\fP"
+
+.SS "typedef interface ID3D12DeviceRemovedExtendedData ID3D12DeviceRemovedExtendedData"
+
+.SS "typedef interface ID3D12DeviceRemovedExtendedData1 ID3D12DeviceRemovedExtendedData1"
+
+.SS "typedef interface ID3D12DeviceRemovedExtendedData2 ID3D12DeviceRemovedExtendedData2"
+
+.SS "typedef interface ID3D12DeviceRemovedExtendedDataSettings ID3D12DeviceRemovedExtendedDataSettings"
+
+.SS "typedef interface ID3D12DeviceRemovedExtendedDataSettings1 ID3D12DeviceRemovedExtendedDataSettings1"
+
+.SS "typedef interface ID3D12DeviceRemovedExtendedDataSettings2 ID3D12DeviceRemovedExtendedDataSettings2"
+
+.SS "typedef interface ID3D12Fence ID3D12Fence"
+
+.SS "typedef interface ID3D12Fence1 ID3D12Fence1"
+
+.SS "typedef interface ID3D12GBVDiagnostics ID3D12GBVDiagnostics"
+
+.SS "typedef interface ID3D12GraphicsCommandList ID3D12GraphicsCommandList"
+
+.SS "typedef interface \fBID3D12GraphicsCommandList1\fP \fBID3D12GraphicsCommandList1\fP"
+
+.SS "typedef interface ID3D12GraphicsCommandList10 ID3D12GraphicsCommandList10"
+
+.SS "typedef interface ID3D12GraphicsCommandList2 ID3D12GraphicsCommandList2"
+
+.SS "typedef interface ID3D12GraphicsCommandList3 ID3D12GraphicsCommandList3"
+
+.SS "typedef interface \fBID3D12GraphicsCommandList4\fP \fBID3D12GraphicsCommandList4\fP"
+
+.SS "typedef interface \fBID3D12GraphicsCommandList5\fP \fBID3D12GraphicsCommandList5\fP"
+
+.SS "typedef interface ID3D12GraphicsCommandList6 ID3D12GraphicsCommandList6"
+
+.SS "typedef interface ID3D12GraphicsCommandList7 ID3D12GraphicsCommandList7"
+
+.SS "typedef interface ID3D12GraphicsCommandList8 ID3D12GraphicsCommandList8"
+
+.SS "typedef interface ID3D12GraphicsCommandList9 ID3D12GraphicsCommandList9"
+
+.SS "typedef interface ID3D12Heap ID3D12Heap"
+
+.SS "typedef interface ID3D12Heap1 ID3D12Heap1"
+
+.SS "typedef interface ID3D12LifetimeOwner ID3D12LifetimeOwner"
+
+.SS "typedef interface \fBID3D12LifetimeTracker\fP \fBID3D12LifetimeTracker\fP"
+
+.SS "typedef interface \fBID3D12MetaCommand\fP \fBID3D12MetaCommand\fP"
+
+.SS "typedef interface ID3D12Object ID3D12Object"
+
+.SS "typedef interface ID3D12Pageable ID3D12Pageable"
+
+.SS "typedef interface ID3D12PipelineLibrary ID3D12PipelineLibrary"
+
+.SS "typedef interface \fBID3D12PipelineLibrary1\fP \fBID3D12PipelineLibrary1\fP"
+
+.SS "typedef interface ID3D12PipelineState ID3D12PipelineState"
+
+.SS "typedef interface ID3D12ProtectedResourceSession ID3D12ProtectedResourceSession"
+
+.SS "typedef interface ID3D12ProtectedResourceSession1 ID3D12ProtectedResourceSession1"
+
+.SS "typedef interface \fBID3D12ProtectedSession\fP \fBID3D12ProtectedSession\fP"
+
+.SS "typedef interface ID3D12QueryHeap ID3D12QueryHeap"
+
+.SS "typedef interface ID3D12Resource ID3D12Resource"
+
+.SS "typedef interface ID3D12Resource1 ID3D12Resource1"
+
+.SS "typedef interface ID3D12Resource2 ID3D12Resource2"
+
+.SS "typedef interface \fBID3D12RootSignature\fP \fBID3D12RootSignature\fP"
+
+.SS "typedef interface ID3D12RootSignatureDeserializer ID3D12RootSignatureDeserializer"
+
+.SS "typedef interface ID3D12SDKConfiguration ID3D12SDKConfiguration"
+
+.SS "typedef interface \fBID3D12SDKConfiguration1\fP \fBID3D12SDKConfiguration1\fP"
+
+.SS "typedef interface ID3D12ShaderCacheSession ID3D12ShaderCacheSession"
+
+.SS "typedef interface ID3D12StateObject ID3D12StateObject"
+
+.SS "typedef interface \fBID3D12StateObjectProperties\fP \fBID3D12StateObjectProperties\fP"
+
+.SS "typedef interface \fBID3D12StateObjectProperties1\fP \fBID3D12StateObjectProperties1\fP"
+
+.SS "typedef interface ID3D12SwapChainAssistant ID3D12SwapChainAssistant"
+
+.SS "typedef interface \fBID3D12Tools\fP \fBID3D12Tools\fP"
+
+.SS "typedef interface ID3D12VersionedRootSignatureDeserializer ID3D12VersionedRootSignatureDeserializer"
+
+.SS "typedef interface ID3D12VirtualizationGuestDevice ID3D12VirtualizationGuestDevice"
+
+.SS "typedef interface \fBID3D12WorkGraphProperties\fP \fBID3D12WorkGraphProperties\fP"
+
+.SH "Function Documentation"
+.PP 
+.SS "DEFINE_GUID (IID_ID3D12CommandAllocator , 0x6102dee4 , 0xaf59 , 0x4b09 , 0xb9 , 0x99 , 0xb4 , 0x4d , 0x73 , 0xf0 , 0x9b , 0x24 )"
+
+.SS "DEFINE_GUID (IID_ID3D12CommandList , 0x7116d91c , 0xe7e4 , 0x47ce , 0xb8 , 0xc6 , 0xec , 0x81 , 0x68 , 0xf4 , 0x37 , 0xe5 )"
+
+.SS "DEFINE_GUID (IID_ID3D12CommandQueue , 0x0ec870a6 , 0x5d7e , 0x4c22 , 0x8c , 0xfc , 0x5b , 0xaa , 0xe0 , 0x76 , 0x16 , 0xed )"
+
+.SS "DEFINE_GUID (IID_ID3D12CommandSignature , 0xc36a797c , 0xec80 , 0x4f0a , 0x89 , 0x85 , 0xa7 , 0xb2 , 0x47 , 0x50 , 0x82 , 0xd1 )"
+
+.SS "DEFINE_GUID (IID_ID3D12DescriptorHeap , 0x8efb471d , 0x616c , 0x4f49 , 0x90 , 0xf7 , 0x12 , 0x7b , 0xb7 , 0x63 , 0xfa , 0x51 )"
+
+.SS "DEFINE_GUID (IID_ID3D12Device , 0x189819f1 , 0x1db6 , 0x4b57 , 0xbe , 0x54 , 0x18 , 0x21 , 0x33 , 0x9b , 0x85 , 0xf7 )"
+
+.SS "DEFINE_GUID (IID_ID3D12Device1 , 0x77acce80 , 0x638e , 0x4e65 , 0x88 , 0x95 , 0xc1 , 0xf2 , 0x33 , 0x86 , 0x86 , 0x3e )"
+
+.SS "DEFINE_GUID (IID_ID3D12Device10 , 0x517f8718 , 0xaa66 , 0x49f9 , 0xb0 , 0x2b , 0xa7 , 0xab , 0x89 , 0xc0 , 0x60 , 0x31 )"
+
+.SS "DEFINE_GUID (IID_ID3D12Device11 , 0x5405c344 , 0xd457 , 0x444e , 0xb4 , 0xdd , 0x23 , 0x66 , 0xe4 , 0x5a , 0xee , 0x39 )"
+
+.SS "DEFINE_GUID (IID_ID3D12Device12 , 0x5af5c532 , 0x4c91 , 0x4cd0 , 0xb5 , 0x41 , 0x15 , 0xa4 , 0x05 , 0x39 , 0x5f , 0xc5 )"
+
+.SS "DEFINE_GUID (IID_ID3D12Device13 , 0x14eecffc , 0x4df8 , 0x40f7 , 0xa1 , 0x18 , 0x5c , 0x81 , 0x6f , 0x45 , 0x69 , 0x5e )"
+
+.SS "DEFINE_GUID (IID_ID3D12Device14 , 0x5f6e592d , 0xd895 , 0x44c2 , 0x8e , 0x4a , 0x88 , 0xad , 0x49 , 0x26 , 0xd3 , 0x23 )"
+
+.SS "DEFINE_GUID (IID_ID3D12Device2 , 0x30baa41e , 0xb15b , 0x475c , 0xa0 , 0xbb , 0x1a , 0xf5 , 0xc5 , 0xb6 , 0x43 , 0x28 )"
+
+.SS "DEFINE_GUID (IID_ID3D12Device3 , 0x81dadc15 , 0x2bad , 0x4392 , 0x93 , 0xc5 , 0x10 , 0x13 , 0x45 , 0xc4 , 0xaa , 0x98 )"
+
+.SS "DEFINE_GUID (IID_ID3D12Device4 , 0xe865df17 , 0xa9ee , 0x46f9 , 0xa4 , 0x63 , 0x30 , 0x98 , 0x31 , 0x5a , 0xa2 , 0xe5 )"
+
+.SS "DEFINE_GUID (IID_ID3D12Device5 , 0x8b4f173b , 0x2fea , 0x4b80 , 0x8f , 0x58 , 0x43 , 0x07 , 0x19 , 0x1a , 0xb9 , 0x5d )"
+
+.SS "DEFINE_GUID (IID_ID3D12Device6 , 0xc70b221b , 0x40e4 , 0x4a17 , 0x89 , 0xaf , 0x02 , 0x5a , 0x07 , 0x27 , 0xa6 , 0xdc )"
+
+.SS "DEFINE_GUID (IID_ID3D12Device7 , 0x5c014b53 , 0x68a1 , 0x4b9b , 0x8b , 0xd1 , 0xdd , 0x60 , 0x46 , 0xb9 , 0x35 , 0x8b )"
+
+.SS "DEFINE_GUID (IID_ID3D12Device8 , 0x9218E6BB , 0xF944 , 0x4F7E , 0xA7 , 0x5C , 0xB1 , 0xB2 , 0xC7 , 0xB7 , 0x01 , 0xF3 )"
+
+.SS "DEFINE_GUID (IID_ID3D12Device9 , 0x4c80e962 , 0xf032 , 0x4f60 , 0xbc , 0x9e , 0xeb , 0xc2 , 0xcf , 0xa1 , 0xd8 , 0x3c )"
+
+.SS "DEFINE_GUID (IID_ID3D12DeviceChild , 0x905db94b , 0xa00c , 0x4140 , 0x9d , 0xf5 , 0x2b , 0x64 , 0xca , 0x9e , 0xa3 , 0x57 )"
+
+.SS "DEFINE_GUID (IID_ID3D12DeviceConfiguration , 0x78dbf87b , 0xf766 , 0x422b , 0xa6 , 0x1c , 0xc8 , 0xc4 , 0x46 , 0xbd , 0xb9 , 0xad )"
+
+.SS "DEFINE_GUID (IID_ID3D12DeviceConfiguration1 , 0xed342442 , 0x6343 , 0x4e16 , 0xbb , 0x82 , 0xa3 , 0xa5 , 0x77 , 0x87 , 0x4e , 0x56 )"
+
+.SS "DEFINE_GUID (IID_ID3D12DeviceFactory , 0x61f307d3 , 0xd34e , 0x4e7c , 0x83 , 0x74 , 0x3b , 0xa4 , 0xde , 0x23 , 0xcc , 0xcb )"
+
+.SS "DEFINE_GUID (IID_ID3D12DeviceRemovedExtendedData , 0x98931D33 , 0x5AE8 , 0x4791 , 0xAA , 0x3C , 0x1A , 0x73 , 0xA2 , 0x93 , 0x4E , 0x71 )"
+
+.SS "DEFINE_GUID (IID_ID3D12DeviceRemovedExtendedData1 , 0x9727A022 , 0xCF1D , 0x4DDA , 0x9E , 0xBA , 0xEF , 0xFA , 0x65 , 0x3F , 0xC5 , 0x06 )"
+
+.SS "DEFINE_GUID (IID_ID3D12DeviceRemovedExtendedData2 , 0x67FC5816 , 0xE4CA , 0x4915 , 0xBF , 0x18 , 0x42 , 0x54 , 0x12 , 0x72 , 0xDA , 0x54 )"
+
+.SS "DEFINE_GUID (IID_ID3D12DeviceRemovedExtendedDataSettings , 0x82BC481C , 0x6B9B , 0x4030 , 0xAE , 0xDB , 0x7E , 0xE3 , 0xD1 , 0xDF , 0x1E , 0x63 )"
+
+.SS "DEFINE_GUID (IID_ID3D12DeviceRemovedExtendedDataSettings1 , 0xDBD5AE51 , 0x3317 , 0x4F0A , 0xAD , 0xF9 , 0x1D , 0x7C , 0xED , 0xCA , 0xAE , 0x0B )"
+
+.SS "DEFINE_GUID (IID_ID3D12DeviceRemovedExtendedDataSettings2 , 0x61552388 , 0x01ab , 0x4008 , 0xa4 , 0x36 , 0x83 , 0xdb , 0x18 , 0x95 , 0x66 , 0xea )"
+
+.SS "DEFINE_GUID (IID_ID3D12Fence , 0x0a753dcf , 0xc4d8 , 0x4b91 , 0xad , 0xf6 , 0xbe , 0x5a , 0x60 , 0xd9 , 0x5a , 0x76 )"
+
+.SS "DEFINE_GUID (IID_ID3D12Fence1 , 0x433685fe , 0xe22b , 0x4ca0 , 0xa8 , 0xdb , 0xb5 , 0xb4 , 0xf4 , 0xdd , 0x0e , 0x4a )"
+
+.SS "DEFINE_GUID (IID_ID3D12GBVDiagnostics , 0x597985ab , 0x9b75 , 0x4dbb , 0xbe , 0x23 , 0x07 , 0x61 , 0x19 , 0x5b , 0xeb , 0xee )"
+
+.SS "DEFINE_GUID (IID_ID3D12GraphicsCommandList , 0x5b160d0f , 0xac1b , 0x4185 , 0x8b , 0xa8 , 0xb3 , 0xae , 0x42 , 0xa5 , 0xa4 , 0x55 )"
+
+.SS "DEFINE_GUID (IID_ID3D12GraphicsCommandList1 , 0x553103fb , 0x1fe7 , 0x4557 , 0xbb , 0x38 , 0x94 , 0x6d , 0x7d , 0x0e , 0x7c , 0xa7 )"
+
+.SS "DEFINE_GUID (IID_ID3D12GraphicsCommandList10 , 0x7013c015 , 0xd161 , 0x4b63 , 0xa0 , 0x8c , 0x23 , 0x85 , 0x52 , 0xdd , 0x8a , 0xcc )"
+
+.SS "DEFINE_GUID (IID_ID3D12GraphicsCommandList2 , 0x38C3E585 , 0xFF17 , 0x412C , 0x91 , 0x50 , 0x4F , 0xC6 , 0xF9 , 0xD7 , 0x2A , 0x28 )"
+
+.SS "DEFINE_GUID (IID_ID3D12GraphicsCommandList3 , 0x6FDA83A7 , 0xB84C , 0x4E38 , 0x9A , 0xC8 , 0xC7 , 0xBD , 0x22 , 0x01 , 0x6B , 0x3D )"
+
+.SS "DEFINE_GUID (IID_ID3D12GraphicsCommandList4 , 0x8754318e , 0xd3a9 , 0x4541 , 0x98 , 0xcf , 0x64 , 0x5b , 0x50 , 0xdc , 0x48 , 0x74 )"
+
+.SS "DEFINE_GUID (IID_ID3D12GraphicsCommandList5 , 0x55050859 , 0x4024 , 0x474c , 0x87 , 0xf5 , 0x64 , 0x72 , 0xea , 0xee , 0x44 , 0xea )"
+
+.SS "DEFINE_GUID (IID_ID3D12GraphicsCommandList6 , 0xc3827890 , 0xe548 , 0x4cfa , 0x96 , 0xcf , 0x56 , 0x89 , 0xa9 , 0x37 , 0x0f , 0x80 )"
+
+.SS "DEFINE_GUID (IID_ID3D12GraphicsCommandList7 , 0xdd171223 , 0x8b61 , 0x4769 , 0x90 , 0xe3 , 0x16 , 0x0c , 0xcd , 0xe4 , 0xe2 , 0xc1 )"
+
+.SS "DEFINE_GUID (IID_ID3D12GraphicsCommandList8 , 0xee936ef9 , 0x599d , 0x4d28 , 0x93 , 0x8e , 0x23 , 0xc4 , 0xad , 0x05 , 0xce , 0x51 )"
+
+.SS "DEFINE_GUID (IID_ID3D12GraphicsCommandList9 , 0x34ed2808 , 0xffe6 , 0x4c2b , 0xb1 , 0x1a , 0xca , 0xbd , 0x2b , 0x0c , 0x59 , 0xe1 )"
+
+.SS "DEFINE_GUID (IID_ID3D12Heap , 0x6b3b2502 , 0x6e51 , 0x45b3 , 0x90 , 0xee , 0x98 , 0x84 , 0x26 , 0x5e , 0x8d , 0xf3 )"
+
+.SS "DEFINE_GUID (IID_ID3D12Heap1 , 0x572F7389 , 0x2168 , 0x49E3 , 0x96 , 0x93 , 0xD6 , 0xDF , 0x58 , 0x71 , 0xBF , 0x6D )"
+
+.SS "DEFINE_GUID (IID_ID3D12LifetimeOwner , 0xe667af9f , 0xcd56 , 0x4f46 , 0x83 , 0xce , 0x03 , 0x2e , 0x59 , 0x5d , 0x70 , 0xa8 )"
+
+.SS "DEFINE_GUID (IID_ID3D12LifetimeTracker , 0x3fd03d36 , 0x4eb1 , 0x424a , 0xa5 , 0x82 , 0x49 , 0x4e , 0xcb , 0x8b , 0xa8 , 0x13 )"
+
+.SS "DEFINE_GUID (IID_ID3D12MetaCommand , 0xDBB84C27 , 0x36CE , 0x4FC9 , 0xB8 , 0x01 , 0xF0 , 0x48 , 0xC4 , 0x6A , 0xC5 , 0x70 )"
+
+.SS "DEFINE_GUID (IID_ID3D12Object , 0xc4fec28f , 0x7966 , 0x4e95 , 0x9f , 0x94 , 0xf4 , 0x31 , 0xcb , 0x56 , 0xc3 , 0xb8 )"
+
+.SS "DEFINE_GUID (IID_ID3D12Pageable , 0x63ee58fb , 0x1268 , 0x4835 , 0x86 , 0xda , 0xf0 , 0x08 , 0xce , 0x62 , 0xf0 , 0xd6 )"
+
+.SS "DEFINE_GUID (IID_ID3D12PipelineLibrary , 0xc64226a8 , 0x9201 , 0x46af , 0xb4 , 0xcc , 0x53 , 0xfb , 0x9f , 0xf7 , 0x41 , 0x4f )"
+
+.SS "DEFINE_GUID (IID_ID3D12PipelineLibrary1 , 0x80eabf42 , 0x2568 , 0x4e5e , 0xbd , 0x82 , 0xc3 , 0x7f , 0x86 , 0x96 , 0x1d , 0xc3 )"
+
+.SS "DEFINE_GUID (IID_ID3D12PipelineState , 0x765a30f3 , 0xf624 , 0x4c6f , 0xa8 , 0x28 , 0xac , 0xe9 , 0x48 , 0x62 , 0x24 , 0x45 )"
+
+.SS "DEFINE_GUID (IID_ID3D12ProtectedResourceSession , 0x6CD696F4 , 0xF289 , 0x40CC , 0x80 , 0x91 , 0x5A , 0x6C , 0x0A , 0x09 , 0x9C , 0x3D )"
+
+.SS "DEFINE_GUID (IID_ID3D12ProtectedResourceSession1 , 0xD6F12DD6 , 0x76FB , 0x406E , 0x89 , 0x61 , 0x42 , 0x96 , 0xEE , 0xFC , 0x04 , 0x09 )"
+
+.SS "DEFINE_GUID (IID_ID3D12ProtectedSession , 0xA1533D18 , 0x0AC1 , 0x4084 , 0x85 , 0xB9 , 0x89 , 0xA9 , 0x61 , 0x16 , 0x80 , 0x6B )"
+
+.SS "DEFINE_GUID (IID_ID3D12QueryHeap , 0x0d9658ae , 0xed45 , 0x469e , 0xa6 , 0x1d , 0x97 , 0x0e , 0xc5 , 0x83 , 0xca , 0xb4 )"
+
+.SS "DEFINE_GUID (IID_ID3D12Resource , 0x696442be , 0xa72e , 0x4059 , 0xbc , 0x79 , 0x5b , 0x5c , 0x98 , 0x04 , 0x0f , 0xad )"
+
+.SS "DEFINE_GUID (IID_ID3D12Resource1 , 0x9D5E227A , 0x4430 , 0x4161 , 0x88 , 0xB3 , 0x3E , 0xCA , 0x6B , 0xB1 , 0x6E , 0x19 )"
+
+.SS "DEFINE_GUID (IID_ID3D12Resource2 , 0xBE36EC3B , 0xEA85 , 0x4AEB , 0xA4 , 0x5A , 0xE9 , 0xD7 , 0x64 , 0x04 , 0xA4 , 0x95 )"
+
+.SS "DEFINE_GUID (IID_ID3D12RootSignature , 0xc54a6b66 , 0x72df , 0x4ee8 , 0x8b , 0xe5 , 0xa9 , 0x46 , 0xa1 , 0x42 , 0x92 , 0x14 )"
+
+.SS "DEFINE_GUID (IID_ID3D12RootSignatureDeserializer , 0x34AB647B , 0x3CC8 , 0x46AC , 0x84 , 0x1B , 0xC0 , 0x96 , 0x56 , 0x45 , 0xC0 , 0x46 )"
+
+.SS "DEFINE_GUID (IID_ID3D12SDKConfiguration , 0xe9eb5314 , 0x33aa , 0x42b2 , 0xa7 , 0x18 , 0xd7 , 0x7f , 0x58 , 0xb1 , 0xf1 , 0xc7 )"
+
+.SS "DEFINE_GUID (IID_ID3D12SDKConfiguration1 , 0x8aaf9303 , 0xad25 , 0x48b9 , 0x9a , 0x57 , 0xd9 , 0xc3 , 0x7e , 0x00 , 0x9d , 0x9f )"
+
+.SS "DEFINE_GUID (IID_ID3D12ShaderCacheSession , 0x28e2495d , 0x0f64 , 0x4ae4 , 0xa6 , 0xec , 0x12 , 0x92 , 0x55 , 0xdc , 0x49 , 0xa8 )"
+
+.SS "DEFINE_GUID (IID_ID3D12StateObject , 0x47016943 , 0xfca8 , 0x4594 , 0x93 , 0xea , 0xaf , 0x25 , 0x8b , 0x55 , 0x34 , 0x6d )"
+
+.SS "DEFINE_GUID (IID_ID3D12StateObjectProperties , 0xde5fa827 , 0x9bf9 , 0x4f26 , 0x89 , 0xff , 0xd7 , 0xf5 , 0x6f , 0xde , 0x38 , 0x60 )"
+
+.SS "DEFINE_GUID (IID_ID3D12StateObjectProperties1 , 0x460caac7 , 0x1d24 , 0x446a , 0xa1 , 0x84 , 0xca , 0x67 , 0xdb , 0x49 , 0x41 , 0x38 )"
+
+.SS "DEFINE_GUID (IID_ID3D12SwapChainAssistant , 0xf1df64b6 , 0x57fd , 0x49cd , 0x88 , 0x07 , 0xc0 , 0xeb , 0x88 , 0xb4 , 0x5c , 0x8f )"
+
+.SS "DEFINE_GUID (IID_ID3D12Tools , 0x7071e1f0 , 0xe84b , 0x4b33 , 0x97 , 0x4f , 0x12 , 0xfa , 0x49 , 0xde , 0x65 , 0xc5 )"
+
+.SS "DEFINE_GUID (IID_ID3D12VersionedRootSignatureDeserializer , 0x7F91CE67 , 0x090C , 0x4BB7 , 0xB7 , 0x8E , 0xED , 0x8F , 0xF2 , 0xE3 , 0x1D , 0xA0 )"
+
+.SS "DEFINE_GUID (IID_ID3D12VirtualizationGuestDevice , 0xbc66d368 , 0x7373 , 0x4943 , 0x87 , 0x57 , 0xfc , 0x87 , 0xdc , 0x79 , 0xe4 , 0x76 )"
+
+.SS "DEFINE_GUID (IID_ID3D12WorkGraphProperties , 0x065acf71 , 0xf863 , 0x4b89 , 0x82 , 0xf4 , 0x02 , 0xe4 , 0xd5 , 0x88 , 0x67 , 0x57 )"
+
+.SH "Variable Documentation"
+.PP 
+.SS "RPC_IF_HANDLE __MIDL_itf_d3d12_0000_0074_v0_0_c_ifspec\fR [extern]\fP"
+
+.SS "RPC_IF_HANDLE __MIDL_itf_d3d12_0000_0074_v0_0_s_ifspec\fR [extern]\fP"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

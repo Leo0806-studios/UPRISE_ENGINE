@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_interface_i_d3_d12_pipeline_library" xml:lang="en-US">
+<title>ID3D12PipelineLibrary Interface Reference</title>
+<indexterm><primary>ID3D12PipelineLibrary</primary></indexterm>
+<para>
+<computeroutput>import &lt;d3d12.idl;</computeroutput>
+</para>
+<para>Inheritance diagram for ID3D12PipelineLibrary:    <informalfigure>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="0" fileref="interface_i_d3_d12_pipeline_library.png"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </informalfigure>
+</para>
+<simplesect>
+    <title>Public Member Functions    </title>
+        <itemizedlist>
+            <listitem><para>HRESULT <link linkend="_interface_i_d3_d12_pipeline_library_1acdcc470568c2ce59047a26dd41127096">StorePipeline</link> ([annotation(&quot;_In_opt_&quot;)] LPCWSTR pName, [annotation(&quot;_In_&quot;)] <link linkend="_interface_i_d3_d12_pipeline_state">ID3D12PipelineState</link> *pPipeline)</para>
+</listitem>
+            <listitem><para>HRESULT <link linkend="_interface_i_d3_d12_pipeline_library_1a9bddca1cde26ae25ea9179add54a39c7">LoadGraphicsPipeline</link> ([annotation(&quot;_In_&quot;)] LPCWSTR pName, [annotation(&quot;_In_&quot;)] const <link linkend="_d3d12_8idl_1a73a186a30f3b42d589c696033bb53960">D3D12_GRAPHICS_PIPELINE_STATE_DESC</link> *pDesc, [in] REFIID riid, [out, iid_is(riid), annotation(&quot;_COM_Outptr_&quot;)] <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> **ppPipelineState)</para>
+</listitem>
+            <listitem><para>HRESULT <link linkend="_interface_i_d3_d12_pipeline_library_1af027a505a93ce8ada1f47c9bf1241fe2">LoadComputePipeline</link> ([annotation(&quot;_In_&quot;)] LPCWSTR pName, [annotation(&quot;_In_&quot;)] const <link linkend="_struct_d3_d12___c_o_m_p_u_t_e___p_i_p_e_l_i_n_e___s_t_a_t_e___d_e_s_c">D3D12_COMPUTE_PIPELINE_STATE_DESC</link> *pDesc, [in] REFIID riid, [out, iid_is(riid), annotation(&quot;_COM_Outptr_&quot;)] <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> **ppPipelineState)</para>
+</listitem>
+            <listitem><para>SIZE_T <link linkend="_interface_i_d3_d12_pipeline_library_1a1f2b7fb18d8e9b529679efbabb3b329a">GetSerializedSize</link> ()</para>
+</listitem>
+            <listitem><para>HRESULT <link linkend="_interface_i_d3_d12_pipeline_library_1a289c5c87d0c16576c1497b376dcf3617">Serialize</link> ([annotation(&quot;_Out_writes_(DataSizeInBytes)&quot;)] void *pData, SIZE_T DataSizeInBytes)</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+Public Member Functions inherited from <link linkend="_interface_i_d3_d12_device_child">ID3D12DeviceChild</link>        <itemizedlist>
+            <listitem><para>HRESULT <link linkend="_interface_i_d3_d12_device_child_1aee9c596bf3cb926ad5cec32f6905ecd6">GetDevice</link> ([in] REFIID riid, [out, iid_is(riid), annotation(&quot;_COM_Outptr_opt_&quot;)] <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> **ppvDevice)</para>
+</listitem>
+        </itemizedlist>
+Public Member Functions inherited from <link linkend="_interface_i_d3_d12_object">ID3D12Object</link>        <itemizedlist>
+            <listitem><para>HRESULT <link linkend="_interface_i_d3_d12_object_1a46ab9410281e360f04c9324e8dc2c038">GetPrivateData</link> ([annotation(&quot;_In_&quot;)] REFGUID guid, [annotation(&quot;_Inout_&quot;)] UINT *pDataSize, [annotation(&quot;_Out_writes_bytes_opt_( *pDataSize )&quot;)] void *pData)</para>
+</listitem>
+            <listitem><para>HRESULT <link linkend="_interface_i_d3_d12_object_1a913636080493f80631e23ac510f2761f">SetPrivateData</link> ([annotation(&quot;_In_&quot;)] REFGUID guid, [annotation(&quot;_In_&quot;)] UINT DataSize, [annotation(&quot;_In_reads_bytes_opt_( DataSize )&quot;)] const <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> *pData)</para>
+</listitem>
+            <listitem><para>HRESULT <link linkend="_interface_i_d3_d12_object_1a16811fee5be8b1b471afbe6a1792980f">SetPrivateDataInterface</link> ([annotation(&quot;_In_&quot;)] REFGUID guid, [annotation(&quot;_In_opt_&quot;)] const IUnknown *pData)</para>
+</listitem>
+            <listitem><para>HRESULT <link linkend="_interface_i_d3_d12_object_1a55a88b4dddb1a3e72f13dff4818dff02">SetName</link> ([annotation(&quot;_In_z_&quot;)] LPCWSTR Name)</para>
+</listitem>
+        </itemizedlist>
+<section>
+<title>Member Function Documentation</title>
+<anchor xml:id="_interface_i_d3_d12_pipeline_library_1a1f2b7fb18d8e9b529679efbabb3b329a"/><section>
+    <title>GetSerializedSize()</title>
+<indexterm><primary>GetSerializedSize</primary><secondary>ID3D12PipelineLibrary</secondary></indexterm>
+<indexterm><primary>ID3D12PipelineLibrary</primary><secondary>GetSerializedSize</secondary></indexterm>
+<para><computeroutput>SIZE_T ID3D12PipelineLibrary::GetSerializedSize ( )</computeroutput></para></section>
+<anchor xml:id="_interface_i_d3_d12_pipeline_library_1af027a505a93ce8ada1f47c9bf1241fe2"/><section>
+    <title>LoadComputePipeline()</title>
+<indexterm><primary>LoadComputePipeline</primary><secondary>ID3D12PipelineLibrary</secondary></indexterm>
+<indexterm><primary>ID3D12PipelineLibrary</primary><secondary>LoadComputePipeline</secondary></indexterm>
+<para><computeroutput>HRESULT ID3D12PipelineLibrary::LoadComputePipeline ([annotation(&quot;_In_&quot;)] LPCWSTR pName, [annotation(&quot;_In_&quot;)] const <link linkend="_struct_d3_d12___c_o_m_p_u_t_e___p_i_p_e_l_i_n_e___s_t_a_t_e___d_e_s_c">D3D12_COMPUTE_PIPELINE_STATE_DESC</link> * pDesc, [in] REFIID riid, [out, iid_is(riid), annotation(&quot;_COM_Outptr_&quot;)] <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> ** ppPipelineState)</computeroutput></para></section>
+<anchor xml:id="_interface_i_d3_d12_pipeline_library_1a9bddca1cde26ae25ea9179add54a39c7"/><section>
+    <title>LoadGraphicsPipeline()</title>
+<indexterm><primary>LoadGraphicsPipeline</primary><secondary>ID3D12PipelineLibrary</secondary></indexterm>
+<indexterm><primary>ID3D12PipelineLibrary</primary><secondary>LoadGraphicsPipeline</secondary></indexterm>
+<para><computeroutput>HRESULT ID3D12PipelineLibrary::LoadGraphicsPipeline ([annotation(&quot;_In_&quot;)] LPCWSTR pName, [annotation(&quot;_In_&quot;)] const <link linkend="_d3d12_8idl_1a73a186a30f3b42d589c696033bb53960">D3D12_GRAPHICS_PIPELINE_STATE_DESC</link> * pDesc, [in] REFIID riid, [out, iid_is(riid), annotation(&quot;_COM_Outptr_&quot;)] <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> ** ppPipelineState)</computeroutput></para></section>
+<anchor xml:id="_interface_i_d3_d12_pipeline_library_1a289c5c87d0c16576c1497b376dcf3617"/><section>
+    <title>Serialize()</title>
+<indexterm><primary>Serialize</primary><secondary>ID3D12PipelineLibrary</secondary></indexterm>
+<indexterm><primary>ID3D12PipelineLibrary</primary><secondary>Serialize</secondary></indexterm>
+<para><computeroutput>HRESULT ID3D12PipelineLibrary::Serialize ([annotation(&quot;_Out_writes_(DataSizeInBytes)&quot;)] <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> * pData, SIZE_T DataSizeInBytes)</computeroutput></para></section>
+<anchor xml:id="_interface_i_d3_d12_pipeline_library_1acdcc470568c2ce59047a26dd41127096"/><section>
+    <title>StorePipeline()</title>
+<indexterm><primary>StorePipeline</primary><secondary>ID3D12PipelineLibrary</secondary></indexterm>
+<indexterm><primary>ID3D12PipelineLibrary</primary><secondary>StorePipeline</secondary></indexterm>
+<para><computeroutput>HRESULT ID3D12PipelineLibrary::StorePipeline ([annotation(&quot;_In_opt_&quot;)] LPCWSTR pName, [annotation(&quot;_In_&quot;)] <link linkend="_interface_i_d3_d12_pipeline_state">ID3D12PipelineState</link> * pPipeline)</computeroutput></para></section>
+<para>
+The documentation for this interface was generated from the following file:</para>
+adhed/<link linkend="_d3d12_8idl">d3d12.idl</link></section>
+</section>

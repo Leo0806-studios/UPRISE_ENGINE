@@ -3,7 +3,7 @@
 <title>CORE::ConfigLoader Class Reference</title>
 <indexterm><primary>CORE::ConfigLoader</primary></indexterm>
 <para>
-<computeroutput>#include &lt;CONFIGLOADER.h&gt;</computeroutput>
+<computeroutput>#include &lt;C_CONFIGLOADER.h&gt;</computeroutput>
 </para>
 <simplesect>
     <title>Public Member Functions    </title>
@@ -15,13 +15,21 @@
 <simplesect>
     <title>Static Public Member Functions    </title>
         <itemizedlist>
-            <listitem><para>static <link linkend="_class_config_file">ConfigFile</link> <link linkend="_class_c_o_r_e_1_1_config_loader_1a6b2c5edc4485bd3fe3111d5e94c2feda">LoadCOnfigFile</link> (const char *path)</para>
+            <listitem><para>static void <link linkend="_class_c_o_r_e_1_1_config_loader_1ae4059cc339d86f6fcf367e428915fe7f">LoadConfigFiles</link> (const std::filesystem::path path)</para>
+</listitem>
+            <listitem><para>static std::shared_ptr&lt; <link linkend="_class_config_file">ConfigFile</link> &gt; <link linkend="_class_c_o_r_e_1_1_config_loader_1abb70b03e5d5114bd008515782e54ffbb">LoadCOnfigFile</link> (const char *path)</para>
 </listitem>
             <listitem><para>static void <link linkend="_class_c_o_r_e_1_1_config_loader_1acb043248abba61aa685e1c9d9a14070b">LoadModels</link> (const std::filesystem::path path)</para>
 </listitem>
             <listitem><para>static void <link linkend="_class_c_o_r_e_1_1_config_loader_1a805568f2aadab938cf8e6d88434b4ece">LoadTerrains</link> ()</para>
 </listitem>
             <listitem><para>template&lt;class _Ty , class _Arg &gt; </para><para>static _Ty <link linkend="_class_c_o_r_e_1_1_config_loader_1a493835159a0ddccfca089c5be8e79fa8">GameobjectFromCFGFile</link> (std::shared_ptr&lt; <link linkend="_class_config_file">ConfigFile</link> &gt; CFG)</para>
+</listitem>
+            <listitem><para>static <link linkend="_class_p_a_i_n_1_1_shader">PAIN::Shader</link> <link linkend="_class_c_o_r_e_1_1_config_loader_1a3821b92faa85784e16c314d07373b287">ShaderFromCFGFile</link> (std::shared_ptr&lt; <link linkend="_class_config_file">ConfigFile</link> &gt; vertexshader, std::shared_ptr&lt; <link linkend="_class_config_file">ConfigFile</link> &gt;frgmentshader, std::shared_ptr&lt; <link linkend="_class_config_file">ConfigFile</link> &gt;geometryshader)</para>
+</listitem>
+            <listitem><para>static <link linkend="_class_p_a_i_n_1_1_shader">PAIN::Shader</link> <link linkend="_class_c_o_r_e_1_1_config_loader_1a4f6c050db9225c64f97758d89d3e8b67">ShaderFromCFGFile</link> (std::shared_ptr&lt; <link linkend="_class_config_file">ConfigFile</link> &gt; vertexshader, std::shared_ptr&lt; <link linkend="_class_config_file">ConfigFile</link> &gt;frgmentshader)</para>
+</listitem>
+            <listitem><para>static void <link linkend="_class_c_o_r_e_1_1_config_loader_1aa627949b24cd33475697fd25619226e0">LoadMaterials</link> (const std::filesystem::path path)</para>
 </listitem>
         </itemizedlist>
 </simplesect>
@@ -32,59 +40,74 @@
 </listitem>
         </itemizedlist>
 </simplesect>
-<section>
-<title>Detailed Description</title>
-<para>
-Definition at line <link linkend="__c_o_n_f_i_g_l_o_a_d_e_r_8h_source_1l00007">7</link> of file <link linkend="__c_o_n_f_i_g_l_o_a_d_e_r_8h_source">CONFIGLOADER.h</link>.</para>
-</section>
+<simplesect>
+    <title>Static Public Attributes    </title>
+        <itemizedlist>
+            <listitem><para>static std::unordered_map&lt; <link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755cc">ConfigFile::ConfigType</link>, std::unordered_map&lt; std::string, std::shared_ptr&lt; <link linkend="_class_config_file">ConfigFile</link> &gt; &gt; &gt; <link linkend="_class_c_o_r_e_1_1_config_loader_1ac630c194f7e810f592c49d773939df6b">ConfigDatabase</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
 <section>
 <title>Member Function Documentation</title>
 <anchor xml:id="_class_c_o_r_e_1_1_config_loader_1a493835159a0ddccfca089c5be8e79fa8"/><section>
     <title>GameobjectFromCFGFile()</title>
 <indexterm><primary>GameobjectFromCFGFile</primary><secondary>CORE::ConfigLoader</secondary></indexterm>
 <indexterm><primary>CORE::ConfigLoader</primary><secondary>GameobjectFromCFGFile</secondary></indexterm>
-<computeroutput>template&lt;class _Ty , class _Arg &gt; </computeroutput><para><computeroutput>_Ty CORE::ConfigLoader::GameobjectFromCFGFile (std::shared_ptr&lt; <link linkend="_class_config_file">ConfigFile</link> &gt; CFG)<computeroutput>[static]</computeroutput></computeroutput></para><para>
-Definition at line <link linkend="__c_o_n_f_i_g_l_o_a_d_e_r_8cpp_source_1l00066">66</link> of file <link linkend="__c_o_n_f_i_g_l_o_a_d_e_r_8cpp_source">CONFIGLOADER.cpp</link>.</para>
-</section>
-<anchor xml:id="_class_c_o_r_e_1_1_config_loader_1a6b2c5edc4485bd3fe3111d5e94c2feda"/><section>
+<computeroutput>template&lt;class _Ty , class _Arg &gt; </computeroutput><para><computeroutput>_Ty CORE::ConfigLoader::GameobjectFromCFGFile (std::shared_ptr&lt; <link linkend="_class_config_file">ConfigFile</link> &gt; CFG)<computeroutput>[static]</computeroutput></computeroutput></para></section>
+<anchor xml:id="_class_c_o_r_e_1_1_config_loader_1abb70b03e5d5114bd008515782e54ffbb"/><section>
     <title>LoadCOnfigFile()</title>
 <indexterm><primary>LoadCOnfigFile</primary><secondary>CORE::ConfigLoader</secondary></indexterm>
 <indexterm><primary>CORE::ConfigLoader</primary><secondary>LoadCOnfigFile</secondary></indexterm>
-<para><computeroutput><link linkend="_class_config_file">ConfigFile</link> CORE::ConfigLoader::LoadCOnfigFile (const char * path)<computeroutput>[static]</computeroutput></computeroutput></para><para>
-Definition at line <link linkend="__c_o_n_f_i_g_l_o_a_d_e_r_8cpp_source_1l00010">10</link> of file <link linkend="__c_o_n_f_i_g_l_o_a_d_e_r_8cpp_source">CONFIGLOADER.cpp</link>.</para>
-</section>
+<para><computeroutput>std::shared_ptr&lt; <link linkend="_class_config_file">ConfigFile</link> &gt; CORE::ConfigLoader::LoadCOnfigFile (const char * path)<computeroutput>[static]</computeroutput></computeroutput></para></section>
+<anchor xml:id="_class_c_o_r_e_1_1_config_loader_1ae4059cc339d86f6fcf367e428915fe7f"/><section>
+    <title>LoadConfigFiles()</title>
+<indexterm><primary>LoadConfigFiles</primary><secondary>CORE::ConfigLoader</secondary></indexterm>
+<indexterm><primary>CORE::ConfigLoader</primary><secondary>LoadConfigFiles</secondary></indexterm>
+<para><computeroutput>void CORE::ConfigLoader::LoadConfigFiles (const std::filesystem::path path)<computeroutput>[static]</computeroutput></computeroutput></para></section>
+<anchor xml:id="_class_c_o_r_e_1_1_config_loader_1aa627949b24cd33475697fd25619226e0"/><section>
+    <title>LoadMaterials()</title>
+<indexterm><primary>LoadMaterials</primary><secondary>CORE::ConfigLoader</secondary></indexterm>
+<indexterm><primary>CORE::ConfigLoader</primary><secondary>LoadMaterials</secondary></indexterm>
+<para><computeroutput>void CORE::ConfigLoader::LoadMaterials (const std::filesystem::path path)<computeroutput>[static]</computeroutput></computeroutput></para></section>
 <anchor xml:id="_class_c_o_r_e_1_1_config_loader_1acb043248abba61aa685e1c9d9a14070b"/><section>
     <title>LoadModels()</title>
 <indexterm><primary>LoadModels</primary><secondary>CORE::ConfigLoader</secondary></indexterm>
 <indexterm><primary>CORE::ConfigLoader</primary><secondary>LoadModels</secondary></indexterm>
-<para><computeroutput>void CORE::ConfigLoader::LoadModels (const std::filesystem::path path)<computeroutput>[static]</computeroutput></computeroutput></para><para>
-Definition at line <link linkend="__c_o_n_f_i_g_l_o_a_d_e_r_8cpp_source_1l00037">37</link> of file <link linkend="__c_o_n_f_i_g_l_o_a_d_e_r_8cpp_source">CONFIGLOADER.cpp</link>.</para>
-</section>
+<para><computeroutput>void CORE::ConfigLoader::LoadModels (const std::filesystem::path path)<computeroutput>[static]</computeroutput></computeroutput></para></section>
 <anchor xml:id="_class_c_o_r_e_1_1_config_loader_1a087f2e327d1d4331d24753858e6edeb1"/><section>
     <title>LoadSettingsFile()</title>
 <indexterm><primary>LoadSettingsFile</primary><secondary>CORE::ConfigLoader</secondary></indexterm>
 <indexterm><primary>CORE::ConfigLoader</primary><secondary>LoadSettingsFile</secondary></indexterm>
-<para><computeroutput><link linkend="_class_settings_file">SettingsFile</link> CORE::ConfigLoader::LoadSettingsFile (const char * path)</computeroutput></para><para>
-Definition at line <link linkend="__c_o_n_f_i_g_l_o_a_d_e_r_8cpp_source_1l00005">5</link> of file <link linkend="__c_o_n_f_i_g_l_o_a_d_e_r_8cpp_source">CONFIGLOADER.cpp</link>.</para>
-</section>
+<para><computeroutput><link linkend="_class_settings_file">SettingsFile</link> CORE::ConfigLoader::LoadSettingsFile (const char * path)</computeroutput></para></section>
 <anchor xml:id="_class_c_o_r_e_1_1_config_loader_1a805568f2aadab938cf8e6d88434b4ece"/><section>
     <title>LoadTerrains()</title>
 <indexterm><primary>LoadTerrains</primary><secondary>CORE::ConfigLoader</secondary></indexterm>
 <indexterm><primary>CORE::ConfigLoader</primary><secondary>LoadTerrains</secondary></indexterm>
-<para><computeroutput>void CORE::ConfigLoader::LoadTerrains ( )<computeroutput>[static]</computeroutput></computeroutput></para><para>
-Definition at line <link linkend="__c_o_n_f_i_g_l_o_a_d_e_r_8cpp_source_1l00062">62</link> of file <link linkend="__c_o_n_f_i_g_l_o_a_d_e_r_8cpp_source">CONFIGLOADER.cpp</link>.</para>
-</section>
+<para><computeroutput>void CORE::ConfigLoader::LoadTerrains ( )<computeroutput>[static]</computeroutput></computeroutput></para></section>
+<anchor xml:id="_class_c_o_r_e_1_1_config_loader_1a4f6c050db9225c64f97758d89d3e8b67"/><section>
+    <title>ShaderFromCFGFile()<computeroutput>[1/2]</computeroutput></title>
+<indexterm><primary>ShaderFromCFGFile</primary><secondary>CORE::ConfigLoader</secondary></indexterm>
+<indexterm><primary>CORE::ConfigLoader</primary><secondary>ShaderFromCFGFile</secondary></indexterm>
+<para><computeroutput><link linkend="_class_p_a_i_n_1_1_shader">PAIN::Shader</link> CORE::ConfigLoader::ShaderFromCFGFile (std::shared_ptr&lt; <link linkend="_class_config_file">ConfigFile</link> &gt; vertexshader, std::shared_ptr&lt; <link linkend="_class_config_file">ConfigFile</link> &gt; frgmentshader)<computeroutput>[static]</computeroutput></computeroutput></para></section>
+<anchor xml:id="_class_c_o_r_e_1_1_config_loader_1a3821b92faa85784e16c314d07373b287"/><section>
+    <title>ShaderFromCFGFile()<computeroutput>[2/2]</computeroutput></title>
+<indexterm><primary>ShaderFromCFGFile</primary><secondary>CORE::ConfigLoader</secondary></indexterm>
+<indexterm><primary>CORE::ConfigLoader</primary><secondary>ShaderFromCFGFile</secondary></indexterm>
+<para><computeroutput><link linkend="_class_p_a_i_n_1_1_shader">PAIN::Shader</link> CORE::ConfigLoader::ShaderFromCFGFile (std::shared_ptr&lt; <link linkend="_class_config_file">ConfigFile</link> &gt; vertexshader, std::shared_ptr&lt; <link linkend="_class_config_file">ConfigFile</link> &gt; frgmentshader, std::shared_ptr&lt; <link linkend="_class_config_file">ConfigFile</link> &gt; geometryshader)<computeroutput>[static]</computeroutput></computeroutput></para></section>
 </section>
 <section>
 <title>Member Data Documentation</title>
+<anchor xml:id="_class_c_o_r_e_1_1_config_loader_1ac630c194f7e810f592c49d773939df6b"/><section>
+    <title>ConfigDatabase</title>
+<indexterm><primary>ConfigDatabase</primary><secondary>CORE::ConfigLoader</secondary></indexterm>
+<indexterm><primary>CORE::ConfigLoader</primary><secondary>ConfigDatabase</secondary></indexterm>
+<para><computeroutput>std::unordered_map&lt; <link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755cc">ConfigFile::ConfigType</link>, std::unordered_map&lt; std::string, std::shared_ptr&lt; <link linkend="_class_config_file">ConfigFile</link> &gt; &gt; &gt; CORE::ConfigLoader::ConfigDatabase<computeroutput>[static]</computeroutput></computeroutput></para></section>
 <anchor xml:id="_class_c_o_r_e_1_1_config_loader_1a728c682a4c23eed4d9757c896cb2772e"/><section>
     <title>safemode</title>
 <indexterm><primary>safemode</primary><secondary>CORE::ConfigLoader</secondary></indexterm>
 <indexterm><primary>CORE::ConfigLoader</primary><secondary>safemode</secondary></indexterm>
-<para><computeroutput>bool CORE::ConfigLoader::safemode</computeroutput></para><para>
-Definition at line <link linkend="__c_o_n_f_i_g_l_o_a_d_e_r_8h_source_1l00012">12</link> of file <link linkend="__c_o_n_f_i_g_l_o_a_d_e_r_8h_source">CONFIGLOADER.h</link>.</para>
-</section>
+<para><computeroutput>bool CORE::ConfigLoader::safemode</computeroutput></para></section>
 <para>
 The documentation for this class was generated from the following files:</para>
-UPRISE_ENGINE/<link linkend="__c_o_n_f_i_g_l_o_a_d_e_r_8h">CONFIGLOADER.h</link>UPRISE_ENGINE/<link linkend="__c_o_n_f_i_g_l_o_a_d_e_r_8cpp">CONFIGLOADER.cpp</link></section>
+UPRISE_ENGINE/HeaderE/CORE/<link linkend="__c___c_o_n_f_i_g_l_o_a_d_e_r_8h">C_CONFIGLOADER.h</link>UPRISE_ENGINE/src/CORE/<link linkend="__c___c_o_n_f_i_g_l_o_a_d_e_r_8cpp">C_CONFIGLOADER.cpp</link></section>
 </section>

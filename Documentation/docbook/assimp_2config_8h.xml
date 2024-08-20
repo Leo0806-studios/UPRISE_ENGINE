@@ -1,0 +1,1550 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_assimp_2config_8h" xml:lang="en-US">
+<title>adhed/assimp/config.h File Reference</title>
+<indexterm><primary>adhed/assimp/config.h</primary></indexterm>
+<para>
+
+<para>Defines constants for configurable properties for the library. </para>
+ 
+</para>
+<simplesect>
+    <title>Macros    </title>
+        <itemizedlist>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a472fc2ecd78a47d69e38ef76ddaa8aab">AI_CONFIG_H_INC</link></para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1ae67105a77014e256f4c242504881c261">AI_CONFIG_GLOB_MEASURE_TIME</link>&#160;&#160;&#160;    &quot;GLOB_MEASURE_TIME&quot;</para>
+
+<para>Enables time measurements. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a75351a98fd8d4c367d326b914169f9d6">AI_CONFIG_IMPORT_NO_SKELETON_MESHES</link>&#160;&#160;&#160;    &quot;IMPORT_NO_SKELETON_MESHES&quot;</para>
+
+<para><link linkend="_class_global">Global</link> setting to disable generation of skeleton dummy meshes. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1ada7420ed15ce65797bcb1943feab2085">AI_CONFIG_PP_SBBC_MAX_BONES</link>&#160;&#160;&#160;    &quot;PP_SBBC_MAX_BONES&quot;</para>
+
+<para>Maximum bone count per mesh for the SplitbyBoneCount step. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a5241c80c29b4ef83683f34b58ca230dc">AI_SBBC_DEFAULT_MAX_BONES</link>&#160;&#160;&#160;60</para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a17376a5a00287843581a4f668291f49d">AI_CONFIG_PP_CT_MAX_SMOOTHING_ANGLE</link>&#160;&#160;&#160;    &quot;PP_CT_MAX_SMOOTHING_ANGLE&quot;</para>
+
+<para>Specifies the maximum angle that may be between two vertex tangents that their tangents and bi-tangents are smoothed. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a1b2fa19a9636ba523569f0106dfe2c14">AI_CONFIG_PP_CT_TEXTURE_CHANNEL_INDEX</link>&#160;&#160;&#160;    &quot;PP_CT_TEXTURE_CHANNEL_INDEX&quot;</para>
+
+<para>Source UV channel for tangent space computation. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a412ab4b92d48adbddc81c1c9a190493f">AI_CONFIG_PP_GSN_MAX_SMOOTHING_ANGLE</link>&#160;&#160;&#160;    &quot;PP_GSN_MAX_SMOOTHING_ANGLE&quot;</para>
+
+<para>Specifies the maximum angle that may be between two face normals at the same vertex position that their are smoothed together. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a243ffb53e27a913b92cdb38bb951da7d">AI_CONFIG_IMPORT_MDL_COLORMAP</link>&#160;&#160;&#160;    &quot;IMPORT_MDL_COLORMAP&quot;</para>
+
+<para>Sets the colormap (= palette) to be used to decode embedded textures in MDL (Quake or 3DGS) files. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a5a7a5d8c18ffe39d29834a0737e2bce9">AI_CONFIG_PP_RRM_EXCLUDE_LIST</link>&#160;&#160;&#160;    &quot;PP_RRM_EXCLUDE_LIST&quot;</para>
+
+<para>Configures the <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a052d2921c33cd21141480b8f25524bb1">aiProcess_RemoveRedundantMaterials</link> step to keep materials matching a name in a given list. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a04cc3d3a549efd8db4a56eaf554fd327">AI_CONFIG_PP_PTV_KEEP_HIERARCHY</link>&#160;&#160;&#160;    &quot;PP_PTV_KEEP_HIERARCHY&quot;</para>
+
+<para>Configures the <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a6e50fab95214a33996e28fae3efc7582">aiProcess_PreTransformVertices</link> step to keep the scene hierarchy. Meshes are moved to worldspace, but no optimization is performed (read: meshes with equal materials are not joined. The total number of meshes won&apos;t change). </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1ad1bf07f321c6f075e9c67f26b551b323">AI_CONFIG_PP_PTV_NORMALIZE</link>&#160;&#160;&#160;    &quot;PP_PTV_NORMALIZE&quot;</para>
+
+<para>Configures the <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a6e50fab95214a33996e28fae3efc7582">aiProcess_PreTransformVertices</link> step to normalize all vertex components into the [-1,1] range. That is, a bounding box for the whole scene is computed, the maximum component is taken and all meshes are scaled appropriately (uniformly of course!). This might be useful if you don&apos;t know the spatial dimension of the input data. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a7548eebdefb242392d23adc61f33fbb4">AI_CONFIG_PP_PTV_ADD_ROOT_TRANSFORMATION</link>&#160;&#160;&#160;    &quot;PP_PTV_ADD_ROOT_TRANSFORMATION&quot;</para>
+
+<para>Configures the <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a6e50fab95214a33996e28fae3efc7582">aiProcess_PreTransformVertices</link> step to use a users defined matrix as the scene root node transformation before transforming vertices. Property type: bool. Default value: false. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a76b170493e12273427e2b96263c9bf21">AI_CONFIG_PP_PTV_ROOT_TRANSFORMATION</link>&#160;&#160;&#160;    &quot;PP_PTV_ROOT_TRANSFORMATION&quot;</para>
+
+<para>Configures the <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a6e50fab95214a33996e28fae3efc7582">aiProcess_PreTransformVertices</link> step to use a users defined matrix as the scene root node transformation before transforming vertices. This property correspond to the &apos;a1&apos; component of the transformation matrix. Property type: <link linkend="_structai_matrix4x4">aiMatrix4x4</link>. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a3d9c02c1676aae7baf5e079fc72e08d1">AI_CONFIG_PP_FD_REMOVE</link>&#160;&#160;&#160;    &quot;PP_FD_REMOVE&quot;</para>
+
+<para>Configures the <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410ae1311236ea7a55b7355c5aa535586ad0">aiProcess_FindDegenerates</link> step to remove degenerated primitives from the import - immediately. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a33d048b80565becd64af1ebd824bfd26">AI_CONFIG_PP_FD_CHECKAREA</link>&#160;&#160;&#160;    &quot;PP_FD_CHECKAREA&quot;</para>
+
+<para>Configures the <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410ae1311236ea7a55b7355c5aa535586ad0">aiProcess_FindDegenerates</link> to check the area of a trinagle to be greates than e-6. If this is not the case the triangle will be removed if <link linkend="_assimp_2config_8h_1a3d9c02c1676aae7baf5e079fc72e08d1">AI_CONFIG_PP_FD_REMOVE</link> is set to true. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1aa5943736f9c90b709c4bd819afca9798">AI_CONFIG_PP_OG_EXCLUDE_LIST</link>&#160;&#160;&#160;    &quot;PP_OG_EXCLUDE_LIST&quot;</para>
+
+<para>Configures the <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a3bf6b8cb30289fd27fb2734d67a0889f">aiProcess_OptimizeGraph</link> step to preserve nodes matching a name in a given list. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a28b904b69e6e5261aaae50b858316041">AI_CONFIG_PP_SLM_TRIANGLE_LIMIT</link>&#160;&#160;&#160;    &quot;PP_SLM_TRIANGLE_LIMIT&quot;</para>
+
+<para>Set the maximum number of triangles in a mesh. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1abfe0ddcde0e04816e7bc9e429dcd8185">AI_SLM_DEFAULT_MAX_TRIANGLES</link>&#160;&#160;&#160;1000000</para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a67d3e772a82c3bbb921ce4d8f2448f2f">AI_CONFIG_PP_SLM_VERTEX_LIMIT</link>&#160;&#160;&#160;    &quot;PP_SLM_VERTEX_LIMIT&quot;</para>
+
+<para>Set the maximum number of vertices in a mesh. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a3d82573abff7d733ec1f24456662a99d">AI_SLM_DEFAULT_MAX_VERTICES</link>&#160;&#160;&#160;1000000</para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a37c3ad7872523b615d42761f2dc1bdf5">AI_CONFIG_PP_LBW_MAX_WEIGHTS</link>&#160;&#160;&#160;    &quot;PP_LBW_MAX_WEIGHTS&quot;</para>
+
+<para>Set the maximum number of bones affecting a single vertex. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1ab0dbe36911bd9df0661bdb69ecadb2e1">AI_LMW_MAX_WEIGHTS</link>&#160;&#160;&#160;0x4</para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a3f19ce3619d0d54a1bc51cd5e6c73e41">AI_CONFIG_PP_DB_THRESHOLD</link>&#160;&#160;&#160;    &quot;PP_DB_THRESHOLD&quot;</para>
+
+<para>Lower the deboning threshold in order to remove more bones. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1ae26293714611a49e9492b0689f74ec04">AI_DEBONE_THRESHOLD</link>&#160;&#160;&#160;1.0f</para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a884736c7d7809ad88eec646e9cccbfba">AI_CONFIG_PP_DB_ALL_OR_NONE</link>&#160;&#160;&#160;    &quot;PP_DB_ALL_OR_NONE&quot;</para>
+
+<para>Require all bones qualify for deboning before removing any. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a52df90ae1346e6b39048f7218e04d2f6">PP_ICL_PTCACHE_SIZE</link>&#160;&#160;&#160;12</para>
+
+<para>Default value for the <link linkend="_assimp_2config_8h_1a851b513ea20c4d66a1c012d63dd8e78b">AI_CONFIG_PP_ICL_PTCACHE_SIZE</link> property. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a851b513ea20c4d66a1c012d63dd8e78b">AI_CONFIG_PP_ICL_PTCACHE_SIZE</link>&#160;&#160;&#160;&quot;PP_ICL_PTCACHE_SIZE&quot;</para>
+
+<para>Set the size of the post-transform vertex cache to optimize the vertices for. This configures the <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a16979c68f93d283c6886abf580d557b1">aiProcess_ImproveCacheLocality</link> step. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a35df2898d17364850ee68e2fedeb5684">aiComponent_COLORSn</link>(n)&#160;&#160;&#160;(1u &lt;&lt; (n+20u))</para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a2dbd50d22cac50370e693912448d1c56">aiComponent_TEXCOORDSn</link>(n)&#160;&#160;&#160;(1u &lt;&lt; (n+25u))</para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1afc0a4c00fb90c345eb38fe3f7d7c8637">AI_CONFIG_PP_RVC_FLAGS</link>&#160;&#160;&#160;    &quot;PP_RVC_FLAGS&quot;</para>
+
+<para>Input parameter to the <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a0ab270168bd7a707c0f279045c265e08">aiProcess_RemoveComponent</link> step: Specifies the parts of the data structure to be removed. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a971e337cb0d526861142586b8341cb98">AI_CONFIG_PP_SBP_REMOVE</link>&#160;&#160;&#160;    &quot;PP_SBP_REMOVE&quot;</para>
+
+<para>Input parameter to the <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410ab4484f73635d633cd79973bac1431ed6">aiProcess_SortByPType</link> step: Specifies which primitive types are removed by the step. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1ad223c5e7e63d2937685cc704a181b950">AI_CONFIG_PP_FID_ANIM_ACCURACY</link>&#160;&#160;&#160;    &quot;PP_FID_ANIM_ACCURACY&quot;</para>
+
+<para>Input parameter to the <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a42a93fc16a7a3b6df509bab503945421">aiProcess_FindInvalidData</link> step: Specifies the floating-point accuracy for animation values. The step checks for animation tracks where all frame values are absolutely equal and removes them. This tweakable controls the epsilon for floating-point comparisons - two keys are considered equal if the invariant abs(n0-n1)&gt;epsilon holds true for all vector respectively quaternion components. The default value is 0.f - comparisons are exact then. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a25aaab609b6e3785f302fcd09fbfaaf1">AI_CONFIG_PP_FID_IGNORE_TEXTURECOORDS</link>&#160;&#160;&#160;    &quot;PP_FID_IGNORE_TEXTURECOORDS&quot;</para>
+
+<para>Input parameter to the <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a42a93fc16a7a3b6df509bab503945421">aiProcess_FindInvalidData</link> step: Set to true to ignore texture coordinates. This may be useful if you have to assign different kind of textures like one for the summer or one for the winter. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a8b39361e58739557a51c97ce92bdf99f">AI_UVTRAFO_SCALING</link>&#160;&#160;&#160;0x1</para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1ac0e92a0403c280ec53466de02d430921">AI_UVTRAFO_ROTATION</link>&#160;&#160;&#160;0x2</para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a7ae0ca81d951cb0c16daf5c1bef60de5">AI_UVTRAFO_TRANSLATION</link>&#160;&#160;&#160;0x4</para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a1d13742213d0cdec9d5a123b7b58bc45">AI_UVTRAFO_ALL</link>&#160;&#160;&#160;(<link linkend="_assimp_2config_8h_1a8b39361e58739557a51c97ce92bdf99f">AI_UVTRAFO_SCALING</link> | <link linkend="_assimp_2config_8h_1ac0e92a0403c280ec53466de02d430921">AI_UVTRAFO_ROTATION</link> | <link linkend="_assimp_2config_8h_1a7ae0ca81d951cb0c16daf5c1bef60de5">AI_UVTRAFO_TRANSLATION</link>)</para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a6e4d6d6bccf5407432bb137468997f90">AI_CONFIG_PP_TUV_EVALUATE</link>&#160;&#160;&#160;    &quot;PP_TUV_EVALUATE&quot;</para>
+
+<para>Input parameter to the <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a87577c60885b193571a10237341b237f">aiProcess_TransformUVCoords</link> step: Specifies which UV transformations are evaluated. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1ac19aa56fa892f712fd3fb4d95be19114">AI_CONFIG_FAVOUR_SPEED</link>&#160;&#160;&#160; &quot;FAVOUR_SPEED&quot;</para>
+
+<para>A hint to assimp to favour speed against import quality. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a2ecc4ef5f1db257d0e04c46ed0d29034">AI_CONFIG_IMPORT_SCHEMA_DOCUMENT_PROVIDER</link>&#160;&#160;&#160;    &quot;IMPORT_SCHEMA_DOCUMENT_PROVIDER&quot;</para>
+
+<para>Importers which parse JSON may use this to obtain a pointer to a rapidjson::IRemoteSchemaDocumentProvider. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a1c886c292d6da748aa5c298118bbb330">AI_CONFIG_IMPORT_FBX_READ_ALL_GEOMETRY_LAYERS</link>&#160;&#160;&#160;    &quot;IMPORT_FBX_READ_ALL_GEOMETRY_LAYERS&quot;</para>
+
+<para>Set whether the fbx importer will merge all geometry layers present in the source file or take only the first. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a1bdbd5504eb2794f2257dacfbe9de98b">AI_CONFIG_IMPORT_FBX_READ_ALL_MATERIALS</link>&#160;&#160;&#160;    &quot;IMPORT_FBX_READ_ALL_MATERIALS&quot;</para>
+
+<para>Set whether the fbx importer will read all materials present in the source file or take only the referenced materials. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a65ad7b34f2db3bf5d4fda9bed579d992">AI_CONFIG_IMPORT_FBX_READ_MATERIALS</link>&#160;&#160;&#160;    &quot;IMPORT_FBX_READ_MATERIALS&quot;</para>
+
+<para>Set whether the fbx importer will read materials. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a3d705f891d5c9bd86611926f634bff1c">AI_CONFIG_IMPORT_FBX_READ_TEXTURES</link>&#160;&#160;&#160;    &quot;IMPORT_FBX_READ_TEXTURES&quot;</para>
+
+<para>Set whether the fbx importer will read embedded textures. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a4b5d39fd0bfa03661de06f870c8ed60d">AI_CONFIG_IMPORT_FBX_READ_CAMERAS</link>&#160;&#160;&#160;    &quot;IMPORT_FBX_READ_CAMERAS&quot;</para>
+
+<para>Set whether the fbx importer will read cameras. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1ac64b303bd269641b5214f67fc6b4c7ff">AI_CONFIG_IMPORT_FBX_READ_LIGHTS</link>&#160;&#160;&#160;    &quot;IMPORT_FBX_READ_LIGHTS&quot;</para>
+
+<para>Set whether the fbx importer will read light sources. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a89f65cee36448e653e07e42263a16e09">AI_CONFIG_IMPORT_FBX_READ_ANIMATIONS</link>&#160;&#160;&#160;    &quot;IMPORT_FBX_READ_ANIMATIONS&quot;</para>
+
+<para>Set whether the fbx importer will read animations. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1add81b4566c39f22d81461c862443aaab">AI_CONFIG_IMPORT_FBX_READ_WEIGHTS</link>&#160;&#160;&#160;    &quot;IMPORT_FBX_READ_WEIGHTS&quot;</para>
+
+<para>Set whether the fbx importer will read weights. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a79ccfadb16e9825d3f9cbc1924d73105">AI_CONFIG_IMPORT_FBX_STRICT_MODE</link>&#160;&#160;&#160;    &quot;IMPORT_FBX_STRICT_MODE&quot;</para>
+
+<para>Set whether the fbx importer will act in strict mode in which only FBX 2013 is supported and any other sub formats are rejected. FBX 2013 is the primary target for the importer, so this format is best supported and well-tested. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1aa288cad0d93533c7d4a06347e5096cd9">AI_CONFIG_IMPORT_FBX_PRESERVE_PIVOTS</link>&#160;&#160;&#160;    &quot;IMPORT_FBX_PRESERVE_PIVOTS&quot;</para>
+
+<para>Set whether the fbx importer will preserve pivot points for transformations (as extra nodes). If set to false, pivots and offsets will be evaluated whenever possible. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a5b4f9cc390a8d9cf09868e19ac573655">AI_CONFIG_IMPORT_FBX_OPTIMIZE_EMPTY_ANIMATION_CURVES</link>&#160;&#160;&#160;    &quot;IMPORT_FBX_OPTIMIZE_EMPTY_ANIMATION_CURVES&quot;</para>
+
+<para>Specifies whether the importer will drop empty animation curves or animation curves which match the bind pose transformation over their entire defined range. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1ac373be4ecdd1c33fa1ed95ee60efcc6e">AI_CONFIG_IMPORT_FBX_EMBEDDED_TEXTURES_LEGACY_NAMING</link>&#160;&#160;&#160;	&quot;AI_CONFIG_IMPORT_FBX_EMBEDDED_TEXTURES_LEGACY_NAMING&quot;</para>
+
+<para>Set whether the fbx importer will use the legacy embedded texture naming. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1ae1662285ec29a071ff397d086ff0815f">AI_CONFIG_IMPORT_REMOVE_EMPTY_BONES</link>&#160;&#160;&#160;    &quot;AI_CONFIG_IMPORT_REMOVE_EMPTY_BONES&quot;</para>
+
+<para>Set wether the importer shall not remove empty bones. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a586171c61b1cbe9b173247bea1725cd9">AI_CONFIG_FBX_CONVERT_TO_M</link>&#160;&#160;&#160;    &quot;AI_CONFIG_FBX_CONVERT_TO_M&quot;</para>
+
+<para>Set wether the FBX importer shall convert the unit from cm to m. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a5576b3d165a199f604b5d0cf0bf667a3">AI_CONFIG_FBX_USE_SKELETON_BONE_CONTAINER</link>&#160;&#160;&#160;    &quot;AI_CONFIG_FBX_USE_SKELETON_BONE_CONTAINER&quot;</para>
+
+<para>Will enable the skeleton structo to store bone data. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1ad8670ee6d237f2d2f3b60c61e0dead15">AI_CONFIG_IMPORT_GLOBAL_KEYFRAME</link>&#160;&#160;&#160;&quot;IMPORT_GLOBAL_KEYFRAME&quot;</para>
+
+<para>Set the vertex animation keyframe to be imported. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1ade66e668151d5d1468116ffde6954f2a">AI_CONFIG_IMPORT_MD3_KEYFRAME</link>&#160;&#160;&#160;&quot;IMPORT_MD3_KEYFRAME&quot;</para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a00845e63629bb9c20473122130a2286f">AI_CONFIG_IMPORT_MD2_KEYFRAME</link>&#160;&#160;&#160;&quot;IMPORT_MD2_KEYFRAME&quot;</para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a5a9b8a7407fce531b8442f07de548b8e">AI_CONFIG_IMPORT_MDL_KEYFRAME</link>&#160;&#160;&#160;&quot;IMPORT_MDL_KEYFRAME&quot;</para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a3797029e51b77f9ef5227555f3b806b4">AI_CONFIG_IMPORT_MDC_KEYFRAME</link>&#160;&#160;&#160;&quot;IMPORT_MDC_KEYFRAME&quot;</para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1aa15c7351629af8e1df6ae3e4e06e5ba7">AI_CONFIG_IMPORT_SMD_KEYFRAME</link>&#160;&#160;&#160;&quot;IMPORT_SMD_KEYFRAME&quot;</para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1ace574a15cd1257216ec6c48acdaa91a0">AI_CONFIG_IMPORT_UNREAL_KEYFRAME</link>&#160;&#160;&#160;&quot;IMPORT_UNREAL_KEYFRAME&quot;</para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a5d42c84aed93bdb6f672bccf233f6c13">AI_CONFIG_IMPORT_MDL_HL1_READ_ANIMATIONS</link>&#160;&#160;&#160;&quot;IMPORT_MDL_HL1_READ_ANIMATIONS&quot;</para>
+
+<para>Set whether the MDL (HL1) importer will read animations. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a7347b1975d6ac63975b72177e4de101b">AI_CONFIG_IMPORT_MDL_HL1_READ_ANIMATION_EVENTS</link>&#160;&#160;&#160;&quot;IMPORT_MDL_HL1_READ_ANIMATION_EVENTS&quot;</para>
+
+<para>Set whether the MDL (HL1) importer will read animation events. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a8040d9ffaa15635b2b398233ce55a4a5">AI_CONFIG_IMPORT_MDL_HL1_READ_BLEND_CONTROLLERS</link>&#160;&#160;&#160;&quot;IMPORT_MDL_HL1_READ_BLEND_CONTROLLERS&quot;</para>
+
+<para>Set whether the MDL (HL1) importer will read blend controllers. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a6a6c444044f93fd19a35a87fe7a0007c">AI_CONFIG_IMPORT_MDL_HL1_READ_SEQUENCE_TRANSITIONS</link>&#160;&#160;&#160;&quot;IMPORT_MDL_HL1_READ_SEQUENCE_TRANSITIONS&quot;</para>
+
+<para>Set whether the MDL (HL1) importer will read sequence transition graph. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a216394fc6c2296b47e4963ac92e838cf">AI_CONFIG_IMPORT_MDL_HL1_READ_ATTACHMENTS</link>&#160;&#160;&#160;&quot;IMPORT_MDL_HL1_READ_ATTACHMENTS&quot;</para>
+
+<para>Set whether the MDL (HL1) importer will read attachments info. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1ada6f419573e61fdd7410a7bba0448ddf">AI_CONFIG_IMPORT_MDL_HL1_READ_BONE_CONTROLLERS</link>&#160;&#160;&#160;&quot;IMPORT_MDL_HL1_READ_BONE_CONTROLLERS&quot;</para>
+
+<para>Set whether the MDL (HL1) importer will read bone controllers info. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a2240146090dd6a6c6b333e522bd0c808">AI_CONFIG_IMPORT_MDL_HL1_READ_HITBOXES</link>&#160;&#160;&#160;&quot;IMPORT_MDL_HL1_READ_HITBOXES&quot;</para>
+
+<para>Set whether the MDL (HL1) importer will read hitboxes info. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a00a732344107fccb736b5e8d4fd074ec">AI_CONFIG_IMPORT_MDL_HL1_READ_MISC_GLOBAL_INFO</link>&#160;&#160;&#160;&quot;IMPORT_MDL_HL1_READ_MISC_GLOBAL_INFO&quot;</para>
+
+<para>Set whether the MDL (HL1) importer will read miscellaneous global model info. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1aceebcccdf457a6f7562e06a1556a689b">AI_CONFIG_IMPORT_SMD_LOAD_ANIMATION_LIST</link>&#160;&#160;&#160;&quot;IMPORT_SMD_LOAD_ANIMATION_LIST&quot;</para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a82ea1d5c67f6202bd7719b25de1179c9">AI_CONFIG_IMPORT_AC_SEPARATE_BFCULL</link>&#160;&#160;&#160;    &quot;IMPORT_AC_SEPARATE_BFCULL&quot;</para>
+
+<para>Configures the AC loader to collect all surfaces which have the &quot;Backface cull&quot; flag set in separate meshes. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a2fef864730c1eace9bc78a2513a5abe6">AI_CONFIG_IMPORT_AC_EVAL_SUBDIVISION</link>&#160;&#160;&#160;    &quot;IMPORT_AC_EVAL_SUBDIVISION&quot;</para>
+
+<para>Configures whether the AC loader evaluates subdivision surfaces ( indicated by the presence of the &apos;subdiv&apos; attribute in the file). By default, <link linkend="_namespace_assimp">Assimp</link> performs the subdivision using the standard Catmull-Clark algorithm. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a54dfdedf42b694596552488b31cf2a12">AI_CONFIG_IMPORT_UNREAL_HANDLE_FLAGS</link>&#160;&#160;&#160;    &quot;UNREAL_HANDLE_FLAGS&quot;</para>
+
+<para>Configures the UNREAL 3D loader to separate faces with different surface flags (e.g. two-sided vs. single-sided). </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a7ea74e123ac238824a5b60b2b6caf3f3">AI_CONFIG_IMPORT_TER_MAKE_UVS</link>&#160;&#160;&#160;    &quot;IMPORT_TER_MAKE_UVS&quot;</para>
+
+<para>Configures the terragen import plugin to compute uv&apos;s for terrains, if not given. Furthermore a default texture is assigned. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a03e84782d043362cdf836420d7cff53c">AI_CONFIG_IMPORT_ASE_RECONSTRUCT_NORMALS</link>&#160;&#160;&#160;    &quot;IMPORT_ASE_RECONSTRUCT_NORMALS&quot;</para>
+
+<para>Configures the ASE loader to always reconstruct normal vectors basing on the smoothing groups loaded from the file. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a77411c162d7840282c85250c92c89354">AI_CONFIG_IMPORT_MD3_HANDLE_MULTIPART</link>&#160;&#160;&#160;    &quot;IMPORT_MD3_HANDLE_MULTIPART&quot;</para>
+
+<para>Configures the M3D loader to detect and process multi-part Quake player models. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a1d2fb0e3ed40231c294fc327a822de6c">AI_CONFIG_IMPORT_MD3_SKIN_NAME</link>&#160;&#160;&#160;    &quot;IMPORT_MD3_SKIN_NAME&quot;</para>
+
+<para>Tells the MD3 loader which skin files to load. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a442b397bb2b21a5e0ccc709f37017188">AI_CONFIG_IMPORT_MD3_LOAD_SHADERS</link>&#160;&#160;&#160;    &quot;IMPORT_MD3_LOAD_SHADERS&quot;</para>
+
+<para>Specify if to try load Quake 3 shader files. This also controls original surface name handling: when disabled it will be used unchanged. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a58558385cdb3cf18c66ade9fce5f738e">AI_CONFIG_IMPORT_MD3_SHADER_SRC</link>&#160;&#160;&#160;    &quot;IMPORT_MD3_SHADER_SRC&quot;</para>
+
+<para>Specify the Quake 3 shader file to be used for a particular MD3 file. This can also be a search path. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1ae890df205a2234b5a85a6e8b3f6f5fda">AI_CONFIG_IMPORT_LWO_ONE_LAYER_ONLY</link>&#160;&#160;&#160;    &quot;IMPORT_LWO_ONE_LAYER_ONLY&quot;</para>
+
+<para>Configures the LWO loader to load just one layer from the model. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a0854acdd45ff0752475f5ab8fe15d905">AI_CONFIG_IMPORT_MD5_NO_ANIM_AUTOLOAD</link>&#160;&#160;&#160;    &quot;IMPORT_MD5_NO_ANIM_AUTOLOAD&quot;</para>
+
+<para>Configures the MD5 loader to not load the MD5ANIM file for a MD5MESH file automatically. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a61aa54f23a5b5270c756db279b0e1c57">AI_CONFIG_IMPORT_LWS_ANIM_START</link>&#160;&#160;&#160;    &quot;IMPORT_LWS_ANIM_START&quot;</para>
+
+<para>Defines the begin of the time range for which the LWS loader evaluates animations and computes <link linkend="_structai_node_anim">aiNodeAnim</link>&apos;s. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a9a5d00b6e7808cfd0d21cec7c6072bdf">AI_CONFIG_IMPORT_LWS_ANIM_END</link>&#160;&#160;&#160;    &quot;IMPORT_LWS_ANIM_END&quot;</para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1ac0fa56e7d9a68b3e164c2cada6350d39">AI_CONFIG_IMPORT_IRR_ANIM_FPS</link>&#160;&#160;&#160;    &quot;IMPORT_IRR_ANIM_FPS&quot;</para>
+
+<para>Defines the output frame rate of the IRR loader. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1acb55d5bf44d7ee13bd03f0197ac2e4da">AI_CONFIG_IMPORT_OGRE_MATERIAL_FILE</link>&#160;&#160;&#160;    &quot;IMPORT_OGRE_MATERIAL_FILE&quot;</para>
+
+<para>Ogre Importer will try to find referenced materials from this file. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1acec7a56a1defbd37b8807fcfe08ab88c">AI_CONFIG_IMPORT_OGRE_TEXTURETYPE_FROM_FILENAME</link>&#160;&#160;&#160;    &quot;IMPORT_OGRE_TEXTURETYPE_FROM_FILENAME&quot;</para>
+
+<para>Ogre Importer detect the texture usage from its filename. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1af69f225a880ba22f1da37a989ab27032">AI_CONFIG_ANDROID_JNI_ASSIMP_MANAGER_SUPPORT</link>&#160;&#160;&#160;&quot;AI_CONFIG_ANDROID_JNI_ASSIMP_MANAGER_SUPPORT&quot;</para>
+
+<para>Specifies whether the Android JNI asset extraction is supported. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1ac53f1c99fc7f86b4a555ff1f4763819b">AI_CONFIG_IMPORT_IFC_SKIP_SPACE_REPRESENTATIONS</link>&#160;&#160;&#160;&quot;IMPORT_IFC_SKIP_SPACE_REPRESENTATIONS&quot;</para>
+
+<para>Specifies whether the IFC loader skips over IfcSpace elements. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a7ec9ae953df9409eba917b77a29c8148">AI_CONFIG_IMPORT_IFC_CUSTOM_TRIANGULATION</link>&#160;&#160;&#160;&quot;IMPORT_IFC_CUSTOM_TRIANGULATION&quot;</para>
+
+<para>Specifies whether the IFC loader will use its own, custom triangulation algorithm to triangulate wall and floor meshes. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a68a2131eff232fad1cdfc0bca107f4ca">AI_CONFIG_IMPORT_IFC_SMOOTHING_ANGLE</link>&#160;&#160;&#160;&quot;IMPORT_IFC_SMOOTHING_ANGLE&quot;</para>
+
+<para>Set the tessellation conic angle for IFC smoothing curves. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1ac7bc8aad5d931d06847ce84869798524">AI_IMPORT_IFC_DEFAULT_SMOOTHING_ANGLE</link>&#160;&#160;&#160;10.0f</para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a84ff635d176313a524db72f391dedf06">AI_CONFIG_IMPORT_IFC_CYLINDRICAL_TESSELLATION</link>&#160;&#160;&#160;&quot;IMPORT_IFC_CYLINDRICAL_TESSELLATION&quot;</para>
+
+<para>Set the tessellation for IFC cylindrical shapes. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1abb5d9600e6a505273d4eb633ee6d9db9">AI_IMPORT_IFC_DEFAULT_CYLINDRICAL_TESSELLATION</link>&#160;&#160;&#160;32</para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a0592c18a068e25e47f1a4fbe00ef89d4">AI_CONFIG_IMPORT_COLLADA_IGNORE_UP_DIRECTION</link>&#160;&#160;&#160;&quot;IMPORT_COLLADA_IGNORE_UP_DIRECTION&quot;</para>
+
+<para>Specifies whether the Collada loader will ignore the provided up direction. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1ad8b4a911cc16b4d5edbb205ce4b23e44">AI_CONFIG_IMPORT_COLLADA_USE_COLLADA_NAMES</link>&#160;&#160;&#160;&quot;IMPORT_COLLADA_USE_COLLADA_NAMES&quot;</para>
+
+<para>Specifies whether the Collada loader should use Collada names. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1aa24ae36e5aea62821394e234e519faef">AI_CONFIG_EXPORT_XFILE_64BIT</link>&#160;&#160;&#160;&quot;EXPORT_XFILE_64BIT&quot;</para>
+
+<para>Specifies the xfile use double for real values of float. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a144d6a6254fd855bdead60f1b2c61695">AI_CONFIG_EXPORT_POINT_CLOUDS</link>&#160;&#160;&#160;&quot;EXPORT_POINT_CLOUDS&quot;</para>
+
+<para>Specifies whether the assimp export shall be able to export point clouds. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a8d3547bf4c8add121f6c53544ed83fad">AI_CONFIG_EXPORT_BLOB_NAME</link>&#160;&#160;&#160;&quot;EXPORT_BLOB_NAME&quot;</para>
+
+<para>Specifies the blob name, assimp uses for exporting. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a93baf6bd6c094cdc598b26120f4d3873">AI_CONFIG_GLOBAL_SCALE_FACTOR_KEY</link>&#160;&#160;&#160;&quot;GLOBAL_SCALE_FACTOR&quot;</para>
+
+<para>Specifies a gobal key factor for scale, float value. </para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1ac19e86162a57b100174e85f43542c410">AI_CONFIG_GLOBAL_SCALE_FACTOR_DEFAULT</link>&#160;&#160;&#160;1.0f</para>
+</listitem>
+            <listitem><para>#define <link linkend="_assimp_2config_8h_1a045c97a0537d97e2808e50d8eb871611">AI_CONFIG_APP_SCALE_KEY</link>&#160;&#160;&#160;&quot;APP_SCALE_FACTOR&quot;</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Enumerations    </title>
+        <itemizedlist>
+            <listitem><para>enum <link linkend="_assimp_2config_8h_1a97ac2ef7a3967402a223f3da2640b2b3">aiComponent</link> { <?linebreak?><link linkend="_assimp_2config_8h_1a97ac2ef7a3967402a223f3da2640b2b3a041f3a06b4266389628bbf6d7c972e16">aiComponent_NORMALS</link> = 0x2u
+, <link linkend="_assimp_2config_8h_1a97ac2ef7a3967402a223f3da2640b2b3a3735667dae4d12e0573b049be86158af">aiComponent_TANGENTS_AND_BITANGENTS</link> = 0x4u
+, <link linkend="_assimp_2config_8h_1a97ac2ef7a3967402a223f3da2640b2b3a66f2439356e377d9182a34e4d11b89aa">aiComponent_COLORS</link> = 0x8
+, <link linkend="_assimp_2config_8h_1a97ac2ef7a3967402a223f3da2640b2b3a119bc187db7e081af2e5b9732060623d">aiComponent_TEXCOORDS</link> = 0x10
+, <?linebreak?><link linkend="_assimp_2config_8h_1a97ac2ef7a3967402a223f3da2640b2b3ad37e83da41d8e9b17c2634bacc42925c">aiComponent_BONEWEIGHTS</link> = 0x20
+, <link linkend="_assimp_2config_8h_1a97ac2ef7a3967402a223f3da2640b2b3a8affaed18f69210bcbf20adeba16050a">aiComponent_ANIMATIONS</link> = 0x40
+, <link linkend="_assimp_2config_8h_1a97ac2ef7a3967402a223f3da2640b2b3ab6bcf49132356c2034491b6bf367d328">aiComponent_TEXTURES</link> = 0x80
+, <link linkend="_assimp_2config_8h_1a97ac2ef7a3967402a223f3da2640b2b3a9764d42f6546101a555a9e2d87c3b3d9">aiComponent_LIGHTS</link> = 0x100
+, <?linebreak?><link linkend="_assimp_2config_8h_1a97ac2ef7a3967402a223f3da2640b2b3aa4741bd21f4259301bb326e3b74dce29">aiComponent_CAMERAS</link> = 0x200
+, <link linkend="_assimp_2config_8h_1a97ac2ef7a3967402a223f3da2640b2b3a297ca9db243a718dc3bfb3502cfc9b7a">aiComponent_MESHES</link> = 0x400
+, <link linkend="_assimp_2config_8h_1a97ac2ef7a3967402a223f3da2640b2b3a842d010d9211947c65eed564672677ed">aiComponent_MATERIALS</link> = 0x800
+, <link linkend="_assimp_2config_8h_1a97ac2ef7a3967402a223f3da2640b2b3a45b57c0405db34d9394193232abb1762">_aiComponent_Force32Bit</link> = 0x9fffffff
+ }</para>
+
+<para>Enumerates components of the <link linkend="_structai_scene">aiScene</link> and <link linkend="_structai_mesh">aiMesh</link> data structures that can be excluded from the import using the <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a0ab270168bd7a707c0f279045c265e08">aiProcess_RemoveComponent</link> step. </para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para>Defines constants for configurable properties for the library. </para>
+
+<para>Typically these properties are set via <link linkend="_class_assimp_1_1_importer_1ad38af78d6fe4b1f132d2534d8a84deea">Assimp::Importer::SetPropertyFloat</link>, <link linkend="_class_assimp_1_1_importer_1a2542eed3d5f491025c4095b4e55fa068">Assimp::Importer::SetPropertyInteger</link> or <link linkend="_class_assimp_1_1_importer_1a854087b213981108e3e464cf4d293fed">Assimp::Importer::SetPropertyString</link>, depending on the data type of a property. All properties have a default value. See the doc for the mentioned methods for more details.</para>
+
+<para><?linebreak?><?linebreak?> The corresponding functions for use with the plain-c API are: <link linkend="_cimport_8h_1a77fe5bf63f5b7811b10fb1ea072cd995">aiSetImportPropertyInteger</link>, <link linkend="_cimport_8h_1a7a3fdb2a587ce72c66182b87465d664d">aiSetImportPropertyFloat</link>, <link linkend="_cimport_8h_1a0c6f78241e9ec7b2470d193858baf22d">aiSetImportPropertyString</link> </para>
+</section>
+<section>
+<title>Macro Definition Documentation</title>
+<anchor xml:id="_assimp_2config_8h_1af69f225a880ba22f1da37a989ab27032"/><section>
+    <title>AI_CONFIG_ANDROID_JNI_ASSIMP_MANAGER_SUPPORT</title>
+<indexterm><primary>AI_CONFIG_ANDROID_JNI_ASSIMP_MANAGER_SUPPORT</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_ANDROID_JNI_ASSIMP_MANAGER_SUPPORT</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_ANDROID_JNI_ASSIMP_MANAGER_SUPPORT&#160;&#160;&#160;&quot;AI_CONFIG_ANDROID_JNI_ASSIMP_MANAGER_SUPPORT&quot;</computeroutput></para><para>
+
+<para>Specifies whether the Android JNI asset extraction is supported. </para>
+</para>
+
+<para>Turn on this option if you want to manage assets in native Android application without having to keep the internal directory and asset manager pointer. </para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1a045c97a0537d97e2808e50d8eb871611"/><section>
+    <title>AI_CONFIG_APP_SCALE_KEY</title>
+<indexterm><primary>AI_CONFIG_APP_SCALE_KEY</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_APP_SCALE_KEY</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_APP_SCALE_KEY&#160;&#160;&#160;&quot;APP_SCALE_FACTOR&quot;</computeroutput></para></section>
+<anchor xml:id="_assimp_2config_8h_1a8d3547bf4c8add121f6c53544ed83fad"/><section>
+    <title>AI_CONFIG_EXPORT_BLOB_NAME</title>
+<indexterm><primary>AI_CONFIG_EXPORT_BLOB_NAME</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_EXPORT_BLOB_NAME</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_EXPORT_BLOB_NAME&#160;&#160;&#160;&quot;EXPORT_BLOB_NAME&quot;</computeroutput></para><para>
+
+<para>Specifies the blob name, assimp uses for exporting. </para>
+</para>
+
+<para>Some formats require auxiliary files to be written, that need to be linked back into the original file. For example, OBJ files export materials to a separate MTL file and use the <computeroutput>mtllib</computeroutput> keyword to reference this file.</para>
+
+<para>When exporting blobs using #ExportToBlob, assimp does not know the name of the blob file and thus outputs <computeroutput>mtllib $blobfile.mtl</computeroutput>, which might not be desired, since the MTL file might be called differently.</para>
+
+<para>This property can be used to give the exporter a hint on how to use the magic <computeroutput>$blobfile</computeroutput> keyword. If the exporter detects the keyword and is provided with a name for the blob, it instead uses this name. </para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1a144d6a6254fd855bdead60f1b2c61695"/><section>
+    <title>AI_CONFIG_EXPORT_POINT_CLOUDS</title>
+<indexterm><primary>AI_CONFIG_EXPORT_POINT_CLOUDS</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_EXPORT_POINT_CLOUDS</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_EXPORT_POINT_CLOUDS&#160;&#160;&#160;&quot;EXPORT_POINT_CLOUDS&quot;</computeroutput></para><para>
+
+<para>Specifies whether the assimp export shall be able to export point clouds. </para>
+</para>
+
+<para>When this flag is not defined the render data has to contain valid faces. Point clouds are only a collection of vertices which have nor spatial organization by a face and the validation process will remove them. Enabling this feature will switch off the flag and enable the functionality to export pure point clouds. </para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1aa24ae36e5aea62821394e234e519faef"/><section>
+    <title>AI_CONFIG_EXPORT_XFILE_64BIT</title>
+<indexterm><primary>AI_CONFIG_EXPORT_XFILE_64BIT</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_EXPORT_XFILE_64BIT</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_EXPORT_XFILE_64BIT&#160;&#160;&#160;&quot;EXPORT_XFILE_64BIT&quot;</computeroutput></para><para>
+
+<para>Specifies the xfile use double for real values of float. </para>
+</para>
+
+<para>Property type: Bool. Default value: false. </para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1ac19aa56fa892f712fd3fb4d95be19114"/><section>
+    <title>AI_CONFIG_FAVOUR_SPEED</title>
+<indexterm><primary>AI_CONFIG_FAVOUR_SPEED</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_FAVOUR_SPEED</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_FAVOUR_SPEED&#160;&#160;&#160; &quot;FAVOUR_SPEED&quot;</computeroutput></para><para>
+
+<para>A hint to assimp to favour speed against import quality. </para>
+</para>
+
+<para>Enabling this option may result in faster loading, but it needn&apos;t. It represents just a hint to loaders and post-processing steps to use faster code paths, if possible. This property is expected to be an integer, != 0 stands for true. The default value is 0. </para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1a586171c61b1cbe9b173247bea1725cd9"/><section>
+    <title>AI_CONFIG_FBX_CONVERT_TO_M</title>
+<indexterm><primary>AI_CONFIG_FBX_CONVERT_TO_M</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_FBX_CONVERT_TO_M</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_FBX_CONVERT_TO_M&#160;&#160;&#160;    &quot;AI_CONFIG_FBX_CONVERT_TO_M&quot;</computeroutput></para><para>
+
+<para>Set wether the FBX importer shall convert the unit from cm to m. </para>
+</para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1a5576b3d165a199f604b5d0cf0bf667a3"/><section>
+    <title>AI_CONFIG_FBX_USE_SKELETON_BONE_CONTAINER</title>
+<indexterm><primary>AI_CONFIG_FBX_USE_SKELETON_BONE_CONTAINER</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_FBX_USE_SKELETON_BONE_CONTAINER</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_FBX_USE_SKELETON_BONE_CONTAINER&#160;&#160;&#160;    &quot;AI_CONFIG_FBX_USE_SKELETON_BONE_CONTAINER&quot;</computeroutput></para><para>
+
+<para>Will enable the skeleton structo to store bone data. </para>
+</para>
+
+<para>This will decouple the bone coupling to the mesh. This feature is experimental. </para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1ae67105a77014e256f4c242504881c261"/><section>
+    <title>AI_CONFIG_GLOB_MEASURE_TIME</title>
+<indexterm><primary>AI_CONFIG_GLOB_MEASURE_TIME</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_GLOB_MEASURE_TIME</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_GLOB_MEASURE_TIME&#160;&#160;&#160;    &quot;GLOB_MEASURE_TIME&quot;</computeroutput></para><para>
+
+<para>Enables time measurements. </para>
+</para>
+
+<para>If enabled, measures the time needed for each part of the loading process (i.e. IO time, importing, postprocessing, ..) and dumps these timings to the DefaultLogger. See the <link linkend="_">Performance Page</link> for more information on this topic.</para>
+
+<para>Property type: bool. Default value: false. </para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1ac19e86162a57b100174e85f43542c410"/><section>
+    <title>AI_CONFIG_GLOBAL_SCALE_FACTOR_DEFAULT</title>
+<indexterm><primary>AI_CONFIG_GLOBAL_SCALE_FACTOR_DEFAULT</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_GLOBAL_SCALE_FACTOR_DEFAULT</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_GLOBAL_SCALE_FACTOR_DEFAULT&#160;&#160;&#160;1.0f</computeroutput></para></section>
+<anchor xml:id="_assimp_2config_8h_1a93baf6bd6c094cdc598b26120f4d3873"/><section>
+    <title>AI_CONFIG_GLOBAL_SCALE_FACTOR_KEY</title>
+<indexterm><primary>AI_CONFIG_GLOBAL_SCALE_FACTOR_KEY</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_GLOBAL_SCALE_FACTOR_KEY</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_GLOBAL_SCALE_FACTOR_KEY&#160;&#160;&#160;&quot;GLOBAL_SCALE_FACTOR&quot;</computeroutput></para><para>
+
+<para>Specifies a gobal key factor for scale, float value. </para>
+</para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1a472fc2ecd78a47d69e38ef76ddaa8aab"/><section>
+    <title>AI_CONFIG_H_INC</title>
+<indexterm><primary>AI_CONFIG_H_INC</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_H_INC</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_H_INC</computeroutput></para></section>
+<anchor xml:id="_assimp_2config_8h_1a2fef864730c1eace9bc78a2513a5abe6"/><section>
+    <title>AI_CONFIG_IMPORT_AC_EVAL_SUBDIVISION</title>
+<indexterm><primary>AI_CONFIG_IMPORT_AC_EVAL_SUBDIVISION</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_IMPORT_AC_EVAL_SUBDIVISION</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_IMPORT_AC_EVAL_SUBDIVISION&#160;&#160;&#160;    &quot;IMPORT_AC_EVAL_SUBDIVISION&quot;</computeroutput></para><para>
+
+<para>Configures whether the AC loader evaluates subdivision surfaces ( indicated by the presence of the &apos;subdiv&apos; attribute in the file). By default, <link linkend="_namespace_assimp">Assimp</link> performs the subdivision using the standard Catmull-Clark algorithm. </para>
+</para>
+
+<para><itemizedlist>
+<listitem>
+<para>Property type: bool. Default value: true. </para>
+</listitem></itemizedlist>
+</para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1a82ea1d5c67f6202bd7719b25de1179c9"/><section>
+    <title>AI_CONFIG_IMPORT_AC_SEPARATE_BFCULL</title>
+<indexterm><primary>AI_CONFIG_IMPORT_AC_SEPARATE_BFCULL</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_IMPORT_AC_SEPARATE_BFCULL</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_IMPORT_AC_SEPARATE_BFCULL&#160;&#160;&#160;    &quot;IMPORT_AC_SEPARATE_BFCULL&quot;</computeroutput></para><para>
+
+<para>Configures the AC loader to collect all surfaces which have the &quot;Backface cull&quot; flag set in separate meshes. </para>
+</para>
+
+<para>Property type: bool. Default value: true. </para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1a03e84782d043362cdf836420d7cff53c"/><section>
+    <title>AI_CONFIG_IMPORT_ASE_RECONSTRUCT_NORMALS</title>
+<indexterm><primary>AI_CONFIG_IMPORT_ASE_RECONSTRUCT_NORMALS</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_IMPORT_ASE_RECONSTRUCT_NORMALS</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_IMPORT_ASE_RECONSTRUCT_NORMALS&#160;&#160;&#160;    &quot;IMPORT_ASE_RECONSTRUCT_NORMALS&quot;</computeroutput></para><para>
+
+<para>Configures the ASE loader to always reconstruct normal vectors basing on the smoothing groups loaded from the file. </para>
+</para>
+
+<para>Some ASE files have carry invalid normals, other don&apos;t.<itemizedlist>
+<listitem>
+<para>Property type: bool. Default value: true. </para>
+</listitem></itemizedlist>
+</para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1a0592c18a068e25e47f1a4fbe00ef89d4"/><section>
+    <title>AI_CONFIG_IMPORT_COLLADA_IGNORE_UP_DIRECTION</title>
+<indexterm><primary>AI_CONFIG_IMPORT_COLLADA_IGNORE_UP_DIRECTION</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_IMPORT_COLLADA_IGNORE_UP_DIRECTION</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_IMPORT_COLLADA_IGNORE_UP_DIRECTION&#160;&#160;&#160;&quot;IMPORT_COLLADA_IGNORE_UP_DIRECTION&quot;</computeroutput></para><para>
+
+<para>Specifies whether the Collada loader will ignore the provided up direction. </para>
+</para>
+
+<para>If this property is set to true, the up direction provided in the file header will be ignored and the file will be loaded as is. Property type: Bool. Default value: false. </para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1ad8b4a911cc16b4d5edbb205ce4b23e44"/><section>
+    <title>AI_CONFIG_IMPORT_COLLADA_USE_COLLADA_NAMES</title>
+<indexterm><primary>AI_CONFIG_IMPORT_COLLADA_USE_COLLADA_NAMES</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_IMPORT_COLLADA_USE_COLLADA_NAMES</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_IMPORT_COLLADA_USE_COLLADA_NAMES&#160;&#160;&#160;&quot;IMPORT_COLLADA_USE_COLLADA_NAMES&quot;</computeroutput></para><para>
+
+<para>Specifies whether the Collada loader should use Collada names. </para>
+</para>
+
+<para>If this property is set to true, the Collada names will be used as the node and mesh names. The default is to use the id tag (resp. sid tag, if no id tag is present) instead. Property type: Bool. Default value: false. </para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1ac373be4ecdd1c33fa1ed95ee60efcc6e"/><section>
+    <title>AI_CONFIG_IMPORT_FBX_EMBEDDED_TEXTURES_LEGACY_NAMING</title>
+<indexterm><primary>AI_CONFIG_IMPORT_FBX_EMBEDDED_TEXTURES_LEGACY_NAMING</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_IMPORT_FBX_EMBEDDED_TEXTURES_LEGACY_NAMING</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_IMPORT_FBX_EMBEDDED_TEXTURES_LEGACY_NAMING&#160;&#160;&#160;	&quot;AI_CONFIG_IMPORT_FBX_EMBEDDED_TEXTURES_LEGACY_NAMING&quot;</computeroutput></para><para>
+
+<para>Set whether the fbx importer will use the legacy embedded texture naming. </para>
+</para>
+
+<para>The default value is false (0) Property type: bool </para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1a5b4f9cc390a8d9cf09868e19ac573655"/><section>
+    <title>AI_CONFIG_IMPORT_FBX_OPTIMIZE_EMPTY_ANIMATION_CURVES</title>
+<indexterm><primary>AI_CONFIG_IMPORT_FBX_OPTIMIZE_EMPTY_ANIMATION_CURVES</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_IMPORT_FBX_OPTIMIZE_EMPTY_ANIMATION_CURVES</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_IMPORT_FBX_OPTIMIZE_EMPTY_ANIMATION_CURVES&#160;&#160;&#160;    &quot;IMPORT_FBX_OPTIMIZE_EMPTY_ANIMATION_CURVES&quot;</computeroutput></para><para>
+
+<para>Specifies whether the importer will drop empty animation curves or animation curves which match the bind pose transformation over their entire defined range. </para>
+</para>
+
+<para>The default value is true (1) Property type: bool </para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1aa288cad0d93533c7d4a06347e5096cd9"/><section>
+    <title>AI_CONFIG_IMPORT_FBX_PRESERVE_PIVOTS</title>
+<indexterm><primary>AI_CONFIG_IMPORT_FBX_PRESERVE_PIVOTS</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_IMPORT_FBX_PRESERVE_PIVOTS</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_IMPORT_FBX_PRESERVE_PIVOTS&#160;&#160;&#160;    &quot;IMPORT_FBX_PRESERVE_PIVOTS&quot;</computeroutput></para><para>
+
+<para>Set whether the fbx importer will preserve pivot points for transformations (as extra nodes). If set to false, pivots and offsets will be evaluated whenever possible. </para>
+</para>
+
+<para>The default value is true (1) Property type: bool </para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1a1c886c292d6da748aa5c298118bbb330"/><section>
+    <title>AI_CONFIG_IMPORT_FBX_READ_ALL_GEOMETRY_LAYERS</title>
+<indexterm><primary>AI_CONFIG_IMPORT_FBX_READ_ALL_GEOMETRY_LAYERS</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_IMPORT_FBX_READ_ALL_GEOMETRY_LAYERS</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_IMPORT_FBX_READ_ALL_GEOMETRY_LAYERS&#160;&#160;&#160;    &quot;IMPORT_FBX_READ_ALL_GEOMETRY_LAYERS&quot;</computeroutput></para><para>
+
+<para>Set whether the fbx importer will merge all geometry layers present in the source file or take only the first. </para>
+</para>
+
+<para>The default value is true (1) Property type: bool </para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1a1bdbd5504eb2794f2257dacfbe9de98b"/><section>
+    <title>AI_CONFIG_IMPORT_FBX_READ_ALL_MATERIALS</title>
+<indexterm><primary>AI_CONFIG_IMPORT_FBX_READ_ALL_MATERIALS</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_IMPORT_FBX_READ_ALL_MATERIALS</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_IMPORT_FBX_READ_ALL_MATERIALS&#160;&#160;&#160;    &quot;IMPORT_FBX_READ_ALL_MATERIALS&quot;</computeroutput></para><para>
+
+<para>Set whether the fbx importer will read all materials present in the source file or take only the referenced materials. </para>
+</para>
+
+<para>This is void unless IMPORT_FBX_READ_MATERIALS=1.</para>
+
+<para>The default value is false (0) Property type: bool </para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1a89f65cee36448e653e07e42263a16e09"/><section>
+    <title>AI_CONFIG_IMPORT_FBX_READ_ANIMATIONS</title>
+<indexterm><primary>AI_CONFIG_IMPORT_FBX_READ_ANIMATIONS</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_IMPORT_FBX_READ_ANIMATIONS</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_IMPORT_FBX_READ_ANIMATIONS&#160;&#160;&#160;    &quot;IMPORT_FBX_READ_ANIMATIONS&quot;</computeroutput></para><para>
+
+<para>Set whether the fbx importer will read animations. </para>
+</para>
+
+<para>The default value is true (1) Property type: bool </para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1a4b5d39fd0bfa03661de06f870c8ed60d"/><section>
+    <title>AI_CONFIG_IMPORT_FBX_READ_CAMERAS</title>
+<indexterm><primary>AI_CONFIG_IMPORT_FBX_READ_CAMERAS</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_IMPORT_FBX_READ_CAMERAS</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_IMPORT_FBX_READ_CAMERAS&#160;&#160;&#160;    &quot;IMPORT_FBX_READ_CAMERAS&quot;</computeroutput></para><para>
+
+<para>Set whether the fbx importer will read cameras. </para>
+</para>
+
+<para>The default value is true (1) Property type: bool </para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1ac64b303bd269641b5214f67fc6b4c7ff"/><section>
+    <title>AI_CONFIG_IMPORT_FBX_READ_LIGHTS</title>
+<indexterm><primary>AI_CONFIG_IMPORT_FBX_READ_LIGHTS</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_IMPORT_FBX_READ_LIGHTS</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_IMPORT_FBX_READ_LIGHTS&#160;&#160;&#160;    &quot;IMPORT_FBX_READ_LIGHTS&quot;</computeroutput></para><para>
+
+<para>Set whether the fbx importer will read light sources. </para>
+</para>
+
+<para>The default value is true (1) Property type: bool </para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1a65ad7b34f2db3bf5d4fda9bed579d992"/><section>
+    <title>AI_CONFIG_IMPORT_FBX_READ_MATERIALS</title>
+<indexterm><primary>AI_CONFIG_IMPORT_FBX_READ_MATERIALS</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_IMPORT_FBX_READ_MATERIALS</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_IMPORT_FBX_READ_MATERIALS&#160;&#160;&#160;    &quot;IMPORT_FBX_READ_MATERIALS&quot;</computeroutput></para><para>
+
+<para>Set whether the fbx importer will read materials. </para>
+</para>
+
+<para>The default value is true (1) Property type: bool </para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1a3d705f891d5c9bd86611926f634bff1c"/><section>
+    <title>AI_CONFIG_IMPORT_FBX_READ_TEXTURES</title>
+<indexterm><primary>AI_CONFIG_IMPORT_FBX_READ_TEXTURES</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_IMPORT_FBX_READ_TEXTURES</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_IMPORT_FBX_READ_TEXTURES&#160;&#160;&#160;    &quot;IMPORT_FBX_READ_TEXTURES&quot;</computeroutput></para><para>
+
+<para>Set whether the fbx importer will read embedded textures. </para>
+</para>
+
+<para>The default value is true (1) Property type: bool </para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1add81b4566c39f22d81461c862443aaab"/><section>
+    <title>AI_CONFIG_IMPORT_FBX_READ_WEIGHTS</title>
+<indexterm><primary>AI_CONFIG_IMPORT_FBX_READ_WEIGHTS</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_IMPORT_FBX_READ_WEIGHTS</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_IMPORT_FBX_READ_WEIGHTS&#160;&#160;&#160;    &quot;IMPORT_FBX_READ_WEIGHTS&quot;</computeroutput></para><para>
+
+<para>Set whether the fbx importer will read weights. </para>
+</para>
+
+<para>The default value is true (1) Property type: bool </para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1a79ccfadb16e9825d3f9cbc1924d73105"/><section>
+    <title>AI_CONFIG_IMPORT_FBX_STRICT_MODE</title>
+<indexterm><primary>AI_CONFIG_IMPORT_FBX_STRICT_MODE</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_IMPORT_FBX_STRICT_MODE</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_IMPORT_FBX_STRICT_MODE&#160;&#160;&#160;    &quot;IMPORT_FBX_STRICT_MODE&quot;</computeroutput></para><para>
+
+<para>Set whether the fbx importer will act in strict mode in which only FBX 2013 is supported and any other sub formats are rejected. FBX 2013 is the primary target for the importer, so this format is best supported and well-tested. </para>
+</para>
+
+<para>The default value is false (0) Property type: bool </para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1ad8670ee6d237f2d2f3b60c61e0dead15"/><section>
+    <title>AI_CONFIG_IMPORT_GLOBAL_KEYFRAME</title>
+<indexterm><primary>AI_CONFIG_IMPORT_GLOBAL_KEYFRAME</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_IMPORT_GLOBAL_KEYFRAME</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_IMPORT_GLOBAL_KEYFRAME&#160;&#160;&#160;&quot;IMPORT_GLOBAL_KEYFRAME&quot;</computeroutput></para><para>
+
+<para>Set the vertex animation keyframe to be imported. </para>
+</para>
+
+<para>ASSIMP does not support vertex keyframes (only bone animation is supported). The library reads only one frame of models with vertex animations. By default this is the first frame. <note><title>Note</title>
+
+<para>The default value is 0. This option applies to all importers. However, it is also possible to override the global setting for a specific loader. You can use the AI_CONFIG_IMPORT_XXX_KEYFRAME options (where XXX is a placeholder for the file format for which you want to override the global setting). Property type: integer. </para>
+</note>
+</para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1a7ec9ae953df9409eba917b77a29c8148"/><section>
+    <title>AI_CONFIG_IMPORT_IFC_CUSTOM_TRIANGULATION</title>
+<indexterm><primary>AI_CONFIG_IMPORT_IFC_CUSTOM_TRIANGULATION</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_IMPORT_IFC_CUSTOM_TRIANGULATION</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_IMPORT_IFC_CUSTOM_TRIANGULATION&#160;&#160;&#160;&quot;IMPORT_IFC_CUSTOM_TRIANGULATION&quot;</computeroutput></para><para>
+
+<para>Specifies whether the IFC loader will use its own, custom triangulation algorithm to triangulate wall and floor meshes. </para>
+</para>
+
+<para>If this property is set to false, walls will be either triangulated by <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a9c3de834f0307f31fa2b1b6d05dd592b">aiProcess_Triangulate</link> or will be passed through as huge polygons with faked holes (i.e. holes that are connected with the outer boundary using a dummy edge). It is highly recommended to set this property to true if you want triangulated data because <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a9c3de834f0307f31fa2b1b6d05dd592b">aiProcess_Triangulate</link> is known to have problems with the kind of polygons that the IFC loader spits out for complicated meshes. Property type: Bool. Default value: true. </para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1a84ff635d176313a524db72f391dedf06"/><section>
+    <title>AI_CONFIG_IMPORT_IFC_CYLINDRICAL_TESSELLATION</title>
+<indexterm><primary>AI_CONFIG_IMPORT_IFC_CYLINDRICAL_TESSELLATION</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_IMPORT_IFC_CYLINDRICAL_TESSELLATION</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_IMPORT_IFC_CYLINDRICAL_TESSELLATION&#160;&#160;&#160;&quot;IMPORT_IFC_CYLINDRICAL_TESSELLATION&quot;</computeroutput></para><para>
+
+<para>Set the tessellation for IFC cylindrical shapes. </para>
+</para>
+
+<para>This is used by the IFC importer to determine the tessellation parameter for cylindrical shapes, i.e. the number of segments used to approximate a circle. <note><title>Note</title>
+
+<para>The default value is AI_IMPORT_IFC_DEFAULT_CYLINDRICAL_TESSELLATION and the accepted values are in range [3, 180]. Property type: Integer. </para>
+</note>
+</para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1ac53f1c99fc7f86b4a555ff1f4763819b"/><section>
+    <title>AI_CONFIG_IMPORT_IFC_SKIP_SPACE_REPRESENTATIONS</title>
+<indexterm><primary>AI_CONFIG_IMPORT_IFC_SKIP_SPACE_REPRESENTATIONS</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_IMPORT_IFC_SKIP_SPACE_REPRESENTATIONS</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_IMPORT_IFC_SKIP_SPACE_REPRESENTATIONS&#160;&#160;&#160;&quot;IMPORT_IFC_SKIP_SPACE_REPRESENTATIONS&quot;</computeroutput></para><para>
+
+<para>Specifies whether the IFC loader skips over IfcSpace elements. </para>
+</para>
+
+<para>IfcSpace elements (and their geometric representations) are used to represent, well, free space in a building storey.<?linebreak?> Property type: Bool. Default value: true. </para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1a68a2131eff232fad1cdfc0bca107f4ca"/><section>
+    <title>AI_CONFIG_IMPORT_IFC_SMOOTHING_ANGLE</title>
+<indexterm><primary>AI_CONFIG_IMPORT_IFC_SMOOTHING_ANGLE</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_IMPORT_IFC_SMOOTHING_ANGLE</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_IMPORT_IFC_SMOOTHING_ANGLE&#160;&#160;&#160;&quot;IMPORT_IFC_SMOOTHING_ANGLE&quot;</computeroutput></para><para>
+
+<para>Set the tessellation conic angle for IFC smoothing curves. </para>
+</para>
+
+<para>This is used by the IFC importer to determine the tessellation parameter for smoothing curves. <note><title>Note</title>
+
+<para>The default value is AI_IMPORT_IFC_DEFAULT_SMOOTHING_ANGLE and the accepted values are in range [5.0, 120.0]. Property type: Float. </para>
+</note>
+</para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1ac0fa56e7d9a68b3e164c2cada6350d39"/><section>
+    <title>AI_CONFIG_IMPORT_IRR_ANIM_FPS</title>
+<indexterm><primary>AI_CONFIG_IMPORT_IRR_ANIM_FPS</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_IMPORT_IRR_ANIM_FPS</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_IMPORT_IRR_ANIM_FPS&#160;&#160;&#160;    &quot;IMPORT_IRR_ANIM_FPS&quot;</computeroutput></para><para>
+
+<para>Defines the output frame rate of the IRR loader. </para>
+</para>
+
+<para>IRR animations are difficult to convert for <link linkend="_namespace_assimp">Assimp</link> and there will always be a loss of quality. This setting defines how many keys per second are returned by the converter.<?linebreak?> Property type: integer. Default value: 100 </para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1ae890df205a2234b5a85a6e8b3f6f5fda"/><section>
+    <title>AI_CONFIG_IMPORT_LWO_ONE_LAYER_ONLY</title>
+<indexterm><primary>AI_CONFIG_IMPORT_LWO_ONE_LAYER_ONLY</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_IMPORT_LWO_ONE_LAYER_ONLY</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_IMPORT_LWO_ONE_LAYER_ONLY&#160;&#160;&#160;    &quot;IMPORT_LWO_ONE_LAYER_ONLY&quot;</computeroutput></para><para>
+
+<para>Configures the LWO loader to load just one layer from the model. </para>
+</para>
+
+<para>LWO files consist of layers and in some cases it could be useful to load only one of them. This property can be either a string - which specifies the name of the layer - or an integer - the index of the layer. If the property is not set the whole LWO model is loaded. Loading fails if the requested layer is not available. The layer index is zero-based and the layer name may not be empty.<?linebreak?> Property type: Integer. Default value: all layers are loaded. </para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1a9a5d00b6e7808cfd0d21cec7c6072bdf"/><section>
+    <title>AI_CONFIG_IMPORT_LWS_ANIM_END</title>
+<indexterm><primary>AI_CONFIG_IMPORT_LWS_ANIM_END</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_IMPORT_LWS_ANIM_END</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_IMPORT_LWS_ANIM_END&#160;&#160;&#160;    &quot;IMPORT_LWS_ANIM_END&quot;</computeroutput></para></section>
+<anchor xml:id="_assimp_2config_8h_1a61aa54f23a5b5270c756db279b0e1c57"/><section>
+    <title>AI_CONFIG_IMPORT_LWS_ANIM_START</title>
+<indexterm><primary>AI_CONFIG_IMPORT_LWS_ANIM_START</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_IMPORT_LWS_ANIM_START</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_IMPORT_LWS_ANIM_START&#160;&#160;&#160;    &quot;IMPORT_LWS_ANIM_START&quot;</computeroutput></para><para>
+
+<para>Defines the begin of the time range for which the LWS loader evaluates animations and computes <link linkend="_structai_node_anim">aiNodeAnim</link>&apos;s. </para>
+</para>
+
+<para><link linkend="_namespace_assimp">Assimp</link> provides full conversion of LightWave&apos;s envelope system, including pre and post conditions. The loader computes linearly subsampled animation chanels with the frame rate given in the LWS file. This property defines the start time. Note: animation channels are only generated if a node has at least one envelope with more tan one key assigned. This property. is given in frames, &apos;0&apos; is the first frame. By default, if this property is not set, the importer takes the animation start from the input LWS file (&apos;FirstFrame&apos; line)<?linebreak?> Property type: Integer. Default value: taken from file.</para>
+
+<para><formalpara><title>See also</title>
+
+<para><link linkend="_assimp_2config_8h_1a9a5d00b6e7808cfd0d21cec7c6072bdf">AI_CONFIG_IMPORT_LWS_ANIM_END</link> - <link linkend="_glad_8h_1a432111147038972f06e049e18a837002">end</link> of the imported time range </para>
+</formalpara>
+</para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1a00845e63629bb9c20473122130a2286f"/><section>
+    <title>AI_CONFIG_IMPORT_MD2_KEYFRAME</title>
+<indexterm><primary>AI_CONFIG_IMPORT_MD2_KEYFRAME</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_IMPORT_MD2_KEYFRAME</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_IMPORT_MD2_KEYFRAME&#160;&#160;&#160;&quot;IMPORT_MD2_KEYFRAME&quot;</computeroutput></para></section>
+<anchor xml:id="_assimp_2config_8h_1a77411c162d7840282c85250c92c89354"/><section>
+    <title>AI_CONFIG_IMPORT_MD3_HANDLE_MULTIPART</title>
+<indexterm><primary>AI_CONFIG_IMPORT_MD3_HANDLE_MULTIPART</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_IMPORT_MD3_HANDLE_MULTIPART</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_IMPORT_MD3_HANDLE_MULTIPART&#160;&#160;&#160;    &quot;IMPORT_MD3_HANDLE_MULTIPART&quot;</computeroutput></para><para>
+
+<para>Configures the M3D loader to detect and process multi-part Quake player models. </para>
+</para>
+
+<para>These models usually consist of 3 files, lower.md3, upper.md3 and head.md3. If this property is set to true, <link linkend="_namespace_assimp">Assimp</link> will try to load and combine all three files if one of them is loaded. Property type: bool. Default value: true. </para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1ade66e668151d5d1468116ffde6954f2a"/><section>
+    <title>AI_CONFIG_IMPORT_MD3_KEYFRAME</title>
+<indexterm><primary>AI_CONFIG_IMPORT_MD3_KEYFRAME</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_IMPORT_MD3_KEYFRAME</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_IMPORT_MD3_KEYFRAME&#160;&#160;&#160;&quot;IMPORT_MD3_KEYFRAME&quot;</computeroutput></para></section>
+<anchor xml:id="_assimp_2config_8h_1a442b397bb2b21a5e0ccc709f37017188"/><section>
+    <title>AI_CONFIG_IMPORT_MD3_LOAD_SHADERS</title>
+<indexterm><primary>AI_CONFIG_IMPORT_MD3_LOAD_SHADERS</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_IMPORT_MD3_LOAD_SHADERS</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_IMPORT_MD3_LOAD_SHADERS&#160;&#160;&#160;    &quot;IMPORT_MD3_LOAD_SHADERS&quot;</computeroutput></para><para>
+
+<para>Specify if to try load Quake 3 shader files. This also controls original surface name handling: when disabled it will be used unchanged. </para>
+</para>
+
+<para>Property type: bool. Default value: true. </para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1a58558385cdb3cf18c66ade9fce5f738e"/><section>
+    <title>AI_CONFIG_IMPORT_MD3_SHADER_SRC</title>
+<indexterm><primary>AI_CONFIG_IMPORT_MD3_SHADER_SRC</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_IMPORT_MD3_SHADER_SRC</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_IMPORT_MD3_SHADER_SRC&#160;&#160;&#160;    &quot;IMPORT_MD3_SHADER_SRC&quot;</computeroutput></para><para>
+
+<para>Specify the Quake 3 shader file to be used for a particular MD3 file. This can also be a search path. </para>
+</para>
+
+<para>By default <link linkend="_namespace_assimp">Assimp</link>&apos;s behaviour is as follows: If a MD3 file <computeroutput>any_path/models/any_q3_subdir/model_name/file_name.md3</computeroutput> is loaded, the library tries to locate the corresponding shader file in <computeroutput>any_path/scripts/model_name.shader</computeroutput>. This property overrides this behaviour. It can either specify a full path to the shader to be loaded or alternatively the path (relative or absolute) to the directory where the shaders for all MD3s to be loaded reside. <link linkend="_namespace_assimp">Assimp</link> attempts to open <computeroutput>IMPORT_MD3_SHADER_SRC/model_name.shader</computeroutput> first, <computeroutput>IMPORT_MD3_SHADER_SRC/file_name.shader</computeroutput> is the fallback file. Note that IMPORT_MD3_SHADER_SRC should have a terminal (back)slash. Property type: String. Default value: n/a. </para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1a1d2fb0e3ed40231c294fc327a822de6c"/><section>
+    <title>AI_CONFIG_IMPORT_MD3_SKIN_NAME</title>
+<indexterm><primary>AI_CONFIG_IMPORT_MD3_SKIN_NAME</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_IMPORT_MD3_SKIN_NAME</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_IMPORT_MD3_SKIN_NAME&#160;&#160;&#160;    &quot;IMPORT_MD3_SKIN_NAME&quot;</computeroutput></para><para>
+
+<para>Tells the MD3 loader which skin files to load. </para>
+</para>
+
+<para>When loading MD3 files, <link linkend="_namespace_assimp">Assimp</link> checks whether a file [md3_file_name]_[skin_name].skin is existing. These files are used by Quake III to be able to assign different skins (e.g. red and blue team) to models. &apos;default&apos;, &apos;red&apos;, &apos;blue&apos; are typical skin names. Property type: String. Default value: &quot;default&quot;. </para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1a0854acdd45ff0752475f5ab8fe15d905"/><section>
+    <title>AI_CONFIG_IMPORT_MD5_NO_ANIM_AUTOLOAD</title>
+<indexterm><primary>AI_CONFIG_IMPORT_MD5_NO_ANIM_AUTOLOAD</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_IMPORT_MD5_NO_ANIM_AUTOLOAD</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_IMPORT_MD5_NO_ANIM_AUTOLOAD&#160;&#160;&#160;    &quot;IMPORT_MD5_NO_ANIM_AUTOLOAD&quot;</computeroutput></para><para>
+
+<para>Configures the MD5 loader to not load the MD5ANIM file for a MD5MESH file automatically. </para>
+</para>
+
+<para>The default strategy is to look for a file with the same name but the MD5ANIM extension in the same directory. If it is found, it is loaded and combined with the MD5MESH file. This configuration option can be used to disable this behaviour.</para>
+
+<para><itemizedlist>
+<listitem>
+<para>Property type: bool. Default value: false. </para>
+</listitem></itemizedlist>
+</para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1a3797029e51b77f9ef5227555f3b806b4"/><section>
+    <title>AI_CONFIG_IMPORT_MDC_KEYFRAME</title>
+<indexterm><primary>AI_CONFIG_IMPORT_MDC_KEYFRAME</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_IMPORT_MDC_KEYFRAME</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_IMPORT_MDC_KEYFRAME&#160;&#160;&#160;&quot;IMPORT_MDC_KEYFRAME&quot;</computeroutput></para></section>
+<anchor xml:id="_assimp_2config_8h_1a243ffb53e27a913b92cdb38bb951da7d"/><section>
+    <title>AI_CONFIG_IMPORT_MDL_COLORMAP</title>
+<indexterm><primary>AI_CONFIG_IMPORT_MDL_COLORMAP</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_IMPORT_MDL_COLORMAP</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_IMPORT_MDL_COLORMAP&#160;&#160;&#160;    &quot;IMPORT_MDL_COLORMAP&quot;</computeroutput></para><para>
+
+<para>Sets the colormap (= palette) to be used to decode embedded textures in MDL (Quake or 3DGS) files. </para>
+</para>
+
+<para>This must be a valid path to a file. The file is 768 (256*3) bytes large and contains RGB triplets for each of the 256 palette entries. The default value is colormap.lmp. If the file is not found, a default palette (from Quake 1) is used. Property type: string. </para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1a7347b1975d6ac63975b72177e4de101b"/><section>
+    <title>AI_CONFIG_IMPORT_MDL_HL1_READ_ANIMATION_EVENTS</title>
+<indexterm><primary>AI_CONFIG_IMPORT_MDL_HL1_READ_ANIMATION_EVENTS</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_IMPORT_MDL_HL1_READ_ANIMATION_EVENTS</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_IMPORT_MDL_HL1_READ_ANIMATION_EVENTS&#160;&#160;&#160;&quot;IMPORT_MDL_HL1_READ_ANIMATION_EVENTS&quot;</computeroutput></para><para>
+
+<para>Set whether the MDL (HL1) importer will read animation events. </para>
+</para>
+
+<para><note><title>Note</title>
+
+<para>This property requires AI_CONFIG_IMPORT_MDL_HL1_READ_ANIMATIONS to be set to true.</para>
+</note>
+The default value is true (1) Property type: bool </para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1a5d42c84aed93bdb6f672bccf233f6c13"/><section>
+    <title>AI_CONFIG_IMPORT_MDL_HL1_READ_ANIMATIONS</title>
+<indexterm><primary>AI_CONFIG_IMPORT_MDL_HL1_READ_ANIMATIONS</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_IMPORT_MDL_HL1_READ_ANIMATIONS</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_IMPORT_MDL_HL1_READ_ANIMATIONS&#160;&#160;&#160;&quot;IMPORT_MDL_HL1_READ_ANIMATIONS&quot;</computeroutput></para><para>
+
+<para>Set whether the MDL (HL1) importer will read animations. </para>
+</para>
+
+<para>The default value is true (1) Property type: bool </para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1a216394fc6c2296b47e4963ac92e838cf"/><section>
+    <title>AI_CONFIG_IMPORT_MDL_HL1_READ_ATTACHMENTS</title>
+<indexterm><primary>AI_CONFIG_IMPORT_MDL_HL1_READ_ATTACHMENTS</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_IMPORT_MDL_HL1_READ_ATTACHMENTS</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_IMPORT_MDL_HL1_READ_ATTACHMENTS&#160;&#160;&#160;&quot;IMPORT_MDL_HL1_READ_ATTACHMENTS&quot;</computeroutput></para><para>
+
+<para>Set whether the MDL (HL1) importer will read attachments info. </para>
+</para>
+
+<para>The default value is true (1) Property type: bool </para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1a8040d9ffaa15635b2b398233ce55a4a5"/><section>
+    <title>AI_CONFIG_IMPORT_MDL_HL1_READ_BLEND_CONTROLLERS</title>
+<indexterm><primary>AI_CONFIG_IMPORT_MDL_HL1_READ_BLEND_CONTROLLERS</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_IMPORT_MDL_HL1_READ_BLEND_CONTROLLERS</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_IMPORT_MDL_HL1_READ_BLEND_CONTROLLERS&#160;&#160;&#160;&quot;IMPORT_MDL_HL1_READ_BLEND_CONTROLLERS&quot;</computeroutput></para><para>
+
+<para>Set whether the MDL (HL1) importer will read blend controllers. </para>
+</para>
+
+<para><note><title>Note</title>
+
+<para>This property requires AI_CONFIG_IMPORT_MDL_HL1_READ_ANIMATIONS to be set to true.</para>
+</note>
+The default value is true (1) Property type: bool </para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1ada6f419573e61fdd7410a7bba0448ddf"/><section>
+    <title>AI_CONFIG_IMPORT_MDL_HL1_READ_BONE_CONTROLLERS</title>
+<indexterm><primary>AI_CONFIG_IMPORT_MDL_HL1_READ_BONE_CONTROLLERS</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_IMPORT_MDL_HL1_READ_BONE_CONTROLLERS</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_IMPORT_MDL_HL1_READ_BONE_CONTROLLERS&#160;&#160;&#160;&quot;IMPORT_MDL_HL1_READ_BONE_CONTROLLERS&quot;</computeroutput></para><para>
+
+<para>Set whether the MDL (HL1) importer will read bone controllers info. </para>
+</para>
+
+<para>The default value is true (1) Property type: bool </para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1a2240146090dd6a6c6b333e522bd0c808"/><section>
+    <title>AI_CONFIG_IMPORT_MDL_HL1_READ_HITBOXES</title>
+<indexterm><primary>AI_CONFIG_IMPORT_MDL_HL1_READ_HITBOXES</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_IMPORT_MDL_HL1_READ_HITBOXES</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_IMPORT_MDL_HL1_READ_HITBOXES&#160;&#160;&#160;&quot;IMPORT_MDL_HL1_READ_HITBOXES&quot;</computeroutput></para><para>
+
+<para>Set whether the MDL (HL1) importer will read hitboxes info. </para>
+</para>
+
+<para>The default value is true (1) Property type: bool </para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1a00a732344107fccb736b5e8d4fd074ec"/><section>
+    <title>AI_CONFIG_IMPORT_MDL_HL1_READ_MISC_GLOBAL_INFO</title>
+<indexterm><primary>AI_CONFIG_IMPORT_MDL_HL1_READ_MISC_GLOBAL_INFO</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_IMPORT_MDL_HL1_READ_MISC_GLOBAL_INFO</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_IMPORT_MDL_HL1_READ_MISC_GLOBAL_INFO&#160;&#160;&#160;&quot;IMPORT_MDL_HL1_READ_MISC_GLOBAL_INFO&quot;</computeroutput></para><para>
+
+<para>Set whether the MDL (HL1) importer will read miscellaneous global model info. </para>
+</para>
+
+<para>The default value is true (1) Property type: bool </para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1a6a6c444044f93fd19a35a87fe7a0007c"/><section>
+    <title>AI_CONFIG_IMPORT_MDL_HL1_READ_SEQUENCE_TRANSITIONS</title>
+<indexterm><primary>AI_CONFIG_IMPORT_MDL_HL1_READ_SEQUENCE_TRANSITIONS</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_IMPORT_MDL_HL1_READ_SEQUENCE_TRANSITIONS</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_IMPORT_MDL_HL1_READ_SEQUENCE_TRANSITIONS&#160;&#160;&#160;&quot;IMPORT_MDL_HL1_READ_SEQUENCE_TRANSITIONS&quot;</computeroutput></para><para>
+
+<para>Set whether the MDL (HL1) importer will read sequence transition graph. </para>
+</para>
+
+<para><note><title>Note</title>
+
+<para>This property requires AI_CONFIG_IMPORT_MDL_HL1_READ_ANIMATIONS to be set to true.</para>
+</note>
+The default value is true (1) Property type: bool </para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1a5a9b8a7407fce531b8442f07de548b8e"/><section>
+    <title>AI_CONFIG_IMPORT_MDL_KEYFRAME</title>
+<indexterm><primary>AI_CONFIG_IMPORT_MDL_KEYFRAME</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_IMPORT_MDL_KEYFRAME</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_IMPORT_MDL_KEYFRAME&#160;&#160;&#160;&quot;IMPORT_MDL_KEYFRAME&quot;</computeroutput></para></section>
+<anchor xml:id="_assimp_2config_8h_1a75351a98fd8d4c367d326b914169f9d6"/><section>
+    <title>AI_CONFIG_IMPORT_NO_SKELETON_MESHES</title>
+<indexterm><primary>AI_CONFIG_IMPORT_NO_SKELETON_MESHES</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_IMPORT_NO_SKELETON_MESHES</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_IMPORT_NO_SKELETON_MESHES&#160;&#160;&#160;    &quot;IMPORT_NO_SKELETON_MESHES&quot;</computeroutput></para><para>
+
+<para><link linkend="_class_global">Global</link> setting to disable generation of skeleton dummy meshes. </para>
+</para>
+
+<para>Skeleton dummy meshes are generated as a visualization aid in cases which the input data contains no geometry, but only animation data. Property data type: bool. Default value: false </para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1acb55d5bf44d7ee13bd03f0197ac2e4da"/><section>
+    <title>AI_CONFIG_IMPORT_OGRE_MATERIAL_FILE</title>
+<indexterm><primary>AI_CONFIG_IMPORT_OGRE_MATERIAL_FILE</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_IMPORT_OGRE_MATERIAL_FILE</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_IMPORT_OGRE_MATERIAL_FILE&#160;&#160;&#160;    &quot;IMPORT_OGRE_MATERIAL_FILE&quot;</computeroutput></para><para>
+
+<para>Ogre Importer will try to find referenced materials from this file. </para>
+</para>
+
+<para>Ogre meshes reference with material names, this does not tell <link linkend="_namespace_assimp">Assimp</link> the file where it is located in. <link linkend="_namespace_assimp">Assimp</link> will try to find the source file in the following order: &lt;material-name&gt;.material, &lt;mesh-filename-base&gt;.material and lastly the material name defined by this config property. <?linebreak?> Property type: String. Default value: Scene.material. </para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1acec7a56a1defbd37b8807fcfe08ab88c"/><section>
+    <title>AI_CONFIG_IMPORT_OGRE_TEXTURETYPE_FROM_FILENAME</title>
+<indexterm><primary>AI_CONFIG_IMPORT_OGRE_TEXTURETYPE_FROM_FILENAME</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_IMPORT_OGRE_TEXTURETYPE_FROM_FILENAME</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_IMPORT_OGRE_TEXTURETYPE_FROM_FILENAME&#160;&#160;&#160;    &quot;IMPORT_OGRE_TEXTURETYPE_FROM_FILENAME&quot;</computeroutput></para><para>
+
+<para>Ogre Importer detect the texture usage from its filename. </para>
+</para>
+
+<para>Ogre material texture units do not define texture type, the textures usage depends on the used shader or Ogre&apos;s fixed pipeline. If this config property is true <link linkend="_namespace_assimp">Assimp</link> will try to detect the type from the textures filename postfix: _n, _nrm, _nrml, _normal, _normals and _normalmap for normal map, _s, _spec, _specular and _specularmap for specular map, _l, _light, _lightmap, _occ and _occlusion for light map, _disp and _displacement for displacement map. The matching is case insensitive. Post fix is taken between the last underscore and the last period. Default behavior is to detect type from lower cased texture unit name by matching against: normalmap, specularmap, lightmap and displacementmap. For both cases if no match is found aiTextureType_DIFFUSE is used. <?linebreak?> Property type: Bool. Default value: false. </para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1ae1662285ec29a071ff397d086ff0815f"/><section>
+    <title>AI_CONFIG_IMPORT_REMOVE_EMPTY_BONES</title>
+<indexterm><primary>AI_CONFIG_IMPORT_REMOVE_EMPTY_BONES</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_IMPORT_REMOVE_EMPTY_BONES</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_IMPORT_REMOVE_EMPTY_BONES&#160;&#160;&#160;    &quot;AI_CONFIG_IMPORT_REMOVE_EMPTY_BONES&quot;</computeroutput></para><para>
+
+<para>Set wether the importer shall not remove empty bones. </para>
+</para>
+
+<para><link linkend="_class_empty">Empty</link> bone are often used to define connections for other models. </para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1a2ecc4ef5f1db257d0e04c46ed0d29034"/><section>
+    <title>AI_CONFIG_IMPORT_SCHEMA_DOCUMENT_PROVIDER</title>
+<indexterm><primary>AI_CONFIG_IMPORT_SCHEMA_DOCUMENT_PROVIDER</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_IMPORT_SCHEMA_DOCUMENT_PROVIDER</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_IMPORT_SCHEMA_DOCUMENT_PROVIDER&#160;&#160;&#160;    &quot;IMPORT_SCHEMA_DOCUMENT_PROVIDER&quot;</computeroutput></para><para>
+
+<para>Importers which parse JSON may use this to obtain a pointer to a rapidjson::IRemoteSchemaDocumentProvider. </para>
+</para>
+
+<para>The default value is nullptr Property type: void* </para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1aa15c7351629af8e1df6ae3e4e06e5ba7"/><section>
+    <title>AI_CONFIG_IMPORT_SMD_KEYFRAME</title>
+<indexterm><primary>AI_CONFIG_IMPORT_SMD_KEYFRAME</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_IMPORT_SMD_KEYFRAME</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_IMPORT_SMD_KEYFRAME&#160;&#160;&#160;&quot;IMPORT_SMD_KEYFRAME&quot;</computeroutput></para></section>
+<anchor xml:id="_assimp_2config_8h_1aceebcccdf457a6f7562e06a1556a689b"/><section>
+    <title>AI_CONFIG_IMPORT_SMD_LOAD_ANIMATION_LIST</title>
+<indexterm><primary>AI_CONFIG_IMPORT_SMD_LOAD_ANIMATION_LIST</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_IMPORT_SMD_LOAD_ANIMATION_LIST</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_IMPORT_SMD_LOAD_ANIMATION_LIST&#160;&#160;&#160;&quot;IMPORT_SMD_LOAD_ANIMATION_LIST&quot;</computeroutput></para>
+<para>Smd load multiple animations</para>
+
+<para>Property type: bool. Default value: true. </para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1a7ea74e123ac238824a5b60b2b6caf3f3"/><section>
+    <title>AI_CONFIG_IMPORT_TER_MAKE_UVS</title>
+<indexterm><primary>AI_CONFIG_IMPORT_TER_MAKE_UVS</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_IMPORT_TER_MAKE_UVS</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_IMPORT_TER_MAKE_UVS&#160;&#160;&#160;    &quot;IMPORT_TER_MAKE_UVS&quot;</computeroutput></para><para>
+
+<para>Configures the terragen import plugin to compute uv&apos;s for terrains, if not given. Furthermore a default texture is assigned. </para>
+</para>
+
+<para>UV coordinates for terrains are so simple to compute that you&apos;ll usually want to compute them on your own, if you need them. This option is intended for model viewers which want to offer an easy way to apply textures to terrains.<itemizedlist>
+<listitem>
+<para>Property type: bool. Default value: false. </para>
+</listitem></itemizedlist>
+</para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1a54dfdedf42b694596552488b31cf2a12"/><section>
+    <title>AI_CONFIG_IMPORT_UNREAL_HANDLE_FLAGS</title>
+<indexterm><primary>AI_CONFIG_IMPORT_UNREAL_HANDLE_FLAGS</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_IMPORT_UNREAL_HANDLE_FLAGS</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_IMPORT_UNREAL_HANDLE_FLAGS&#160;&#160;&#160;    &quot;UNREAL_HANDLE_FLAGS&quot;</computeroutput></para><para>
+
+<para>Configures the UNREAL 3D loader to separate faces with different surface flags (e.g. two-sided vs. single-sided). </para>
+</para>
+
+<para><itemizedlist>
+<listitem>
+<para>Property type: bool. Default value: true. </para>
+</listitem></itemizedlist>
+</para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1ace574a15cd1257216ec6c48acdaa91a0"/><section>
+    <title>AI_CONFIG_IMPORT_UNREAL_KEYFRAME</title>
+<indexterm><primary>AI_CONFIG_IMPORT_UNREAL_KEYFRAME</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_IMPORT_UNREAL_KEYFRAME</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_IMPORT_UNREAL_KEYFRAME&#160;&#160;&#160;&quot;IMPORT_UNREAL_KEYFRAME&quot;</computeroutput></para></section>
+<anchor xml:id="_assimp_2config_8h_1a17376a5a00287843581a4f668291f49d"/><section>
+    <title>AI_CONFIG_PP_CT_MAX_SMOOTHING_ANGLE</title>
+<indexterm><primary>AI_CONFIG_PP_CT_MAX_SMOOTHING_ANGLE</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_PP_CT_MAX_SMOOTHING_ANGLE</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_PP_CT_MAX_SMOOTHING_ANGLE&#160;&#160;&#160;    &quot;PP_CT_MAX_SMOOTHING_ANGLE&quot;</computeroutput></para><para>
+
+<para>Specifies the maximum angle that may be between two vertex tangents that their tangents and bi-tangents are smoothed. </para>
+</para>
+
+<para>This applies to the CalcTangentSpace-Step. The angle is specified in degrees. The maximum value is 175. Property type: float. Default value: 45 degrees </para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1a1b2fa19a9636ba523569f0106dfe2c14"/><section>
+    <title>AI_CONFIG_PP_CT_TEXTURE_CHANNEL_INDEX</title>
+<indexterm><primary>AI_CONFIG_PP_CT_TEXTURE_CHANNEL_INDEX</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_PP_CT_TEXTURE_CHANNEL_INDEX</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_PP_CT_TEXTURE_CHANNEL_INDEX&#160;&#160;&#160;    &quot;PP_CT_TEXTURE_CHANNEL_INDEX&quot;</computeroutput></para><para>
+
+<para>Source UV channel for tangent space computation. </para>
+</para>
+
+<para>The specified channel must exist or an error will be raised. Property type: integer. Default value: 0 </para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1a884736c7d7809ad88eec646e9cccbfba"/><section>
+    <title>AI_CONFIG_PP_DB_ALL_OR_NONE</title>
+<indexterm><primary>AI_CONFIG_PP_DB_ALL_OR_NONE</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_PP_DB_ALL_OR_NONE</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_PP_DB_ALL_OR_NONE&#160;&#160;&#160;    &quot;PP_DB_ALL_OR_NONE&quot;</computeroutput></para><para>
+
+<para>Require all bones qualify for deboning before removing any. </para>
+</para>
+
+<para>This is used by the <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a8e14bca58301e2ee29cf928156c3a9f9">aiProcess_Debone</link> PostProcess-Step. <note><title>Note</title>
+
+<para>The default value is 0 Property type: bool. </para>
+</note>
+</para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1a3f19ce3619d0d54a1bc51cd5e6c73e41"/><section>
+    <title>AI_CONFIG_PP_DB_THRESHOLD</title>
+<indexterm><primary>AI_CONFIG_PP_DB_THRESHOLD</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_PP_DB_THRESHOLD</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_PP_DB_THRESHOLD&#160;&#160;&#160;    &quot;PP_DB_THRESHOLD&quot;</computeroutput></para><para>
+
+<para>Lower the deboning threshold in order to remove more bones. </para>
+</para>
+
+<para>This is used by the <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a8e14bca58301e2ee29cf928156c3a9f9">aiProcess_Debone</link> PostProcess-Step. <note><title>Note</title>
+
+<para>The default value is AI_DEBONE_THRESHOLD Property type: float. </para>
+</note>
+</para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1a33d048b80565becd64af1ebd824bfd26"/><section>
+    <title>AI_CONFIG_PP_FD_CHECKAREA</title>
+<indexterm><primary>AI_CONFIG_PP_FD_CHECKAREA</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_PP_FD_CHECKAREA</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_PP_FD_CHECKAREA&#160;&#160;&#160;    &quot;PP_FD_CHECKAREA&quot;</computeroutput></para><para>
+
+<para>Configures the <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410ae1311236ea7a55b7355c5aa535586ad0">aiProcess_FindDegenerates</link> to check the area of a trinagle to be greates than e-6. If this is not the case the triangle will be removed if <link linkend="_assimp_2config_8h_1a3d9c02c1676aae7baf5e079fc72e08d1">AI_CONFIG_PP_FD_REMOVE</link> is set to true. </para>
+</para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1a3d9c02c1676aae7baf5e079fc72e08d1"/><section>
+    <title>AI_CONFIG_PP_FD_REMOVE</title>
+<indexterm><primary>AI_CONFIG_PP_FD_REMOVE</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_PP_FD_REMOVE</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_PP_FD_REMOVE&#160;&#160;&#160;    &quot;PP_FD_REMOVE&quot;</computeroutput></para><para>
+
+<para>Configures the <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410ae1311236ea7a55b7355c5aa535586ad0">aiProcess_FindDegenerates</link> step to remove degenerated primitives from the import - immediately. </para>
+</para>
+
+<para>The default behaviour converts degenerated triangles to lines and degenerated lines to points. See the documentation to the <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410ae1311236ea7a55b7355c5aa535586ad0">aiProcess_FindDegenerates</link> step for a detailed example of the various ways to get rid of these lines and points if you don&apos;t want them. Property type: bool. Default value: false. </para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1ad223c5e7e63d2937685cc704a181b950"/><section>
+    <title>AI_CONFIG_PP_FID_ANIM_ACCURACY</title>
+<indexterm><primary>AI_CONFIG_PP_FID_ANIM_ACCURACY</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_PP_FID_ANIM_ACCURACY</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_PP_FID_ANIM_ACCURACY&#160;&#160;&#160;    &quot;PP_FID_ANIM_ACCURACY&quot;</computeroutput></para><para>
+
+<para>Input parameter to the <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a42a93fc16a7a3b6df509bab503945421">aiProcess_FindInvalidData</link> step: Specifies the floating-point accuracy for animation values. The step checks for animation tracks where all frame values are absolutely equal and removes them. This tweakable controls the epsilon for floating-point comparisons - two keys are considered equal if the invariant abs(n0-n1)&gt;epsilon holds true for all vector respectively quaternion components. The default value is 0.f - comparisons are exact then. </para>
+</para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1a25aaab609b6e3785f302fcd09fbfaaf1"/><section>
+    <title>AI_CONFIG_PP_FID_IGNORE_TEXTURECOORDS</title>
+<indexterm><primary>AI_CONFIG_PP_FID_IGNORE_TEXTURECOORDS</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_PP_FID_IGNORE_TEXTURECOORDS</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_PP_FID_IGNORE_TEXTURECOORDS&#160;&#160;&#160;    &quot;PP_FID_IGNORE_TEXTURECOORDS&quot;</computeroutput></para><para>
+
+<para>Input parameter to the <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a42a93fc16a7a3b6df509bab503945421">aiProcess_FindInvalidData</link> step: Set to true to ignore texture coordinates. This may be useful if you have to assign different kind of textures like one for the summer or one for the winter. </para>
+</para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1a412ab4b92d48adbddc81c1c9a190493f"/><section>
+    <title>AI_CONFIG_PP_GSN_MAX_SMOOTHING_ANGLE</title>
+<indexterm><primary>AI_CONFIG_PP_GSN_MAX_SMOOTHING_ANGLE</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_PP_GSN_MAX_SMOOTHING_ANGLE</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_PP_GSN_MAX_SMOOTHING_ANGLE&#160;&#160;&#160;    &quot;PP_GSN_MAX_SMOOTHING_ANGLE&quot;</computeroutput></para><para>
+
+<para>Specifies the maximum angle that may be between two face normals at the same vertex position that their are smoothed together. </para>
+</para>
+
+<para>Sometimes referred to as &apos;crease angle&apos;. This applies to the GenSmoothNormals-Step. The angle is specified in degrees, so 180 is PI. The default value is 175 degrees (all vertex normals are smoothed). The maximum value is 175, too. Property type: float. Warning: setting this option may cause a severe loss of performance. The performance is unaffected if the <link linkend="_assimp_2config_8h_1ac19aa56fa892f712fd3fb4d95be19114">AI_CONFIG_FAVOUR_SPEED</link> flag is set but the output quality may be reduced. </para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1a851b513ea20c4d66a1c012d63dd8e78b"/><section>
+    <title>AI_CONFIG_PP_ICL_PTCACHE_SIZE</title>
+<indexterm><primary>AI_CONFIG_PP_ICL_PTCACHE_SIZE</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_PP_ICL_PTCACHE_SIZE</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_PP_ICL_PTCACHE_SIZE&#160;&#160;&#160;&quot;PP_ICL_PTCACHE_SIZE&quot;</computeroutput></para><para>
+
+<para>Set the size of the post-transform vertex cache to optimize the vertices for. This configures the <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a16979c68f93d283c6886abf580d557b1">aiProcess_ImproveCacheLocality</link> step. </para>
+</para>
+
+<para>The size is given in vertices. Of course you can&apos;t know how the vertex format will exactly look like after the import returns, but you can still guess what your meshes will probably have. <note><title>Note</title>
+
+<para>The default value is <link linkend="_assimp_2config_8h_1a52df90ae1346e6b39048f7218e04d2f6">PP_ICL_PTCACHE_SIZE</link>. That results in slight performance improvements for most nVidia/AMD cards since 2002. Property type: integer. </para>
+</note>
+</para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1a37c3ad7872523b615d42761f2dc1bdf5"/><section>
+    <title>AI_CONFIG_PP_LBW_MAX_WEIGHTS</title>
+<indexterm><primary>AI_CONFIG_PP_LBW_MAX_WEIGHTS</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_PP_LBW_MAX_WEIGHTS</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_PP_LBW_MAX_WEIGHTS&#160;&#160;&#160;    &quot;PP_LBW_MAX_WEIGHTS&quot;</computeroutput></para><para>
+
+<para>Set the maximum number of bones affecting a single vertex. </para>
+</para>
+
+<para>This is used by the <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a9fc450a103aa2831c145c49bc56c9439">aiProcess_LimitBoneWeights</link> PostProcess-Step. <note><title>Note</title>
+
+<para>The default value is AI_LMW_MAX_WEIGHTS Property type: integer. </para>
+</note>
+</para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1aa5943736f9c90b709c4bd819afca9798"/><section>
+    <title>AI_CONFIG_PP_OG_EXCLUDE_LIST</title>
+<indexterm><primary>AI_CONFIG_PP_OG_EXCLUDE_LIST</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_PP_OG_EXCLUDE_LIST</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_PP_OG_EXCLUDE_LIST&#160;&#160;&#160;    &quot;PP_OG_EXCLUDE_LIST&quot;</computeroutput></para><para>
+
+<para>Configures the <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a3bf6b8cb30289fd27fb2734d67a0889f">aiProcess_OptimizeGraph</link> step to preserve nodes matching a name in a given list. </para>
+</para>
+
+<para>This is a list of 1 to n strings, &apos; &apos; serves as delimiter character. Identifiers containing whitespaces must be enclosed in <emphasis>single</emphasis> quotation marks. For example:<computeroutput> &quot;keep-me and_me_to anotherNodeToBeKept \&apos;name with whitespace\&apos;&quot;</computeroutput>. If a node matches on of these names, it will not be modified or removed by the postprocessing step.<?linebreak?> This option might be useful if you are using some magic node names to pass additional semantics through the content pipeline. This ensures they won&apos;t be optimized away, but a general optimization is still performed for nodes not contained in the list. Property type: String. Default value: n/a <note><title>Note</title>
+
+<para>Linefeeds, tabs or carriage returns are treated as whitespace. Node names are case sensitive. </para>
+</note>
+</para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1a7548eebdefb242392d23adc61f33fbb4"/><section>
+    <title>AI_CONFIG_PP_PTV_ADD_ROOT_TRANSFORMATION</title>
+<indexterm><primary>AI_CONFIG_PP_PTV_ADD_ROOT_TRANSFORMATION</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_PP_PTV_ADD_ROOT_TRANSFORMATION</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_PP_PTV_ADD_ROOT_TRANSFORMATION&#160;&#160;&#160;    &quot;PP_PTV_ADD_ROOT_TRANSFORMATION&quot;</computeroutput></para><para>
+
+<para>Configures the <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a6e50fab95214a33996e28fae3efc7582">aiProcess_PreTransformVertices</link> step to use a users defined matrix as the scene root node transformation before transforming vertices. Property type: bool. Default value: false. </para>
+</para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1a04cc3d3a549efd8db4a56eaf554fd327"/><section>
+    <title>AI_CONFIG_PP_PTV_KEEP_HIERARCHY</title>
+<indexterm><primary>AI_CONFIG_PP_PTV_KEEP_HIERARCHY</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_PP_PTV_KEEP_HIERARCHY</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_PP_PTV_KEEP_HIERARCHY&#160;&#160;&#160;    &quot;PP_PTV_KEEP_HIERARCHY&quot;</computeroutput></para><para>
+
+<para>Configures the <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a6e50fab95214a33996e28fae3efc7582">aiProcess_PreTransformVertices</link> step to keep the scene hierarchy. Meshes are moved to worldspace, but no optimization is performed (read: meshes with equal materials are not joined. The total number of meshes won&apos;t change). </para>
+</para>
+
+<para>This option could be of use for you if the scene hierarchy contains important additional information which you intend to parse. For rendering, you can still render all meshes in the scene without any transformations. Property type: bool. Default value: false. </para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1ad1bf07f321c6f075e9c67f26b551b323"/><section>
+    <title>AI_CONFIG_PP_PTV_NORMALIZE</title>
+<indexterm><primary>AI_CONFIG_PP_PTV_NORMALIZE</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_PP_PTV_NORMALIZE</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_PP_PTV_NORMALIZE&#160;&#160;&#160;    &quot;PP_PTV_NORMALIZE&quot;</computeroutput></para><para>
+
+<para>Configures the <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a6e50fab95214a33996e28fae3efc7582">aiProcess_PreTransformVertices</link> step to normalize all vertex components into the [-1,1] range. That is, a bounding box for the whole scene is computed, the maximum component is taken and all meshes are scaled appropriately (uniformly of course!). This might be useful if you don&apos;t know the spatial dimension of the input data. </para>
+</para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1a76b170493e12273427e2b96263c9bf21"/><section>
+    <title>AI_CONFIG_PP_PTV_ROOT_TRANSFORMATION</title>
+<indexterm><primary>AI_CONFIG_PP_PTV_ROOT_TRANSFORMATION</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_PP_PTV_ROOT_TRANSFORMATION</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_PP_PTV_ROOT_TRANSFORMATION&#160;&#160;&#160;    &quot;PP_PTV_ROOT_TRANSFORMATION&quot;</computeroutput></para><para>
+
+<para>Configures the <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a6e50fab95214a33996e28fae3efc7582">aiProcess_PreTransformVertices</link> step to use a users defined matrix as the scene root node transformation before transforming vertices. This property correspond to the &apos;a1&apos; component of the transformation matrix. Property type: <link linkend="_structai_matrix4x4">aiMatrix4x4</link>. </para>
+</para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1a5a7a5d8c18ffe39d29834a0737e2bce9"/><section>
+    <title>AI_CONFIG_PP_RRM_EXCLUDE_LIST</title>
+<indexterm><primary>AI_CONFIG_PP_RRM_EXCLUDE_LIST</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_PP_RRM_EXCLUDE_LIST</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_PP_RRM_EXCLUDE_LIST&#160;&#160;&#160;    &quot;PP_RRM_EXCLUDE_LIST&quot;</computeroutput></para><para>
+
+<para>Configures the <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a052d2921c33cd21141480b8f25524bb1">aiProcess_RemoveRedundantMaterials</link> step to keep materials matching a name in a given list. </para>
+</para>
+
+<para>This is a list of 1 to n strings, &apos; &apos; serves as delimiter character. Identifiers containing whitespaces must be enclosed in <emphasis>single</emphasis> quotation marks. For example:<computeroutput> &quot;keep-me and_me_to anotherMaterialToBeKept \&apos;name with whitespace\&apos;&quot;</computeroutput>. If a material matches on of these names, it will not be modified or removed by the postprocessing step nor will other materials be replaced by a reference to it. <?linebreak?> This option might be useful if you are using some magic material names to pass additional semantics through the content pipeline. This ensures they won&apos;t be optimized away, but a general optimization is still performed for materials not contained in the list. Property type: String. Default value: n/a <note><title>Note</title>
+
+<para>Linefeeds, tabs or carriage returns are treated as whitespace. <link linkend="_class_material">Material</link> names are case sensitive. </para>
+</note>
+</para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1afc0a4c00fb90c345eb38fe3f7d7c8637"/><section>
+    <title>AI_CONFIG_PP_RVC_FLAGS</title>
+<indexterm><primary>AI_CONFIG_PP_RVC_FLAGS</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_PP_RVC_FLAGS</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_PP_RVC_FLAGS&#160;&#160;&#160;    &quot;PP_RVC_FLAGS&quot;</computeroutput></para><para>
+
+<para>Input parameter to the <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a0ab270168bd7a707c0f279045c265e08">aiProcess_RemoveComponent</link> step: Specifies the parts of the data structure to be removed. </para>
+</para>
+
+<para>See the documentation to this step for further details. The property is expected to be an integer, a bitwise combination of the <link linkend="_assimp_2config_8h_1a97ac2ef7a3967402a223f3da2640b2b3">aiComponent</link> flags defined above in this header. The default value is 0. Important: if no valid mesh is remaining after the step has been executed (e.g you thought it was funny to specify ALL of the flags defined above) the import FAILS. Mainly because there is no data to work on anymore ... </para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1ada7420ed15ce65797bcb1943feab2085"/><section>
+    <title>AI_CONFIG_PP_SBBC_MAX_BONES</title>
+<indexterm><primary>AI_CONFIG_PP_SBBC_MAX_BONES</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_PP_SBBC_MAX_BONES</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_PP_SBBC_MAX_BONES&#160;&#160;&#160;    &quot;PP_SBBC_MAX_BONES&quot;</computeroutput></para><para>
+
+<para>Maximum bone count per mesh for the SplitbyBoneCount step. </para>
+</para>
+
+<para>Meshes are split until the maximum number of bones is reached. The default value is AI_SBBC_DEFAULT_MAX_BONES, which may be altered at compile-time. Property data type: integer. </para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1a971e337cb0d526861142586b8341cb98"/><section>
+    <title>AI_CONFIG_PP_SBP_REMOVE</title>
+<indexterm><primary>AI_CONFIG_PP_SBP_REMOVE</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_PP_SBP_REMOVE</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_PP_SBP_REMOVE&#160;&#160;&#160;    &quot;PP_SBP_REMOVE&quot;</computeroutput></para><para>
+
+<para>Input parameter to the <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410ab4484f73635d633cd79973bac1431ed6">aiProcess_SortByPType</link> step: Specifies which primitive types are removed by the step. </para>
+</para>
+
+<para>This is a bitwise combination of the aiPrimitiveType flags. Specifying all of them is illegal, of course. A typical use would be to exclude all line and point meshes from the import. This is an integer property, its default value is 0. </para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1a28b904b69e6e5261aaae50b858316041"/><section>
+    <title>AI_CONFIG_PP_SLM_TRIANGLE_LIMIT</title>
+<indexterm><primary>AI_CONFIG_PP_SLM_TRIANGLE_LIMIT</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_PP_SLM_TRIANGLE_LIMIT</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_PP_SLM_TRIANGLE_LIMIT&#160;&#160;&#160;    &quot;PP_SLM_TRIANGLE_LIMIT&quot;</computeroutput></para><para>
+
+<para>Set the maximum number of triangles in a mesh. </para>
+</para>
+
+<para>This is used by the &quot;SplitLargeMeshes&quot; PostProcess-Step to determine whether a mesh must be split or not. <note><title>Note</title>
+
+<para>The default value is AI_SLM_DEFAULT_MAX_TRIANGLES Property type: integer. </para>
+</note>
+</para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1a67d3e772a82c3bbb921ce4d8f2448f2f"/><section>
+    <title>AI_CONFIG_PP_SLM_VERTEX_LIMIT</title>
+<indexterm><primary>AI_CONFIG_PP_SLM_VERTEX_LIMIT</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_PP_SLM_VERTEX_LIMIT</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_PP_SLM_VERTEX_LIMIT&#160;&#160;&#160;    &quot;PP_SLM_VERTEX_LIMIT&quot;</computeroutput></para><para>
+
+<para>Set the maximum number of vertices in a mesh. </para>
+</para>
+
+<para>This is used by the &quot;SplitLargeMeshes&quot; PostProcess-Step to determine whether a mesh must be split or not. <note><title>Note</title>
+
+<para>The default value is AI_SLM_DEFAULT_MAX_VERTICES Property type: integer. </para>
+</note>
+</para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1a6e4d6d6bccf5407432bb137468997f90"/><section>
+    <title>AI_CONFIG_PP_TUV_EVALUATE</title>
+<indexterm><primary>AI_CONFIG_PP_TUV_EVALUATE</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_CONFIG_PP_TUV_EVALUATE</secondary></indexterm>
+<para><computeroutput>#define AI_CONFIG_PP_TUV_EVALUATE&#160;&#160;&#160;    &quot;PP_TUV_EVALUATE&quot;</computeroutput></para><para>
+
+<para>Input parameter to the <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a87577c60885b193571a10237341b237f">aiProcess_TransformUVCoords</link> step: Specifies which UV transformations are evaluated. </para>
+</para>
+
+<para>This is a bitwise combination of the AI_UVTRAFO_XXX flags (integer property, of course). By default all transformations are enabled (AI_UVTRAFO_ALL). </para>
+</section>
+<anchor xml:id="_assimp_2config_8h_1ae26293714611a49e9492b0689f74ec04"/><section>
+    <title>AI_DEBONE_THRESHOLD</title>
+<indexterm><primary>AI_DEBONE_THRESHOLD</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_DEBONE_THRESHOLD</secondary></indexterm>
+<para><computeroutput>#define AI_DEBONE_THRESHOLD&#160;&#160;&#160;1.0f</computeroutput></para></section>
+<anchor xml:id="_assimp_2config_8h_1abb5d9600e6a505273d4eb633ee6d9db9"/><section>
+    <title>AI_IMPORT_IFC_DEFAULT_CYLINDRICAL_TESSELLATION</title>
+<indexterm><primary>AI_IMPORT_IFC_DEFAULT_CYLINDRICAL_TESSELLATION</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_IMPORT_IFC_DEFAULT_CYLINDRICAL_TESSELLATION</secondary></indexterm>
+<para><computeroutput>#define AI_IMPORT_IFC_DEFAULT_CYLINDRICAL_TESSELLATION&#160;&#160;&#160;32</computeroutput></para></section>
+<anchor xml:id="_assimp_2config_8h_1ac7bc8aad5d931d06847ce84869798524"/><section>
+    <title>AI_IMPORT_IFC_DEFAULT_SMOOTHING_ANGLE</title>
+<indexterm><primary>AI_IMPORT_IFC_DEFAULT_SMOOTHING_ANGLE</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_IMPORT_IFC_DEFAULT_SMOOTHING_ANGLE</secondary></indexterm>
+<para><computeroutput>#define AI_IMPORT_IFC_DEFAULT_SMOOTHING_ANGLE&#160;&#160;&#160;10.0f</computeroutput></para></section>
+<anchor xml:id="_assimp_2config_8h_1ab0dbe36911bd9df0661bdb69ecadb2e1"/><section>
+    <title>AI_LMW_MAX_WEIGHTS</title>
+<indexterm><primary>AI_LMW_MAX_WEIGHTS</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_LMW_MAX_WEIGHTS</secondary></indexterm>
+<para><computeroutput>#define AI_LMW_MAX_WEIGHTS&#160;&#160;&#160;0x4</computeroutput></para></section>
+<anchor xml:id="_assimp_2config_8h_1a5241c80c29b4ef83683f34b58ca230dc"/><section>
+    <title>AI_SBBC_DEFAULT_MAX_BONES</title>
+<indexterm><primary>AI_SBBC_DEFAULT_MAX_BONES</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_SBBC_DEFAULT_MAX_BONES</secondary></indexterm>
+<para><computeroutput>#define AI_SBBC_DEFAULT_MAX_BONES&#160;&#160;&#160;60</computeroutput></para></section>
+<anchor xml:id="_assimp_2config_8h_1abfe0ddcde0e04816e7bc9e429dcd8185"/><section>
+    <title>AI_SLM_DEFAULT_MAX_TRIANGLES</title>
+<indexterm><primary>AI_SLM_DEFAULT_MAX_TRIANGLES</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_SLM_DEFAULT_MAX_TRIANGLES</secondary></indexterm>
+<para><computeroutput>#define AI_SLM_DEFAULT_MAX_TRIANGLES&#160;&#160;&#160;1000000</computeroutput></para></section>
+<anchor xml:id="_assimp_2config_8h_1a3d82573abff7d733ec1f24456662a99d"/><section>
+    <title>AI_SLM_DEFAULT_MAX_VERTICES</title>
+<indexterm><primary>AI_SLM_DEFAULT_MAX_VERTICES</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_SLM_DEFAULT_MAX_VERTICES</secondary></indexterm>
+<para><computeroutput>#define AI_SLM_DEFAULT_MAX_VERTICES&#160;&#160;&#160;1000000</computeroutput></para></section>
+<anchor xml:id="_assimp_2config_8h_1a1d13742213d0cdec9d5a123b7b58bc45"/><section>
+    <title>AI_UVTRAFO_ALL</title>
+<indexterm><primary>AI_UVTRAFO_ALL</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_UVTRAFO_ALL</secondary></indexterm>
+<para><computeroutput>#define AI_UVTRAFO_ALL&#160;&#160;&#160;(<link linkend="_assimp_2config_8h_1a8b39361e58739557a51c97ce92bdf99f">AI_UVTRAFO_SCALING</link> | <link linkend="_assimp_2config_8h_1ac0e92a0403c280ec53466de02d430921">AI_UVTRAFO_ROTATION</link> | <link linkend="_assimp_2config_8h_1a7ae0ca81d951cb0c16daf5c1bef60de5">AI_UVTRAFO_TRANSLATION</link>)</computeroutput></para></section>
+<anchor xml:id="_assimp_2config_8h_1ac0e92a0403c280ec53466de02d430921"/><section>
+    <title>AI_UVTRAFO_ROTATION</title>
+<indexterm><primary>AI_UVTRAFO_ROTATION</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_UVTRAFO_ROTATION</secondary></indexterm>
+<para><computeroutput>#define AI_UVTRAFO_ROTATION&#160;&#160;&#160;0x2</computeroutput></para></section>
+<anchor xml:id="_assimp_2config_8h_1a8b39361e58739557a51c97ce92bdf99f"/><section>
+    <title>AI_UVTRAFO_SCALING</title>
+<indexterm><primary>AI_UVTRAFO_SCALING</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_UVTRAFO_SCALING</secondary></indexterm>
+<para><computeroutput>#define AI_UVTRAFO_SCALING&#160;&#160;&#160;0x1</computeroutput></para></section>
+<anchor xml:id="_assimp_2config_8h_1a7ae0ca81d951cb0c16daf5c1bef60de5"/><section>
+    <title>AI_UVTRAFO_TRANSLATION</title>
+<indexterm><primary>AI_UVTRAFO_TRANSLATION</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>AI_UVTRAFO_TRANSLATION</secondary></indexterm>
+<para><computeroutput>#define AI_UVTRAFO_TRANSLATION&#160;&#160;&#160;0x4</computeroutput></para></section>
+<anchor xml:id="_assimp_2config_8h_1a35df2898d17364850ee68e2fedeb5684"/><section>
+    <title>aiComponent_COLORSn</title>
+<indexterm><primary>aiComponent_COLORSn</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>aiComponent_COLORSn</secondary></indexterm>
+<para><computeroutput>#define aiComponent_COLORSn( n)&#160;&#160;&#160;(1u &lt;&lt; (n+20u))</computeroutput></para></section>
+<anchor xml:id="_assimp_2config_8h_1a2dbd50d22cac50370e693912448d1c56"/><section>
+    <title>aiComponent_TEXCOORDSn</title>
+<indexterm><primary>aiComponent_TEXCOORDSn</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>aiComponent_TEXCOORDSn</secondary></indexterm>
+<para><computeroutput>#define aiComponent_TEXCOORDSn( n)&#160;&#160;&#160;(1u &lt;&lt; (n+25u))</computeroutput></para></section>
+<anchor xml:id="_assimp_2config_8h_1a52df90ae1346e6b39048f7218e04d2f6"/><section>
+    <title>PP_ICL_PTCACHE_SIZE</title>
+<indexterm><primary>PP_ICL_PTCACHE_SIZE</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>PP_ICL_PTCACHE_SIZE</secondary></indexterm>
+<para><computeroutput>#define PP_ICL_PTCACHE_SIZE&#160;&#160;&#160;12</computeroutput></para><para>
+
+<para>Default value for the <link linkend="_assimp_2config_8h_1a851b513ea20c4d66a1c012d63dd8e78b">AI_CONFIG_PP_ICL_PTCACHE_SIZE</link> property. </para>
+</para>
+</section>
+</section>
+<section>
+<title>Enumeration Type Documentation</title>
+<anchor xml:id="_assimp_2config_8h_1a97ac2ef7a3967402a223f3da2640b2b3"/><section>
+    <title>aiComponent</title>
+<indexterm><primary>aiComponent</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>aiComponent</secondary></indexterm>
+<para><computeroutput><link linkend="_interfaceenum">enum</link> <link linkend="_assimp_2config_8h_1a97ac2ef7a3967402a223f3da2640b2b3">aiComponent</link></computeroutput></para><para>
+
+<para>Enumerates components of the <link linkend="_structai_scene">aiScene</link> and <link linkend="_structai_mesh">aiMesh</link> data structures that can be excluded from the import using the <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a0ab270168bd7a707c0f279045c265e08">aiProcess_RemoveComponent</link> step. </para>
+</para>
+
+<para>See the documentation to <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a0ab270168bd7a707c0f279045c265e08">aiProcess_RemoveComponent</link> for more details. </para>
+<informaltable frame="all">
+<title>Enumerator</title>
+    <tgroup cols="2" align="left" colsep="1" rowsep="1">
+      <colspec colname='c1'/>
+      <colspec colname='c2'/>
+<tbody>
+<row><entry><indexterm><primary>aiComponent_NORMALS</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>aiComponent_NORMALS</secondary></indexterm>
+<anchor xml:id="_assimp_2config_8h_1a97ac2ef7a3967402a223f3da2640b2b3a041f3a06b4266389628bbf6d7c972e16"/>aiComponent_NORMALS</entry><entry>
+<para>Normal vectors </para>
+</entry></row><row><entry><indexterm><primary>aiComponent_TANGENTS_AND_BITANGENTS</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>aiComponent_TANGENTS_AND_BITANGENTS</secondary></indexterm>
+<anchor xml:id="_assimp_2config_8h_1a97ac2ef7a3967402a223f3da2640b2b3a3735667dae4d12e0573b049be86158af"/>aiComponent_TANGENTS_AND_BITANGENTS</entry><entry>
+<para>Tangents and bitangents go always together ... </para>
+</entry></row><row><entry><indexterm><primary>aiComponent_COLORS</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>aiComponent_COLORS</secondary></indexterm>
+<anchor xml:id="_assimp_2config_8h_1a97ac2ef7a3967402a223f3da2640b2b3a66f2439356e377d9182a34e4d11b89aa"/>aiComponent_COLORS</entry><entry>
+<para>ALL color sets Use aiComponent_COLORn(N) to specify the N&apos;th set </para>
+</entry></row><row><entry><indexterm><primary>aiComponent_TEXCOORDS</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>aiComponent_TEXCOORDS</secondary></indexterm>
+<anchor xml:id="_assimp_2config_8h_1a97ac2ef7a3967402a223f3da2640b2b3a119bc187db7e081af2e5b9732060623d"/>aiComponent_TEXCOORDS</entry><entry>
+<para>ALL texture UV sets aiComponent_TEXCOORDn(N) to specify the N&apos;th set <?linebreak?> </para>
+</entry></row><row><entry><indexterm><primary>aiComponent_BONEWEIGHTS</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>aiComponent_BONEWEIGHTS</secondary></indexterm>
+<anchor xml:id="_assimp_2config_8h_1a97ac2ef7a3967402a223f3da2640b2b3ad37e83da41d8e9b17c2634bacc42925c"/>aiComponent_BONEWEIGHTS</entry><entry>
+<para>Removes all bone weights from all meshes. The scenegraph nodes corresponding to the bones are NOT removed. use the <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a3bf6b8cb30289fd27fb2734d67a0889f">aiProcess_OptimizeGraph</link> step to do this </para>
+</entry></row><row><entry><indexterm><primary>aiComponent_ANIMATIONS</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>aiComponent_ANIMATIONS</secondary></indexterm>
+<anchor xml:id="_assimp_2config_8h_1a97ac2ef7a3967402a223f3da2640b2b3a8affaed18f69210bcbf20adeba16050a"/>aiComponent_ANIMATIONS</entry><entry>
+<para>Removes all node animations (<link linkend="_structai_scene_1ab76fb8f38c2e7365ccce42d565b62b25">aiScene::mAnimations</link>). The corresponding scenegraph nodes are NOT removed. use the <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a3bf6b8cb30289fd27fb2734d67a0889f">aiProcess_OptimizeGraph</link> step to do this </para>
+</entry></row><row><entry><indexterm><primary>aiComponent_TEXTURES</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>aiComponent_TEXTURES</secondary></indexterm>
+<anchor xml:id="_assimp_2config_8h_1a97ac2ef7a3967402a223f3da2640b2b3ab6bcf49132356c2034491b6bf367d328"/>aiComponent_TEXTURES</entry><entry>
+<para>Removes all embedded textures (<link linkend="_structai_scene_1a0fd0d29fbc439e3715b4975ccb68d2d3">aiScene::mTextures</link>) </para>
+</entry></row><row><entry><indexterm><primary>aiComponent_LIGHTS</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>aiComponent_LIGHTS</secondary></indexterm>
+<anchor xml:id="_assimp_2config_8h_1a97ac2ef7a3967402a223f3da2640b2b3a9764d42f6546101a555a9e2d87c3b3d9"/>aiComponent_LIGHTS</entry><entry>
+<para>Removes all light sources (<link linkend="_structai_scene_1a2e64a69ade81cae0b3901bea90b6bb47">aiScene::mLights</link>). The corresponding scenegraph nodes are NOT removed. use the <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a3bf6b8cb30289fd27fb2734d67a0889f">aiProcess_OptimizeGraph</link> step to do this </para>
+</entry></row><row><entry><indexterm><primary>aiComponent_CAMERAS</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>aiComponent_CAMERAS</secondary></indexterm>
+<anchor xml:id="_assimp_2config_8h_1a97ac2ef7a3967402a223f3da2640b2b3aa4741bd21f4259301bb326e3b74dce29"/>aiComponent_CAMERAS</entry><entry>
+<para>Removes all cameras (<link linkend="_structai_scene_1a71e7d204d96969ca4f5a931f4d636f1e">aiScene::mCameras</link>). The corresponding scenegraph nodes are NOT removed. use the <link linkend="_adhed_2assimp_2postprocess_8h_1a64795260b95f5a4b3f3dc1be4f52e410a3bf6b8cb30289fd27fb2734d67a0889f">aiProcess_OptimizeGraph</link> step to do this </para>
+</entry></row><row><entry><indexterm><primary>aiComponent_MESHES</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>aiComponent_MESHES</secondary></indexterm>
+<anchor xml:id="_assimp_2config_8h_1a97ac2ef7a3967402a223f3da2640b2b3a297ca9db243a718dc3bfb3502cfc9b7a"/>aiComponent_MESHES</entry><entry>
+<para>Removes all meshes (<link linkend="_structai_scene_1ad1c7000f0f28ea747868db9f94d32a3d">aiScene::mMeshes</link>). </para>
+</entry></row><row><entry><indexterm><primary>aiComponent_MATERIALS</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>aiComponent_MATERIALS</secondary></indexterm>
+<anchor xml:id="_assimp_2config_8h_1a97ac2ef7a3967402a223f3da2640b2b3a842d010d9211947c65eed564672677ed"/>aiComponent_MATERIALS</entry><entry>
+<para>Removes all materials. One default material will be generated, so <link linkend="_structai_scene_1a4277d8bffe8b8f568098af6c31d042b7">aiScene::mNumMaterials</link> will be 1. </para>
+</entry></row><row><entry><indexterm><primary>_aiComponent_Force32Bit</primary><secondary>config.h</secondary></indexterm>
+<indexterm><primary>config.h</primary><secondary>_aiComponent_Force32Bit</secondary></indexterm>
+<anchor xml:id="_assimp_2config_8h_1a97ac2ef7a3967402a223f3da2640b2b3a45b57c0405db34d9394193232abb1762"/>_aiComponent_Force32Bit</entry><entry>
+<para>This value is not used. It is just there to force the compiler to map this enum to a 32 Bit integer. </para>
+</entry></row>    </tbody>
+    </tgroup>
+</informaltable>
+</section>
+</section>
+</section>

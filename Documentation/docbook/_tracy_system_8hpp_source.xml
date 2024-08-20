@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="__tracy_system_8hpp_source" xml:lang="en-US">
+<title>TracySystem.hpp</title>
+<indexterm><primary>adhed/common/TracySystem.hpp</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 <emphasis role="preprocessor">#ifndef&#32;__TRACYSYSTEM_HPP__</emphasis>
+2 <emphasis role="preprocessor">#define&#32;__TRACYSYSTEM_HPP__</emphasis>
+3 
+4 <emphasis role="preprocessor">#include&#32;&lt;stdint.h&gt;</emphasis>
+5 
+6 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__tracy_api_8h">TracyApi.h</link>&quot;</emphasis>
+7 
+8 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespacetracy">tracy</link>
+9 {
+10 
+11 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespacedetail">detail</link>
+12 {
+13 <link linkend="__tracy_api_8h_1a5669cbc1d88076c41f72827fde0a4a57">TRACY_API</link>&#32;uint32_t&#32;<link linkend="_namespacetracy_1_1detail_1af66a424f71db2f1c9ce4431002a4093e">GetThreadHandleImpl</link>();
+14 }
+15 
+16 <emphasis role="preprocessor">#ifdef&#32;TRACY_ENABLE</emphasis>
+17 <link linkend="__tracy_api_8h_1a5669cbc1d88076c41f72827fde0a4a57">TRACY_API</link>&#32;uint32_t&#32;<link linkend="_namespacetracy_1aa3114ef7fe1a4fdc87e4e15fd5d86a63">GetThreadHandle</link>();
+18 <emphasis role="preprocessor">#else</emphasis>
+19 <emphasis role="keyword">static</emphasis>&#32;<emphasis role="keyword">inline</emphasis>&#32;uint32_t&#32;<link linkend="_namespacetracy_1aa3114ef7fe1a4fdc87e4e15fd5d86a63">GetThreadHandle</link>()
+20 {
+21 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_namespacetracy_1_1detail_1af66a424f71db2f1c9ce4431002a4093e">detail::GetThreadHandleImpl</link>();
+22 }
+23 <emphasis role="preprocessor">#endif</emphasis>
+24 
+25 <link linkend="__tracy_api_8h_1a5669cbc1d88076c41f72827fde0a4a57">TRACY_API</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_namespacetracy_1a938e87f52f8fdcf9374946f959175fa5">SetThreadName</link>(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>&#32;);
+26 <link linkend="__tracy_api_8h_1a5669cbc1d88076c41f72827fde0a4a57">TRACY_API</link>&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_namespacetracy_1a82d1ab01bc69361ae3e97a6cc205633d">GetThreadName</link>(&#32;uint32_t&#32;<emphasis role="keywordtype">id</emphasis>&#32;);
+27 
+28 <link linkend="__tracy_api_8h_1a5669cbc1d88076c41f72827fde0a4a57">TRACY_API</link>&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_namespacetracy_1adb548816536f60475bbd278e7be5606e">GetEnvVar</link>(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>);
+29 
+30 }
+31 
+32 <emphasis role="preprocessor">#endif</emphasis>
+</programlisting></section>

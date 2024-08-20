@@ -1,0 +1,288 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="__tracy_8hpp_source" xml:lang="en-US">
+<title>Tracy.hpp</title>
+<indexterm><primary>adhed/tracy/Tracy.hpp</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 <emphasis role="preprocessor">#ifndef&#32;__TRACY_HPP__</emphasis>
+2 <emphasis role="preprocessor">#define&#32;__TRACY_HPP__</emphasis>
+3 
+4 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__tracy_color_8hpp">../common/TracyColor.hpp</link>&quot;</emphasis>
+5 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__tracy_system_8hpp">../common/TracySystem.hpp</link>&quot;</emphasis>
+6 
+7 <emphasis role="preprocessor">#ifndef&#32;TracyFunction</emphasis>
+8 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyFunction&#32;__FUNCTION__</emphasis>
+9 <emphasis role="preprocessor">#endif</emphasis>
+10 
+11 <emphasis role="preprocessor">#ifndef&#32;TracyFile</emphasis>
+12 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyFile&#32;__FILE__</emphasis>
+13 <emphasis role="preprocessor">#endif</emphasis>
+14 
+15 <emphasis role="preprocessor">#ifndef&#32;TracyLine</emphasis>
+16 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyLine&#32;__LINE__</emphasis>
+17 <emphasis role="preprocessor">#endif</emphasis>
+18 
+19 <emphasis role="preprocessor">#ifndef&#32;TRACY_ENABLE</emphasis>
+20 
+21 <emphasis role="preprocessor">#define&#32;ZoneNamed(x,y)</emphasis>
+22 <emphasis role="preprocessor">#define&#32;ZoneNamedN(x,y,z)</emphasis>
+23 <emphasis role="preprocessor">#define&#32;ZoneNamedC(x,y,z)</emphasis>
+24 <emphasis role="preprocessor">#define&#32;ZoneNamedNC(x,y,z,w)</emphasis>
+25 
+26 <emphasis role="preprocessor">#define&#32;ZoneTransient(x,y)</emphasis>
+27 <emphasis role="preprocessor">#define&#32;ZoneTransientN(x,y,z)</emphasis>
+28 
+29 <emphasis role="preprocessor">#define&#32;ZoneScoped</emphasis>
+30 <emphasis role="preprocessor">#define&#32;ZoneScopedN(x)</emphasis>
+31 <emphasis role="preprocessor">#define&#32;ZoneScopedC(x)</emphasis>
+32 <emphasis role="preprocessor">#define&#32;ZoneScopedNC(x,y)</emphasis>
+33 
+34 <emphasis role="preprocessor">#define&#32;ZoneText(x,y)</emphasis>
+35 <emphasis role="preprocessor">#define&#32;ZoneTextV(x,y,z)</emphasis>
+36 <emphasis role="preprocessor">#define&#32;ZoneName(x,y)</emphasis>
+37 <emphasis role="preprocessor">#define&#32;ZoneNameV(x,y,z)</emphasis>
+38 <emphasis role="preprocessor">#define&#32;ZoneColor(x)</emphasis>
+39 <emphasis role="preprocessor">#define&#32;ZoneColorV(x,y)</emphasis>
+40 <emphasis role="preprocessor">#define&#32;ZoneValue(x)</emphasis>
+41 <emphasis role="preprocessor">#define&#32;ZoneValueV(x,y)</emphasis>
+42 <emphasis role="preprocessor">#define&#32;ZoneIsActive&#32;false</emphasis>
+43 <emphasis role="preprocessor">#define&#32;ZoneIsActiveV(x)&#32;false</emphasis>
+44 
+45 <emphasis role="preprocessor">#define&#32;FrameMark</emphasis>
+46 <emphasis role="preprocessor">#define&#32;FrameMarkNamed(x)</emphasis>
+47 <emphasis role="preprocessor">#define&#32;FrameMarkStart(x)</emphasis>
+48 <emphasis role="preprocessor">#define&#32;FrameMarkEnd(x)</emphasis>
+49 
+50 <emphasis role="preprocessor">#define&#32;FrameImage(x,y,z,w,a)</emphasis>
+51 
+52 <emphasis role="preprocessor">#define&#32;TracyLockable(&#32;type,&#32;varname&#32;)&#32;type&#32;varname</emphasis>
+53 <emphasis role="preprocessor">#define&#32;TracyLockableN(&#32;type,&#32;varname,&#32;desc&#32;)&#32;type&#32;varname</emphasis>
+54 <emphasis role="preprocessor">#define&#32;TracySharedLockable(&#32;type,&#32;varname&#32;)&#32;type&#32;varname</emphasis>
+55 <emphasis role="preprocessor">#define&#32;TracySharedLockableN(&#32;type,&#32;varname,&#32;desc&#32;)&#32;type&#32;varname</emphasis>
+56 <emphasis role="preprocessor">#define&#32;LockableBase(&#32;type&#32;)&#32;type</emphasis>
+57 <emphasis role="preprocessor">#define&#32;SharedLockableBase(&#32;type&#32;)&#32;type</emphasis>
+58 <emphasis role="preprocessor">#define&#32;LockMark(x)&#32;(void)x</emphasis>
+59 <emphasis role="preprocessor">#define&#32;LockableName(x,y,z)</emphasis>
+60 
+61 <emphasis role="preprocessor">#define&#32;TracyPlot(x,y)</emphasis>
+62 <emphasis role="preprocessor">#define&#32;TracyPlotConfig(x,y,z,w,a)</emphasis>
+63 
+64 <emphasis role="preprocessor">#define&#32;TracyMessage(x,y)</emphasis>
+65 <emphasis role="preprocessor">#define&#32;TracyMessageL(x)</emphasis>
+66 <emphasis role="preprocessor">#define&#32;TracyMessageC(x,y,z)</emphasis>
+67 <emphasis role="preprocessor">#define&#32;TracyMessageLC(x,y)</emphasis>
+68 <emphasis role="preprocessor">#define&#32;TracyAppInfo(x,y)</emphasis>
+69 
+70 <emphasis role="preprocessor">#define&#32;TracyAlloc(x,y)</emphasis>
+71 <emphasis role="preprocessor">#define&#32;TracyFree(x)</emphasis>
+72 <emphasis role="preprocessor">#define&#32;TracySecureAlloc(x,y)</emphasis>
+73 <emphasis role="preprocessor">#define&#32;TracySecureFree(x)</emphasis>
+74 
+75 <emphasis role="preprocessor">#define&#32;TracyAllocN(x,y,z)</emphasis>
+76 <emphasis role="preprocessor">#define&#32;TracyFreeN(x,y)</emphasis>
+77 <emphasis role="preprocessor">#define&#32;TracySecureAllocN(x,y,z)</emphasis>
+78 <emphasis role="preprocessor">#define&#32;TracySecureFreeN(x,y)</emphasis>
+79 
+80 <emphasis role="preprocessor">#define&#32;ZoneNamedS(x,y,z)</emphasis>
+81 <emphasis role="preprocessor">#define&#32;ZoneNamedNS(x,y,z,w)</emphasis>
+82 <emphasis role="preprocessor">#define&#32;ZoneNamedCS(x,y,z,w)</emphasis>
+83 <emphasis role="preprocessor">#define&#32;ZoneNamedNCS(x,y,z,w,a)</emphasis>
+84 
+85 <emphasis role="preprocessor">#define&#32;ZoneTransientS(x,y,z)</emphasis>
+86 <emphasis role="preprocessor">#define&#32;ZoneTransientNS(x,y,z,w)</emphasis>
+87 
+88 <emphasis role="preprocessor">#define&#32;ZoneScopedS(x)</emphasis>
+89 <emphasis role="preprocessor">#define&#32;ZoneScopedNS(x,y)</emphasis>
+90 <emphasis role="preprocessor">#define&#32;ZoneScopedCS(x,y)</emphasis>
+91 <emphasis role="preprocessor">#define&#32;ZoneScopedNCS(x,y,z)</emphasis>
+92 
+93 <emphasis role="preprocessor">#define&#32;TracyAllocS(x,y,z)</emphasis>
+94 <emphasis role="preprocessor">#define&#32;TracyFreeS(x,y)</emphasis>
+95 <emphasis role="preprocessor">#define&#32;TracySecureAllocS(x,y,z)</emphasis>
+96 <emphasis role="preprocessor">#define&#32;TracySecureFreeS(x,y)</emphasis>
+97 
+98 <emphasis role="preprocessor">#define&#32;TracyAllocNS(x,y,z,w)</emphasis>
+99 <emphasis role="preprocessor">#define&#32;TracyFreeNS(x,y,z)</emphasis>
+100 <emphasis role="preprocessor">#define&#32;TracySecureAllocNS(x,y,z,w)</emphasis>
+101 <emphasis role="preprocessor">#define&#32;TracySecureFreeNS(x,y,z)</emphasis>
+102 
+103 <emphasis role="preprocessor">#define&#32;TracyMessageS(x,y,z)</emphasis>
+104 <emphasis role="preprocessor">#define&#32;TracyMessageLS(x,y)</emphasis>
+105 <emphasis role="preprocessor">#define&#32;TracyMessageCS(x,y,z,w)</emphasis>
+106 <emphasis role="preprocessor">#define&#32;TracyMessageLCS(x,y,z)</emphasis>
+107 
+108 <emphasis role="preprocessor">#define&#32;TracySourceCallbackRegister(x,y)</emphasis>
+109 <emphasis role="preprocessor">#define&#32;TracyParameterRegister(x,y)</emphasis>
+110 <emphasis role="preprocessor">#define&#32;TracyParameterSetup(x,y,z,w)</emphasis>
+111 <emphasis role="preprocessor">#define&#32;TracyIsConnected&#32;false</emphasis>
+112 <emphasis role="preprocessor">#define&#32;TracySetProgramName(x)</emphasis>
+113 
+114 <emphasis role="preprocessor">#define&#32;TracyFiberEnter(x)</emphasis>
+115 <emphasis role="preprocessor">#define&#32;TracyFiberLeave</emphasis>
+116 
+117 <emphasis role="preprocessor">#else</emphasis>
+118 
+119 <emphasis role="preprocessor">#include&#32;&lt;string.h&gt;</emphasis>
+120 
+121 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__tracy_lock_8hpp">../client/TracyLock.hpp</link>&quot;</emphasis>
+122 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__tracy_profiler_8hpp">../client/TracyProfiler.hpp</link>&quot;</emphasis>
+123 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__tracy_scoped_8hpp">../client/TracyScoped.hpp</link>&quot;</emphasis>
+124 
+125 <emphasis role="preprocessor">#if&#32;defined&#32;TRACY_HAS_CALLSTACK&#32;&amp;&amp;&#32;defined&#32;TRACY_CALLSTACK</emphasis>
+126 <emphasis role="preprocessor">#&#32;&#32;define&#32;ZoneNamed(&#32;varname,&#32;active&#32;)&#32;static&#32;constexpr&#32;tracy::SourceLocationData&#32;TracyConcat(__tracy_source_location,TracyLine)&#32;{&#32;nullptr,&#32;TracyFunction,&#32;&#32;TracyFile,&#32;(uint32_t)TracyLine,&#32;0&#32;};&#32;tracy::ScopedZone&#32;varname(&#32;&amp;TracyConcat(__tracy_source_location,TracyLine),&#32;TRACY_CALLSTACK,&#32;active&#32;)</emphasis>
+127 <emphasis role="preprocessor">#&#32;&#32;define&#32;ZoneNamedN(&#32;varname,&#32;name,&#32;active&#32;)&#32;static&#32;constexpr&#32;tracy::SourceLocationData&#32;TracyConcat(__tracy_source_location,TracyLine)&#32;{&#32;name,&#32;TracyFunction,&#32;&#32;TracyFile,&#32;(uint32_t)TracyLine,&#32;0&#32;};&#32;tracy::ScopedZone&#32;varname(&#32;&amp;TracyConcat(__tracy_source_location,TracyLine),&#32;TRACY_CALLSTACK,&#32;active&#32;)</emphasis>
+128 <emphasis role="preprocessor">#&#32;&#32;define&#32;ZoneNamedC(&#32;varname,&#32;color,&#32;active&#32;)&#32;static&#32;constexpr&#32;tracy::SourceLocationData&#32;TracyConcat(__tracy_source_location,TracyLine)&#32;{&#32;nullptr,&#32;TracyFunction,&#32;&#32;TracyFile,&#32;(uint32_t)TracyLine,&#32;color&#32;};&#32;tracy::ScopedZone&#32;varname(&#32;&amp;TracyConcat(__tracy_source_location,TracyLine),&#32;TRACY_CALLSTACK,&#32;active&#32;)</emphasis>
+129 <emphasis role="preprocessor">#&#32;&#32;define&#32;ZoneNamedNC(&#32;varname,&#32;name,&#32;color,&#32;active&#32;)&#32;static&#32;constexpr&#32;tracy::SourceLocationData&#32;TracyConcat(__tracy_source_location,TracyLine)&#32;{&#32;name,&#32;TracyFunction,&#32;&#32;TracyFile,&#32;(uint32_t)TracyLine,&#32;color&#32;};&#32;tracy::ScopedZone&#32;varname(&#32;&amp;TracyConcat(__tracy_source_location,TracyLine),&#32;TRACY_CALLSTACK,&#32;active&#32;)</emphasis>
+130 
+131 <emphasis role="preprocessor">#&#32;&#32;define&#32;ZoneTransient(&#32;varname,&#32;active&#32;)&#32;tracy::ScopedZone&#32;varname(&#32;TracyLine,&#32;TracyFile,&#32;strlen(&#32;TracyFile&#32;),&#32;TracyFunction,&#32;strlen(&#32;TracyFunction&#32;),&#32;nullptr,&#32;0,&#32;TRACY_CALLSTACK,&#32;active&#32;)</emphasis>
+132 <emphasis role="preprocessor">#&#32;&#32;define&#32;ZoneTransientN(&#32;varname,&#32;name,&#32;active&#32;)&#32;tracy::ScopedZone&#32;varname(&#32;TracyLine,&#32;TracyFile,&#32;strlen(&#32;TracyFile&#32;),&#32;TracyFunction,&#32;strlen(&#32;TracyFunction&#32;),&#32;name,&#32;strlen(&#32;name&#32;),&#32;TRACY_CALLSTACK,&#32;active&#32;)</emphasis>
+133 <emphasis role="preprocessor">#else</emphasis>
+134 <emphasis role="preprocessor">#&#32;&#32;define&#32;ZoneNamed(&#32;varname,&#32;active&#32;)&#32;static&#32;constexpr&#32;tracy::SourceLocationData&#32;TracyConcat(__tracy_source_location,TracyLine)&#32;{&#32;nullptr,&#32;TracyFunction,&#32;&#32;TracyFile,&#32;(uint32_t)TracyLine,&#32;0&#32;};&#32;tracy::ScopedZone&#32;varname(&#32;&amp;TracyConcat(__tracy_source_location,TracyLine),&#32;active&#32;)</emphasis>
+135 <emphasis role="preprocessor">#&#32;&#32;define&#32;ZoneNamedN(&#32;varname,&#32;name,&#32;active&#32;)&#32;static&#32;constexpr&#32;tracy::SourceLocationData&#32;TracyConcat(__tracy_source_location,TracyLine)&#32;{&#32;name,&#32;TracyFunction,&#32;&#32;TracyFile,&#32;(uint32_t)TracyLine,&#32;0&#32;};&#32;tracy::ScopedZone&#32;varname(&#32;&amp;TracyConcat(__tracy_source_location,TracyLine),&#32;active&#32;)</emphasis>
+136 <emphasis role="preprocessor">#&#32;&#32;define&#32;ZoneNamedC(&#32;varname,&#32;color,&#32;active&#32;)&#32;static&#32;constexpr&#32;tracy::SourceLocationData&#32;TracyConcat(__tracy_source_location,TracyLine)&#32;{&#32;nullptr,&#32;TracyFunction,&#32;&#32;TracyFile,&#32;(uint32_t)TracyLine,&#32;color&#32;};&#32;tracy::ScopedZone&#32;varname(&#32;&amp;TracyConcat(__tracy_source_location,TracyLine),&#32;active&#32;)</emphasis>
+137 <emphasis role="preprocessor">#&#32;&#32;define&#32;ZoneNamedNC(&#32;varname,&#32;name,&#32;color,&#32;active&#32;)&#32;static&#32;constexpr&#32;tracy::SourceLocationData&#32;TracyConcat(__tracy_source_location,TracyLine)&#32;{&#32;name,&#32;TracyFunction,&#32;&#32;TracyFile,&#32;(uint32_t)TracyLine,&#32;color&#32;};&#32;tracy::ScopedZone&#32;varname(&#32;&amp;TracyConcat(__tracy_source_location,TracyLine),&#32;active&#32;)</emphasis>
+138 
+139 <emphasis role="preprocessor">#&#32;&#32;define&#32;ZoneTransient(&#32;varname,&#32;active&#32;)&#32;tracy::ScopedZone&#32;varname(&#32;TracyLine,&#32;TracyFile,&#32;strlen(&#32;TracyFile&#32;),&#32;TracyFunction,&#32;strlen(&#32;TracyFunction&#32;),&#32;nullptr,&#32;0,&#32;active&#32;)</emphasis>
+140 <emphasis role="preprocessor">#&#32;&#32;define&#32;ZoneTransientN(&#32;varname,&#32;name,&#32;active&#32;)&#32;tracy::ScopedZone&#32;varname(&#32;TracyLine,&#32;TracyFile,&#32;strlen(&#32;TracyFile&#32;),&#32;TracyFunction,&#32;strlen(&#32;TracyFunction&#32;),&#32;name,&#32;strlen(&#32;name&#32;),&#32;active&#32;)</emphasis>
+141 <emphasis role="preprocessor">#endif</emphasis>
+142 
+143 <emphasis role="preprocessor">#define&#32;ZoneScoped&#32;ZoneNamed(&#32;___tracy_scoped_zone,&#32;true&#32;)</emphasis>
+144 <emphasis role="preprocessor">#define&#32;ZoneScopedN(&#32;name&#32;)&#32;ZoneNamedN(&#32;___tracy_scoped_zone,&#32;name,&#32;true&#32;)</emphasis>
+145 <emphasis role="preprocessor">#define&#32;ZoneScopedC(&#32;color&#32;)&#32;ZoneNamedC(&#32;___tracy_scoped_zone,&#32;color,&#32;true&#32;)</emphasis>
+146 <emphasis role="preprocessor">#define&#32;ZoneScopedNC(&#32;name,&#32;color&#32;)&#32;ZoneNamedNC(&#32;___tracy_scoped_zone,&#32;name,&#32;color,&#32;true&#32;)</emphasis>
+147 
+148 <emphasis role="preprocessor">#define&#32;ZoneText(&#32;txt,&#32;size&#32;)&#32;___tracy_scoped_zone.Text(&#32;txt,&#32;size&#32;)</emphasis>
+149 <emphasis role="preprocessor">#define&#32;ZoneTextV(&#32;varname,&#32;txt,&#32;size&#32;)&#32;varname.Text(&#32;txt,&#32;size&#32;)</emphasis>
+150 <emphasis role="preprocessor">#define&#32;ZoneName(&#32;txt,&#32;size&#32;)&#32;___tracy_scoped_zone.Name(&#32;txt,&#32;size&#32;)</emphasis>
+151 <emphasis role="preprocessor">#define&#32;ZoneNameV(&#32;varname,&#32;txt,&#32;size&#32;)&#32;varname.Name(&#32;txt,&#32;size&#32;)</emphasis>
+152 <emphasis role="preprocessor">#define&#32;ZoneColor(&#32;color&#32;)&#32;___tracy_scoped_zone.Color(&#32;color&#32;)</emphasis>
+153 <emphasis role="preprocessor">#define&#32;ZoneColorV(&#32;varname,&#32;color&#32;)&#32;varname.Color(&#32;color&#32;)</emphasis>
+154 <emphasis role="preprocessor">#define&#32;ZoneValue(&#32;value&#32;)&#32;___tracy_scoped_zone.Value(&#32;value&#32;)</emphasis>
+155 <emphasis role="preprocessor">#define&#32;ZoneValueV(&#32;varname,&#32;value&#32;)&#32;varname.Value(&#32;value&#32;)</emphasis>
+156 <emphasis role="preprocessor">#define&#32;ZoneIsActive&#32;___tracy_scoped_zone.IsActive()</emphasis>
+157 <emphasis role="preprocessor">#define&#32;ZoneIsActiveV(&#32;varname&#32;)&#32;varname.IsActive()</emphasis>
+158 
+159 <emphasis role="preprocessor">#define&#32;FrameMark&#32;tracy::Profiler::SendFrameMark(&#32;nullptr&#32;)</emphasis>
+160 <emphasis role="preprocessor">#define&#32;FrameMarkNamed(&#32;name&#32;)&#32;tracy::Profiler::SendFrameMark(&#32;name&#32;)</emphasis>
+161 <emphasis role="preprocessor">#define&#32;FrameMarkStart(&#32;name&#32;)&#32;tracy::Profiler::SendFrameMark(&#32;name,&#32;tracy::QueueType::FrameMarkMsgStart&#32;)</emphasis>
+162 <emphasis role="preprocessor">#define&#32;FrameMarkEnd(&#32;name&#32;)&#32;tracy::Profiler::SendFrameMark(&#32;name,&#32;tracy::QueueType::FrameMarkMsgEnd&#32;)</emphasis>
+163 
+164 <emphasis role="preprocessor">#define&#32;FrameImage(&#32;image,&#32;width,&#32;height,&#32;offset,&#32;flip&#32;)&#32;tracy::Profiler::SendFrameImage(&#32;image,&#32;width,&#32;height,&#32;offset,&#32;flip&#32;)</emphasis>
+165 
+166 <emphasis role="preprocessor">#define&#32;TracyLockable(&#32;type,&#32;varname&#32;)&#32;tracy::Lockable&lt;type&gt;&#32;varname&#32;{&#32;[]&#32;()&#32;-&gt;&#32;const&#32;tracy::SourceLocationData*&#32;{&#32;static&#32;constexpr&#32;tracy::SourceLocationData&#32;srcloc&#32;{&#32;nullptr,&#32;#type&#32;&quot;&#32;&quot;&#32;#varname,&#32;TracyFile,&#32;TracyLine,&#32;0&#32;};&#32;return&#32;&amp;srcloc;&#32;}()&#32;}</emphasis>
+167 <emphasis role="preprocessor">#define&#32;TracyLockableN(&#32;type,&#32;varname,&#32;desc&#32;)&#32;tracy::Lockable&lt;type&gt;&#32;varname&#32;{&#32;[]&#32;()&#32;-&gt;&#32;const&#32;tracy::SourceLocationData*&#32;{&#32;static&#32;constexpr&#32;tracy::SourceLocationData&#32;srcloc&#32;{&#32;nullptr,&#32;desc,&#32;TracyFile,&#32;TracyLine,&#32;0&#32;};&#32;return&#32;&amp;srcloc;&#32;}()&#32;}</emphasis>
+168 <emphasis role="preprocessor">#define&#32;TracySharedLockable(&#32;type,&#32;varname&#32;)&#32;tracy::SharedLockable&lt;type&gt;&#32;varname&#32;{&#32;[]&#32;()&#32;-&gt;&#32;const&#32;tracy::SourceLocationData*&#32;{&#32;static&#32;constexpr&#32;tracy::SourceLocationData&#32;srcloc&#32;{&#32;nullptr,&#32;#type&#32;&quot;&#32;&quot;&#32;#varname,&#32;TracyFile,&#32;TracyLine,&#32;0&#32;};&#32;return&#32;&amp;srcloc;&#32;}()&#32;}</emphasis>
+169 <emphasis role="preprocessor">#define&#32;TracySharedLockableN(&#32;type,&#32;varname,&#32;desc&#32;)&#32;tracy::SharedLockable&lt;type&gt;&#32;varname&#32;{&#32;[]&#32;()&#32;-&gt;&#32;const&#32;tracy::SourceLocationData*&#32;{&#32;static&#32;constexpr&#32;tracy::SourceLocationData&#32;srcloc&#32;{&#32;nullptr,&#32;desc,&#32;TracyFile,&#32;TracyLine,&#32;0&#32;};&#32;return&#32;&amp;srcloc;&#32;}()&#32;}</emphasis>
+170 <emphasis role="preprocessor">#define&#32;LockableBase(&#32;type&#32;)&#32;tracy::Lockable&lt;type&gt;</emphasis>
+171 <emphasis role="preprocessor">#define&#32;SharedLockableBase(&#32;type&#32;)&#32;tracy::SharedLockable&lt;type&gt;</emphasis>
+172 <emphasis role="preprocessor">#define&#32;LockMark(&#32;varname&#32;)&#32;static&#32;constexpr&#32;tracy::SourceLocationData&#32;__tracy_lock_location_##varname&#32;{&#32;nullptr,&#32;TracyFunction,&#32;&#32;TracyFile,&#32;(uint32_t)TracyLine,&#32;0&#32;};&#32;varname.Mark(&#32;&amp;__tracy_lock_location_##varname&#32;)</emphasis>
+173 <emphasis role="preprocessor">#define&#32;LockableName(&#32;varname,&#32;txt,&#32;size&#32;)&#32;varname.CustomName(&#32;txt,&#32;size&#32;)</emphasis>
+174 
+175 <emphasis role="preprocessor">#define&#32;TracyPlot(&#32;name,&#32;val&#32;)&#32;tracy::Profiler::PlotData(&#32;name,&#32;val&#32;)</emphasis>
+176 <emphasis role="preprocessor">#define&#32;TracyPlotConfig(&#32;name,&#32;type,&#32;step,&#32;fill,&#32;color&#32;)&#32;tracy::Profiler::ConfigurePlot(&#32;name,&#32;type,&#32;step,&#32;fill,&#32;color&#32;)</emphasis>
+177 
+178 <emphasis role="preprocessor">#define&#32;TracyAppInfo(&#32;txt,&#32;size&#32;)&#32;tracy::Profiler::MessageAppInfo(&#32;txt,&#32;size&#32;)</emphasis>
+179 
+180 <emphasis role="preprocessor">#if&#32;defined&#32;TRACY_HAS_CALLSTACK&#32;&amp;&amp;&#32;defined&#32;TRACY_CALLSTACK</emphasis>
+181 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyMessage(&#32;txt,&#32;size&#32;)&#32;tracy::Profiler::Message(&#32;txt,&#32;size,&#32;TRACY_CALLSTACK&#32;)</emphasis>
+182 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyMessageL(&#32;txt&#32;)&#32;tracy::Profiler::Message(&#32;txt,&#32;TRACY_CALLSTACK&#32;)</emphasis>
+183 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyMessageC(&#32;txt,&#32;size,&#32;color&#32;)&#32;tracy::Profiler::MessageColor(&#32;txt,&#32;size,&#32;color,&#32;TRACY_CALLSTACK&#32;)</emphasis>
+184 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyMessageLC(&#32;txt,&#32;color&#32;)&#32;tracy::Profiler::MessageColor(&#32;txt,&#32;color,&#32;TRACY_CALLSTACK&#32;)</emphasis>
+185 
+186 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyAlloc(&#32;ptr,&#32;size&#32;)&#32;tracy::Profiler::MemAllocCallstack(&#32;ptr,&#32;size,&#32;TRACY_CALLSTACK,&#32;false&#32;)</emphasis>
+187 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyFree(&#32;ptr&#32;)&#32;tracy::Profiler::MemFreeCallstack(&#32;ptr,&#32;TRACY_CALLSTACK,&#32;false&#32;)</emphasis>
+188 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracySecureAlloc(&#32;ptr,&#32;size&#32;)&#32;tracy::Profiler::MemAllocCallstack(&#32;ptr,&#32;size,&#32;TRACY_CALLSTACK,&#32;true&#32;)</emphasis>
+189 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracySecureFree(&#32;ptr&#32;)&#32;tracy::Profiler::MemFreeCallstack(&#32;ptr,&#32;TRACY_CALLSTACK,&#32;true&#32;)</emphasis>
+190 
+191 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyAllocN(&#32;ptr,&#32;size,&#32;name&#32;)&#32;tracy::Profiler::MemAllocCallstackNamed(&#32;ptr,&#32;size,&#32;TRACY_CALLSTACK,&#32;false,&#32;name&#32;)</emphasis>
+192 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyFreeN(&#32;ptr,&#32;name&#32;)&#32;tracy::Profiler::MemFreeCallstackNamed(&#32;ptr,&#32;TRACY_CALLSTACK,&#32;false,&#32;name&#32;)</emphasis>
+193 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracySecureAllocN(&#32;ptr,&#32;size,&#32;name&#32;)&#32;tracy::Profiler::MemAllocCallstackNamed(&#32;ptr,&#32;size,&#32;TRACY_CALLSTACK,&#32;true,&#32;name&#32;)</emphasis>
+194 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracySecureFreeN(&#32;ptr,&#32;name&#32;)&#32;tracy::Profiler::MemFreeCallstackNamed(&#32;ptr,&#32;TRACY_CALLSTACK,&#32;true,&#32;name&#32;)</emphasis>
+195 <emphasis role="preprocessor">#else</emphasis>
+196 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyMessage(&#32;txt,&#32;size&#32;)&#32;tracy::Profiler::Message(&#32;txt,&#32;size,&#32;0&#32;)</emphasis>
+197 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyMessageL(&#32;txt&#32;)&#32;tracy::Profiler::Message(&#32;txt,&#32;0&#32;)</emphasis>
+198 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyMessageC(&#32;txt,&#32;size,&#32;color&#32;)&#32;tracy::Profiler::MessageColor(&#32;txt,&#32;size,&#32;color,&#32;0&#32;)</emphasis>
+199 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyMessageLC(&#32;txt,&#32;color&#32;)&#32;tracy::Profiler::MessageColor(&#32;txt,&#32;color,&#32;0&#32;)</emphasis>
+200 
+201 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyAlloc(&#32;ptr,&#32;size&#32;)&#32;tracy::Profiler::MemAlloc(&#32;ptr,&#32;size,&#32;false&#32;)</emphasis>
+202 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyFree(&#32;ptr&#32;)&#32;tracy::Profiler::MemFree(&#32;ptr,&#32;false&#32;)</emphasis>
+203 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracySecureAlloc(&#32;ptr,&#32;size&#32;)&#32;tracy::Profiler::MemAlloc(&#32;ptr,&#32;size,&#32;true&#32;)</emphasis>
+204 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracySecureFree(&#32;ptr&#32;)&#32;tracy::Profiler::MemFree(&#32;ptr,&#32;true&#32;)</emphasis>
+205 
+206 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyAllocN(&#32;ptr,&#32;size,&#32;name&#32;)&#32;tracy::Profiler::MemAllocNamed(&#32;ptr,&#32;size,&#32;false,&#32;name&#32;)</emphasis>
+207 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyFreeN(&#32;ptr,&#32;name&#32;)&#32;tracy::Profiler::MemFreeNamed(&#32;ptr,&#32;false,&#32;name&#32;)</emphasis>
+208 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracySecureAllocN(&#32;ptr,&#32;size,&#32;name&#32;)&#32;tracy::Profiler::MemAllocNamed(&#32;ptr,&#32;size,&#32;true,&#32;name&#32;)</emphasis>
+209 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracySecureFreeN(&#32;ptr,&#32;name&#32;)&#32;tracy::Profiler::MemFreeNamed(&#32;ptr,&#32;true,&#32;name&#32;)</emphasis>
+210 <emphasis role="preprocessor">#endif</emphasis>
+211 
+212 <emphasis role="preprocessor">#ifdef&#32;TRACY_HAS_CALLSTACK</emphasis>
+213 <emphasis role="preprocessor">#&#32;&#32;define&#32;ZoneNamedS(&#32;varname,&#32;depth,&#32;active&#32;)&#32;static&#32;constexpr&#32;tracy::SourceLocationData&#32;TracyConcat(__tracy_source_location,TracyLine)&#32;{&#32;nullptr,&#32;TracyFunction,&#32;&#32;TracyFile,&#32;(uint32_t)TracyLine,&#32;0&#32;};&#32;tracy::ScopedZone&#32;varname(&#32;&amp;TracyConcat(__tracy_source_location,TracyLine),&#32;depth,&#32;active&#32;)</emphasis>
+214 <emphasis role="preprocessor">#&#32;&#32;define&#32;ZoneNamedNS(&#32;varname,&#32;name,&#32;depth,&#32;active&#32;)&#32;static&#32;constexpr&#32;tracy::SourceLocationData&#32;TracyConcat(__tracy_source_location,TracyLine)&#32;{&#32;name,&#32;TracyFunction,&#32;&#32;TracyFile,&#32;(uint32_t)TracyLine,&#32;0&#32;};&#32;tracy::ScopedZone&#32;varname(&#32;&amp;TracyConcat(__tracy_source_location,TracyLine),&#32;depth,&#32;active&#32;)</emphasis>
+215 <emphasis role="preprocessor">#&#32;&#32;define&#32;ZoneNamedCS(&#32;varname,&#32;color,&#32;depth,&#32;active&#32;)&#32;static&#32;constexpr&#32;tracy::SourceLocationData&#32;TracyConcat(__tracy_source_location,TracyLine)&#32;{&#32;nullptr,&#32;TracyFunction,&#32;&#32;TracyFile,&#32;(uint32_t)TracyLine,&#32;color&#32;};&#32;tracy::ScopedZone&#32;varname(&#32;&amp;TracyConcat(__tracy_source_location,TracyLine),&#32;depth,&#32;active&#32;)</emphasis>
+216 <emphasis role="preprocessor">#&#32;&#32;define&#32;ZoneNamedNCS(&#32;varname,&#32;name,&#32;color,&#32;depth,&#32;active&#32;)&#32;static&#32;constexpr&#32;tracy::SourceLocationData&#32;TracyConcat(__tracy_source_location,TracyLine)&#32;{&#32;name,&#32;TracyFunction,&#32;&#32;TracyFile,&#32;(uint32_t)TracyLine,&#32;color&#32;};&#32;tracy::ScopedZone&#32;varname(&#32;&amp;TracyConcat(__tracy_source_location,TracyLine),&#32;depth,&#32;active&#32;)</emphasis>
+217 
+218 <emphasis role="preprocessor">#&#32;&#32;define&#32;ZoneTransientS(&#32;varname,&#32;depth,&#32;active&#32;)&#32;tracy::ScopedZone&#32;varname(&#32;TracyLine,&#32;TracyFile,&#32;strlen(&#32;TracyFile&#32;),&#32;TracyFunction,&#32;strlen(&#32;TracyFunction&#32;),&#32;nullptr,&#32;0,&#32;depth,&#32;active&#32;)</emphasis>
+219 <emphasis role="preprocessor">#&#32;&#32;define&#32;ZoneTransientNS(&#32;varname,&#32;name,&#32;depth,&#32;active&#32;)&#32;tracy::ScopedZone&#32;varname(&#32;TracyLine,&#32;TracyFile,&#32;strlen(&#32;TracyFile&#32;),&#32;TracyFunction,&#32;strlen(&#32;TracyFunction&#32;),&#32;name,&#32;strlen(&#32;name&#32;),&#32;depth,&#32;active&#32;)</emphasis>
+220 
+221 <emphasis role="preprocessor">#&#32;&#32;define&#32;ZoneScopedS(&#32;depth&#32;)&#32;ZoneNamedS(&#32;___tracy_scoped_zone,&#32;depth,&#32;true&#32;)</emphasis>
+222 <emphasis role="preprocessor">#&#32;&#32;define&#32;ZoneScopedNS(&#32;name,&#32;depth&#32;)&#32;ZoneNamedNS(&#32;___tracy_scoped_zone,&#32;name,&#32;depth,&#32;true&#32;)</emphasis>
+223 <emphasis role="preprocessor">#&#32;&#32;define&#32;ZoneScopedCS(&#32;color,&#32;depth&#32;)&#32;ZoneNamedCS(&#32;___tracy_scoped_zone,&#32;color,&#32;depth,&#32;true&#32;)</emphasis>
+224 <emphasis role="preprocessor">#&#32;&#32;define&#32;ZoneScopedNCS(&#32;name,&#32;color,&#32;depth&#32;)&#32;ZoneNamedNCS(&#32;___tracy_scoped_zone,&#32;name,&#32;color,&#32;depth,&#32;true&#32;)</emphasis>
+225 
+226 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyAllocS(&#32;ptr,&#32;size,&#32;depth&#32;)&#32;tracy::Profiler::MemAllocCallstack(&#32;ptr,&#32;size,&#32;depth,&#32;false&#32;)</emphasis>
+227 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyFreeS(&#32;ptr,&#32;depth&#32;)&#32;tracy::Profiler::MemFreeCallstack(&#32;ptr,&#32;depth,&#32;false&#32;)</emphasis>
+228 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracySecureAllocS(&#32;ptr,&#32;size,&#32;depth&#32;)&#32;tracy::Profiler::MemAllocCallstack(&#32;ptr,&#32;size,&#32;depth,&#32;true&#32;)</emphasis>
+229 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracySecureFreeS(&#32;ptr,&#32;depth&#32;)&#32;tracy::Profiler::MemFreeCallstack(&#32;ptr,&#32;depth,&#32;true&#32;)</emphasis>
+230 
+231 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyAllocNS(&#32;ptr,&#32;size,&#32;depth,&#32;name&#32;)&#32;tracy::Profiler::MemAllocCallstackNamed(&#32;ptr,&#32;size,&#32;depth,&#32;false,&#32;name&#32;)</emphasis>
+232 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyFreeNS(&#32;ptr,&#32;depth,&#32;name&#32;)&#32;tracy::Profiler::MemFreeCallstackNamed(&#32;ptr,&#32;depth,&#32;false,&#32;name&#32;)</emphasis>
+233 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracySecureAllocNS(&#32;ptr,&#32;size,&#32;depth,&#32;name&#32;)&#32;tracy::Profiler::MemAllocCallstackNamed(&#32;ptr,&#32;size,&#32;depth,&#32;true,&#32;name&#32;)</emphasis>
+234 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracySecureFreeNS(&#32;ptr,&#32;depth,&#32;name&#32;)&#32;tracy::Profiler::MemFreeCallstackNamed(&#32;ptr,&#32;depth,&#32;true,&#32;name&#32;)</emphasis>
+235 
+236 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyMessageS(&#32;txt,&#32;size,&#32;depth&#32;)&#32;tracy::Profiler::Message(&#32;txt,&#32;size,&#32;depth&#32;)</emphasis>
+237 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyMessageLS(&#32;txt,&#32;depth&#32;)&#32;tracy::Profiler::Message(&#32;txt,&#32;depth&#32;)</emphasis>
+238 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyMessageCS(&#32;txt,&#32;size,&#32;color,&#32;depth&#32;)&#32;tracy::Profiler::MessageColor(&#32;txt,&#32;size,&#32;color,&#32;depth&#32;)</emphasis>
+239 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyMessageLCS(&#32;txt,&#32;color,&#32;depth&#32;)&#32;tracy::Profiler::MessageColor(&#32;txt,&#32;color,&#32;depth&#32;)</emphasis>
+240 <emphasis role="preprocessor">#else</emphasis>
+241 <emphasis role="preprocessor">#&#32;&#32;define&#32;ZoneNamedS(&#32;varname,&#32;depth,&#32;active&#32;)&#32;ZoneNamed(&#32;varname,&#32;active&#32;)</emphasis>
+242 <emphasis role="preprocessor">#&#32;&#32;define&#32;ZoneNamedNS(&#32;varname,&#32;name,&#32;depth,&#32;active&#32;)&#32;ZoneNamedN(&#32;varname,&#32;name,&#32;active&#32;)</emphasis>
+243 <emphasis role="preprocessor">#&#32;&#32;define&#32;ZoneNamedCS(&#32;varname,&#32;color,&#32;depth,&#32;active&#32;)&#32;ZoneNamedC(&#32;varname,&#32;color,&#32;active&#32;)</emphasis>
+244 <emphasis role="preprocessor">#&#32;&#32;define&#32;ZoneNamedNCS(&#32;varname,&#32;name,&#32;color,&#32;depth,&#32;active&#32;)&#32;ZoneNamedNC(&#32;varname,&#32;name,&#32;color,&#32;active&#32;)</emphasis>
+245 
+246 <emphasis role="preprocessor">#&#32;&#32;define&#32;ZoneTransientS(&#32;varname,&#32;depth,&#32;active&#32;)&#32;ZoneTransient(&#32;varname,&#32;active&#32;)</emphasis>
+247 <emphasis role="preprocessor">#&#32;&#32;define&#32;ZoneTransientNS(&#32;varname,&#32;name,&#32;depth,&#32;active&#32;)&#32;ZoneTransientN(&#32;varname,&#32;name,&#32;active&#32;)</emphasis>
+248 
+249 <emphasis role="preprocessor">#&#32;&#32;define&#32;ZoneScopedS(&#32;depth&#32;)&#32;ZoneScoped</emphasis>
+250 <emphasis role="preprocessor">#&#32;&#32;define&#32;ZoneScopedNS(&#32;name,&#32;depth&#32;)&#32;ZoneScopedN(&#32;name&#32;)</emphasis>
+251 <emphasis role="preprocessor">#&#32;&#32;define&#32;ZoneScopedCS(&#32;color,&#32;depth&#32;)&#32;ZoneScopedC(&#32;color&#32;)</emphasis>
+252 <emphasis role="preprocessor">#&#32;&#32;define&#32;ZoneScopedNCS(&#32;name,&#32;color,&#32;depth&#32;)&#32;ZoneScopedNC(&#32;name,&#32;color&#32;)</emphasis>
+253 
+254 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyAllocS(&#32;ptr,&#32;size,&#32;depth&#32;)&#32;TracyAlloc(&#32;ptr,&#32;size&#32;)</emphasis>
+255 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyFreeS(&#32;ptr,&#32;depth&#32;)&#32;TracyFree(&#32;ptr&#32;)</emphasis>
+256 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracySecureAllocS(&#32;ptr,&#32;size,&#32;depth&#32;)&#32;TracySecureAlloc(&#32;ptr,&#32;size&#32;)</emphasis>
+257 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracySecureFreeS(&#32;ptr,&#32;depth&#32;)&#32;TracySecureFree(&#32;ptr&#32;)</emphasis>
+258 
+259 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyAllocNS(&#32;ptr,&#32;size,&#32;depth,&#32;name&#32;)&#32;TracyAllocN(&#32;ptr,&#32;size,&#32;name&#32;)</emphasis>
+260 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyFreeNS(&#32;ptr,&#32;depth,&#32;name&#32;)&#32;TracyFreeN(&#32;ptr,&#32;name&#32;)</emphasis>
+261 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracySecureAllocNS(&#32;ptr,&#32;size,&#32;depth,&#32;name&#32;)&#32;TracySecureAllocN(&#32;ptr,&#32;size,&#32;name&#32;)</emphasis>
+262 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracySecureFreeNS(&#32;ptr,&#32;depth,&#32;name&#32;)&#32;TracySecureFreeN(&#32;ptr,&#32;name&#32;)</emphasis>
+263 
+264 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyMessageS(&#32;txt,&#32;size,&#32;depth&#32;)&#32;TracyMessage(&#32;txt,&#32;size&#32;)</emphasis>
+265 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyMessageLS(&#32;txt,&#32;depth&#32;)&#32;TracyMessageL(&#32;txt&#32;)</emphasis>
+266 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyMessageCS(&#32;txt,&#32;size,&#32;color,&#32;depth&#32;)&#32;TracyMessageC(&#32;txt,&#32;size,&#32;color&#32;)</emphasis>
+267 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyMessageLCS(&#32;txt,&#32;color,&#32;depth&#32;)&#32;TracyMessageLC(&#32;txt,&#32;color&#32;)</emphasis>
+268 <emphasis role="preprocessor">#endif</emphasis>
+269 
+270 <emphasis role="preprocessor">#define&#32;TracySourceCallbackRegister(&#32;cb,&#32;data&#32;)&#32;tracy::Profiler::SourceCallbackRegister(&#32;cb,&#32;data&#32;)</emphasis>
+271 <emphasis role="preprocessor">#define&#32;TracyParameterRegister(&#32;cb,&#32;data&#32;)&#32;tracy::Profiler::ParameterRegister(&#32;cb,&#32;data&#32;)</emphasis>
+272 <emphasis role="preprocessor">#define&#32;TracyParameterSetup(&#32;idx,&#32;name,&#32;isBool,&#32;val&#32;)&#32;tracy::Profiler::ParameterSetup(&#32;idx,&#32;name,&#32;isBool,&#32;val&#32;)</emphasis>
+273 <emphasis role="preprocessor">#define&#32;TracyIsConnected&#32;tracy::GetProfiler().IsConnected()</emphasis>
+274 <emphasis role="preprocessor">#define&#32;TracySetProgramName(&#32;name&#32;)&#32;tracy::GetProfiler().SetProgramName(&#32;name&#32;);</emphasis>
+275 
+276 <emphasis role="preprocessor">#ifdef&#32;TRACY_FIBERS</emphasis>
+277 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyFiberEnter(&#32;fiber&#32;)&#32;tracy::Profiler::EnterFiber(&#32;fiber&#32;)</emphasis>
+278 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyFiberLeave&#32;tracy::Profiler::LeaveFiber()</emphasis>
+279 <emphasis role="preprocessor">#endif</emphasis>
+280 
+281 <emphasis role="preprocessor">#endif</emphasis>
+282 
+283 <emphasis role="preprocessor">#endif</emphasis>
+</programlisting></section>

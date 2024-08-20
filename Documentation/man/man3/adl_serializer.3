@@ -1,0 +1,98 @@
+.TH "adl_serializer< ValueType, typename >" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+adl_serializer< ValueType, typename > \- namespace for Niels Lohmann  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fR#include <json\&.hpp>\fP
+.SS "Static Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "template<typename BasicJsonType , typename TargetType  = ValueType> static auto \fBfrom_json\fP (BasicJsonType &&j, TargetType &\fBval\fP) noexcept(noexcept(::nlohmann::from_json(std::forward< BasicJsonType >(j), \fBval\fP))) \-> decltype(::nlohmann::from_json(std::forward< BasicJsonType >(j), \fBval\fP), \fBvoid\fP())"
+.br
+.RI "convert a JSON value to any value type "
+.ti -1c
+.RI "template<typename BasicJsonType , typename TargetType  = ValueType> static auto \fBfrom_json\fP (BasicJsonType &&j) noexcept(noexcept(::nlohmann::from_json(std::forward< BasicJsonType >(j), \fBdetail::identity_tag\fP< TargetType > {}))) \-> decltype(::nlohmann::from_json(std::forward< BasicJsonType >(j), \fBdetail::identity_tag\fP< TargetType > {}))"
+.br
+.RI "convert a JSON value to any value type "
+.ti -1c
+.RI "template<typename BasicJsonType , typename TargetType  = ValueType> static auto \fBto_json\fP (BasicJsonType &j, TargetType &&\fBval\fP) noexcept(noexcept(::nlohmann::to_json(j, std::forward< TargetType >(\fBval\fP)))) \-> decltype(::nlohmann::to_json(j, std::forward< TargetType >(\fBval\fP)), \fBvoid\fP())"
+.br
+.RI "convert any value type to a JSON value "
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.SS "template<typename ValueType, typename>
+.br
+struct adl_serializer< ValueType, typename >"namespace for Niels Lohmann 
+
+
+.PP
+\fBSee also\fP
+.RS 4
+https://github.com/nlohmann 
+.RE
+.PP
+\fBSince\fP
+.RS 4
+version 1\&.0\&.0
+.RE
+.PP
+default JSONSerializer template argument
+.PP
+This serializer ignores the template arguments and uses ADL (\fRargument-dependent lookup\fP) for serialization\&.
+.PP
+\fBSee also\fP
+.RS 4
+https://json.nlohmann.me/api/adl_serializer/ 
+.RE
+.PP
+
+.SH "Member Function Documentation"
+.PP 
+.SS "template<typename ValueType , typename > template<typename BasicJsonType , typename TargetType  = ValueType> static auto \fBadl_serializer\fP< ValueType, typename >::from_json (BasicJsonType && j) \-> decltype(::nlohmann::from_json(std::forward<BasicJsonType>(j), \fBdetail::identity_tag\fP<TargetType> {}))
+    \fR [inline]\fP, \fR [static]\fP, \fR [noexcept]\fP"
+
+.PP
+convert a JSON value to any value type 
+.PP
+\fBSee also\fP
+.RS 4
+https://json.nlohmann.me/api/adl_serializer/from_json/ 
+.RE
+.PP
+
+.SS "template<typename ValueType , typename > template<typename BasicJsonType , typename TargetType  = ValueType> static auto \fBadl_serializer\fP< ValueType, typename >::from_json (BasicJsonType && j, TargetType & val) \-> decltype(::nlohmann::from_json(std::forward<BasicJsonType>(j), \fBval\fP), \fBvoid\fP())
+    \fR [inline]\fP, \fR [static]\fP, \fR [noexcept]\fP"
+
+.PP
+convert a JSON value to any value type 
+.PP
+\fBSee also\fP
+.RS 4
+https://json.nlohmann.me/api/adl_serializer/from_json/ 
+.RE
+.PP
+
+.SS "template<typename ValueType , typename > template<typename BasicJsonType , typename TargetType  = ValueType> static auto \fBadl_serializer\fP< ValueType, typename >::to_json (BasicJsonType & j, TargetType && val) \-> decltype(::nlohmann::to_json(j, std::forward<TargetType>(\fBval\fP)), \fBvoid\fP())
+    \fR [inline]\fP, \fR [static]\fP, \fR [noexcept]\fP"
+
+.PP
+convert any value type to a JSON value 
+.PP
+\fBSee also\fP
+.RS 4
+https://json.nlohmann.me/api/adl_serializer/to_json/ 
+.RE
+.PP
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

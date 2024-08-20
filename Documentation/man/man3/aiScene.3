@@ -1,0 +1,137 @@
+.TH "aiScene" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+aiScene
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fR#include <scene\&.h>\fP
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "unsigned int \fBmFlags\fP"
+.br
+.ti -1c
+.RI "\fBC_STRUCT\fP \fBaiNode\fP * \fBmRootNode\fP"
+.br
+.ti -1c
+.RI "unsigned int \fBmNumMeshes\fP"
+.br
+.ti -1c
+.RI "\fBC_STRUCT\fP \fBaiMesh\fP ** \fBmMeshes\fP"
+.br
+.ti -1c
+.RI "unsigned int \fBmNumMaterials\fP"
+.br
+.ti -1c
+.RI "\fBC_STRUCT\fP \fBaiMaterial\fP ** \fBmMaterials\fP"
+.br
+.ti -1c
+.RI "unsigned int \fBmNumAnimations\fP"
+.br
+.ti -1c
+.RI "\fBC_STRUCT\fP \fBaiAnimation\fP ** \fBmAnimations\fP"
+.br
+.ti -1c
+.RI "unsigned int \fBmNumTextures\fP"
+.br
+.ti -1c
+.RI "\fBC_STRUCT\fP \fBaiTexture\fP ** \fBmTextures\fP"
+.br
+.ti -1c
+.RI "unsigned int \fBmNumLights\fP"
+.br
+.ti -1c
+.RI "\fBC_STRUCT\fP \fBaiLight\fP ** \fBmLights\fP"
+.br
+.ti -1c
+.RI "unsigned int \fBmNumCameras\fP"
+.br
+.ti -1c
+.RI "\fBC_STRUCT\fP \fBaiCamera\fP ** \fBmCameras\fP"
+.br
+.ti -1c
+.RI "\fBC_STRUCT\fP \fBaiMetadata\fP * \fBmMetaData\fP"
+.br
+.RI "The global metadata assigned to the scene itself\&. "
+.ti -1c
+.RI "\fBC_STRUCT\fP \fBaiString\fP \fBmName\fP"
+.br
+.ti -1c
+.RI "unsigned int \fBmNumSkeletons\fP"
+.br
+.ti -1c
+.RI "\fBC_STRUCT\fP \fBaiSkeleton\fP ** \fBmSkeletons\fP"
+.br
+.ti -1c
+.RI "char * \fBmPrivate\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+The root structure of the imported data\&.
+.PP
+Everything that was imported from the given file can be accessed from here\&. Objects of this class are generally maintained and owned by \fBAssimp\fP, not by the caller\&. You shouldn't want to instance it, nor should you ever try to delete a given scene on your own\&. 
+.SH "Member Data Documentation"
+.PP 
+.SS "\fBC_STRUCT\fP \fBaiAnimation\fP** aiScene::mAnimations"
+The array of animations\&.
+.PP
+All animations imported from the given file are listed here\&. The array is mNumAnimations in size\&. 
+.SS "\fBC_STRUCT\fP \fBaiCamera\fP** aiScene::mCameras"
+The array of cameras\&.
+.PP
+All cameras imported from the given file are listed here\&. The array is mNumCameras in size\&. The first camera in the array (if existing) is the default camera view into the scene\&. 
+.SS "unsigned int aiScene::mFlags"
+Any combination of the AI_SCENE_FLAGS_XXX flags\&. By default this value is 0, no flags are set\&. Most applications will want to reject all scenes with the AI_SCENE_FLAGS_INCOMPLETE bit set\&. 
+.SS "\fBC_STRUCT\fP \fBaiLight\fP** aiScene::mLights"
+The array of light sources\&.
+.PP
+All light sources imported from the given file are listed here\&. The array is mNumLights in size\&. 
+.SS "\fBC_STRUCT\fP \fBaiMaterial\fP** aiScene::mMaterials"
+The array of materials\&.
+.PP
+Use the index given in each \fBaiMesh\fP structure to access this array\&. The array is mNumMaterials in size\&. If the AI_SCENE_FLAGS_INCOMPLETE flag is not set there will always be at least ONE material\&. 
+.SS "\fBC_STRUCT\fP \fBaiMesh\fP** aiScene::mMeshes"
+The array of meshes\&.
+.PP
+Use the indices given in the \fBaiNode\fP structure to access this array\&. The array is mNumMeshes in size\&. If the AI_SCENE_FLAGS_INCOMPLETE flag is not set there will always be at least ONE material\&. 
+.SS "\fBC_STRUCT\fP \fBaiMetadata\fP* aiScene::mMetaData"
+
+.PP
+The global metadata assigned to the scene itself\&. This data contains global metadata which belongs to the scene like unit-conversions, versions, vendors or other model-specific data\&. This can be used to store format-specific metadata as well\&. 
+.SS "\fBC_STRUCT\fP \fBaiString\fP aiScene::mName"
+The name of the scene itself\&. 
+.SS "unsigned int aiScene::mNumAnimations"
+The number of animations in the scene\&. 
+.SS "unsigned int aiScene::mNumCameras"
+The number of cameras in the scene\&. Cameras are fully optional, in most cases this attribute will be 0 
+.SS "unsigned int aiScene::mNumLights"
+The number of light sources in the scene\&. Light sources are fully optional, in most cases this attribute will be 0 
+.SS "unsigned int aiScene::mNumMaterials"
+The number of materials in the scene\&. 
+.SS "unsigned int aiScene::mNumMeshes"
+The number of meshes in the scene\&. 
+.SS "unsigned int aiScene::mNumSkeletons"
+
+.SS "unsigned int aiScene::mNumTextures"
+The number of textures embedded into the file 
+.SS "char* aiScene::mPrivate"
+Internal data, do not touch 
+.SS "\fBC_STRUCT\fP \fBaiNode\fP* aiScene::mRootNode"
+The root node of the hierarchy\&.
+.PP
+There will always be at least the root node if the import was successful (and no special flags have been set)\&. Presence of further nodes depends on the format and content of the imported file\&. 
+.SS "\fBC_STRUCT\fP \fBaiSkeleton\fP** aiScene::mSkeletons"
+
+.SS "\fBC_STRUCT\fP \fBaiTexture\fP** aiScene::mTextures"
+The array of embedded textures\&.
+.PP
+Not many file formats embed their textures into the file\&. An example is Quake's MDL format (which is also used by some GameStudio versions) 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

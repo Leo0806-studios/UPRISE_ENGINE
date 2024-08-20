@@ -12,13 +12,14 @@ PAIN::Material::Material(Shader shade)
 std::shared_ptr<std::vector<PAIN::Material>> PAIN::Render::mats;
 PAIN::Render_Camera* PAIN::Render::RenderCam;
 std::shared_ptr<Camera> PAIN::Render::CAM;
-std::vector<std::shared_ptr<PAIN::TerrainModel>> PAIN::Render::terrains;
-std::unordered_map<std::string, std::shared_ptr<PAIN::Model>> PAIN::Render::Modeldict;
-std::unordered_map<std::string, int> PAIN::Render::MaterialIdLinkDict;
+std::shared_ptr<std::vector<std::shared_ptr<PAIN::TerrainModel>>> PAIN::Render::terrains;
+std::shared_ptr<std::unordered_map<std::string, std::shared_ptr<PAIN::Model>>> PAIN::Render::Modeldict;
+std::shared_ptr<std::unordered_map<std::string, int>> PAIN::Render::MaterialIdLinkDict;
 
 inline void PAIN::Material::DrawObj() {
 	shader->use();
 	int i = objects.size() - 1;
+	
 	for (; i >= 0; i--) {
 
 		if (objects[i]->Enabled >= 1) {
@@ -59,9 +60,9 @@ void PAIN::Render::DrawAll() {
 
 		(*mats)[i].DrawObj();
 	}
-	int s = terrains.size() - 1;
+	int s = terrains->size() - 1;
 	for (; s >= 0; s--) {
-		terrains[s].get()->DrawObj();
+		terrains->operator[](s).get()->DrawObj();
 	}
 }
 
@@ -108,8 +109,8 @@ PAIN::Mesh PAIN::TerrainModel::generateTerrainMesh(int width, int depth, float m
 	for (int z = 0; z < depth; z++) {
 
 		for (int x = 0; x < width; x++) {
-			vertex.Position = DATATYPES::TS_P_Vector3(x, data->GetHeight(x, z), z);
-			vertex.Normal = DATATYPES::TS_P_Vector3(0, 1, 0);
+			vertex.Position = DATATYPES::TSPVector3(x, data->GetHeight(x, z), z);
+			vertex.Normal = DATATYPES::TSPVector3(0, 1, 0);
 			vertex.TexCoords = glm::vec2((float)x / data->width, (float)z / data->depth);
 			vertices.push_back(vertex);
 		}

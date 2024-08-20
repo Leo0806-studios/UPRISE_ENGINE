@@ -1,0 +1,180 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_struct_example_app_property_editor" xml:lang="en-US">
+<title>ExampleAppPropertyEditor Struct Reference</title>
+<indexterm><primary>ExampleAppPropertyEditor</primary></indexterm>
+<simplesect>
+    <title>Public Member Functions    </title>
+        <itemizedlist>
+            <listitem><para>void <link linkend="_struct_example_app_property_editor_1adfdfd135c8e210849d5ecbe4d4969813">Draw</link> (<link linkend="_struct_example_tree_node">ExampleTreeNode</link> *root_node)</para>
+</listitem>
+            <listitem><para>void <link linkend="_struct_example_app_property_editor_1abae0f80dd670280a5a2548f97d69aaa1">DrawTreeNode</link> (<link linkend="_struct_example_tree_node">ExampleTreeNode</link> *node)</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Public Attributes    </title>
+        <itemizedlist>
+            <listitem><para>ImGuiTextFilter <link linkend="_struct_example_app_property_editor_1aaef7bc67e3ce058f21a1bec69bf8a424">Filter</link></para>
+</listitem>
+            <listitem><para><link linkend="_struct_example_tree_node">ExampleTreeNode</link> * <link linkend="_struct_example_app_property_editor_1a64af9750a9b32fe8f5b51f07a585c39c">VisibleNode</link> = NULL</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+<para>
+Definition at line <link linkend="_imgui__demo_8cpp_source_1l08926">8926</link> of file <link linkend="_imgui__demo_8cpp_source">imgui_demo.cpp</link>.</para>
+</section>
+<section>
+<title>Member Function Documentation</title>
+<anchor xml:id="_struct_example_app_property_editor_1adfdfd135c8e210849d5ecbe4d4969813"/><section>
+    <title>Draw()</title>
+<indexterm><primary>Draw</primary><secondary>ExampleAppPropertyEditor</secondary></indexterm>
+<indexterm><primary>ExampleAppPropertyEditor</primary><secondary>Draw</secondary></indexterm>
+<para><computeroutput>void ExampleAppPropertyEditor::Draw (<link linkend="_struct_example_tree_node">ExampleTreeNode</link> * root_node)<computeroutput>[inline]</computeroutput></computeroutput></para><para>
+Definition at line <link linkend="_imgui__demo_8cpp_source_1l08931">8931</link> of file <link linkend="_imgui__demo_8cpp_source">imgui_demo.cpp</link>.</para>
+<programlisting linenumbering="unnumbered">08932 &#32;&#32;&#32;&#32;{
+08933 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Left&#32;side:&#32;draw&#32;tree</emphasis>
+08934 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-&#32;Currently&#32;using&#32;a&#32;table&#32;to&#32;benefit&#32;from&#32;RowBg&#32;feature</emphasis>
+08935 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(ImGui::BeginChild(<emphasis role="stringliteral">&quot;##tree&quot;</emphasis>,&#32;ImVec2(300,&#32;0),&#32;ImGuiChildFlags_ResizeX&#32;|&#32;ImGuiChildFlags_Border&#32;|&#32;ImGuiChildFlags_NavFlattened))
+08936 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+08937 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ImGui::SetNextItemWidth(-FLT_MIN);
+08938 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ImGui::SetNextItemShortcut(ImGuiMod_Ctrl&#32;|&#32;ImGuiKey_F,&#32;ImGuiInputFlags_Tooltip);
+08939 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ImGui::PushItemFlag(ImGuiItemFlags_NoNavDefaultFocus,&#32;<emphasis role="keyword">true</emphasis>);
+08940 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(ImGui::InputTextWithHint(<emphasis role="stringliteral">&quot;##Filter&quot;</emphasis>,&#32;<emphasis role="stringliteral">&quot;incl,-excl&quot;</emphasis>,&#32;<link linkend="_struct_example_app_property_editor_1aaef7bc67e3ce058f21a1bec69bf8a424">Filter</link>.InputBuf,&#32;IM_ARRAYSIZE(<link linkend="_struct_example_app_property_editor_1aaef7bc67e3ce058f21a1bec69bf8a424">Filter</link>.InputBuf),&#32;ImGuiInputTextFlags_EscapeClearsAll))
+08941 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_example_app_property_editor_1aaef7bc67e3ce058f21a1bec69bf8a424">Filter</link>.Build();
+08942 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ImGui::PopItemFlag();
+08943 
+08944 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(ImGui::BeginTable(<emphasis role="stringliteral">&quot;##bg&quot;</emphasis>,&#32;1,&#32;ImGuiTableFlags_RowBg))
+08945 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+08946 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(<link linkend="_struct_example_tree_node">ExampleTreeNode</link>*&#32;node&#32;:&#32;root_node-&gt;Childs)
+08947 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;if&#32;(<link linkend="_struct_example_app_property_editor_1aaef7bc67e3ce058f21a1bec69bf8a424">Filter</link>.PassFilter(node-&gt;Name))&#32;<emphasis role="comment">//&#32;Filter&#32;root&#32;node</emphasis>
+08948 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_example_app_property_editor_1abae0f80dd670280a5a2548f97d69aaa1">DrawTreeNode</link>(node);
+08949 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ImGui::EndTable();
+08950 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+08951 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+08952 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ImGui::EndChild();
+08953 
+08954 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Right&#32;side:&#32;draw&#32;properties</emphasis>
+08955 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ImGui::SameLine();
+08956 
+08957 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ImGui::BeginGroup();&#32;<emphasis role="comment">//&#32;Lock&#32;X&#32;position</emphasis>
+08958 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(<link linkend="_struct_example_tree_node">ExampleTreeNode</link>*&#32;node&#32;=&#32;<link linkend="_struct_example_app_property_editor_1a64af9750a9b32fe8f5b51f07a585c39c">VisibleNode</link>)
+08959 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+08960 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ImGui::Text(<emphasis role="stringliteral">&quot;%s&quot;</emphasis>,&#32;node-&gt;Name);
+08961 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ImGui::TextDisabled(<emphasis role="stringliteral">&quot;UID:&#32;0x%08X&quot;</emphasis>,&#32;node-&gt;UID);
+08962 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ImGui::Separator();
+08963 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(ImGui::BeginTable(<emphasis role="stringliteral">&quot;##properties&quot;</emphasis>,&#32;2,&#32;ImGuiTableFlags_Resizable&#32;|&#32;ImGuiTableFlags_ScrollY))
+08964 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+08965 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ImGui::TableSetupColumn(<emphasis role="stringliteral">&quot;&quot;</emphasis>,&#32;ImGuiTableColumnFlags_WidthFixed);
+08966 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ImGui::TableSetupColumn(<emphasis role="stringliteral">&quot;&quot;</emphasis>,&#32;ImGuiTableColumnFlags_WidthStretch,&#32;2.0f);&#32;<emphasis role="comment">//&#32;Default&#32;twice&#32;larger</emphasis>
+08967 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(node-&gt;HasData)
+08968 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+08969 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;In&#32;a&#32;typical&#32;application,&#32;the&#32;structure&#32;description&#32;would&#32;be&#32;derived&#32;from&#32;a&#32;data-driven&#32;system.</emphasis>
+08970 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-&#32;We&#32;try&#32;to&#32;mimic&#32;this&#32;with&#32;our&#32;ExampleMemberInfo&#32;structure&#32;and&#32;the&#32;ExampleTreeNodeMemberInfos[]&#32;array.</emphasis>
+08971 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-&#32;Limits&#32;and&#32;some&#32;details&#32;are&#32;hard-coded&#32;to&#32;simplify&#32;the&#32;demo.</emphasis>
+08972 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_struct_example_member_info">ExampleMemberInfo</link>&amp;&#32;field_desc&#32;:&#32;ExampleTreeNodeMemberInfos)
+08973 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+08974 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ImGui::TableNextRow();
+08975 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ImGui::PushID(field_desc.Name);
+08976 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ImGui::TableNextColumn();
+08977 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ImGui::AlignTextToFramePadding();
+08978 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ImGui::TextUnformatted(field_desc.Name);
+08979 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ImGui::TableNextColumn();
+08980 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>*&#32;field_ptr&#32;=&#32;(<emphasis role="keywordtype">void</emphasis>*)(((<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*)node)&#32;+&#32;field_desc.Offset);
+08981 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">switch</emphasis>&#32;(field_desc.DataType)
+08982 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+08983 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">case</emphasis>&#32;ImGuiDataType_Bool:
+08984 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+08985 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;IM_ASSERT(field_desc.DataCount&#32;==&#32;1);
+08986 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ImGui::Checkbox(<emphasis role="stringliteral">&quot;##Editor&quot;</emphasis>,&#32;(<emphasis role="keywordtype">bool</emphasis>*)field_ptr);
+08987 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">break</emphasis>;
+08988 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+08989 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">case</emphasis>&#32;ImGuiDataType_S32:
+08990 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+08991 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;v_min&#32;=&#32;INT_MIN,&#32;v_max&#32;=&#32;INT_MAX;
+08992 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ImGui::SetNextItemWidth(-FLT_MIN);
+08993 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ImGui::DragScalarN(<emphasis role="stringliteral">&quot;##Editor&quot;</emphasis>,&#32;field_desc.DataType,&#32;field_ptr,&#32;field_desc.DataCount,&#32;1.0f,&#32;&amp;v_min,&#32;&amp;v_max);
+08994 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">break</emphasis>;
+08995 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+08996 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">case</emphasis>&#32;ImGuiDataType_Float:
+08997 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+08998 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">float</emphasis>&#32;v_min&#32;=&#32;0.0f,&#32;v_max&#32;=&#32;1.0f;
+08999 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ImGui::SetNextItemWidth(-FLT_MIN);
+09000 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ImGui::SliderScalarN(<emphasis role="stringliteral">&quot;##Editor&quot;</emphasis>,&#32;field_desc.DataType,&#32;field_ptr,&#32;field_desc.DataCount,&#32;&amp;v_min,&#32;&amp;v_max);
+09001 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">break</emphasis>;
+09002 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+09003 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+09004 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ImGui::PopID();
+09005 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+09006 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+09007 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ImGui::EndTable();
+09008 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+09009 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+09010 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ImGui::EndGroup();
+09011 &#32;&#32;&#32;&#32;}
+</programlisting><para>
+References <link linkend="_imgui__demo_8cpp_source_1l00280">ExampleTreeNode::Childs</link>, <link linkend="_imgui__demo_8cpp_source_1l09013">DrawTreeNode()</link>, <link linkend="_imgui__demo_8cpp_source_1l08928">Filter</link>, and <link linkend="_imgui__demo_8cpp_source_1l08929">VisibleNode</link>.</para>
+</section>
+<anchor xml:id="_struct_example_app_property_editor_1abae0f80dd670280a5a2548f97d69aaa1"/><section>
+    <title>DrawTreeNode()</title>
+<indexterm><primary>DrawTreeNode</primary><secondary>ExampleAppPropertyEditor</secondary></indexterm>
+<indexterm><primary>ExampleAppPropertyEditor</primary><secondary>DrawTreeNode</secondary></indexterm>
+<para><computeroutput>void ExampleAppPropertyEditor::DrawTreeNode (<link linkend="_struct_example_tree_node">ExampleTreeNode</link> * node)<computeroutput>[inline]</computeroutput></computeroutput></para><para>
+Definition at line <link linkend="_imgui__demo_8cpp_source_1l09013">9013</link> of file <link linkend="_imgui__demo_8cpp_source">imgui_demo.cpp</link>.</para>
+<programlisting linenumbering="unnumbered">09014 &#32;&#32;&#32;&#32;{
+09015 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ImGui::TableNextRow();
+09016 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ImGui::TableNextColumn();
+09017 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ImGui::PushID(node-&gt;<link linkend="_struct_example_tree_node_1a49b1eea89bac79cae4c3413307442a10">UID</link>);
+09018 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ImGuiTreeNodeFlags&#32;tree_flags&#32;=&#32;ImGuiTreeNodeFlags_None;
+09019 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;tree_flags&#32;|=&#32;ImGuiTreeNodeFlags_OpenOnArrow&#32;|&#32;ImGuiTreeNodeFlags_OpenOnDoubleClick;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Standard&#32;opening&#32;mode&#32;as&#32;we&#32;are&#32;likely&#32;to&#32;want&#32;to&#32;add&#32;selection&#32;afterwards</emphasis>
+09020 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;tree_flags&#32;|=&#32;ImGuiTreeNodeFlags_NavLeftJumpsBackHere;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Left&#32;arrow&#32;support</emphasis>
+09021 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(node&#32;==&#32;<link linkend="_struct_example_app_property_editor_1a64af9750a9b32fe8f5b51f07a585c39c">VisibleNode</link>)
+09022 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;tree_flags&#32;|=&#32;ImGuiTreeNodeFlags_Selected;
+09023 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(node-&gt;<link linkend="_struct_example_tree_node_1a9fe834adbec0892f50cd71d73755e53e">Childs</link>.Size&#32;==&#32;0)
+09024 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;tree_flags&#32;|=&#32;ImGuiTreeNodeFlags_Leaf&#32;|&#32;ImGuiTreeNodeFlags_Bullet;
+09025 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(node-&gt;<link linkend="_struct_example_tree_node_1a6b33514362507e7478dd829a41965d52">DataMyBool</link>&#32;==&#32;<emphasis role="keyword">false</emphasis>)
+09026 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ImGui::PushStyleColor(ImGuiCol_Text,&#32;ImGui::GetStyle().Colors[ImGuiCol_TextDisabled]);
+09027 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;node_open&#32;=&#32;ImGui::TreeNodeEx(<emphasis role="stringliteral">&quot;&quot;</emphasis>,&#32;tree_flags,&#32;<emphasis role="stringliteral">&quot;%s&quot;</emphasis>,&#32;node-&gt;<link linkend="_struct_example_tree_node_1a0b35475b9d044a3105f971936eac69c8">Name</link>);
+09028 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(node-&gt;<link linkend="_struct_example_tree_node_1a6b33514362507e7478dd829a41965d52">DataMyBool</link>&#32;==&#32;<emphasis role="keyword">false</emphasis>)
+09029 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ImGui::PopStyleColor();
+09030 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(ImGui::IsItemFocused())
+09031 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_example_app_property_editor_1a64af9750a9b32fe8f5b51f07a585c39c">VisibleNode</link>&#32;=&#32;node;
+09032 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(node_open)
+09033 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+09034 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(<link linkend="_struct_example_tree_node">ExampleTreeNode</link>*&#32;child&#32;:&#32;node-&gt;Childs)
+09035 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_example_app_property_editor_1abae0f80dd670280a5a2548f97d69aaa1">DrawTreeNode</link>(child);
+09036 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ImGui::TreePop();
+09037 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+09038 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ImGui::PopID();
+09039 &#32;&#32;&#32;&#32;}
+</programlisting><para>
+References <link linkend="_imgui__demo_8cpp_source_1l00280">ExampleTreeNode::Childs</link>, <link linkend="_imgui__demo_8cpp_source_1l00285">ExampleTreeNode::DataMyBool</link>, <link linkend="_imgui__demo_8cpp_source_1l09013">DrawTreeNode()</link>, <link linkend="_imgui__demo_8cpp_source_1l00277">ExampleTreeNode::Name</link>, <link linkend="_imgui__demo_8cpp_source_1l00278">ExampleTreeNode::UID</link>, and <link linkend="_imgui__demo_8cpp_source_1l08929">VisibleNode</link>.</para>
+<para>
+Referenced by <link linkend="_imgui__demo_8cpp_source_1l08931">Draw()</link>, and <link linkend="_imgui__demo_8cpp_source_1l09013">DrawTreeNode()</link>.</para>
+</section>
+</section>
+<section>
+<title>Member Data Documentation</title>
+<anchor xml:id="_struct_example_app_property_editor_1aaef7bc67e3ce058f21a1bec69bf8a424"/><section>
+    <title>Filter</title>
+<indexterm><primary>Filter</primary><secondary>ExampleAppPropertyEditor</secondary></indexterm>
+<indexterm><primary>ExampleAppPropertyEditor</primary><secondary>Filter</secondary></indexterm>
+<para><computeroutput>ImGuiTextFilter ExampleAppPropertyEditor::Filter</computeroutput></para><para>
+Definition at line <link linkend="_imgui__demo_8cpp_source_1l08928">8928</link> of file <link linkend="_imgui__demo_8cpp_source">imgui_demo.cpp</link>.</para>
+<para>
+Referenced by <link linkend="_imgui__demo_8cpp_source_1l08931">Draw()</link>.</para>
+</section>
+<anchor xml:id="_struct_example_app_property_editor_1a64af9750a9b32fe8f5b51f07a585c39c"/><section>
+    <title>VisibleNode</title>
+<indexterm><primary>VisibleNode</primary><secondary>ExampleAppPropertyEditor</secondary></indexterm>
+<indexterm><primary>ExampleAppPropertyEditor</primary><secondary>VisibleNode</secondary></indexterm>
+<para><computeroutput><link linkend="_struct_example_tree_node">ExampleTreeNode</link>* ExampleAppPropertyEditor::VisibleNode = NULL</computeroutput></para><para>
+Definition at line <link linkend="_imgui__demo_8cpp_source_1l08929">8929</link> of file <link linkend="_imgui__demo_8cpp_source">imgui_demo.cpp</link>.</para>
+<para>
+Referenced by <link linkend="_imgui__demo_8cpp_source_1l08931">Draw()</link>, and <link linkend="_imgui__demo_8cpp_source_1l09013">DrawTreeNode()</link>.</para>
+</section>
+<para>
+The documentation for this struct was generated from the following file:</para>
+UPRISE_ENGINE/<link linkend="_imgui__demo_8cpp">imgui_demo.cpp</link></section>
+</section>

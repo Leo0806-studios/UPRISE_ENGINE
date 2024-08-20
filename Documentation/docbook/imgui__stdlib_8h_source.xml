@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_imgui__stdlib_8h_source" xml:lang="en-US">
+<title>imgui_stdlib.h</title>
+<indexterm><primary>adhed/imgui_stdlib.h</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 <emphasis role="comment">//&#32;dear&#32;imgui:&#32;wrappers&#32;for&#32;C++&#32;standard&#32;library&#32;(STL)&#32;types&#32;(std::string,&#32;etc.)</emphasis>
+2 <emphasis role="comment">//&#32;This&#32;is&#32;also&#32;an&#32;example&#32;of&#32;how&#32;you&#32;may&#32;wrap&#32;your&#32;own&#32;similar&#32;types.</emphasis>
+3 
+4 <emphasis role="comment">//&#32;Changelog:</emphasis>
+5 <emphasis role="comment">//&#32;-&#32;v0.10:&#32;Initial&#32;version.&#32;Added&#32;InputText()&#32;/&#32;InputTextMultiline()&#32;calls&#32;with&#32;std::string</emphasis>
+6 
+7 <emphasis role="comment">//&#32;See&#32;more&#32;C++&#32;related&#32;extension&#32;(fmt,&#32;RAII,&#32;syntaxis&#32;sugar)&#32;on&#32;Wiki:</emphasis>
+8 <emphasis role="comment">//&#32;&#32;&#32;https://github.com/ocornut/imgui/wiki/Useful-Extensions#cness</emphasis>
+9 
+10 <emphasis role="preprocessor">#pragma&#32;once</emphasis>
+11 
+12 <emphasis role="preprocessor">#include&#32;&lt;string&gt;</emphasis>
+13 
+14 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespace_im_gui">ImGui</link>
+15 {
+16 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;ImGui::InputText()&#32;with&#32;std::string</emphasis>
+17 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Because&#32;text&#32;input&#32;needs&#32;dynamic&#32;resizing,&#32;we&#32;need&#32;to&#32;setup&#32;a&#32;callback&#32;to&#32;grow&#32;the&#32;capacity</emphasis>
+18 &#32;&#32;&#32;&#32;<link linkend="_imgui_8h_1a43829975e84e45d1149597467a14bbf5">IMGUI_API</link>&#32;<emphasis role="keywordtype">bool</emphasis>&#32;&#32;<link linkend="_namespace_im_gui_1aa72b5760a3a206729723a587ac7c8519">InputText</link>(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;label,&#32;std::string*&#32;str,&#32;<link linkend="_imgui_8h_1a7d2c6153a6b9b5d3178ce82434ac9fb8">ImGuiInputTextFlags</link>&#32;<link linkend="_glad_8h_1ac7ba7d3cce3d19ca020e056b37231289">flags</link>&#32;=&#32;0,&#32;<link linkend="_imgui_8h_1a65fd2b568a62c9aa2a28a8a13eb65ad7">ImGuiInputTextCallback</link>&#32;callback&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>,&#32;<emphasis role="keywordtype">void</emphasis>*&#32;user_data&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>);
+19 &#32;&#32;&#32;&#32;<link linkend="_imgui_8h_1a43829975e84e45d1149597467a14bbf5">IMGUI_API</link>&#32;<emphasis role="keywordtype">bool</emphasis>&#32;&#32;<link linkend="_namespace_im_gui_1a0470693929ed9930cbf5b737577c2414">InputTextMultiline</link>(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;label,&#32;std::string*&#32;str,&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_struct_im_vec2">ImVec2</link>&amp;&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>&#32;=&#32;<link linkend="_struct_im_vec2">ImVec2</link>(0,&#32;0),&#32;<link linkend="_imgui_8h_1a7d2c6153a6b9b5d3178ce82434ac9fb8">ImGuiInputTextFlags</link>&#32;<link linkend="_glad_8h_1ac7ba7d3cce3d19ca020e056b37231289">flags</link>&#32;=&#32;0,&#32;<link linkend="_imgui_8h_1a65fd2b568a62c9aa2a28a8a13eb65ad7">ImGuiInputTextCallback</link>&#32;callback&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>,&#32;<emphasis role="keywordtype">void</emphasis>*&#32;user_data&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>);
+20 &#32;&#32;&#32;&#32;<link linkend="_imgui_8h_1a43829975e84e45d1149597467a14bbf5">IMGUI_API</link>&#32;<emphasis role="keywordtype">bool</emphasis>&#32;&#32;<link linkend="_namespace_im_gui_1aee5a5127f494966ad16e578714e8fac2">InputTextWithHint</link>(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;label,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;hint,&#32;std::string*&#32;str,&#32;<link linkend="_imgui_8h_1a7d2c6153a6b9b5d3178ce82434ac9fb8">ImGuiInputTextFlags</link>&#32;<link linkend="_glad_8h_1ac7ba7d3cce3d19ca020e056b37231289">flags</link>&#32;=&#32;0,&#32;<link linkend="_imgui_8h_1a65fd2b568a62c9aa2a28a8a13eb65ad7">ImGuiInputTextCallback</link>&#32;callback&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>,&#32;<emphasis role="keywordtype">void</emphasis>*&#32;user_data&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>);
+21 }
+</programlisting></section>

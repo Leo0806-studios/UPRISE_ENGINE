@@ -14,10 +14,8 @@
 	 return cam;
  }
 
- glm::mat4 PAIN::Render_Camera::GetViewMatrix()
+ /*__inline glm::mat4 PAIN::Render_Camera::GetViewMatrix()
  {
-	TrPr(ctx, __func__)
-		TrPrE(ctx);
-	 return glm::lookAt((glm::vec3)transf->Position, (glm::vec3)(transf->Position + transf->forward), (glm::vec3)transf->up);
+
 	 
- }
+ }*/

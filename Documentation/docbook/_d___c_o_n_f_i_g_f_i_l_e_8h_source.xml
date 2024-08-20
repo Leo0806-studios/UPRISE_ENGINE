@@ -1,0 +1,199 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="__d___c_o_n_f_i_g_f_i_l_e_8h_source" xml:lang="en-US">
+<title>D_CONFIGFILE.h</title>
+<indexterm><primary>UPRISE_ENGINE/HeaderE/DATATYPES/D_CONFIGFILE.h</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 <emphasis role="preprocessor">#pragma&#32;once</emphasis>
+2 <emphasis role="preprocessor">#ifndef&#32;_CONFIGFILE_</emphasis>
+3 <emphasis role="preprocessor">#define&#32;_CONFIGFILE_</emphasis>
+4 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_pch_8h">pch.h</link>&quot;</emphasis>
+5 
+6 <emphasis role="preprocessor">#ifndef&#32;_LOCK_</emphasis>
+7 <emphasis role="preprocessor">#define&#32;_LOCK_</emphasis>
+8 
+9 <emphasis role="preprocessor">#endif&#32;</emphasis><emphasis role="comment">//&#32;!1</emphasis>
+10 
+11 <emphasis role="keyword">class&#32;</emphasis><link linkend="_class_ressource">Ressource</link>;
+12 <emphasis role="keyword">class&#32;</emphasis><link linkend="_class_config_file">ConfigFile</link>&#32;{
+13 
+14 <emphasis role="keyword">public</emphasis>:
+18 &#32;&#32;&#32;&#32;<emphasis role="keyword">enum</emphasis>&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755cc">ConfigType</link>&#32;{
+19 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755cca336a6c3c6b1d0164690df7dfa658fcd1">Building</link>,
+20 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755cca5a731d045e64bbe79d746564c77301c0">Vehicle</link>,
+21 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755cca2b8cb51643f0f89f56a40ae12d5daf33">Projectile</link>,
+22 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755ccaad19208aac2155e824fa7493121d294c">Particle</link>,
+23 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755ccaa81ab0a970138054bb93d0334ed62914">Island</link>,
+24 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755cca7054078ddbcc77f2e7e9ccc0d047a62d">AiObject</link>,
+25 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755ccad4e889f79dc452f4d2898a96367539fe">Global</link>,
+26 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755cca3af3e05be08c4c857fb2c817c3ff1825">Manager</link>,
+27 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755cca00c3a69c4cf1da07256ff1e4eb4f0956">VertexShader</link>,
+28 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755ccaebce600574101e4d4a7e7cb4f2c61cd2">FragmentShader</link>,
+29 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755ccaf7d6199207e27cf8a68df4a803ad950b">GeometryShader</link>,
+30 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755ccac762ca243ddc8bef45fd24efa49b663d">ComputeShader</link>,
+31 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_material">Material</link>
+32 &#32;&#32;&#32;&#32;};
+33 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;std::string&#32;<link linkend="_class_config_file_1a536f3df5edd097ef9df51e1794a05f28">toString</link>(<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755cc">ConfigType</link>&#32;type)&#32;{
+34 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">switch</emphasis>&#32;(type)&#32;{
+35 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">case</emphasis>&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755cca336a6c3c6b1d0164690df7dfa658fcd1">Building</link>:&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="stringliteral">&quot;Building&quot;</emphasis>;
+36 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">case</emphasis>&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755cca5a731d045e64bbe79d746564c77301c0">Vehicle</link>:&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="stringliteral">&quot;Vehicle&quot;</emphasis>;
+37 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">case</emphasis>&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755cca2b8cb51643f0f89f56a40ae12d5daf33">Projectile</link>:&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="stringliteral">&quot;Projectile&quot;</emphasis>;
+38 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">case</emphasis>&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755ccaad19208aac2155e824fa7493121d294c">Particle</link>:&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="stringliteral">&quot;Particle&quot;</emphasis>;
+39 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">case</emphasis>&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755ccaa81ab0a970138054bb93d0334ed62914">Island</link>:&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="stringliteral">&quot;Island&quot;</emphasis>;
+40 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">case</emphasis>&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755cca7054078ddbcc77f2e7e9ccc0d047a62d">AiObject</link>:&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="stringliteral">&quot;AiObject&quot;</emphasis>;
+41 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">case</emphasis>&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755ccad4e889f79dc452f4d2898a96367539fe">Global</link>:&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="stringliteral">&quot;Global&quot;</emphasis>;
+42 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">case</emphasis>&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755cca3af3e05be08c4c857fb2c817c3ff1825">Manager</link>:&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="stringliteral">&quot;Manager&quot;</emphasis>;
+43 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">case</emphasis>&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755cca00c3a69c4cf1da07256ff1e4eb4f0956">VertexShader</link>:&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="stringliteral">&quot;VertexShader&quot;</emphasis>;
+44 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">case</emphasis>&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755ccaebce600574101e4d4a7e7cb4f2c61cd2">FragmentShader</link>:&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="stringliteral">&quot;FragmentShader&quot;</emphasis>;
+45 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">case</emphasis>&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755ccaf7d6199207e27cf8a68df4a803ad950b">GeometryShader</link>:&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="stringliteral">&quot;GeometryShader&quot;</emphasis>;
+46 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">case</emphasis>&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755ccac762ca243ddc8bef45fd24efa49b663d">ComputeShader</link>:&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="stringliteral">&quot;ComputeShader&quot;</emphasis>;
+47 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">case</emphasis>&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755cca3664117e250d98f6d7ae2d211d6aa1f0">Material</link>:&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="stringliteral">&quot;Material&quot;</emphasis>;
+48 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">default</emphasis>:&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="stringliteral">&quot;Unknown&quot;</emphasis>;
+49 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+50 &#32;&#32;&#32;&#32;}
+51 
+52 &#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755cc">ConfigType</link>&#32;<link linkend="_class_config_file_1a5183871253c4bccc358341e954ca2ed0">toConfigType</link>(<emphasis role="keyword">const</emphasis>&#32;std::string&amp;&#32;str)&#32;{
+53 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(str&#32;==&#32;<emphasis role="stringliteral">&quot;Building&quot;</emphasis>)&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755cca336a6c3c6b1d0164690df7dfa658fcd1">Building</link>;
+54 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(str&#32;==&#32;<emphasis role="stringliteral">&quot;Vehicle&quot;</emphasis>)&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755cca5a731d045e64bbe79d746564c77301c0">Vehicle</link>;
+55 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(str&#32;==&#32;<emphasis role="stringliteral">&quot;Projectile&quot;</emphasis>)&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755cca2b8cb51643f0f89f56a40ae12d5daf33">Projectile</link>;
+56 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(str&#32;==&#32;<emphasis role="stringliteral">&quot;Particle&quot;</emphasis>)&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755ccaad19208aac2155e824fa7493121d294c">Particle</link>;
+57 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(str&#32;==&#32;<emphasis role="stringliteral">&quot;Island&quot;</emphasis>)&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755ccaa81ab0a970138054bb93d0334ed62914">Island</link>;
+58 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(str&#32;==&#32;<emphasis role="stringliteral">&quot;AiObject&quot;</emphasis>)&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755cca7054078ddbcc77f2e7e9ccc0d047a62d">AiObject</link>;
+59 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(str&#32;==&#32;<emphasis role="stringliteral">&quot;Global&quot;</emphasis>)&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755ccad4e889f79dc452f4d2898a96367539fe">Global</link>;
+60 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(str&#32;==&#32;<emphasis role="stringliteral">&quot;Manager&quot;</emphasis>)&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755cca3af3e05be08c4c857fb2c817c3ff1825">Manager</link>;
+61 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(str&#32;==&#32;<emphasis role="stringliteral">&quot;VertexShader&quot;</emphasis>)<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755cca00c3a69c4cf1da07256ff1e4eb4f0956">VertexShader</link>;
+62 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(str&#32;==&#32;<emphasis role="stringliteral">&quot;FragmentShader&quot;</emphasis>)<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755ccaebce600574101e4d4a7e7cb4f2c61cd2">FragmentShader</link>;
+63 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(str&#32;==&#32;<emphasis role="stringliteral">&quot;GeometryShader&quot;</emphasis>)<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755ccaf7d6199207e27cf8a68df4a803ad950b">GeometryShader</link>;
+64 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(str&#32;==&#32;<emphasis role="stringliteral">&quot;ComputeShader&quot;</emphasis>)<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755ccac762ca243ddc8bef45fd24efa49b663d">ComputeShader</link>;
+65 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(str&#32;==&#32;<emphasis role="stringliteral">&quot;Material&quot;</emphasis>)&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755cca3664117e250d98f6d7ae2d211d6aa1f0">Material</link>;
+66 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">throw</emphasis>&#32;std::invalid_argument(<emphasis role="stringliteral">&quot;Unknown&#32;ConfigType:&#32;&quot;</emphasis>&#32;+&#32;str);
+67 &#32;&#32;&#32;&#32;}
+68 &#32;&#32;&#32;&#32;<link linkend="_class_config_file_1a42239716025f315693e570ab92464b97">ConfigFile</link>(std::string&#32;name,&#32;std::string&#32;modelpath,&#32;std::vector&lt;std::string&gt;&#32;texturepath,&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755cc">ConfigType</link>&#32;configType,&#32;nlohmann::json&#32;data);
+69 &#32;&#32;&#32;&#32;std::string&#32;<link linkend="_class_config_file_1a9a29ae73b3ca26723c09aa7fdba98364">Name</link>;
+70 &#32;&#32;&#32;&#32;std::string&#32;<link linkend="_class_config_file_1a1194659ec4ddafd0174b204bfea8248f">Modelpath</link>;
+71 &#32;&#32;&#32;&#32;std::vector&lt;std::string&gt;&#32;<link linkend="_class_config_file_1a3010e45a7ff56a389634beb3b9de3864">Texturepaths</link>;
+72 &#32;&#32;&#32;&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755cc">ConfigType</link>&#32;<link linkend="_class_config_file_1a1f28dae09075443704e9fcb0e425b45f">ConfigType_</link>;
+73 &#32;&#32;&#32;&#32;<emphasis role="comment">//nlohmann::json&#32;Data;</emphasis>
+74 &#32;&#32;&#32;&#32;<emphasis role="keyword">virtual</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_config_file_1a00d55be7cf131ada8fccb1d27b068e78">Palceholder</link>()&#32;{};
+75 &#32;&#32;&#32;&#32;
+76 
+77 };
+78 <emphasis role="keyword">class&#32;</emphasis><link linkend="_class_buidling">Buidling</link>&#32;:&#32;<emphasis role="keyword">public</emphasis>&#32;<link linkend="_class_config_file">ConfigFile</link>&#32;{
+79 <emphasis role="keyword">public</emphasis>:
+80 &#32;&#32;&#32;&#32;<emphasis role="keyword">enum</emphasis>&#32;<link linkend="_class_buidling_1ac73e469e3bf57e36a5a376b07895b77f">BuildingType</link>&#32;{
+81 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_buidling_1ac73e469e3bf57e36a5a376b07895b77fa164e658ff10d79403b50d32f6e1d2606">Residential</link>,
+82 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_buidling_1ac73e469e3bf57e36a5a376b07895b77fa7885f4340f1d48a15ff62565f95575fe">Needs</link>,
+83 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_buidling_1ac73e469e3bf57e36a5a376b07895b77facc9c06c9501190b5d4f75f9d3259ab29">Production_Raw</link>,
+84 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_buidling_1ac73e469e3bf57e36a5a376b07895b77fa23771d146d3757689320d3d8e7519120">Production_Not_Raw</link>,
+85 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_buidling_1ac73e469e3bf57e36a5a376b07895b77fa3cedd00589539a26e435e0a04cf7e3ea">Energy_In</link>,
+86 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_buidling_1ac73e469e3bf57e36a5a376b07895b77fa2b7c80dc61766df5371a2e84081cf8b8">Energy_I_W</link>,
+87 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_buidling_1ac73e469e3bf57e36a5a376b07895b77fa72eae0a4108bf4f800675316cf3d6576">Energy_R</link>,
+88 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_buidling_1ac73e469e3bf57e36a5a376b07895b77faec4320fec556762237fd373b6f0173df">Energy_R_W</link>,
+89 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_buidling_1ac73e469e3bf57e36a5a376b07895b77fa70dfee06eccc4ec7e31f3b5abbed89ac">Energy</link>,
+90 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_buidling_1ac73e469e3bf57e36a5a376b07895b77fabac85eabd149c5a295929caa510238d5">Eco</link>,
+91 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_buidling_1ac73e469e3bf57e36a5a376b07895b77fa02487e62a195e6498fdda5d5d2802468">Decoration</link>,
+92 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_buidling_1ac73e469e3bf57e36a5a376b07895b77fab723883049f50fa69e8cc044d430770f">Military</link>,
+93 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_buidling_1ac73e469e3bf57e36a5a376b07895b77fa4ef700dea3b86d1209b2fe4f00860663">Special</link>,
+94 
+95 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;
+96 &#32;&#32;&#32;&#32;};
+97 &#32;&#32;&#32;&#32;<emphasis role="keyword">enum</emphasis>&#32;<link linkend="_class_buidling_1a1da2c59843d3ca5761e957b778fe0d7a">SlotType</link>&#32;{
+98 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_buidling_1a1da2c59843d3ca5761e957b778fe0d7aaa7a32919651d94160d7b5bc6d4c0bb30">Ressource_O</link>,
+99 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_buidling_1a1da2c59843d3ca5761e957b778fe0d7aa920a1f81c1989d6d099ba64cf00b84c0">Energy_O</link>,
+100 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_buidling_1a1da2c59843d3ca5761e957b778fe0d7aa6fa892c4a51623e5ba13807ff6fba190">Eco_O</link>,
+101 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_buidling_1a1da2c59843d3ca5761e957b778fe0d7aabda9201d4e84ef2d51f594ebce733380">None_O</link>,
+102 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_buidling_1a1da2c59843d3ca5761e957b778fe0d7aab7dd6d2054e6a2c681911c2e674abcee">Custom_O</link>,
+103 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_buidling_1a1da2c59843d3ca5761e957b778fe0d7aae02844b250241505ae9e54e9a8afa86a">Ressource_I</link>,
+104 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_buidling_1a1da2c59843d3ca5761e957b778fe0d7aaa0247b3274e3d2ede6a35b0fdff135cf">Energy_I</link>,
+105 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_buidling_1a1da2c59843d3ca5761e957b778fe0d7aa354d942708d4eb25d764c8650dbdeba4">Eco_I</link>,
+106 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_buidling_1a1da2c59843d3ca5761e957b778fe0d7aa750dc315689c7e5647785c4f0eafa5b1">None_I</link>,
+107 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_buidling_1a1da2c59843d3ca5761e957b778fe0d7aab1fd26cbcd3c407adeef17a119152c6f">Custom_I</link>
+108 &#32;&#32;&#32;&#32;};
+109 &#32;&#32;&#32;&#32;<emphasis role="keyword">class&#32;</emphasis><link linkend="_class_buidling_1_1_slot">Slot</link>&#32;{
+110 &#32;&#32;&#32;&#32;<emphasis role="keyword">public</emphasis>:
+111 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::shared_ptr&lt;Ressource&gt;&#32;<link linkend="_class_buidling_1_1_slot_1a1c79e03ea85840c24cdca32a64bacc3c">Resource</link>;
+112 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_class_buidling_1_1_slot_1ac68e46633d88ac870734cca65e410c60">amount</link>;
+113 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_buidling_1a1da2c59843d3ca5761e957b778fe0d7a">SlotType</link>&#32;<link linkend="_class_buidling_1_1_slot_1a157d4d0e9e534493ee9452bf618fc5b4">slotType</link>;
+114 &#32;&#32;&#32;&#32;};
+115 
+116 
+117 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">short</emphasis>&#32;<link linkend="_class_buidling_1adb10174b81dc8359ecd13eee8b6932b6">InputCount</link>;
+118 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">short</emphasis>&#32;<link linkend="_class_buidling_1a2692f82b040a7a345e1097139ad5747b">OutputCount</link>;
+119 &#32;&#32;&#32;&#32;std::vector&#32;&lt;&#32;Slot&#32;&gt;&#32;<link linkend="_class_buidling_1af0b20523b61645c5eee1998293e19e56">Input</link>;
+120 &#32;&#32;&#32;&#32;std::vector&lt;Slot&gt;&#32;<link linkend="_class_buidling_1ab9344b0c02aa54bd23c94eefce137b26">Output</link>;
+121 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_class_buidling_1a181899a7f733eef8b4ca06beef6cb292">HittPoints</link>;
+122 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_class_buidling_1afdabe106f5cc0335adfdae6a76c69509">EcoCost</link>;
+123 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_class_buidling_1ae6d23828ec6d858a729621a8e979b7d7">PowerCost</link>;
+124 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_class_buidling_1a594aef4ff4505f142b200b42ab339e3f">Maintanece</link>;
+125 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_class_buidling_1af829c49c1e69deb546364fe1965772fa">Mannpower</link>;
+126 
+127 
+128 
+129 &#32;&#32;&#32;&#32;<link linkend="_class_buidling_1ac73e469e3bf57e36a5a376b07895b77f">BuildingType</link>&#32;<link linkend="_class_buidling_1a8af18b1cbab3bfd2625f93292703005f">buildinngType</link>;
+130 
+131 &#32;&#32;&#32;&#32;<link linkend="_class_buidling_1a8dce42a0a7c4d7b104f240ad356e54d0">Buidling</link>(std::string&#32;name,&#32;std::string&#32;modelpath,&#32;std::vector&lt;std::string&gt;&#32;texturepath,&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755cc">ConfigType</link>&#32;configType,&#32;nlohmann::json&#32;data);
+132 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;
+133 };
+134 <emphasis role="keyword">class&#32;</emphasis><link linkend="_class_vehicle">Vehicle</link>&#32;:&#32;<emphasis role="keyword">public</emphasis>&#32;<link linkend="_class_config_file">ConfigFile</link>&#32;{
+135 <emphasis role="keyword">public</emphasis>:
+136 &#32;&#32;&#32;&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755cca5a731d045e64bbe79d746564c77301c0">Vehicle</link>(std::string&#32;name,&#32;std::string&#32;modelpath,&#32;std::vector&lt;std::string&gt;&#32;texturepath,&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755cc">ConfigType</link>&#32;configType,&#32;nlohmann::json&#32;data);
+137 };
+138 <emphasis role="keyword">class&#32;</emphasis><link linkend="_class_projectile">Projectile</link>&#32;:&#32;<emphasis role="keyword">public</emphasis>&#32;<link linkend="_class_config_file">ConfigFile</link>&#32;{
+139 <emphasis role="keyword">public</emphasis>:
+140 &#32;&#32;&#32;&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755cca2b8cb51643f0f89f56a40ae12d5daf33">Projectile</link>(std::string&#32;name,&#32;std::string&#32;modelpath,&#32;std::vector&lt;std::string&gt;&#32;texturepath,&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755cc">ConfigType</link>&#32;configType,&#32;nlohmann::json&#32;data);
+141 };
+142 <emphasis role="keyword">class&#32;</emphasis><link linkend="_class_particle">Particle</link>&#32;:<emphasis role="keyword">public</emphasis>&#32;<link linkend="_class_config_file">ConfigFile</link>&#32;{
+143 <emphasis role="keyword">public</emphasis>:
+144 &#32;&#32;&#32;&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755ccaad19208aac2155e824fa7493121d294c">Particle</link>(std::string&#32;name,&#32;std::string&#32;modelpath,&#32;std::vector&lt;std::string&gt;&#32;texturepath,&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755cc">ConfigType</link>&#32;configType,&#32;nlohmann::json&#32;data);
+145 };
+146 <emphasis role="keyword">class&#32;</emphasis><link linkend="_class_island">Island</link>&#32;:<emphasis role="keyword">public</emphasis>&#32;<link linkend="_class_config_file">ConfigFile</link>&#32;{
+147 <emphasis role="keyword">public</emphasis>:
+148 &#32;&#32;&#32;&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755ccaa81ab0a970138054bb93d0334ed62914">Island</link>(std::string&#32;name,&#32;std::string&#32;modelpath,&#32;std::vector&lt;std::string&gt;&#32;texturepath,&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755cc">ConfigType</link>&#32;configType,&#32;nlohmann::json&#32;data);
+149 };
+150 <emphasis role="keyword">class&#32;</emphasis><link linkend="_class_ai_object">AiObject</link>&#32;:&#32;<emphasis role="keyword">public</emphasis>&#32;<link linkend="_class_config_file">ConfigFile</link>&#32;{
+151 <emphasis role="keyword">public</emphasis>:
+152 &#32;&#32;&#32;&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755cca7054078ddbcc77f2e7e9ccc0d047a62d">AiObject</link>(std::string&#32;name,&#32;std::string&#32;modelpath,&#32;std::vector&lt;std::string&gt;&#32;texturepath,&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755cc">ConfigType</link>&#32;configType,&#32;nlohmann::json&#32;data);
+153 };
+154 <emphasis role="keyword">class&#32;</emphasis><link linkend="_class_global">Global</link>&#32;:&#32;<emphasis role="keyword">public</emphasis>&#32;<link linkend="_class_config_file">ConfigFile</link>&#32;{
+155 <emphasis role="keyword">public</emphasis>:
+156 &#32;&#32;&#32;&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755ccad4e889f79dc452f4d2898a96367539fe">Global</link>(std::string&#32;name,&#32;std::string&#32;modelpath,&#32;std::vector&lt;std::string&gt;&#32;texturepath,&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755cc">ConfigType</link>&#32;configType,&#32;nlohmann::json&#32;data);
+157 };
+158 <emphasis role="keyword">class&#32;</emphasis><link linkend="_class_manager">Manager</link>&#32;:&#32;<emphasis role="keyword">public</emphasis>&#32;<link linkend="_class_config_file">ConfigFile</link>&#32;{
+159 <emphasis role="keyword">public</emphasis>:
+160 &#32;&#32;&#32;&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755cca3af3e05be08c4c857fb2c817c3ff1825">Manager</link>(std::string&#32;name,&#32;std::string&#32;modelpath,&#32;std::vector&lt;std::string&gt;&#32;texturepath,&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755cc">ConfigType</link>&#32;configType,&#32;nlohmann::json&#32;data);
+161 };
+162 <emphasis role="keyword">class&#32;</emphasis><link linkend="_class_vertex_shader">VertexShader</link>&#32;:&#32;<emphasis role="keyword">public</emphasis>&#32;<link linkend="_class_config_file">ConfigFile</link>&#32;{
+163 <emphasis role="keyword">public</emphasis>:
+164 &#32;&#32;&#32;&#32;std::string&#32;<link linkend="_class_vertex_shader_1a47b484c994cc1ad9ee1acd37c2d09e76">ShaderCode</link>;
+165 &#32;&#32;&#32;&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755cca00c3a69c4cf1da07256ff1e4eb4f0956">VertexShader</link>(std::string&#32;name,&#32;std::string&#32;modelpath,&#32;std::vector&lt;std::string&gt;&#32;texturepath,&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755cc">ConfigType</link>&#32;configType,&#32;nlohmann::json&#32;data);
+166 };
+167 <emphasis role="keyword">class&#32;</emphasis><link linkend="_class_fragment_shader">FragmentShader</link>&#32;:&#32;<emphasis role="keyword">public</emphasis>&#32;<link linkend="_class_config_file">ConfigFile</link>&#32;{
+168 <emphasis role="keyword">public</emphasis>:
+169 &#32;&#32;&#32;&#32;std::string&#32;<link linkend="_class_fragment_shader_1adf45944930e89ac04778754a23c65556">ShaderCode</link>;
+170 
+171 &#32;&#32;&#32;&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755ccaebce600574101e4d4a7e7cb4f2c61cd2">FragmentShader</link>(std::string&#32;name,&#32;std::string&#32;modelpath,&#32;std::vector&lt;std::string&gt;&#32;texturepath,&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755cc">ConfigType</link>&#32;configType,&#32;nlohmann::json&#32;data);
+172 };
+173 <emphasis role="keyword">class&#32;</emphasis><link linkend="_class_geometry_shader">GeometryShader</link>&#32;:&#32;<emphasis role="keyword">public</emphasis>&#32;<link linkend="_class_config_file">ConfigFile</link>&#32;{
+174 <emphasis role="keyword">public</emphasis>:
+175 &#32;&#32;&#32;&#32;std::string&#32;<link linkend="_class_geometry_shader_1a8460a14c4d3d12d41587135ad781fb2e">ShaderCode</link>;
+176 
+177 &#32;&#32;&#32;&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755ccaf7d6199207e27cf8a68df4a803ad950b">GeometryShader</link>(std::string&#32;name,&#32;std::string&#32;modelpath,&#32;std::vector&lt;std::string&gt;&#32;texturepath,&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755cc">ConfigType</link>&#32;configType,&#32;nlohmann::json&#32;data);
+178 };
+179 <emphasis role="keyword">class&#32;</emphasis><link linkend="_class_compute_shader">ComputeShader</link>&#32;:&#32;<emphasis role="keyword">public</emphasis>&#32;<link linkend="_class_config_file">ConfigFile</link>&#32;{
+180 <emphasis role="keyword">public</emphasis>:
+181 &#32;&#32;&#32;&#32;std::string&#32;<link linkend="_class_compute_shader_1a84b123797700cae1768d07f7ed907670">ShaderCode</link>;
+182 
+183 &#32;&#32;&#32;&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755ccac762ca243ddc8bef45fd24efa49b663d">ComputeShader</link>(std::string&#32;name,&#32;std::string&#32;modelpath,&#32;std::vector&lt;std::string&gt;&#32;texturepath,&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755cc">ConfigType</link>&#32;configType,&#32;nlohmann::json&#32;data);
+184 };
+185 <emphasis role="keyword">class&#32;</emphasis><link linkend="_class_material">Material</link>&#32;:&#32;<emphasis role="keyword">public</emphasis>&#32;<link linkend="_class_config_file">ConfigFile</link>&#32;{
+186 <emphasis role="keyword">public</emphasis>:
+187 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_class_material_1a54c9da0c8973dc849e214947d5d62fe6">ShaderCount</link>;
+188 &#32;&#32;&#32;&#32;std::string&#32;<link linkend="_class_material_1a00e42ae31f1593d955f2a8671720be3d">VertexShader</link>;
+189 &#32;&#32;&#32;&#32;std::string&#32;<link linkend="_class_material_1aecf96ddaae29e792bafe0fcd6c1a6462">FragmentShader</link>;
+190 &#32;&#32;&#32;&#32;std::string&#32;<link linkend="_class_material_1a36f110bb05dae29aac1913e52d447d2c">GeometryShader</link>;
+191 &#32;&#32;&#32;&#32;
+192 &#32;&#32;&#32;&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755cca3664117e250d98f6d7ae2d211d6aa1f0">Material</link>(std::string&#32;name,&#32;std::string&#32;modelpath,&#32;std::vector&lt;std::string&gt;&#32;texturepath,&#32;<link linkend="_class_config_file_1ae3073e212ba0234cc670fb31684755cc">ConfigType</link>&#32;configType,&#32;nlohmann::json&#32;data);
+193 };
+194 <emphasis role="keyword">class&#32;</emphasis><link linkend="_class_settings_file">SettingsFile</link>&#32;{
+195 
+196 };
+197 <emphasis role="preprocessor">#endif&#32;</emphasis><emphasis role="comment">//&#32;!_CONFIGFILE_</emphasis>
+</programlisting></section>

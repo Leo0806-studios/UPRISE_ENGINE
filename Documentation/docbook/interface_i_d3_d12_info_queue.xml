@@ -1,0 +1,271 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_interface_i_d3_d12_info_queue" xml:lang="en-US">
+<title>ID3D12InfoQueue Interface Reference</title>
+<indexterm><primary>ID3D12InfoQueue</primary></indexterm>
+<para>
+<computeroutput>import &lt;d3d12sdklayers.idl;</computeroutput>
+</para>
+<para>Inheritance diagram for ID3D12InfoQueue:    <informalfigure>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="0" fileref="interface_i_d3_d12_info_queue.png"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </informalfigure>
+</para>
+<simplesect>
+    <title>Public Member Functions    </title>
+        <itemizedlist>
+            <listitem><para>HRESULT <link linkend="_interface_i_d3_d12_info_queue_1a73e212dc7353dda6489a3c3b7688bfc6">SetMessageCountLimit</link> ([annotation(&quot;_In_&quot;)] UINT64 MessageCountLimit)</para>
+</listitem>
+            <listitem><para><link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> <link linkend="_interface_i_d3_d12_info_queue_1a18f1c2af294b05197d5a71bceeed8892">ClearStoredMessages</link> ()</para>
+</listitem>
+            <listitem><para>HRESULT <link linkend="_interface_i_d3_d12_info_queue_1a3868f2463765f10faba2b66dfa8f33ae">GetMessage</link> ([annotation(&quot;_In_&quot;)] UINT64 MessageIndex, [annotation(&quot;_Out_writes_bytes_opt_(*pMessageByteLength)&quot;)] D3D12_MESSAGE *pMessage, [annotation(&quot;_Inout_&quot;)] SIZE_T *pMessageByteLength)</para>
+</listitem>
+            <listitem><para>UINT64 <link linkend="_interface_i_d3_d12_info_queue_1ad14e9dca4c83b8d79ff4062ce2de69a3">GetNumMessagesAllowedByStorageFilter</link> ()</para>
+</listitem>
+            <listitem><para>UINT64 <link linkend="_interface_i_d3_d12_info_queue_1a40b23f4501156fa5fd2dbf641ac80290">GetNumMessagesDeniedByStorageFilter</link> ()</para>
+</listitem>
+            <listitem><para>UINT64 <link linkend="_interface_i_d3_d12_info_queue_1a056bf74acc20492dda26940c2967ea37">GetNumStoredMessages</link> ()</para>
+</listitem>
+            <listitem><para>UINT64 <link linkend="_interface_i_d3_d12_info_queue_1a3f7b3e72143dabe31203629b02022a97">GetNumStoredMessagesAllowedByRetrievalFilter</link> ()</para>
+</listitem>
+            <listitem><para>UINT64 <link linkend="_interface_i_d3_d12_info_queue_1a57351d2bfa753b3331b4cf8c2c0cce9d">GetNumMessagesDiscardedByMessageCountLimit</link> ()</para>
+</listitem>
+            <listitem><para>UINT64 <link linkend="_interface_i_d3_d12_info_queue_1acb0cf7491d4d59db2607bfc9a90e4f63">GetMessageCountLimit</link> ()</para>
+</listitem>
+            <listitem><para>HRESULT <link linkend="_interface_i_d3_d12_info_queue_1a732e679e63dc44fed92bbdb1061f93a6">AddStorageFilterEntries</link> ([annotation(&quot;_In_&quot;)] <link linkend="_struct_d3_d12___i_n_f_o___q_u_e_u_e___f_i_l_t_e_r">D3D12_INFO_QUEUE_FILTER</link> *pFilter)</para>
+</listitem>
+            <listitem><para>HRESULT <link linkend="_interface_i_d3_d12_info_queue_1ac0c2202cf9feab8d0c0435acddcd0634">GetStorageFilter</link> ([annotation(&quot;_Out_writes_bytes_opt_(*pFilterByteLength)&quot;)] D3D12_INFO_QUEUE_FILTER *pFilter, [annotation(&quot;_Inout_&quot;)] SIZE_T *pFilterByteLength)</para>
+</listitem>
+            <listitem><para><link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> <link linkend="_interface_i_d3_d12_info_queue_1ab813b47eb865c21928099a09fe29795e">ClearStorageFilter</link> ()</para>
+</listitem>
+            <listitem><para>HRESULT <link linkend="_interface_i_d3_d12_info_queue_1aa1668558e9147379b5e301a403f70a94">PushEmptyStorageFilter</link> ()</para>
+</listitem>
+            <listitem><para>HRESULT <link linkend="_interface_i_d3_d12_info_queue_1a89d795edb30aec35634c75d1f691e23f">PushCopyOfStorageFilter</link> ()</para>
+</listitem>
+            <listitem><para>HRESULT <link linkend="_interface_i_d3_d12_info_queue_1af08640ddf7050f0549297a877287bafb">PushStorageFilter</link> ([annotation(&quot;_In_&quot;)] <link linkend="_struct_d3_d12___i_n_f_o___q_u_e_u_e___f_i_l_t_e_r">D3D12_INFO_QUEUE_FILTER</link> *pFilter)</para>
+</listitem>
+            <listitem><para><link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> <link linkend="_interface_i_d3_d12_info_queue_1ae7ba81cffdefaf1ce61fa08d3963ea12">PopStorageFilter</link> ()</para>
+</listitem>
+            <listitem><para>UINT <link linkend="_interface_i_d3_d12_info_queue_1aa7e885cfa45e50d000c8a8f15ef2cc7b">GetStorageFilterStackSize</link> ()</para>
+</listitem>
+            <listitem><para>HRESULT <link linkend="_interface_i_d3_d12_info_queue_1a0de87ce853d80e3a6be33499b4185425">AddRetrievalFilterEntries</link> ([annotation(&quot;_In_&quot;)] <link linkend="_struct_d3_d12___i_n_f_o___q_u_e_u_e___f_i_l_t_e_r">D3D12_INFO_QUEUE_FILTER</link> *pFilter)</para>
+</listitem>
+            <listitem><para>HRESULT <link linkend="_interface_i_d3_d12_info_queue_1aaf0713fe09a92084dbbe9c83e5c737c5">GetRetrievalFilter</link> ([annotation(&quot;_Out_writes_bytes_opt_(*pFilterByteLength)&quot;)] D3D12_INFO_QUEUE_FILTER *pFilter, [annotation(&quot;_Inout_&quot;)] SIZE_T *pFilterByteLength)</para>
+</listitem>
+            <listitem><para><link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> <link linkend="_interface_i_d3_d12_info_queue_1a5ac4a2cc502460fd3472438326ada91f">ClearRetrievalFilter</link> ()</para>
+</listitem>
+            <listitem><para>HRESULT <link linkend="_interface_i_d3_d12_info_queue_1a735f39ec64a7aae95cebfe43ce8616d5">PushEmptyRetrievalFilter</link> ()</para>
+</listitem>
+            <listitem><para>HRESULT <link linkend="_interface_i_d3_d12_info_queue_1a8b910024443e1f2e2ecb51e2830f4a72">PushCopyOfRetrievalFilter</link> ()</para>
+</listitem>
+            <listitem><para>HRESULT <link linkend="_interface_i_d3_d12_info_queue_1a5c59bae58da4d3ca9995f3294dc263b1">PushRetrievalFilter</link> ([annotation(&quot;_In_&quot;)] <link linkend="_struct_d3_d12___i_n_f_o___q_u_e_u_e___f_i_l_t_e_r">D3D12_INFO_QUEUE_FILTER</link> *pFilter)</para>
+</listitem>
+            <listitem><para><link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> <link linkend="_interface_i_d3_d12_info_queue_1a4c1330e9aa96d9858d537d2c838fce1b">PopRetrievalFilter</link> ()</para>
+</listitem>
+            <listitem><para>UINT <link linkend="_interface_i_d3_d12_info_queue_1a267544fb8951c82d98050d5b827be3ab">GetRetrievalFilterStackSize</link> ()</para>
+</listitem>
+            <listitem><para>HRESULT <link linkend="_interface_i_d3_d12_info_queue_1a56a8f8e51a0e036003a51e6486a37bc6">AddMessage</link> ([annotation(&quot;_In_&quot;)] <link linkend="_d3d12sdklayers_8idl_1ad2b47460f8e03d96033ea52d0a83d34d">D3D12_MESSAGE_CATEGORY</link> Category, [annotation(&quot;_In_&quot;)] <link linkend="_d3d12sdklayers_8idl_1ad0b1e7169b133363f7e44a2d7d3f21ca">D3D12_MESSAGE_SEVERITY</link> <link linkend="_d3d12sdklayers_8idl_1af44178d9b5ce9705eb5f9116f9662998">Severity</link>, [annotation(&quot;_In_&quot;)] <link linkend="_d3d12sdklayers_8idl_1a0600b2b6f8debd83cf10478b7bf966b5">D3D12_MESSAGE_ID</link> <link linkend="_d3d12sdklayers_8idl_1a4e0b299e2873b8ae745ead8baed67b59">ID</link>, [annotation(&quot;_In_&quot;)] LPCSTR <link linkend="_d3d12sdklayers_8idl_1ab2959d74b232d8cc0b93d3e71d50afad">pDescription</link>)</para>
+</listitem>
+            <listitem><para>HRESULT <link linkend="_interface_i_d3_d12_info_queue_1a3f787d334ff81d003457f8d16f2227cc">AddApplicationMessage</link> ([annotation(&quot;_In_&quot;)] <link linkend="_d3d12sdklayers_8idl_1ad0b1e7169b133363f7e44a2d7d3f21ca">D3D12_MESSAGE_SEVERITY</link> <link linkend="_d3d12sdklayers_8idl_1af44178d9b5ce9705eb5f9116f9662998">Severity</link>, [annotation(&quot;_In_&quot;)] LPCSTR <link linkend="_d3d12sdklayers_8idl_1ab2959d74b232d8cc0b93d3e71d50afad">pDescription</link>)</para>
+</listitem>
+            <listitem><para>HRESULT <link linkend="_interface_i_d3_d12_info_queue_1abdfd688aab5d25a6eacaadcb2cc89cc9">SetBreakOnCategory</link> ([annotation(&quot;_In_&quot;)] <link linkend="_d3d12sdklayers_8idl_1ad2b47460f8e03d96033ea52d0a83d34d">D3D12_MESSAGE_CATEGORY</link> Category, [annotation(&quot;_In_&quot;)] BOOL bEnable)</para>
+</listitem>
+            <listitem><para>HRESULT <link linkend="_interface_i_d3_d12_info_queue_1a550aa7f731b8452eed527a55c425ae84">SetBreakOnSeverity</link> ([annotation(&quot;_In_&quot;)] <link linkend="_d3d12sdklayers_8idl_1ad0b1e7169b133363f7e44a2d7d3f21ca">D3D12_MESSAGE_SEVERITY</link> <link linkend="_d3d12sdklayers_8idl_1af44178d9b5ce9705eb5f9116f9662998">Severity</link>, [annotation(&quot;_In_&quot;)] BOOL bEnable)</para>
+</listitem>
+            <listitem><para>HRESULT <link linkend="_interface_i_d3_d12_info_queue_1ab95a992ff9e81c8fe48fb76d0c5fe451">SetBreakOnID</link> ([annotation(&quot;_In_&quot;)] <link linkend="_d3d12sdklayers_8idl_1a0600b2b6f8debd83cf10478b7bf966b5">D3D12_MESSAGE_ID</link> <link linkend="_d3d12sdklayers_8idl_1a4e0b299e2873b8ae745ead8baed67b59">ID</link>, [annotation(&quot;_In_&quot;)] BOOL bEnable)</para>
+</listitem>
+            <listitem><para>BOOL <link linkend="_interface_i_d3_d12_info_queue_1ac734ecc1716954dcf1d6d60984a7c057">GetBreakOnCategory</link> ([annotation(&quot;_In_&quot;)] <link linkend="_d3d12sdklayers_8idl_1ad2b47460f8e03d96033ea52d0a83d34d">D3D12_MESSAGE_CATEGORY</link> Category)</para>
+</listitem>
+            <listitem><para>BOOL <link linkend="_interface_i_d3_d12_info_queue_1aa905fc49562d08e35ac9b576ae01ab47">GetBreakOnSeverity</link> ([annotation(&quot;_In_&quot;)] <link linkend="_d3d12sdklayers_8idl_1ad0b1e7169b133363f7e44a2d7d3f21ca">D3D12_MESSAGE_SEVERITY</link> <link linkend="_d3d12sdklayers_8idl_1af44178d9b5ce9705eb5f9116f9662998">Severity</link>)</para>
+</listitem>
+            <listitem><para>BOOL <link linkend="_interface_i_d3_d12_info_queue_1a70a96d486a6fd91d3d9e5529d641146c">GetBreakOnID</link> ([annotation(&quot;_In_&quot;)] <link linkend="_d3d12sdklayers_8idl_1a0600b2b6f8debd83cf10478b7bf966b5">D3D12_MESSAGE_ID</link> <link linkend="_d3d12sdklayers_8idl_1a4e0b299e2873b8ae745ead8baed67b59">ID</link>)</para>
+</listitem>
+            <listitem><para><link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> <link linkend="_interface_i_d3_d12_info_queue_1ab7392a6bae8eaccbb6f70637e8ea1c4e">SetMuteDebugOutput</link> ([annotation(&quot;_In_&quot;)] BOOL bMute)</para>
+</listitem>
+            <listitem><para>BOOL <link linkend="_interface_i_d3_d12_info_queue_1a62263dd9c51bdd9e97bc2a65c8ea2173">GetMuteDebugOutput</link> ()</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Member Function Documentation</title>
+<anchor xml:id="_interface_i_d3_d12_info_queue_1a3f787d334ff81d003457f8d16f2227cc"/><section>
+    <title>AddApplicationMessage()</title>
+<indexterm><primary>AddApplicationMessage</primary><secondary>ID3D12InfoQueue</secondary></indexterm>
+<indexterm><primary>ID3D12InfoQueue</primary><secondary>AddApplicationMessage</secondary></indexterm>
+<para><computeroutput>HRESULT ID3D12InfoQueue::AddApplicationMessage ([annotation(&quot;_In_&quot;)] <link linkend="_d3d12sdklayers_8idl_1ad0b1e7169b133363f7e44a2d7d3f21ca">D3D12_MESSAGE_SEVERITY</link> Severity, [annotation(&quot;_In_&quot;)] LPCSTR pDescription)</computeroutput></para></section>
+<anchor xml:id="_interface_i_d3_d12_info_queue_1a56a8f8e51a0e036003a51e6486a37bc6"/><section>
+    <title>AddMessage()</title>
+<indexterm><primary>AddMessage</primary><secondary>ID3D12InfoQueue</secondary></indexterm>
+<indexterm><primary>ID3D12InfoQueue</primary><secondary>AddMessage</secondary></indexterm>
+<para><computeroutput>HRESULT ID3D12InfoQueue::AddMessage ([annotation(&quot;_In_&quot;)] <link linkend="_d3d12sdklayers_8idl_1ad2b47460f8e03d96033ea52d0a83d34d">D3D12_MESSAGE_CATEGORY</link> Category, [annotation(&quot;_In_&quot;)] <link linkend="_d3d12sdklayers_8idl_1ad0b1e7169b133363f7e44a2d7d3f21ca">D3D12_MESSAGE_SEVERITY</link> Severity, [annotation(&quot;_In_&quot;)] <link linkend="_d3d12sdklayers_8idl_1a0600b2b6f8debd83cf10478b7bf966b5">D3D12_MESSAGE_ID</link> ID, [annotation(&quot;_In_&quot;)] LPCSTR pDescription)</computeroutput></para></section>
+<anchor xml:id="_interface_i_d3_d12_info_queue_1a0de87ce853d80e3a6be33499b4185425"/><section>
+    <title>AddRetrievalFilterEntries()</title>
+<indexterm><primary>AddRetrievalFilterEntries</primary><secondary>ID3D12InfoQueue</secondary></indexterm>
+<indexterm><primary>ID3D12InfoQueue</primary><secondary>AddRetrievalFilterEntries</secondary></indexterm>
+<para><computeroutput>HRESULT ID3D12InfoQueue::AddRetrievalFilterEntries ([annotation(&quot;_In_&quot;)] <link linkend="_struct_d3_d12___i_n_f_o___q_u_e_u_e___f_i_l_t_e_r">D3D12_INFO_QUEUE_FILTER</link> * pFilter)</computeroutput></para></section>
+<anchor xml:id="_interface_i_d3_d12_info_queue_1a732e679e63dc44fed92bbdb1061f93a6"/><section>
+    <title>AddStorageFilterEntries()</title>
+<indexterm><primary>AddStorageFilterEntries</primary><secondary>ID3D12InfoQueue</secondary></indexterm>
+<indexterm><primary>ID3D12InfoQueue</primary><secondary>AddStorageFilterEntries</secondary></indexterm>
+<para><computeroutput>HRESULT ID3D12InfoQueue::AddStorageFilterEntries ([annotation(&quot;_In_&quot;)] <link linkend="_struct_d3_d12___i_n_f_o___q_u_e_u_e___f_i_l_t_e_r">D3D12_INFO_QUEUE_FILTER</link> * pFilter)</computeroutput></para></section>
+<anchor xml:id="_interface_i_d3_d12_info_queue_1a5ac4a2cc502460fd3472438326ada91f"/><section>
+    <title>ClearRetrievalFilter()</title>
+<indexterm><primary>ClearRetrievalFilter</primary><secondary>ID3D12InfoQueue</secondary></indexterm>
+<indexterm><primary>ID3D12InfoQueue</primary><secondary>ClearRetrievalFilter</secondary></indexterm>
+<para><computeroutput><link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> ID3D12InfoQueue::ClearRetrievalFilter ( )</computeroutput></para></section>
+<anchor xml:id="_interface_i_d3_d12_info_queue_1ab813b47eb865c21928099a09fe29795e"/><section>
+    <title>ClearStorageFilter()</title>
+<indexterm><primary>ClearStorageFilter</primary><secondary>ID3D12InfoQueue</secondary></indexterm>
+<indexterm><primary>ID3D12InfoQueue</primary><secondary>ClearStorageFilter</secondary></indexterm>
+<para><computeroutput><link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> ID3D12InfoQueue::ClearStorageFilter ( )</computeroutput></para></section>
+<anchor xml:id="_interface_i_d3_d12_info_queue_1a18f1c2af294b05197d5a71bceeed8892"/><section>
+    <title>ClearStoredMessages()</title>
+<indexterm><primary>ClearStoredMessages</primary><secondary>ID3D12InfoQueue</secondary></indexterm>
+<indexterm><primary>ID3D12InfoQueue</primary><secondary>ClearStoredMessages</secondary></indexterm>
+<para><computeroutput><link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> ID3D12InfoQueue::ClearStoredMessages ( )</computeroutput></para></section>
+<anchor xml:id="_interface_i_d3_d12_info_queue_1ac734ecc1716954dcf1d6d60984a7c057"/><section>
+    <title>GetBreakOnCategory()</title>
+<indexterm><primary>GetBreakOnCategory</primary><secondary>ID3D12InfoQueue</secondary></indexterm>
+<indexterm><primary>ID3D12InfoQueue</primary><secondary>GetBreakOnCategory</secondary></indexterm>
+<para><computeroutput>BOOL ID3D12InfoQueue::GetBreakOnCategory ([annotation(&quot;_In_&quot;)] <link linkend="_d3d12sdklayers_8idl_1ad2b47460f8e03d96033ea52d0a83d34d">D3D12_MESSAGE_CATEGORY</link> Category)</computeroutput></para></section>
+<anchor xml:id="_interface_i_d3_d12_info_queue_1a70a96d486a6fd91d3d9e5529d641146c"/><section>
+    <title>GetBreakOnID()</title>
+<indexterm><primary>GetBreakOnID</primary><secondary>ID3D12InfoQueue</secondary></indexterm>
+<indexterm><primary>ID3D12InfoQueue</primary><secondary>GetBreakOnID</secondary></indexterm>
+<para><computeroutput>BOOL ID3D12InfoQueue::GetBreakOnID ([annotation(&quot;_In_&quot;)] <link linkend="_d3d12sdklayers_8idl_1a0600b2b6f8debd83cf10478b7bf966b5">D3D12_MESSAGE_ID</link> ID)</computeroutput></para></section>
+<anchor xml:id="_interface_i_d3_d12_info_queue_1aa905fc49562d08e35ac9b576ae01ab47"/><section>
+    <title>GetBreakOnSeverity()</title>
+<indexterm><primary>GetBreakOnSeverity</primary><secondary>ID3D12InfoQueue</secondary></indexterm>
+<indexterm><primary>ID3D12InfoQueue</primary><secondary>GetBreakOnSeverity</secondary></indexterm>
+<para><computeroutput>BOOL ID3D12InfoQueue::GetBreakOnSeverity ([annotation(&quot;_In_&quot;)] <link linkend="_d3d12sdklayers_8idl_1ad0b1e7169b133363f7e44a2d7d3f21ca">D3D12_MESSAGE_SEVERITY</link> Severity)</computeroutput></para></section>
+<anchor xml:id="_interface_i_d3_d12_info_queue_1a3868f2463765f10faba2b66dfa8f33ae"/><section>
+    <title>GetMessage()</title>
+<indexterm><primary>GetMessage</primary><secondary>ID3D12InfoQueue</secondary></indexterm>
+<indexterm><primary>ID3D12InfoQueue</primary><secondary>GetMessage</secondary></indexterm>
+<para><computeroutput>HRESULT ID3D12InfoQueue::GetMessage ([annotation(&quot;_In_&quot;)] UINT64 MessageIndex, [annotation(&quot;_Out_writes_bytes_opt_(*pMessageByteLength)&quot;)] <link linkend="_struct_d3_d12___m_e_s_s_a_g_e">D3D12_MESSAGE</link> * pMessage, [annotation(&quot;_Inout_&quot;)] SIZE_T * pMessageByteLength)</computeroutput></para></section>
+<anchor xml:id="_interface_i_d3_d12_info_queue_1acb0cf7491d4d59db2607bfc9a90e4f63"/><section>
+    <title>GetMessageCountLimit()</title>
+<indexterm><primary>GetMessageCountLimit</primary><secondary>ID3D12InfoQueue</secondary></indexterm>
+<indexterm><primary>ID3D12InfoQueue</primary><secondary>GetMessageCountLimit</secondary></indexterm>
+<para><computeroutput>UINT64 ID3D12InfoQueue::GetMessageCountLimit ( )</computeroutput></para></section>
+<anchor xml:id="_interface_i_d3_d12_info_queue_1a62263dd9c51bdd9e97bc2a65c8ea2173"/><section>
+    <title>GetMuteDebugOutput()</title>
+<indexterm><primary>GetMuteDebugOutput</primary><secondary>ID3D12InfoQueue</secondary></indexterm>
+<indexterm><primary>ID3D12InfoQueue</primary><secondary>GetMuteDebugOutput</secondary></indexterm>
+<para><computeroutput>BOOL ID3D12InfoQueue::GetMuteDebugOutput ( )</computeroutput></para></section>
+<anchor xml:id="_interface_i_d3_d12_info_queue_1ad14e9dca4c83b8d79ff4062ce2de69a3"/><section>
+    <title>GetNumMessagesAllowedByStorageFilter()</title>
+<indexterm><primary>GetNumMessagesAllowedByStorageFilter</primary><secondary>ID3D12InfoQueue</secondary></indexterm>
+<indexterm><primary>ID3D12InfoQueue</primary><secondary>GetNumMessagesAllowedByStorageFilter</secondary></indexterm>
+<para><computeroutput>UINT64 ID3D12InfoQueue::GetNumMessagesAllowedByStorageFilter ( )</computeroutput></para></section>
+<anchor xml:id="_interface_i_d3_d12_info_queue_1a40b23f4501156fa5fd2dbf641ac80290"/><section>
+    <title>GetNumMessagesDeniedByStorageFilter()</title>
+<indexterm><primary>GetNumMessagesDeniedByStorageFilter</primary><secondary>ID3D12InfoQueue</secondary></indexterm>
+<indexterm><primary>ID3D12InfoQueue</primary><secondary>GetNumMessagesDeniedByStorageFilter</secondary></indexterm>
+<para><computeroutput>UINT64 ID3D12InfoQueue::GetNumMessagesDeniedByStorageFilter ( )</computeroutput></para></section>
+<anchor xml:id="_interface_i_d3_d12_info_queue_1a57351d2bfa753b3331b4cf8c2c0cce9d"/><section>
+    <title>GetNumMessagesDiscardedByMessageCountLimit()</title>
+<indexterm><primary>GetNumMessagesDiscardedByMessageCountLimit</primary><secondary>ID3D12InfoQueue</secondary></indexterm>
+<indexterm><primary>ID3D12InfoQueue</primary><secondary>GetNumMessagesDiscardedByMessageCountLimit</secondary></indexterm>
+<para><computeroutput>UINT64 ID3D12InfoQueue::GetNumMessagesDiscardedByMessageCountLimit ( )</computeroutput></para></section>
+<anchor xml:id="_interface_i_d3_d12_info_queue_1a056bf74acc20492dda26940c2967ea37"/><section>
+    <title>GetNumStoredMessages()</title>
+<indexterm><primary>GetNumStoredMessages</primary><secondary>ID3D12InfoQueue</secondary></indexterm>
+<indexterm><primary>ID3D12InfoQueue</primary><secondary>GetNumStoredMessages</secondary></indexterm>
+<para><computeroutput>UINT64 ID3D12InfoQueue::GetNumStoredMessages ( )</computeroutput></para></section>
+<anchor xml:id="_interface_i_d3_d12_info_queue_1a3f7b3e72143dabe31203629b02022a97"/><section>
+    <title>GetNumStoredMessagesAllowedByRetrievalFilter()</title>
+<indexterm><primary>GetNumStoredMessagesAllowedByRetrievalFilter</primary><secondary>ID3D12InfoQueue</secondary></indexterm>
+<indexterm><primary>ID3D12InfoQueue</primary><secondary>GetNumStoredMessagesAllowedByRetrievalFilter</secondary></indexterm>
+<para><computeroutput>UINT64 ID3D12InfoQueue::GetNumStoredMessagesAllowedByRetrievalFilter ( )</computeroutput></para></section>
+<anchor xml:id="_interface_i_d3_d12_info_queue_1aaf0713fe09a92084dbbe9c83e5c737c5"/><section>
+    <title>GetRetrievalFilter()</title>
+<indexterm><primary>GetRetrievalFilter</primary><secondary>ID3D12InfoQueue</secondary></indexterm>
+<indexterm><primary>ID3D12InfoQueue</primary><secondary>GetRetrievalFilter</secondary></indexterm>
+<para><computeroutput>HRESULT ID3D12InfoQueue::GetRetrievalFilter ([annotation(&quot;_Out_writes_bytes_opt_(*pFilterByteLength)&quot;)] <link linkend="_struct_d3_d12___i_n_f_o___q_u_e_u_e___f_i_l_t_e_r">D3D12_INFO_QUEUE_FILTER</link> * pFilter, [annotation(&quot;_Inout_&quot;)] SIZE_T * pFilterByteLength)</computeroutput></para></section>
+<anchor xml:id="_interface_i_d3_d12_info_queue_1a267544fb8951c82d98050d5b827be3ab"/><section>
+    <title>GetRetrievalFilterStackSize()</title>
+<indexterm><primary>GetRetrievalFilterStackSize</primary><secondary>ID3D12InfoQueue</secondary></indexterm>
+<indexterm><primary>ID3D12InfoQueue</primary><secondary>GetRetrievalFilterStackSize</secondary></indexterm>
+<para><computeroutput>UINT ID3D12InfoQueue::GetRetrievalFilterStackSize ( )</computeroutput></para></section>
+<anchor xml:id="_interface_i_d3_d12_info_queue_1ac0c2202cf9feab8d0c0435acddcd0634"/><section>
+    <title>GetStorageFilter()</title>
+<indexterm><primary>GetStorageFilter</primary><secondary>ID3D12InfoQueue</secondary></indexterm>
+<indexterm><primary>ID3D12InfoQueue</primary><secondary>GetStorageFilter</secondary></indexterm>
+<para><computeroutput>HRESULT ID3D12InfoQueue::GetStorageFilter ([annotation(&quot;_Out_writes_bytes_opt_(*pFilterByteLength)&quot;)] <link linkend="_struct_d3_d12___i_n_f_o___q_u_e_u_e___f_i_l_t_e_r">D3D12_INFO_QUEUE_FILTER</link> * pFilter, [annotation(&quot;_Inout_&quot;)] SIZE_T * pFilterByteLength)</computeroutput></para></section>
+<anchor xml:id="_interface_i_d3_d12_info_queue_1aa7e885cfa45e50d000c8a8f15ef2cc7b"/><section>
+    <title>GetStorageFilterStackSize()</title>
+<indexterm><primary>GetStorageFilterStackSize</primary><secondary>ID3D12InfoQueue</secondary></indexterm>
+<indexterm><primary>ID3D12InfoQueue</primary><secondary>GetStorageFilterStackSize</secondary></indexterm>
+<para><computeroutput>UINT ID3D12InfoQueue::GetStorageFilterStackSize ( )</computeroutput></para></section>
+<anchor xml:id="_interface_i_d3_d12_info_queue_1a4c1330e9aa96d9858d537d2c838fce1b"/><section>
+    <title>PopRetrievalFilter()</title>
+<indexterm><primary>PopRetrievalFilter</primary><secondary>ID3D12InfoQueue</secondary></indexterm>
+<indexterm><primary>ID3D12InfoQueue</primary><secondary>PopRetrievalFilter</secondary></indexterm>
+<para><computeroutput><link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> ID3D12InfoQueue::PopRetrievalFilter ( )</computeroutput></para></section>
+<anchor xml:id="_interface_i_d3_d12_info_queue_1ae7ba81cffdefaf1ce61fa08d3963ea12"/><section>
+    <title>PopStorageFilter()</title>
+<indexterm><primary>PopStorageFilter</primary><secondary>ID3D12InfoQueue</secondary></indexterm>
+<indexterm><primary>ID3D12InfoQueue</primary><secondary>PopStorageFilter</secondary></indexterm>
+<para><computeroutput><link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> ID3D12InfoQueue::PopStorageFilter ( )</computeroutput></para></section>
+<anchor xml:id="_interface_i_d3_d12_info_queue_1a8b910024443e1f2e2ecb51e2830f4a72"/><section>
+    <title>PushCopyOfRetrievalFilter()</title>
+<indexterm><primary>PushCopyOfRetrievalFilter</primary><secondary>ID3D12InfoQueue</secondary></indexterm>
+<indexterm><primary>ID3D12InfoQueue</primary><secondary>PushCopyOfRetrievalFilter</secondary></indexterm>
+<para><computeroutput>HRESULT ID3D12InfoQueue::PushCopyOfRetrievalFilter ( )</computeroutput></para></section>
+<anchor xml:id="_interface_i_d3_d12_info_queue_1a89d795edb30aec35634c75d1f691e23f"/><section>
+    <title>PushCopyOfStorageFilter()</title>
+<indexterm><primary>PushCopyOfStorageFilter</primary><secondary>ID3D12InfoQueue</secondary></indexterm>
+<indexterm><primary>ID3D12InfoQueue</primary><secondary>PushCopyOfStorageFilter</secondary></indexterm>
+<para><computeroutput>HRESULT ID3D12InfoQueue::PushCopyOfStorageFilter ( )</computeroutput></para></section>
+<anchor xml:id="_interface_i_d3_d12_info_queue_1a735f39ec64a7aae95cebfe43ce8616d5"/><section>
+    <title>PushEmptyRetrievalFilter()</title>
+<indexterm><primary>PushEmptyRetrievalFilter</primary><secondary>ID3D12InfoQueue</secondary></indexterm>
+<indexterm><primary>ID3D12InfoQueue</primary><secondary>PushEmptyRetrievalFilter</secondary></indexterm>
+<para><computeroutput>HRESULT ID3D12InfoQueue::PushEmptyRetrievalFilter ( )</computeroutput></para></section>
+<anchor xml:id="_interface_i_d3_d12_info_queue_1aa1668558e9147379b5e301a403f70a94"/><section>
+    <title>PushEmptyStorageFilter()</title>
+<indexterm><primary>PushEmptyStorageFilter</primary><secondary>ID3D12InfoQueue</secondary></indexterm>
+<indexterm><primary>ID3D12InfoQueue</primary><secondary>PushEmptyStorageFilter</secondary></indexterm>
+<para><computeroutput>HRESULT ID3D12InfoQueue::PushEmptyStorageFilter ( )</computeroutput></para></section>
+<anchor xml:id="_interface_i_d3_d12_info_queue_1a5c59bae58da4d3ca9995f3294dc263b1"/><section>
+    <title>PushRetrievalFilter()</title>
+<indexterm><primary>PushRetrievalFilter</primary><secondary>ID3D12InfoQueue</secondary></indexterm>
+<indexterm><primary>ID3D12InfoQueue</primary><secondary>PushRetrievalFilter</secondary></indexterm>
+<para><computeroutput>HRESULT ID3D12InfoQueue::PushRetrievalFilter ([annotation(&quot;_In_&quot;)] <link linkend="_struct_d3_d12___i_n_f_o___q_u_e_u_e___f_i_l_t_e_r">D3D12_INFO_QUEUE_FILTER</link> * pFilter)</computeroutput></para></section>
+<anchor xml:id="_interface_i_d3_d12_info_queue_1af08640ddf7050f0549297a877287bafb"/><section>
+    <title>PushStorageFilter()</title>
+<indexterm><primary>PushStorageFilter</primary><secondary>ID3D12InfoQueue</secondary></indexterm>
+<indexterm><primary>ID3D12InfoQueue</primary><secondary>PushStorageFilter</secondary></indexterm>
+<para><computeroutput>HRESULT ID3D12InfoQueue::PushStorageFilter ([annotation(&quot;_In_&quot;)] <link linkend="_struct_d3_d12___i_n_f_o___q_u_e_u_e___f_i_l_t_e_r">D3D12_INFO_QUEUE_FILTER</link> * pFilter)</computeroutput></para></section>
+<anchor xml:id="_interface_i_d3_d12_info_queue_1abdfd688aab5d25a6eacaadcb2cc89cc9"/><section>
+    <title>SetBreakOnCategory()</title>
+<indexterm><primary>SetBreakOnCategory</primary><secondary>ID3D12InfoQueue</secondary></indexterm>
+<indexterm><primary>ID3D12InfoQueue</primary><secondary>SetBreakOnCategory</secondary></indexterm>
+<para><computeroutput>HRESULT ID3D12InfoQueue::SetBreakOnCategory ([annotation(&quot;_In_&quot;)] <link linkend="_d3d12sdklayers_8idl_1ad2b47460f8e03d96033ea52d0a83d34d">D3D12_MESSAGE_CATEGORY</link> Category, [annotation(&quot;_In_&quot;)] BOOL bEnable)</computeroutput></para></section>
+<anchor xml:id="_interface_i_d3_d12_info_queue_1ab95a992ff9e81c8fe48fb76d0c5fe451"/><section>
+    <title>SetBreakOnID()</title>
+<indexterm><primary>SetBreakOnID</primary><secondary>ID3D12InfoQueue</secondary></indexterm>
+<indexterm><primary>ID3D12InfoQueue</primary><secondary>SetBreakOnID</secondary></indexterm>
+<para><computeroutput>HRESULT ID3D12InfoQueue::SetBreakOnID ([annotation(&quot;_In_&quot;)] <link linkend="_d3d12sdklayers_8idl_1a0600b2b6f8debd83cf10478b7bf966b5">D3D12_MESSAGE_ID</link> ID, [annotation(&quot;_In_&quot;)] BOOL bEnable)</computeroutput></para></section>
+<anchor xml:id="_interface_i_d3_d12_info_queue_1a550aa7f731b8452eed527a55c425ae84"/><section>
+    <title>SetBreakOnSeverity()</title>
+<indexterm><primary>SetBreakOnSeverity</primary><secondary>ID3D12InfoQueue</secondary></indexterm>
+<indexterm><primary>ID3D12InfoQueue</primary><secondary>SetBreakOnSeverity</secondary></indexterm>
+<para><computeroutput>HRESULT ID3D12InfoQueue::SetBreakOnSeverity ([annotation(&quot;_In_&quot;)] <link linkend="_d3d12sdklayers_8idl_1ad0b1e7169b133363f7e44a2d7d3f21ca">D3D12_MESSAGE_SEVERITY</link> Severity, [annotation(&quot;_In_&quot;)] BOOL bEnable)</computeroutput></para></section>
+<anchor xml:id="_interface_i_d3_d12_info_queue_1a73e212dc7353dda6489a3c3b7688bfc6"/><section>
+    <title>SetMessageCountLimit()</title>
+<indexterm><primary>SetMessageCountLimit</primary><secondary>ID3D12InfoQueue</secondary></indexterm>
+<indexterm><primary>ID3D12InfoQueue</primary><secondary>SetMessageCountLimit</secondary></indexterm>
+<para><computeroutput>HRESULT ID3D12InfoQueue::SetMessageCountLimit ([annotation(&quot;_In_&quot;)] UINT64 MessageCountLimit)</computeroutput></para></section>
+<anchor xml:id="_interface_i_d3_d12_info_queue_1ab7392a6bae8eaccbb6f70637e8ea1c4e"/><section>
+    <title>SetMuteDebugOutput()</title>
+<indexterm><primary>SetMuteDebugOutput</primary><secondary>ID3D12InfoQueue</secondary></indexterm>
+<indexterm><primary>ID3D12InfoQueue</primary><secondary>SetMuteDebugOutput</secondary></indexterm>
+<para><computeroutput><link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> ID3D12InfoQueue::SetMuteDebugOutput ([annotation(&quot;_In_&quot;)] BOOL bMute)</computeroutput></para></section>
+<para>
+The documentation for this interface was generated from the following file:</para>
+adhed/<link linkend="_d3d12sdklayers_8idl">d3d12sdklayers.idl</link></section>
+</section>

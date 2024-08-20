@@ -1,0 +1,330 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="__tracy_open_g_l_8hpp_source" xml:lang="en-US">
+<title>TracyOpenGL.hpp</title>
+<indexterm><primary>adhed/tracy/TracyOpenGL.hpp</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 <emphasis role="preprocessor">#ifndef&#32;__TRACYOPENGL_HPP__</emphasis>
+2 <emphasis role="preprocessor">#define&#32;__TRACYOPENGL_HPP__</emphasis>
+3 
+4 <emphasis role="preprocessor">#if&#32;!defined&#32;TRACY_ENABLE&#32;||&#32;defined&#32;__APPLE__</emphasis>
+5 
+6 <emphasis role="preprocessor">#define&#32;TracyGpuContext</emphasis>
+7 <emphasis role="preprocessor">#define&#32;TracyGpuContextName(x,y)</emphasis>
+8 <emphasis role="preprocessor">#define&#32;TracyGpuNamedZone(x,y,z)</emphasis>
+9 <emphasis role="preprocessor">#define&#32;TracyGpuNamedZoneC(x,y,z,w)</emphasis>
+10 <emphasis role="preprocessor">#define&#32;TracyGpuZone(x)</emphasis>
+11 <emphasis role="preprocessor">#define&#32;TracyGpuZoneC(x,y)</emphasis>
+12 <emphasis role="preprocessor">#define&#32;TracyGpuZoneTransient(x,y,z)</emphasis>
+13 <emphasis role="preprocessor">#define&#32;TracyGpuCollect</emphasis>
+14 
+15 <emphasis role="preprocessor">#define&#32;TracyGpuNamedZoneS(x,y,z,w)</emphasis>
+16 <emphasis role="preprocessor">#define&#32;TracyGpuNamedZoneCS(x,y,z,w,a)</emphasis>
+17 <emphasis role="preprocessor">#define&#32;TracyGpuZoneS(x,y)</emphasis>
+18 <emphasis role="preprocessor">#define&#32;TracyGpuZoneCS(x,y,z)</emphasis>
+19 <emphasis role="preprocessor">#define&#32;TracyGpuZoneTransientS(x,y,z,w)</emphasis>
+20 
+21 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespacetracy">tracy</link>
+22 {
+23 <emphasis role="keyword">struct&#32;</emphasis>SourceLocationData;
+24 <emphasis role="keyword">class&#32;</emphasis><link linkend="_classtracy_1_1_gpu_ctx_scope">GpuCtxScope</link>
+25 {
+26 <emphasis role="keyword">public</emphasis>:
+27 &#32;&#32;&#32;&#32;<link linkend="_classtracy_1_1_gpu_ctx_scope_1a9ca1b7632d63e6de432b181d663b839a">GpuCtxScope</link>(&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_structtracy_1_1_source_location_data">SourceLocationData</link>*,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;)&#32;{}
+28 &#32;&#32;&#32;&#32;<link linkend="_classtracy_1_1_gpu_ctx_scope_1a834f80d6fae5ca905db3f819de92b529">GpuCtxScope</link>(&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_structtracy_1_1_source_location_data">SourceLocationData</link>*,&#32;<emphasis role="keywordtype">int</emphasis>,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;)&#32;{}
+29 };
+30 }
+31 
+32 <emphasis role="preprocessor">#else</emphasis>
+33 
+34 <emphasis role="preprocessor">#include&#32;&lt;atomic&gt;</emphasis>
+35 <emphasis role="preprocessor">#include&#32;&lt;assert.h&gt;</emphasis>
+36 <emphasis role="preprocessor">#include&#32;&lt;stdlib.h&gt;</emphasis>
+37 
+38 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__tracy_8hpp">Tracy.hpp</link>&quot;</emphasis>
+39 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__tracy_profiler_8hpp">../client/TracyProfiler.hpp</link>&quot;</emphasis>
+40 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__tracy_callstack_8hpp">../client/TracyCallstack.hpp</link>&quot;</emphasis>
+41 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__tracy_align_8hpp">../common/TracyAlign.hpp</link>&quot;</emphasis>
+42 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__tracy_alloc_8hpp">../common/TracyAlloc.hpp</link>&quot;</emphasis>
+43 
+44 <emphasis role="preprocessor">#if&#32;!defined&#32;GL_TIMESTAMP&#32;&amp;&amp;&#32;defined&#32;GL_TIMESTAMP_EXT</emphasis>
+45 <emphasis role="preprocessor">#&#32;&#32;define&#32;GL_TIMESTAMP&#32;GL_TIMESTAMP_EXT</emphasis>
+46 <emphasis role="preprocessor">#&#32;&#32;define&#32;GL_QUERY_COUNTER_BITS&#32;GL_QUERY_COUNTER_BITS_EXT</emphasis>
+47 <emphasis role="preprocessor">#&#32;&#32;define&#32;glGetQueryObjectiv&#32;glGetQueryObjectivEXT</emphasis>
+48 <emphasis role="preprocessor">#&#32;&#32;define&#32;glGetQueryObjectui64v&#32;glGetQueryObjectui64vEXT</emphasis>
+49 <emphasis role="preprocessor">#&#32;&#32;define&#32;glQueryCounter&#32;glQueryCounterEXT</emphasis>
+50 <emphasis role="preprocessor">#endif</emphasis>
+51 
+52 <emphasis role="preprocessor">#define&#32;TracyGpuContext&#32;tracy::GetGpuCtx().ptr&#32;=&#32;(tracy::GpuCtx*)tracy::tracy_malloc(&#32;sizeof(&#32;tracy::GpuCtx&#32;)&#32;);&#32;new(tracy::GetGpuCtx().ptr)&#32;tracy::GpuCtx;</emphasis>
+53 <emphasis role="preprocessor">#define&#32;TracyGpuContextName(&#32;name,&#32;size&#32;)&#32;tracy::GetGpuCtx().ptr-&gt;Name(&#32;name,&#32;size&#32;);</emphasis>
+54 <emphasis role="preprocessor">#if&#32;defined&#32;TRACY_HAS_CALLSTACK&#32;&amp;&amp;&#32;defined&#32;TRACY_CALLSTACK</emphasis>
+55 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyGpuNamedZone(&#32;varname,&#32;name,&#32;active&#32;)&#32;static&#32;constexpr&#32;tracy::SourceLocationData&#32;TracyConcat(__tracy_gpu_source_location,TracyLine)&#32;{&#32;name,&#32;TracyFunction,&#32;&#32;TracyFile,&#32;(uint32_t)TracyLine,&#32;0&#32;};&#32;tracy::GpuCtxScope&#32;varname(&#32;&amp;TracyConcat(__tracy_gpu_source_location,TracyLine),&#32;TRACY_CALLSTACK,&#32;active&#32;);</emphasis>
+56 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyGpuNamedZoneC(&#32;varname,&#32;name,&#32;color,&#32;active&#32;)&#32;static&#32;constexpr&#32;tracy::SourceLocationData&#32;TracyConcat(__tracy_gpu_source_location,TracyLine)&#32;{&#32;name,&#32;TracyFunction,&#32;&#32;TracyFile,&#32;(uint32_t)TracyLine,&#32;color&#32;};&#32;tracy::GpuCtxScope&#32;varname(&#32;&amp;TracyConcat(__tracy_gpu_source_location,TracyLine),&#32;TRACY_CALLSTACK,&#32;active&#32;);</emphasis>
+57 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyGpuZone(&#32;name&#32;)&#32;TracyGpuNamedZoneS(&#32;___tracy_gpu_zone,&#32;name,&#32;TRACY_CALLSTACK,&#32;true&#32;)</emphasis>
+58 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyGpuZoneC(&#32;name,&#32;color&#32;)&#32;TracyGpuNamedZoneCS(&#32;___tracy_gpu_zone,&#32;name,&#32;color,&#32;TRACY_CALLSTACK,&#32;true&#32;)</emphasis>
+59 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyGpuZoneTransient(&#32;varname,&#32;name,&#32;active&#32;)&#32;tracy::GpuCtxScope&#32;varname(&#32;TracyLine,&#32;TracyFile,&#32;strlen(&#32;TracyFile&#32;),&#32;TracyFunction,&#32;strlen(&#32;TracyFunction&#32;),&#32;name,&#32;strlen(&#32;name&#32;),&#32;TRACY_CALLSTACK,&#32;active&#32;);</emphasis>
+60 <emphasis role="preprocessor">#else</emphasis>
+61 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyGpuNamedZone(&#32;varname,&#32;name,&#32;active&#32;)&#32;static&#32;constexpr&#32;tracy::SourceLocationData&#32;TracyConcat(__tracy_gpu_source_location,TracyLine)&#32;{&#32;name,&#32;TracyFunction,&#32;&#32;TracyFile,&#32;(uint32_t)TracyLine,&#32;0&#32;};&#32;tracy::GpuCtxScope&#32;varname(&#32;&amp;TracyConcat(__tracy_gpu_source_location,TracyLine),&#32;active&#32;);</emphasis>
+62 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyGpuNamedZoneC(&#32;varname,&#32;name,&#32;color,&#32;active&#32;)&#32;static&#32;constexpr&#32;tracy::SourceLocationData&#32;TracyConcat(__tracy_gpu_source_location,TracyLine)&#32;{&#32;name,&#32;TracyFunction,&#32;&#32;TracyFile,&#32;(uint32_t)TracyLine,&#32;color&#32;};&#32;tracy::GpuCtxScope&#32;varname(&#32;&amp;TracyConcat(__tracy_gpu_source_location,TracyLine),&#32;active&#32;);</emphasis>
+63 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyGpuZone(&#32;name&#32;)&#32;TracyGpuNamedZone(&#32;___tracy_gpu_zone,&#32;name,&#32;true&#32;)</emphasis>
+64 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyGpuZoneC(&#32;name,&#32;color&#32;)&#32;TracyGpuNamedZoneC(&#32;___tracy_gpu_zone,&#32;name,&#32;color,&#32;true&#32;)</emphasis>
+65 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyGpuZoneTransient(&#32;varname,&#32;name,&#32;active&#32;)&#32;tracy::GpuCtxScope&#32;varname(&#32;TracyLine,&#32;TracyFile,&#32;strlen(&#32;TracyFile&#32;),&#32;TracyFunction,&#32;strlen(&#32;TracyFunction&#32;),&#32;name,&#32;strlen(&#32;name&#32;),&#32;active&#32;);</emphasis>
+66 <emphasis role="preprocessor">#endif</emphasis>
+67 <emphasis role="preprocessor">#define&#32;TracyGpuCollect&#32;tracy::GetGpuCtx().ptr-&gt;Collect();</emphasis>
+68 
+69 <emphasis role="preprocessor">#ifdef&#32;TRACY_HAS_CALLSTACK</emphasis>
+70 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyGpuNamedZoneS(&#32;varname,&#32;name,&#32;depth,&#32;active&#32;)&#32;static&#32;constexpr&#32;tracy::SourceLocationData&#32;TracyConcat(__tracy_gpu_source_location,TracyLine)&#32;{&#32;name,&#32;TracyFunction,&#32;&#32;TracyFile,&#32;(uint32_t)TracyLine,&#32;0&#32;};&#32;tracy::GpuCtxScope&#32;varname(&#32;&amp;TracyConcat(__tracy_gpu_source_location,TracyLine),&#32;depth,&#32;active&#32;);</emphasis>
+71 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyGpuNamedZoneCS(&#32;varname,&#32;name,&#32;color,&#32;depth,&#32;active&#32;)&#32;static&#32;constexpr&#32;tracy::SourceLocationData&#32;TracyConcat(__tracy_gpu_source_location,TracyLine)&#32;{&#32;name,&#32;TracyFunction,&#32;&#32;TracyFile,&#32;(uint32_t)TracyLine,&#32;color&#32;};&#32;tracy::GpuCtxScope&#32;varname(&#32;&amp;TracyConcat(__tracy_gpu_source_location,TracyLine),&#32;depth,&#32;active&#32;);</emphasis>
+72 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyGpuZoneS(&#32;name,&#32;depth&#32;)&#32;TracyGpuNamedZoneS(&#32;___tracy_gpu_zone,&#32;name,&#32;depth,&#32;true&#32;)</emphasis>
+73 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyGpuZoneCS(&#32;name,&#32;color,&#32;depth&#32;)&#32;TracyGpuNamedZoneCS(&#32;___tracy_gpu_zone,&#32;name,&#32;color,&#32;depth,&#32;true&#32;)</emphasis>
+74 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyGpuZoneTransientS(&#32;varname,&#32;name,&#32;depth,&#32;active&#32;)&#32;tracy::GpuCtxScope&#32;varname(&#32;TracyLine,&#32;TracyFile,&#32;strlen(&#32;TracyFile&#32;),&#32;TracyFunction,&#32;strlen(&#32;TracyFunction&#32;),&#32;name,&#32;strlen(&#32;name&#32;),&#32;depth,&#32;active&#32;);</emphasis>
+75 <emphasis role="preprocessor">#else</emphasis>
+76 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyGpuNamedZoneS(&#32;varname,&#32;name,&#32;depth,&#32;active&#32;)&#32;TracyGpuNamedZone(&#32;varname,&#32;name,&#32;active&#32;)</emphasis>
+77 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyGpuNamedZoneCS(&#32;varname,&#32;name,&#32;color,&#32;depth,&#32;active&#32;)&#32;TracyGpuNamedZoneC(&#32;varname,&#32;name,&#32;color,&#32;active&#32;)</emphasis>
+78 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyGpuZoneS(&#32;name,&#32;depth&#32;)&#32;TracyGpuZone(&#32;name&#32;)</emphasis>
+79 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyGpuZoneCS(&#32;name,&#32;color,&#32;depth&#32;)&#32;TracyGpuZoneC(&#32;name,&#32;color&#32;)</emphasis>
+80 <emphasis role="preprocessor">#&#32;&#32;define&#32;TracyGpuZoneTransientS(&#32;varname,&#32;name,&#32;depth,&#32;active&#32;)&#32;TracyGpuZoneTransient(&#32;varname,&#32;name,&#32;active&#32;)</emphasis>
+81 <emphasis role="preprocessor">#endif</emphasis>
+82 
+83 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespacetracy">tracy</link>
+84 {
+85 
+86 <emphasis role="keyword">class&#32;</emphasis>GpuCtx
+87 {
+88 &#32;&#32;&#32;&#32;<emphasis role="keyword">friend</emphasis>&#32;<emphasis role="keyword">class&#32;</emphasis>GpuCtxScope;
+89 
+90 &#32;&#32;&#32;&#32;<emphasis role="keyword">enum</emphasis>&#32;{&#32;QueryCount&#32;=&#32;64&#32;*&#32;1024&#32;};
+91 
+92 <emphasis role="keyword">public</emphasis>:
+93 &#32;&#32;&#32;&#32;GpuCtx()
+94 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;m_context(&#32;<link linkend="_namespacetracy_1a2a2c3b7b326f78076f6e125a2eb17ce4">GetGpuCtxCounter</link>().fetch_add(&#32;1,&#32;<link linkend="_namespacestd">std</link>::memory_order_relaxed&#32;)&#32;)
+95 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;m_head(&#32;0&#32;)
+96 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;m_tail(&#32;0&#32;)
+97 &#32;&#32;&#32;&#32;{
+98 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_tracy__lz4_8cpp_1acdcc5aaebf3f273c1762f24a6ece2e5e">assert</link>(&#32;m_context&#32;!=&#32;255&#32;);
+99 
+100 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1adc236d6ac7cd94c240c5d65e8a1b4ab6">glGenQueries</link>(&#32;QueryCount,&#32;m_query&#32;);
+101 
+102 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int64_t&#32;tgpu;
+103 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1ab7263fb30d16b8ca17fe1335acba1482">glGetInteger64v</link>(&#32;<link linkend="_glad_8h_1a5e5670e26532454b5bcf04c794ae6ba1">GL_TIMESTAMP</link>,&#32;&amp;tgpu&#32;);
+104 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int64_t&#32;tcpu&#32;=&#32;Profiler::GetTime();
+105 
+106 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1acebcc1c5663f14ebde1d16831e5fed94">GLint</link>&#32;bits;
+107 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1afc9fc63c301245548355e69720f9b9e5">glGetQueryiv</link>(&#32;<link linkend="_glad_8h_1a5e5670e26532454b5bcf04c794ae6ba1">GL_TIMESTAMP</link>,&#32;<link linkend="_glad_8h_1affc3fd3d326f4bc17ec3ae70f64e3f02">GL_QUERY_COUNTER_BITS</link>,&#32;&amp;bits&#32;);
+108 
+109 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">float</emphasis>&#32;period&#32;=&#32;1.f;
+110 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;thread&#32;=&#32;<link linkend="_namespacetracy_1aa3114ef7fe1a4fdc87e4e15fd5d86a63">GetThreadHandle</link>();
+111 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1a47bdea510ce33341f971fd506f54d0ed">TracyLfqPrepare</link>(&#32;QueueType::GpuNewContext&#32;);
+112 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;gpuNewContext.cpuTime,&#32;tcpu&#32;);
+113 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;gpuNewContext.gpuTime,&#32;tgpu&#32;);
+114 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;gpuNewContext.thread,&#32;thread&#32;);
+115 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;gpuNewContext.period,&#32;period&#32;);
+116 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;gpuNewContext.context,&#32;m_context&#32;);
+117 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;gpuNewContext.flags,&#32;uint8_t(&#32;0&#32;)&#32;);
+118 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;gpuNewContext.type,&#32;GpuContextType::OpenGl&#32;);
+119 
+120 <emphasis role="preprocessor">#ifdef&#32;TRACY_ON_DEMAND</emphasis>
+121 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>().DeferItem(&#32;*item&#32;);
+122 <emphasis role="preprocessor">#endif</emphasis>
+123 
+124 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1ad33bba2f411a92b8883a1d09904ee322">TracyLfqCommit</link>;
+125 &#32;&#32;&#32;&#32;}
+126 
+127 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;Name(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>,&#32;uint16_t&#32;len&#32;)
+128 &#32;&#32;&#32;&#32;{
+129 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">auto</emphasis>&#32;ptr&#32;=&#32;(<emphasis role="keywordtype">char</emphasis>*)tracy_malloc(&#32;len&#32;);
+130 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memcpy(&#32;ptr,&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>,&#32;len&#32;);
+131 
+132 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1a47bdea510ce33341f971fd506f54d0ed">TracyLfqPrepare</link>(&#32;QueueType::GpuContextName&#32;);
+133 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;gpuContextNameFat.context,&#32;m_context&#32;);
+134 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;gpuContextNameFat.ptr,&#32;(uint64_t)ptr&#32;);
+135 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;gpuContextNameFat.size,&#32;len&#32;);
+136 <emphasis role="preprocessor">#ifdef&#32;TRACY_ON_DEMAND</emphasis>
+137 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>().DeferItem(&#32;*item&#32;);
+138 <emphasis role="preprocessor">#endif</emphasis>
+139 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1ad33bba2f411a92b8883a1d09904ee322">TracyLfqCommit</link>;
+140 &#32;&#32;&#32;&#32;}
+141 
+142 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;Collect()
+143 &#32;&#32;&#32;&#32;{
+144 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__tracy_8hpp_1abad2503f66ec4fa32c8a36fc1472bcca">ZoneScopedC</link>(&#32;Color::Red4&#32;);
+145 
+146 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;m_tail&#32;==&#32;m_head&#32;)&#32;<emphasis role="keywordflow">return</emphasis>;
+147 
+148 <emphasis role="preprocessor">#ifdef&#32;TRACY_ON_DEMAND</emphasis>
+149 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>().IsConnected()&#32;)
+150 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+151 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_head&#32;=&#32;m_tail&#32;=&#32;0;
+152 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>;
+153 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+154 <emphasis role="preprocessor">#endif</emphasis>
+155 
+156 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">while</emphasis>(&#32;m_tail&#32;!=&#32;m_head&#32;)
+157 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+158 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1acebcc1c5663f14ebde1d16831e5fed94">GLint</link>&#32;available;
+159 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a7edb54a2882c3aa4329d14b39c5080fb">glGetQueryObjectiv</link>(&#32;m_query[m_tail],&#32;<link linkend="_glad_8h_1aa3b4655feeeed8b7e7e981c994af1731">GL_QUERY_RESULT_AVAILABLE</link>,&#32;&amp;available&#32;);
+160 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!available&#32;)&#32;<emphasis role="keywordflow">return</emphasis>;
+161 
+162 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uint64_t&#32;time;
+163 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a65903b749a041659dcc536450c5eb79b">glGetQueryObjectui64v</link>(&#32;m_query[m_tail],&#32;<link linkend="_glad_8h_1a5f22b4318913632dfd529bc7536fa1d6">GL_QUERY_RESULT</link>,&#32;&amp;time&#32;);
+164 
+165 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1a47bdea510ce33341f971fd506f54d0ed">TracyLfqPrepare</link>(&#32;QueueType::GpuTime&#32;);
+166 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;gpuTime.gpuTime,&#32;(int64_t)time&#32;);
+167 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;gpuTime.queryId,&#32;(uint16_t)m_tail&#32;);
+168 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;gpuTime.context,&#32;m_context&#32;);
+169 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1ad33bba2f411a92b8883a1d09904ee322">TracyLfqCommit</link>;
+170 
+171 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_tail&#32;=&#32;(&#32;m_tail&#32;+&#32;1&#32;)&#32;%&#32;QueryCount;
+172 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+173 &#32;&#32;&#32;&#32;}
+174 
+175 <emphasis role="keyword">private</emphasis>:
+176 &#32;&#32;&#32;&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;NextQueryId()
+177 &#32;&#32;&#32;&#32;{
+178 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;<emphasis role="keywordtype">id</emphasis>&#32;=&#32;m_head;
+179 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m_head&#32;=&#32;(&#32;m_head&#32;+&#32;1&#32;)&#32;%&#32;QueryCount;
+180 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_tracy__lz4_8cpp_1acdcc5aaebf3f273c1762f24a6ece2e5e">assert</link>(&#32;m_head&#32;!=&#32;m_tail&#32;);
+181 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_glad_8h_1a0f49c9e660c049e85b4735b5246b6258">id</link>;
+182 &#32;&#32;&#32;&#32;}
+183 
+184 &#32;&#32;&#32;&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;TranslateOpenGlQueryId(&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<emphasis role="keywordtype">id</emphasis>&#32;)
+185 &#32;&#32;&#32;&#32;{
+186 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;m_query[<link linkend="_glad_8h_1a0f49c9e660c049e85b4735b5246b6258">id</link>];
+187 &#32;&#32;&#32;&#32;}
+188 
+189 &#32;&#32;&#32;&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;uint8_t&#32;GetId()<emphasis role="keyword">&#32;const</emphasis>
+190 <emphasis role="keyword">&#32;&#32;&#32;&#32;</emphasis>{
+191 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;m_context;
+192 &#32;&#32;&#32;&#32;}
+193 
+194 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;m_query[QueryCount];
+195 &#32;&#32;&#32;&#32;uint8_t&#32;m_context;
+196 
+197 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;m_head;
+198 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;m_tail;
+199 };
+200 
+201 <emphasis role="keyword">class&#32;</emphasis>GpuCtxScope
+202 {
+203 <emphasis role="keyword">public</emphasis>:
+204 &#32;&#32;&#32;&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;<link linkend="_classtracy_1_1_gpu_ctx_scope_1a9ca1b7632d63e6de432b181d663b839a">GpuCtxScope</link>(&#32;<emphasis role="keyword">const</emphasis>&#32;SourceLocationData*&#32;srcloc,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;is_active&#32;)
+205 <emphasis role="preprocessor">#ifdef&#32;TRACY_ON_DEMAND</emphasis>
+206 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;m_active(&#32;is_active&#32;&amp;&amp;&#32;<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>().IsConnected()&#32;)
+207 <emphasis role="preprocessor">#else</emphasis>
+208 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;m_active(&#32;is_active&#32;)
+209 <emphasis role="preprocessor">#endif</emphasis>
+210 &#32;&#32;&#32;&#32;{
+211 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!m_active&#32;)&#32;<emphasis role="keywordflow">return</emphasis>;
+212 
+213 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;queryId&#32;=&#32;<link linkend="_namespacetracy_1a7c0e76472ae442de0c31fbfe38bdfe00">GetGpuCtx</link>().<link linkend="_structtracy_1_1_gpu_ctx_wrapper_1ad49398f6c566475b1660f8a92372a517">ptr</link>-&gt;NextQueryId();
+214 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1af183cae7f57e927a6911fda7b11c8d3e">glQueryCounter</link>(&#32;<link linkend="_namespacetracy_1a7c0e76472ae442de0c31fbfe38bdfe00">GetGpuCtx</link>().ptr-&gt;TranslateOpenGlQueryId(&#32;queryId&#32;),&#32;<link linkend="_glad_8h_1a5e5670e26532454b5bcf04c794ae6ba1">GL_TIMESTAMP</link>&#32;);
+215 
+216 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1a47bdea510ce33341f971fd506f54d0ed">TracyLfqPrepare</link>(&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330acd129371bf099a03183e3c87fd86b85b">QueueType::GpuZoneBegin</link>&#32;);
+217 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;gpuZoneBegin.cpuTime,&#32;<link linkend="_classtracy_1_1_profiler_1a4131d199df7f0faeb8b2ddc860cade4e">Profiler::GetTime</link>()&#32;);
+218 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memset(&#32;&amp;item-&gt;gpuZoneBegin.thread,&#32;0,&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;item-&gt;gpuZoneBegin.thread&#32;)&#32;);
+219 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;gpuZoneBegin.queryId,&#32;uint16_t(&#32;queryId&#32;)&#32;);
+220 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;gpuZoneBegin.context,&#32;<link linkend="_namespacetracy_1a7c0e76472ae442de0c31fbfe38bdfe00">GetGpuCtx</link>().ptr-&gt;GetId()&#32;);
+221 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;gpuZoneBegin.srcloc,&#32;(uint64_t)srcloc&#32;);
+222 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1ad33bba2f411a92b8883a1d09904ee322">TracyLfqCommit</link>;
+223 &#32;&#32;&#32;&#32;}
+224 
+225 &#32;&#32;&#32;&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;<link linkend="_classtracy_1_1_gpu_ctx_scope_1a9ca1b7632d63e6de432b181d663b839a">GpuCtxScope</link>(&#32;<emphasis role="keyword">const</emphasis>&#32;SourceLocationData*&#32;srcloc,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a2aa5ce5567a58e4da543ce468fb1711a">depth</link>,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;is_active&#32;)
+226 <emphasis role="preprocessor">#ifdef&#32;TRACY_ON_DEMAND</emphasis>
+227 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;m_active(&#32;is_active&#32;&amp;&amp;&#32;<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>().IsConnected()&#32;)
+228 <emphasis role="preprocessor">#else</emphasis>
+229 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;m_active(&#32;is_active&#32;)
+230 <emphasis role="preprocessor">#endif</emphasis>
+231 &#32;&#32;&#32;&#32;{
+232 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!m_active&#32;)&#32;<emphasis role="keywordflow">return</emphasis>;
+233 
+234 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;queryId&#32;=&#32;<link linkend="_namespacetracy_1a7c0e76472ae442de0c31fbfe38bdfe00">GetGpuCtx</link>().<link linkend="_structtracy_1_1_gpu_ctx_wrapper_1ad49398f6c566475b1660f8a92372a517">ptr</link>-&gt;NextQueryId();
+235 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1af183cae7f57e927a6911fda7b11c8d3e">glQueryCounter</link>(&#32;<link linkend="_namespacetracy_1a7c0e76472ae442de0c31fbfe38bdfe00">GetGpuCtx</link>().ptr-&gt;TranslateOpenGlQueryId(&#32;queryId&#32;),&#32;<link linkend="_glad_8h_1a5e5670e26532454b5bcf04c794ae6ba1">GL_TIMESTAMP</link>&#32;);
+236 
+237 <emphasis role="preprocessor">#ifdef&#32;TRACY_FIBERS</emphasis>
+238 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1a47bdea510ce33341f971fd506f54d0ed">TracyLfqPrepare</link>(&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330acd129371bf099a03183e3c87fd86b85b">QueueType::GpuZoneBegin</link>&#32;);
+239 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memset(&#32;&amp;item-&gt;gpuZoneBegin.thread,&#32;0,&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;item-&gt;gpuZoneBegin.thread&#32;)&#32;);
+240 <emphasis role="preprocessor">#else</emphasis>
+241 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>().<link linkend="_classtracy_1_1_profiler_1a311e0b32e12e055cbda821a311a76366">SendCallstack</link>(&#32;<link linkend="_glad_8h_1a2aa5ce5567a58e4da543ce468fb1711a">depth</link>&#32;);
+242 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1a47bdea510ce33341f971fd506f54d0ed">TracyLfqPrepare</link>(&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330a31ab9d87294f9cf8468a769b9c86fbdb">QueueType::GpuZoneBeginCallstack</link>&#32;);
+243 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;gpuZoneBegin.thread,&#32;<link linkend="_namespacetracy_1aa3114ef7fe1a4fdc87e4e15fd5d86a63">GetThreadHandle</link>()&#32;);
+244 <emphasis role="preprocessor">#endif</emphasis>
+245 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;gpuZoneBegin.cpuTime,&#32;<link linkend="_classtracy_1_1_profiler_1a4131d199df7f0faeb8b2ddc860cade4e">Profiler::GetTime</link>()&#32;);
+246 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;gpuZoneBegin.queryId,&#32;uint16_t(&#32;queryId&#32;)&#32;);
+247 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;gpuZoneBegin.context,&#32;<link linkend="_namespacetracy_1a7c0e76472ae442de0c31fbfe38bdfe00">GetGpuCtx</link>().ptr-&gt;GetId()&#32;);
+248 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;gpuZoneBegin.srcloc,&#32;(uint64_t)srcloc&#32;);
+249 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1ad33bba2f411a92b8883a1d09904ee322">TracyLfqCommit</link>;
+250 &#32;&#32;&#32;&#32;}
+251 
+252 &#32;&#32;&#32;&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;<link linkend="_classtracy_1_1_gpu_ctx_scope_1a9ca1b7632d63e6de432b181d663b839a">GpuCtxScope</link>(&#32;uint32_t&#32;line,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a6ffd2192cbc75d017665e95207ee36a7">source</link>,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;sourceSz,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;function,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;functionSz,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;nameSz,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;is_active&#32;)
+253 <emphasis role="preprocessor">#ifdef&#32;TRACY_ON_DEMAND</emphasis>
+254 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;m_active(&#32;is_active&#32;&amp;&amp;&#32;<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>().IsConnected()&#32;)
+255 <emphasis role="preprocessor">#else</emphasis>
+256 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;m_active(&#32;is_active&#32;)
+257 <emphasis role="preprocessor">#endif</emphasis>
+258 &#32;&#32;&#32;&#32;{
+259 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!m_active&#32;)&#32;<emphasis role="keywordflow">return</emphasis>;
+260 
+261 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;queryId&#32;=&#32;<link linkend="_namespacetracy_1a7c0e76472ae442de0c31fbfe38bdfe00">GetGpuCtx</link>().<link linkend="_structtracy_1_1_gpu_ctx_wrapper_1ad49398f6c566475b1660f8a92372a517">ptr</link>-&gt;NextQueryId();
+262 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1af183cae7f57e927a6911fda7b11c8d3e">glQueryCounter</link>(&#32;<link linkend="_namespacetracy_1a7c0e76472ae442de0c31fbfe38bdfe00">GetGpuCtx</link>().ptr-&gt;TranslateOpenGlQueryId(&#32;queryId&#32;),&#32;<link linkend="_glad_8h_1a5e5670e26532454b5bcf04c794ae6ba1">GL_TIMESTAMP</link>&#32;);
+263 
+264 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1a47bdea510ce33341f971fd506f54d0ed">TracyLfqPrepare</link>(&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330ad0e59ef13b6f6988e9d349ea3e347675">QueueType::GpuZoneBeginAllocSrcLoc</link>&#32;);
+265 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;srcloc&#32;=&#32;<link linkend="_classtracy_1_1_profiler_1ab869025334b66dbe8ad63dc0beffbc2c">Profiler::AllocSourceLocation</link>(&#32;line,&#32;<link linkend="_glad_8h_1a6ffd2192cbc75d017665e95207ee36a7">source</link>,&#32;sourceSz,&#32;function,&#32;functionSz,&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>,&#32;nameSz&#32;);
+266 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;gpuZoneBegin.cpuTime,&#32;<link linkend="_classtracy_1_1_profiler_1a4131d199df7f0faeb8b2ddc860cade4e">Profiler::GetTime</link>()&#32;);
+267 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memset(&#32;&amp;item-&gt;gpuZoneBegin.thread,&#32;0,&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;item-&gt;gpuZoneBegin.thread&#32;)&#32;);
+268 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;gpuZoneBegin.queryId,&#32;uint16_t(&#32;queryId&#32;)&#32;);
+269 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;gpuZoneBegin.context,&#32;<link linkend="_namespacetracy_1a7c0e76472ae442de0c31fbfe38bdfe00">GetGpuCtx</link>().ptr-&gt;GetId()&#32;);
+270 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;gpuZoneBegin.srcloc,&#32;(uint64_t)srcloc&#32;);
+271 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1ad33bba2f411a92b8883a1d09904ee322">TracyLfqCommit</link>;
+272 &#32;&#32;&#32;&#32;}
+273 
+274 &#32;&#32;&#32;&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;<link linkend="_classtracy_1_1_gpu_ctx_scope_1a9ca1b7632d63e6de432b181d663b839a">GpuCtxScope</link>(&#32;uint32_t&#32;line,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a6ffd2192cbc75d017665e95207ee36a7">source</link>,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;sourceSz,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;function,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;functionSz,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;nameSz,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a2aa5ce5567a58e4da543ce468fb1711a">depth</link>,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;is_active&#32;)
+275 <emphasis role="preprocessor">#ifdef&#32;TRACY_ON_DEMAND</emphasis>
+276 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;m_active(&#32;is_active&#32;&amp;&amp;&#32;<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>().IsConnected()&#32;)
+277 <emphasis role="preprocessor">#else</emphasis>
+278 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;m_active(&#32;is_active&#32;)
+279 <emphasis role="preprocessor">#endif</emphasis>
+280 &#32;&#32;&#32;&#32;{
+281 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!m_active&#32;)&#32;<emphasis role="keywordflow">return</emphasis>;
+282 
+283 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;queryId&#32;=&#32;<link linkend="_namespacetracy_1a7c0e76472ae442de0c31fbfe38bdfe00">GetGpuCtx</link>().<link linkend="_structtracy_1_1_gpu_ctx_wrapper_1ad49398f6c566475b1660f8a92372a517">ptr</link>-&gt;NextQueryId();
+284 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1af183cae7f57e927a6911fda7b11c8d3e">glQueryCounter</link>(&#32;<link linkend="_namespacetracy_1a7c0e76472ae442de0c31fbfe38bdfe00">GetGpuCtx</link>().ptr-&gt;TranslateOpenGlQueryId(&#32;queryId&#32;),&#32;<link linkend="_glad_8h_1a5e5670e26532454b5bcf04c794ae6ba1">GL_TIMESTAMP</link>&#32;);
+285 
+286 <emphasis role="preprocessor">#ifdef&#32;TRACY_FIBERS</emphasis>
+287 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1a47bdea510ce33341f971fd506f54d0ed">TracyLfqPrepare</link>(&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330ad0e59ef13b6f6988e9d349ea3e347675">QueueType::GpuZoneBeginAllocSrcLoc</link>&#32;);
+288 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memset(&#32;&amp;item-&gt;gpuZoneBegin.thread,&#32;0,&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;item-&gt;gpuZoneBegin.thread&#32;)&#32;);
+289 <emphasis role="preprocessor">#else</emphasis>
+290 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1ae8f0782da84228e8cf3d93d8a214dbb7">GetProfiler</link>().<link linkend="_classtracy_1_1_profiler_1a311e0b32e12e055cbda821a311a76366">SendCallstack</link>(&#32;<link linkend="_glad_8h_1a2aa5ce5567a58e4da543ce468fb1711a">depth</link>&#32;);
+291 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1a47bdea510ce33341f971fd506f54d0ed">TracyLfqPrepare</link>(&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330a68da09d4c90915fcd43063e718d25005">QueueType::GpuZoneBeginAllocSrcLocCallstack</link>&#32;);
+292 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;gpuZoneBegin.thread,&#32;<link linkend="_namespacetracy_1aa3114ef7fe1a4fdc87e4e15fd5d86a63">GetThreadHandle</link>()&#32;);
+293 <emphasis role="preprocessor">#endif</emphasis>
+294 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;srcloc&#32;=&#32;<link linkend="_classtracy_1_1_profiler_1ab869025334b66dbe8ad63dc0beffbc2c">Profiler::AllocSourceLocation</link>(&#32;line,&#32;<link linkend="_glad_8h_1a6ffd2192cbc75d017665e95207ee36a7">source</link>,&#32;sourceSz,&#32;function,&#32;functionSz,&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>,&#32;nameSz&#32;);
+295 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;gpuZoneBegin.cpuTime,&#32;<link linkend="_classtracy_1_1_profiler_1a4131d199df7f0faeb8b2ddc860cade4e">Profiler::GetTime</link>()&#32;);
+296 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;gpuZoneBegin.queryId,&#32;uint16_t(&#32;queryId&#32;)&#32;);
+297 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;gpuZoneBegin.context,&#32;<link linkend="_namespacetracy_1a7c0e76472ae442de0c31fbfe38bdfe00">GetGpuCtx</link>().ptr-&gt;GetId()&#32;);
+298 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;gpuZoneBegin.srcloc,&#32;(uint64_t)srcloc&#32;);
+299 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1ad33bba2f411a92b8883a1d09904ee322">TracyLfqCommit</link>;
+300 &#32;&#32;&#32;&#32;}
+301 
+302 &#32;&#32;&#32;&#32;<link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;~GpuCtxScope()
+303 &#32;&#32;&#32;&#32;{
+304 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>(&#32;!m_active&#32;)&#32;<emphasis role="keywordflow">return</emphasis>;
+305 
+306 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;queryId&#32;=&#32;<link linkend="_namespacetracy_1a7c0e76472ae442de0c31fbfe38bdfe00">GetGpuCtx</link>().<link linkend="_structtracy_1_1_gpu_ctx_wrapper_1ad49398f6c566475b1660f8a92372a517">ptr</link>-&gt;NextQueryId();
+307 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1af183cae7f57e927a6911fda7b11c8d3e">glQueryCounter</link>(&#32;<link linkend="_namespacetracy_1a7c0e76472ae442de0c31fbfe38bdfe00">GetGpuCtx</link>().ptr-&gt;TranslateOpenGlQueryId(&#32;queryId&#32;),&#32;<link linkend="_glad_8h_1a5e5670e26532454b5bcf04c794ae6ba1">GL_TIMESTAMP</link>&#32;);
+308 
+309 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1a47bdea510ce33341f971fd506f54d0ed">TracyLfqPrepare</link>(&#32;<link linkend="_namespacetracy_1a833b8535242ef6c36f2220cb8abc2330a2a5b6ca0c94be3fb3a2fdf98d75510a8">QueueType::GpuZoneEnd</link>&#32;);
+310 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;gpuZoneEnd.cpuTime,&#32;<link linkend="_classtracy_1_1_profiler_1a4131d199df7f0faeb8b2ddc860cade4e">Profiler::GetTime</link>()&#32;);
+311 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memset(&#32;&amp;item-&gt;gpuZoneEnd.thread,&#32;0,&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;item-&gt;gpuZoneEnd.thread&#32;)&#32;);
+312 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;gpuZoneEnd.queryId,&#32;uint16_t(&#32;queryId&#32;)&#32;);
+313 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;&amp;item-&gt;gpuZoneEnd.context,&#32;<link linkend="_namespacetracy_1a7c0e76472ae442de0c31fbfe38bdfe00">GetGpuCtx</link>().ptr-&gt;GetId()&#32;);
+314 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__tracy_profiler_8hpp_1ad33bba2f411a92b8883a1d09904ee322">TracyLfqCommit</link>;
+315 &#32;&#32;&#32;&#32;}
+316 
+317 <emphasis role="keyword">private</emphasis>:
+318 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">bool</emphasis>&#32;m_active;
+319 };
+320 
+321 }
+322 
+323 <emphasis role="preprocessor">#endif</emphasis>
+324 
+325 <emphasis role="preprocessor">#endif</emphasis>
+</programlisting></section>

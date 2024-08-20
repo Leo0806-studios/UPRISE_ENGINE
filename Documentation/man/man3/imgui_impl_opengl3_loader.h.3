@@ -1,0 +1,1267 @@
+.TH "adhed/imgui_impl_opengl3_loader.h" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+adhed/imgui_impl_opengl3_loader.h
+.SH SYNOPSIS
+.br
+.PP
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "union \fBImGL3WProcs\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fB__gl_glcorearb_h_\fP   1"
+.br
+.ti -1c
+.RI "#define \fBAPIENTRY\fP"
+.br
+.ti -1c
+.RI "#define \fBAPIENTRYP\fP   \fBAPIENTRY\fP *"
+.br
+.ti -1c
+.RI "#define \fBGLAPI\fP   extern"
+.br
+.ti -1c
+.RI "#define \fBGL_COLOR_BUFFER_BIT\fP   0x00004000"
+.br
+.ti -1c
+.RI "#define \fBGL_FALSE\fP   0"
+.br
+.ti -1c
+.RI "#define \fBGL_TRUE\fP   1"
+.br
+.ti -1c
+.RI "#define \fBGL_TRIANGLES\fP   0x0004"
+.br
+.ti -1c
+.RI "#define \fBGL_ONE\fP   1"
+.br
+.ti -1c
+.RI "#define \fBGL_SRC_ALPHA\fP   0x0302"
+.br
+.ti -1c
+.RI "#define \fBGL_ONE_MINUS_SRC_ALPHA\fP   0x0303"
+.br
+.ti -1c
+.RI "#define \fBGL_FRONT\fP   0x0404"
+.br
+.ti -1c
+.RI "#define \fBGL_BACK\fP   0x0405"
+.br
+.ti -1c
+.RI "#define \fBGL_FRONT_AND_BACK\fP   0x0408"
+.br
+.ti -1c
+.RI "#define \fBGL_POLYGON_MODE\fP   0x0B40"
+.br
+.ti -1c
+.RI "#define \fBGL_CULL_FACE\fP   0x0B44"
+.br
+.ti -1c
+.RI "#define \fBGL_DEPTH_TEST\fP   0x0B71"
+.br
+.ti -1c
+.RI "#define \fBGL_STENCIL_TEST\fP   0x0B90"
+.br
+.ti -1c
+.RI "#define \fBGL_VIEWPORT\fP   0x0BA2"
+.br
+.ti -1c
+.RI "#define \fBGL_BLEND\fP   0x0BE2"
+.br
+.ti -1c
+.RI "#define \fBGL_SCISSOR_BOX\fP   0x0C10"
+.br
+.ti -1c
+.RI "#define \fBGL_SCISSOR_TEST\fP   0x0C11"
+.br
+.ti -1c
+.RI "#define \fBGL_UNPACK_ROW_LENGTH\fP   0x0CF2"
+.br
+.ti -1c
+.RI "#define \fBGL_PACK_ALIGNMENT\fP   0x0D05"
+.br
+.ti -1c
+.RI "#define \fBGL_TEXTURE_2D\fP   0x0DE1"
+.br
+.ti -1c
+.RI "#define \fBGL_UNSIGNED_BYTE\fP   0x1401"
+.br
+.ti -1c
+.RI "#define \fBGL_UNSIGNED_SHORT\fP   0x1403"
+.br
+.ti -1c
+.RI "#define \fBGL_UNSIGNED_INT\fP   0x1405"
+.br
+.ti -1c
+.RI "#define \fBGL_FLOAT\fP   0x1406"
+.br
+.ti -1c
+.RI "#define \fBGL_RGBA\fP   0x1908"
+.br
+.ti -1c
+.RI "#define \fBGL_FILL\fP   0x1B02"
+.br
+.ti -1c
+.RI "#define \fBGL_VENDOR\fP   0x1F00"
+.br
+.ti -1c
+.RI "#define \fBGL_RENDERER\fP   0x1F01"
+.br
+.ti -1c
+.RI "#define \fBGL_VERSION\fP   0x1F02"
+.br
+.ti -1c
+.RI "#define \fBGL_EXTENSIONS\fP   0x1F03"
+.br
+.ti -1c
+.RI "#define \fBGL_LINEAR\fP   0x2601"
+.br
+.ti -1c
+.RI "#define \fBGL_TEXTURE_MAG_FILTER\fP   0x2800"
+.br
+.ti -1c
+.RI "#define \fBGL_TEXTURE_MIN_FILTER\fP   0x2801"
+.br
+.ti -1c
+.RI "#define \fBGL_TEXTURE_BINDING_2D\fP   0x8069"
+.br
+.ti -1c
+.RI "#define \fBGL_TEXTURE0\fP   0x84C0"
+.br
+.ti -1c
+.RI "#define \fBGL_ACTIVE_TEXTURE\fP   0x84E0"
+.br
+.ti -1c
+.RI "#define \fBGL_BLEND_DST_RGB\fP   0x80C8"
+.br
+.ti -1c
+.RI "#define \fBGL_BLEND_SRC_RGB\fP   0x80C9"
+.br
+.ti -1c
+.RI "#define \fBGL_BLEND_DST_ALPHA\fP   0x80CA"
+.br
+.ti -1c
+.RI "#define \fBGL_BLEND_SRC_ALPHA\fP   0x80CB"
+.br
+.ti -1c
+.RI "#define \fBGL_FUNC_ADD\fP   0x8006"
+.br
+.ti -1c
+.RI "#define \fBGL_ARRAY_BUFFER\fP   0x8892"
+.br
+.ti -1c
+.RI "#define \fBGL_ELEMENT_ARRAY_BUFFER\fP   0x8893"
+.br
+.ti -1c
+.RI "#define \fBGL_ARRAY_BUFFER_BINDING\fP   0x8894"
+.br
+.ti -1c
+.RI "#define \fBGL_ELEMENT_ARRAY_BUFFER_BINDING\fP   0x8895"
+.br
+.ti -1c
+.RI "#define \fBGL_STREAM_DRAW\fP   0x88E0"
+.br
+.ti -1c
+.RI "#define \fBGL_BLEND_EQUATION_RGB\fP   0x8009"
+.br
+.ti -1c
+.RI "#define \fBGL_VERTEX_ATTRIB_ARRAY_ENABLED\fP   0x8622"
+.br
+.ti -1c
+.RI "#define \fBGL_VERTEX_ATTRIB_ARRAY_SIZE\fP   0x8623"
+.br
+.ti -1c
+.RI "#define \fBGL_VERTEX_ATTRIB_ARRAY_STRIDE\fP   0x8624"
+.br
+.ti -1c
+.RI "#define \fBGL_VERTEX_ATTRIB_ARRAY_TYPE\fP   0x8625"
+.br
+.ti -1c
+.RI "#define \fBGL_VERTEX_ATTRIB_ARRAY_POINTER\fP   0x8645"
+.br
+.ti -1c
+.RI "#define \fBGL_BLEND_EQUATION_ALPHA\fP   0x883D"
+.br
+.ti -1c
+.RI "#define \fBGL_VERTEX_ATTRIB_ARRAY_NORMALIZED\fP   0x886A"
+.br
+.ti -1c
+.RI "#define \fBGL_FRAGMENT_SHADER\fP   0x8B30"
+.br
+.ti -1c
+.RI "#define \fBGL_VERTEX_SHADER\fP   0x8B31"
+.br
+.ti -1c
+.RI "#define \fBGL_COMPILE_STATUS\fP   0x8B81"
+.br
+.ti -1c
+.RI "#define \fBGL_LINK_STATUS\fP   0x8B82"
+.br
+.ti -1c
+.RI "#define \fBGL_INFO_LOG_LENGTH\fP   0x8B84"
+.br
+.ti -1c
+.RI "#define \fBGL_CURRENT_PROGRAM\fP   0x8B8D"
+.br
+.ti -1c
+.RI "#define \fBGL_UPPER_LEFT\fP   0x8CA2"
+.br
+.ti -1c
+.RI "#define \fBGL_PIXEL_UNPACK_BUFFER\fP   0x88EC"
+.br
+.ti -1c
+.RI "#define \fBGL_PIXEL_UNPACK_BUFFER_BINDING\fP   0x88EF"
+.br
+.ti -1c
+.RI "#define \fBGL_MAJOR_VERSION\fP   0x821B"
+.br
+.ti -1c
+.RI "#define \fBGL_MINOR_VERSION\fP   0x821C"
+.br
+.ti -1c
+.RI "#define \fBGL_NUM_EXTENSIONS\fP   0x821D"
+.br
+.ti -1c
+.RI "#define \fBGL_FRAMEBUFFER_SRGB\fP   0x8DB9"
+.br
+.ti -1c
+.RI "#define \fBGL_VERTEX_ARRAY_BINDING\fP   0x85B5"
+.br
+.ti -1c
+.RI "#define \fBGL_VERSION_3_1\fP   1"
+.br
+.ti -1c
+.RI "#define \fBGL_PRIMITIVE_RESTART\fP   0x8F9D"
+.br
+.ti -1c
+.RI "#define \fBGL_VERSION_3_2\fP   1"
+.br
+.ti -1c
+.RI "#define \fBGL_CONTEXT_COMPATIBILITY_PROFILE_BIT\fP   0x00000002"
+.br
+.ti -1c
+.RI "#define \fBGL_CONTEXT_PROFILE_MASK\fP   0x9126"
+.br
+.ti -1c
+.RI "#define \fBGL_VERSION_3_3\fP   1"
+.br
+.ti -1c
+.RI "#define \fBGL_SAMPLER_BINDING\fP   0x8919"
+.br
+.ti -1c
+.RI "#define \fBGL_CLIP_ORIGIN\fP   0x935C"
+.br
+.ti -1c
+.RI "#define \fBGL_ARB_clip_control\fP   1"
+.br
+.ti -1c
+.RI "#define \fBGL3W_API\fP"
+.br
+.ti -1c
+.RI "#define \fB__gl_h_\fP"
+.br
+.ti -1c
+.RI "#define \fBGL3W_OK\fP   0"
+.br
+.ti -1c
+.RI "#define \fBGL3W_ERROR_INIT\fP   \-1"
+.br
+.ti -1c
+.RI "#define \fBGL3W_ERROR_LIBRARY_OPEN\fP   \-2"
+.br
+.ti -1c
+.RI "#define \fBGL3W_ERROR_OPENGL_VERSION\fP   \-3"
+.br
+.ti -1c
+.RI "#define \fBglActiveTexture\fP   imgl3wProcs\&.gl\&.ActiveTexture"
+.br
+.ti -1c
+.RI "#define \fBglAttachShader\fP   imgl3wProcs\&.gl\&.AttachShader"
+.br
+.ti -1c
+.RI "#define \fBglBindBuffer\fP   imgl3wProcs\&.gl\&.BindBuffer"
+.br
+.ti -1c
+.RI "#define \fBglBindSampler\fP   imgl3wProcs\&.gl\&.BindSampler"
+.br
+.ti -1c
+.RI "#define \fBglBindTexture\fP   imgl3wProcs\&.gl\&.BindTexture"
+.br
+.ti -1c
+.RI "#define \fBglBindVertexArray\fP   imgl3wProcs\&.gl\&.BindVertexArray"
+.br
+.ti -1c
+.RI "#define \fBglBlendEquation\fP   imgl3wProcs\&.gl\&.BlendEquation"
+.br
+.ti -1c
+.RI "#define \fBglBlendEquationSeparate\fP   imgl3wProcs\&.gl\&.BlendEquationSeparate"
+.br
+.ti -1c
+.RI "#define \fBglBlendFuncSeparate\fP   imgl3wProcs\&.gl\&.BlendFuncSeparate"
+.br
+.ti -1c
+.RI "#define \fBglBufferData\fP   imgl3wProcs\&.gl\&.BufferData"
+.br
+.ti -1c
+.RI "#define \fBglBufferSubData\fP   imgl3wProcs\&.gl\&.BufferSubData"
+.br
+.ti -1c
+.RI "#define \fBglClear\fP   imgl3wProcs\&.gl\&.Clear"
+.br
+.ti -1c
+.RI "#define \fBglClearColor\fP   imgl3wProcs\&.gl\&.ClearColor"
+.br
+.ti -1c
+.RI "#define \fBglCompileShader\fP   imgl3wProcs\&.gl\&.CompileShader"
+.br
+.ti -1c
+.RI "#define \fBglCreateProgram\fP   imgl3wProcs\&.gl\&.CreateProgram"
+.br
+.ti -1c
+.RI "#define \fBglCreateShader\fP   imgl3wProcs\&.gl\&.CreateShader"
+.br
+.ti -1c
+.RI "#define \fBglDeleteBuffers\fP   imgl3wProcs\&.gl\&.DeleteBuffers"
+.br
+.ti -1c
+.RI "#define \fBglDeleteProgram\fP   imgl3wProcs\&.gl\&.DeleteProgram"
+.br
+.ti -1c
+.RI "#define \fBglDeleteShader\fP   imgl3wProcs\&.gl\&.DeleteShader"
+.br
+.ti -1c
+.RI "#define \fBglDeleteTextures\fP   imgl3wProcs\&.gl\&.DeleteTextures"
+.br
+.ti -1c
+.RI "#define \fBglDeleteVertexArrays\fP   imgl3wProcs\&.gl\&.DeleteVertexArrays"
+.br
+.ti -1c
+.RI "#define \fBglDetachShader\fP   imgl3wProcs\&.gl\&.DetachShader"
+.br
+.ti -1c
+.RI "#define \fBglDisable\fP   imgl3wProcs\&.gl\&.Disable"
+.br
+.ti -1c
+.RI "#define \fBglDisableVertexAttribArray\fP   imgl3wProcs\&.gl\&.DisableVertexAttribArray"
+.br
+.ti -1c
+.RI "#define \fBglDrawElements\fP   imgl3wProcs\&.gl\&.DrawElements"
+.br
+.ti -1c
+.RI "#define \fBglDrawElementsBaseVertex\fP   imgl3wProcs\&.gl\&.DrawElementsBaseVertex"
+.br
+.ti -1c
+.RI "#define \fBglEnable\fP   imgl3wProcs\&.gl\&.Enable"
+.br
+.ti -1c
+.RI "#define \fBglEnableVertexAttribArray\fP   imgl3wProcs\&.gl\&.EnableVertexAttribArray"
+.br
+.ti -1c
+.RI "#define \fBglFlush\fP   imgl3wProcs\&.gl\&.Flush"
+.br
+.ti -1c
+.RI "#define \fBglGenBuffers\fP   imgl3wProcs\&.gl\&.GenBuffers"
+.br
+.ti -1c
+.RI "#define \fBglGenTextures\fP   imgl3wProcs\&.gl\&.GenTextures"
+.br
+.ti -1c
+.RI "#define \fBglGenVertexArrays\fP   imgl3wProcs\&.gl\&.GenVertexArrays"
+.br
+.ti -1c
+.RI "#define \fBglGetAttribLocation\fP   imgl3wProcs\&.gl\&.GetAttribLocation"
+.br
+.ti -1c
+.RI "#define \fBglGetError\fP   imgl3wProcs\&.gl\&.GetError"
+.br
+.ti -1c
+.RI "#define \fBglGetIntegerv\fP   imgl3wProcs\&.gl\&.GetIntegerv"
+.br
+.ti -1c
+.RI "#define \fBglGetProgramInfoLog\fP   imgl3wProcs\&.gl\&.GetProgramInfoLog"
+.br
+.ti -1c
+.RI "#define \fBglGetProgramiv\fP   imgl3wProcs\&.gl\&.GetProgramiv"
+.br
+.ti -1c
+.RI "#define \fBglGetShaderInfoLog\fP   imgl3wProcs\&.gl\&.GetShaderInfoLog"
+.br
+.ti -1c
+.RI "#define \fBglGetShaderiv\fP   imgl3wProcs\&.gl\&.GetShaderiv"
+.br
+.ti -1c
+.RI "#define \fBglGetString\fP   imgl3wProcs\&.gl\&.GetString"
+.br
+.ti -1c
+.RI "#define \fBglGetStringi\fP   imgl3wProcs\&.gl\&.GetStringi"
+.br
+.ti -1c
+.RI "#define \fBglGetUniformLocation\fP   imgl3wProcs\&.gl\&.GetUniformLocation"
+.br
+.ti -1c
+.RI "#define \fBglGetVertexAttribPointerv\fP   imgl3wProcs\&.gl\&.GetVertexAttribPointerv"
+.br
+.ti -1c
+.RI "#define \fBglGetVertexAttribiv\fP   imgl3wProcs\&.gl\&.GetVertexAttribiv"
+.br
+.ti -1c
+.RI "#define \fBglIsEnabled\fP   imgl3wProcs\&.gl\&.IsEnabled"
+.br
+.ti -1c
+.RI "#define \fBglIsProgram\fP   imgl3wProcs\&.gl\&.IsProgram"
+.br
+.ti -1c
+.RI "#define \fBglLinkProgram\fP   imgl3wProcs\&.gl\&.LinkProgram"
+.br
+.ti -1c
+.RI "#define \fBglPixelStorei\fP   imgl3wProcs\&.gl\&.PixelStorei"
+.br
+.ti -1c
+.RI "#define \fBglPolygonMode\fP   imgl3wProcs\&.gl\&.PolygonMode"
+.br
+.ti -1c
+.RI "#define \fBglReadPixels\fP   imgl3wProcs\&.gl\&.ReadPixels"
+.br
+.ti -1c
+.RI "#define \fBglScissor\fP   imgl3wProcs\&.gl\&.Scissor"
+.br
+.ti -1c
+.RI "#define \fBglShaderSource\fP   imgl3wProcs\&.gl\&.ShaderSource"
+.br
+.ti -1c
+.RI "#define \fBglTexImage2D\fP   imgl3wProcs\&.gl\&.TexImage2D"
+.br
+.ti -1c
+.RI "#define \fBglTexParameteri\fP   imgl3wProcs\&.gl\&.TexParameteri"
+.br
+.ti -1c
+.RI "#define \fBglUniform1i\fP   imgl3wProcs\&.gl\&.Uniform1i"
+.br
+.ti -1c
+.RI "#define \fBglUniformMatrix4fv\fP   imgl3wProcs\&.gl\&.UniformMatrix4fv"
+.br
+.ti -1c
+.RI "#define \fBglUseProgram\fP   imgl3wProcs\&.gl\&.UseProgram"
+.br
+.ti -1c
+.RI "#define \fBglVertexAttribPointer\fP   imgl3wProcs\&.gl\&.VertexAttribPointer"
+.br
+.ti -1c
+.RI "#define \fBglViewport\fP   imgl3wProcs\&.gl\&.Viewport"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef float \fBkhronos_float_t\fP"
+.br
+.ti -1c
+.RI "typedef signed char \fBkhronos_int8_t\fP"
+.br
+.ti -1c
+.RI "typedef unsigned char \fBkhronos_uint8_t\fP"
+.br
+.ti -1c
+.RI "typedef signed short int \fBkhronos_int16_t\fP"
+.br
+.ti -1c
+.RI "typedef unsigned short int \fBkhronos_uint16_t\fP"
+.br
+.ti -1c
+.RI "typedef signed long int \fBkhronos_intptr_t\fP"
+.br
+.ti -1c
+.RI "typedef signed long int \fBkhronos_ssize_t\fP"
+.br
+.ti -1c
+.RI "typedef signed long long \fBkhronos_int64_t\fP"
+.br
+.ti -1c
+.RI "typedef unsigned long long \fBkhronos_uint64_t\fP"
+.br
+.ti -1c
+.RI "typedef \fBvoid\fP \fBGLvoid\fP"
+.br
+.ti -1c
+.RI "typedef unsigned int \fBGLenum\fP"
+.br
+.ti -1c
+.RI "typedef \fBkhronos_float_t\fP \fBGLfloat\fP"
+.br
+.ti -1c
+.RI "typedef int \fBGLint\fP"
+.br
+.ti -1c
+.RI "typedef int \fBGLsizei\fP"
+.br
+.ti -1c
+.RI "typedef unsigned int \fBGLbitfield\fP"
+.br
+.ti -1c
+.RI "typedef double \fBGLdouble\fP"
+.br
+.ti -1c
+.RI "typedef unsigned int \fBGLuint\fP"
+.br
+.ti -1c
+.RI "typedef unsigned char \fBGLboolean\fP"
+.br
+.ti -1c
+.RI "typedef \fBkhronos_uint8_t\fP \fBGLubyte\fP"
+.br
+.ti -1c
+.RI "typedef \fBGLenum\fP \fBmode\fP"
+.br
+.ti -1c
+.RI "typedef \fBGLint\fP \fBy\fP"
+.br
+.ti -1c
+.RI "typedef \fBGLint\fP \fBGLsizei\fP \fBwidth\fP"
+.br
+.ti -1c
+.RI "typedef \fBGLint\fP \fBGLsizei\fP \fBGLsizei\fP \fBheight\fP"
+.br
+.ti -1c
+.RI "typedef \fBGLenum\fP \fBpname\fP"
+.br
+.ti -1c
+.RI "typedef \fBGLenum\fP \fBGLint\fP \fBparam\fP"
+.br
+.ti -1c
+.RI "typedef \fBGLint\fP \fBlevel\fP"
+.br
+.ti -1c
+.RI "typedef \fBGLint\fP \fBGLint\fP \fBinternalformat\fP"
+.br
+.ti -1c
+.RI "typedef \fBGLint\fP \fBGLint\fP \fBGLsizei\fP \fBGLsizei\fP \fBGLint\fP \fBborder\fP"
+.br
+.ti -1c
+.RI "typedef \fBGLint\fP \fBGLint\fP \fBGLsizei\fP \fBGLsizei\fP \fBGLint\fP \fBGLenum\fP \fBformat\fP"
+.br
+.ti -1c
+.RI "typedef \fBGLint\fP \fBGLint\fP \fBGLsizei\fP \fBGLsizei\fP \fBGLint\fP \fBGLenum\fP \fBGLenum\fP \fBtype\fP"
+.br
+.ti -1c
+.RI "typedef \fBGLint\fP \fBGLint\fP \fBGLsizei\fP \fBGLsizei\fP \fBGLint\fP \fBGLenum\fP \fBGLenum\fP const \fBvoid\fP * \fBpixels\fP"
+.br
+.ti -1c
+.RI "typedef \fBGLfloat\fP \fBgreen\fP"
+.br
+.ti -1c
+.RI "typedef \fBGLfloat\fP \fBGLfloat\fP \fBblue\fP"
+.br
+.ti -1c
+.RI "typedef \fBGLfloat\fP \fBGLfloat\fP \fBGLfloat\fP \fBalpha\fP"
+.br
+.ti -1c
+.RI "typedef \fBGLint\fP * \fBdata\fP"
+.br
+.ti -1c
+.RI "typedef const \fBGLubyte\fP *\fBAPIENTRYP\fP \fBPFNGLGETSTRINGPROC\fP(\fBGLenum\fP \fBname\fP)"
+.br
+.ti -1c
+.RI "typedef \fBkhronos_float_t\fP \fBGLclampf\fP"
+.br
+.ti -1c
+.RI "typedef double \fBGLclampd\fP"
+.br
+.ti -1c
+.RI "typedef \fBGLsizei\fP \fBcount\fP"
+.br
+.ti -1c
+.RI "typedef \fBGLsizei\fP \fBGLenum\fP const \fBvoid\fP * \fBindices\fP"
+.br
+.ti -1c
+.RI "typedef \fBGLuint\fP \fBtexture\fP"
+.br
+.ti -1c
+.RI "typedef const \fBGLuint\fP * \fBtextures\fP"
+.br
+.ti -1c
+.RI "typedef \fBGLenum\fP \fBdfactorRGB\fP"
+.br
+.ti -1c
+.RI "typedef \fBGLenum\fP \fBGLenum\fP \fBsfactorAlpha\fP"
+.br
+.ti -1c
+.RI "typedef \fBGLenum\fP \fBGLenum\fP \fBGLenum\fP \fBdfactorAlpha\fP"
+.br
+.ti -1c
+.RI "typedef \fBkhronos_ssize_t\fP \fBGLsizeiptr\fP"
+.br
+.ti -1c
+.RI "typedef \fBkhronos_intptr_t\fP \fBGLintptr\fP"
+.br
+.ti -1c
+.RI "typedef \fBGLuint\fP \fBbuffer\fP"
+.br
+.ti -1c
+.RI "typedef const \fBGLuint\fP * \fBbuffers\fP"
+.br
+.ti -1c
+.RI "typedef \fBGLsizeiptr\fP \fBsize\fP"
+.br
+.ti -1c
+.RI "typedef \fBGLsizeiptr\fP const \fBvoid\fP \fBGLenum\fP \fBusage\fP"
+.br
+.ti -1c
+.RI "typedef \fBGLintptr\fP \fBoffset\fP"
+.br
+.ti -1c
+.RI "typedef char \fBGLchar\fP"
+.br
+.ti -1c
+.RI "typedef \fBkhronos_int16_t\fP \fBGLshort\fP"
+.br
+.ti -1c
+.RI "typedef \fBkhronos_int8_t\fP \fBGLbyte\fP"
+.br
+.ti -1c
+.RI "typedef \fBkhronos_uint16_t\fP \fBGLushort\fP"
+.br
+.ti -1c
+.RI "typedef \fBGLenum\fP \fBmodeAlpha\fP"
+.br
+.ti -1c
+.RI "typedef \fBGLuint\fP \fBshader\fP"
+.br
+.ti -1c
+.RI "typedef const \fBGLchar\fP * \fBname\fP"
+.br
+.ti -1c
+.RI "typedef \fBGLenum\fP \fBGLint\fP * \fBparams\fP"
+.br
+.ti -1c
+.RI "typedef \fBGLsizei\fP \fBbufSize\fP"
+.br
+.ti -1c
+.RI "typedef \fBGLsizei\fP \fBGLsizei\fP * \fBlength\fP"
+.br
+.ti -1c
+.RI "typedef \fBGLsizei\fP \fBGLsizei\fP \fBGLchar\fP * \fBinfoLog\fP"
+.br
+.ti -1c
+.RI "typedef \fBGLenum\fP \fBvoid\fP ** \fBpointer\fP"
+.br
+.ti -1c
+.RI "typedef \fBGLsizei\fP const \fBGLchar\fP *const  * \fBstring\fP"
+.br
+.ti -1c
+.RI "typedef \fBGLint\fP \fBv0\fP"
+.br
+.ti -1c
+.RI "typedef \fBGLsizei\fP \fBGLboolean\fP \fBtranspose\fP"
+.br
+.ti -1c
+.RI "typedef \fBGLsizei\fP \fBGLboolean\fP const \fBGLfloat\fP * \fBvalue\fP"
+.br
+.ti -1c
+.RI "typedef \fBGLint\fP \fBGLenum\fP \fBGLboolean\fP \fBnormalized\fP"
+.br
+.ti -1c
+.RI "typedef \fBGLint\fP \fBGLenum\fP \fBGLboolean\fP \fBGLsizei\fP \fBstride\fP"
+.br
+.ti -1c
+.RI "typedef \fBkhronos_uint16_t\fP \fBGLhalf\fP"
+.br
+.ti -1c
+.RI "typedef \fBGLuint\fP \fBindex\fP"
+.br
+.ti -1c
+.RI "typedef const \fBGLubyte\fP *\fBAPIENTRYP\fP \fBPFNGLGETSTRINGIPROC\fP(\fBGLenum\fP \fBname\fP, \fBGLuint\fP \fBindex\fP)"
+.br
+.ti -1c
+.RI "typedef const \fBGLuint\fP * \fBarrays\fP"
+.br
+.ti -1c
+.RI "typedef \fBstruct\fP __GLsync * \fBGLsync\fP"
+.br
+.ti -1c
+.RI "typedef \fBkhronos_uint64_t\fP \fBGLuint64\fP"
+.br
+.ti -1c
+.RI "typedef \fBkhronos_int64_t\fP \fBGLint64\fP"
+.br
+.ti -1c
+.RI "typedef \fBGLsizei\fP \fBGLenum\fP const \fBvoid\fP \fBGLint\fP \fBbasevertex\fP"
+.br
+.ti -1c
+.RI "typedef \fBGLuint\fP \fBsampler\fP"
+.br
+.ti -1c
+.RI "typedef \fBvoid\fP(\fBAPIENTRY\fP * \fBGLDEBUGPROC\fP) (\fBGLenum\fP \fBsource\fP, \fBGLenum\fP \fBtype\fP, \fBGLuint\fP \fBid\fP, \fBGLenum\fP severity, \fBGLsizei\fP \fBlength\fP, const \fBGLchar\fP *message, const \fBvoid\fP *userParam)"
+.br
+.ti -1c
+.RI "typedef \fBkhronos_uint64_t\fP \fBGLuint64EXT\fP"
+.br
+.ti -1c
+.RI "typedef \fBvoid\fP(\fBAPIENTRY\fP * \fBGLDEBUGPROCARB\fP) (\fBGLenum\fP \fBsource\fP, \fBGLenum\fP \fBtype\fP, \fBGLuint\fP \fBid\fP, \fBGLenum\fP severity, \fBGLsizei\fP \fBlength\fP, const \fBGLchar\fP *message, const \fBvoid\fP *userParam)"
+.br
+.ti -1c
+.RI "typedef \fBvoid\fP * \fBGLeglImageOES\fP"
+.br
+.ti -1c
+.RI "typedef \fBvoid\fP(\fBAPIENTRY\fP * \fBGLVULKANPROCNV\fP) (\fBvoid\fP)"
+.br
+.ti -1c
+.RI "typedef \fBkhronos_int64_t\fP \fBGLint64EXT\fP"
+.br
+.ti -1c
+.RI "typedef \fBGLuint\fP \fBGLuint64EXT\fP * \fBresult\fP"
+.br
+.ti -1c
+.RI "typedef \fBvoid\fP(* \fBGL3WglProc\fP) (\fBvoid\fP)"
+.br
+.ti -1c
+.RI "typedef \fBGL3WglProc\fP(* \fBGL3WGetProcAddressProc\fP) (const char *proc)"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "typedef \fBvoid\fP (\fBAPIENTRYP\fP PFNGLPOLYGONMODEPROC)(\fBGLenum\fP face"
+.br
+.ti -1c
+.RI "typedef \fBGLenum\fP (\fBAPIENTRYP\fP PFNGLGETERRORPROC)(\fBvoid\fP)"
+.br
+.ti -1c
+.RI "typedef \fBGLboolean\fP (\fBAPIENTRYP\fP PFNGLISENABLEDPROC)(\fBGLenum\fP cap)"
+.br
+.ti -1c
+.RI "typedef \fBGLuint\fP (\fBAPIENTRYP\fP PFNGLCREATEPROGRAMPROC)(\fBvoid\fP)"
+.br
+.ti -1c
+.RI "typedef \fBGLint\fP (\fBAPIENTRYP\fP PFNGLGETATTRIBLOCATIONPROC)(\fBGLuint\fP program"
+.br
+.ti -1c
+.RI "\fBGL3W_API\fP int \fBimgl3wInit\fP (\fBvoid\fP)"
+.br
+.ti -1c
+.RI "\fBGL3W_API\fP int \fBimgl3wInit2\fP (\fBGL3WGetProcAddressProc\fP proc)"
+.br
+.ti -1c
+.RI "\fBGL3W_API\fP int \fBimgl3wIsSupported\fP (int major, int minor)"
+.br
+.ti -1c
+.RI "\fBGL3W_API\fP \fBGL3WglProc\fP \fBimgl3wGetProcAddress\fP (const char *proc)"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "\fBGL3W_API\fP union \fBImGL3WProcs\fP \fBimgl3wProcs\fP"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define __gl_glcorearb_h_   1"
+
+.SS "#define __gl_h_"
+
+.SS "#define APIENTRY"
+
+.SS "#define APIENTRYP   \fBAPIENTRY\fP *"
+
+.SS "#define GL3W_API"
+
+.SS "#define GL3W_ERROR_INIT   \-1"
+
+.SS "#define GL3W_ERROR_LIBRARY_OPEN   \-2"
+
+.SS "#define GL3W_ERROR_OPENGL_VERSION   \-3"
+
+.SS "#define GL3W_OK   0"
+
+.SS "#define GL_ACTIVE_TEXTURE   0x84E0"
+
+.SS "#define GL_ARB_clip_control   1"
+
+.SS "#define GL_ARRAY_BUFFER   0x8892"
+
+.SS "#define GL_ARRAY_BUFFER_BINDING   0x8894"
+
+.SS "#define GL_BACK   0x0405"
+
+.SS "#define GL_BLEND   0x0BE2"
+
+.SS "#define GL_BLEND_DST_ALPHA   0x80CA"
+
+.SS "#define GL_BLEND_DST_RGB   0x80C8"
+
+.SS "#define GL_BLEND_EQUATION_ALPHA   0x883D"
+
+.SS "#define GL_BLEND_EQUATION_RGB   0x8009"
+
+.SS "#define GL_BLEND_SRC_ALPHA   0x80CB"
+
+.SS "#define GL_BLEND_SRC_RGB   0x80C9"
+
+.SS "#define GL_CLIP_ORIGIN   0x935C"
+
+.SS "#define GL_COLOR_BUFFER_BIT   0x00004000"
+
+.SS "#define GL_COMPILE_STATUS   0x8B81"
+
+.SS "#define GL_CONTEXT_COMPATIBILITY_PROFILE_BIT   0x00000002"
+
+.SS "#define GL_CONTEXT_PROFILE_MASK   0x9126"
+
+.SS "#define GL_CULL_FACE   0x0B44"
+
+.SS "#define GL_CURRENT_PROGRAM   0x8B8D"
+
+.SS "#define GL_DEPTH_TEST   0x0B71"
+
+.SS "#define GL_ELEMENT_ARRAY_BUFFER   0x8893"
+
+.SS "#define GL_ELEMENT_ARRAY_BUFFER_BINDING   0x8895"
+
+.SS "#define GL_EXTENSIONS   0x1F03"
+
+.SS "#define GL_FALSE   0"
+
+.SS "#define GL_FILL   0x1B02"
+
+.SS "#define GL_FLOAT   0x1406"
+
+.SS "#define GL_FRAGMENT_SHADER   0x8B30"
+
+.SS "#define GL_FRAMEBUFFER_SRGB   0x8DB9"
+
+.SS "#define GL_FRONT   0x0404"
+
+.SS "#define GL_FRONT_AND_BACK   0x0408"
+
+.SS "#define GL_FUNC_ADD   0x8006"
+
+.SS "#define GL_INFO_LOG_LENGTH   0x8B84"
+
+.SS "#define GL_LINEAR   0x2601"
+
+.SS "#define GL_LINK_STATUS   0x8B82"
+
+.SS "#define GL_MAJOR_VERSION   0x821B"
+
+.SS "#define GL_MINOR_VERSION   0x821C"
+
+.SS "#define GL_NUM_EXTENSIONS   0x821D"
+
+.SS "#define GL_ONE   1"
+
+.SS "#define GL_ONE_MINUS_SRC_ALPHA   0x0303"
+
+.SS "#define GL_PACK_ALIGNMENT   0x0D05"
+
+.SS "#define GL_PIXEL_UNPACK_BUFFER   0x88EC"
+
+.SS "#define GL_PIXEL_UNPACK_BUFFER_BINDING   0x88EF"
+
+.SS "#define GL_POLYGON_MODE   0x0B40"
+
+.SS "#define GL_PRIMITIVE_RESTART   0x8F9D"
+
+.SS "#define GL_RENDERER   0x1F01"
+
+.SS "#define GL_RGBA   0x1908"
+
+.SS "#define GL_SAMPLER_BINDING   0x8919"
+
+.SS "#define GL_SCISSOR_BOX   0x0C10"
+
+.SS "#define GL_SCISSOR_TEST   0x0C11"
+
+.SS "#define GL_SRC_ALPHA   0x0302"
+
+.SS "#define GL_STENCIL_TEST   0x0B90"
+
+.SS "#define GL_STREAM_DRAW   0x88E0"
+
+.SS "#define GL_TEXTURE0   0x84C0"
+
+.SS "#define GL_TEXTURE_2D   0x0DE1"
+
+.SS "#define GL_TEXTURE_BINDING_2D   0x8069"
+
+.SS "#define GL_TEXTURE_MAG_FILTER   0x2800"
+
+.SS "#define GL_TEXTURE_MIN_FILTER   0x2801"
+
+.SS "#define GL_TRIANGLES   0x0004"
+
+.SS "#define GL_TRUE   1"
+
+.SS "#define GL_UNPACK_ROW_LENGTH   0x0CF2"
+
+.SS "#define GL_UNSIGNED_BYTE   0x1401"
+
+.SS "#define GL_UNSIGNED_INT   0x1405"
+
+.SS "#define GL_UNSIGNED_SHORT   0x1403"
+
+.SS "#define GL_UPPER_LEFT   0x8CA2"
+
+.SS "#define GL_VENDOR   0x1F00"
+
+.SS "#define GL_VERSION   0x1F02"
+
+.SS "#define GL_VERSION_3_1   1"
+
+.SS "#define GL_VERSION_3_2   1"
+
+.SS "#define GL_VERSION_3_3   1"
+
+.SS "#define GL_VERTEX_ARRAY_BINDING   0x85B5"
+
+.SS "#define GL_VERTEX_ATTRIB_ARRAY_ENABLED   0x8622"
+
+.SS "#define GL_VERTEX_ATTRIB_ARRAY_NORMALIZED   0x886A"
+
+.SS "#define GL_VERTEX_ATTRIB_ARRAY_POINTER   0x8645"
+
+.SS "#define GL_VERTEX_ATTRIB_ARRAY_SIZE   0x8623"
+
+.SS "#define GL_VERTEX_ATTRIB_ARRAY_STRIDE   0x8624"
+
+.SS "#define GL_VERTEX_ATTRIB_ARRAY_TYPE   0x8625"
+
+.SS "#define GL_VERTEX_SHADER   0x8B31"
+
+.SS "#define GL_VIEWPORT   0x0BA2"
+
+.SS "#define glActiveTexture   imgl3wProcs\&.gl\&.ActiveTexture"
+
+.SS "#define GLAPI   extern"
+
+.SS "#define glAttachShader   imgl3wProcs\&.gl\&.AttachShader"
+
+.SS "#define glBindBuffer   imgl3wProcs\&.gl\&.BindBuffer"
+
+.SS "#define glBindSampler   imgl3wProcs\&.gl\&.BindSampler"
+
+.SS "#define glBindTexture   imgl3wProcs\&.gl\&.BindTexture"
+
+.SS "#define glBindVertexArray   imgl3wProcs\&.gl\&.BindVertexArray"
+
+.SS "#define glBlendEquation   imgl3wProcs\&.gl\&.BlendEquation"
+
+.SS "#define glBlendEquationSeparate   imgl3wProcs\&.gl\&.BlendEquationSeparate"
+
+.SS "#define glBlendFuncSeparate   imgl3wProcs\&.gl\&.BlendFuncSeparate"
+
+.SS "#define glBufferData   imgl3wProcs\&.gl\&.BufferData"
+
+.SS "#define glBufferSubData   imgl3wProcs\&.gl\&.BufferSubData"
+
+.SS "#define glClear   imgl3wProcs\&.gl\&.Clear"
+
+.SS "#define glClearColor   imgl3wProcs\&.gl\&.ClearColor"
+
+.SS "#define glCompileShader   imgl3wProcs\&.gl\&.CompileShader"
+
+.SS "#define glCreateProgram   imgl3wProcs\&.gl\&.CreateProgram"
+
+.SS "#define glCreateShader   imgl3wProcs\&.gl\&.CreateShader"
+
+.SS "#define glDeleteBuffers   imgl3wProcs\&.gl\&.DeleteBuffers"
+
+.SS "#define glDeleteProgram   imgl3wProcs\&.gl\&.DeleteProgram"
+
+.SS "#define glDeleteShader   imgl3wProcs\&.gl\&.DeleteShader"
+
+.SS "#define glDeleteTextures   imgl3wProcs\&.gl\&.DeleteTextures"
+
+.SS "#define glDeleteVertexArrays   imgl3wProcs\&.gl\&.DeleteVertexArrays"
+
+.SS "#define glDetachShader   imgl3wProcs\&.gl\&.DetachShader"
+
+.SS "#define glDisable   imgl3wProcs\&.gl\&.Disable"
+
+.SS "#define glDisableVertexAttribArray   imgl3wProcs\&.gl\&.DisableVertexAttribArray"
+
+.SS "#define glDrawElements   imgl3wProcs\&.gl\&.DrawElements"
+
+.SS "#define glDrawElementsBaseVertex   imgl3wProcs\&.gl\&.DrawElementsBaseVertex"
+
+.SS "#define glEnable   imgl3wProcs\&.gl\&.Enable"
+
+.SS "#define glEnableVertexAttribArray   imgl3wProcs\&.gl\&.EnableVertexAttribArray"
+
+.SS "#define glFlush   imgl3wProcs\&.gl\&.Flush"
+
+.SS "#define glGenBuffers   imgl3wProcs\&.gl\&.GenBuffers"
+
+.SS "#define glGenTextures   imgl3wProcs\&.gl\&.GenTextures"
+
+.SS "#define glGenVertexArrays   imgl3wProcs\&.gl\&.GenVertexArrays"
+
+.SS "#define glGetAttribLocation   imgl3wProcs\&.gl\&.GetAttribLocation"
+
+.SS "#define glGetError   imgl3wProcs\&.gl\&.GetError"
+
+.SS "#define glGetIntegerv   imgl3wProcs\&.gl\&.GetIntegerv"
+
+.SS "#define glGetProgramInfoLog   imgl3wProcs\&.gl\&.GetProgramInfoLog"
+
+.SS "#define glGetProgramiv   imgl3wProcs\&.gl\&.GetProgramiv"
+
+.SS "#define glGetShaderInfoLog   imgl3wProcs\&.gl\&.GetShaderInfoLog"
+
+.SS "#define glGetShaderiv   imgl3wProcs\&.gl\&.GetShaderiv"
+
+.SS "#define glGetString   imgl3wProcs\&.gl\&.GetString"
+
+.SS "#define glGetStringi   imgl3wProcs\&.gl\&.GetStringi"
+
+.SS "#define glGetUniformLocation   imgl3wProcs\&.gl\&.GetUniformLocation"
+
+.SS "#define glGetVertexAttribiv   imgl3wProcs\&.gl\&.GetVertexAttribiv"
+
+.SS "#define glGetVertexAttribPointerv   imgl3wProcs\&.gl\&.GetVertexAttribPointerv"
+
+.SS "#define glIsEnabled   imgl3wProcs\&.gl\&.IsEnabled"
+
+.SS "#define glIsProgram   imgl3wProcs\&.gl\&.IsProgram"
+
+.SS "#define glLinkProgram   imgl3wProcs\&.gl\&.LinkProgram"
+
+.SS "#define glPixelStorei   imgl3wProcs\&.gl\&.PixelStorei"
+
+.SS "#define glPolygonMode   imgl3wProcs\&.gl\&.PolygonMode"
+
+.SS "#define glReadPixels   imgl3wProcs\&.gl\&.ReadPixels"
+
+.SS "#define glScissor   imgl3wProcs\&.gl\&.Scissor"
+
+.SS "#define glShaderSource   imgl3wProcs\&.gl\&.ShaderSource"
+
+.SS "#define glTexImage2D   imgl3wProcs\&.gl\&.TexImage2D"
+
+.SS "#define glTexParameteri   imgl3wProcs\&.gl\&.TexParameteri"
+
+.SS "#define glUniform1i   imgl3wProcs\&.gl\&.Uniform1i"
+
+.SS "#define glUniformMatrix4fv   imgl3wProcs\&.gl\&.UniformMatrix4fv"
+
+.SS "#define glUseProgram   imgl3wProcs\&.gl\&.UseProgram"
+
+.SS "#define glVertexAttribPointer   imgl3wProcs\&.gl\&.VertexAttribPointer"
+
+.SS "#define glViewport   imgl3wProcs\&.gl\&.Viewport"
+
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef \fBGLfloat\fP \fBGLfloat\fP \fBGLfloat\fP \fBalpha\fP"
+
+.SS "typedef \fBGLuint\fP* \fBarrays\fP"
+
+.SS "typedef \fBGLsizei\fP \fBGLenum\fP const \fBvoid\fP \fBGLint\fP \fBbasevertex\fP"
+
+.SS "typedef \fBGLfloat\fP \fBGLfloat\fP \fBblue\fP"
+
+.SS "typedef \fBGLint\fP \fBGLint\fP \fBGLsizei\fP \fBGLsizei\fP \fBGLint\fP \fBborder\fP"
+
+.SS "typedef \fBGLuint\fP \fBbuffer\fP"
+
+.SS "typedef \fBGLuint\fP* \fBbuffers\fP"
+
+.SS "typedef \fBGLsizei\fP \fBbufSize\fP"
+
+.SS "typedef \fBGLsizei\fP \fBcount\fP"
+
+.SS "typedef \fBGLuint\fP \fBGLdouble\fP* \fBdata\fP"
+
+.SS "typedef \fBGLenum\fP \fBGLenum\fP \fBGLenum\fP \fBdfactorAlpha\fP"
+
+.SS "typedef \fBGLenum\fP \fBdfactorRGB\fP"
+
+.SS "typedef \fBGLint\fP \fBGLsizei\fP \fBGLsizei\fP \fBGLenum\fP \fBformat\fP"
+
+.SS "typedef \fBGL3WglProc\fP(* GL3WGetProcAddressProc) (const char *proc)"
+
+.SS "typedef \fBvoid\fP(* GL3WglProc) (\fBvoid\fP)"
+
+.SS "typedef unsigned int \fBGLbitfield\fP"
+
+.SS "typedef unsigned char \fBGLboolean\fP"
+
+.SS "typedef \fBkhronos_int8_t\fP \fBGLbyte\fP"
+
+.SS "typedef char \fBGLchar\fP"
+
+.SS "typedef double \fBGLclampd\fP"
+
+.SS "typedef \fBkhronos_float_t\fP \fBGLclampf\fP"
+
+.SS "typedef \fBvoid\fP(\fBAPIENTRY\fP * GLDEBUGPROC) (\fBGLenum\fP \fBsource\fP, \fBGLenum\fP \fBtype\fP, \fBGLuint\fP \fBid\fP, \fBGLenum\fP severity, \fBGLsizei\fP \fBlength\fP, const \fBGLchar\fP *message, const \fBvoid\fP *userParam)"
+
+.SS "typedef \fBvoid\fP(\fBAPIENTRY\fP * GLDEBUGPROCARB) (\fBGLenum\fP \fBsource\fP, \fBGLenum\fP \fBtype\fP, \fBGLuint\fP \fBid\fP, \fBGLenum\fP severity, \fBGLsizei\fP \fBlength\fP, const \fBGLchar\fP *message, const \fBvoid\fP *userParam)"
+
+.SS "typedef double \fBGLdouble\fP"
+
+.SS "typedef \fBvoid\fP* \fBGLeglImageOES\fP"
+
+.SS "typedef unsigned int \fBGLenum\fP"
+
+.SS "typedef \fBkhronos_float_t\fP \fBGLfloat\fP"
+
+.SS "typedef \fBkhronos_uint16_t\fP \fBGLhalf\fP"
+
+.SS "typedef int \fBGLint\fP"
+
+.SS "typedef \fBkhronos_int64_t\fP \fBGLint64\fP"
+
+.SS "typedef \fBkhronos_int64_t\fP \fBGLint64EXT\fP"
+
+.SS "typedef \fBkhronos_intptr_t\fP \fBGLintptr\fP"
+
+.SS "typedef \fBkhronos_int16_t\fP \fBGLshort\fP"
+
+.SS "typedef int \fBGLsizei\fP"
+
+.SS "typedef \fBkhronos_ssize_t\fP \fBGLsizeiptr\fP"
+
+.SS "typedef \fBstruct\fP __GLsync* \fBGLsync\fP"
+
+.SS "typedef \fBkhronos_uint8_t\fP \fBGLubyte\fP"
+
+.SS "typedef unsigned int \fBGLuint\fP"
+
+.SS "typedef \fBkhronos_uint64_t\fP \fBGLuint64\fP"
+
+.SS "typedef \fBkhronos_uint64_t\fP \fBGLuint64EXT\fP"
+
+.SS "typedef \fBkhronos_uint16_t\fP \fBGLushort\fP"
+
+.SS "typedef \fBvoid\fP \fBGLvoid\fP"
+
+.SS "typedef \fBvoid\fP(\fBAPIENTRY\fP * GLVULKANPROCNV) (\fBvoid\fP)"
+
+.SS "typedef \fBGLfloat\fP \fBgreen\fP"
+
+.SS "typedef \fBGLint\fP \fBGLsizei\fP \fBGLsizei\fP \fBheight\fP"
+
+.SS "typedef \fBGLuint\fP \fBindex\fP"
+
+.SS "typedef \fBGLsizei\fP \fBGLenum\fP const \fBvoid\fP* \fBindices\fP"
+
+.SS "typedef \fBGLsizei\fP \fBGLsizei\fP \fBGLchar\fP* \fBinfoLog\fP"
+
+.SS "typedef \fBGLint\fP \fBGLint\fP \fBinternalformat\fP"
+
+.SS "typedef float \fBkhronos_float_t\fP"
+
+.SS "typedef signed short int \fBkhronos_int16_t\fP"
+
+.SS "typedef signed long long \fBkhronos_int64_t\fP"
+
+.SS "typedef signed char \fBkhronos_int8_t\fP"
+
+.SS "typedef signed long int \fBkhronos_intptr_t\fP"
+
+.SS "typedef signed long int \fBkhronos_ssize_t\fP"
+
+.SS "typedef unsigned short int \fBkhronos_uint16_t\fP"
+
+.SS "typedef unsigned long long \fBkhronos_uint64_t\fP"
+
+.SS "typedef unsigned char \fBkhronos_uint8_t\fP"
+
+.SS "typedef \fBGLsizei\fP const \fBGLchar\fP* const const \fBGLint\fP* \fBlength\fP"
+
+.SS "typedef \fBGLint\fP \fBlevel\fP"
+
+.SS "typedef \fBGLenum\fP \fBmode\fP"
+
+.SS "typedef \fBGLenum\fP \fBmodeAlpha\fP"
+
+.SS "typedef const \fBGLchar\fP* \fBname\fP"
+
+.SS "typedef \fBGLint\fP \fBGLenum\fP \fBGLboolean\fP \fBnormalized\fP"
+
+.SS "typedef \fBGLintptr\fP \fBoffset\fP"
+
+.SS "typedef \fBGLuint\fP \fBGLenum\fP \fBvoid\fP** \fBparam\fP"
+
+.SS "typedef \fBGLuint\fP \fBvoid\fP** \fBparams\fP"
+
+.SS "typedef const \fBGLubyte\fP *\fBAPIENTRYP\fP PFNGLGETSTRINGIPROC(\fBGLenum\fP \fBname\fP, \fBGLuint\fP \fBindex\fP)"
+
+.SS "typedef const \fBGLubyte\fP *\fBAPIENTRYP\fP PFNGLGETSTRINGPROC(\fBGLenum\fP \fBname\fP)"
+
+.SS "typedef \fBGLint\fP \fBGLsizei\fP \fBGLsizei\fP \fBGLenum\fP \fBGLenum\fP \fBvoid\fP* \fBpixels\fP"
+
+.SS "typedef \fBGLuint\fP \fBGLenum\fP \fBpname\fP"
+
+.SS "typedef \fBGLint\fP \fBGLenum\fP \fBGLboolean\fP \fBGLsizei\fP const \fBvoid\fP* \fBpointer\fP"
+
+.SS "typedef \fBGLuint\fP \fBGLuint64EXT\fP* \fBresult\fP"
+
+.SS "typedef \fBGLuint\fP \fBsampler\fP"
+
+.SS "typedef \fBGLenum\fP \fBGLenum\fP \fBsfactorAlpha\fP"
+
+.SS "typedef \fBGLuint\fP \fBshader\fP"
+
+.SS "typedef \fBGLint\fP \fBsize\fP"
+
+.SS "typedef \fBGLint\fP \fBGLenum\fP \fBGLboolean\fP \fBGLsizei\fP \fBstride\fP"
+
+.SS "typedef \fBGLsizei\fP const \fBGLchar\fP* const* \fBstring\fP"
+
+.SS "typedef \fBGLuint\fP \fBtexture\fP"
+
+.SS "typedef \fBGLuint\fP* \fBtextures\fP"
+
+.SS "typedef \fBGLsizei\fP \fBGLboolean\fP \fBtranspose\fP"
+
+.SS "typedef \fBGLsizei\fP \fBGLenum\fP \fBtype\fP"
+
+.SS "typedef \fBGLsizeiptr\fP const \fBvoid\fP \fBGLenum\fP \fBusage\fP"
+
+.SS "typedef \fBGLint\fP \fBv0\fP"
+
+.SS "typedef \fBGLsizei\fP \fBGLboolean\fP const \fBGLfloat\fP* \fBvalue\fP"
+
+.SS "typedef \fBGLint\fP \fBGLsizei\fP \fBwidth\fP"
+
+.SS "typedef \fBGLint\fP \fBy\fP"
+
+.SH "Function Documentation"
+.PP 
+.SS "typedef \fBGLboolean\fP (\fBAPIENTRYP\fP PFNGLISENABLEDPROC)"
+
+.SS "typedef \fBGLenum\fP (\fBAPIENTRYP\fP PFNGLGETERRORPROC)"
+
+.SS "typedef \fBGLint\fP (\fBAPIENTRYP\fP PFNGLGETATTRIBLOCATIONPROC)"
+
+.SS "typedef \fBGLuint\fP (\fBAPIENTRYP\fP PFNGLCREATEPROGRAMPROC)"
+
+.SS "\fBGL3W_API\fP \fBGL3WglProc\fP imgl3wGetProcAddress (const char * proc)"
+
+.SS "\fBGL3W_API\fP int imgl3wInit (\fBvoid\fP )"
+
+.SS "\fBGL3W_API\fP int imgl3wInit2 (\fBGL3WGetProcAddressProc\fP proc)"
+
+.SS "\fBGL3W_API\fP int imgl3wIsSupported (int major, int minor)"
+
+.SS "typedef void (\fBAPIENTRYP\fP PFNGLPOLYGONMODEPROC)"
+
+.SH "Variable Documentation"
+.PP 
+.SS "\fBGL3W_API\fP union \fBImGL3WProcs\fP imgl3wProcs\fR [extern]\fP"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

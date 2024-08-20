@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="__tracy_sys_time_8hpp_source" xml:lang="en-US">
+<title>TracySysTime.hpp</title>
+<indexterm><primary>adhed/client/TracySysTime.hpp</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 <emphasis role="preprocessor">#ifndef&#32;__TRACYSYSTIME_HPP__</emphasis>
+2 <emphasis role="preprocessor">#define&#32;__TRACYSYSTIME_HPP__</emphasis>
+3 
+4 <emphasis role="preprocessor">#if&#32;defined&#32;_WIN32&#32;||&#32;defined&#32;__linux__&#32;||&#32;defined&#32;__APPLE__</emphasis>
+5 <emphasis role="preprocessor">#&#32;&#32;define&#32;TRACY_HAS_SYSTIME</emphasis>
+6 <emphasis role="preprocessor">#else</emphasis>
+7 <emphasis role="preprocessor">#&#32;&#32;include&#32;&lt;sys/param.h&gt;</emphasis>
+8 <emphasis role="preprocessor">#endif</emphasis>
+9 
+10 <emphasis role="preprocessor">#ifdef&#32;BSD</emphasis>
+11 <emphasis role="preprocessor">#&#32;&#32;define&#32;TRACY_HAS_SYSTIME</emphasis>
+12 <emphasis role="preprocessor">#endif</emphasis>
+13 
+14 <emphasis role="preprocessor">#ifdef&#32;TRACY_HAS_SYSTIME</emphasis>
+15 
+16 <emphasis role="preprocessor">#include&#32;&lt;stdint.h&gt;</emphasis>
+17 
+18 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespacetracy">tracy</link>
+19 {
+20 
+21 <emphasis role="keyword">class&#32;</emphasis>SysTime
+22 {
+23 <emphasis role="keyword">public</emphasis>:
+24 &#32;&#32;&#32;&#32;SysTime();
+25 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">float</emphasis>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1aca26bc79b127c87708ebda19c2dacd8c">Get</link>();
+26 
+27 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;ReadTimes();
+28 
+29 <emphasis role="keyword">private</emphasis>:
+30 &#32;&#32;&#32;&#32;uint64_t&#32;idle,&#32;used;
+31 };
+32 
+33 }
+34 <emphasis role="preprocessor">#endif</emphasis>
+35 
+36 <emphasis role="preprocessor">#endif</emphasis>
+</programlisting></section>

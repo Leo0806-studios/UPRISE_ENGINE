@@ -111,7 +111,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;UPRISEGAME_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;UPRISEGAME_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions);TRACY_IMPORTS;TRACY_IMPORTS;TRACY_ENABLE</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -124,7 +124,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
       <AdditionalLibraryDirectories>C:\Users\leo08\source\repos\UPRISE_ENGINE\adhed;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>assimp-vc143-mt.lib;glfw3.lib;glfw3_mt.lib;glfw3dll.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>assimp-vc143-mt.lib;glfw3.lib;glfw3_mt.lib;glfw3dll.lib;UPRISE_PROFILER.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <CustomBuildStep>
       <Command>
@@ -140,12 +140,12 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;UPRISEGAME_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;UPRISEGAME_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions);TRACY_IMPORTS;TRACY_IMPORTS;TRACY_ENABLE</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <DebugInformationFormat>None</DebugInformationFormat>
       <AdditionalIncludeDirectories>C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_GAME\scripts;C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_GAME\Header\RENDER;C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_GAME\Header\RENDER\RENDER_DATATYPES;C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_GAME\Header\MESSAGES;C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_GAME\Header\PHYSICS;C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_GAME\Header\EDITOR;C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_GAME\Header\ECS;C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_GAME\Header\ECS\ENTITYS;C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_GAME\Header\ECS\COMPONENTS;C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_GAME\Header\DEBUG;C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_GAME\Header\DATATYPES;C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_GAME\Header\CORE;C:\Users\leo08\source\repos\UPRISE_ENGINE\adhed;C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_GAME;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
@@ -156,7 +156,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
       <AdditionalLibraryDirectories>C:\Users\leo08\source\repos\UPRISE_ENGINE\adhed;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>assimp-vc143-mt.lib;glfw3.lib;glfw3_mt.lib;glfw3dll.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>assimp-vc143-mt.lib;glfw3.lib;glfw3_mt.lib;glfw3dll.lib;UPRISE_PROFILER.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <CustomBuildStep>
       <Command>
@@ -196,6 +196,8 @@
     <ClInclude Include="Header\DATATYPES\D_TS_P_QUATERION.h" />
     <ClInclude Include="Header\DATATYPES\D_TS_P_VECOTR2.h" />
     <ClInclude Include="Header\DATATYPES\D_TS_P_VECTOR3.h" />
+    <ClInclude Include="Header\DATATYPES\NEED.h" />
+    <ClInclude Include="Header\DATATYPES\SLOT.h" />
     <ClInclude Include="Header\DEBUG\DEBUG_LOGGER.h" />
     <ClInclude Include="DLL-ENGINE-LINK.h" />
     <ClInclude Include="Header\ECS\COMPONENTS\CAMERA.h" />
@@ -227,6 +229,8 @@
     <ClInclude Include="Header\RENDER\RENDER_OBJECT_SPAWNING.h" />
     <ClInclude Include="Header\RENDER\RENDER_SHADER_UTILLS.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="scripts\C_Building.h" />
+    <ClInclude Include="scripts\C_RESIDENTIAL.h" />
     <ClInclude Include="scripts\Empty.h" />
     <ClInclude Include="scripts\Teleport.h" />
     <ClInclude Include="scripts\TEST_.h" />
@@ -240,6 +244,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\SCRIPTS\C_RESIDENTIAL.cpp" />
+    <ClCompile Include="src\SCRIPTS\C_Building.cpp" />
     <ClCompile Include="src\CORE\CORE.cpp" />
     <ClCompile Include="src\CORE\C_BEHAVIOUR.cpp" />
     <ClCompile Include="src\CORE\C_COMPONENTS.cpp" />
@@ -285,7 +291,6 @@
     <ClCompile Include="src\SCRIPTS\CAMERA.cpp" />
     <ClCompile Include="src\SCRIPTS\Empty.cpp" />
     <ClCompile Include="src\SCRIPTS\TEST.cpp" />
-    <ClCompile Include="src\TracyClient.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

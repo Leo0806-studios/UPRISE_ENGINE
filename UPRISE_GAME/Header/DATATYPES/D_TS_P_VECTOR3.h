@@ -5,35 +5,35 @@
 namespace DATATYPES {
 
 
-	struct TS_P_Vector3 {
+	struct TSPVector3 {
 	public:float x;
 	public:float y;
 	public:float z;
 	public:float pad;
 	public:
-		TS_P_Vector3();
-		TS_P_Vector3(float x, float y, float z);
-		TS_P_Vector3(const TS_P_Vector3& other) = default;
-		TS_P_Vector3(glm::vec3 vec);
+		TSPVector3();
+		TSPVector3(float x, float y, float z);
+		TSPVector3(const TSPVector3& other) = default;
+		TSPVector3(glm::vec3 vec);
 
-		TS_P_Vector3(aiVector3D vec);
-		TS_P_Vector3& operator=(const TS_P_Vector3& other) = default;
-		TS_P_Vector3& operator=(const aiVector3D& other);;
+		TSPVector3(aiVector3D vec);
+		TSPVector3& operator=(const TSPVector3& other) = default;
+		TSPVector3& operator=(const aiVector3D& other);;
 		operator __m128()const;
 		//operator aiVector3D() const;
 		operator glm::vec3()const;
 
 		float magnitude();
-		TS_P_Vector3 Normalized();
+		TSPVector3 Normalized();
 
-		float point(TS_P_Vector3 a);
+		float point(TSPVector3 a);
 
-		TS_P_Vector3 operator /(const float b);
-		TS_P_Vector3 operator/(const TS_P_Vector3 b);
-		TS_P_Vector3 operator *(const float b);
-		TS_P_Vector3 operator*(const TS_P_Vector3 b);
-		TS_P_Vector3 operator -(const TS_P_Vector3 b);
-		TS_P_Vector3 operator+(const TS_P_Vector3 b);
+		TSPVector3 operator /(const float b);
+		TSPVector3 operator/(const TSPVector3 b);
+		TSPVector3 operator *(const float b);
+		TSPVector3 operator*(const TSPVector3 b);
+		TSPVector3 operator -(const TSPVector3 b);
+		TSPVector3 operator+(const TSPVector3 b);
 
 
 

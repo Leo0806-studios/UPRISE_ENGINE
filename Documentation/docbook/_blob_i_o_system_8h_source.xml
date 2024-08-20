@@ -1,0 +1,315 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="__blob_i_o_system_8h_source" xml:lang="en-US">
+<title>BlobIOSystem.h</title>
+<indexterm><primary>adhed/assimp/BlobIOSystem.h</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 <emphasis role="comment">/*</emphasis>
+2 <emphasis role="comment">---------------------------------------------------------------------------</emphasis>
+3 <emphasis role="comment">Open&#32;Asset&#32;Import&#32;Library&#32;(assimp)</emphasis>
+4 <emphasis role="comment">---------------------------------------------------------------------------</emphasis>
+5 <emphasis role="comment"></emphasis>
+6 <emphasis role="comment">Copyright&#32;(c)&#32;2006-2022,&#32;assimp&#32;team</emphasis>
+7 <emphasis role="comment"></emphasis>
+8 <emphasis role="comment">All&#32;rights&#32;reserved.</emphasis>
+9 <emphasis role="comment"></emphasis>
+10 <emphasis role="comment">Redistribution&#32;and&#32;use&#32;of&#32;this&#32;software&#32;in&#32;source&#32;and&#32;binary&#32;forms,</emphasis>
+11 <emphasis role="comment">with&#32;or&#32;without&#32;modification,&#32;are&#32;permitted&#32;provided&#32;that&#32;the&#32;following</emphasis>
+12 <emphasis role="comment">conditions&#32;are&#32;met:</emphasis>
+13 <emphasis role="comment"></emphasis>
+14 <emphasis role="comment">*&#32;Redistributions&#32;of&#32;source&#32;code&#32;must&#32;retain&#32;the&#32;above</emphasis>
+15 <emphasis role="comment">&#32;&#32;copyright&#32;notice,&#32;this&#32;list&#32;of&#32;conditions&#32;and&#32;the</emphasis>
+16 <emphasis role="comment">&#32;&#32;following&#32;disclaimer.</emphasis>
+17 <emphasis role="comment"></emphasis>
+18 <emphasis role="comment">*&#32;Redistributions&#32;in&#32;binary&#32;form&#32;must&#32;reproduce&#32;the&#32;above</emphasis>
+19 <emphasis role="comment">&#32;&#32;copyright&#32;notice,&#32;this&#32;list&#32;of&#32;conditions&#32;and&#32;the</emphasis>
+20 <emphasis role="comment">&#32;&#32;following&#32;disclaimer&#32;in&#32;the&#32;documentation&#32;and/or&#32;other</emphasis>
+21 <emphasis role="comment">&#32;&#32;materials&#32;provided&#32;with&#32;the&#32;distribution.</emphasis>
+22 <emphasis role="comment"></emphasis>
+23 <emphasis role="comment">*&#32;Neither&#32;the&#32;name&#32;of&#32;the&#32;assimp&#32;team,&#32;nor&#32;the&#32;names&#32;of&#32;its</emphasis>
+24 <emphasis role="comment">&#32;&#32;contributors&#32;may&#32;be&#32;used&#32;to&#32;endorse&#32;or&#32;promote&#32;products</emphasis>
+25 <emphasis role="comment">&#32;&#32;derived&#32;from&#32;this&#32;software&#32;without&#32;specific&#32;prior</emphasis>
+26 <emphasis role="comment">&#32;&#32;written&#32;permission&#32;of&#32;the&#32;assimp&#32;team.</emphasis>
+27 <emphasis role="comment"></emphasis>
+28 <emphasis role="comment">THIS&#32;SOFTWARE&#32;IS&#32;PROVIDED&#32;BY&#32;THE&#32;COPYRIGHT&#32;HOLDERS&#32;AND&#32;CONTRIBUTORS</emphasis>
+29 <emphasis role="comment">&quot;AS&#32;IS&quot;&#32;AND&#32;ANY&#32;EXPRESS&#32;OR&#32;IMPLIED&#32;WARRANTIES,&#32;INCLUDING,&#32;BUT&#32;NOT</emphasis>
+30 <emphasis role="comment">LIMITED&#32;TO,&#32;THE&#32;IMPLIED&#32;WARRANTIES&#32;OF&#32;MERCHANTABILITY&#32;AND&#32;FITNESS&#32;FOR</emphasis>
+31 <emphasis role="comment">A&#32;PARTICULAR&#32;PURPOSE&#32;ARE&#32;DISCLAIMED.&#32;IN&#32;NO&#32;EVENT&#32;SHALL&#32;THE&#32;COPYRIGHT</emphasis>
+32 <emphasis role="comment">OWNER&#32;OR&#32;CONTRIBUTORS&#32;BE&#32;LIABLE&#32;FOR&#32;ANY&#32;DIRECT,&#32;INDIRECT,&#32;INCIDENTAL,</emphasis>
+33 <emphasis role="comment">SPECIAL,&#32;EXEMPLARY,&#32;OR&#32;CONSEQUENTIAL&#32;DAMAGES&#32;(INCLUDING,&#32;BUT&#32;NOT</emphasis>
+34 <emphasis role="comment">LIMITED&#32;TO,&#32;PROCUREMENT&#32;OF&#32;SUBSTITUTE&#32;GOODS&#32;OR&#32;SERVICES;&#32;LOSS&#32;OF&#32;USE,</emphasis>
+35 <emphasis role="comment">DATA,&#32;OR&#32;PROFITS;&#32;OR&#32;BUSINESS&#32;INTERRUPTION)&#32;HOWEVER&#32;CAUSED&#32;AND&#32;ON&#32;ANY</emphasis>
+36 <emphasis role="comment">THEORY&#32;OF&#32;LIABILITY,&#32;WHETHER&#32;IN&#32;CONTRACT,&#32;STRICT&#32;LIABILITY,&#32;OR&#32;TORT</emphasis>
+37 <emphasis role="comment">(INCLUDING&#32;NEGLIGENCE&#32;OR&#32;OTHERWISE)&#32;ARISING&#32;IN&#32;ANY&#32;WAY&#32;OUT&#32;OF&#32;THE&#32;USE</emphasis>
+38 <emphasis role="comment">OF&#32;THIS&#32;SOFTWARE,&#32;EVEN&#32;IF&#32;ADVISED&#32;OF&#32;THE&#32;POSSIBILITY&#32;OF&#32;SUCH&#32;DAMAGE.</emphasis>
+39 <emphasis role="comment">---------------------------------------------------------------------------</emphasis>
+40 <emphasis role="comment">*/</emphasis>
+41 
+45 <emphasis role="preprocessor">#pragma&#32;once</emphasis>
+46 <emphasis role="preprocessor">#ifndef&#32;AI_BLOBIOSYSTEM_H_INCLUDED</emphasis>
+47 <emphasis role="preprocessor">#define&#32;AI_BLOBIOSYSTEM_H_INCLUDED</emphasis>
+48 
+49 <emphasis role="preprocessor">#ifdef&#32;__GNUC__</emphasis>
+50 <emphasis role="preprocessor">#pragma&#32;GCC&#32;system_header</emphasis>
+51 <emphasis role="preprocessor">#endif</emphasis>
+52 
+53 <emphasis role="preprocessor">#include&#32;&lt;<link linkend="_cexport_8h">assimp/cexport.h</link>&gt;</emphasis>
+54 <emphasis role="preprocessor">#include&#32;&lt;<link linkend="__default_logger_8hpp">assimp/DefaultLogger.hpp</link>&gt;</emphasis>
+55 <emphasis role="preprocessor">#include&#32;&lt;<link linkend="__i_o_stream_8hpp">assimp/IOStream.hpp</link>&gt;</emphasis>
+56 <emphasis role="preprocessor">#include&#32;&lt;<link linkend="__i_o_system_8hpp">assimp/IOSystem.hpp</link>&gt;</emphasis>
+57 <emphasis role="preprocessor">#include&#32;&lt;cstdint&gt;</emphasis>
+58 <emphasis role="preprocessor">#include&#32;&lt;set&gt;</emphasis>
+59 <emphasis role="preprocessor">#include&#32;&lt;vector&gt;</emphasis>
+60 
+61 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespace_assimp">Assimp</link>&#32;{
+62 <emphasis role="keyword">class&#32;</emphasis>BlobIOSystem;
+63 
+64 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------------------</emphasis>
+66 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------------------</emphasis>
+67 <emphasis role="keyword">class&#32;</emphasis><link linkend="_class_assimp_1_1_blob_i_o_stream">BlobIOStream</link>&#32;:&#32;<emphasis role="keyword">public</emphasis>&#32;<link linkend="_class_assimp_1_1_i_o_stream">IOStream</link>&#32;{
+68 <emphasis role="keyword">public</emphasis>:
+73 &#32;&#32;&#32;&#32;<link linkend="_class_assimp_1_1_blob_i_o_stream_1a8f35d99f46306fe8e7b7fb02d8b09f38">BlobIOStream</link>(<link linkend="_class_assimp_1_1_blob_i_o_system">BlobIOSystem</link>&#32;*creator,&#32;<emphasis role="keyword">const</emphasis>&#32;std::string&#32;&amp;file,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;initial&#32;=&#32;4096)&#32;:
+74 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a7fc54503e1a1cf98d128b839ebc0b4d0">buffer</link>(),
+75 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cur_size(),
+76 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;file_size(),
+77 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cursor(),
+78 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;initial(initial),
+79 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;file(file),
+80 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;creator(creator)&#32;{
+81 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;empty</emphasis>
+82 &#32;&#32;&#32;&#32;}
+83 
+85 &#32;&#32;&#32;&#32;<link linkend="_class_assimp_1_1_blob_i_o_stream_1a12c18de13363e35ee9a08550fcfbc41f">~BlobIOStream</link>()&#32;<emphasis role="keyword">override</emphasis>;
+86 
+87 <emphasis role="keyword">public</emphasis>:
+88 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-------------------------------------------------------------------</emphasis>
+89 &#32;&#32;&#32;&#32;<link linkend="_structai_export_data_blob">aiExportDataBlob</link>&#32;*<link linkend="_class_assimp_1_1_blob_i_o_stream_1ae81d57b624c32b519d6049394d5aa1cb">GetBlob</link>()&#32;{
+90 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structai_export_data_blob">aiExportDataBlob</link>&#32;*blob&#32;=&#32;<emphasis role="keyword">new</emphasis>&#32;<link linkend="_structai_export_data_blob">aiExportDataBlob</link>();
+91 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;blob-&gt;<link linkend="_structai_export_data_blob_1a339bfaacc70396b2f99f94c1bc3b808f">size</link>&#32;=&#32;file_size;
+92 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;blob-&gt;<link linkend="_structai_export_data_blob_1ac080c780dad92077b42447d77a1a9ed1">data</link>&#32;=&#32;<link linkend="_glad_8h_1a7fc54503e1a1cf98d128b839ebc0b4d0">buffer</link>;
+93 
+94 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a7fc54503e1a1cf98d128b839ebc0b4d0">buffer</link>&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>;
+95 
+96 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;blob;
+97 &#32;&#32;&#32;&#32;}
+98 
+99 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-------------------------------------------------------------------</emphasis>
+100 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_class_assimp_1_1_blob_i_o_stream_1af7c647f5fee4cf0f34efdb637b08a6a3">Read</link>(<emphasis role="keywordtype">void</emphasis>&#32;*,&#32;<emphasis role="keywordtype">size_t</emphasis>,&#32;<emphasis role="keywordtype">size_t</emphasis>)<emphasis role="keyword">&#32;override&#32;</emphasis>{
+101 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;0;
+102 &#32;&#32;&#32;&#32;}
+103 
+104 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-------------------------------------------------------------------</emphasis>
+105 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_class_assimp_1_1_blob_i_o_stream_1a4ee82399ab9d8ea7d099311ca8daae31">Write</link>(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;*pvBuffer,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;pSize,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;pCount)<emphasis role="keyword">&#32;override&#32;</emphasis>{
+106 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;pSize&#32;*=&#32;pCount;
+107 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(cursor&#32;+&#32;pSize&#32;&gt;&#32;cur_size)&#32;{
+108 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Grow(cursor&#32;+&#32;pSize);
+109 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+110 
+111 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memcpy(<link linkend="_glad_8h_1a7fc54503e1a1cf98d128b839ebc0b4d0">buffer</link>&#32;+&#32;cursor,&#32;pvBuffer,&#32;pSize);
+112 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cursor&#32;+=&#32;pSize;
+113 
+114 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;file_size&#32;=&#32;std::max(file_size,&#32;cursor);
+115 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;pCount;
+116 &#32;&#32;&#32;&#32;}
+117 
+118 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-------------------------------------------------------------------</emphasis>
+119 &#32;&#32;&#32;&#32;<link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link>&#32;<link linkend="_class_assimp_1_1_blob_i_o_stream_1ac9438feded7e3d11fe884a5c8bf58e01">Seek</link>(<emphasis role="keywordtype">size_t</emphasis>&#32;pOffset,&#32;<link linkend="_types_8h_1ac50fbaa57d78776ca99e42104d9b2786">aiOrigin</link>&#32;pOrigin)<emphasis role="keyword">&#32;override&#32;</emphasis>{
+120 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">switch</emphasis>&#32;(pOrigin)&#32;{
+121 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">case</emphasis>&#32;<link linkend="_types_8h_1ac50fbaa57d78776ca99e42104d9b2786a34f9f30078835fdb09212bf69d5ebb36">aiOrigin_CUR</link>:
+122 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cursor&#32;+=&#32;pOffset;
+123 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">break</emphasis>;
+124 
+125 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">case</emphasis>&#32;<link linkend="_types_8h_1ac50fbaa57d78776ca99e42104d9b2786a88929c7834e2026ab642fd84bea2fec7">aiOrigin_END</link>:
+126 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cursor&#32;=&#32;file_size&#32;-&#32;pOffset;
+127 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">break</emphasis>;
+128 
+129 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">case</emphasis>&#32;<link linkend="_types_8h_1ac50fbaa57d78776ca99e42104d9b2786a94a44e681b6c891e39767c518b64b56f">aiOrigin_SET</link>:
+130 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cursor&#32;=&#32;pOffset;
+131 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">break</emphasis>;
+132 
+133 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">default</emphasis>:
+134 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;AI_FAILURE;
+135 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+136 
+137 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(cursor&#32;&gt;&#32;file_size)&#32;{
+138 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Grow(cursor);
+139 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+140 
+141 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;file_size&#32;=&#32;std::max(cursor,&#32;file_size);
+142 
+143 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;AI_SUCCESS;
+144 &#32;&#32;&#32;&#32;}
+145 
+146 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-------------------------------------------------------------------</emphasis>
+147 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_class_assimp_1_1_blob_i_o_stream_1ade466c822b6f0930c2744eb4ac799a4d">Tell</link>()<emphasis role="keyword">&#32;const&#32;override&#32;</emphasis>{
+148 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;cursor;
+149 &#32;&#32;&#32;&#32;}
+150 
+151 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-------------------------------------------------------------------</emphasis>
+152 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_class_assimp_1_1_blob_i_o_stream_1a5381f03b7609df4883ce2b1d1e30b61f">FileSize</link>()<emphasis role="keyword">&#32;const&#32;override&#32;</emphasis>{
+153 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;file_size;
+154 &#32;&#32;&#32;&#32;}
+155 
+156 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-------------------------------------------------------------------</emphasis>
+157 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_assimp_1_1_blob_i_o_stream_1a586a52bd8dbadb1ea579f80bbaad68bd">Flush</link>()<emphasis role="keyword">&#32;override&#32;</emphasis>{
+158 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;ignore</emphasis>
+159 &#32;&#32;&#32;&#32;}
+160 
+161 <emphasis role="keyword">private</emphasis>:
+162 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-------------------------------------------------------------------</emphasis>
+163 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;Grow(<emphasis role="keywordtype">size_t</emphasis>&#32;need&#32;=&#32;0)&#32;{
+164 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;1.5&#32;and&#32;phi&#32;are&#32;very&#32;heap-friendly&#32;growth&#32;factors&#32;(the&#32;first</emphasis>
+165 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;allows&#32;for&#32;frequent&#32;re-use&#32;of&#32;heap&#32;blocks,&#32;the&#32;second</emphasis>
+166 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;forms&#32;a&#32;fibonacci&#32;sequence&#32;with&#32;similar&#32;characteristics&#32;-</emphasis>
+167 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;since&#32;this&#32;heavily&#32;depends&#32;on&#32;the&#32;heap&#32;implementation</emphasis>
+168 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;and&#32;other&#32;factors&#32;as&#32;well,&#32;i&apos;ll&#32;just&#32;go&#32;with&#32;1.5&#32;since</emphasis>
+169 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;it&#32;is&#32;quicker&#32;to&#32;compute).</emphasis>
+170 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;new_size&#32;=&#32;std::max(initial,&#32;std::max(need,&#32;cur_size&#32;+&#32;(cur_size&#32;&gt;&gt;&#32;1)));
+171 
+172 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;uint8_t&#32;*<emphasis role="keyword">const</emphasis>&#32;old&#32;=&#32;<link linkend="_glad_8h_1a7fc54503e1a1cf98d128b839ebc0b4d0">buffer</link>;
+173 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a7fc54503e1a1cf98d128b839ebc0b4d0">buffer</link>&#32;=&#32;<emphasis role="keyword">new</emphasis>&#32;uint8_t[new_size];
+174 
+175 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(old)&#32;{
+176 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memcpy(<link linkend="_glad_8h_1a7fc54503e1a1cf98d128b839ebc0b4d0">buffer</link>,&#32;old,&#32;cur_size);
+177 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">delete</emphasis>[]&#32;old;
+178 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+179 
+180 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cur_size&#32;=&#32;new_size;
+181 &#32;&#32;&#32;&#32;}
+182 
+183 <emphasis role="keyword">private</emphasis>:
+184 &#32;&#32;&#32;&#32;uint8_t&#32;*<link linkend="_glad_8h_1a7fc54503e1a1cf98d128b839ebc0b4d0">buffer</link>;
+185 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;cur_size,&#32;file_size,&#32;cursor,&#32;initial;
+186 
+187 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;std::string&#32;file;
+188 &#32;&#32;&#32;&#32;BlobIOSystem&#32;*<emphasis role="keyword">const</emphasis>&#32;creator;
+189 };
+190 
+191 <emphasis role="preprocessor">#define&#32;AI_BLOBIO_MAGIC&#32;&quot;$blobfile&quot;</emphasis>
+192 
+193 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------------------</emphasis>
+195 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------------------</emphasis>
+196 <emphasis role="keyword">class&#32;</emphasis><link linkend="_class_assimp_1_1_blob_i_o_system">BlobIOSystem</link>&#32;:&#32;<emphasis role="keyword">public</emphasis>&#32;<link linkend="_class_assimp_1_1_i_o_system">IOSystem</link>&#32;{
+197 
+198 &#32;&#32;&#32;&#32;<emphasis role="keyword">friend</emphasis>&#32;<emphasis role="keyword">class&#32;</emphasis><link linkend="_class_assimp_1_1_blob_i_o_stream">BlobIOStream</link>;
+199 &#32;&#32;&#32;&#32;<emphasis role="keyword">typedef</emphasis>&#32;std::pair&lt;std::string,&#32;aiExportDataBlob&#32;*&gt;&#32;BlobEntry;
+200 
+201 
+202 <emphasis role="keyword">public</emphasis>:
+204 &#32;&#32;&#32;&#32;<link linkend="_class_assimp_1_1_blob_i_o_system_1ae65eda0fd63692bceb8702684b81d22d">BlobIOSystem</link>()&#32;:
+205 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;baseName{<link linkend="__blob_i_o_system_8h_1a7b2ca02473b77e5709418732ca5fc3c4">AI_BLOBIO_MAGIC</link>}&#32;{
+206 &#32;&#32;&#32;&#32;}
+207 
+210 &#32;&#32;&#32;&#32;<link linkend="_class_assimp_1_1_blob_i_o_system_1ac39e6f818df7d54ca8218e0581ffbd60">BlobIOSystem</link>(<emphasis role="keyword">const</emphasis>&#32;std::string&#32;&amp;baseName)&#32;:
+211 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;baseName(baseName)&#32;{
+212 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;empty</emphasis>
+213 &#32;&#32;&#32;&#32;}
+214 
+215 &#32;&#32;&#32;&#32;<link linkend="_class_assimp_1_1_blob_i_o_system_1ade9a0597d8cef7845f0daf020e9141b2">~BlobIOSystem</link>()<emphasis role="keyword">&#32;override&#32;</emphasis>{
+216 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(BlobEntry&#32;&amp;blobby&#32;:&#32;blobs)&#32;{
+217 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">delete</emphasis>&#32;blobby.second;
+218 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+219 &#32;&#32;&#32;&#32;}
+220 
+221 <emphasis role="keyword">public</emphasis>:
+222 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-------------------------------------------------------------------</emphasis>
+223 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*<link linkend="_class_assimp_1_1_blob_i_o_system_1a01f330dd7b1135c614ffe3d6a0320683">GetMagicFileName</link>()<emphasis role="keyword">&#32;const&#32;</emphasis>{
+224 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;baseName.c_str();
+225 &#32;&#32;&#32;&#32;}
+226 
+227 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-------------------------------------------------------------------</emphasis>
+228 &#32;&#32;&#32;&#32;<link linkend="_structai_export_data_blob">aiExportDataBlob</link>&#32;*<link linkend="_class_assimp_1_1_blob_i_o_system_1ac0b9b325c2c5d459291bbeb9f7b2993c">GetBlobChain</link>()&#32;{
+229 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keyword">auto</emphasis>&#32;magicName&#32;=&#32;std::string(this-&gt;<link linkend="_class_assimp_1_1_blob_i_o_system_1a01f330dd7b1135c614ffe3d6a0320683">GetMagicFileName</link>());
+230 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">bool</emphasis>&#32;hasBaseName&#32;=&#32;baseName&#32;!=&#32;<link linkend="__blob_i_o_system_8h_1a7b2ca02473b77e5709418732ca5fc3c4">AI_BLOBIO_MAGIC</link>;
+231 
+232 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;one&#32;must&#32;be&#32;the&#32;master</emphasis>
+233 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structai_export_data_blob">aiExportDataBlob</link>&#32;*master&#32;=&#32;<emphasis role="keyword">nullptr</emphasis>,&#32;*cur;
+234 
+235 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(<emphasis role="keyword">const</emphasis>&#32;BlobEntry&#32;&amp;blobby&#32;:&#32;blobs)&#32;{
+236 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(blobby.first&#32;==&#32;magicName)&#32;{
+237 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;master&#32;=&#32;blobby.second;
+238 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;master-&gt;<link linkend="_structai_export_data_blob_1af7f006ac5ad818c0d81d520a84f74c3e">name</link>.Set(hasBaseName&#32;?&#32;blobby.first&#32;:&#32;<emphasis role="stringliteral">&quot;&quot;</emphasis>);
+239 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">break</emphasis>;
+240 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+241 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+242 
+243 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(!master)&#32;{
+244 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__logger_8hpp_1af9c5f9debd2b062dec87a32121cf12dd">ASSIMP_LOG_ERROR</link>(<emphasis role="stringliteral">&quot;BlobIOSystem:&#32;no&#32;data&#32;written&#32;or&#32;master&#32;file&#32;was&#32;not&#32;closed&#32;properly.&quot;</emphasis>);
+245 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">nullptr</emphasis>;
+246 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+247 
+248 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cur&#32;=&#32;master;
+249 
+250 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(<emphasis role="keyword">const</emphasis>&#32;BlobEntry&#32;&amp;blobby&#32;:&#32;blobs)&#32;{
+251 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(blobby.second&#32;==&#32;master)&#32;{
+252 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">continue</emphasis>;
+253 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+254 
+255 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cur-&gt;<link linkend="_structai_export_data_blob_1a3e98fa760f45983ff1bccec6715f3817">next</link>&#32;=&#32;blobby.second;
+256 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cur&#32;=&#32;cur-&gt;<link linkend="_structai_export_data_blob_1a3e98fa760f45983ff1bccec6715f3817">next</link>;
+257 
+258 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(hasBaseName)&#32;{
+259 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cur-&gt;<link linkend="_structai_export_data_blob_1af7f006ac5ad818c0d81d520a84f74c3e">name</link>.Set(blobby.first);
+260 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}&#32;<emphasis role="keywordflow">else</emphasis>&#32;{
+261 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;extract&#32;the&#32;file&#32;extension&#32;from&#32;the&#32;file&#32;written</emphasis>
+262 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;std::string::size_type&#32;s&#32;=&#32;blobby.first.find_first_of(<emphasis role="charliteral">&apos;.&apos;</emphasis>);
+263 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cur-&gt;name.Set(s&#32;==&#32;std::string::npos&#32;?&#32;blobby.first&#32;:&#32;blobby.first.substr(s&#32;+&#32;1));
+264 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+265 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+266 
+267 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;give&#32;up&#32;blob&#32;ownership</emphasis>
+268 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;blobs.clear();
+269 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;master;
+270 &#32;&#32;&#32;&#32;}
+271 
+272 <emphasis role="keyword">public</emphasis>:
+273 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-------------------------------------------------------------------</emphasis>
+274 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_class_assimp_1_1_blob_i_o_system_1a4e524259954c01b89aa75f1fd0dab03c">Exists</link>(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*pFile)<emphasis role="keyword">&#32;const&#32;override&#32;</emphasis>{
+275 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;created.find(std::string(pFile))&#32;!=&#32;created.end();
+276 &#32;&#32;&#32;&#32;}
+277 
+278 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-------------------------------------------------------------------</emphasis>
+279 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">char</emphasis>&#32;<link linkend="_class_assimp_1_1_blob_i_o_system_1aa3f6c9fa0e5a7a2f4dcae331a4060f73">getOsSeparator</link>()<emphasis role="keyword">&#32;const&#32;override&#32;</emphasis>{
+280 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="charliteral">&apos;/&apos;</emphasis>;
+281 &#32;&#32;&#32;&#32;}
+282 
+283 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-------------------------------------------------------------------</emphasis>
+284 &#32;&#32;&#32;&#32;<link linkend="_class_assimp_1_1_i_o_stream">IOStream</link>&#32;*<link linkend="_class_assimp_1_1_blob_i_o_system_1a93ef86ce5edfee4b9b4376f07f5b2407">Open</link>(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*pFile,&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*pMode)<emphasis role="keyword">&#32;override&#32;</emphasis>{
+285 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(pMode[0]&#32;!=&#32;<emphasis role="charliteral">&apos;w&apos;</emphasis>)&#32;{
+286 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">nullptr</emphasis>;
+287 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+288 
+289 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;created.insert(std::string(pFile));
+290 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<emphasis role="keyword">new</emphasis>&#32;<link linkend="_class_assimp_1_1_blob_i_o_system_1a57ecee319276a5cf2dd6a06f126c1b5c">BlobIOStream</link>(<emphasis role="keyword">this</emphasis>,&#32;std::string(pFile));
+291 &#32;&#32;&#32;&#32;}
+292 
+293 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-------------------------------------------------------------------</emphasis>
+294 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_assimp_1_1_blob_i_o_system_1a76836272edbdfcdee7b196c0449dd270">Close</link>(<link linkend="_class_assimp_1_1_i_o_stream">IOStream</link>&#32;*pFile)<emphasis role="keyword">&#32;override&#32;</emphasis>{
+295 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">delete</emphasis>&#32;pFile;
+296 &#32;&#32;&#32;&#32;}
+297 
+298 <emphasis role="keyword">private</emphasis>:
+299 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;-------------------------------------------------------------------</emphasis>
+300 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;OnDestruct(<emphasis role="keyword">const</emphasis>&#32;std::string&#32;&amp;filename,&#32;<link linkend="_class_assimp_1_1_blob_i_o_stream">BlobIOStream</link>&#32;*child)&#32;{
+301 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;we&#32;don&apos;t&#32;know&#32;in&#32;which&#32;the&#32;files&#32;are&#32;closed,&#32;so&#32;we</emphasis>
+302 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;can&apos;t&#32;reliably&#32;say&#32;that&#32;the&#32;first&#32;must&#32;be&#32;the&#32;master</emphasis>
+303 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;file&#32;...</emphasis>
+304 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;blobs.emplace_back(filename,&#32;child-&gt;<link linkend="_class_assimp_1_1_blob_i_o_stream_1ae81d57b624c32b519d6049394d5aa1cb">GetBlob</link>());
+305 &#32;&#32;&#32;&#32;}
+306 
+307 <emphasis role="keyword">private</emphasis>:
+308 &#32;&#32;&#32;&#32;std::string&#32;baseName;
+309 &#32;&#32;&#32;&#32;std::set&lt;std::string&gt;&#32;created;
+310 &#32;&#32;&#32;&#32;std::vector&lt;BlobEntry&gt;&#32;blobs;
+311 };
+312 
+313 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------------------</emphasis>
+314 <link linkend="_class_assimp_1_1_blob_i_o_stream_1a12c18de13363e35ee9a08550fcfbc41f">BlobIOStream::~BlobIOStream</link>()&#32;{
+315 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(<emphasis role="keyword">nullptr</emphasis>&#32;!=&#32;creator)&#32;{
+316 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;creator-&gt;OnDestruct(file,&#32;<emphasis role="keyword">this</emphasis>);
+317 &#32;&#32;&#32;&#32;}
+318 &#32;&#32;&#32;&#32;<emphasis role="keyword">delete</emphasis>[]&#32;<link linkend="_glad_8h_1a7fc54503e1a1cf98d128b839ebc0b4d0">buffer</link>;
+319 }
+320 
+321 }&#32;<emphasis role="comment">//&#32;namespace&#32;Assimp</emphasis>
+322 
+323 <emphasis role="preprocessor">#endif</emphasis>
+</programlisting></section>

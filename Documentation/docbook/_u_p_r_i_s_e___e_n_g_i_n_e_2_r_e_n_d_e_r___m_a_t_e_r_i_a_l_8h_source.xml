@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="__u_p_r_i_s_e___e_n_g_i_n_e_2_r_e_n_d_e_r___m_a_t_e_r_i_a_l_8h_source" xml:lang="en-US">
+<title>RENDER_MATERIAL.h</title>
+<indexterm><primary>UPRISE_ENGINE/RENDER_MATERIAL.h</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 <emphasis role="preprocessor">#pragma&#32;once</emphasis>
+2 <emphasis role="preprocessor">#ifndef&#32;_RENDER_MATERIAL_</emphasis>
+3 <emphasis role="preprocessor">#define&#32;_RENDER_MATERIAL_</emphasis>
+4 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2pch_8h">pch.h</link>&quot;</emphasis>
+5 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_r_e_n_d_e_r___s_h_a_d_e_r___u_t_i_l_l_s_8h">RENDER_SHADER_UTILLS.h</link>&quot;</emphasis>
+6 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_r_e_n_d_e_r___c_a_m_e_r_a_8h">RENDER_CAMERA.h</link>&quot;</emphasis>
+7 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_e_c_s_8h">ECS.h</link>&quot;</emphasis>&#32;
+8 <emphasis role="comment">//class&#32;CORE::Behaviour;</emphasis>
+9 <emphasis role="comment">//class&#32;Camera&#32;:public&#32;CORE::Behaviour;</emphasis>
+10 
+11 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespace_p_a_i_n">PAIN</link>&#32;{
+12 &#32;&#32;&#32;&#32;
+13 &#32;&#32;&#32;&#32;<emphasis role="keyword">class&#32;</emphasis>MiniModel&#32;{
+14 &#32;&#32;&#32;&#32;<emphasis role="keyword">public</emphasis>:
+15 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_p_a_i_n_1_1_mini_model_1add8895d0533b3f5bf8112d5b136b4cdd">MiniModel</link>()&#32;=&#32;<emphasis role="keywordflow">default</emphasis>;
+16 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_p_a_i_n_1_1_mini_model_1a682ed8b84961b4352b791420a3659d61">MiniModel</link>(std::shared_ptr&#32;&lt;&#32;PAIN::Model&gt;&#32;<link linkend="_class_p_a_i_n_1_1_model">Model</link>,&#32;std::shared_ptr&lt;Transform&gt;&#32;transf,&#32;std::shared_ptr&lt;bool&gt;&#32;enabled,&#32;std::shared_ptr&lt;bool&gt;&#32;removed)&#32;{
+17 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_p_a_i_n_1_1_mini_model_1a4e8d44d7d02245eeed86671ed0db0c65">_Model</link>&#32;=&#32;<link linkend="_class_p_a_i_n_1_1_model">Model</link>;&#32;<link linkend="_class_p_a_i_n_1_1_mini_model_1a160bb52727c4c4af98d2e775d5151733">_Transform</link>&#32;=&#32;transf;&#32;<link linkend="_class_p_a_i_n_1_1_mini_model_1a09199ae63d1f2ed37fca21ef8ddf6b76">_enabled</link>&#32;=&#32;enabled,<link linkend="_class_p_a_i_n_1_1_mini_model_1a905cc75af835f70bda021708bde42b8d">_removed</link>=removed;
+18 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+19 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_p_a_i_n_1_1_mini_model_1a058f3d117ef0e19886648dce5ceee42d">~MiniModel</link>()&#32;{
+20 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_p_a_i_n_1_1_mini_model_1a4e8d44d7d02245eeed86671ed0db0c65">_Model</link>&#32;=&#32;NULL;
+21 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_p_a_i_n_1_1_mini_model_1a160bb52727c4c4af98d2e775d5151733">_Transform</link>&#32;=&#32;NULL;
+22 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_p_a_i_n_1_1_mini_model_1a09199ae63d1f2ed37fca21ef8ddf6b76">_enabled</link>&#32;=&#32;NULL;
+23 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_p_a_i_n_1_1_mini_model_1a905cc75af835f70bda021708bde42b8d">_removed</link>&#32;=&#32;NULL;
+24 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+25 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::shared_ptr&#32;&lt;&#32;PAIN::Model&gt;&#32;<link linkend="_class_p_a_i_n_1_1_mini_model_1a4e8d44d7d02245eeed86671ed0db0c65">_Model</link>;
+26 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::shared_ptr&lt;Transform&gt;&#32;<link linkend="_class_p_a_i_n_1_1_mini_model_1a160bb52727c4c4af98d2e775d5151733">_Transform</link>;
+27 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::shared_ptr&lt;bool&gt;&#32;<link linkend="_class_p_a_i_n_1_1_mini_model_1a09199ae63d1f2ed37fca21ef8ddf6b76">_enabled</link>;
+28 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::shared_ptr&lt;bool&gt;&#32;<link linkend="_class_p_a_i_n_1_1_mini_model_1a905cc75af835f70bda021708bde42b8d">_removed</link>;
+29 &#32;&#32;&#32;&#32;};
+30 &#32;&#32;&#32;&#32;<emphasis role="keyword">class&#32;</emphasis><link linkend="_class_p_a_i_n_1_1_terrain_model">TerrainModel</link>;
+31 &#32;&#32;&#32;&#32;
+32 &#32;&#32;&#32;&#32;<emphasis role="keyword">class&#32;</emphasis><link linkend="_class_p_a_i_n_1_1_render">Render</link>&#32;{
+33 
+34 
+35 
+36 &#32;&#32;&#32;&#32;<emphasis role="keyword">public</emphasis>:
+37 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_class_p_a_i_n_1_1_render_1a776c8dcaca166efa541b24efb734be34">FBO</link>;
+38 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;std::unordered_map&lt;std::string,&#32;int&gt;&#32;<link linkend="_class_p_a_i_n_1_1_render_1ad30f507c60483205de5f3c433e38db91">MaterialIdLinkDict</link>;
+39 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;std::unordered_map&lt;std::string,&#32;std::shared_ptr&lt;PAIN::Model&gt;&gt;&#32;<link linkend="_class_p_a_i_n_1_1_render_1ab7d797b16bb1c0e8dd5f1b90e2381e70">Modeldict</link>;
+40 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;std::vector&lt;PAIN::Material&gt;&#32;<link linkend="_class_p_a_i_n_1_1_render_1a5d915c68aaab086e71a72e23f2cd274c">mats</link>;
+41 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;std::vector&lt;std::shared_ptr&lt;PAIN::TerrainModel&gt;&gt;&#32;<link linkend="_class_p_a_i_n_1_1_render_1a4cdc3a2454c7719c5ebf83e066994a5c">terrains</link>;
+42 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::vector&lt;&#32;std::shared_ptr&lt;GameObject&gt;&#32;&gt;&#32;<link linkend="_class_p_a_i_n_1_1_render_1a9ccbaf6c2807f5b4b3bc68742956f0bd">objects</link>;
+43 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_p_a_i_n_1_1_render_1a584ea08f41a307efe60a112409fafe73">VEC</link>(std::shared_ptr&lt;MiniModel&gt;)&#32;Object_ModelSubstitute;
+44 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::vector&lt;&#32;std::shared_ptr&lt;CORE::Object&gt;&#32;&gt;&#32;<link linkend="_class_p_a_i_n_1_1_render_1ade4031a456245a36910f06da25956cff">ptrobjects</link>;
+45 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::vector&lt;&#32;void*&#32;&gt;&#32;<link linkend="_class_p_a_i_n_1_1_render_1adfc2d8f4b23dd92537d5d917e6fadd48">voidobjects</link>;
+46 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="_class_p_a_i_n_1_1_render___camera">PAIN::Render_Camera</link>*&#32;<link linkend="_class_p_a_i_n_1_1_render_1aa8941b0822d07c1f693c1cdde5a9b6d7">RenderCam</link>;
+47 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;std::shared_ptr&lt;Camera&gt;&#32;<link linkend="_class_p_a_i_n_1_1_render_1a86d4278c37bd83b81c34f51f5afd7d7a">CAM</link>;
+48 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_class_p_a_i_n_1_1_render_1ae9508471e348b14b7fdc4a6d12fdb1ad">Check_Removed</link>;
+49 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">virtual</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_p_a_i_n_1_1_render_1a6e112f61d2775d308b72a80fb064cf66">DrawObj</link>()&#32;=&#32;0;
+50 
+51 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_p_a_i_n_1_1_render_1aaf5e66f43020771d64f5e392143195e0">DrawAll</link>();
+52 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_p_a_i_n_1_1_render_1af1aa342f50597f6149526dd86c307443">Init</link>();
+53 
+54 &#32;&#32;&#32;&#32;};
+55 
+56 &#32;&#32;&#32;&#32;<emphasis role="keyword">class&#32;</emphasis><link linkend="_class_p_a_i_n_1_1_material">Material</link>&#32;:&#32;<emphasis role="keyword">public</emphasis>&#32;<link linkend="_class_p_a_i_n_1_1_render">PAIN::Render</link>&#32;{
+57 &#32;&#32;&#32;&#32;<emphasis role="keyword">public</emphasis>:
+58 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_class_p_a_i_n_1_1_material_1a736e97208678558deaa0bb3e67d2db57">ID</link>;
+59 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_p_a_i_n_1_1_shader">Shader</link>*&#32;<link linkend="_class_p_a_i_n_1_1_material_1a6e7b005d538f5f97b9e3a93b7cac5173">shader</link>;
+60 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_p_a_i_n_1_1_shader">Shader</link>&#32;<link linkend="_class_p_a_i_n_1_1_material_1a3f8a8d7596f899b60e62f0e51cb5dcc9">Shader_</link>;
+61 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_p_a_i_n_1_1_material_1a2f6509dbbead36f3db370733b877f224">Material</link>(<link linkend="_class_p_a_i_n_1_1_shader">Shader</link>*&#32;shade);
+62 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_p_a_i_n_1_1_material_1a2f6509dbbead36f3db370733b877f224">Material</link>(<link linkend="_class_p_a_i_n_1_1_shader">Shader</link>&#32;shade);
+63 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_p_a_i_n_1_1_material_1ad04a24cf9ca3e24ac92ea716fee77445">DrawObj</link>()<emphasis role="keyword">override</emphasis>;
+64 &#32;&#32;&#32;&#32;};
+65 &#32;&#32;&#32;&#32;<emphasis role="keyword">class&#32;</emphasis><link linkend="_class_p_a_i_n_1_1_terrain_model">TerrainModel</link>&#32;:&#32;<emphasis role="keyword">public</emphasis>&#32;<link linkend="_class_p_a_i_n_1_1_model">PAIN::Model</link>,&#32;<link linkend="_class_p_a_i_n_1_1_render">PAIN::Render</link>&#32;{
+66 &#32;&#32;&#32;&#32;<emphasis role="keyword">public</emphasis>:
+67 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>*&#32;<link linkend="_class_p_a_i_n_1_1_terrain_model_1ad41e8eaffbebd55618adc0d8d51116f5">Terraindata</link>;
+68 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_p_a_i_n_1_1_terrain_model_1a922dd3ce730ad5816c8816a6eea5df92">TerrainModel</link>();
+69 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_p_a_i_n_1_1_terrain_model_1a922dd3ce730ad5816c8816a6eea5df92">TerrainModel</link>(<emphasis role="keywordtype">void</emphasis>*&#32;<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>,<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a6879d830f164725df67adeeabca3ea47">width</link>,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a2aa5ce5567a58e4da543ce468fb1711a">depth</link>,&#32;<emphasis role="keywordtype">float</emphasis>&#32;maxHeight,<link linkend="_class_p_a_i_n_1_1_shader">Shader</link>*&#32;shade);
+70 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_p_a_i_n_1_1_shader">Shader</link>*&#32;<link linkend="_class_p_a_i_n_1_1_terrain_model_1afd392bdd9a7f7889c5f28ef5175f7540">shader</link>;
+71 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::shared_ptr&lt;GameObject&gt;&#32;<link linkend="_class_p_a_i_n_1_1_terrain_model_1a28dc4737126552f181dd03ba195460a7">object</link>;
+72 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_p_a_i_n_1_1_terrain_model_1a14303e5d0be4b6c1643e69164e5c69eb">DrawObj</link>()<emphasis role="keyword">override</emphasis>;
+73 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_p_a_i_n_1_1_mesh">Mesh</link>&#32;<link linkend="_class_p_a_i_n_1_1_terrain_model_1a3615969bf06b786845df8bd91e396e30">generateTerrainMesh</link>(<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a6879d830f164725df67adeeabca3ea47">width</link>,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a2aa5ce5567a58e4da543ce468fb1711a">depth</link>,&#32;<emphasis role="keywordtype">float</emphasis>&#32;maxHeight);
+74 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;
+75 &#32;&#32;&#32;&#32;};
+76 
+77 &#32;&#32;&#32;&#32;<emphasis role="keyword">class&#32;</emphasis><link linkend="_class_p_a_i_n_1_1_ui_render">UiRender</link>&#32;{
+78 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2pch_8h_1ab1eccd96f0431d2cc175882e0f4bdcbb">VEC</link>(<link linkend="_struct_p_a_i_n_1_1_vertex">Vertex</link>)&#32;Buffer;
+79 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">virtual</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;Draw()&#32;=&#32;0;
+80 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;DrawUI();
+81 
+82 &#32;&#32;&#32;&#32;};
+83 }
+84 
+85 
+86 <emphasis role="preprocessor">#endif&#32;</emphasis><emphasis role="comment">//&#32;!_RENDER_MATERIAL_</emphasis>
+</programlisting></section>

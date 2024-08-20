@@ -3,6 +3,10 @@
 //#pragma comment(linker, "/manifestdependency:\"name='Dll' version='1.0.0.0' type='win32'\"")
 
 //#import "ManagedUtills.tlb" named_guids
+
+
+
+#define TRACY_IMPORTS
 #include "DEBUG_LOGGER.h"
 
 #include "GLINCLUDES.h"
@@ -38,16 +42,25 @@
 #include "DLL-ENGINE-LINK.h"
 #include <HeaderE/CORE/C_CONFIGLOADER.h>
 #include "new"
+#include "EDITOR.h"
+#include "tracy/TracyOpenGL.hpp"
+#include "D_MAT4.h"
 //#include "C_SMART_POINTER.h"
 //#include "HeaderE/CORE/C_BEHAVIOUR.h"
 //#include "MESH.h"
-enum GameMode {
-	Paused,
-	Play,
-	Stoped
-};
+
+
+extern "C" {
+	// Math library functions
+	 float extern dot_product(const float* a, const float* b, int* n);
+	//extern void cross_product(const float* a, const float* b, float* c);
+	//extern void matrix_multiply(const float* a, const float* b, float* c, int* m, int* n, int* p);
+
+	// Physics system functions
+	//extern void update_position(float* positions, const float* velocities, float* dt, int* n);
+}
 #define FUNC(x,y,z)(x)GetProcAddress(y,z);
-DATALINK* DATA;
+//DATALINK* DATA;
 bool GameRunning;
 class Behaviour;
 class Object;
@@ -58,10 +71,9 @@ class Startup;
 int i = 10;
  std::unordered_map< std::string ,std::shared_ptr<CORE::Behaviour>> GlobalCompList;
 
-std::shared_ptr<GameObject> SelectedObj;
 MESSAGES::Message_Bus* Messagebus;
 
-std::vector<DATATYPES::TS_P_Vector3> VERTS;
+std::vector<DATATYPES::TSPVector3> VERTS;
 bool spawned = false;
 
 PAIN::Shader shader;
@@ -74,7 +86,6 @@ CORE::Scene scene;
 //}
 
 
-GameMode mode;
 void bb() {
 	GameObject_ TestObj;
 	const  char* pth = "C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\GAMEDATA\\untitled.glb";
@@ -82,7 +93,7 @@ void bb() {
 	PAIN::Material mat = PAIN::Material(&shader);
 	mat.ID = 0;
 	PAIN::Render::mats.push_back(mat);
-	TestObj = GameObject::Create(DATATYPES::TS_P_Vector3(0, 0, 0), &mod, mat.ID);
+	TestObj = GameObject::Create(DATATYPES::TSPVector3(0, 0, 0), &mod, mat.ID);
 	if (mat.ID < PAIN::Render::mats.size() || PAIN::Render::mats.size() == 0) {
 		PAIN::Render::mats[mat.ID].objects.push_back(TestObj);
 	}
@@ -91,7 +102,7 @@ void bb() {
 	TestObj->name = s;
 	i++;
 	auto ppp = Test();
-	ppp.gameobject = TestObj.get();
+	ppp.Game_Object = TestObj.get();
 	ppp.oobj = TestObj.get();
 	void* msc = &ppp;
 
@@ -121,7 +132,7 @@ void processInput(GLFWwindow* window)
 		PAIN::Material mat = PAIN::Material(&shader);
 		mat.ID = 0;
 		PAIN::Render::mats.push_back(mat);
-		TestObj = GameObject::Create(DATATYPES::TS_P_Vector3(0, 0, 0), &mod, mat.ID);
+		TestObj = GameObject::Create(DATATYPES::TSPVector3(0, 0, 0), &mod, mat.ID);
 		if (mat.ID < PAIN::Render::mats.size() || PAIN::Render::mats.size() == 0) {
 			PAIN::Render::mats[mat.ID].objects.push_back(TestObj);
 		}
@@ -147,7 +158,13 @@ void processInput(GLFWwindow* window)
 		glfwSetWindowShouldClose(window, true);
 }
 
+void IncreasePlot(const char* name,int val) {
+	TracyCPlot(name, val);
+}
+void DecreasePlot(const char* name, int val) {
+	TracyCPlot(name, val);
 
+}
 class t {
 public:
 	int i;
@@ -183,33 +200,6 @@ public:
 		std::cout << "hello from derived. i is " << i;
 	}
 };
-const WCHAR* addrs = L"C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\UPRISE\\ENGINE\\UPRISE_GAME_LOADED.dll";
-HINSTANCE handle = NULL;
-typedef test*(*create)();
-typedef void(*print)(test* i);
-typedef void(*externFuction)(DATALINK* DATA);
-typedef DATALINK*(*GetDatabase)();
-typedef void(*SetDatabase)(DATALINK*);
-typedef void(*BEHAVIOUR_UPDATE)();
-typedef void(*BEHAVIOUR_UPDATE_AWAKE)();
-typedef void(*BEHAVIOUR_UPDATE_START)();
-typedef void(*PHYSICS_UPDATE)();
-typedef void(*DRAW_EDITOR)();
-typedef void(*STOP)();
-
-test* inst = NULL;
-
-create CREATE;
-print PRINT;
-externFuction Function;
-SetDatabase Set;
-GetDatabase Get;
-BEHAVIOUR_UPDATE B_Up;
-BEHAVIOUR_UPDATE_AWAKE B_Up_A;
-BEHAVIOUR_UPDATE_START B_Up_S;
-PHYSICS_UPDATE P_Up;
-DRAW_EDITOR D_E;
-STOP Stop;
 
 PAIN::Shader* CreateSHADER(const char* vertexPath, const char* fragmentPath) {
 
@@ -237,6 +227,29 @@ bool CreateMaterial(PAIN::Shader*  shader) {
 /// <returns></returns>
 int main()
 {
+	
+
+	float aW[] = { 1.0, 2.0, 3.0 };
+	float bW[] = { 4.0, 5.0, 6.0 };
+	int nW = 3;
+	float cW[3];
+	float result = dot_product(aW, bW, &nW);
+	std::cout << "Dot product: " << result << std::endl;
+
+	Mat4 matf(1);
+	std::cout << "mem adr of this " << &matf << " alingof i " << (((int)&(matf.row0)) - (int)(&matf))  << "mem addr of i " << &(matf.row0) << "\n";
+
+	auto mm = matf[0];
+	Log << mm.m128_f32[0] << " " << mm.m128_f32[1] << " " << mm.m128_f32[2] << " " << mm.m128_f32[3] << " \n";
+	 mm = matf[1];
+	Log << mm.m128_f32[0] << " " << mm.m128_f32[1] << " " << mm.m128_f32[2] << " " << mm.m128_f32[3] << " \n";
+	mm = matf[2];
+	Log << mm.m128_f32[0] << " " << mm.m128_f32[1] << " " << mm.m128_f32[2] << " " << mm.m128_f32[3] << " \n";
+	mm = matf[3];
+	Log << mm.m128_f32[0] << " " << mm.m128_f32[1] << " " << mm.m128_f32[2] << " " << mm.m128_f32[3] << " \n";
+
+
+
 //	std::shared_ptr<tt> tptr = std::make_shared<tt>();
 	//std::shared_ptr<t> tpter = tptr;
 //	tt* chk;
@@ -260,9 +273,9 @@ int main()
 //	}
 	//Log << chk->i;
 	///Log << chk->i;
-	DATA = new DATALINK();
+	IMPORTANT::LINK = new DATALINK();
 
-	mode = GameMode::Stoped;
+	IMPORTANT::mode = GameMode::GameMode_Stoped;
 	std::remove("C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\UPRISE\\ENGINE\\UPRISE_GAME_LOADED.dll");
 
 	
@@ -292,241 +305,133 @@ int main()
 	shader = PAIN::Shader("C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\x64\\Debug\\6.1.coordinate_systems.vs", "C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\x64\\Debug\\6.1.coordinate_systems.fs");
 
 	CORE::ConfigLoader::LoadModels(std::filesystem::path(aaa));
-	//CORE::ConfigLoader::LoadConfigFiles(std::filesystem::path(aaa));
-	//CORE::ConfigLoader::LoadMaterials(std::filesystem::path(aaa));
+	CORE::ConfigLoader::LoadConfigFiles(std::filesystem::path(aaa));
+	CORE::ConfigLoader::LoadMaterials(std::filesystem::path(aaa));
 	std::cout << "Hello World!\n";
 
-	DATATYPES::TS_P_Vector3 tmp = DATATYPES::TS_P_Vector3(0, 0, 0);
+	DATATYPES::TSPVector3 tmp = DATATYPES::TSPVector3(0, 0, 0);
 
 	double lasttime = glfwGetTime();
-	DATA->CAM = PAIN::Render::CAM;
-	DATA->RenderCam = PAIN::Render::RenderCam;
+	IMPORTANT::LINK->CAM = PAIN::Render::CAM;
+	IMPORTANT::LINK->RenderCam = PAIN::Render::RenderCam;
 	//DATA->VOID_OBJECTS_LINK =&PAIN::Render::voidobjects;
 	//DATA->PTR_OBJECTS_LINK =&PAIN::Render::ptrobjects;
 	//DATA->OBJECT_LINK =&PAIN::Render::objects;
-	DATA->TERRAIN_LINK = &PAIN::Render::terrains;
-	DATA->MATS_LINK = std::make_shared<std::vector<PAIN::Material>>(PAIN::Render::mats);
-	DATA->M_DICT_LINK = &PAIN::Render::Modeldict;
-	DATA->M_ID_LINK = &PAIN::Render::MaterialIdLinkDict;
-	DATA->ACTIVE_SCENE = CORE::Scene::activeScene;
-	DATA->window = PAIN::RenderStup::Windowvar;
-	DATA->CreateSHADER = CreateSHADER;
-	DATA->AddTORender = AddTORender;
-	DATA->ConfigDatabase_LINK = &CORE::ConfigLoader::ConfigDatabase;
-	DATA->RemoveFromRender = RemoveFromRender;
-	DATA->CreateMaterial = CreateMaterial;
+	IMPORTANT::LINK->TERRAIN_LINK = std::make_shared<decltype(PAIN::Render::terrains)>(PAIN::Render::terrains);
+	IMPORTANT::LINK->MATS_LINK = std::make_shared<std::vector<PAIN::Material>>(PAIN::Render::mats);
+	IMPORTANT::LINK->M_DICT_LINK = std::make_shared<decltype(PAIN::Render::Modeldict)>(PAIN::Render::Modeldict);
+	IMPORTANT::LINK->M_ID_LINK = std::make_shared<decltype(PAIN::Render::MaterialIdLinkDict)>(PAIN::Render::MaterialIdLinkDict);
+	IMPORTANT::LINK->ACTIVE_SCENE = CORE::Scene::activeScene;
+	IMPORTANT::LINK->window = PAIN::RenderStup::Windowvar;
+	IMPORTANT::LINK->CreateSHADER = CreateSHADER;
+	IMPORTANT::LINK->AddTORender = AddTORender;
+	IMPORTANT::LINK->ConfigDatabase_LINK = std::make_shared<std::unordered_map<ConfigFile::ConfigType, std::unordered_map <std::string, std::shared_ptr<ConfigFile>>>>(CORE::ConfigLoader::ConfigDatabase);
+	IMPORTANT::LINK->RemoveFromRender = RemoveFromRender;
+	IMPORTANT::LINK->CreateMaterial = CreateMaterial;
 	using  CreatorFunc = std::function<std::shared_ptr<CORE::Behaviour>()>;
 
-	DATA->creators_LINK = std::make_shared<std::map<std::string, CreatorFunc>>(fact::creators);
+	IMPORTANT::LINK->creators_LINK = std::make_shared<std::map<std::string, CreatorFunc>>(fact::creators);
 	
-	DATA->inst_LINK = &fact::inst;
-	DATA->III = (int*)& fact::inst;
-	DATA->GetKey = CORE::Input::GetKey;
+	IMPORTANT::LINK->inst_LINK = std::make_shared<decltype(fact::inst)>(fact::inst);
+	IMPORTANT::LINK->III = (int*)& fact::inst;
+	IMPORTANT::LINK->GetKey = CORE::Input::GetKey;
+	IMPORTANT::LINK->PLOTADD = IncreasePlot;
+	IMPORTANT::LINK->PLOTREMOVE = DecreasePlot;
+	//auto llllll = std::make_shared<std::unordered_map<ConfigFile::ConfigType, std::unordered_map <std::string, std::shared_ptr<ConfigFile>>>>(CORE::ConfigLoader::ConfigDatabase);
+	//DATA->ConfigDatabase_LINK = llllll;
+/*	unsigned int texture;
+	glGenTextures(1, &texture);
+	glBindTexture(GL_TEXTURE_2D, texture);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 800, 600, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glGenFramebuffers(1, &PAIN::Render::FBO);
+	glBindFramebuffer(GL_FRAMEBUFFER, PAIN::Render::FBO);
+
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture, 0);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0)*/;
+
+
 	while (!glfwWindowShouldClose(z.windw))
 	{
-		
 		processInput(z.windw);
+		//glBindFramebuffer(GL_FRAMEBUFFER, PAIN::Render::FBO);
+		//TracyGpuNamedZone(ctxgpu, "DRAW", true);
+
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		//glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
-		ImGui::ShowDemoWindow();
-		{
-			ImGui::Begin("TEST");
-
-
-			ImGui::Text("This is some useful text.");
-			if (ImGui::Button("Click Me")) {
-				//bb(); // Call the function when the button is clicked
-				spawned = true;
-
-			}
-			ImGui::End();
+		TrPr(ctx, "Script Update")
+		if (IMPORTANT::mode == GameMode::GameMode_Play) {
+			IMPORTANT::B_Up();
+			IMPORTANT::B_Up_A();
+			IMPORTANT::B_Up_S();
 		}
-		if (mode == GameMode::Play) {
-			B_Up();
-			B_Up_A();
-			B_Up_S();
-		}
+		TrPrE(ctx)
 		CORE::Behaviour::updateAllAWAKE();
 		CORE::Behaviour::updateAllSTART();
 		CORE::Behaviour::updateAll();
 		PHYSICS::Physics::UpdateAllPhysics();
-		if (spawned == true) {
+		//if (spawned == true) {
+			//glBindFramebuffer(GL_FRAMEBUFFER, PAIN::Render::FBO);
+		TrPr(ctx1,"Draw Scene")
 			PAIN::Render::DrawAll();
-		}
-
+			//glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		TrPrE(ctx1)
+		//}
+		TrPr(ctx2, "Draw Editor")
+		EDITOR::Editor::DrawEditor();
+		TrPrE(ctx2)
+			//auto text = buffer;
+		//{
+		//	ImGui::Begin("SCENE");
+		//	ImVec2 wsize = ImGui::GetWindowSize();
+		//	ImGui::Image((ImTextureID)texture, wsize, ImVec2(0, 1), ImVec2(1, 0));
+		//	//ImGui::GetWindowDrawList()->AddImage((void*)texture, ImVec2((float)(ImGui::GetCursorScreenPos().x + (float)(1600 / 2)), ImGui::GetCursorScreenPos().y + (float)(900 / 2)), ImVec2(0, 1), ImVec2(1, 0));
+		//	ImGui::End();
+		//}
 		if (CORE::Input::GetKey(B)) {
 
 			//Function();
-			PRINT(inst);
-			test ttErerewr;
-			memcpy(&ttErerewr, inst, sizeof(test));
-			int* tp = (int*)inst;
-			Log << *tp << "  " << tp << "\n";
-			tp = (int*)inst+1;
-			Log << *tp << "  " << tp << "\n";;
-			tp = (int*)inst+2;
-			Log <<*tp  <<"  "<<tp << "\n";
-			//Log << *((int*)((long*)inst + 8)) << "  " << ((int*)inst + 8) << "\n";
-			tp = (int*)inst+3;
-			Log << *tp << "  " << tp << "\n";
-			tp = (int*)inst+4;
-			Log << *tp << "  " << tp << "\n";
-			tp = &((test*)inst)->i;
-			Log << *tp << "  " << tp << "\n";
+			IMPORTANT::PRINT();
+			//test ttErerewr;
+			//memcpy(&ttErerewr, inst, sizeof(test));
+			//int* tp = (int*)inst;
+			//Log << *tp << "  " << tp << "\n";
+			//tp = (int*)inst+1;
+			//Log << *tp << "  " << tp << "\n";;
+			//tp = (int*)inst+2;
+			//Log <<*tp  <<"  "<<tp << "\n";
+			////Log << *((int*)((long*)inst + 8)) << "  " << ((int*)inst + 8) << "\n";
+			//tp = (int*)inst+3;
+			//Log << *tp << "  " << tp << "\n";
+			//tp = (int*)inst+4;
+			//Log << *tp << "  " << tp << "\n";
+			//tp = &((test*)inst)->i;
+			//Log << *tp << "  " << tp << "\n";
 
 		}
 
-		if (spawned == true) {
-			ImGui::Begin("Editor");
-
-			// Show Scene View
-			ImGui::Text("Scene View");
-
-
-			// Show Hierarchy Window
-			ImGui::Begin("Hierarchy");
-
-			for (const auto& obj : scene.activeScene->ObjectsInScene) {
-				bool isSelected = false; //= (SelectedObj->uuid == &obj->uuid);
-
-				// Highlight the selected item
-				if (isSelected) {
-					ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 0.0f, 1.0f)); // Yellow for selected
-				}
-
-				// Display the game object name and detect selection
-				if (ImGui::Selectable(obj->name.c_str(), isSelected)) {
-					SelectedObj = obj; // Update the selected object
-				}
-
-				if (isSelected) {
-					ImGui::PopStyleColor();
-				}
-				if (ImGui::TreeNode(obj->name.c_str())) {
-					// Display children if necessary
-					ImGui::TreePop();
-				}
-			}
-			ImGui::End();
-
-			// Show Inspector Window
-			if (SelectedObj) {
-				ImGui::Begin("Inspector");
-				ImGui::Text("Name: %s", SelectedObj->name.c_str());
-				//char buff[100];
-				//ImGui::InputText("NAME", SelectedObj->name,0,);
-				// char buf1[32] = "template";
-				 ImGui::InputText("default", SelectedObj->name.data(), 32);
-				 //SelectedObj->name = buf1;
-				 //Log << buf1;
-				ImGui::Checkbox("Enabled", &SelectedObj->Enabled);
-				// Add more properties as needed
-				ImGui::DragFloat3("Position", &SelectedObj->TrAnSfOrM->Position.x);
-				auto aa = SelectedObj->TrAnSfOrM->rotation.ToRotationVector();
-				ImGui::InputFloat3("posa", &aa.x);
-				// = SelectedObj->TrAnSfOrM->rotation.ToRotationVector();
-				ImGui::SliderFloat3("Rotation", &SelectedObj->TrAnSfOrM->Vec3Rotation.x,-1.5f,1.5f);
-				SelectedObj->TrAnSfOrM->SetRotation(SelectedObj->TrAnSfOrM->Vec3Rotation);
-				if (ImGui::Button("update position")) {
-					tmp = SelectedObj->TrAnSfOrM->rotation.ToRotationVector();
-				}
-				ImGui::SeparatorText("Components");
-				for (auto& cmp : SelectedObj->behaviours) {
-					ImGui::Text(cmp->compname.c_str());
-					cmp->EditorWindow();
-				}
-				ImGui::SeparatorText("Add components");
-				static bool open;
-				if (ImGui::Button("Add Component")) {
-			
-					open = !open;
-
-				}
-				if (open) {
-					ImGui::BeginChild("Component List");
-
-					for (auto& a : fact::creators) {
-
-						if (ImGui::Button(a.first.c_str())) {
-							//tt te;
-							//auto tert = std::make_shared<t>(te);
-							// using t =decltype(tert->test());
-							// std::any aaa = Test();
-							// std::string nm = typeid(t).name();
-
-							//auto a = fact::anys[0].type().name();
-							SelectedObj->AddComponent(a.second(),a.first);
-						}
-
-					}
-					ImGui::EndChild();
-				}
-				ImGui::End();
-			}
-
-
-			// Show Toolbar
-			ImGui::Begin("Toolbar");
-			if (ImGui::Button("Play")) {
-				std::rename("C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\UPRISE\\ENGINE\\UPRISE_GAME.dll", "C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\UPRISE\\ENGINE\\UPRISE_GAME_LOADED.dll");
-
-				handle = LoadLibrary(addrs);
-				mode = GameMode::Play;
-				 Function = (externFuction)GetProcAddress(handle, "INITIALIZE");
-			
-				 CREATE = (create)GetProcAddress(handle, "_CREATE");
-				 PRINT = (print)GetProcAddress(handle, "_PRINT");
-				 Get = (GetDatabase)GetProcAddress(handle, "GetDatabase");
-				 Set = (SetDatabase)GetProcAddress(handle, "SetDatabase");
-				  B_Up=(BEHAVIOUR_UPDATE)GetProcAddress(handle,"BEHAVIOUR_UPDATE");
-				  B_Up_A = FUNC(BEHAVIOUR_UPDATE_AWAKE, handle, "BEHAVIOUR_UPDATE_AWAKE");
-				  B_Up_S=FUNC(BEHAVIOUR_UPDATE_START,handle,"BEHAVIOUR_UPDATE_START")
-				  P_Up=FUNC(PHYSICS_UPDATE,handle,"PHYSICS_UPDATE");
-				  D_E=FUNC(DRAW_EDITOR,handle,"DRAW_EDITOR");
-				  Stop = FUNC(STOP, handle, "STOP");
-				Function(DATA);
-				CORE::Scene::Backups_SCENE_obj = CORE::Scene::activeScene_obj;
-				DATA->Backups_SCENE = CORE::Scene::activeScene;
-				auto get = *CREATE();
-				if (DATA) {
-					Set(DATA);
-				}
-				inst = &get;
-				Log << "instance mam adr is " << inst << "\n";
-
-				// Toggle play mode
-			}
-			
-			if (ImGui::Button("Pause")) {
-				// Toggle pause mode
-			}
-			if (ImGui::Button("Stop")) {
-				Stop();
-				CORE::Scene::activeScene_obj = CORE::Scene::Backups_SCENE_obj;
-				mode = GameMode::Stoped;
-				DATA = Get();
-				FreeLibrary(handle);
-				handle = NULL;
-				Function = NULL;
-				CREATE = NULL;
-				PRINT = NULL;
-				std::rename("C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\UPRISE\\ENGINE\\UPRISE_GAME_LOADED.dll", "C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\UPRISE\\ENGINE\\UPRISE_GAME.dll");
-
-				// Stop simulation
-			}
-			ImGui::End();
-
-			ImGui::End();
-		}
-
+		
 
 
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+		//if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+		//{
+			GLFWwindow* backup_current_context = glfwGetCurrentContext();
+			ImGui::UpdatePlatformWindows();
+			ImGui::RenderPlatformWindowsDefault();
+			glfwMakeContextCurrent(backup_current_context);
+		//}
 		glfwSwapBuffers(z.windw);
+		//TracyGpuCollect;
 		FrameMark;
 		glfwPollEvents();
 		while (glfwGetTime() < lasttime + 1.0 / 60) {

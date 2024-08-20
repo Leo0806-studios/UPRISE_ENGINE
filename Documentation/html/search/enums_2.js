@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['mousemode_0',['MouseMode',['../class_c_o_r_e_1_1_input.html#ab5def2d17b5f7c70892942abff71578c',1,'CORE::Input']]]
+  ['errorcode_0',['ErrorCode',['../d8/d35/_d_e_b_u_g___l_o_g_g_e_r_8h.html#a59e56af19e754a6aa26a612ebf91d05f',1,'DEBUG_LOGGER.h']]]
 ];

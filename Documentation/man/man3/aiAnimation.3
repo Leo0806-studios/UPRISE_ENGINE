@@ -1,0 +1,86 @@
+.TH "aiAnimation" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+aiAnimation
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fR#include <anim\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBaiAnimation\fP () \fBAI_NO_EXCEPT\fP"
+.br
+.ti -1c
+.RI "\fB~aiAnimation\fP ()"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBC_STRUCT\fP \fBaiString\fP \fBmName\fP"
+.br
+.ti -1c
+.RI "double \fBmDuration\fP"
+.br
+.ti -1c
+.RI "double \fBmTicksPerSecond\fP"
+.br
+.ti -1c
+.RI "unsigned int \fBmNumChannels\fP"
+.br
+.ti -1c
+.RI "\fBC_STRUCT\fP \fBaiNodeAnim\fP ** \fBmChannels\fP"
+.br
+.ti -1c
+.RI "unsigned int \fBmNumMeshChannels\fP"
+.br
+.ti -1c
+.RI "\fBC_STRUCT\fP \fBaiMeshAnim\fP ** \fBmMeshChannels\fP"
+.br
+.ti -1c
+.RI "unsigned int \fBmNumMorphMeshChannels\fP"
+.br
+.ti -1c
+.RI "\fBC_STRUCT\fP \fBaiMeshMorphAnim\fP ** \fBmMorphMeshChannels\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+An animation consists of key-frame data for a number of nodes\&. For each node affected by the animation a separate series of data is given\&. 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "aiAnimation::aiAnimation ()\fR [inline]\fP"
+
+.SS "aiAnimation::~aiAnimation ()\fR [inline]\fP"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "\fBC_STRUCT\fP \fBaiNodeAnim\fP** aiAnimation::mChannels"
+The node animation channels\&. Each channel affects a single node\&. The array is mNumChannels in size\&. 
+.SS "double aiAnimation::mDuration"
+Duration of the animation in ticks\&. 
+.br
+ 
+.SS "\fBC_STRUCT\fP \fBaiMeshAnim\fP** aiAnimation::mMeshChannels"
+The mesh animation channels\&. Each channel affects a single mesh\&. The array is mNumMeshChannels in size\&. 
+.SS "\fBC_STRUCT\fP \fBaiMeshMorphAnim\fP** aiAnimation::mMorphMeshChannels"
+The morph mesh animation channels\&. Each channel affects a single mesh\&. The array is mNumMorphMeshChannels in size\&. 
+.SS "\fBC_STRUCT\fP \fBaiString\fP aiAnimation::mName"
+The name of the animation\&. If the modeling package this data was exported from does support only a single animation channel, this name is usually empty (length is zero)\&. 
+.SS "unsigned int aiAnimation::mNumChannels"
+The number of bone animation channels\&. Each channel affects a single node\&. 
+.SS "unsigned int aiAnimation::mNumMeshChannels"
+The number of mesh animation channels\&. Each channel affects a single mesh and defines vertex-based animation\&. 
+.SS "unsigned int aiAnimation::mNumMorphMeshChannels"
+The number of mesh animation channels\&. Each channel affects a single mesh and defines morphing animation\&. 
+.SS "double aiAnimation::mTicksPerSecond"
+Ticks per second\&. 0 if not specified in the imported file 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

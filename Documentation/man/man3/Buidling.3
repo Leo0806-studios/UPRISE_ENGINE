@@ -1,4 +1,4 @@
-.TH "Buidling" 3 "Version 0.0.0.1" "My Project" \" -*- nroff -*-
+.TH "Buidling" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -7,36 +7,82 @@ Buidling
 .br
 .PP
 .PP
-\fR#include <CONFIGFILE\&.h>\fP
+\fR#include <D_CONFIGFILE\&.h>\fP
 .PP
 Inherits \fBConfigFile\fP\&.
-.SS "Additional Inherited Members"
+.SS "Classes"
 
+.in +1c
+.ti -1c
+.RI "class \fBSlot\fP"
+.br
+.in -1c
+.SS "Public Types"
+
+.in +1c
+.ti -1c
+.RI "enum \fBBuildingType\fP { \fBResidential\fP, \fBNeeds\fP, \fBProduction_Raw\fP, \fBProduction_Not_Raw\fP, \fBEnergy_In\fP, \fBEnergy_I_W\fP, \fBEnergy_R\fP, \fBEnergy_R_W\fP, \fBEnergy\fP, \fBEco\fP, \fBDecoration\fP, \fBMilitary\fP, \fBSpecial\fP }"
+.br
+.ti -1c
+.RI "enum \fBSlotType\fP { \fBRessource_O\fP, \fBEnergy_O\fP, \fBEco_O\fP, \fBNone_O\fP, \fBCustom_O\fP, \fBRessource_I\fP, \fBEnergy_I\fP, \fBEco_I\fP, \fBNone_I\fP, \fBCustom_I\fP }"
+.br
+.in -1c
 
 Public Types inherited from \fBConfigFile\fP
 .in +1c
 .ti -1c
-.RI "enum \fBConfigType\fP { \fBBuilding\fP, \fBVehicle\fP, \fBProjectile\fP, \fBParticle\fP, \fBIsland\fP, \fBAiObject\fP, \fBGlobal\fP, \fBManager\fP }"
+.RI "enum \fBConfigType\fP { \fBBuilding\fP, \fBVehicle\fP, \fBProjectile\fP, \fBParticle\fP, \fBIsland\fP, \fBAiObject\fP, \fBGlobal\fP, \fBManager\fP, \fBVertexShader\fP, \fBFragmentShader\fP, \fBGeometryShader\fP, \fBComputeShader\fP, \fBMaterial\fP }"
+.br
+.in -1c
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBBuidling\fP (std::string name, std::string modelpath, std::vector< std::string > texturepath, \fBConfigType\fP configType, nlohmann::json data)"
 .br
 .in -1c
 
 Public Member Functions inherited from \fBConfigFile\fP
 .in +1c
 .ti -1c
-.RI "\fBConfigFile\fP (std::string name, std::string modelpath, std::vector< std::string > texturepath, \fBConfigType\fP configType, std::vector< std::string > data)"
+.RI "\fBConfigFile\fP (std::string name, std::string modelpath, std::vector< std::string > texturepath, \fBConfigType\fP configType, nlohmann::json data)"
 .br
 .ti -1c
 .RI "virtual void \fBPalceholder\fP ()"
 .br
 .in -1c
+.SS "Public Attributes"
 
-Static Public Member Functions inherited from \fBConfigFile\fP
 .in +1c
 .ti -1c
-.RI "static std::string \fBtoString\fP (\fBConfigType\fP type)"
+.RI "short \fBInputCount\fP"
 .br
 .ti -1c
-.RI "static \fBConfigType\fP \fBtoConfigType\fP (const std::string &str)"
+.RI "short \fBOutputCount\fP"
+.br
+.ti -1c
+.RI "std::vector< \fBSlot\fP > \fBInput\fP"
+.br
+.ti -1c
+.RI "std::vector< \fBSlot\fP > \fBOutput\fP"
+.br
+.ti -1c
+.RI "int \fBHittPoints\fP"
+.br
+.ti -1c
+.RI "int \fBEcoCost\fP"
+.br
+.ti -1c
+.RI "int \fBPowerCost\fP"
+.br
+.ti -1c
+.RI "int \fBMaintanece\fP"
+.br
+.ti -1c
+.RI "int \fBMannpower\fP"
+.br
+.ti -1c
+.RI "\fBBuildingType\fP \fBbuildinngType\fP"
 .br
 .in -1c
 
@@ -54,13 +100,245 @@ Public Attributes inherited from \fBConfigFile\fP
 .ti -1c
 .RI "\fBConfigType\fP \fBConfigType_\fP"
 .br
+.in -1c
+.SS "Additional Inherited Members"
+
+
+Static Public Member Functions inherited from \fBConfigFile\fP
+.in +1c
 .ti -1c
-.RI "std::vector< std::string > \fBData\fP"
+.RI "static std::string \fBtoString\fP (\fBConfigType\fP type)"
+.br
+.ti -1c
+.RI "static \fBConfigType\fP \fBtoConfigType\fP (const std::string &str)"
 .br
 .in -1c
 .SH "Detailed Description"
 .PP 
-Definition at line \fB60\fP of file \fBCONFIGFILE\&.h\fP\&.
+Definition at line \fB78\fP of file \fBD_CONFIGFILE\&.h\fP\&.
+.SH "Member Enumeration Documentation"
+.PP 
+.SS "enum \fBBuidling::BuildingType\fP"
+
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIResidential \fP\fP
+.TP
+\fB\fINeeds \fP\fP
+.TP
+\fB\fIProduction_Raw \fP\fP
+.TP
+\fB\fIProduction_Not_Raw \fP\fP
+.TP
+\fB\fIEnergy_In \fP\fP
+.TP
+\fB\fIEnergy_I_W \fP\fP
+.TP
+\fB\fIEnergy_R \fP\fP
+.TP
+\fB\fIEnergy_R_W \fP\fP
+.TP
+\fB\fIEnergy \fP\fP
+.TP
+\fB\fIEco \fP\fP
+.TP
+\fB\fIDecoration \fP\fP
+.TP
+\fB\fIMilitary \fP\fP
+.TP
+\fB\fISpecial \fP\fP
+.PP
+Definition at line \fB80\fP of file \fBD_CONFIGFILE\&.h\fP\&.
+.nf
+80                       {
+81         Residential,
+82         Needs,
+83         Production_Raw,
+84         Production_Not_Raw,
+85         Energy_In,
+86         Energy_I_W,
+87         Energy_R,
+88         Energy_R_W,
+89         Energy,
+90         Eco,
+91         Decoration,
+92         Military,
+93         Special,
+94 
+95         
+96     };
+.PP
+.fi
+
+.SS "enum \fBBuidling::SlotType\fP"
+
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fIRessource_O \fP\fP
+.TP
+\fB\fIEnergy_O \fP\fP
+.TP
+\fB\fIEco_O \fP\fP
+.TP
+\fB\fINone_O \fP\fP
+.TP
+\fB\fICustom_O \fP\fP
+.TP
+\fB\fIRessource_I \fP\fP
+.TP
+\fB\fIEnergy_I \fP\fP
+.TP
+\fB\fIEco_I \fP\fP
+.TP
+\fB\fINone_I \fP\fP
+.TP
+\fB\fICustom_I \fP\fP
+.PP
+Definition at line \fB97\fP of file \fBD_CONFIGFILE\&.h\fP\&.
+.nf
+97                   {
+98         Ressource_O,
+99         Energy_O,
+100         Eco_O,
+101         None_O,
+102         Custom_O,
+103         Ressource_I,
+104         Energy_I,
+105         Eco_I,
+106         None_I,
+107         Custom_I
+108     };
+.PP
+.fi
+
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "Buidling::Buidling (std::string name, std::string modelpath, std::vector< std::string > texturepath, \fBConfigType\fP configType, nlohmann::json data)"
+
+.PP
+Definition at line \fB16\fP of file \fBD_CONFIGFILE\&.cpp\fP\&.
+.nf
+17       : ConfigFile(name, modelpath, texturepath, configType, data) {
+18      // buildinngType = data["BuildingType"];
+19       switch (buildinngType) {
+20       case Residential:
+21       {
+22           std::cout << "Building Type: Residential" << std::endl;
+23           break;
+24       }
+25       case Needs:
+26       {
+27           std::cout << "Building Type: Needs" << std::endl;
+28           break;
+29       }
+30       case Production_Raw:
+31       {
+32           std::cout << "Building Type: Production Raw Materials" << std::endl;
+33           break;
+34       }
+35       case Production_Not_Raw:
+36       {
+37           std::cout << "Building Type: Production Non\-Raw Materials" << std::endl;
+38           break;
+39       }
+40       case Energy_In:
+41       {
+42           std::cout << "Building Type: Energy Industrial" << std::endl;
+43           break;
+44       }
+45       case Energy_I_W:
+46       {
+47           std::cout << "Building Type: Energy Industrial with Waste" << std::endl;
+48           break;
+49       }
+50       case Energy_R:
+51       {
+52           std::cout << "Building Type: Renewable Energy" << std::endl;
+53           break;
+54       }
+55       case Energy_R_W:
+56       {
+57           std::cout << "Building Type: Renewable Energy with Waste" << std::endl;
+58           break;
+59       }
+60       case Energy:
+61       {
+62           std::cout << "Building Type: General Energy" << std::endl;
+63           break;
+64       }
+65       case Eco:
+66       {
+67           std::cout << "Building Type: Ecological" << std::endl;
+68           break;
+69       }
+70       case Decoration:
+71           std::cout << "Building Type: Decoration" << std::endl;
+72           break;
+73       case Military:
+74           std::cout << "Building Type: Military" << std::endl;
+75           break;
+76       case Special:
+77           std::cout << "Building Type: Special" << std::endl;
+78           break;
+79       default:
+80           std::cout << "Unknown Building Type" << std::endl;
+81           break;
+82       }
+83   
+84   }
+.PP
+.fi
+
+.PP
+References \fBbuildinngType\fP, \fBDecoration\fP, \fBEco\fP, \fBEnergy\fP, \fBEnergy_I_W\fP, \fBEnergy_In\fP, \fBEnergy_R\fP, \fBEnergy_R_W\fP, \fBMilitary\fP, \fBNeeds\fP, \fBProduction_Not_Raw\fP, \fBProduction_Raw\fP, \fBResidential\fP, and \fBSpecial\fP\&.
+.SH "Member Data Documentation"
+.PP 
+.SS "\fBBuildingType\fP Buidling::buildinngType"
+
+.PP
+Definition at line \fB129\fP of file \fBD_CONFIGFILE\&.h\fP\&.
+.PP
+Referenced by \fBBuidling()\fP\&.
+.SS "int Buidling::EcoCost"
+
+.PP
+Definition at line \fB122\fP of file \fBD_CONFIGFILE\&.h\fP\&.
+.SS "int Buidling::HittPoints"
+
+.PP
+Definition at line \fB121\fP of file \fBD_CONFIGFILE\&.h\fP\&.
+.SS "std::vector< \fBSlot\fP > Buidling::Input"
+
+.PP
+Definition at line \fB119\fP of file \fBD_CONFIGFILE\&.h\fP\&.
+.SS "short Buidling::InputCount"
+
+.PP
+Definition at line \fB117\fP of file \fBD_CONFIGFILE\&.h\fP\&.
+.SS "int Buidling::Maintanece"
+
+.PP
+Definition at line \fB124\fP of file \fBD_CONFIGFILE\&.h\fP\&.
+.SS "int Buidling::Mannpower"
+
+.PP
+Definition at line \fB125\fP of file \fBD_CONFIGFILE\&.h\fP\&.
+.SS "std::vector<\fBSlot\fP> Buidling::Output"
+
+.PP
+Definition at line \fB120\fP of file \fBD_CONFIGFILE\&.h\fP\&.
+.SS "short Buidling::OutputCount"
+
+.PP
+Definition at line \fB118\fP of file \fBD_CONFIGFILE\&.h\fP\&.
+.SS "int Buidling::PowerCost"
+
+.PP
+Definition at line \fB123\fP of file \fBD_CONFIGFILE\&.h\fP\&.
 
 .SH "Author"
 .PP 

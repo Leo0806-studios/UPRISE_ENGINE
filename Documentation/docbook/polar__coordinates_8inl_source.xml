@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_polar__coordinates_8inl_source" xml:lang="en-US">
+<title>polar_coordinates.inl</title>
+<indexterm><primary>adhed/glm/gtx/polar_coordinates.inl</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 
+2 
+3 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespaceglm">glm</link>
+4 {
+5 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+6 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<link linkend="_group__gtx__polar__coordinates_1gaba267270e686615d598de0ffda7bd484">polar</link>
+7 &#32;&#32;&#32;&#32;(
+8 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;euclidean
+9 &#32;&#32;&#32;&#32;)
+10 &#32;&#32;&#32;&#32;{
+11 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;<emphasis role="keyword">const</emphasis>&#32;Length(<link linkend="_glad_8h_1a011fc24f10426c01349e94a4edd4b0d5">length</link>(euclidean));
+12 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&#32;tmp(euclidean&#32;/&#32;Length);
+13 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;<emphasis role="keyword">const</emphasis>&#32;xz_dist(<link linkend="_group__core__func__exponential_1ga1f904e09827e939a56e4158f45ca8ede">sqrt</link>(tmp.x&#32;*&#32;tmp.x&#32;+&#32;tmp.z&#32;*&#32;tmp.z));
+14 
+15 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>(
+16 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__core__func__trigonometric_1gad3628b879437a75d1941f965b2893db7">asin</link>(tmp.y),&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;latitude</emphasis>
+17 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;atan(tmp.x,&#32;tmp.z),&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;longitude</emphasis>
+18 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;xz_dist);&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;xz&#32;distance</emphasis>
+19 &#32;&#32;&#32;&#32;}
+20 
+21 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+22 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>&#32;<link linkend="_group__gtx__polar__coordinates_1gabce39068644e280c949d18cfec3fcc12">euclidean</link>
+23 &#32;&#32;&#32;&#32;(
+24 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structglm_1_1vec">vec&lt;2, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;polar
+25 &#32;&#32;&#32;&#32;)
+26 &#32;&#32;&#32;&#32;{
+27 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;<emphasis role="keyword">const</emphasis>&#32;latitude(polar.x);
+28 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;<emphasis role="keyword">const</emphasis>&#32;longitude(polar.y);
+29 
+30 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1vec">vec&lt;3, T, Q&gt;</link>(
+31 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__core__func__trigonometric_1ga54745147add8b4fa05642f5c71f6833e">cos</link>(latitude)&#32;*&#32;<link linkend="_group__core__func__trigonometric_1ga3fcdcfa2d2ac38de9ba1885cd1c79414">sin</link>(longitude),
+32 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__core__func__trigonometric_1ga3fcdcfa2d2ac38de9ba1885cd1c79414">sin</link>(latitude),
+33 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__core__func__trigonometric_1ga54745147add8b4fa05642f5c71f6833e">cos</link>(latitude)&#32;*&#32;<link linkend="_group__core__func__trigonometric_1ga54745147add8b4fa05642f5c71f6833e">cos</link>(longitude));
+34 &#32;&#32;&#32;&#32;}
+35 
+36 }<emphasis role="comment">//namespace&#32;glm</emphasis>
+</programlisting></section>

@@ -1,0 +1,95 @@
+.TH "adhed/glm/detail/func_trigonometric.inl" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+adhed/glm/detail/func_trigonometric.inl
+.SH SYNOPSIS
+.br
+.PP
+\fR#include '_vectorize\&.hpp'\fP
+.br
+\fR#include <cmath>\fP
+.br
+\fR#include <limits>\fP
+.br
+\fR#include 'func_trigonometric_simd\&.inl'\fP
+.br
+
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI "namespace \fBglm\fP"
+.br
+.RI "\fBCore features\fP "
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "template<typename genType > \fBGLM_FUNC_QUALIFIER\fP \fBGLM_CONSTEXPR\fP genType \fBglm::radians\fP (genType degrees)"
+.br
+.ti -1c
+.RI "template<\fBlength_t\fP L, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBGLM_CONSTEXPR\fP \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > \fBglm::radians\fP (\fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const &\fBv\fP)"
+.br
+.ti -1c
+.RI "template<typename genType > \fBGLM_FUNC_QUALIFIER\fP \fBGLM_CONSTEXPR\fP genType \fBglm::degrees\fP (genType radians)"
+.br
+.ti -1c
+.RI "template<\fBlength_t\fP L, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBGLM_CONSTEXPR\fP \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > \fBglm::degrees\fP (\fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const &\fBv\fP)"
+.br
+.ti -1c
+.RI "template<\fBlength_t\fP L, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > \fBglm::sin\fP (\fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const &\fBv\fP)"
+.br
+.ti -1c
+.RI "template<\fBlength_t\fP L, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > \fBglm::cos\fP (\fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const &\fBv\fP)"
+.br
+.ti -1c
+.RI "template<\fBlength_t\fP L, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > \fBglm::tan\fP (\fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const &\fBv\fP)"
+.br
+.ti -1c
+.RI "template<\fBlength_t\fP L, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > \fBglm::asin\fP (\fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const &\fBv\fP)"
+.br
+.ti -1c
+.RI "template<\fBlength_t\fP L, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > \fBglm::acos\fP (\fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const &\fBv\fP)"
+.br
+.ti -1c
+.RI "template<typename genType > \fBGLM_FUNC_QUALIFIER\fP genType \fBglm::atan\fP (genType \fBy\fP, genType \fBx\fP)"
+.br
+.ti -1c
+.RI "template<\fBlength_t\fP L, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > \fBglm::atan\fP (\fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const &\fBy\fP, \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const &\fBx\fP)"
+.br
+.ti -1c
+.RI "template<\fBlength_t\fP L, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > \fBglm::atan\fP (\fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const &\fBv\fP)"
+.br
+.ti -1c
+.RI "template<\fBlength_t\fP L, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > \fBglm::sinh\fP (\fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const &\fBv\fP)"
+.br
+.ti -1c
+.RI "template<\fBlength_t\fP L, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > \fBglm::cosh\fP (\fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const &\fBv\fP)"
+.br
+.ti -1c
+.RI "template<\fBlength_t\fP L, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > \fBglm::tanh\fP (\fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const &\fBv\fP)"
+.br
+.ti -1c
+.RI "template<typename genType > \fBGLM_FUNC_QUALIFIER\fP genType \fBglm::asinh\fP (genType \fBx\fP)"
+.br
+.ti -1c
+.RI "template<\fBlength_t\fP L, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > \fBglm::asinh\fP (\fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const &\fBv\fP)"
+.br
+.ti -1c
+.RI "template<typename genType > \fBGLM_FUNC_QUALIFIER\fP genType \fBglm::acosh\fP (genType \fBx\fP)"
+.br
+.ti -1c
+.RI "template<\fBlength_t\fP L, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > \fBglm::acosh\fP (\fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const &\fBv\fP)"
+.br
+.ti -1c
+.RI "template<typename genType > \fBGLM_FUNC_QUALIFIER\fP genType \fBglm::atanh\fP (genType \fBx\fP)"
+.br
+.ti -1c
+.RI "template<\fBlength_t\fP L, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > \fBglm::atanh\fP (\fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const &\fBv\fP)"
+.br
+.in -1c
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

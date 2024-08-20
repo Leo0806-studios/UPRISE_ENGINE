@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_pushpack1_8h_source" xml:lang="en-US">
+<title>pushpack1.h</title>
+<indexterm><primary>adhed/assimp/Compiler/pushpack1.h</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 
+2 
+3 <emphasis role="comment">//&#32;===============================================================================</emphasis>
+4 <emphasis role="comment">//&#32;May&#32;be&#32;included&#32;multiple&#32;times&#32;-&#32;sets&#32;structure&#32;packing&#32;to&#32;1</emphasis>
+5 <emphasis role="comment">//&#32;for&#32;all&#32;supported&#32;compilers.&#32;#include&#32;&lt;poppack1.h&gt;&#32;reverts&#32;the&#32;changes.</emphasis>
+6 <emphasis role="comment">//</emphasis>
+7 <emphasis role="comment">//&#32;Currently&#32;this&#32;works&#32;on&#32;the&#32;following&#32;compilers:</emphasis>
+8 <emphasis role="comment">//&#32;MSVC&#32;7,8,9</emphasis>
+9 <emphasis role="comment">//&#32;GCC</emphasis>
+10 <emphasis role="comment">//&#32;BORLAND&#32;(complains&#32;about&#32;&apos;pack&#32;state&#32;changed&#32;but&#32;not&#32;reverted&apos;,&#32;but&#32;works)</emphasis>
+11 <emphasis role="comment">//&#32;Clang</emphasis>
+12 <emphasis role="comment">//</emphasis>
+13 <emphasis role="comment">//</emphasis>
+14 <emphasis role="comment">//&#32;USAGE:</emphasis>
+15 <emphasis role="comment">//</emphasis>
+16 <emphasis role="comment">//&#32;struct&#32;StructToBePacked&#32;{</emphasis>
+17 <emphasis role="comment">//&#32;}&#32;PACK_STRUCT;</emphasis>
+18 <emphasis role="comment">//</emphasis>
+19 <emphasis role="comment">//&#32;===============================================================================</emphasis>
+20 
+21 <emphasis role="preprocessor">#ifdef&#32;AI_PUSHPACK_IS_DEFINED</emphasis>
+22 <emphasis role="preprocessor">#&#32;&#32;&#32;error&#32;poppack1.h&#32;must&#32;be&#32;included&#32;after&#32;pushpack1.h</emphasis>
+23 <emphasis role="preprocessor">#endif</emphasis>
+24 
+25 <emphasis role="preprocessor">#if&#32;(defined(_MSC_VER)&#32;&amp;&amp;&#32;!defined(__clang__))&#32;||&#32;&#32;defined(__BORLANDC__)&#32;||&#32;defined&#32;(__BCPLUSPLUS__)</emphasis>
+26 <emphasis role="preprocessor">#&#32;&#32;&#32;pragma&#32;pack(push,1)</emphasis>
+27 <emphasis role="preprocessor">#&#32;&#32;&#32;define&#32;PACK_STRUCT</emphasis>
+28 <emphasis role="preprocessor">#elif&#32;defined(&#32;__GNUC__&#32;)&#32;||&#32;defined(__clang__)</emphasis>
+29 <emphasis role="preprocessor">#&#32;&#32;&#32;if&#32;!defined(HOST_MINGW)</emphasis>
+30 <emphasis role="preprocessor">#&#32;&#32;&#32;&#32;&#32;&#32;&#32;define&#32;PACK_STRUCT&#32;&#32;__attribute__((__packed__))</emphasis>
+31 <emphasis role="preprocessor">#&#32;&#32;&#32;else</emphasis>
+32 <emphasis role="preprocessor">#&#32;&#32;&#32;&#32;&#32;&#32;&#32;define&#32;PACK_STRUCT&#32;&#32;__attribute__((gcc_struct,&#32;__packed__))</emphasis>
+33 <emphasis role="preprocessor">#&#32;&#32;&#32;endif</emphasis>
+34 <emphasis role="preprocessor">#else</emphasis>
+35 <emphasis role="preprocessor">#&#32;&#32;&#32;error&#32;Compiler&#32;not&#32;supported</emphasis>
+36 <emphasis role="preprocessor">#endif</emphasis>
+37 
+38 <emphasis role="preprocessor">#if&#32;defined(_MSC_VER)</emphasis>
+39 <emphasis role="comment">//&#32;C4103:&#32;Packing&#32;was&#32;changed&#32;after&#32;the&#32;inclusion&#32;of&#32;the&#32;header,&#32;probably&#32;missing&#32;#pragma&#32;pop</emphasis>
+40 <emphasis role="preprocessor">#&#32;&#32;&#32;pragma&#32;warning&#32;(disable&#32;:&#32;4103)</emphasis>
+41 <emphasis role="preprocessor">#endif</emphasis>
+42 
+43 <emphasis role="preprocessor">#define&#32;AI_PUSHPACK_IS_DEFINED</emphasis>
+</programlisting></section>

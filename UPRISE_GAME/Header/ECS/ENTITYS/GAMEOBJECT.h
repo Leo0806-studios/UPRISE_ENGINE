@@ -68,10 +68,10 @@ public:
 		return *this;
 	}
 
-	static std::shared_ptr<GameObject> Create(DATATYPES::TS_P_Vector3 pos, void* mesh, int materialID);
-	static shared_ptr<GameObject> Create(DATATYPES::TS_P_Vector3 pos, Quaternion rot, std::shared_ptr<COMPONENTS::_Mesh> mesh, int materialID);
-	static GameObject CreateEmpty(DATATYPES::TS_P_Vector3 pos);
-	static GameObject CreateCamera(DATATYPES::TS_P_Vector3 pos, Quaternion rot);
+	static std::shared_ptr<GameObject> Create(DATATYPES::TSPVector3 pos, void* mesh, int materialID);
+	static shared_ptr<GameObject> Create(DATATYPES::TSPVector3 pos, Quaternion rot, std::shared_ptr<COMPONENTS::_Mesh> mesh, int materialID);
+	static GameObject CreateEmpty(DATATYPES::TSPVector3 pos);
+	static GameObject CreateCamera(DATATYPES::TSPVector3 pos, Quaternion rot);
 	static bool Delete(std::shared_ptr<GameObject> Object);
 	static bool Delete(GameObject& Object);
 	static bool Delete(GameObject* Object);
@@ -98,7 +98,7 @@ public:
 		uuids.push_back(arg.UUID);
 
 		auto aaa = arg;
-		aaa.gameobject = this;
+		aaa.Game_Object = this;
 		//aaa.transf = behaviours[1];
 		aaa.TRANSFORM = TrAnSfOrM;
 		//using name = decltype(_Ty);
@@ -118,6 +118,41 @@ public:
 		return std::dynamic_pointer_cast<_Ty>(a).get();
 	}
 
+	template <class _Ty, class... _Types>
+	std::shared_ptr<_Ty> AddComponentD(_Ty arg) {
+		TracyCZoneN(ctxx, "Adding Component", true);
+
+		if (arg.UUID == GUID_NULL) {
+			UUID uuid;
+			UuidCreate(&uuid);
+
+
+			arg.UUID = uuid;
+			arg.uuID = arg.UUID;
+		}
+		uuids.push_back(arg.UUID);
+
+		auto aaa = arg;
+		aaa.Game_Object = this;
+		//aaa.transf = behaviours[1];
+		aaa.TRANSFORM = TrAnSfOrM;
+		//using name = decltype(_Ty);
+		aaa.compname = typeid(_Ty).name();
+		//aa->gameobject = this;
+		// 
+		std::shared_ptr<CORE::Behaviour> a = std::make_shared<_Ty>(aaa);
+
+
+
+		CORE::Behaviour::behaviours.push_back(a);
+		CORE::Behaviour::AWAKES.push_back(a);
+		CORE::Behaviour::Starts.push_back(a);
+		behaviours.push_back(a);
+		TracyCZoneEnd(ctxx);
+
+		return std::dynamic_pointer_cast<_Ty>(a);
+	}
+
 
 	template <class _Ty, class... _Types>
 
@@ -134,7 +169,7 @@ public:
 		}
 		uuids.push_back(arg.UUID);
 		auto aa = (_Ty*)component;
-		aa->gameobject = this;
+		aa->Game_Object = this;
 		//using name = decltype(_Ty);
 		std::string nm = typeid(_Ty).name();
 		aa->compname = nm;
@@ -187,6 +222,25 @@ public:
 				TracyCZoneEnd(ctxx);
 
 				return std::dynamic_pointer_cast<_Ty>(behaviours[i]).get();
+			}
+
+
+		}
+		TracyCZoneEnd(ctxx);
+
+	}
+	template <class _Ty, class... _Types>
+	std::shared_ptr<_Ty> GetComponentDynamicS(_Ty arg) {
+		TracyCZoneN(ctxx, "Getting  Component", true);
+
+
+		for (int i = 0; i < Components.size(); i++) {
+			if (arg.UUID == uuids[i]) {
+
+				std::cout << "found";
+				TracyCZoneEnd(ctxx);
+
+				return std::dynamic_pointer_cast<_Ty>(behaviours[i]);
 			}
 
 

@@ -1,0 +1,308 @@
+.TH "ImGuiDockNode" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+ImGuiDockNode
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fR#include <imgui_internal\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBImGuiDockNode\fP (\fBImGuiID\fP \fBid\fP)"
+.br
+.ti -1c
+.RI "\fB~ImGuiDockNode\fP ()"
+.br
+.ti -1c
+.RI "bool \fBIsRootNode\fP () const"
+.br
+.ti -1c
+.RI "bool \fBIsDockSpace\fP () const"
+.br
+.ti -1c
+.RI "bool \fBIsFloatingNode\fP () const"
+.br
+.ti -1c
+.RI "bool \fBIsCentralNode\fP () const"
+.br
+.ti -1c
+.RI "bool \fBIsHiddenTabBar\fP () const"
+.br
+.ti -1c
+.RI "bool \fBIsNoTabBar\fP () const"
+.br
+.ti -1c
+.RI "bool \fBIsSplitNode\fP () const"
+.br
+.ti -1c
+.RI "bool \fBIsLeafNode\fP () const"
+.br
+.ti -1c
+.RI "bool \fBIsEmpty\fP () const"
+.br
+.ti -1c
+.RI "\fBImRect\fP \fBRect\fP () const"
+.br
+.ti -1c
+.RI "\fBvoid\fP \fBSetLocalFlags\fP (\fBImGuiDockNodeFlags\fP \fBflags\fP)"
+.br
+.ti -1c
+.RI "\fBvoid\fP \fBUpdateMergedFlags\fP ()"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBImGuiID\fP \fBID\fP"
+.br
+.ti -1c
+.RI "\fBImGuiDockNodeFlags\fP \fBSharedFlags\fP"
+.br
+.ti -1c
+.RI "\fBImGuiDockNodeFlags\fP \fBLocalFlags\fP"
+.br
+.ti -1c
+.RI "\fBImGuiDockNodeFlags\fP \fBLocalFlagsInWindows\fP"
+.br
+.ti -1c
+.RI "\fBImGuiDockNodeFlags\fP \fBMergedFlags\fP"
+.br
+.ti -1c
+.RI "\fBImGuiDockNodeState\fP \fBState\fP"
+.br
+.ti -1c
+.RI "\fBImGuiDockNode\fP * \fBParentNode\fP"
+.br
+.ti -1c
+.RI "\fBImGuiDockNode\fP * \fBChildNodes\fP [2]"
+.br
+.ti -1c
+.RI "\fBImVector\fP< \fBImGuiWindow\fP * > \fBWindows\fP"
+.br
+.ti -1c
+.RI "\fBImGuiTabBar\fP * \fBTabBar\fP"
+.br
+.ti -1c
+.RI "\fBImVec2\fP \fBPos\fP"
+.br
+.ti -1c
+.RI "\fBImVec2\fP \fBSize\fP"
+.br
+.ti -1c
+.RI "\fBImVec2\fP \fBSizeRef\fP"
+.br
+.ti -1c
+.RI "\fBImGuiAxis\fP \fBSplitAxis\fP"
+.br
+.ti -1c
+.RI "\fBImGuiWindowClass\fP \fBWindowClass\fP"
+.br
+.ti -1c
+.RI "\fBImU32\fP \fBLastBgColor\fP"
+.br
+.ti -1c
+.RI "\fBImGuiWindow\fP * \fBHostWindow\fP"
+.br
+.ti -1c
+.RI "\fBImGuiWindow\fP * \fBVisibleWindow\fP"
+.br
+.ti -1c
+.RI "\fBImGuiDockNode\fP * \fBCentralNode\fP"
+.br
+.ti -1c
+.RI "\fBImGuiDockNode\fP * \fBOnlyNodeWithWindows\fP"
+.br
+.ti -1c
+.RI "int \fBCountNodeWithWindows\fP"
+.br
+.ti -1c
+.RI "int \fBLastFrameAlive\fP"
+.br
+.ti -1c
+.RI "int \fBLastFrameActive\fP"
+.br
+.ti -1c
+.RI "int \fBLastFrameFocused\fP"
+.br
+.ti -1c
+.RI "\fBImGuiID\fP \fBLastFocusedNodeId\fP"
+.br
+.ti -1c
+.RI "\fBImGuiID\fP \fBSelectedTabId\fP"
+.br
+.ti -1c
+.RI "\fBImGuiID\fP \fBWantCloseTabId\fP"
+.br
+.ti -1c
+.RI "\fBImGuiID\fP \fBRefViewportId\fP"
+.br
+.ti -1c
+.RI "\fBImGuiDataAuthority\fP \fBAuthorityForPos\fP:3"
+.br
+.ti -1c
+.RI "\fBImGuiDataAuthority\fP \fBAuthorityForSize\fP:3"
+.br
+.ti -1c
+.RI "\fBImGuiDataAuthority\fP \fBAuthorityForViewport\fP:3"
+.br
+.ti -1c
+.RI "bool \fBIsVisible\fP:1"
+.br
+.ti -1c
+.RI "bool \fBIsFocused\fP:1"
+.br
+.ti -1c
+.RI "bool \fBIsBgDrawnThisFrame\fP:1"
+.br
+.ti -1c
+.RI "bool \fBHasCloseButton\fP:1"
+.br
+.ti -1c
+.RI "bool \fBHasWindowMenuButton\fP:1"
+.br
+.ti -1c
+.RI "bool \fBHasCentralNodeChild\fP:1"
+.br
+.ti -1c
+.RI "bool \fBWantCloseAll\fP:1"
+.br
+.ti -1c
+.RI "bool \fBWantLockSizeOnce\fP:1"
+.br
+.ti -1c
+.RI "bool \fBWantMouseMove\fP:1"
+.br
+.ti -1c
+.RI "bool \fBWantHiddenTabBarUpdate\fP:1"
+.br
+.ti -1c
+.RI "bool \fBWantHiddenTabBarToggle\fP:1"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "ImGuiDockNode::ImGuiDockNode (\fBImGuiID\fP id)"
+
+.SS "ImGuiDockNode::~ImGuiDockNode ()"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "bool ImGuiDockNode::IsCentralNode () const\fR [inline]\fP"
+
+.SS "bool ImGuiDockNode::IsDockSpace () const\fR [inline]\fP"
+
+.SS "bool ImGuiDockNode::IsEmpty () const\fR [inline]\fP"
+
+.SS "bool ImGuiDockNode::IsFloatingNode () const\fR [inline]\fP"
+
+.SS "bool ImGuiDockNode::IsHiddenTabBar () const\fR [inline]\fP"
+
+.SS "bool ImGuiDockNode::IsLeafNode () const\fR [inline]\fP"
+
+.SS "bool ImGuiDockNode::IsNoTabBar () const\fR [inline]\fP"
+
+.SS "bool ImGuiDockNode::IsRootNode () const\fR [inline]\fP"
+
+.SS "bool ImGuiDockNode::IsSplitNode () const\fR [inline]\fP"
+
+.SS "\fBImRect\fP ImGuiDockNode::Rect () const\fR [inline]\fP"
+
+.SS "\fBvoid\fP ImGuiDockNode::SetLocalFlags (\fBImGuiDockNodeFlags\fP flags)\fR [inline]\fP"
+
+.SS "\fBvoid\fP ImGuiDockNode::UpdateMergedFlags ()\fR [inline]\fP"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "\fBImGuiDataAuthority\fP ImGuiDockNode::AuthorityForPos"
+
+.SS "\fBImGuiDataAuthority\fP ImGuiDockNode::AuthorityForSize"
+
+.SS "\fBImGuiDataAuthority\fP ImGuiDockNode::AuthorityForViewport"
+
+.SS "\fBImGuiDockNode\fP* ImGuiDockNode::CentralNode"
+
+.SS "\fBImGuiDockNode\fP* ImGuiDockNode::ChildNodes[2]"
+
+.SS "int ImGuiDockNode::CountNodeWithWindows"
+
+.SS "bool ImGuiDockNode::HasCentralNodeChild"
+
+.SS "bool ImGuiDockNode::HasCloseButton"
+
+.SS "bool ImGuiDockNode::HasWindowMenuButton"
+
+.SS "\fBImGuiWindow\fP* ImGuiDockNode::HostWindow"
+
+.SS "\fBImGuiID\fP ImGuiDockNode::ID"
+
+.SS "bool ImGuiDockNode::IsBgDrawnThisFrame"
+
+.SS "bool ImGuiDockNode::IsFocused"
+
+.SS "bool ImGuiDockNode::IsVisible"
+
+.SS "\fBImU32\fP ImGuiDockNode::LastBgColor"
+
+.SS "\fBImGuiID\fP ImGuiDockNode::LastFocusedNodeId"
+
+.SS "int ImGuiDockNode::LastFrameActive"
+
+.SS "int ImGuiDockNode::LastFrameAlive"
+
+.SS "int ImGuiDockNode::LastFrameFocused"
+
+.SS "\fBImGuiDockNodeFlags\fP ImGuiDockNode::LocalFlags"
+
+.SS "\fBImGuiDockNodeFlags\fP ImGuiDockNode::LocalFlagsInWindows"
+
+.SS "\fBImGuiDockNodeFlags\fP ImGuiDockNode::MergedFlags"
+
+.SS "\fBImGuiDockNode\fP* ImGuiDockNode::OnlyNodeWithWindows"
+
+.SS "\fBImGuiDockNode\fP* ImGuiDockNode::ParentNode"
+
+.SS "\fBImVec2\fP ImGuiDockNode::Pos"
+
+.SS "\fBImGuiID\fP ImGuiDockNode::RefViewportId"
+
+.SS "\fBImGuiID\fP ImGuiDockNode::SelectedTabId"
+
+.SS "\fBImGuiDockNodeFlags\fP ImGuiDockNode::SharedFlags"
+
+.SS "\fBImVec2\fP ImGuiDockNode::Size"
+
+.SS "\fBImVec2\fP ImGuiDockNode::SizeRef"
+
+.SS "\fBImGuiAxis\fP ImGuiDockNode::SplitAxis"
+
+.SS "\fBImGuiDockNodeState\fP ImGuiDockNode::State"
+
+.SS "\fBImGuiTabBar\fP* ImGuiDockNode::TabBar"
+
+.SS "\fBImGuiWindow\fP* ImGuiDockNode::VisibleWindow"
+
+.SS "bool ImGuiDockNode::WantCloseAll"
+
+.SS "\fBImGuiID\fP ImGuiDockNode::WantCloseTabId"
+
+.SS "bool ImGuiDockNode::WantHiddenTabBarToggle"
+
+.SS "bool ImGuiDockNode::WantHiddenTabBarUpdate"
+
+.SS "bool ImGuiDockNode::WantLockSizeOnce"
+
+.SS "bool ImGuiDockNode::WantMouseMove"
+
+.SS "\fBImGuiWindowClass\fP ImGuiDockNode::WindowClass"
+
+.SS "\fBImVector\fP<\fBImGuiWindow\fP*> ImGuiDockNode::Windows"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

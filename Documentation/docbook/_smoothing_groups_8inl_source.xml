@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="__smoothing_groups_8inl_source" xml:lang="en-US">
+<title>SmoothingGroups.inl</title>
+<indexterm><primary>adhed/assimp/SmoothingGroups.inl</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 <emphasis role="comment">/*</emphasis>
+2 <emphasis role="comment">---------------------------------------------------------------------------</emphasis>
+3 <emphasis role="comment">Open&#32;Asset&#32;Import&#32;Library&#32;(assimp)</emphasis>
+4 <emphasis role="comment">---------------------------------------------------------------------------</emphasis>
+5 <emphasis role="comment"></emphasis>
+6 <emphasis role="comment">Copyright&#32;(c)&#32;2006-2022,&#32;assimp&#32;team</emphasis>
+7 <emphasis role="comment"></emphasis>
+8 <emphasis role="comment">All&#32;rights&#32;reserved.</emphasis>
+9 <emphasis role="comment"></emphasis>
+10 <emphasis role="comment">Redistribution&#32;and&#32;use&#32;of&#32;this&#32;software&#32;in&#32;source&#32;and&#32;binary&#32;forms,</emphasis>
+11 <emphasis role="comment">with&#32;or&#32;without&#32;modification,&#32;are&#32;permitted&#32;provided&#32;that&#32;the&#32;following</emphasis>
+12 <emphasis role="comment">conditions&#32;are&#32;met:</emphasis>
+13 <emphasis role="comment"></emphasis>
+14 <emphasis role="comment">*&#32;Redistributions&#32;of&#32;source&#32;code&#32;must&#32;retain&#32;the&#32;above</emphasis>
+15 <emphasis role="comment">&#32;&#32;copyright&#32;notice,&#32;this&#32;list&#32;of&#32;conditions&#32;and&#32;the</emphasis>
+16 <emphasis role="comment">&#32;&#32;following&#32;disclaimer.</emphasis>
+17 <emphasis role="comment"></emphasis>
+18 <emphasis role="comment">*&#32;Redistributions&#32;in&#32;binary&#32;form&#32;must&#32;reproduce&#32;the&#32;above</emphasis>
+19 <emphasis role="comment">&#32;&#32;copyright&#32;notice,&#32;this&#32;list&#32;of&#32;conditions&#32;and&#32;the</emphasis>
+20 <emphasis role="comment">&#32;&#32;following&#32;disclaimer&#32;in&#32;the&#32;documentation&#32;and/or&#32;other</emphasis>
+21 <emphasis role="comment">&#32;&#32;materials&#32;provided&#32;with&#32;the&#32;distribution.</emphasis>
+22 <emphasis role="comment"></emphasis>
+23 <emphasis role="comment">*&#32;Neither&#32;the&#32;name&#32;of&#32;the&#32;assimp&#32;team,&#32;nor&#32;the&#32;names&#32;of&#32;its</emphasis>
+24 <emphasis role="comment">&#32;&#32;contributors&#32;may&#32;be&#32;used&#32;to&#32;endorse&#32;or&#32;promote&#32;products</emphasis>
+25 <emphasis role="comment">&#32;&#32;derived&#32;from&#32;this&#32;software&#32;without&#32;specific&#32;prior</emphasis>
+26 <emphasis role="comment">&#32;&#32;written&#32;permission&#32;of&#32;the&#32;assimp&#32;team.</emphasis>
+27 <emphasis role="comment"></emphasis>
+28 <emphasis role="comment">THIS&#32;SOFTWARE&#32;IS&#32;PROVIDED&#32;BY&#32;THE&#32;COPYRIGHT&#32;HOLDERS&#32;AND&#32;CONTRIBUTORS</emphasis>
+29 <emphasis role="comment">&quot;AS&#32;IS&quot;&#32;AND&#32;ANY&#32;EXPRESS&#32;OR&#32;IMPLIED&#32;WARRANTIES,&#32;INCLUDING,&#32;BUT&#32;NOT</emphasis>
+30 <emphasis role="comment">LIMITED&#32;TO,&#32;THE&#32;IMPLIED&#32;WARRANTIES&#32;OF&#32;MERCHANTABILITY&#32;AND&#32;FITNESS&#32;FOR</emphasis>
+31 <emphasis role="comment">A&#32;PARTICULAR&#32;PURPOSE&#32;ARE&#32;DISCLAIMED.&#32;IN&#32;NO&#32;EVENT&#32;SHALL&#32;THE&#32;COPYRIGHT</emphasis>
+32 <emphasis role="comment">OWNER&#32;OR&#32;CONTRIBUTORS&#32;BE&#32;LIABLE&#32;FOR&#32;ANY&#32;DIRECT,&#32;INDIRECT,&#32;INCIDENTAL,</emphasis>
+33 <emphasis role="comment">SPECIAL,&#32;EXEMPLARY,&#32;OR&#32;CONSEQUENTIAL&#32;DAMAGES&#32;(INCLUDING,&#32;BUT&#32;NOT</emphasis>
+34 <emphasis role="comment">LIMITED&#32;TO,&#32;PROCUREMENT&#32;OF&#32;SUBSTITUTE&#32;GOODS&#32;OR&#32;SERVICES;&#32;LOSS&#32;OF&#32;USE,</emphasis>
+35 <emphasis role="comment">DATA,&#32;OR&#32;PROFITS;&#32;OR&#32;BUSINESS&#32;INTERRUPTION)&#32;HOWEVER&#32;CAUSED&#32;AND&#32;ON&#32;ANY</emphasis>
+36 <emphasis role="comment">THEORY&#32;OF&#32;LIABILITY,&#32;WHETHER&#32;IN&#32;CONTRACT,&#32;STRICT&#32;LIABILITY,&#32;OR&#32;TORT</emphasis>
+37 <emphasis role="comment">(INCLUDING&#32;NEGLIGENCE&#32;OR&#32;OTHERWISE)&#32;ARISING&#32;IN&#32;ANY&#32;WAY&#32;OUT&#32;OF&#32;THE&#32;USE</emphasis>
+38 <emphasis role="comment">OF&#32;THIS&#32;SOFTWARE,&#32;EVEN&#32;IF&#32;ADVISED&#32;OF&#32;THE&#32;POSSIBILITY&#32;OF&#32;SUCH&#32;DAMAGE.</emphasis>
+39 <emphasis role="comment">---------------------------------------------------------------------------</emphasis>
+40 <emphasis role="comment">*/</emphasis>
+41 
+44 <emphasis role="preprocessor">#pragma&#32;once</emphasis>
+45 <emphasis role="preprocessor">#ifndef&#32;AI_SMOOTHINGGROUPS_INL_INCLUDED</emphasis>
+46 <emphasis role="preprocessor">#define&#32;AI_SMOOTHINGGROUPS_INL_INCLUDED</emphasis>
+47 
+48 <emphasis role="preprocessor">#ifdef&#32;__GNUC__</emphasis>
+49 <emphasis role="preprocessor">#&#32;&#32;&#32;pragma&#32;GCC&#32;system_header</emphasis>
+50 <emphasis role="preprocessor">#endif</emphasis>
+51 
+52 <emphasis role="preprocessor">#include&#32;&lt;<link linkend="__s_g_spatial_sort_8h">assimp/SGSpatialSort.h</link>&gt;</emphasis>
+53 
+54 <emphasis role="preprocessor">#include&#32;&lt;algorithm&gt;</emphasis>
+55 
+56 <emphasis role="keyword">using&#32;namespace&#32;</emphasis><link linkend="_namespace_assimp">Assimp</link>;
+57 
+58 <emphasis role="comment">//&#32;------------------------------------------------------------------------------------------------</emphasis>
+59 <emphasis role="keyword">template</emphasis>&#32;&lt;<emphasis role="keyword">class</emphasis>&#32;T&gt;
+60 <emphasis role="keywordtype">void</emphasis>&#32;<link linkend="__smoothing_groups_8inl_1a8213a64aefeba1a25b9c82573d779140">ComputeNormalsWithSmoothingsGroups</link>(<link linkend="_struct_mesh_with_smoothing_groups">MeshWithSmoothingGroups&lt;T&gt;</link>&amp;&#32;sMesh)
+61 {
+62 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;First&#32;generate&#32;face&#32;normals</emphasis>
+63 &#32;&#32;&#32;&#32;sMesh.<link linkend="_struct_mesh_with_smoothing_groups_1a3ea96b42a7cf37d64dfa38307018ecdc">mNormals</link>.resize(sMesh.<link linkend="_struct_mesh_with_smoothing_groups_1a06bfcf700c819e3a14e3bc1df88b729e">mPositions</link>.size(),<link linkend="_structai_vector3_d">aiVector3D</link>());
+64 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>(&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>&#32;=&#32;0;&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>&#32;&lt;&#32;sMesh.<link linkend="_struct_mesh_with_smoothing_groups_1aa85873c9e454c314e05f0dc6f4bf22e9">mFaces</link>.size();&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>++)
+65 &#32;&#32;&#32;&#32;{
+66 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&amp;&#32;face&#32;=&#32;sMesh.<link linkend="_struct_mesh_with_smoothing_groups_1aa85873c9e454c314e05f0dc6f4bf22e9">mFaces</link>[<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>];
+67 
+68 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structai_vector3_d">aiVector3D</link>*&#32;pV1&#32;=&#32;&amp;sMesh.<link linkend="_struct_mesh_with_smoothing_groups_1a06bfcf700c819e3a14e3bc1df88b729e">mPositions</link>[face.mIndices[0]];
+69 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structai_vector3_d">aiVector3D</link>*&#32;pV2&#32;=&#32;&amp;sMesh.<link linkend="_struct_mesh_with_smoothing_groups_1a06bfcf700c819e3a14e3bc1df88b729e">mPositions</link>[face.mIndices[1]];
+70 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structai_vector3_d">aiVector3D</link>*&#32;pV3&#32;=&#32;&amp;sMesh.<link linkend="_struct_mesh_with_smoothing_groups_1a06bfcf700c819e3a14e3bc1df88b729e">mPositions</link>[face.mIndices[2]];
+71 
+72 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&#32;pDelta1&#32;=&#32;*pV2&#32;-&#32;*pV1;
+73 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&#32;pDelta2&#32;=&#32;*pV3&#32;-&#32;*pV1;
+74 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&#32;vNor&#32;=&#32;pDelta1&#32;^&#32;pDelta2;
+75 
+76 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;c&#32;=&#32;0;&#32;c&#32;&lt;&#32;3;++c)
+77 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sMesh.<link linkend="_struct_mesh_with_smoothing_groups_1a3ea96b42a7cf37d64dfa38307018ecdc">mNormals</link>[face.mIndices[c]]&#32;=&#32;vNor;
+78 &#32;&#32;&#32;&#32;}
+79 
+80 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;calculate&#32;the&#32;position&#32;bounds&#32;so&#32;we&#32;have&#32;a&#32;reliable&#32;epsilon&#32;to&#32;check&#32;position&#32;differences&#32;against</emphasis>
+81 &#32;&#32;&#32;&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&#32;minVec(&#32;1e10f,&#32;1e10f,&#32;1e10f),&#32;maxVec(&#32;-1e10f,&#32;-1e10f,&#32;-1e10f);
+82 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>(&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>&#32;=&#32;0;&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>&#32;&lt;&#32;sMesh.<link linkend="_struct_mesh_with_smoothing_groups_1a06bfcf700c819e3a14e3bc1df88b729e">mPositions</link>.size();&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>++)
+83 &#32;&#32;&#32;&#32;{
+84 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;minVec.x&#32;=&#32;std::min(&#32;minVec.x,&#32;sMesh.<link linkend="_struct_mesh_with_smoothing_groups_1a06bfcf700c819e3a14e3bc1df88b729e">mPositions</link>[<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>].x);
+85 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;minVec.y&#32;=&#32;std::min(&#32;minVec.y,&#32;sMesh.<link linkend="_struct_mesh_with_smoothing_groups_1a06bfcf700c819e3a14e3bc1df88b729e">mPositions</link>[<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>].y);
+86 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;minVec.z&#32;=&#32;std::min(&#32;minVec.z,&#32;sMesh.<link linkend="_struct_mesh_with_smoothing_groups_1a06bfcf700c819e3a14e3bc1df88b729e">mPositions</link>[<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>].z);
+87 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;maxVec.<link linkend="_structai_vector3_d_1a1e128d155cfcc00e02715648de55eaaf">x</link>&#32;=&#32;std::max(&#32;maxVec.<link linkend="_structai_vector3_d_1a1e128d155cfcc00e02715648de55eaaf">x</link>,&#32;sMesh.<link linkend="_struct_mesh_with_smoothing_groups_1a06bfcf700c819e3a14e3bc1df88b729e">mPositions</link>[<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>].x);
+88 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;maxVec.<link linkend="_structai_vector3_d_1aa8d462e19f9121150fd5113763f39678">y</link>&#32;=&#32;std::max(&#32;maxVec.<link linkend="_structai_vector3_d_1aa8d462e19f9121150fd5113763f39678">y</link>,&#32;sMesh.<link linkend="_struct_mesh_with_smoothing_groups_1a06bfcf700c819e3a14e3bc1df88b729e">mPositions</link>[<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>].y);
+89 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;maxVec.<link linkend="_structai_vector3_d_1a23da9b7f5588cde3752fb4700bc23640">z</link>&#32;=&#32;std::max(&#32;maxVec.<link linkend="_structai_vector3_d_1a23da9b7f5588cde3752fb4700bc23640">z</link>,&#32;sMesh.<link linkend="_struct_mesh_with_smoothing_groups_1a06bfcf700c819e3a14e3bc1df88b729e">mPositions</link>[<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>].z);
+90 &#32;&#32;&#32;&#32;}
+91 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">float</emphasis>&#32;posEpsilon&#32;=&#32;(maxVec&#32;-&#32;minVec).Length()&#32;*&#32;1e-5f;
+92 &#32;&#32;&#32;&#32;std::vector&lt;aiVector3D&gt;&#32;avNormals;
+93 &#32;&#32;&#32;&#32;avNormals.resize(sMesh.<link linkend="_struct_mesh_with_smoothing_groups_1a3ea96b42a7cf37d64dfa38307018ecdc">mNormals</link>.size());
+94 
+95 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;now&#32;generate&#32;the&#32;spatial&#32;sort&#32;tree</emphasis>
+96 &#32;&#32;&#32;&#32;<link linkend="_class_assimp_1_1_s_g_spatial_sort">SGSpatialSort</link>&#32;sSort;
+97 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>(&#32;<emphasis role="keyword">typename</emphasis>&#32;std::vector&lt;T&gt;::iterator&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;=&#32;&#32;sMesh.<link linkend="_struct_mesh_with_smoothing_groups_1aa85873c9e454c314e05f0dc6f4bf22e9">mFaces</link>.begin();
+98 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;!=&#32;sMesh.<link linkend="_struct_mesh_with_smoothing_groups_1aa85873c9e454c314e05f0dc6f4bf22e9">mFaces</link>.end();++<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>)
+99 &#32;&#32;&#32;&#32;{
+100 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;c&#32;=&#32;0;&#32;c&#32;&lt;&#32;3;++c)
+101 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sSort.<link linkend="_class_assimp_1_1_s_g_spatial_sort_1adfe82e1689fc782166019d8f7f9b35a5">Add</link>(sMesh.<link linkend="_struct_mesh_with_smoothing_groups_1a06bfcf700c819e3a14e3bc1df88b729e">mPositions</link>[(*i).mIndices[c]],(*i).mIndices[c],(*i).iSmoothGroup);
+102 &#32;&#32;&#32;&#32;}
+103 &#32;&#32;&#32;&#32;sSort.<link linkend="_class_assimp_1_1_s_g_spatial_sort_1aeccf2ea7b7b5b0e2b3d22ff366c5fc59">Prepare</link>();
+104 
+105 &#32;&#32;&#32;&#32;std::vector&lt;bool&gt;&#32;vertexDone(sMesh.<link linkend="_struct_mesh_with_smoothing_groups_1a06bfcf700c819e3a14e3bc1df88b729e">mPositions</link>.size(),<emphasis role="keyword">false</emphasis>);
+106 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>(&#32;<emphasis role="keyword">typename</emphasis>&#32;std::vector&lt;T&gt;::iterator&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;=&#32;&#32;sMesh.<link linkend="_struct_mesh_with_smoothing_groups_1aa85873c9e454c314e05f0dc6f4bf22e9">mFaces</link>.begin();
+107 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>&#32;!=&#32;sMesh.<link linkend="_struct_mesh_with_smoothing_groups_1aa85873c9e454c314e05f0dc6f4bf22e9">mFaces</link>.end();++<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>)
+108 &#32;&#32;&#32;&#32;{
+109 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::vector&lt;unsigned&#32;int&gt;&#32;poResult;
+110 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;c&#32;=&#32;0;&#32;c&#32;&lt;&#32;3;++c)
+111 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+112 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;idx&#32;=&#32;(*i).mIndices[c];
+113 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(vertexDone[idx])<emphasis role="keywordflow">continue</emphasis>;
+114 
+115 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sSort.<link linkend="_class_assimp_1_1_s_g_spatial_sort_1ab06ebf9fdf866149666dbb5206111e87">FindPositions</link>(sMesh.<link linkend="_struct_mesh_with_smoothing_groups_1a06bfcf700c819e3a14e3bc1df88b729e">mPositions</link>[idx],(*i).iSmoothGroup,
+116 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;posEpsilon,poResult);
+117 
+118 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&#32;vNormals;
+119 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(std::vector&lt;unsigned&#32;int&gt;::const_iterator
+120 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>&#32;=&#32;&#32;poResult.begin();
+121 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>&#32;!=&#32;poResult.end();++<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>)
+122 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+123 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;vNormals&#32;+=&#32;sMesh.<link linkend="_struct_mesh_with_smoothing_groups_1a3ea96b42a7cf37d64dfa38307018ecdc">mNormals</link>[(*a)];
+124 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+125 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;vNormals.NormalizeSafe();
+126 
+127 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;write&#32;back&#32;into&#32;all&#32;affected&#32;normals</emphasis>
+128 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">for</emphasis>&#32;(std::vector&lt;unsigned&#32;int&gt;::const_iterator
+129 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>&#32;=&#32;&#32;poResult.begin();
+130 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>&#32;!=&#32;poResult.end();++<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>)
+131 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+132 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;idx&#32;=&#32;*<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>;
+133 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;avNormals&#32;[idx]&#32;=&#32;vNormals;
+134 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;vertexDone[idx]&#32;=&#32;<emphasis role="keyword">true</emphasis>;
+135 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+136 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+137 &#32;&#32;&#32;&#32;}
+138 &#32;&#32;&#32;&#32;sMesh.<link linkend="_struct_mesh_with_smoothing_groups_1a3ea96b42a7cf37d64dfa38307018ecdc">mNormals</link>&#32;=&#32;avNormals;
+139 }
+140 
+141 <emphasis role="preprocessor">#endif&#32;</emphasis><emphasis role="comment">//&#32;!!&#32;AI_SMOOTHINGGROUPS_INL_INCLUDED</emphasis>
+</programlisting></section>

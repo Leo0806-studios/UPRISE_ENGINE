@@ -1,0 +1,284 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_vector3_8inl_source" xml:lang="en-US">
+<title>vector3.inl</title>
+<indexterm><primary>adhed/assimp/vector3.inl</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered"><anchor xml:id="_vector3_8inl_source_1l00001"/>00001 <emphasis role="comment">/*</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00002"/>00002 <emphasis role="comment">---------------------------------------------------------------------------</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00003"/>00003 <emphasis role="comment">Open&#32;Asset&#32;Import&#32;Library&#32;(assimp)</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00004"/>00004 <emphasis role="comment">---------------------------------------------------------------------------</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00005"/>00005 <emphasis role="comment"></emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00006"/>00006 <emphasis role="comment">Copyright&#32;(c)&#32;2006-2022,&#32;assimp&#32;team</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00007"/>00007 <emphasis role="comment"></emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00008"/>00008 <emphasis role="comment">All&#32;rights&#32;reserved.</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00009"/>00009 <emphasis role="comment"></emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00010"/>00010 <emphasis role="comment">Redistribution&#32;and&#32;use&#32;of&#32;this&#32;software&#32;in&#32;source&#32;and&#32;binary&#32;forms,</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00011"/>00011 <emphasis role="comment">with&#32;or&#32;without&#32;modification,&#32;are&#32;permitted&#32;provided&#32;that&#32;the&#32;following</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00012"/>00012 <emphasis role="comment">conditions&#32;are&#32;met:</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00013"/>00013 <emphasis role="comment"></emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00014"/>00014 <emphasis role="comment">*&#32;Redistributions&#32;of&#32;source&#32;code&#32;must&#32;retain&#32;the&#32;above</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00015"/>00015 <emphasis role="comment">&#32;&#32;copyright&#32;notice,&#32;this&#32;list&#32;of&#32;conditions&#32;and&#32;the</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00016"/>00016 <emphasis role="comment">&#32;&#32;following&#32;disclaimer.</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00017"/>00017 <emphasis role="comment"></emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00018"/>00018 <emphasis role="comment">*&#32;Redistributions&#32;in&#32;binary&#32;form&#32;must&#32;reproduce&#32;the&#32;above</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00019"/>00019 <emphasis role="comment">&#32;&#32;copyright&#32;notice,&#32;this&#32;list&#32;of&#32;conditions&#32;and&#32;the</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00020"/>00020 <emphasis role="comment">&#32;&#32;following&#32;disclaimer&#32;in&#32;the&#32;documentation&#32;and/or&#32;other</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00021"/>00021 <emphasis role="comment">&#32;&#32;materials&#32;provided&#32;with&#32;the&#32;distribution.</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00022"/>00022 <emphasis role="comment"></emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00023"/>00023 <emphasis role="comment">*&#32;Neither&#32;the&#32;name&#32;of&#32;the&#32;assimp&#32;team,&#32;nor&#32;the&#32;names&#32;of&#32;its</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00024"/>00024 <emphasis role="comment">&#32;&#32;contributors&#32;may&#32;be&#32;used&#32;to&#32;endorse&#32;or&#32;promote&#32;products</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00025"/>00025 <emphasis role="comment">&#32;&#32;derived&#32;from&#32;this&#32;software&#32;without&#32;specific&#32;prior</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00026"/>00026 <emphasis role="comment">&#32;&#32;written&#32;permission&#32;of&#32;the&#32;assimp&#32;team.</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00027"/>00027 <emphasis role="comment"></emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00028"/>00028 <emphasis role="comment">THIS&#32;SOFTWARE&#32;IS&#32;PROVIDED&#32;BY&#32;THE&#32;COPYRIGHT&#32;HOLDERS&#32;AND&#32;CONTRIBUTORS</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00029"/>00029 <emphasis role="comment">&quot;AS&#32;IS&quot;&#32;AND&#32;ANY&#32;EXPRESS&#32;OR&#32;IMPLIED&#32;WARRANTIES,&#32;INCLUDING,&#32;BUT&#32;NOT</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00030"/>00030 <emphasis role="comment">LIMITED&#32;TO,&#32;THE&#32;IMPLIED&#32;WARRANTIES&#32;OF&#32;MERCHANTABILITY&#32;AND&#32;FITNESS&#32;FOR</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00031"/>00031 <emphasis role="comment">A&#32;PARTICULAR&#32;PURPOSE&#32;ARE&#32;DISCLAIMED.&#32;IN&#32;NO&#32;EVENT&#32;SHALL&#32;THE&#32;COPYRIGHT</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00032"/>00032 <emphasis role="comment">OWNER&#32;OR&#32;CONTRIBUTORS&#32;BE&#32;LIABLE&#32;FOR&#32;ANY&#32;DIRECT,&#32;INDIRECT,&#32;INCIDENTAL,</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00033"/>00033 <emphasis role="comment">SPECIAL,&#32;EXEMPLARY,&#32;OR&#32;CONSEQUENTIAL&#32;DAMAGES&#32;(INCLUDING,&#32;BUT&#32;NOT</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00034"/>00034 <emphasis role="comment">LIMITED&#32;TO,&#32;PROCUREMENT&#32;OF&#32;SUBSTITUTE&#32;GOODS&#32;OR&#32;SERVICES;&#32;LOSS&#32;OF&#32;USE,</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00035"/>00035 <emphasis role="comment">DATA,&#32;OR&#32;PROFITS;&#32;OR&#32;BUSINESS&#32;INTERRUPTION)&#32;HOWEVER&#32;CAUSED&#32;AND&#32;ON&#32;ANY</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00036"/>00036 <emphasis role="comment">THEORY&#32;OF&#32;LIABILITY,&#32;WHETHER&#32;IN&#32;CONTRACT,&#32;STRICT&#32;LIABILITY,&#32;OR&#32;TORT</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00037"/>00037 <emphasis role="comment">(INCLUDING&#32;NEGLIGENCE&#32;OR&#32;OTHERWISE)&#32;ARISING&#32;IN&#32;ANY&#32;WAY&#32;OUT&#32;OF&#32;THE&#32;USE</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00038"/>00038 <emphasis role="comment">OF&#32;THIS&#32;SOFTWARE,&#32;EVEN&#32;IF&#32;ADVISED&#32;OF&#32;THE&#32;POSSIBILITY&#32;OF&#32;SUCH&#32;DAMAGE.</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00039"/>00039 <emphasis role="comment">---------------------------------------------------------------------------</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00040"/>00040 <emphasis role="comment">*/</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00041"/>00041 
+<anchor xml:id="_vector3_8inl_source_1l00045"/>00045 <emphasis role="preprocessor">#pragma&#32;once</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00046"/>00046 <emphasis role="preprocessor">#ifndef&#32;AI_VECTOR3D_INL_INC</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00047"/><link linkend="_vector3_8inl_1a7409280d1fdec1b54ab4566ef44ac17b">00047</link> <emphasis role="preprocessor">#define&#32;AI_VECTOR3D_INL_INC</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00048"/>00048 
+<anchor xml:id="_vector3_8inl_source_1l00049"/>00049 <emphasis role="preprocessor">#ifdef&#32;__cplusplus</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00050"/>00050 <emphasis role="preprocessor">#include&#32;&lt;<link linkend="_vector3_8h">assimp/vector3.h</link>&gt;</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00051"/>00051 
+<anchor xml:id="_vector3_8inl_source_1l00052"/>00052 <emphasis role="preprocessor">#include&#32;&lt;cmath&gt;</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00053"/>00053 
+<anchor xml:id="_vector3_8inl_source_1l00054"/>00054 <emphasis role="comment">//&#32;------------------------------------------------------------------------------------------------</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00056"/>00056 <emphasis role="keyword">template</emphasis>&#32;&lt;<emphasis role="keyword">typename</emphasis>&#32;TReal&gt;
+<anchor xml:id="_vector3_8inl_source_1l00057"/>00057 <link linkend="_defs_8h_1a61d239a320b58eca56bacc46fc2c79b8">AI_FORCE_INLINE</link>&#32;aiVector3t&lt;TReal&gt;&#32;<link linkend="_directxtk12__desktop__2019_82024_86_85_81_2include_2_simple_math_8inl_1ac6fdab017606296adde41006764cc6fd">operator * </link>(<emphasis role="keyword">const</emphasis>&#32;aiMatrix3x3t&lt;TReal&gt;&amp;&#32;pMatrix,&#32;<emphasis role="keyword">const</emphasis>&#32;aiVector3t&lt;TReal&gt;&amp;&#32;pVector)&#32;{
+<anchor xml:id="_vector3_8inl_source_1l00058"/>00058 &#32;&#32;&#32;&#32;aiVector3t&lt;TReal&gt;&#32;res;
+<anchor xml:id="_vector3_8inl_source_1l00059"/>00059 &#32;&#32;&#32;&#32;res.x&#32;=&#32;pMatrix.a1&#32;*&#32;pVector.x&#32;+&#32;pMatrix.a2&#32;*&#32;pVector.y&#32;+&#32;pMatrix.a3&#32;*&#32;pVector.z;
+<anchor xml:id="_vector3_8inl_source_1l00060"/>00060 &#32;&#32;&#32;&#32;res.y&#32;=&#32;pMatrix.b1&#32;*&#32;pVector.x&#32;+&#32;pMatrix.b2&#32;*&#32;pVector.y&#32;+&#32;pMatrix.b3&#32;*&#32;pVector.z;
+<anchor xml:id="_vector3_8inl_source_1l00061"/>00061 &#32;&#32;&#32;&#32;res.z&#32;=&#32;pMatrix.c1&#32;*&#32;pVector.x&#32;+&#32;pMatrix.c2&#32;*&#32;pVector.y&#32;+&#32;pMatrix.c3&#32;*&#32;pVector.z;
+<anchor xml:id="_vector3_8inl_source_1l00062"/>00062 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;res;
+<anchor xml:id="_vector3_8inl_source_1l00063"/>00063 }
+<anchor xml:id="_vector3_8inl_source_1l00064"/>00064 
+<anchor xml:id="_vector3_8inl_source_1l00065"/>00065 <emphasis role="comment">//&#32;------------------------------------------------------------------------------------------------</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00067"/>00067 <emphasis role="keyword">template</emphasis>&#32;&lt;<emphasis role="keyword">typename</emphasis>&#32;TReal&gt;
+<anchor xml:id="_vector3_8inl_source_1l00068"/>00068 <link linkend="_defs_8h_1a61d239a320b58eca56bacc46fc2c79b8">AI_FORCE_INLINE</link>&#32;aiVector3t&lt;TReal&gt;&#32;<link linkend="_directxtk12__desktop__2019_82024_86_85_81_2include_2_simple_math_8inl_1ac6fdab017606296adde41006764cc6fd">operator * </link>(<emphasis role="keyword">const</emphasis>&#32;aiMatrix4x4t&lt;TReal&gt;&amp;&#32;pMatrix,&#32;<emphasis role="keyword">const</emphasis>&#32;aiVector3t&lt;TReal&gt;&amp;&#32;pVector)&#32;{
+<anchor xml:id="_vector3_8inl_source_1l00069"/>00069 &#32;&#32;&#32;&#32;aiVector3t&lt;TReal&gt;&#32;res;
+<anchor xml:id="_vector3_8inl_source_1l00070"/>00070 &#32;&#32;&#32;&#32;res.x&#32;=&#32;pMatrix.a1&#32;*&#32;pVector.x&#32;+&#32;pMatrix.a2&#32;*&#32;pVector.y&#32;+&#32;pMatrix.a3&#32;*&#32;pVector.z&#32;+&#32;pMatrix.a4;
+<anchor xml:id="_vector3_8inl_source_1l00071"/>00071 &#32;&#32;&#32;&#32;res.y&#32;=&#32;pMatrix.b1&#32;*&#32;pVector.x&#32;+&#32;pMatrix.b2&#32;*&#32;pVector.y&#32;+&#32;pMatrix.b3&#32;*&#32;pVector.z&#32;+&#32;pMatrix.b4;
+<anchor xml:id="_vector3_8inl_source_1l00072"/>00072 &#32;&#32;&#32;&#32;res.z&#32;=&#32;pMatrix.c1&#32;*&#32;pVector.x&#32;+&#32;pMatrix.c2&#32;*&#32;pVector.y&#32;+&#32;pMatrix.c3&#32;*&#32;pVector.z&#32;+&#32;pMatrix.c4;
+<anchor xml:id="_vector3_8inl_source_1l00073"/>00073 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;res;
+<anchor xml:id="_vector3_8inl_source_1l00074"/>00074 }
+<anchor xml:id="_vector3_8inl_source_1l00075"/>00075 <emphasis role="comment">//&#32;------------------------------------------------------------------------------------------------</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00076"/>00076 <emphasis role="keyword">template</emphasis>&#32;&lt;<emphasis role="keyword">typename</emphasis>&#32;TReal&gt;
+<anchor xml:id="_vector3_8inl_source_1l00077"/>00077 <emphasis role="keyword">template</emphasis>&#32;&lt;<emphasis role="keyword">typename</emphasis>&#32;TOther&gt;
+<anchor xml:id="_vector3_8inl_source_1l00078"/>00078 aiVector3t&lt;TReal&gt;::operator&#32;aiVector3t&lt;TOther&gt;&#32;()<emphasis role="keyword">&#32;const&#32;</emphasis>{
+<anchor xml:id="_vector3_8inl_source_1l00079"/>00079 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;aiVector3t&lt;TOther&gt;(<emphasis role="keyword">static_cast&lt;</emphasis>TOther<emphasis role="keyword">&gt;</emphasis>(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>),<emphasis role="keyword">static_cast&lt;</emphasis>TOther<emphasis role="keyword">&gt;</emphasis>(<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>),<emphasis role="keyword">static_cast&lt;</emphasis>TOther<emphasis role="keyword">&gt;</emphasis>(<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>));
+<anchor xml:id="_vector3_8inl_source_1l00080"/>00080 }
+<anchor xml:id="_vector3_8inl_source_1l00081"/>00081 <emphasis role="comment">//&#32;------------------------------------------------------------------------------------------------</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00082"/>00082 <emphasis role="keyword">template</emphasis>&#32;&lt;<emphasis role="keyword">typename</emphasis>&#32;TReal&gt;
+<anchor xml:id="_vector3_8inl_source_1l00083"/>00083 <link linkend="_defs_8h_1a61d239a320b58eca56bacc46fc2c79b8">AI_FORCE_INLINE</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;aiVector3t&lt;TReal&gt;::Set(&#32;TReal&#32;pX,&#32;TReal&#32;pY,&#32;TReal&#32;pZ)&#32;{
+<anchor xml:id="_vector3_8inl_source_1l00084"/>00084 &#32;&#32;&#32;&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>&#32;=&#32;pX;
+<anchor xml:id="_vector3_8inl_source_1l00085"/>00085 &#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>&#32;=&#32;pY;
+<anchor xml:id="_vector3_8inl_source_1l00086"/>00086 &#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>&#32;=&#32;pZ;
+<anchor xml:id="_vector3_8inl_source_1l00087"/>00087 }
+<anchor xml:id="_vector3_8inl_source_1l00088"/>00088 <emphasis role="comment">//&#32;------------------------------------------------------------------------------------------------</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00089"/>00089 <emphasis role="keyword">template</emphasis>&#32;&lt;<emphasis role="keyword">typename</emphasis>&#32;TReal&gt;
+<anchor xml:id="_vector3_8inl_source_1l00090"/>00090 <link linkend="_defs_8h_1a61d239a320b58eca56bacc46fc2c79b8">AI_FORCE_INLINE</link>&#32;TReal&#32;aiVector3t&lt;TReal&gt;::SquareLength()<emphasis role="keyword">&#32;const&#32;</emphasis>{
+<anchor xml:id="_vector3_8inl_source_1l00091"/>00091 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>*<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>&#32;+&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>*<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>&#32;+&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>*<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>;
+<anchor xml:id="_vector3_8inl_source_1l00092"/>00092 }
+<anchor xml:id="_vector3_8inl_source_1l00093"/>00093 <emphasis role="comment">//&#32;------------------------------------------------------------------------------------------------</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00094"/>00094 <emphasis role="keyword">template</emphasis>&#32;&lt;<emphasis role="keyword">typename</emphasis>&#32;TReal&gt;
+<anchor xml:id="_vector3_8inl_source_1l00095"/>00095 <link linkend="_defs_8h_1a61d239a320b58eca56bacc46fc2c79b8">AI_FORCE_INLINE</link>&#32;TReal&#32;aiVector3t&lt;TReal&gt;::Length()<emphasis role="keyword">&#32;const&#32;</emphasis>{
+<anchor xml:id="_vector3_8inl_source_1l00096"/>00096 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;std::sqrt(&#32;SquareLength());
+<anchor xml:id="_vector3_8inl_source_1l00097"/>00097 }
+<anchor xml:id="_vector3_8inl_source_1l00098"/>00098 <emphasis role="comment">//&#32;------------------------------------------------------------------------------------------------</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00099"/>00099 <emphasis role="keyword">template</emphasis>&#32;&lt;<emphasis role="keyword">typename</emphasis>&#32;TReal&gt;
+<anchor xml:id="_vector3_8inl_source_1l00100"/>00100 &#32;aiVector3t&lt;TReal&gt;&amp;&#32;aiVector3t&lt;TReal&gt;::Normalize()&#32;{
+<anchor xml:id="_vector3_8inl_source_1l00101"/>00101 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;TReal&#32;l&#32;=&#32;Length();
+<anchor xml:id="_vector3_8inl_source_1l00102"/>00102 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(l&#32;==&#32;0)&#32;{
+<anchor xml:id="_vector3_8inl_source_1l00103"/>00103 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;*<emphasis role="keyword">this</emphasis>;
+<anchor xml:id="_vector3_8inl_source_1l00104"/>00104 &#32;&#32;&#32;&#32;}
+<anchor xml:id="_vector3_8inl_source_1l00105"/>00105 &#32;&#32;&#32;&#32;*<emphasis role="keyword">this</emphasis>&#32;/=&#32;Length();
+<anchor xml:id="_vector3_8inl_source_1l00106"/>00106 
+<anchor xml:id="_vector3_8inl_source_1l00107"/>00107 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;*<emphasis role="keyword">this</emphasis>;
+<anchor xml:id="_vector3_8inl_source_1l00108"/>00108 }
+<anchor xml:id="_vector3_8inl_source_1l00109"/>00109 <emphasis role="comment">//&#32;------------------------------------------------------------------------------------------------</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00110"/>00110 <emphasis role="keyword">template</emphasis>&#32;&lt;<emphasis role="keyword">typename</emphasis>&#32;TReal&gt;
+<anchor xml:id="_vector3_8inl_source_1l00111"/>00111 <link linkend="_defs_8h_1a61d239a320b58eca56bacc46fc2c79b8">AI_FORCE_INLINE</link>&#32;aiVector3t&lt;TReal&gt;&amp;&#32;aiVector3t&lt;TReal&gt;::NormalizeSafe()&#32;{
+<anchor xml:id="_vector3_8inl_source_1l00112"/>00112 &#32;&#32;&#32;&#32;TReal&#32;len&#32;=&#32;Length();
+<anchor xml:id="_vector3_8inl_source_1l00113"/>00113 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(&#32;len&#32;&gt;&#32;<emphasis role="keyword">static_cast&lt;</emphasis>&#32;TReal&#32;<emphasis role="keyword">&gt;</emphasis>(&#32;0&#32;)&#32;)&#32;{
+<anchor xml:id="_vector3_8inl_source_1l00114"/>00114 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*<emphasis role="keyword">this</emphasis>&#32;/=&#32;len;
+<anchor xml:id="_vector3_8inl_source_1l00115"/>00115 &#32;&#32;&#32;&#32;}
+<anchor xml:id="_vector3_8inl_source_1l00116"/>00116 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;*<emphasis role="keyword">this</emphasis>;
+<anchor xml:id="_vector3_8inl_source_1l00117"/>00117 }
+<anchor xml:id="_vector3_8inl_source_1l00118"/>00118 <emphasis role="comment">//&#32;------------------------------------------------------------------------------------------------</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00119"/>00119 <emphasis role="keyword">template</emphasis>&#32;&lt;<emphasis role="keyword">typename</emphasis>&#32;TReal&gt;
+<anchor xml:id="_vector3_8inl_source_1l00120"/>00120 <link linkend="_defs_8h_1a61d239a320b58eca56bacc46fc2c79b8">AI_FORCE_INLINE</link>&#32;<emphasis role="keyword">const</emphasis>&#32;aiVector3t&lt;TReal&gt;&amp;&#32;aiVector3t&lt;TReal&gt;::operator&#32;+=&#32;(<emphasis role="keyword">const</emphasis>&#32;aiVector3t&lt;TReal&gt;&amp;&#32;o)&#32;{
+<anchor xml:id="_vector3_8inl_source_1l00121"/>00121 &#32;&#32;&#32;&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>&#32;+=&#32;o.x;
+<anchor xml:id="_vector3_8inl_source_1l00122"/>00122 &#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>&#32;+=&#32;o.y;
+<anchor xml:id="_vector3_8inl_source_1l00123"/>00123 &#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>&#32;+=&#32;o.z;
+<anchor xml:id="_vector3_8inl_source_1l00124"/>00124 
+<anchor xml:id="_vector3_8inl_source_1l00125"/>00125 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;*<emphasis role="keyword">this</emphasis>;
+<anchor xml:id="_vector3_8inl_source_1l00126"/>00126 }
+<anchor xml:id="_vector3_8inl_source_1l00127"/>00127 <emphasis role="comment">//&#32;------------------------------------------------------------------------------------------------</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00128"/>00128 <emphasis role="keyword">template</emphasis>&#32;&lt;<emphasis role="keyword">typename</emphasis>&#32;TReal&gt;
+<anchor xml:id="_vector3_8inl_source_1l00129"/>00129 <link linkend="_defs_8h_1a61d239a320b58eca56bacc46fc2c79b8">AI_FORCE_INLINE</link>&#32;<emphasis role="keyword">const</emphasis>&#32;aiVector3t&lt;TReal&gt;&amp;&#32;aiVector3t&lt;TReal&gt;::operator&#32;-=&#32;(<emphasis role="keyword">const</emphasis>&#32;aiVector3t&lt;TReal&gt;&amp;&#32;o)&#32;{
+<anchor xml:id="_vector3_8inl_source_1l00130"/>00130 &#32;&#32;&#32;&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>&#32;-=&#32;o.x;
+<anchor xml:id="_vector3_8inl_source_1l00131"/>00131 &#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>&#32;-=&#32;o.y;
+<anchor xml:id="_vector3_8inl_source_1l00132"/>00132 &#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>&#32;-=&#32;o.z;
+<anchor xml:id="_vector3_8inl_source_1l00133"/>00133 
+<anchor xml:id="_vector3_8inl_source_1l00134"/>00134 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;*<emphasis role="keyword">this</emphasis>;
+<anchor xml:id="_vector3_8inl_source_1l00135"/>00135 }
+<anchor xml:id="_vector3_8inl_source_1l00136"/>00136 <emphasis role="comment">//&#32;------------------------------------------------------------------------------------------------</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00137"/>00137 <emphasis role="keyword">template</emphasis>&#32;&lt;<emphasis role="keyword">typename</emphasis>&#32;TReal&gt;
+<anchor xml:id="_vector3_8inl_source_1l00138"/>00138 <link linkend="_defs_8h_1a61d239a320b58eca56bacc46fc2c79b8">AI_FORCE_INLINE</link>&#32;<emphasis role="keyword">const</emphasis>&#32;aiVector3t&lt;TReal&gt;&amp;&#32;aiVector3t&lt;TReal&gt;::operator&#32;*=&#32;(TReal&#32;<link linkend="_glad_8h_1ae29c29480f1260cc37ad71203904ea4d">f</link>)&#32;{
+<anchor xml:id="_vector3_8inl_source_1l00139"/>00139 &#32;&#32;&#32;&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>&#32;*=&#32;<link linkend="_glad_8h_1ae29c29480f1260cc37ad71203904ea4d">f</link>;
+<anchor xml:id="_vector3_8inl_source_1l00140"/>00140 &#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>&#32;*=&#32;<link linkend="_glad_8h_1ae29c29480f1260cc37ad71203904ea4d">f</link>;
+<anchor xml:id="_vector3_8inl_source_1l00141"/>00141 &#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>&#32;*=&#32;<link linkend="_glad_8h_1ae29c29480f1260cc37ad71203904ea4d">f</link>;
+<anchor xml:id="_vector3_8inl_source_1l00142"/>00142 
+<anchor xml:id="_vector3_8inl_source_1l00143"/>00143 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;*<emphasis role="keyword">this</emphasis>;
+<anchor xml:id="_vector3_8inl_source_1l00144"/>00144 }
+<anchor xml:id="_vector3_8inl_source_1l00145"/>00145 <emphasis role="comment">//&#32;------------------------------------------------------------------------------------------------</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00146"/>00146 <emphasis role="keyword">template</emphasis>&#32;&lt;<emphasis role="keyword">typename</emphasis>&#32;TReal&gt;
+<anchor xml:id="_vector3_8inl_source_1l00147"/>00147 <link linkend="_defs_8h_1a61d239a320b58eca56bacc46fc2c79b8">AI_FORCE_INLINE</link>&#32;<emphasis role="keyword">const</emphasis>&#32;aiVector3t&lt;TReal&gt;&amp;&#32;aiVector3t&lt;TReal&gt;::operator&#32;/=&#32;(TReal&#32;<link linkend="_glad_8h_1ae29c29480f1260cc37ad71203904ea4d">f</link>)&#32;{
+<anchor xml:id="_vector3_8inl_source_1l00148"/>00148 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(&#32;<link linkend="_glad_8h_1ae29c29480f1260cc37ad71203904ea4d">f</link>&#32;==&#32;<emphasis role="keyword">static_cast&lt;</emphasis>TReal<emphasis role="keyword">&gt;</emphasis>(0.0))&#32;{
+<anchor xml:id="_vector3_8inl_source_1l00149"/>00149 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;*<emphasis role="keyword">this</emphasis>;
+<anchor xml:id="_vector3_8inl_source_1l00150"/>00150 &#32;&#32;&#32;&#32;}
+<anchor xml:id="_vector3_8inl_source_1l00151"/>00151 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;TReal&#32;invF&#32;=&#32;(TReal)&#32;1.0&#32;/&#32;<link linkend="_glad_8h_1ae29c29480f1260cc37ad71203904ea4d">f</link>;
+<anchor xml:id="_vector3_8inl_source_1l00152"/>00152 &#32;&#32;&#32;&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>&#32;*=&#32;invF;
+<anchor xml:id="_vector3_8inl_source_1l00153"/>00153 &#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>&#32;*=&#32;invF;
+<anchor xml:id="_vector3_8inl_source_1l00154"/>00154 &#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>&#32;*=&#32;invF;
+<anchor xml:id="_vector3_8inl_source_1l00155"/>00155 
+<anchor xml:id="_vector3_8inl_source_1l00156"/>00156 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;*<emphasis role="keyword">this</emphasis>;
+<anchor xml:id="_vector3_8inl_source_1l00157"/>00157 }
+<anchor xml:id="_vector3_8inl_source_1l00158"/>00158 <emphasis role="comment">//&#32;------------------------------------------------------------------------------------------------</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00159"/>00159 <emphasis role="keyword">template</emphasis>&#32;&lt;<emphasis role="keyword">typename</emphasis>&#32;TReal&gt;
+<anchor xml:id="_vector3_8inl_source_1l00160"/>00160 <link linkend="_defs_8h_1a61d239a320b58eca56bacc46fc2c79b8">AI_FORCE_INLINE</link>&#32;aiVector3t&lt;TReal&gt;&amp;&#32;aiVector3t&lt;TReal&gt;::operator&#32;*=&#32;(<emphasis role="keyword">const</emphasis>&#32;aiMatrix3x3t&lt;TReal&gt;&amp;&#32;mat){
+<anchor xml:id="_vector3_8inl_source_1l00161"/>00161 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;(*<emphasis role="keyword">this</emphasis>&#32;=&#32;&#32;mat&#32;*&#32;(*<emphasis role="keyword">this</emphasis>));
+<anchor xml:id="_vector3_8inl_source_1l00162"/>00162 }
+<anchor xml:id="_vector3_8inl_source_1l00163"/>00163 <emphasis role="comment">//&#32;------------------------------------------------------------------------------------------------</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00164"/>00164 <emphasis role="keyword">template</emphasis>&#32;&lt;<emphasis role="keyword">typename</emphasis>&#32;TReal&gt;
+<anchor xml:id="_vector3_8inl_source_1l00165"/>00165 <link linkend="_defs_8h_1a61d239a320b58eca56bacc46fc2c79b8">AI_FORCE_INLINE</link>&#32;aiVector3t&lt;TReal&gt;&amp;&#32;aiVector3t&lt;TReal&gt;::operator&#32;*=&#32;(<emphasis role="keyword">const</emphasis>&#32;aiMatrix4x4t&lt;TReal&gt;&amp;&#32;mat){
+<anchor xml:id="_vector3_8inl_source_1l00166"/>00166 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;(*<emphasis role="keyword">this</emphasis>&#32;=&#32;mat&#32;*&#32;(*<emphasis role="keyword">this</emphasis>));
+<anchor xml:id="_vector3_8inl_source_1l00167"/>00167 }
+<anchor xml:id="_vector3_8inl_source_1l00168"/>00168 <emphasis role="comment">//&#32;------------------------------------------------------------------------------------------------</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00169"/>00169 <emphasis role="keyword">template</emphasis>&#32;&lt;<emphasis role="keyword">typename</emphasis>&#32;TReal&gt;
+<anchor xml:id="_vector3_8inl_source_1l00170"/>00170 <link linkend="_defs_8h_1a61d239a320b58eca56bacc46fc2c79b8">AI_FORCE_INLINE</link>&#32;TReal&#32;aiVector3t&lt;TReal&gt;::operator[](<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>)<emphasis role="keyword">&#32;const&#32;</emphasis>{
+<anchor xml:id="_vector3_8inl_source_1l00171"/>00171 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">switch</emphasis>&#32;(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>)&#32;{
+<anchor xml:id="_vector3_8inl_source_1l00172"/>00172 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">case</emphasis>&#32;0:
+<anchor xml:id="_vector3_8inl_source_1l00173"/>00173 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>;
+<anchor xml:id="_vector3_8inl_source_1l00174"/>00174 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">case</emphasis>&#32;1:
+<anchor xml:id="_vector3_8inl_source_1l00175"/>00175 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>;
+<anchor xml:id="_vector3_8inl_source_1l00176"/>00176 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">case</emphasis>&#32;2:
+<anchor xml:id="_vector3_8inl_source_1l00177"/>00177 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>;
+<anchor xml:id="_vector3_8inl_source_1l00178"/>00178 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">default</emphasis>:
+<anchor xml:id="_vector3_8inl_source_1l00179"/>00179 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">break</emphasis>;
+<anchor xml:id="_vector3_8inl_source_1l00180"/>00180 &#32;&#32;&#32;&#32;}
+<anchor xml:id="_vector3_8inl_source_1l00181"/>00181 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>;
+<anchor xml:id="_vector3_8inl_source_1l00182"/>00182 }
+<anchor xml:id="_vector3_8inl_source_1l00183"/>00183 <emphasis role="comment">//&#32;------------------------------------------------------------------------------------------------</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00184"/>00184 <emphasis role="keyword">template</emphasis>&#32;&lt;<emphasis role="keyword">typename</emphasis>&#32;TReal&gt;
+<anchor xml:id="_vector3_8inl_source_1l00185"/>00185 <link linkend="_defs_8h_1a61d239a320b58eca56bacc46fc2c79b8">AI_FORCE_INLINE</link>&#32;TReal&amp;&#32;aiVector3t&lt;TReal&gt;::operator[](<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>)&#32;{
+<anchor xml:id="_vector3_8inl_source_1l00186"/>00186 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">switch</emphasis>&#32;(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>)&#32;{
+<anchor xml:id="_vector3_8inl_source_1l00187"/>00187 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">case</emphasis>&#32;0:
+<anchor xml:id="_vector3_8inl_source_1l00188"/>00188 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>;
+<anchor xml:id="_vector3_8inl_source_1l00189"/>00189 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">case</emphasis>&#32;1:
+<anchor xml:id="_vector3_8inl_source_1l00190"/>00190 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>;
+<anchor xml:id="_vector3_8inl_source_1l00191"/>00191 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">case</emphasis>&#32;2:
+<anchor xml:id="_vector3_8inl_source_1l00192"/>00192 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>;
+<anchor xml:id="_vector3_8inl_source_1l00193"/>00193 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">default</emphasis>:
+<anchor xml:id="_vector3_8inl_source_1l00194"/>00194 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">break</emphasis>;
+<anchor xml:id="_vector3_8inl_source_1l00195"/>00195 &#32;&#32;&#32;&#32;}
+<anchor xml:id="_vector3_8inl_source_1l00196"/>00196 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>;
+<anchor xml:id="_vector3_8inl_source_1l00197"/>00197 }
+<anchor xml:id="_vector3_8inl_source_1l00198"/>00198 <emphasis role="comment">//&#32;------------------------------------------------------------------------------------------------</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00199"/>00199 <emphasis role="keyword">template</emphasis>&#32;&lt;<emphasis role="keyword">typename</emphasis>&#32;TReal&gt;
+<anchor xml:id="_vector3_8inl_source_1l00200"/>00200 <link linkend="_defs_8h_1a61d239a320b58eca56bacc46fc2c79b8">AI_FORCE_INLINE</link>&#32;<emphasis role="keywordtype">bool</emphasis>&#32;aiVector3t&lt;TReal&gt;::operator==&#32;(<emphasis role="keyword">const</emphasis>&#32;aiVector3t&lt;TReal&gt;&amp;&#32;other)<emphasis role="keyword">&#32;const&#32;</emphasis>{
+<anchor xml:id="_vector3_8inl_source_1l00201"/>00201 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>&#32;==&#32;other.x&#32;&amp;&amp;&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>&#32;==&#32;other.y&#32;&amp;&amp;&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>&#32;==&#32;other.z;
+<anchor xml:id="_vector3_8inl_source_1l00202"/>00202 }
+<anchor xml:id="_vector3_8inl_source_1l00203"/>00203 <emphasis role="comment">//&#32;------------------------------------------------------------------------------------------------</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00204"/>00204 <emphasis role="keyword">template</emphasis>&#32;&lt;<emphasis role="keyword">typename</emphasis>&#32;TReal&gt;
+<anchor xml:id="_vector3_8inl_source_1l00205"/>00205 <link linkend="_defs_8h_1a61d239a320b58eca56bacc46fc2c79b8">AI_FORCE_INLINE</link>&#32;<emphasis role="keywordtype">bool</emphasis>&#32;aiVector3t&lt;TReal&gt;::operator!=&#32;(<emphasis role="keyword">const</emphasis>&#32;aiVector3t&lt;TReal&gt;&amp;&#32;other)<emphasis role="keyword">&#32;const&#32;</emphasis>{
+<anchor xml:id="_vector3_8inl_source_1l00206"/>00206 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>&#32;!=&#32;other.x&#32;||&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>&#32;!=&#32;other.y&#32;||&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>&#32;!=&#32;other.z;
+<anchor xml:id="_vector3_8inl_source_1l00207"/>00207 }
+<anchor xml:id="_vector3_8inl_source_1l00208"/>00208 <emphasis role="comment">//&#32;---------------------------------------------------------------------------</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00209"/>00209 <emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;TReal&gt;
+<anchor xml:id="_vector3_8inl_source_1l00210"/>00210 <link linkend="_defs_8h_1a61d239a320b58eca56bacc46fc2c79b8">AI_FORCE_INLINE</link>&#32;<emphasis role="keywordtype">bool</emphasis>&#32;aiVector3t&lt;TReal&gt;::Equal(<emphasis role="keyword">const</emphasis>&#32;aiVector3t&lt;TReal&gt;&amp;&#32;other,&#32;TReal&#32;epsilon)<emphasis role="keyword">&#32;const&#32;</emphasis>{
+<anchor xml:id="_vector3_8inl_source_1l00211"/>00211 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00212"/>00212 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::abs(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>&#32;-&#32;other.x)&#32;&lt;=&#32;epsilon&#32;&amp;&amp;
+<anchor xml:id="_vector3_8inl_source_1l00213"/>00213 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::abs(<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>&#32;-&#32;other.y)&#32;&lt;=&#32;epsilon&#32;&amp;&amp;
+<anchor xml:id="_vector3_8inl_source_1l00214"/>00214 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::abs(<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>&#32;-&#32;other.z)&#32;&lt;=&#32;epsilon;
+<anchor xml:id="_vector3_8inl_source_1l00215"/>00215 }
+<anchor xml:id="_vector3_8inl_source_1l00216"/>00216 <emphasis role="comment">//&#32;------------------------------------------------------------------------------------------------</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00217"/>00217 <emphasis role="keyword">template</emphasis>&#32;&lt;<emphasis role="keyword">typename</emphasis>&#32;TReal&gt;
+<anchor xml:id="_vector3_8inl_source_1l00218"/>00218 <link linkend="_defs_8h_1a61d239a320b58eca56bacc46fc2c79b8">AI_FORCE_INLINE</link>&#32;<emphasis role="keywordtype">bool</emphasis>&#32;aiVector3t&lt;TReal&gt;::operator&#32;&lt;&#32;(<emphasis role="keyword">const</emphasis>&#32;aiVector3t&lt;TReal&gt;&amp;&#32;other)<emphasis role="keyword">&#32;const&#32;</emphasis>{
+<anchor xml:id="_vector3_8inl_source_1l00219"/>00219 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>&#32;!=&#32;other.x&#32;?&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>&#32;&lt;&#32;other.x&#32;:&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>&#32;!=&#32;other.y&#32;?&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>&#32;&lt;&#32;other.y&#32;:&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>&#32;&lt;&#32;other.z;
+<anchor xml:id="_vector3_8inl_source_1l00220"/>00220 }
+<anchor xml:id="_vector3_8inl_source_1l00221"/>00221 <emphasis role="comment">//&#32;------------------------------------------------------------------------------------------------</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00222"/>00222 <emphasis role="keyword">template</emphasis>&#32;&lt;<emphasis role="keyword">typename</emphasis>&#32;TReal&gt;
+<anchor xml:id="_vector3_8inl_source_1l00223"/>00223 <link linkend="_defs_8h_1a61d239a320b58eca56bacc46fc2c79b8">AI_FORCE_INLINE</link>&#32;<emphasis role="keyword">const</emphasis>&#32;aiVector3t&lt;TReal&gt;&#32;aiVector3t&lt;TReal&gt;::SymMul(<emphasis role="keyword">const</emphasis>&#32;aiVector3t&lt;TReal&gt;&amp;&#32;o)&#32;{
+<anchor xml:id="_vector3_8inl_source_1l00224"/>00224 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;aiVector3t&lt;TReal&gt;(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>*o.x,<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>*o.y,<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>*o.z);
+<anchor xml:id="_vector3_8inl_source_1l00225"/>00225 }
+<anchor xml:id="_vector3_8inl_source_1l00226"/>00226 <emphasis role="comment">//&#32;------------------------------------------------------------------------------------------------</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00227"/>00227 <emphasis role="comment">//&#32;symmetric&#32;addition</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00228"/>00228 <emphasis role="keyword">template</emphasis>&#32;&lt;<emphasis role="keyword">typename</emphasis>&#32;TReal&gt;
+<anchor xml:id="_vector3_8inl_source_1l00229"/>00229 <link linkend="_defs_8h_1a61d239a320b58eca56bacc46fc2c79b8">AI_FORCE_INLINE</link>&#32;aiVector3t&lt;TReal&gt;&#32;<link linkend="_directxtk12__desktop__2019_82024_86_85_81_2include_2_simple_math_8inl_1afd36bb5599ebe3be5da50c970138d80b">operator + </link>(<emphasis role="keyword">const</emphasis>&#32;aiVector3t&lt;TReal&gt;&amp;&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>,&#32;<emphasis role="keyword">const</emphasis>&#32;aiVector3t&lt;TReal&gt;&amp;&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>)&#32;{
+<anchor xml:id="_vector3_8inl_source_1l00230"/>00230 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;aiVector3t&lt;TReal&gt;(&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>.x&#32;+&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>.x,&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>.y&#32;+&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>.y,&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>.z&#32;+&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>.z);
+<anchor xml:id="_vector3_8inl_source_1l00231"/>00231 }
+<anchor xml:id="_vector3_8inl_source_1l00232"/>00232 <emphasis role="comment">//&#32;------------------------------------------------------------------------------------------------</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00233"/>00233 <emphasis role="comment">//&#32;symmetric&#32;subtraction</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00234"/>00234 <emphasis role="keyword">template</emphasis>&#32;&lt;<emphasis role="keyword">typename</emphasis>&#32;TReal&gt;
+<anchor xml:id="_vector3_8inl_source_1l00235"/>00235 <link linkend="_defs_8h_1a61d239a320b58eca56bacc46fc2c79b8">AI_FORCE_INLINE</link>&#32;aiVector3t&lt;TReal&gt;&#32;<link linkend="_directxtk12__desktop__2019_82024_86_85_81_2include_2_simple_math_8inl_1a597126d284468478376731d2f6e908f5">operator - </link>(<emphasis role="keyword">const</emphasis>&#32;aiVector3t&lt;TReal&gt;&amp;&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>,&#32;<emphasis role="keyword">const</emphasis>&#32;aiVector3t&lt;TReal&gt;&amp;&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>)&#32;{
+<anchor xml:id="_vector3_8inl_source_1l00236"/>00236 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;aiVector3t&lt;TReal&gt;(&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>.x&#32;-&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>.x,&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>.y&#32;-&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>.y,&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>.z&#32;-&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>.z);
+<anchor xml:id="_vector3_8inl_source_1l00237"/>00237 }
+<anchor xml:id="_vector3_8inl_source_1l00238"/>00238 <emphasis role="comment">//&#32;------------------------------------------------------------------------------------------------</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00239"/>00239 <emphasis role="comment">//&#32;scalar&#32;product</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00240"/>00240 <emphasis role="keyword">template</emphasis>&#32;&lt;<emphasis role="keyword">typename</emphasis>&#32;TReal&gt;
+<anchor xml:id="_vector3_8inl_source_1l00241"/>00241 <link linkend="_defs_8h_1a61d239a320b58eca56bacc46fc2c79b8">AI_FORCE_INLINE</link>&#32;TReal&#32;<link linkend="_directxtk12__desktop__2019_82024_86_85_81_2include_2_simple_math_8inl_1ac6fdab017606296adde41006764cc6fd">operator * </link>(<emphasis role="keyword">const</emphasis>&#32;aiVector3t&lt;TReal&gt;&amp;&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>,&#32;<emphasis role="keyword">const</emphasis>&#32;aiVector3t&lt;TReal&gt;&amp;&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>)&#32;{
+<anchor xml:id="_vector3_8inl_source_1l00242"/>00242 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>.x*<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>.x&#32;+&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>.y*<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>.y&#32;+&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>.z*<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>.z;
+<anchor xml:id="_vector3_8inl_source_1l00243"/>00243 }
+<anchor xml:id="_vector3_8inl_source_1l00244"/>00244 <emphasis role="comment">//&#32;------------------------------------------------------------------------------------------------</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00245"/>00245 <emphasis role="comment">//&#32;scalar&#32;multiplication</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00246"/>00246 <emphasis role="keyword">template</emphasis>&#32;&lt;<emphasis role="keyword">typename</emphasis>&#32;TReal&gt;
+<anchor xml:id="_vector3_8inl_source_1l00247"/>00247 <link linkend="_defs_8h_1a61d239a320b58eca56bacc46fc2c79b8">AI_FORCE_INLINE</link>&#32;aiVector3t&lt;TReal&gt;&#32;<link linkend="_directxtk12__desktop__2019_82024_86_85_81_2include_2_simple_math_8inl_1ac6fdab017606296adde41006764cc6fd">operator * </link>(&#32;TReal&#32;<link linkend="_glad_8h_1ae29c29480f1260cc37ad71203904ea4d">f</link>,&#32;<emphasis role="keyword">const</emphasis>&#32;aiVector3t&lt;TReal&gt;&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)&#32;{
+<anchor xml:id="_vector3_8inl_source_1l00248"/>00248 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;aiVector3t&lt;TReal&gt;(&#32;<link linkend="_glad_8h_1ae29c29480f1260cc37ad71203904ea4d">f</link>*<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x,&#32;<link linkend="_glad_8h_1ae29c29480f1260cc37ad71203904ea4d">f</link>*<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y,&#32;<link linkend="_glad_8h_1ae29c29480f1260cc37ad71203904ea4d">f</link>*<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.z);
+<anchor xml:id="_vector3_8inl_source_1l00249"/>00249 }
+<anchor xml:id="_vector3_8inl_source_1l00250"/>00250 <emphasis role="comment">//&#32;------------------------------------------------------------------------------------------------</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00251"/>00251 <emphasis role="comment">//&#32;and&#32;the&#32;other&#32;way&#32;around</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00252"/>00252 <emphasis role="keyword">template</emphasis>&#32;&lt;<emphasis role="keyword">typename</emphasis>&#32;TReal&gt;
+<anchor xml:id="_vector3_8inl_source_1l00253"/>00253 <link linkend="_defs_8h_1a61d239a320b58eca56bacc46fc2c79b8">AI_FORCE_INLINE</link>&#32;aiVector3t&lt;TReal&gt;&#32;<link linkend="_directxtk12__desktop__2019_82024_86_85_81_2include_2_simple_math_8inl_1ac6fdab017606296adde41006764cc6fd">operator * </link>(&#32;<emphasis role="keyword">const</emphasis>&#32;aiVector3t&lt;TReal&gt;&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>,&#32;TReal&#32;<link linkend="_glad_8h_1ae29c29480f1260cc37ad71203904ea4d">f</link>)&#32;{
+<anchor xml:id="_vector3_8inl_source_1l00254"/>00254 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;aiVector3t&lt;TReal&gt;(&#32;<link linkend="_glad_8h_1ae29c29480f1260cc37ad71203904ea4d">f</link>*<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x,&#32;<link linkend="_glad_8h_1ae29c29480f1260cc37ad71203904ea4d">f</link>*<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y,&#32;<link linkend="_glad_8h_1ae29c29480f1260cc37ad71203904ea4d">f</link>*<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.z);
+<anchor xml:id="_vector3_8inl_source_1l00255"/>00255 }
+<anchor xml:id="_vector3_8inl_source_1l00256"/>00256 <emphasis role="comment">//&#32;------------------------------------------------------------------------------------------------</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00257"/>00257 <emphasis role="comment">//&#32;scalar&#32;division</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00258"/>00258 <emphasis role="keyword">template</emphasis>&#32;&lt;<emphasis role="keyword">typename</emphasis>&#32;TReal&gt;
+<anchor xml:id="_vector3_8inl_source_1l00259"/>00259 <link linkend="_defs_8h_1a61d239a320b58eca56bacc46fc2c79b8">AI_FORCE_INLINE</link>&#32;aiVector3t&lt;TReal&gt;&#32;<link linkend="_directxtk12__desktop__2019_82024_86_85_81_2include_2_simple_math_8inl_1a11556038334a5d0d4e67c9f0625a22ff">operator / </link>(&#32;<emphasis role="keyword">const</emphasis>&#32;aiVector3t&lt;TReal&gt;&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>,&#32;TReal&#32;<link linkend="_glad_8h_1ae29c29480f1260cc37ad71203904ea4d">f</link>)&#32;{
+<anchor xml:id="_vector3_8inl_source_1l00260"/>00260 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>&#32;*&#32;(1/<link linkend="_glad_8h_1ae29c29480f1260cc37ad71203904ea4d">f</link>);
+<anchor xml:id="_vector3_8inl_source_1l00261"/>00261 }
+<anchor xml:id="_vector3_8inl_source_1l00262"/>00262 <emphasis role="comment">//&#32;------------------------------------------------------------------------------------------------</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00263"/>00263 <emphasis role="comment">//&#32;vector&#32;division</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00264"/>00264 <emphasis role="keyword">template</emphasis>&#32;&lt;<emphasis role="keyword">typename</emphasis>&#32;TReal&gt;
+<anchor xml:id="_vector3_8inl_source_1l00265"/>00265 <link linkend="_defs_8h_1a61d239a320b58eca56bacc46fc2c79b8">AI_FORCE_INLINE</link>&#32;aiVector3t&lt;TReal&gt;&#32;<link linkend="_directxtk12__desktop__2019_82024_86_85_81_2include_2_simple_math_8inl_1a11556038334a5d0d4e67c9f0625a22ff">operator / </link>(&#32;<emphasis role="keyword">const</emphasis>&#32;aiVector3t&lt;TReal&gt;&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>,&#32;<emphasis role="keyword">const</emphasis>&#32;aiVector3t&lt;TReal&gt;&amp;&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>)&#32;{
+<anchor xml:id="_vector3_8inl_source_1l00266"/>00266 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;aiVector3t&lt;TReal&gt;(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x&#32;/&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>.x,<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y&#32;/&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>.y,<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.z&#32;/&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>.z);
+<anchor xml:id="_vector3_8inl_source_1l00267"/>00267 }
+<anchor xml:id="_vector3_8inl_source_1l00268"/>00268 <emphasis role="comment">//&#32;------------------------------------------------------------------------------------------------</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00269"/>00269 <emphasis role="comment">//&#32;cross&#32;product</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00270"/>00270 <emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;TReal&gt;
+<anchor xml:id="_vector3_8inl_source_1l00271"/>00271 <link linkend="_defs_8h_1a61d239a320b58eca56bacc46fc2c79b8">AI_FORCE_INLINE</link>&#32;aiVector3t&lt;TReal&gt;&#32;operator&#32;^&#32;(&#32;<emphasis role="keyword">const</emphasis>&#32;aiVector3t&lt;TReal&gt;&amp;&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>,&#32;<emphasis role="keyword">const</emphasis>&#32;aiVector3t&lt;TReal&gt;&amp;&#32;<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>)&#32;{
+<anchor xml:id="_vector3_8inl_source_1l00272"/>00272 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;aiVector3t&lt;TReal&gt;(&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>.y*<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>.z&#32;-&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>.z*<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>.y,&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>.z*<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>.x&#32;-&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>.x*<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>.z,&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>.x*<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>.y&#32;-&#32;<link linkend="_glad_8h_1a0779c3b73f9aa3a0ac5b0139b5d291d9">v1</link>.y*<link linkend="_glad_8h_1a9a09a1837922b2b806f4589096a52049">v2</link>.x);
+<anchor xml:id="_vector3_8inl_source_1l00273"/>00273 }
+<anchor xml:id="_vector3_8inl_source_1l00274"/>00274 <emphasis role="comment">//&#32;------------------------------------------------------------------------------------------------</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00275"/>00275 <emphasis role="comment">//&#32;vector&#32;negation</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00276"/>00276 <emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;TReal&gt;
+<anchor xml:id="_vector3_8inl_source_1l00277"/>00277 <link linkend="_defs_8h_1a61d239a320b58eca56bacc46fc2c79b8">AI_FORCE_INLINE</link>&#32;aiVector3t&lt;TReal&gt;&#32;<link linkend="_directxtk12__desktop__2019_82024_86_85_81_2include_2_simple_math_8inl_1a597126d284468478376731d2f6e908f5">operator - </link>(&#32;<emphasis role="keyword">const</emphasis>&#32;aiVector3t&lt;TReal&gt;&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)&#32;{
+<anchor xml:id="_vector3_8inl_source_1l00278"/>00278 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;aiVector3t&lt;TReal&gt;(&#32;-<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x,&#32;-<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y,&#32;-<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.z);
+<anchor xml:id="_vector3_8inl_source_1l00279"/>00279 }
+<anchor xml:id="_vector3_8inl_source_1l00280"/>00280 
+<anchor xml:id="_vector3_8inl_source_1l00281"/>00281 <emphasis role="comment">//&#32;------------------------------------------------------------------------------------------------</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00282"/>00282 
+<anchor xml:id="_vector3_8inl_source_1l00283"/>00283 <emphasis role="preprocessor">#endif&#32;</emphasis><emphasis role="comment">//&#32;__cplusplus</emphasis>
+<anchor xml:id="_vector3_8inl_source_1l00284"/>00284 <emphasis role="preprocessor">#endif&#32;</emphasis><emphasis role="comment">//&#32;AI_VECTOR3D_INL_INC</emphasis>
+</programlisting></section>

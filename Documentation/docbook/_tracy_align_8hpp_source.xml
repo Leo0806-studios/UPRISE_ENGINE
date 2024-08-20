@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="__tracy_align_8hpp_source" xml:lang="en-US">
+<title>TracyAlign.hpp</title>
+<indexterm><primary>adhed/common/TracyAlign.hpp</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 <emphasis role="preprocessor">#ifndef&#32;__TRACYALIGN_HPP__</emphasis>
+2 <emphasis role="preprocessor">#define&#32;__TRACYALIGN_HPP__</emphasis>
+3 
+4 <emphasis role="preprocessor">#include&#32;&lt;string.h&gt;</emphasis>
+5 
+6 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__tracy_force_inline_8hpp">TracyForceInline.hpp</link>&quot;</emphasis>
+7 
+8 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespacetracy">tracy</link>
+9 {
+10 
+11 <emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T&gt;
+12 <link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;<link linkend="_namespacetracy_1afc7d656f1cea61882c43f5dbbc2407c9">MemRead</link>(&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>*&#32;ptr&#32;)
+13 {
+14 &#32;&#32;&#32;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;<link linkend="_glad_8h_1aa857b95cc76669c2a9109239ef40a47c">val</link>;
+15 &#32;&#32;&#32;&#32;memcpy(&#32;&amp;<link linkend="_glad_8h_1aa857b95cc76669c2a9109239ef40a47c">val</link>,&#32;ptr,&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;)&#32;);
+16 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_glad_8h_1aa857b95cc76669c2a9109239ef40a47c">val</link>;
+17 }
+18 
+19 <emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T&gt;
+20 <link linkend="__tracy_force_inline_8hpp_1a334fe50ad9990d5c45576d28e23594ad">tracy_force_inline</link>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_namespacetracy_1a7c6be3da8bcee240cc15bc444120fa48">MemWrite</link>(&#32;<emphasis role="keywordtype">void</emphasis>*&#32;ptr,&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;<link linkend="_glad_8h_1aa857b95cc76669c2a9109239ef40a47c">val</link>&#32;)
+21 {
+22 &#32;&#32;&#32;&#32;memcpy(&#32;ptr,&#32;&amp;<link linkend="_glad_8h_1aa857b95cc76669c2a9109239ef40a47c">val</link>,&#32;<emphasis role="keyword">sizeof</emphasis>(&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;)&#32;);
+23 }
+24 
+25 }
+26 
+27 <emphasis role="preprocessor">#endif</emphasis>
+</programlisting></section>

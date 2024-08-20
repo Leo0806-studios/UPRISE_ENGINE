@@ -1,0 +1,581 @@
+.TH "adhed/d3d12shader.h" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+adhed/d3d12shader.h
+.SH SYNOPSIS
+.br
+.PP
+\fR#include 'd3dcommon\&.h'\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fB_D3D12_SIGNATURE_PARAMETER_DESC\fP"
+.br
+.ti -1c
+.RI "struct \fB_D3D12_SHADER_BUFFER_DESC\fP"
+.br
+.ti -1c
+.RI "struct \fB_D3D12_SHADER_VARIABLE_DESC\fP"
+.br
+.ti -1c
+.RI "struct \fB_D3D12_SHADER_TYPE_DESC\fP"
+.br
+.ti -1c
+.RI "struct \fB_D3D12_SHADER_DESC\fP"
+.br
+.ti -1c
+.RI "struct \fB_D3D12_SHADER_INPUT_BIND_DESC\fP"
+.br
+.ti -1c
+.RI "struct \fB_D3D12_LIBRARY_DESC\fP"
+.br
+.ti -1c
+.RI "struct \fB_D3D12_FUNCTION_DESC\fP"
+.br
+.ti -1c
+.RI "struct \fB_D3D12_PARAMETER_DESC\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBD3D12_SHVER_GET_TYPE\fP(_Version)       (((_Version) >> 16) & 0xffff)"
+.br
+.ti -1c
+.RI "#define \fBD3D12_SHVER_GET_MAJOR\fP(_Version)       (((_Version) >> 4) & 0xf)"
+.br
+.ti -1c
+.RI "#define \fBD3D12_SHVER_GET_MINOR\fP(_Version)       (((_Version) >> 0) & 0xf)"
+.br
+.ti -1c
+.RI "#define \fBD3D_RETURN_PARAMETER_INDEX\fP   (\-1)"
+.br
+.ti -1c
+.RI "#define \fBD3D_SHADER_REQUIRES_DOUBLES\fP   0x00000001"
+.br
+.ti -1c
+.RI "#define \fBD3D_SHADER_REQUIRES_EARLY_DEPTH_STENCIL\fP   0x00000002"
+.br
+.ti -1c
+.RI "#define \fBD3D_SHADER_REQUIRES_UAVS_AT_EVERY_STAGE\fP   0x00000004"
+.br
+.ti -1c
+.RI "#define \fBD3D_SHADER_REQUIRES_64_UAVS\fP   0x00000008"
+.br
+.ti -1c
+.RI "#define \fBD3D_SHADER_REQUIRES_MINIMUM_PRECISION\fP   0x00000010"
+.br
+.ti -1c
+.RI "#define \fBD3D_SHADER_REQUIRES_11_1_DOUBLE_EXTENSIONS\fP   0x00000020"
+.br
+.ti -1c
+.RI "#define \fBD3D_SHADER_REQUIRES_11_1_SHADER_EXTENSIONS\fP   0x00000040"
+.br
+.ti -1c
+.RI "#define \fBD3D_SHADER_REQUIRES_LEVEL_9_COMPARISON_FILTERING\fP   0x00000080"
+.br
+.ti -1c
+.RI "#define \fBD3D_SHADER_REQUIRES_TILED_RESOURCES\fP   0x00000100"
+.br
+.ti -1c
+.RI "#define \fBD3D_SHADER_REQUIRES_STENCIL_REF\fP   0x00000200"
+.br
+.ti -1c
+.RI "#define \fBD3D_SHADER_REQUIRES_INNER_COVERAGE\fP   0x00000400"
+.br
+.ti -1c
+.RI "#define \fBD3D_SHADER_REQUIRES_TYPED_UAV_LOAD_ADDITIONAL_FORMATS\fP   0x00000800"
+.br
+.ti -1c
+.RI "#define \fBD3D_SHADER_REQUIRES_ROVS\fP   0x00001000"
+.br
+.ti -1c
+.RI "#define \fBD3D_SHADER_REQUIRES_VIEWPORT_AND_RT_ARRAY_INDEX_FROM_ANY_SHADER_FEEDING_RASTERIZER\fP   0x00002000"
+.br
+.ti -1c
+.RI "#define \fBD3D_SHADER_REQUIRES_WAVE_OPS\fP   0x00004000"
+.br
+.ti -1c
+.RI "#define \fBD3D_SHADER_REQUIRES_INT64_OPS\fP   0x00008000"
+.br
+.ti -1c
+.RI "#define \fBD3D_SHADER_REQUIRES_VIEW_ID\fP   0x00010000"
+.br
+.ti -1c
+.RI "#define \fBD3D_SHADER_REQUIRES_BARYCENTRICS\fP   0x00020000"
+.br
+.ti -1c
+.RI "#define \fBD3D_SHADER_REQUIRES_NATIVE_16BIT_OPS\fP   0x00040000"
+.br
+.ti -1c
+.RI "#define \fBD3D_SHADER_REQUIRES_SHADING_RATE\fP   0x00080000"
+.br
+.ti -1c
+.RI "#define \fBD3D_SHADER_REQUIRES_RAYTRACING_TIER_1_1\fP   0x00100000"
+.br
+.ti -1c
+.RI "#define \fBD3D_SHADER_REQUIRES_SAMPLER_FEEDBACK\fP   0x00200000"
+.br
+.ti -1c
+.RI "#define \fBD3D_SHADER_REQUIRES_ATOMIC_INT64_ON_TYPED_RESOURCE\fP   0x00400000"
+.br
+.ti -1c
+.RI "#define \fBD3D_SHADER_REQUIRES_ATOMIC_INT64_ON_GROUP_SHARED\fP   0x00800000"
+.br
+.ti -1c
+.RI "#define \fBD3D_SHADER_REQUIRES_DERIVATIVES_IN_MESH_AND_AMPLIFICATION_SHADERS\fP   0x01000000"
+.br
+.ti -1c
+.RI "#define \fBD3D_SHADER_REQUIRES_RESOURCE_DESCRIPTOR_HEAP_INDEXING\fP   0x02000000"
+.br
+.ti -1c
+.RI "#define \fBD3D_SHADER_REQUIRES_SAMPLER_DESCRIPTOR_HEAP_INDEXING\fP   0x04000000"
+.br
+.ti -1c
+.RI "#define \fBD3D_SHADER_REQUIRES_WAVE_MMA\fP   0x08000000"
+.br
+.ti -1c
+.RI "#define \fBD3D_SHADER_REQUIRES_ATOMIC_INT64_ON_DESCRIPTOR_HEAP_RESOURCE\fP   0x10000000"
+.br
+.ti -1c
+.RI "#define \fBD3D_SHADER_REQUIRES_ADVANCED_TEXTURE_OPS\fP   0x20000000"
+.br
+.ti -1c
+.RI "#define \fBD3D_SHADER_REQUIRES_WRITEABLE_MSAA_TEXTURES\fP   0x40000000"
+.br
+.ti -1c
+.RI "#define \fBD3D_SHADER_REQUIRES_SAMPLE_CMP_GRADIENT_OR_BIAS\fP   0x80000000"
+.br
+.ti -1c
+.RI "#define \fBD3D_SHADER_REQUIRES_EXTENDED_COMMAND_INFO\fP   0x100000000ull"
+.br
+.ti -1c
+.RI "#define \fBINTERFACE\fP   \fBID3D12ShaderReflectionType\fP"
+.br
+.ti -1c
+.RI "#define \fBINTERFACE\fP   \fBID3D12ShaderReflectionVariable\fP"
+.br
+.ti -1c
+.RI "#define \fBINTERFACE\fP   \fBID3D12ShaderReflectionConstantBuffer\fP"
+.br
+.ti -1c
+.RI "#define \fBINTERFACE\fP   \fBID3D12ShaderReflection\fP"
+.br
+.ti -1c
+.RI "#define \fBINTERFACE\fP   \fBID3D12LibraryReflection\fP"
+.br
+.ti -1c
+.RI "#define \fBINTERFACE\fP   \fBID3D12FunctionReflection\fP"
+.br
+.ti -1c
+.RI "#define \fBINTERFACE\fP   \fBID3D12FunctionParameterReflection\fP"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef \fBenum\fP \fBD3D12_SHADER_VERSION_TYPE\fP \fBD3D12_SHADER_VERSION_TYPE\fP"
+.br
+.ti -1c
+.RI "typedef \fBD3D_RESOURCE_RETURN_TYPE\fP \fBD3D12_RESOURCE_RETURN_TYPE\fP"
+.br
+.ti -1c
+.RI "typedef \fBD3D_CBUFFER_TYPE\fP \fBD3D12_CBUFFER_TYPE\fP"
+.br
+.ti -1c
+.RI "typedef \fBstruct\fP \fB_D3D12_SIGNATURE_PARAMETER_DESC\fP \fBD3D12_SIGNATURE_PARAMETER_DESC\fP"
+.br
+.ti -1c
+.RI "typedef \fBstruct\fP \fB_D3D12_SHADER_BUFFER_DESC\fP \fBD3D12_SHADER_BUFFER_DESC\fP"
+.br
+.ti -1c
+.RI "typedef \fBstruct\fP \fB_D3D12_SHADER_VARIABLE_DESC\fP \fBD3D12_SHADER_VARIABLE_DESC\fP"
+.br
+.ti -1c
+.RI "typedef \fBstruct\fP \fB_D3D12_SHADER_TYPE_DESC\fP \fBD3D12_SHADER_TYPE_DESC\fP"
+.br
+.ti -1c
+.RI "typedef \fBD3D_TESSELLATOR_DOMAIN\fP \fBD3D12_TESSELLATOR_DOMAIN\fP"
+.br
+.ti -1c
+.RI "typedef \fBD3D_TESSELLATOR_PARTITIONING\fP \fBD3D12_TESSELLATOR_PARTITIONING\fP"
+.br
+.ti -1c
+.RI "typedef \fBD3D_TESSELLATOR_OUTPUT_PRIMITIVE\fP \fBD3D12_TESSELLATOR_OUTPUT_PRIMITIVE\fP"
+.br
+.ti -1c
+.RI "typedef \fBstruct\fP \fB_D3D12_SHADER_DESC\fP \fBD3D12_SHADER_DESC\fP"
+.br
+.ti -1c
+.RI "typedef \fBstruct\fP \fB_D3D12_SHADER_INPUT_BIND_DESC\fP \fBD3D12_SHADER_INPUT_BIND_DESC\fP"
+.br
+.ti -1c
+.RI "typedef \fBstruct\fP \fB_D3D12_LIBRARY_DESC\fP \fBD3D12_LIBRARY_DESC\fP"
+.br
+.ti -1c
+.RI "typedef \fBstruct\fP \fB_D3D12_FUNCTION_DESC\fP \fBD3D12_FUNCTION_DESC\fP"
+.br
+.ti -1c
+.RI "typedef \fBstruct\fP \fB_D3D12_PARAMETER_DESC\fP \fBD3D12_PARAMETER_DESC\fP"
+.br
+.ti -1c
+.RI "typedef interface \fBID3D12ShaderReflectionType\fP \fBID3D12ShaderReflectionType\fP"
+.br
+.ti -1c
+.RI "typedef interface \fBID3D12ShaderReflectionType\fP * \fBLPD3D12SHADERREFLECTIONTYPE\fP"
+.br
+.ti -1c
+.RI "typedef interface \fBID3D12ShaderReflectionVariable\fP \fBID3D12ShaderReflectionVariable\fP"
+.br
+.ti -1c
+.RI "typedef interface \fBID3D12ShaderReflectionVariable\fP * \fBLPD3D12SHADERREFLECTIONVARIABLE\fP"
+.br
+.ti -1c
+.RI "typedef interface \fBID3D12ShaderReflectionConstantBuffer\fP \fBID3D12ShaderReflectionConstantBuffer\fP"
+.br
+.ti -1c
+.RI "typedef interface \fBID3D12ShaderReflectionConstantBuffer\fP * \fBLPD3D12SHADERREFLECTIONCONSTANTBUFFER\fP"
+.br
+.ti -1c
+.RI "typedef interface \fBID3D12ShaderReflection\fP \fBID3D12ShaderReflection\fP"
+.br
+.ti -1c
+.RI "typedef interface \fBID3D12ShaderReflection\fP * \fBLPD3D12SHADERREFLECTION\fP"
+.br
+.ti -1c
+.RI "typedef interface \fBID3D12LibraryReflection\fP \fBID3D12LibraryReflection\fP"
+.br
+.ti -1c
+.RI "typedef interface \fBID3D12LibraryReflection\fP * \fBLPD3D12LIBRARYREFLECTION\fP"
+.br
+.ti -1c
+.RI "typedef interface \fBID3D12FunctionReflection\fP \fBID3D12FunctionReflection\fP"
+.br
+.ti -1c
+.RI "typedef interface \fBID3D12FunctionReflection\fP * \fBLPD3D12FUNCTIONREFLECTION\fP"
+.br
+.ti -1c
+.RI "typedef interface \fBID3D12FunctionParameterReflection\fP \fBID3D12FunctionParameterReflection\fP"
+.br
+.ti -1c
+.RI "typedef interface \fBID3D12FunctionParameterReflection\fP * \fBLPD3D12FUNCTIONPARAMETERREFLECTION\fP"
+.br
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBD3D12_SHADER_VERSION_TYPE\fP { \fBD3D12_SHVER_PIXEL_SHADER\fP = 0, \fBD3D12_SHVER_VERTEX_SHADER\fP = 1, \fBD3D12_SHVER_GEOMETRY_SHADER\fP = 2, \fBD3D12_SHVER_HULL_SHADER\fP = 3, \fBD3D12_SHVER_DOMAIN_SHADER\fP = 4, \fBD3D12_SHVER_COMPUTE_SHADER\fP = 5, \fBD3D12_SHVER_LIBRARY\fP = 6, \fBD3D12_SHVER_RAY_GENERATION_SHADER\fP = 7, \fBD3D12_SHVER_INTERSECTION_SHADER\fP = 8, \fBD3D12_SHVER_ANY_HIT_SHADER\fP = 9, \fBD3D12_SHVER_CLOSEST_HIT_SHADER\fP = 10, \fBD3D12_SHVER_MISS_SHADER\fP = 11, \fBD3D12_SHVER_CALLABLE_SHADER\fP = 12, \fBD3D12_SHVER_MESH_SHADER\fP = 13, \fBD3D12_SHVER_AMPLIFICATION_SHADER\fP = 14, \fBD3D12_SHVER_NODE_SHADER\fP = 15, \fBD3D12_SHVER_RESERVED0\fP = 0xFFF0 }"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "interface \fBDECLSPEC_UUID\fP ('E913C351\-783\fBD\fP\-48CA\-A1D1\-4F306284AD56') \fBID3D12ShaderReflectionType\fP"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12ShaderReflectionType, 0xe913c351, 0x783d, 0x48ca, 0xa1, 0xd1, 0x4f, 0x30, 0x62, 0x84, 0xad, 0x56)"
+.br
+.ti -1c
+.RI "\fBDECLARE_INTERFACE\fP (\fBID3D12ShaderReflectionType\fP)"
+.br
+.ti -1c
+.RI "interface \fBDECLSPEC_UUID\fP ('8337A8A6\-A216\-444\fBA\fP\-B2F4\-314733A73AEA') \fBID3D12ShaderReflectionVariable\fP"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12ShaderReflectionVariable, 0x8337a8a6, 0xa216, 0x444a, 0xb2, 0xf4, 0x31, 0x47, 0x33, 0xa7, 0x3a, 0xea)"
+.br
+.ti -1c
+.RI "\fBDECLARE_INTERFACE\fP (\fBID3D12ShaderReflectionVariable\fP)"
+.br
+.ti -1c
+.RI "interface \fBDECLSPEC_UUID\fP ('C59598B4\-48B3\-4869\-B9B1\-B1618B14A8B7') \fBID3D12ShaderReflectionConstantBuffer\fP"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12ShaderReflectionConstantBuffer, 0xc59598b4, 0x48b3, 0x4869, 0xb9, 0xb1, 0xb1, 0x61, 0x8b, 0x14, 0xa8, 0xb7)"
+.br
+.ti -1c
+.RI "\fBDECLARE_INTERFACE\fP (\fBID3D12ShaderReflectionConstantBuffer\fP)"
+.br
+.ti -1c
+.RI "interface \fBDECLSPEC_UUID\fP ('5A58797D\-A72C\-478\fBD\fP\-8BA2\-EFC6B0EFE88E') \fBID3D12ShaderReflection\fP"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12ShaderReflection, 0x5a58797d, 0xa72c, 0x478d, 0x8b, 0xa2, 0xef, 0xc6, 0xb0, 0xef, 0xe8, 0x8e)"
+.br
+.ti -1c
+.RI "\fBDECLARE_INTERFACE_\fP (\fBID3D12ShaderReflection\fP, IUnknown)"
+.br
+.ti -1c
+.RI "interface \fBDECLSPEC_UUID\fP ('8E349D19\-54DB\-4A56\-9DC9\-119D87BDB804') \fBID3D12LibraryReflection\fP"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12LibraryReflection, 0x8e349d19, 0x54db, 0x4a56, 0x9d, 0xc9, 0x11, 0x9d, 0x87, 0xbd, 0xb8, 0x4)"
+.br
+.ti -1c
+.RI "\fBDECLARE_INTERFACE_\fP (\fBID3D12LibraryReflection\fP, IUnknown)"
+.br
+.ti -1c
+.RI "interface \fBDECLSPEC_UUID\fP ('1108795C\-2772\-4BA9\-B2A8\-D464DC7E2799') \fBID3D12FunctionReflection\fP"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12FunctionReflection, 0x1108795c, 0x2772, 0x4ba9, 0xb2, 0xa8, 0xd4, 0x64, 0xdc, 0x7e, 0x27, 0x99)"
+.br
+.ti -1c
+.RI "\fBDECLARE_INTERFACE\fP (\fBID3D12FunctionReflection\fP)"
+.br
+.ti -1c
+.RI "interface \fBDECLSPEC_UUID\fP ('EC25F42D\-7006\-4F2B\-B33E\-02CC3375733F') \fBID3D12FunctionParameterReflection\fP"
+.br
+.ti -1c
+.RI "\fBDEFINE_GUID\fP (IID_ID3D12FunctionParameterReflection, 0xec25f42d, 0x7006, 0x4f2b, 0xb3, 0x3e, 0x2, 0xcc, 0x33, 0x75, 0x73, 0x3f)"
+.br
+.ti -1c
+.RI "\fBDECLARE_INTERFACE\fP (\fBID3D12FunctionParameterReflection\fP)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define D3D12_SHVER_GET_MAJOR( _Version)       (((_Version) >> 4) & 0xf)"
+
+.SS "#define D3D12_SHVER_GET_MINOR( _Version)       (((_Version) >> 0) & 0xf)"
+
+.SS "#define D3D12_SHVER_GET_TYPE( _Version)       (((_Version) >> 16) & 0xffff)"
+
+.SS "#define D3D_RETURN_PARAMETER_INDEX   (\-1)"
+
+.SS "#define D3D_SHADER_REQUIRES_11_1_DOUBLE_EXTENSIONS   0x00000020"
+
+.SS "#define D3D_SHADER_REQUIRES_11_1_SHADER_EXTENSIONS   0x00000040"
+
+.SS "#define D3D_SHADER_REQUIRES_64_UAVS   0x00000008"
+
+.SS "#define D3D_SHADER_REQUIRES_ADVANCED_TEXTURE_OPS   0x20000000"
+
+.SS "#define D3D_SHADER_REQUIRES_ATOMIC_INT64_ON_DESCRIPTOR_HEAP_RESOURCE   0x10000000"
+
+.SS "#define D3D_SHADER_REQUIRES_ATOMIC_INT64_ON_GROUP_SHARED   0x00800000"
+
+.SS "#define D3D_SHADER_REQUIRES_ATOMIC_INT64_ON_TYPED_RESOURCE   0x00400000"
+
+.SS "#define D3D_SHADER_REQUIRES_BARYCENTRICS   0x00020000"
+
+.SS "#define D3D_SHADER_REQUIRES_DERIVATIVES_IN_MESH_AND_AMPLIFICATION_SHADERS   0x01000000"
+
+.SS "#define D3D_SHADER_REQUIRES_DOUBLES   0x00000001"
+
+.SS "#define D3D_SHADER_REQUIRES_EARLY_DEPTH_STENCIL   0x00000002"
+
+.SS "#define D3D_SHADER_REQUIRES_EXTENDED_COMMAND_INFO   0x100000000ull"
+
+.SS "#define D3D_SHADER_REQUIRES_INNER_COVERAGE   0x00000400"
+
+.SS "#define D3D_SHADER_REQUIRES_INT64_OPS   0x00008000"
+
+.SS "#define D3D_SHADER_REQUIRES_LEVEL_9_COMPARISON_FILTERING   0x00000080"
+
+.SS "#define D3D_SHADER_REQUIRES_MINIMUM_PRECISION   0x00000010"
+
+.SS "#define D3D_SHADER_REQUIRES_NATIVE_16BIT_OPS   0x00040000"
+
+.SS "#define D3D_SHADER_REQUIRES_RAYTRACING_TIER_1_1   0x00100000"
+
+.SS "#define D3D_SHADER_REQUIRES_RESOURCE_DESCRIPTOR_HEAP_INDEXING   0x02000000"
+
+.SS "#define D3D_SHADER_REQUIRES_ROVS   0x00001000"
+
+.SS "#define D3D_SHADER_REQUIRES_SAMPLE_CMP_GRADIENT_OR_BIAS   0x80000000"
+
+.SS "#define D3D_SHADER_REQUIRES_SAMPLER_DESCRIPTOR_HEAP_INDEXING   0x04000000"
+
+.SS "#define D3D_SHADER_REQUIRES_SAMPLER_FEEDBACK   0x00200000"
+
+.SS "#define D3D_SHADER_REQUIRES_SHADING_RATE   0x00080000"
+
+.SS "#define D3D_SHADER_REQUIRES_STENCIL_REF   0x00000200"
+
+.SS "#define D3D_SHADER_REQUIRES_TILED_RESOURCES   0x00000100"
+
+.SS "#define D3D_SHADER_REQUIRES_TYPED_UAV_LOAD_ADDITIONAL_FORMATS   0x00000800"
+
+.SS "#define D3D_SHADER_REQUIRES_UAVS_AT_EVERY_STAGE   0x00000004"
+
+.SS "#define D3D_SHADER_REQUIRES_VIEW_ID   0x00010000"
+
+.SS "#define D3D_SHADER_REQUIRES_VIEWPORT_AND_RT_ARRAY_INDEX_FROM_ANY_SHADER_FEEDING_RASTERIZER   0x00002000"
+
+.SS "#define D3D_SHADER_REQUIRES_WAVE_MMA   0x08000000"
+
+.SS "#define D3D_SHADER_REQUIRES_WAVE_OPS   0x00004000"
+
+.SS "#define D3D_SHADER_REQUIRES_WRITEABLE_MSAA_TEXTURES   0x40000000"
+
+.SS "#define INTERFACE   \fBID3D12ShaderReflectionType\fP"
+
+.SS "#define INTERFACE   \fBID3D12ShaderReflectionVariable\fP"
+
+.SS "#define INTERFACE   \fBID3D12ShaderReflectionConstantBuffer\fP"
+
+.SS "#define INTERFACE   \fBID3D12ShaderReflection\fP"
+
+.SS "#define INTERFACE   \fBID3D12LibraryReflection\fP"
+
+.SS "#define INTERFACE   \fBID3D12FunctionReflection\fP"
+
+.SS "#define INTERFACE   \fBID3D12FunctionParameterReflection\fP"
+
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef \fBD3D_CBUFFER_TYPE\fP \fBD3D12_CBUFFER_TYPE\fP"
+
+.SS "typedef \fBstruct\fP \fB_D3D12_FUNCTION_DESC\fP \fBD3D12_FUNCTION_DESC\fP"
+
+.SS "typedef \fBstruct\fP \fB_D3D12_LIBRARY_DESC\fP \fBD3D12_LIBRARY_DESC\fP"
+
+.SS "typedef \fBstruct\fP \fB_D3D12_PARAMETER_DESC\fP \fBD3D12_PARAMETER_DESC\fP"
+
+.SS "typedef \fBD3D_RESOURCE_RETURN_TYPE\fP \fBD3D12_RESOURCE_RETURN_TYPE\fP"
+
+.SS "typedef \fBstruct\fP \fB_D3D12_SHADER_BUFFER_DESC\fP \fBD3D12_SHADER_BUFFER_DESC\fP"
+
+.SS "typedef \fBstruct\fP \fB_D3D12_SHADER_DESC\fP \fBD3D12_SHADER_DESC\fP"
+
+.SS "typedef \fBstruct\fP \fB_D3D12_SHADER_INPUT_BIND_DESC\fP \fBD3D12_SHADER_INPUT_BIND_DESC\fP"
+
+.SS "typedef \fBstruct\fP \fB_D3D12_SHADER_TYPE_DESC\fP \fBD3D12_SHADER_TYPE_DESC\fP"
+
+.SS "typedef \fBstruct\fP \fB_D3D12_SHADER_VARIABLE_DESC\fP \fBD3D12_SHADER_VARIABLE_DESC\fP"
+
+.SS "typedef \fBenum\fP \fBD3D12_SHADER_VERSION_TYPE\fP \fBD3D12_SHADER_VERSION_TYPE\fP"
+
+.SS "typedef \fBstruct\fP \fB_D3D12_SIGNATURE_PARAMETER_DESC\fP \fBD3D12_SIGNATURE_PARAMETER_DESC\fP"
+
+.SS "typedef \fBD3D_TESSELLATOR_DOMAIN\fP \fBD3D12_TESSELLATOR_DOMAIN\fP"
+
+.SS "typedef \fBD3D_TESSELLATOR_OUTPUT_PRIMITIVE\fP \fBD3D12_TESSELLATOR_OUTPUT_PRIMITIVE\fP"
+
+.SS "typedef \fBD3D_TESSELLATOR_PARTITIONING\fP \fBD3D12_TESSELLATOR_PARTITIONING\fP"
+
+.SS "typedef interface \fBID3D12FunctionParameterReflection\fP \fBID3D12FunctionParameterReflection\fP"
+
+.SS "typedef interface \fBID3D12FunctionReflection\fP \fBID3D12FunctionReflection\fP"
+
+.SS "typedef interface \fBID3D12LibraryReflection\fP \fBID3D12LibraryReflection\fP"
+
+.SS "typedef interface \fBID3D12ShaderReflection\fP \fBID3D12ShaderReflection\fP"
+
+.SS "typedef interface \fBID3D12ShaderReflectionConstantBuffer\fP \fBID3D12ShaderReflectionConstantBuffer\fP"
+
+.SS "typedef interface \fBID3D12ShaderReflectionType\fP \fBID3D12ShaderReflectionType\fP"
+
+.SS "typedef interface \fBID3D12ShaderReflectionVariable\fP \fBID3D12ShaderReflectionVariable\fP"
+
+.SS "typedef interface \fBID3D12FunctionParameterReflection\fP* \fBLPD3D12FUNCTIONPARAMETERREFLECTION\fP"
+
+.SS "typedef interface \fBID3D12FunctionReflection\fP* \fBLPD3D12FUNCTIONREFLECTION\fP"
+
+.SS "typedef interface \fBID3D12LibraryReflection\fP* \fBLPD3D12LIBRARYREFLECTION\fP"
+
+.SS "typedef interface \fBID3D12ShaderReflection\fP* \fBLPD3D12SHADERREFLECTION\fP"
+
+.SS "typedef interface \fBID3D12ShaderReflectionConstantBuffer\fP* \fBLPD3D12SHADERREFLECTIONCONSTANTBUFFER\fP"
+
+.SS "typedef interface \fBID3D12ShaderReflectionType\fP* \fBLPD3D12SHADERREFLECTIONTYPE\fP"
+
+.SS "typedef interface \fBID3D12ShaderReflectionVariable\fP* \fBLPD3D12SHADERREFLECTIONVARIABLE\fP"
+
+.SH "Enumeration Type Documentation"
+.PP 
+.SS "\fBenum\fP \fBD3D12_SHADER_VERSION_TYPE\fP"
+
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fID3D12_SHVER_PIXEL_SHADER \fP\fP
+.TP
+\fB\fID3D12_SHVER_VERTEX_SHADER \fP\fP
+.TP
+\fB\fID3D12_SHVER_GEOMETRY_SHADER \fP\fP
+.TP
+\fB\fID3D12_SHVER_HULL_SHADER \fP\fP
+.TP
+\fB\fID3D12_SHVER_DOMAIN_SHADER \fP\fP
+.TP
+\fB\fID3D12_SHVER_COMPUTE_SHADER \fP\fP
+.TP
+\fB\fID3D12_SHVER_LIBRARY \fP\fP
+.TP
+\fB\fID3D12_SHVER_RAY_GENERATION_SHADER \fP\fP
+.TP
+\fB\fID3D12_SHVER_INTERSECTION_SHADER \fP\fP
+.TP
+\fB\fID3D12_SHVER_ANY_HIT_SHADER \fP\fP
+.TP
+\fB\fID3D12_SHVER_CLOSEST_HIT_SHADER \fP\fP
+.TP
+\fB\fID3D12_SHVER_MISS_SHADER \fP\fP
+.TP
+\fB\fID3D12_SHVER_CALLABLE_SHADER \fP\fP
+.TP
+\fB\fID3D12_SHVER_MESH_SHADER \fP\fP
+.TP
+\fB\fID3D12_SHVER_AMPLIFICATION_SHADER \fP\fP
+.TP
+\fB\fID3D12_SHVER_NODE_SHADER \fP\fP
+.TP
+\fB\fID3D12_SHVER_RESERVED0 \fP\fP
+.SH "Function Documentation"
+.PP 
+.SS "DECLARE_INTERFACE (\fBID3D12FunctionParameterReflection\fP )"
+
+.SS "DECLARE_INTERFACE (\fBID3D12FunctionReflection\fP )"
+
+.SS "DECLARE_INTERFACE (\fBID3D12ShaderReflectionConstantBuffer\fP )"
+
+.SS "DECLARE_INTERFACE (\fBID3D12ShaderReflectionType\fP )"
+
+.SS "DECLARE_INTERFACE (\fBID3D12ShaderReflectionVariable\fP )"
+
+.SS "DECLARE_INTERFACE_ (\fBID3D12LibraryReflection\fP , IUnknown )"
+
+.SS "DECLARE_INTERFACE_ (\fBID3D12ShaderReflection\fP , IUnknown )"
+
+.SS "interface DECLSPEC_UUID ('1108795C\-2772\-4BA9\-B2A8\-D464DC7E2799' )"
+
+.SS "interface DECLSPEC_UUID ('5A58797D\-A72C\-478\fBD\fP\-8BA2\-EFC6B0EFE88E' )"
+
+.SS "interface DECLSPEC_UUID ('8337A8A6\-A216\-444\fBA\fP\-B2F4\-314733A73AEA' )"
+
+.SS "interface DECLSPEC_UUID ('8E349D19\-54DB\-4A56\-9DC9\-119D87BDB804' )"
+
+.SS "interface DECLSPEC_UUID ('C59598B4\-48B3\-4869\-B9B1\-B1618B14A8B7' )"
+
+.SS "interface DECLSPEC_UUID ('E913C351\-783\fBD\fP\-48CA\-A1D1\-4F306284AD56' )"
+
+.SS "interface DECLSPEC_UUID ('EC25F42D\-7006\-4F2B\-B33E\-02CC3375733F' )"
+
+.SS "DEFINE_GUID (IID_ID3D12FunctionParameterReflection , 0xec25f42d , 0x7006 , 0x4f2b , 0xb3 , 0x3e , 0x2 , 0xcc , 0x33 , 0x75 , 0x73 , 0x3f )"
+
+.SS "DEFINE_GUID (IID_ID3D12FunctionReflection , 0x1108795c , 0x2772 , 0x4ba9 , 0xb2 , 0xa8 , 0xd4 , 0x64 , 0xdc , 0x7e , 0x27 , 0x99 )"
+
+.SS "DEFINE_GUID (IID_ID3D12LibraryReflection , 0x8e349d19 , 0x54db , 0x4a56 , 0x9d , 0xc9 , 0x11 , 0x9d , 0x87 , 0xbd , 0xb8 , 0x4 )"
+
+.SS "DEFINE_GUID (IID_ID3D12ShaderReflection , 0x5a58797d , 0xa72c , 0x478d , 0x8b , 0xa2 , 0xef , 0xc6 , 0xb0 , 0xef , 0xe8 , 0x8e )"
+
+.SS "DEFINE_GUID (IID_ID3D12ShaderReflectionConstantBuffer , 0xc59598b4 , 0x48b3 , 0x4869 , 0xb9 , 0xb1 , 0xb1 , 0x61 , 0x8b , 0x14 , 0xa8 , 0xb7 )"
+
+.SS "DEFINE_GUID (IID_ID3D12ShaderReflectionType , 0xe913c351 , 0x783d , 0x48ca , 0xa1 , 0xd1 , 0x4f , 0x30 , 0x62 , 0x84 , 0xad , 0x56 )"
+
+.SS "DEFINE_GUID (IID_ID3D12ShaderReflectionVariable , 0x8337a8a6 , 0xa216 , 0x444a , 0xb2 , 0xf4 , 0x31 , 0x47 , 0x33 , 0xa7 , 0x3a , 0xea )"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

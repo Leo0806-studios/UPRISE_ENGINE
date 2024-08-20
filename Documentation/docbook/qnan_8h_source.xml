@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_qnan_8h_source" xml:lang="en-US">
+<title>qnan.h</title>
+<indexterm><primary>adhed/assimp/qnan.h</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 <emphasis role="comment">/*</emphasis>
+2 <emphasis role="comment">---------------------------------------------------------------------------</emphasis>
+3 <emphasis role="comment">Open&#32;Asset&#32;Import&#32;Library&#32;(assimp)</emphasis>
+4 <emphasis role="comment">---------------------------------------------------------------------------</emphasis>
+5 <emphasis role="comment"></emphasis>
+6 <emphasis role="comment">Copyright&#32;(c)&#32;2006-2022,&#32;assimp&#32;team</emphasis>
+7 <emphasis role="comment"></emphasis>
+8 <emphasis role="comment"></emphasis>
+9 <emphasis role="comment"></emphasis>
+10 <emphasis role="comment">All&#32;rights&#32;reserved.</emphasis>
+11 <emphasis role="comment"></emphasis>
+12 <emphasis role="comment">Redistribution&#32;and&#32;use&#32;of&#32;this&#32;software&#32;in&#32;source&#32;and&#32;binary&#32;forms,</emphasis>
+13 <emphasis role="comment">with&#32;or&#32;without&#32;modification,&#32;are&#32;permitted&#32;provided&#32;that&#32;the&#32;following</emphasis>
+14 <emphasis role="comment">conditions&#32;are&#32;met:</emphasis>
+15 <emphasis role="comment"></emphasis>
+16 <emphasis role="comment">*&#32;Redistributions&#32;of&#32;source&#32;code&#32;must&#32;retain&#32;the&#32;above</emphasis>
+17 <emphasis role="comment">&#32;&#32;copyright&#32;notice,&#32;this&#32;list&#32;of&#32;conditions&#32;and&#32;the</emphasis>
+18 <emphasis role="comment">&#32;&#32;following&#32;disclaimer.</emphasis>
+19 <emphasis role="comment"></emphasis>
+20 <emphasis role="comment">*&#32;Redistributions&#32;in&#32;binary&#32;form&#32;must&#32;reproduce&#32;the&#32;above</emphasis>
+21 <emphasis role="comment">&#32;&#32;copyright&#32;notice,&#32;this&#32;list&#32;of&#32;conditions&#32;and&#32;the</emphasis>
+22 <emphasis role="comment">&#32;&#32;following&#32;disclaimer&#32;in&#32;the&#32;documentation&#32;and/or&#32;other</emphasis>
+23 <emphasis role="comment">&#32;&#32;materials&#32;provided&#32;with&#32;the&#32;distribution.</emphasis>
+24 <emphasis role="comment"></emphasis>
+25 <emphasis role="comment">*&#32;Neither&#32;the&#32;name&#32;of&#32;the&#32;assimp&#32;team,&#32;nor&#32;the&#32;names&#32;of&#32;its</emphasis>
+26 <emphasis role="comment">&#32;&#32;contributors&#32;may&#32;be&#32;used&#32;to&#32;endorse&#32;or&#32;promote&#32;products</emphasis>
+27 <emphasis role="comment">&#32;&#32;derived&#32;from&#32;this&#32;software&#32;without&#32;specific&#32;prior</emphasis>
+28 <emphasis role="comment">&#32;&#32;written&#32;permission&#32;of&#32;the&#32;assimp&#32;team.</emphasis>
+29 <emphasis role="comment"></emphasis>
+30 <emphasis role="comment">THIS&#32;SOFTWARE&#32;IS&#32;PROVIDED&#32;BY&#32;THE&#32;COPYRIGHT&#32;HOLDERS&#32;AND&#32;CONTRIBUTORS</emphasis>
+31 <emphasis role="comment">&quot;AS&#32;IS&quot;&#32;AND&#32;ANY&#32;EXPRESS&#32;OR&#32;IMPLIED&#32;WARRANTIES,&#32;INCLUDING,&#32;BUT&#32;NOT</emphasis>
+32 <emphasis role="comment">LIMITED&#32;TO,&#32;THE&#32;IMPLIED&#32;WARRANTIES&#32;OF&#32;MERCHANTABILITY&#32;AND&#32;FITNESS&#32;FOR</emphasis>
+33 <emphasis role="comment">A&#32;PARTICULAR&#32;PURPOSE&#32;ARE&#32;DISCLAIMED.&#32;IN&#32;NO&#32;EVENT&#32;SHALL&#32;THE&#32;COPYRIGHT</emphasis>
+34 <emphasis role="comment">OWNER&#32;OR&#32;CONTRIBUTORS&#32;BE&#32;LIABLE&#32;FOR&#32;ANY&#32;DIRECT,&#32;INDIRECT,&#32;INCIDENTAL,</emphasis>
+35 <emphasis role="comment">SPECIAL,&#32;EXEMPLARY,&#32;OR&#32;CONSEQUENTIAL&#32;DAMAGES&#32;(INCLUDING,&#32;BUT&#32;NOT</emphasis>
+36 <emphasis role="comment">LIMITED&#32;TO,&#32;PROCUREMENT&#32;OF&#32;SUBSTITUTE&#32;GOODS&#32;OR&#32;SERVICES;&#32;LOSS&#32;OF&#32;USE,</emphasis>
+37 <emphasis role="comment">DATA,&#32;OR&#32;PROFITS;&#32;OR&#32;BUSINESS&#32;INTERRUPTION)&#32;HOWEVER&#32;CAUSED&#32;AND&#32;ON&#32;ANY</emphasis>
+38 <emphasis role="comment">THEORY&#32;OF&#32;LIABILITY,&#32;WHETHER&#32;IN&#32;CONTRACT,&#32;STRICT&#32;LIABILITY,&#32;OR&#32;TORT</emphasis>
+39 <emphasis role="comment">(INCLUDING&#32;NEGLIGENCE&#32;OR&#32;OTHERWISE)&#32;ARISING&#32;IN&#32;ANY&#32;WAY&#32;OUT&#32;OF&#32;THE&#32;USE</emphasis>
+40 <emphasis role="comment">OF&#32;THIS&#32;SOFTWARE,&#32;EVEN&#32;IF&#32;ADVISED&#32;OF&#32;THE&#32;POSSIBILITY&#32;OF&#32;SUCH&#32;DAMAGE.</emphasis>
+41 <emphasis role="comment">---------------------------------------------------------------------------</emphasis>
+42 <emphasis role="comment">*/</emphasis>
+43 
+53 <emphasis role="preprocessor">#pragma&#32;once</emphasis>
+54 <emphasis role="preprocessor">#ifndef&#32;AI_QNAN_H_INCLUDED</emphasis>
+55 <emphasis role="preprocessor">#define&#32;AI_QNAN_H_INCLUDED</emphasis>
+56 
+57 <emphasis role="preprocessor">#ifdef&#32;__GNUC__</emphasis>
+58 <emphasis role="preprocessor">#&#32;&#32;&#32;pragma&#32;GCC&#32;system_header</emphasis>
+59 <emphasis role="preprocessor">#endif</emphasis>
+60 
+61 <emphasis role="preprocessor">#include&#32;&lt;<link linkend="_defs_8h">assimp/defs.h</link>&gt;</emphasis>
+62 
+63 <emphasis role="preprocessor">#include&#32;&lt;limits&gt;</emphasis>
+64 <emphasis role="preprocessor">#include&#32;&lt;stdint.h&gt;</emphasis>
+65 
+66 <emphasis role="comment">//&#32;---------------------------------------------------------------------------</emphasis>
+69 <emphasis role="keyword">union&#32;</emphasis><link linkend="_union___i_e_e_e_single">_IEEESingle</link>&#32;{
+70 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">float</emphasis>&#32;<link linkend="_union___i_e_e_e_single_1a2bcb6ba7009268e6bba2224df222c3e9">Float</link>;
+71 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct</emphasis>
+72 &#32;&#32;&#32;&#32;{
+73 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uint32_t&#32;<link linkend="_union___i_e_e_e_single_1adcd54aa25c466765e6373a7d30c75ba8">Frac</link>&#32;:&#32;23;
+74 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uint32_t&#32;<link linkend="_union___i_e_e_e_single_1a25a112d44e8141e8d48d19ee9b04c1a6">Exp</link>&#32;&#32;:&#32;8;
+75 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uint32_t&#32;<link linkend="_union___i_e_e_e_single_1a7b114f4e020630ceffceaba8a2afadab">Sign</link>&#32;:&#32;1;
+76 &#32;&#32;&#32;&#32;}&#32;<link linkend="_union___i_e_e_e_single_1ad941018694253218d0619bceaab70393">IEEE</link>;
+77 };
+78 
+79 <emphasis role="comment">//&#32;---------------------------------------------------------------------------</emphasis>
+82 <emphasis role="keyword">union&#32;</emphasis><link linkend="_union___i_e_e_e_double">_IEEEDouble</link>&#32;{
+83 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">double</emphasis>&#32;<link linkend="_union___i_e_e_e_double_1a27117ca968c03c76473d67288a285488">Double</link>;
+84 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct</emphasis>
+85 &#32;&#32;&#32;&#32;{
+86 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uint64_t&#32;<link linkend="_union___i_e_e_e_double_1a7ebfdf18ddf00a59e4d1c2258741dfa7">Frac</link>&#32;:&#32;52;
+87 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uint64_t&#32;<link linkend="_union___i_e_e_e_double_1a64ddbe7950921cfb931e07b8e46fc13b">Exp</link>&#32;&#32;:&#32;11;
+88 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uint64_t&#32;<link linkend="_union___i_e_e_e_double_1ae9e25b85a3d7bf29f13cdf5fd3bc478f">Sign</link>&#32;:&#32;1;
+89 &#32;&#32;&#32;&#32;}&#32;<link linkend="_union___i_e_e_e_double_1a1a09927bca7f7d213294ba5ccdcb1f7b">IEEE</link>;
+90 };
+91 
+92 <emphasis role="comment">//&#32;---------------------------------------------------------------------------</emphasis>
+95 <link linkend="_defs_8h_1a61d239a320b58eca56bacc46fc2c79b8">AI_FORCE_INLINE</link>&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_qnan_8h_1aba07171feddf4c9513c2424a630b03a5">is_qnan</link>(<emphasis role="keywordtype">float</emphasis>&#32;in)&#32;{
+96 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;the&#32;straightforward&#32;solution&#32;does&#32;not&#32;work:</emphasis>
+97 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;&#32;return&#32;(in&#32;!=&#32;in);</emphasis>
+98 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;compiler&#32;generates&#32;code&#32;like&#32;this</emphasis>
+99 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;&#32;load&#32;&lt;in&gt;&#32;to&#32;&lt;register-with-different-width&gt;</emphasis>
+100 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;&#32;compare&#32;&lt;register-with-different-width&gt;&#32;against&#32;&lt;in&gt;</emphasis>
+101 
+102 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;FIXME:&#32;Use&#32;&lt;float&gt;&#32;stuff&#32;instead?&#32;I&#32;think&#32;fpclassify&#32;needs&#32;C99</emphasis>
+103 &#32;&#32;&#32;&#32;<link linkend="_union___i_e_e_e_single">_IEEESingle</link>&#32;temp;
+104 &#32;&#32;&#32;&#32;memcpy(&amp;temp,&#32;&amp;in,&#32;<emphasis role="keyword">sizeof</emphasis>(<emphasis role="keywordtype">float</emphasis>));
+105 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;(temp.<link linkend="_union___i_e_e_e_single_1ad941018694253218d0619bceaab70393">IEEE</link>.Exp&#32;==&#32;(1u&#32;&lt;&lt;&#32;8)-1&#32;&amp;&amp;
+106 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;temp.<link linkend="_union___i_e_e_e_single_1ad941018694253218d0619bceaab70393">IEEE</link>.Frac);
+107 }
+108 
+109 <emphasis role="comment">//&#32;---------------------------------------------------------------------------</emphasis>
+112 <link linkend="_defs_8h_1a61d239a320b58eca56bacc46fc2c79b8">AI_FORCE_INLINE</link>&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_qnan_8h_1aba07171feddf4c9513c2424a630b03a5">is_qnan</link>(<emphasis role="keywordtype">double</emphasis>&#32;in)&#32;{
+113 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;the&#32;straightforward&#32;solution&#32;does&#32;not&#32;work:</emphasis>
+114 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;&#32;return&#32;(in&#32;!=&#32;in);</emphasis>
+115 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;compiler&#32;generates&#32;code&#32;like&#32;this</emphasis>
+116 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;&#32;load&#32;&lt;in&gt;&#32;to&#32;&lt;register-with-different-width&gt;</emphasis>
+117 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;&#32;compare&#32;&lt;register-with-different-width&gt;&#32;against&#32;&lt;in&gt;</emphasis>
+118 
+119 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;FIXME:&#32;Use&#32;&lt;float&gt;&#32;stuff&#32;instead?&#32;I&#32;think&#32;fpclassify&#32;needs&#32;C99</emphasis>
+120 &#32;&#32;&#32;&#32;<link linkend="_union___i_e_e_e_double">_IEEEDouble</link>&#32;temp;
+121 &#32;&#32;&#32;&#32;memcpy(&amp;temp,&#32;&amp;in,&#32;<emphasis role="keyword">sizeof</emphasis>(in));
+122 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;(temp.<link linkend="_union___i_e_e_e_double_1a1a09927bca7f7d213294ba5ccdcb1f7b">IEEE</link>.Exp&#32;==&#32;(1u&#32;&lt;&lt;&#32;11)-1&#32;&amp;&amp;
+123 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;temp.<link linkend="_union___i_e_e_e_double_1a1a09927bca7f7d213294ba5ccdcb1f7b">IEEE</link>.Frac);
+124 }
+125 
+126 <emphasis role="comment">//&#32;---------------------------------------------------------------------------</emphasis>
+131 <link linkend="_defs_8h_1a61d239a320b58eca56bacc46fc2c79b8">AI_FORCE_INLINE</link>&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_qnan_8h_1ae81ad0f99eba1f73bad78e48a16df827">is_special_float</link>(<emphasis role="keywordtype">float</emphasis>&#32;in)&#32;{
+132 &#32;&#32;&#32;&#32;<link linkend="_union___i_e_e_e_single">_IEEESingle</link>&#32;temp;
+133 &#32;&#32;&#32;&#32;memcpy(&amp;temp,&#32;&amp;in,&#32;<emphasis role="keyword">sizeof</emphasis>(<emphasis role="keywordtype">float</emphasis>));
+134 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;(temp.<link linkend="_union___i_e_e_e_single_1ad941018694253218d0619bceaab70393">IEEE</link>.Exp&#32;==&#32;(1u&#32;&lt;&lt;&#32;8)-1);
+135 }
+136 
+137 <emphasis role="comment">//&#32;---------------------------------------------------------------------------</emphasis>
+142 <link linkend="_defs_8h_1a61d239a320b58eca56bacc46fc2c79b8">AI_FORCE_INLINE</link>&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_qnan_8h_1ae81ad0f99eba1f73bad78e48a16df827">is_special_float</link>(<emphasis role="keywordtype">double</emphasis>&#32;in)&#32;{
+143 &#32;&#32;&#32;<link linkend="_union___i_e_e_e_single">_IEEESingle</link>&#32;temp;
+144 &#32;&#32;&#32;&#32;memcpy(&amp;temp,&#32;&amp;in,&#32;<emphasis role="keyword">sizeof</emphasis>(<emphasis role="keywordtype">float</emphasis>));
+145 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;(temp.<link linkend="_union___i_e_e_e_single_1ad941018694253218d0619bceaab70393">IEEE</link>.Exp&#32;==&#32;(1u&#32;&lt;&lt;&#32;11)-1);
+146 }
+147 
+148 <emphasis role="comment">//&#32;---------------------------------------------------------------------------</emphasis>
+151 <emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">class</emphasis>&#32;TReal&gt;
+152 <link linkend="_defs_8h_1a61d239a320b58eca56bacc46fc2c79b8">AI_FORCE_INLINE</link>&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_qnan_8h_1a4b93a2d042b065c5b0c068626dc54ed2">is_not_qnan</link>(TReal&#32;in)&#32;{
+153 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;!<link linkend="_qnan_8h_1aba07171feddf4c9513c2424a630b03a5">is_qnan</link>(in);
+154 }
+155 
+156 <emphasis role="comment">//&#32;---------------------------------------------------------------------------</emphasis>
+158 <link linkend="_defs_8h_1a61d239a320b58eca56bacc46fc2c79b8">AI_FORCE_INLINE</link>&#32;<link linkend="_defs_8h_1af221f9bbc3e0dc43a46efaaac6dab067">ai_real</link>&#32;<link linkend="_qnan_8h_1a1563bfa01954df98282cbaaf632dc95a">get_qnan</link>()&#32;{
+159 &#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;std::numeric_limits&lt;ai_real&gt;::quiet_NaN();
+160 }
+161 
+162 <emphasis role="preprocessor">#endif&#32;</emphasis><emphasis role="comment">//&#32;!!&#32;AI_QNAN_H_INCLUDED</emphasis>
+</programlisting></section>

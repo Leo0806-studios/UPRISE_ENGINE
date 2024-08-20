@@ -1,0 +1,531 @@
+.TH "adhed/common/tracy_lz4.cpp" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+adhed/common/tracy_lz4.cpp
+.SH SYNOPSIS
+.br
+.PP
+\fR#include 'tracy_lz4\&.hpp'\fP
+.br
+\fR#include <stdlib\&.h>\fP
+.br
+\fR#include <string\&.h>\fP
+.br
+\fR#include <limits\&.h>\fP
+.br
+
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI "namespace \fBtracy\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBLZ4_HEAPMODE\fP   0"
+.br
+.ti -1c
+.RI "#define \fBLZ4_ACCELERATION_DEFAULT\fP   1"
+.br
+.ti -1c
+.RI "#define \fBLZ4_ACCELERATION_MAX\fP   65537"
+.br
+.ti -1c
+.RI "#define \fBLZ4_SRC_INCLUDED\fP   1"
+.br
+.ti -1c
+.RI "#define \fBLZ4_STATIC_LINKING_ONLY\fP"
+.br
+.ti -1c
+.RI "#define \fBLZ4_DISABLE_DEPRECATE_WARNINGS\fP   /* due to LZ4_decompress_safe_withPrefix64k */"
+.br
+.ti -1c
+.RI "#define \fBLZ4_STATIC_LINKING_ONLY\fP   /* LZ4_DISTANCE_MAX */"
+.br
+.ti -1c
+.RI "#define \fBLZ4_FORCE_INLINE\fP   static"
+.br
+.ti -1c
+.RI "#define \fBLZ4_FORCE_O2\fP"
+.br
+.ti -1c
+.RI "#define \fBexpect\fP(expr,  \fBvalue\fP)   (expr)"
+.br
+.ti -1c
+.RI "#define \fBlikely\fP(expr)   \fBexpect\fP((expr) != 0, 1)"
+.br
+.ti -1c
+.RI "#define \fBunlikely\fP(expr)   \fBexpect\fP((expr) != 0, 0)"
+.br
+.ti -1c
+.RI "#define \fBLZ4_ALIGN_TEST\fP   1"
+.br
+.ti -1c
+.RI "#define \fBALLOC\fP(s)   malloc(s)"
+.br
+.ti -1c
+.RI "#define \fBALLOC_AND_ZERO\fP(s)   calloc(1,s)"
+.br
+.ti -1c
+.RI "#define \fBFREEMEM\fP(p)   free(p)"
+.br
+.ti -1c
+.RI "#define \fBLZ4_memset\fP(p,  \fBv\fP,  s)   memset((p),(\fBv\fP),(s))"
+.br
+.ti -1c
+.RI "#define \fBMEM_INIT\fP(p,  \fBv\fP,  s)   \fBLZ4_memset\fP((p),(\fBv\fP),(s))"
+.br
+.ti -1c
+.RI "#define \fBMINMATCH\fP   4"
+.br
+.ti -1c
+.RI "#define \fBWILDCOPYLENGTH\fP   8"
+.br
+.ti -1c
+.RI "#define \fBLASTLITERALS\fP   5   /* see \&.\&./doc/lz4_Block_format\&.md#parsing\-restrictions */"
+.br
+.ti -1c
+.RI "#define \fBMFLIMIT\fP   12   /* see \&.\&./doc/lz4_Block_format\&.md#parsing\-restrictions */"
+.br
+.ti -1c
+.RI "#define \fBMATCH_SAFEGUARD_DISTANCE\fP   ((2*\fBWILDCOPYLENGTH\fP) \- \fBMINMATCH\fP)   /* ensure it's possible to write 2 \fBx\fP wildcopyLength without overflowing output \fBbuffer\fP */"
+.br
+.ti -1c
+.RI "#define \fBFASTLOOP_SAFE_DISTANCE\fP   64"
+.br
+.ti -1c
+.RI "#define \fBKB\fP   *(1 <<10)"
+.br
+.ti -1c
+.RI "#define \fBMB\fP   *(1 <<20)"
+.br
+.ti -1c
+.RI "#define \fBGB\fP   *(1\fBU\fP<<30)"
+.br
+.ti -1c
+.RI "#define \fBLZ4_DISTANCE_ABSOLUTE_MAX\fP   65535"
+.br
+.ti -1c
+.RI "#define \fBML_BITS\fP   4"
+.br
+.ti -1c
+.RI "#define \fBML_MASK\fP   ((1\fBU\fP<<\fBML_BITS\fP)\-1)"
+.br
+.ti -1c
+.RI "#define \fBRUN_BITS\fP   (8\-\fBML_BITS\fP)"
+.br
+.ti -1c
+.RI "#define \fBRUN_MASK\fP   ((1\fBU\fP<<\fBRUN_BITS\fP)\-1)"
+.br
+.ti -1c
+.RI "#define \fBassert\fP(condition)   ((\fBvoid\fP)0)"
+.br
+.ti -1c
+.RI "#define \fBLZ4_STATIC_ASSERT\fP(c)   { \fBenum\fP { LZ4_static_assert = 1/(int)(!!(c)) }; }   /* use after variable declarations */"
+.br
+.ti -1c
+.RI "#define \fBDEBUGLOG\fP(l, \&.\&.\&.)   {}    /* disabled */"
+.br
+.ti -1c
+.RI "#define \fBLZ4_memcpy\fP(\fBdst\fP,  \fBsrc\fP,  \fBsize\fP)   memcpy(\fBdst\fP, \fBsrc\fP, \fBsize\fP)"
+.br
+.ti -1c
+.RI "#define \fBLZ4_memmove\fP   memmove"
+.br
+.ti -1c
+.RI "#define \fBLZ4_FAST_DEC_LOOP\fP   0"
+.br
+.ti -1c
+.RI "#define \fBSTEPSIZE\fP   sizeof(\fBreg_t\fP)"
+.br
+.ti -1c
+.RI "#define \fBHASH_UNIT\fP   sizeof(\fBreg_t\fP)"
+.br
+.ti -1c
+.RI "#define \fBMIN\fP(\fBa\fP,  \fBb\fP)   ( (\fBa\fP) < (\fBb\fP) ? (\fBa\fP) : (\fBb\fP) )"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef unsigned char \fBBYTE\fP"
+.br
+.ti -1c
+.RI "typedef unsigned short \fBU16\fP"
+.br
+.ti -1c
+.RI "typedef unsigned int \fBU32\fP"
+.br
+.ti -1c
+.RI "typedef signed int \fBS32\fP"
+.br
+.ti -1c
+.RI "typedef unsigned long long \fBU64\fP"
+.br
+.ti -1c
+.RI "typedef size_t \fBuptrval\fP"
+.br
+.ti -1c
+.RI "typedef size_t \fBreg_t\fP"
+.br
+.ti -1c
+.RI "typedef size_t \fBtracy::Rvl_t\fP"
+.br
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBlimitedOutput_directive\fP { \fBnotLimited\fP = 0, \fBlimitedOutput\fP = 1, \fBfillOutput\fP = 2 }"
+.br
+.ti -1c
+.RI "enum \fBtracy::tableType_t\fP { \fBtracy::clearedTable\fP = 0, \fBtracy::byPtr\fP, \fBtracy::byU32\fP, \fBtracy::byU16\fP }"
+.br
+.ti -1c
+.RI "enum \fBtracy::dict_directive\fP { \fBtracy::noDict\fP = 0, \fBtracy::withPrefix64k\fP, \fBtracy::usingExtDict\fP, \fBtracy::usingDictCtx\fP }"
+.br
+.ti -1c
+.RI "enum \fBtracy::dictIssue_directive\fP { \fBtracy::noDictIssue\fP = 0, \fBtracy::dictSmall\fP }"
+.br
+.ti -1c
+.RI "enum \fBtracy::earlyEnd_directive\fP { \fBtracy::decode_full_block\fP = 0, \fBtracy::partial_decode\fP = 1 }"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBLZ4_FORCE_INLINE\fP \fBvoid\fP \fBtracy::LZ4_wildCopy8\fP (\fBvoid\fP *dstPtr, const \fBvoid\fP *srcPtr, \fBvoid\fP *dstEnd)"
+.br
+.ti -1c
+.RI "\fBLZ4_FORCE_INLINE\fP unsigned \fBtracy::LZ4_NbCommonBytes\fP (\fBreg_t\fP \fBval\fP)"
+.br
+.ti -1c
+.RI "\fBLZ4_FORCE_INLINE\fP unsigned \fBtracy::LZ4_count\fP (const \fBBYTE\fP *pIn, const \fBBYTE\fP *pMatch, const \fBBYTE\fP *pInLimit)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_versionNumber\fP (\fBvoid\fP)"
+.br
+.ti -1c
+.RI "const char * \fBtracy::LZ4_versionString\fP (\fBvoid\fP)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_compressBound\fP (int \fBisize\fP)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_sizeofState\fP (\fBvoid\fP)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_compress_forceExtDict\fP (\fBLZ4_stream_t\fP *LZ4_dict, const char *\fBsource\fP, char *\fBdest\fP, int \fBsrcSize\fP)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_decompress_safe_forceExtDict\fP (const char *\fBsource\fP, char *\fBdest\fP, int \fBcompressedSize\fP, int \fBmaxOutputSize\fP, const \fBvoid\fP *dictStart, size_t dictSize)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_decompress_safe_partial_forceExtDict\fP (const char *\fBsource\fP, char *\fBdest\fP, int \fBcompressedSize\fP, int targetOutputSize, int dstCapacity, const \fBvoid\fP *dictStart, size_t dictSize)"
+.br
+.ti -1c
+.RI "\fBLZ4_FORCE_INLINE\fP \fBU32\fP \fBtracy::LZ4_hash4\fP (\fBU32\fP sequence, \fBtableType_t\fP const tableType)"
+.br
+.ti -1c
+.RI "\fBLZ4_FORCE_INLINE\fP \fBU32\fP \fBtracy::LZ4_hash5\fP (\fBU64\fP sequence, \fBtableType_t\fP const tableType)"
+.br
+.ti -1c
+.RI "\fBLZ4_FORCE_INLINE\fP \fBU32\fP \fBtracy::LZ4_hashPosition\fP (const \fBvoid\fP *const p, \fBtableType_t\fP const tableType)"
+.br
+.ti -1c
+.RI "\fBLZ4_FORCE_INLINE\fP \fBvoid\fP \fBtracy::LZ4_clearHash\fP (\fBU32\fP h, \fBvoid\fP *tableBase, \fBtableType_t\fP const tableType)"
+.br
+.ti -1c
+.RI "\fBLZ4_FORCE_INLINE\fP \fBvoid\fP \fBtracy::LZ4_putIndexOnHash\fP (\fBU32\fP idx, \fBU32\fP h, \fBvoid\fP *tableBase, \fBtableType_t\fP const tableType)"
+.br
+.ti -1c
+.RI "\fBLZ4_FORCE_INLINE\fP \fBvoid\fP \fBtracy::LZ4_putPositionOnHash\fP (const \fBBYTE\fP *p, \fBU32\fP h, \fBvoid\fP *tableBase, \fBtableType_t\fP const tableType, const \fBBYTE\fP *srcBase)"
+.br
+.ti -1c
+.RI "\fBLZ4_FORCE_INLINE\fP \fBvoid\fP \fBtracy::LZ4_putPosition\fP (const \fBBYTE\fP *p, \fBvoid\fP *tableBase, \fBtableType_t\fP tableType, const \fBBYTE\fP *srcBase)"
+.br
+.ti -1c
+.RI "\fBLZ4_FORCE_INLINE\fP \fBU32\fP \fBtracy::LZ4_getIndexOnHash\fP (\fBU32\fP h, const \fBvoid\fP *tableBase, \fBtableType_t\fP tableType)"
+.br
+.ti -1c
+.RI "\fBLZ4_FORCE_INLINE\fP const \fBBYTE\fP * \fBtracy::LZ4_getPosition\fP (const \fBBYTE\fP *p, const \fBvoid\fP *tableBase, \fBtableType_t\fP tableType, const \fBBYTE\fP *srcBase)"
+.br
+.ti -1c
+.RI "\fBLZ4_FORCE_INLINE\fP \fBvoid\fP \fBtracy::LZ4_prepareTable\fP (\fBLZ4_stream_t_internal\fP *const cctx, const int \fBinputSize\fP, const \fBtableType_t\fP tableType)"
+.br
+.ti -1c
+.RI "\fBLZ4_FORCE_INLINE\fP int \fBtracy::LZ4_compress_generic_validated\fP (\fBLZ4_stream_t_internal\fP *const cctx, const char *const \fBsource\fP, char *const \fBdest\fP, const int \fBinputSize\fP, int *inputConsumed, const int \fBmaxOutputSize\fP, const \fBlimitedOutput_directive\fP outputDirective, const \fBtableType_t\fP tableType, const \fBdict_directive\fP dictDirective, const \fBdictIssue_directive\fP dictIssue, const int acceleration)"
+.br
+.ti -1c
+.RI "\fBLZ4_FORCE_INLINE\fP int \fBtracy::LZ4_compress_generic\fP (\fBLZ4_stream_t_internal\fP *const cctx, const char *const \fBsrc\fP, char *const \fBdst\fP, const int \fBsrcSize\fP, int *inputConsumed, const int dstCapacity, const \fBlimitedOutput_directive\fP outputDirective, const \fBtableType_t\fP tableType, const \fBdict_directive\fP dictDirective, const \fBdictIssue_directive\fP dictIssue, const int acceleration)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_compress_fast_extState\fP (\fBvoid\fP *state, const char *\fBsource\fP, char *\fBdest\fP, int \fBinputSize\fP, int \fBmaxOutputSize\fP, int acceleration)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_compress_fast_extState_fastReset\fP (\fBvoid\fP *state, const char *\fBsrc\fP, char *\fBdst\fP, int \fBsrcSize\fP, int dstCapacity, int acceleration)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_compress_fast\fP (const char *\fBsource\fP, char *\fBdest\fP, int \fBinputSize\fP, int \fBmaxOutputSize\fP, int acceleration)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_compress_default\fP (const char *\fBsrc\fP, char *\fBdst\fP, int \fBsrcSize\fP, int \fBmaxOutputSize\fP)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_compress_destSize\fP (const char *\fBsrc\fP, char *\fBdst\fP, int *srcSizePtr, int targetDstSize)"
+.br
+.ti -1c
+.RI "\fBLZ4_stream_t\fP * \fBtracy::LZ4_createStream\fP (\fBvoid\fP)"
+.br
+.ti -1c
+.RI "\fBLZ4_stream_t\fP * \fBtracy::LZ4_initStream\fP (\fBvoid\fP *\fBbuffer\fP, size_t \fBsize\fP)"
+.br
+.ti -1c
+.RI "\fBvoid\fP \fBtracy::LZ4_resetStream\fP (\fBLZ4_stream_t\fP *LZ4_stream)"
+.br
+.ti -1c
+.RI "\fBvoid\fP \fBtracy::LZ4_resetStream_fast\fP (\fBLZ4_stream_t\fP *ctx)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_freeStream\fP (\fBLZ4_stream_t\fP *LZ4_stream)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_loadDict\fP (\fBLZ4_stream_t\fP *LZ4_dict, const char *dictionary, int dictSize)"
+.br
+.ti -1c
+.RI "\fBvoid\fP \fBtracy::LZ4_attach_dictionary\fP (\fBLZ4_stream_t\fP *workingStream, const \fBLZ4_stream_t\fP *dictionaryStream)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_compress_fast_continue\fP (\fBLZ4_stream_t\fP *LZ4_stream, const char *\fBsource\fP, char *\fBdest\fP, int \fBinputSize\fP, int \fBmaxOutputSize\fP, int acceleration)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_saveDict\fP (\fBLZ4_stream_t\fP *LZ4_dict, char *safeBuffer, int dictSize)"
+.br
+.ti -1c
+.RI "size_t \fBtracy::read_long_length_no_check\fP (const \fBBYTE\fP **pp)"
+.br
+.ti -1c
+.RI "\fBLZ4_FORCE_INLINE\fP int \fBtracy::LZ4_decompress_unsafe_generic\fP (const \fBBYTE\fP *const istart, \fBBYTE\fP *const ostart, int decompressedSize, size_t prefixSize, const \fBBYTE\fP *const dictStart, const size_t dictSize)"
+.br
+.ti -1c
+.RI "\fBLZ4_FORCE_INLINE\fP \fBRvl_t\fP \fBtracy::read_variable_length\fP (const \fBBYTE\fP **\fBip\fP, const \fBBYTE\fP *ilimit, int initial_check)"
+.br
+.ti -1c
+.RI "\fBLZ4_FORCE_INLINE\fP int \fBtracy::LZ4_decompress_generic\fP (const char *const \fBsrc\fP, char *const \fBdst\fP, int \fBsrcSize\fP, int \fBoutputSize\fP, \fBearlyEnd_directive\fP partialDecoding, \fBdict_directive\fP dict, const \fBBYTE\fP *const lowPrefix, const \fBBYTE\fP *const dictStart, const size_t dictSize)"
+.br
+.ti -1c
+.RI "\fBLZ4_FORCE_O2\fP int \fBtracy::LZ4_decompress_safe\fP (const char *\fBsource\fP, char *\fBdest\fP, int \fBcompressedSize\fP, int maxDecompressedSize)"
+.br
+.ti -1c
+.RI "\fBLZ4_FORCE_O2\fP int \fBtracy::LZ4_decompress_safe_partial\fP (const char *\fBsrc\fP, char *\fBdst\fP, int \fBcompressedSize\fP, int targetOutputSize, int dstCapacity)"
+.br
+.ti -1c
+.RI "\fBLZ4_FORCE_O2\fP int \fBtracy::LZ4_decompress_fast\fP (const char *\fBsource\fP, char *\fBdest\fP, int \fBoriginalSize\fP)"
+.br
+.ti -1c
+.RI "\fBLZ4_FORCE_O2\fP int \fBtracy::LZ4_decompress_safe_withPrefix64k\fP (const char *\fBsource\fP, char *\fBdest\fP, int \fBcompressedSize\fP, int \fBmaxOutputSize\fP)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_decompress_fast_withPrefix64k\fP (const char *\fBsource\fP, char *\fBdest\fP, int \fBoriginalSize\fP)"
+.br
+.ti -1c
+.RI "\fBLZ4_FORCE_INLINE\fP int \fBtracy::LZ4_decompress_safe_doubleDict\fP (const char *\fBsource\fP, char *\fBdest\fP, int \fBcompressedSize\fP, int \fBmaxOutputSize\fP, size_t prefixSize, const \fBvoid\fP *dictStart, size_t dictSize)"
+.br
+.ti -1c
+.RI "\fBLZ4_streamDecode_t\fP * \fBtracy::LZ4_createStreamDecode\fP (\fBvoid\fP)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_freeStreamDecode\fP (\fBLZ4_streamDecode_t\fP *LZ4_stream)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_setStreamDecode\fP (\fBLZ4_streamDecode_t\fP *LZ4_streamDecode, const char *dictionary, int dictSize)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_decoderRingBufferSize\fP (int maxBlockSize)"
+.br
+.ti -1c
+.RI "\fBLZ4_FORCE_O2\fP int \fBtracy::LZ4_decompress_safe_continue\fP (\fBLZ4_streamDecode_t\fP *LZ4_streamDecode, const char *\fBsource\fP, char *\fBdest\fP, int \fBcompressedSize\fP, int \fBmaxOutputSize\fP)"
+.br
+.ti -1c
+.RI "\fBLZ4_FORCE_O2\fP int \fBtracy::LZ4_decompress_fast_continue\fP (\fBLZ4_streamDecode_t\fP *LZ4_streamDecode, const char *\fBsource\fP, char *\fBdest\fP, int \fBoriginalSize\fP)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_decompress_safe_usingDict\fP (const char *\fBsource\fP, char *\fBdest\fP, int \fBcompressedSize\fP, int \fBmaxOutputSize\fP, const char *dictStart, int dictSize)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_decompress_safe_partial_usingDict\fP (const char *\fBsource\fP, char *\fBdest\fP, int \fBcompressedSize\fP, int targetOutputSize, int dstCapacity, const char *dictStart, int dictSize)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_decompress_fast_usingDict\fP (const char *\fBsource\fP, char *\fBdest\fP, int \fBoriginalSize\fP, const char *dictStart, int dictSize)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_compress_limitedOutput\fP (const char *\fBsource\fP, char *\fBdest\fP, int \fBinputSize\fP, int \fBmaxOutputSize\fP)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_compress\fP (const char *\fBsrc\fP, char *\fBdest\fP, int \fBsrcSize\fP)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_compress_limitedOutput_withState\fP (\fBvoid\fP *state, const char *\fBsrc\fP, char *\fBdst\fP, int \fBsrcSize\fP, int dstSize)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_compress_withState\fP (\fBvoid\fP *state, const char *\fBsrc\fP, char *\fBdst\fP, int \fBsrcSize\fP)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_compress_limitedOutput_continue\fP (\fBLZ4_stream_t\fP *LZ4_stream, const char *\fBsrc\fP, char *\fBdst\fP, int \fBsrcSize\fP, int dstCapacity)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_compress_continue\fP (\fBLZ4_stream_t\fP *LZ4_stream, const char *\fBsource\fP, char *\fBdest\fP, int \fBinputSize\fP)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_uncompress\fP (const char *\fBsource\fP, char *\fBdest\fP, int \fBoutputSize\fP)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_uncompress_unknownOutputSize\fP (const char *\fBsource\fP, char *\fBdest\fP, int \fBisize\fP, int \fBmaxOutputSize\fP)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_sizeofStreamState\fP (\fBvoid\fP)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_resetStreamState\fP (\fBvoid\fP *state, char *\fBinputBuffer\fP)"
+.br
+.ti -1c
+.RI "\fBvoid\fP * \fBtracy::LZ4_create\fP (char *\fBinputBuffer\fP)"
+.br
+.ti -1c
+.RI "char * \fBtracy::LZ4_slideInputBuffer\fP (\fBvoid\fP *state)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define ALLOC( s)   malloc(s)"
+LZ4_STATIC_LINKING_ONLY_DISABLE_MEMORY_ALLOCATION : Disable relatively high-level LZ4/HC functions that use dynamic memory allocation functions (malloc(), calloc(), free())\&.
+.PP
+Note that this is a compile-time switch\&. And since it disables public/stable LZ4 v1 API functions, we don't recommend using this symbol to generate a library for distribution\&.
+.PP
+The following public functions are removed when this symbol is defined\&.
+.IP "\(bu" 2
+lz4 : LZ4_createStream, LZ4_freeStream, LZ4_createStreamDecode, LZ4_freeStreamDecode, LZ4_create (deprecated)
+.IP "\(bu" 2
+lz4hc : LZ4_createStreamHC, LZ4_freeStreamHC, LZ4_createHC (deprecated), LZ4_freeHC (deprecated)
+.IP "\(bu" 2
+lz4frame, lz4file : All LZ4F_* functions 
+.PP
+
+.SS "#define ALLOC_AND_ZERO( s)   calloc(1,s)"
+
+.SS "#define assert( condition)   ((\fBvoid\fP)0)"
+
+.SS "#define DEBUGLOG( l,  \&.\&.\&.)   {}    /* disabled */"
+
+.SS "#define expect( expr,  \fBvalue\fP)   (expr)"
+
+.SS "#define FASTLOOP_SAFE_DISTANCE   64"
+
+.SS "#define FREEMEM( p)   free(p)"
+
+.SS "#define GB   *(1\fBU\fP<<30)"
+
+.SS "#define HASH_UNIT   sizeof(\fBreg_t\fP)"
+
+.SS "#define KB   *(1 <<10)"
+
+.SS "#define LASTLITERALS   5   /* see \&.\&./doc/lz4_Block_format\&.md#parsing\-restrictions */"
+
+.SS "#define likely( expr)   \fBexpect\fP((expr) != 0, 1)"
+
+.SS "#define LZ4_ACCELERATION_DEFAULT   1"
+
+.SS "#define LZ4_ACCELERATION_MAX   65537"
+
+.SS "#define LZ4_ALIGN_TEST   1"
+
+.SS "#define LZ4_DISABLE_DEPRECATE_WARNINGS   /* due to LZ4_decompress_safe_withPrefix64k */"
+
+.SS "#define LZ4_DISTANCE_ABSOLUTE_MAX   65535"
+
+.SS "#define LZ4_FAST_DEC_LOOP   0"
+
+.SS "#define LZ4_FORCE_INLINE   static"
+
+.SS "#define LZ4_FORCE_O2"
+
+.SS "#define LZ4_HEAPMODE   0"
+
+.SS "#define LZ4_memcpy( \fBdst\fP,  \fBsrc\fP,  \fBsize\fP)   memcpy(\fBdst\fP, \fBsrc\fP, \fBsize\fP)"
+LZ4 relies on memcpy with a constant size being inlined\&. In freestanding environments, the compiler can't assume the implementation of memcpy() is standard compliant, so it can't apply its specialized memcpy() inlining logic\&. When possible, use __builtin_memcpy() to tell the compiler to analyze memcpy() as if it were standard compliant, so it can inline it in freestanding environments\&. This is needed when decompressing the Linux Kernel, for example\&. 
+.SS "#define LZ4_memmove   memmove"
+
+.SS "#define LZ4_memset( p,  \fBv\fP,  s)   memset((p),(\fBv\fP),(s))"
+
+.SS "#define LZ4_SRC_INCLUDED   1"
+
+.SS "#define LZ4_STATIC_ASSERT( c)   { \fBenum\fP { LZ4_static_assert = 1/(int)(!!(c)) }; }   /* use after variable declarations */"
+
+.SS "#define LZ4_STATIC_LINKING_ONLY"
+
+.SS "#define LZ4_STATIC_LINKING_ONLY   /* LZ4_DISTANCE_MAX */"
+
+.SS "#define MATCH_SAFEGUARD_DISTANCE   ((2*\fBWILDCOPYLENGTH\fP) \- \fBMINMATCH\fP)   /* ensure it's possible to write 2 \fBx\fP wildcopyLength without overflowing output \fBbuffer\fP */"
+
+.SS "#define MB   *(1 <<20)"
+
+.SS "#define MEM_INIT( p,  \fBv\fP,  s)   \fBLZ4_memset\fP((p),(\fBv\fP),(s))"
+
+.SS "#define MFLIMIT   12   /* see \&.\&./doc/lz4_Block_format\&.md#parsing\-restrictions */"
+
+.SS "#define MIN( \fBa\fP,  \fBb\fP)   ( (\fBa\fP) < (\fBb\fP) ? (\fBa\fP) : (\fBb\fP) )"
+
+.SS "#define MINMATCH   4"
+
+.SS "#define ML_BITS   4"
+
+.SS "#define ML_MASK   ((1\fBU\fP<<\fBML_BITS\fP)\-1)"
+
+.SS "#define RUN_BITS   (8\-\fBML_BITS\fP)"
+
+.SS "#define RUN_MASK   ((1\fBU\fP<<\fBRUN_BITS\fP)\-1)"
+
+.SS "#define STEPSIZE   sizeof(\fBreg_t\fP)"
+
+.SS "#define unlikely( expr)   \fBexpect\fP((expr) != 0, 0)"
+
+.SS "#define WILDCOPYLENGTH   8"
+
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef unsigned char \fBBYTE\fP"
+
+.SS "typedef size_t \fBreg_t\fP"
+
+.SS "typedef signed int \fBS32\fP"
+
+.SS "typedef unsigned short \fBU16\fP"
+
+.SS "typedef unsigned int \fBU32\fP"
+
+.SS "typedef unsigned long long \fBU64\fP"
+
+.SS "typedef size_t \fBuptrval\fP"
+
+.SH "Enumeration Type Documentation"
+.PP 
+.SS "\fBenum\fP \fBlimitedOutput_directive\fP"
+
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fInotLimited \fP\fP
+.TP
+\fB\fIlimitedOutput \fP\fP
+.TP
+\fB\fIfillOutput \fP\fP
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

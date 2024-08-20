@@ -1,0 +1,146 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_structai_node_anim" xml:lang="en-US">
+<title>aiNodeAnim Struct Reference</title>
+<indexterm><primary>aiNodeAnim</primary></indexterm>
+<para>
+<computeroutput>#include &lt;anim.h&gt;</computeroutput>
+</para>
+<simplesect>
+    <title>Public Member Functions    </title>
+        <itemizedlist>
+            <listitem><para><link linkend="_structai_node_anim_1a0eff126c1a1e3d486b80c1ac30b76e6c">aiNodeAnim</link> () <link linkend="_defs_8h_1ae032f18edd69bf6ba935ef9feb025a96">AI_NO_EXCEPT</link></para>
+</listitem>
+            <listitem><para><link linkend="_structai_node_anim_1a5d6a0e98630000eded220759b7fb2f04">~aiNodeAnim</link> ()</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Public Attributes    </title>
+        <itemizedlist>
+            <listitem><para><link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link> <link linkend="_structai_string">aiString</link> <link linkend="_structai_node_anim_1a22a591381e75214ba03c6aaa770638f3">mNodeName</link></para>
+</listitem>
+            <listitem><para>unsigned int <link linkend="_structai_node_anim_1aab725313d31db70adab778a3c125103f">mNumPositionKeys</link></para>
+</listitem>
+            <listitem><para><link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link> <link linkend="_structai_vector_key">aiVectorKey</link> * <link linkend="_structai_node_anim_1a983d0db426ac7e5fce442beb19552db3">mPositionKeys</link></para>
+</listitem>
+            <listitem><para>unsigned int <link linkend="_structai_node_anim_1aca7c78b89c4c64dcdf7619e105e0708c">mNumRotationKeys</link></para>
+</listitem>
+            <listitem><para><link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link> <link linkend="_structai_quat_key">aiQuatKey</link> * <link linkend="_structai_node_anim_1abe1b0b8b0b30a3950cf09023868a07ac">mRotationKeys</link></para>
+</listitem>
+            <listitem><para>unsigned int <link linkend="_structai_node_anim_1a28fa0fd84571ac79cb45a537192738f6">mNumScalingKeys</link></para>
+</listitem>
+            <listitem><para><link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link> <link linkend="_structai_vector_key">aiVectorKey</link> * <link linkend="_structai_node_anim_1a4588122722d5148d6e590da820bdf35f">mScalingKeys</link></para>
+</listitem>
+            <listitem><para><link linkend="_defs_8h_1aa8c1788fd9d096036c9e3b6cfe4b1301">C_ENUM</link> <link linkend="_anim_8h_1a201b9e9429b82cd6423ff4a4daf01cef">aiAnimBehaviour</link> <link linkend="_structai_node_anim_1a305c01b60886a07b69f04b1db6d7d3c5">mPreState</link></para>
+</listitem>
+            <listitem><para><link linkend="_defs_8h_1aa8c1788fd9d096036c9e3b6cfe4b1301">C_ENUM</link> <link linkend="_anim_8h_1a201b9e9429b82cd6423ff4a4daf01cef">aiAnimBehaviour</link> <link linkend="_structai_node_anim_1a93cefd440cbaf587c136eb224d4a0327">mPostState</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para>Describes the animation of a single node. The name specifies the bone/node which is affected by this animation channel. The keyframes are given in three separate series of values, one each for position, rotation and scaling. The transformation matrix computed from these values replaces the node&apos;s original transformation matrix at a specific time. This means all keys are absolute and not relative to the bone default pose. The order in which the transformations are applied is<itemizedlist>
+<listitem>
+<para>as usual - scaling, rotation, translation.</para>
+</listitem></itemizedlist>
+</para>
+
+<para><note><title>Note</title>
+
+<para>All keys are returned in their correct, chronological order. Duplicate keys don&apos;t pass the validation step. Most likely there will be no negative time values, but they are not forbidden also ( so implementations need to cope with them! ) </para>
+</note>
+</para>
+</section>
+<section>
+<title>Constructor &amp; Destructor Documentation</title>
+<anchor xml:id="_structai_node_anim_1a0eff126c1a1e3d486b80c1ac30b76e6c"/><section>
+    <title>aiNodeAnim()</title>
+<indexterm><primary>aiNodeAnim</primary><secondary>aiNodeAnim</secondary></indexterm>
+<indexterm><primary>aiNodeAnim</primary><secondary>aiNodeAnim</secondary></indexterm>
+<para><computeroutput>aiNodeAnim::aiNodeAnim ( )<computeroutput>[inline]</computeroutput></computeroutput></para></section>
+<anchor xml:id="_structai_node_anim_1a5d6a0e98630000eded220759b7fb2f04"/><section>
+    <title>~aiNodeAnim()</title>
+<indexterm><primary>~aiNodeAnim</primary><secondary>aiNodeAnim</secondary></indexterm>
+<indexterm><primary>aiNodeAnim</primary><secondary>~aiNodeAnim</secondary></indexterm>
+<para><computeroutput>aiNodeAnim::~aiNodeAnim ( )<computeroutput>[inline]</computeroutput></computeroutput></para></section>
+</section>
+<section>
+<title>Member Data Documentation</title>
+<anchor xml:id="_structai_node_anim_1a22a591381e75214ba03c6aaa770638f3"/><section>
+    <title>mNodeName</title>
+<indexterm><primary>mNodeName</primary><secondary>aiNodeAnim</secondary></indexterm>
+<indexterm><primary>aiNodeAnim</primary><secondary>mNodeName</secondary></indexterm>
+<para><computeroutput><link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link> <link linkend="_structai_string">aiString</link> aiNodeAnim::mNodeName</computeroutput></para>
+<para>The name of the node affected by this animation. The node must exist and it must be unique. </para>
+</section>
+<anchor xml:id="_structai_node_anim_1aab725313d31db70adab778a3c125103f"/><section>
+    <title>mNumPositionKeys</title>
+<indexterm><primary>mNumPositionKeys</primary><secondary>aiNodeAnim</secondary></indexterm>
+<indexterm><primary>aiNodeAnim</primary><secondary>mNumPositionKeys</secondary></indexterm>
+<para><computeroutput>unsigned int aiNodeAnim::mNumPositionKeys</computeroutput></para>
+<para>The number of position keys </para>
+</section>
+<anchor xml:id="_structai_node_anim_1aca7c78b89c4c64dcdf7619e105e0708c"/><section>
+    <title>mNumRotationKeys</title>
+<indexterm><primary>mNumRotationKeys</primary><secondary>aiNodeAnim</secondary></indexterm>
+<indexterm><primary>aiNodeAnim</primary><secondary>mNumRotationKeys</secondary></indexterm>
+<para><computeroutput>unsigned int aiNodeAnim::mNumRotationKeys</computeroutput></para>
+<para>The number of rotation keys </para>
+</section>
+<anchor xml:id="_structai_node_anim_1a28fa0fd84571ac79cb45a537192738f6"/><section>
+    <title>mNumScalingKeys</title>
+<indexterm><primary>mNumScalingKeys</primary><secondary>aiNodeAnim</secondary></indexterm>
+<indexterm><primary>aiNodeAnim</primary><secondary>mNumScalingKeys</secondary></indexterm>
+<para><computeroutput>unsigned int aiNodeAnim::mNumScalingKeys</computeroutput></para>
+<para>The number of scaling keys </para>
+</section>
+<anchor xml:id="_structai_node_anim_1a983d0db426ac7e5fce442beb19552db3"/><section>
+    <title>mPositionKeys</title>
+<indexterm><primary>mPositionKeys</primary><secondary>aiNodeAnim</secondary></indexterm>
+<indexterm><primary>aiNodeAnim</primary><secondary>mPositionKeys</secondary></indexterm>
+<para><computeroutput><link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link> <link linkend="_structai_vector_key">aiVectorKey</link>* aiNodeAnim::mPositionKeys</computeroutput></para>
+<para>The position keys of this animation channel. Positions are specified as 3D vector. The array is mNumPositionKeys in size.</para>
+
+<para>If there are position keys, there will also be at least one scaling and one rotation key. </para>
+</section>
+<anchor xml:id="_structai_node_anim_1a93cefd440cbaf587c136eb224d4a0327"/><section>
+    <title>mPostState</title>
+<indexterm><primary>mPostState</primary><secondary>aiNodeAnim</secondary></indexterm>
+<indexterm><primary>aiNodeAnim</primary><secondary>mPostState</secondary></indexterm>
+<para><computeroutput><link linkend="_defs_8h_1aa8c1788fd9d096036c9e3b6cfe4b1301">C_ENUM</link> <link linkend="_anim_8h_1a201b9e9429b82cd6423ff4a4daf01cef">aiAnimBehaviour</link> aiNodeAnim::mPostState</computeroutput></para>
+<para>Defines how the animation behaves after the last key was processed.</para>
+
+<para>The default value is aiAnimBehaviour_DEFAULT (the original transformation matrix of the affected node is taken). </para>
+</section>
+<anchor xml:id="_structai_node_anim_1a305c01b60886a07b69f04b1db6d7d3c5"/><section>
+    <title>mPreState</title>
+<indexterm><primary>mPreState</primary><secondary>aiNodeAnim</secondary></indexterm>
+<indexterm><primary>aiNodeAnim</primary><secondary>mPreState</secondary></indexterm>
+<para><computeroutput><link linkend="_defs_8h_1aa8c1788fd9d096036c9e3b6cfe4b1301">C_ENUM</link> <link linkend="_anim_8h_1a201b9e9429b82cd6423ff4a4daf01cef">aiAnimBehaviour</link> aiNodeAnim::mPreState</computeroutput></para>
+<para>Defines how the animation behaves before the first key is encountered.</para>
+
+<para>The default value is aiAnimBehaviour_DEFAULT (the original transformation matrix of the affected node is used). </para>
+</section>
+<anchor xml:id="_structai_node_anim_1abe1b0b8b0b30a3950cf09023868a07ac"/><section>
+    <title>mRotationKeys</title>
+<indexterm><primary>mRotationKeys</primary><secondary>aiNodeAnim</secondary></indexterm>
+<indexterm><primary>aiNodeAnim</primary><secondary>mRotationKeys</secondary></indexterm>
+<para><computeroutput><link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link> <link linkend="_structai_quat_key">aiQuatKey</link>* aiNodeAnim::mRotationKeys</computeroutput></para>
+<para>The rotation keys of this animation channel. Rotations are given as quaternions, which are 4D vectors. The array is mNumRotationKeys in size.</para>
+
+<para>If there are rotation keys, there will also be at least one scaling and one position key. </para>
+</section>
+<anchor xml:id="_structai_node_anim_1a4588122722d5148d6e590da820bdf35f"/><section>
+    <title>mScalingKeys</title>
+<indexterm><primary>mScalingKeys</primary><secondary>aiNodeAnim</secondary></indexterm>
+<indexterm><primary>aiNodeAnim</primary><secondary>mScalingKeys</secondary></indexterm>
+<para><computeroutput><link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link> <link linkend="_structai_vector_key">aiVectorKey</link>* aiNodeAnim::mScalingKeys</computeroutput></para>
+<para>The scaling keys of this animation channel. Scalings are specified as 3D vector. The array is mNumScalingKeys in size.</para>
+
+<para>If there are scaling keys, there will also be at least one position and one rotation key. </para>
+</section>
+<para>
+The documentation for this struct was generated from the following file:</para>
+adhed/assimp/<link linkend="_anim_8h">anim.h</link></section>
+</section>

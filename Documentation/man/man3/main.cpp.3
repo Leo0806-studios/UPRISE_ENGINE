@@ -1,0 +1,130 @@
+.TH "BLINK/source/main.cpp" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+BLINK/source/main.cpp
+.SH SYNOPSIS
+.br
+.PP
+\fR#include 'blink\&.hpp'\fP
+.br
+\fR#include 'scoped_handle\&.hpp'\fP
+.br
+\fR#include <iostream>\fP
+.br
+\fR#include <Windows\&.h>\fP
+.br
+\fR#include <Psapi\&.h>\fP
+.br
+\fR#include <PathCch\&.h>\fP
+.br
+\fR#include <TlHelp32\&.h>\fP
+.br
+
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBMAX_ENVIRONMENT_LENGTH\fP   32767"
+.br
+.ti -1c
+.RI "#define \fBNAMED_PIPE_SIZE\fP   1024"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef \fBvoid\fP(__cdecl * \fB_PVFV\fP) ()"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fB__declspec\fP (allocate('\&.CRT$XIA')) \fB_PVFV\fP __xi_a[]"
+.br
+.ti -1c
+.RI "\fB__declspec\fP (allocate('\&.CRT$XIZ')) \fB_PVFV\fP __xi_z[]"
+.br
+.ti -1c
+.RI "\fB__declspec\fP (allocate('\&.CRT$XCA')) \fB_PVFV\fP __xc_a[]"
+.br
+.ti -1c
+.RI "\fB__declspec\fP (allocate('\&.CRT$XCZ')) \fB_PVFV\fP __xc_z[]"
+.br
+.ti -1c
+.RI "\fBvoid\fP \fB_initterm\fP (\fB_PVFV\fP *beg, \fB_PVFV\fP *\fBend\fP)"
+.br
+.ti -1c
+.RI "\fBvoid\fP \fBprint\fP (const char *message, size_t \fBlength\fP)"
+.br
+.ti -1c
+.RI "DWORD CALLBACK \fBremote_main\fP (\fBBYTE\fP *image_base)"
+.br
+.ti -1c
+.RI "int \fBmain\fP (int argc, char *argv[])"
+.br
+.in -1c
+.SS "Variables"
+
+.in +1c
+.ti -1c
+.RI "HANDLE \fBconsole\fP = INVALID_HANDLE_VALUE"
+.br
+.ti -1c
+.RI "char \fBblink_pipe_name\fP [MAX_PATH]"
+.br
+.ti -1c
+.RI "bool \fBcompile_source\fP = true"
+.br
+.ti -1c
+.RI "wchar_t \fBblink_environment\fP [\fBMAX_ENVIRONMENT_LENGTH\fP]"
+.br
+.ti -1c
+.RI "wchar_t \fBblink_working_directory\fP [MAX_PATH]"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define MAX_ENVIRONMENT_LENGTH   32767"
+
+.SS "#define NAMED_PIPE_SIZE   1024"
+
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef \fBvoid\fP(__cdecl * _PVFV) ()"
+Copyright (C) 2016 Patrick Mours\&. All rights reserved\&. License: https://github.com/crosire/blink#license 
+.SH "Function Documentation"
+.PP 
+.SS "__declspec (allocate('\&.CRT$XCA') )"
+
+.SS "__declspec (allocate('\&.CRT$XCZ') )"
+
+.SS "__declspec (allocate('\&.CRT$XIA') )"
+
+.SS "__declspec (allocate('\&.CRT$XIZ') )"
+
+.SS "\fBvoid\fP _initterm (\fB_PVFV\fP * beg, \fB_PVFV\fP * end)"
+
+.SS "int main (int argc, char * argv[])"
+
+.SS "\fBvoid\fP print (const char * message, size_t length)"
+Copyright (C) 2016 Patrick Mours\&. All rights reserved\&. License: https://github.com/crosire/blink#license 
+.SS "DWORD CALLBACK remote_main (\fBBYTE\fP * image_base)"
+
+.SH "Variable Documentation"
+.PP 
+.SS "wchar_t blink_environment[\fBMAX_ENVIRONMENT_LENGTH\fP]"
+
+.SS "char blink_pipe_name[MAX_PATH]"
+
+.SS "wchar_t blink_working_directory[MAX_PATH]"
+
+.SS "bool compile_source = true"
+
+.SS "HANDLE console = INVALID_HANDLE_VALUE"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

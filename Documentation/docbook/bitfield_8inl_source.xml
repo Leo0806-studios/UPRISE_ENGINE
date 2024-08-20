@@ -1,0 +1,640 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_bitfield_8inl_source" xml:lang="en-US">
+<title>bitfield.inl</title>
+<indexterm><primary>adhed/glm/gtc/bitfield.inl</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 
+2 
+3 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_integer_8h">../simd/integer.h</link>&quot;</emphasis>
+4 
+5 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespaceglm">glm</link>{
+6 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespacedetail">detail</link>
+7 {
+8 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;PARAM,&#32;<emphasis role="keyword">typename</emphasis>&#32;RET&gt;
+9 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1ab2d052de21a70539923e9bcbf6e83a51">GLM_FUNC_DECL</link>&#32;RET&#32;<link linkend="_namespaceglm_1_1detail_1a39644ee418ae41e3393d1cb6191e32a7">bitfieldInterleave</link>(PARAM&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;PARAM&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>);
+10 
+11 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;PARAM,&#32;<emphasis role="keyword">typename</emphasis>&#32;RET&gt;
+12 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1ab2d052de21a70539923e9bcbf6e83a51">GLM_FUNC_DECL</link>&#32;RET&#32;<link linkend="_namespaceglm_1_1detail_1a39644ee418ae41e3393d1cb6191e32a7">bitfieldInterleave</link>(PARAM&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;PARAM&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>,&#32;PARAM&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>);
+13 
+14 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;PARAM,&#32;<emphasis role="keyword">typename</emphasis>&#32;RET&gt;
+15 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1ab2d052de21a70539923e9bcbf6e83a51">GLM_FUNC_DECL</link>&#32;RET&#32;<link linkend="_namespaceglm_1_1detail_1a39644ee418ae41e3393d1cb6191e32a7">bitfieldInterleave</link>(PARAM&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;PARAM&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>,&#32;PARAM&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>,&#32;PARAM&#32;<link linkend="_glad_8h_1ab78941ba2fcaab3b1a29f0432e9ea42e">w</link>);
+16 
+17 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;&gt;
+18 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_group__ext__scalar__uint__sized_1ga6201f5c504a50620708b19bae303c32a">glm::uint16</link>&#32;<link linkend="_namespaceglm_1_1detail_1a39644ee418ae41e3393d1cb6191e32a7">bitfieldInterleave</link>(<link linkend="_group__ext__scalar__uint__sized_1ga536143d82147bb78849bfccffece8bff">glm::uint8</link>&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<link linkend="_group__ext__scalar__uint__sized_1ga536143d82147bb78849bfccffece8bff">glm::uint8</link>&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>)
+19 &#32;&#32;&#32;&#32;{
+20 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__ext__scalar__uint__sized_1ga6201f5c504a50620708b19bae303c32a">glm::uint16</link>&#32;REG1(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>);
+21 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__ext__scalar__uint__sized_1ga6201f5c504a50620708b19bae303c32a">glm::uint16</link>&#32;REG2(<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>);
+22 
+23 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG1&#32;=&#32;((REG1&#32;&lt;&lt;&#32;&#32;4)&#32;|&#32;REG1)&#32;&amp;&#32;static_cast&lt;glm::uint16&gt;(0x0F0F);
+24 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG2&#32;=&#32;((REG2&#32;&lt;&lt;&#32;&#32;4)&#32;|&#32;REG2)&#32;&amp;&#32;static_cast&lt;glm::uint16&gt;(0x0F0F);
+25 
+26 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG1&#32;=&#32;((REG1&#32;&lt;&lt;&#32;&#32;2)&#32;|&#32;REG1)&#32;&amp;&#32;static_cast&lt;glm::uint16&gt;(0x3333);
+27 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG2&#32;=&#32;((REG2&#32;&lt;&lt;&#32;&#32;2)&#32;|&#32;REG2)&#32;&amp;&#32;static_cast&lt;glm::uint16&gt;(0x3333);
+28 
+29 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG1&#32;=&#32;((REG1&#32;&lt;&lt;&#32;&#32;1)&#32;|&#32;REG1)&#32;&amp;&#32;static_cast&lt;glm::uint16&gt;(0x5555);
+30 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG2&#32;=&#32;((REG2&#32;&lt;&lt;&#32;&#32;1)&#32;|&#32;REG2)&#32;&amp;&#32;static_cast&lt;glm::uint16&gt;(0x5555);
+31 
+32 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;REG1&#32;|&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="_group__ext__scalar__uint__sized_1ga6201f5c504a50620708b19bae303c32a">glm::uint16</link><emphasis role="keyword">&gt;</emphasis>(REG2&#32;&lt;&lt;&#32;1);
+33 &#32;&#32;&#32;&#32;}
+34 
+35 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;&gt;
+36 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_group__ext__scalar__uint__sized_1ga22033ef3f73efe1da8e437410adda3be">glm::uint32</link>&#32;<link linkend="_namespaceglm_1_1detail_1a39644ee418ae41e3393d1cb6191e32a7">bitfieldInterleave</link>(<link linkend="_group__ext__scalar__uint__sized_1ga6201f5c504a50620708b19bae303c32a">glm::uint16</link>&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<link linkend="_group__ext__scalar__uint__sized_1ga6201f5c504a50620708b19bae303c32a">glm::uint16</link>&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>)
+37 &#32;&#32;&#32;&#32;{
+38 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__ext__scalar__uint__sized_1ga22033ef3f73efe1da8e437410adda3be">glm::uint32</link>&#32;REG1(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>);
+39 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__ext__scalar__uint__sized_1ga22033ef3f73efe1da8e437410adda3be">glm::uint32</link>&#32;REG2(<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>);
+40 
+41 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG1&#32;=&#32;((REG1&#32;&lt;&lt;&#32;&#32;8)&#32;|&#32;REG1)&#32;&amp;&#32;static_cast&lt;glm::uint32&gt;(0x00FF00FF);
+42 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG2&#32;=&#32;((REG2&#32;&lt;&lt;&#32;&#32;8)&#32;|&#32;REG2)&#32;&amp;&#32;static_cast&lt;glm::uint32&gt;(0x00FF00FF);
+43 
+44 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG1&#32;=&#32;((REG1&#32;&lt;&lt;&#32;&#32;4)&#32;|&#32;REG1)&#32;&amp;&#32;static_cast&lt;glm::uint32&gt;(0x0F0F0F0F);
+45 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG2&#32;=&#32;((REG2&#32;&lt;&lt;&#32;&#32;4)&#32;|&#32;REG2)&#32;&amp;&#32;static_cast&lt;glm::uint32&gt;(0x0F0F0F0F);
+46 
+47 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG1&#32;=&#32;((REG1&#32;&lt;&lt;&#32;&#32;2)&#32;|&#32;REG1)&#32;&amp;&#32;static_cast&lt;glm::uint32&gt;(0x33333333);
+48 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG2&#32;=&#32;((REG2&#32;&lt;&lt;&#32;&#32;2)&#32;|&#32;REG2)&#32;&amp;&#32;static_cast&lt;glm::uint32&gt;(0x33333333);
+49 
+50 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG1&#32;=&#32;((REG1&#32;&lt;&lt;&#32;&#32;1)&#32;|&#32;REG1)&#32;&amp;&#32;static_cast&lt;glm::uint32&gt;(0x55555555);
+51 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG2&#32;=&#32;((REG2&#32;&lt;&lt;&#32;&#32;1)&#32;|&#32;REG2)&#32;&amp;&#32;static_cast&lt;glm::uint32&gt;(0x55555555);
+52 
+53 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;REG1&#32;|&#32;(REG2&#32;&lt;&lt;&#32;1);
+54 &#32;&#32;&#32;&#32;}
+55 
+56 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;&gt;
+57 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_group__ext__scalar__uint__sized_1gae3632bf9b37da66233d78930dd06378a">glm::uint64</link>&#32;<link linkend="_namespaceglm_1_1detail_1a39644ee418ae41e3393d1cb6191e32a7">bitfieldInterleave</link>(<link linkend="_group__ext__scalar__uint__sized_1ga22033ef3f73efe1da8e437410adda3be">glm::uint32</link>&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<link linkend="_group__ext__scalar__uint__sized_1ga22033ef3f73efe1da8e437410adda3be">glm::uint32</link>&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>)
+58 &#32;&#32;&#32;&#32;{
+59 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__ext__scalar__uint__sized_1gae3632bf9b37da66233d78930dd06378a">glm::uint64</link>&#32;REG1(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>);
+60 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__ext__scalar__uint__sized_1gae3632bf9b37da66233d78930dd06378a">glm::uint64</link>&#32;REG2(<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>);
+61 
+62 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG1&#32;=&#32;((REG1&#32;&lt;&lt;&#32;16)&#32;|&#32;REG1)&#32;&amp;&#32;static_cast&lt;glm::uint64&gt;(0x0000FFFF0000FFFFull);
+63 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG2&#32;=&#32;((REG2&#32;&lt;&lt;&#32;16)&#32;|&#32;REG2)&#32;&amp;&#32;static_cast&lt;glm::uint64&gt;(0x0000FFFF0000FFFFull);
+64 
+65 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG1&#32;=&#32;((REG1&#32;&lt;&lt;&#32;&#32;8)&#32;|&#32;REG1)&#32;&amp;&#32;static_cast&lt;glm::uint64&gt;(0x00FF00FF00FF00FFull);
+66 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG2&#32;=&#32;((REG2&#32;&lt;&lt;&#32;&#32;8)&#32;|&#32;REG2)&#32;&amp;&#32;static_cast&lt;glm::uint64&gt;(0x00FF00FF00FF00FFull);
+67 
+68 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG1&#32;=&#32;((REG1&#32;&lt;&lt;&#32;&#32;4)&#32;|&#32;REG1)&#32;&amp;&#32;static_cast&lt;glm::uint64&gt;(0x0F0F0F0F0F0F0F0Full);
+69 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG2&#32;=&#32;((REG2&#32;&lt;&lt;&#32;&#32;4)&#32;|&#32;REG2)&#32;&amp;&#32;static_cast&lt;glm::uint64&gt;(0x0F0F0F0F0F0F0F0Full);
+70 
+71 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG1&#32;=&#32;((REG1&#32;&lt;&lt;&#32;&#32;2)&#32;|&#32;REG1)&#32;&amp;&#32;static_cast&lt;glm::uint64&gt;(0x3333333333333333ull);
+72 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG2&#32;=&#32;((REG2&#32;&lt;&lt;&#32;&#32;2)&#32;|&#32;REG2)&#32;&amp;&#32;static_cast&lt;glm::uint64&gt;(0x3333333333333333ull);
+73 
+74 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG1&#32;=&#32;((REG1&#32;&lt;&lt;&#32;&#32;1)&#32;|&#32;REG1)&#32;&amp;&#32;static_cast&lt;glm::uint64&gt;(0x5555555555555555ull);
+75 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG2&#32;=&#32;((REG2&#32;&lt;&lt;&#32;&#32;1)&#32;|&#32;REG2)&#32;&amp;&#32;static_cast&lt;glm::uint64&gt;(0x5555555555555555ull);
+76 
+77 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;REG1&#32;|&#32;(REG2&#32;&lt;&lt;&#32;1);
+78 &#32;&#32;&#32;&#32;}
+79 
+80 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;&gt;
+81 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_group__ext__scalar__uint__sized_1ga22033ef3f73efe1da8e437410adda3be">glm::uint32</link>&#32;<link linkend="_namespaceglm_1_1detail_1a39644ee418ae41e3393d1cb6191e32a7">bitfieldInterleave</link>(<link linkend="_group__ext__scalar__uint__sized_1ga536143d82147bb78849bfccffece8bff">glm::uint8</link>&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<link linkend="_group__ext__scalar__uint__sized_1ga536143d82147bb78849bfccffece8bff">glm::uint8</link>&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>,&#32;<link linkend="_group__ext__scalar__uint__sized_1ga536143d82147bb78849bfccffece8bff">glm::uint8</link>&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>)
+82 &#32;&#32;&#32;&#32;{
+83 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__ext__scalar__uint__sized_1ga22033ef3f73efe1da8e437410adda3be">glm::uint32</link>&#32;REG1(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>);
+84 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__ext__scalar__uint__sized_1ga22033ef3f73efe1da8e437410adda3be">glm::uint32</link>&#32;REG2(<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>);
+85 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__ext__scalar__uint__sized_1ga22033ef3f73efe1da8e437410adda3be">glm::uint32</link>&#32;REG3(<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>);
+86 
+87 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG1&#32;=&#32;((REG1&#32;&lt;&lt;&#32;16)&#32;|&#32;REG1)&#32;&amp;&#32;static_cast&lt;glm::uint32&gt;(0xFF0000FFu);
+88 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG2&#32;=&#32;((REG2&#32;&lt;&lt;&#32;16)&#32;|&#32;REG2)&#32;&amp;&#32;static_cast&lt;glm::uint32&gt;(0xFF0000FFu);
+89 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG3&#32;=&#32;((REG3&#32;&lt;&lt;&#32;16)&#32;|&#32;REG3)&#32;&amp;&#32;static_cast&lt;glm::uint32&gt;(0xFF0000FFu);
+90 
+91 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG1&#32;=&#32;((REG1&#32;&lt;&lt;&#32;&#32;8)&#32;|&#32;REG1)&#32;&amp;&#32;static_cast&lt;glm::uint32&gt;(0x0F00F00Fu);
+92 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG2&#32;=&#32;((REG2&#32;&lt;&lt;&#32;&#32;8)&#32;|&#32;REG2)&#32;&amp;&#32;static_cast&lt;glm::uint32&gt;(0x0F00F00Fu);
+93 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG3&#32;=&#32;((REG3&#32;&lt;&lt;&#32;&#32;8)&#32;|&#32;REG3)&#32;&amp;&#32;static_cast&lt;glm::uint32&gt;(0x0F00F00Fu);
+94 
+95 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG1&#32;=&#32;((REG1&#32;&lt;&lt;&#32;&#32;4)&#32;|&#32;REG1)&#32;&amp;&#32;static_cast&lt;glm::uint32&gt;(0xC30C30C3u);
+96 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG2&#32;=&#32;((REG2&#32;&lt;&lt;&#32;&#32;4)&#32;|&#32;REG2)&#32;&amp;&#32;static_cast&lt;glm::uint32&gt;(0xC30C30C3u);
+97 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG3&#32;=&#32;((REG3&#32;&lt;&lt;&#32;&#32;4)&#32;|&#32;REG3)&#32;&amp;&#32;static_cast&lt;glm::uint32&gt;(0xC30C30C3u);
+98 
+99 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG1&#32;=&#32;((REG1&#32;&lt;&lt;&#32;&#32;2)&#32;|&#32;REG1)&#32;&amp;&#32;static_cast&lt;glm::uint32&gt;(0x49249249u);
+100 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG2&#32;=&#32;((REG2&#32;&lt;&lt;&#32;&#32;2)&#32;|&#32;REG2)&#32;&amp;&#32;static_cast&lt;glm::uint32&gt;(0x49249249u);
+101 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG3&#32;=&#32;((REG3&#32;&lt;&lt;&#32;&#32;2)&#32;|&#32;REG3)&#32;&amp;&#32;static_cast&lt;glm::uint32&gt;(0x49249249u);
+102 
+103 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;REG1&#32;|&#32;(REG2&#32;&lt;&lt;&#32;1)&#32;|&#32;(REG3&#32;&lt;&lt;&#32;2);
+104 &#32;&#32;&#32;&#32;}
+105 
+106 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;&gt;
+107 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_group__ext__scalar__uint__sized_1gae3632bf9b37da66233d78930dd06378a">glm::uint64</link>&#32;<link linkend="_namespaceglm_1_1detail_1a39644ee418ae41e3393d1cb6191e32a7">bitfieldInterleave</link>(<link linkend="_group__ext__scalar__uint__sized_1ga6201f5c504a50620708b19bae303c32a">glm::uint16</link>&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<link linkend="_group__ext__scalar__uint__sized_1ga6201f5c504a50620708b19bae303c32a">glm::uint16</link>&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>,&#32;<link linkend="_group__ext__scalar__uint__sized_1ga6201f5c504a50620708b19bae303c32a">glm::uint16</link>&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>)
+108 &#32;&#32;&#32;&#32;{
+109 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__ext__scalar__uint__sized_1gae3632bf9b37da66233d78930dd06378a">glm::uint64</link>&#32;REG1(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>);
+110 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__ext__scalar__uint__sized_1gae3632bf9b37da66233d78930dd06378a">glm::uint64</link>&#32;REG2(<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>);
+111 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__ext__scalar__uint__sized_1gae3632bf9b37da66233d78930dd06378a">glm::uint64</link>&#32;REG3(<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>);
+112 
+113 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG1&#32;=&#32;((REG1&#32;&lt;&lt;&#32;32)&#32;|&#32;REG1)&#32;&amp;&#32;static_cast&lt;glm::uint64&gt;(0xFFFF00000000FFFFull);
+114 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG2&#32;=&#32;((REG2&#32;&lt;&lt;&#32;32)&#32;|&#32;REG2)&#32;&amp;&#32;static_cast&lt;glm::uint64&gt;(0xFFFF00000000FFFFull);
+115 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG3&#32;=&#32;((REG3&#32;&lt;&lt;&#32;32)&#32;|&#32;REG3)&#32;&amp;&#32;static_cast&lt;glm::uint64&gt;(0xFFFF00000000FFFFull);
+116 
+117 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG1&#32;=&#32;((REG1&#32;&lt;&lt;&#32;16)&#32;|&#32;REG1)&#32;&amp;&#32;static_cast&lt;glm::uint64&gt;(0x00FF0000FF0000FFull);
+118 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG2&#32;=&#32;((REG2&#32;&lt;&lt;&#32;16)&#32;|&#32;REG2)&#32;&amp;&#32;static_cast&lt;glm::uint64&gt;(0x00FF0000FF0000FFull);
+119 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG3&#32;=&#32;((REG3&#32;&lt;&lt;&#32;16)&#32;|&#32;REG3)&#32;&amp;&#32;static_cast&lt;glm::uint64&gt;(0x00FF0000FF0000FFull);
+120 
+121 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG1&#32;=&#32;((REG1&#32;&lt;&lt;&#32;&#32;8)&#32;|&#32;REG1)&#32;&amp;&#32;static_cast&lt;glm::uint64&gt;(0xF00F00F00F00F00Full);
+122 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG2&#32;=&#32;((REG2&#32;&lt;&lt;&#32;&#32;8)&#32;|&#32;REG2)&#32;&amp;&#32;static_cast&lt;glm::uint64&gt;(0xF00F00F00F00F00Full);
+123 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG3&#32;=&#32;((REG3&#32;&lt;&lt;&#32;&#32;8)&#32;|&#32;REG3)&#32;&amp;&#32;static_cast&lt;glm::uint64&gt;(0xF00F00F00F00F00Full);
+124 
+125 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG1&#32;=&#32;((REG1&#32;&lt;&lt;&#32;&#32;4)&#32;|&#32;REG1)&#32;&amp;&#32;static_cast&lt;glm::uint64&gt;(0x30C30C30C30C30C3ull);
+126 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG2&#32;=&#32;((REG2&#32;&lt;&lt;&#32;&#32;4)&#32;|&#32;REG2)&#32;&amp;&#32;static_cast&lt;glm::uint64&gt;(0x30C30C30C30C30C3ull);
+127 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG3&#32;=&#32;((REG3&#32;&lt;&lt;&#32;&#32;4)&#32;|&#32;REG3)&#32;&amp;&#32;static_cast&lt;glm::uint64&gt;(0x30C30C30C30C30C3ull);
+128 
+129 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG1&#32;=&#32;((REG1&#32;&lt;&lt;&#32;&#32;2)&#32;|&#32;REG1)&#32;&amp;&#32;static_cast&lt;glm::uint64&gt;(0x9249249249249249ull);
+130 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG2&#32;=&#32;((REG2&#32;&lt;&lt;&#32;&#32;2)&#32;|&#32;REG2)&#32;&amp;&#32;static_cast&lt;glm::uint64&gt;(0x9249249249249249ull);
+131 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG3&#32;=&#32;((REG3&#32;&lt;&lt;&#32;&#32;2)&#32;|&#32;REG3)&#32;&amp;&#32;static_cast&lt;glm::uint64&gt;(0x9249249249249249ull);
+132 
+133 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;REG1&#32;|&#32;(REG2&#32;&lt;&lt;&#32;1)&#32;|&#32;(REG3&#32;&lt;&lt;&#32;2);
+134 &#32;&#32;&#32;&#32;}
+135 
+136 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;&gt;
+137 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_group__ext__scalar__uint__sized_1gae3632bf9b37da66233d78930dd06378a">glm::uint64</link>&#32;<link linkend="_namespaceglm_1_1detail_1a39644ee418ae41e3393d1cb6191e32a7">bitfieldInterleave</link>(<link linkend="_group__ext__scalar__uint__sized_1ga22033ef3f73efe1da8e437410adda3be">glm::uint32</link>&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<link linkend="_group__ext__scalar__uint__sized_1ga22033ef3f73efe1da8e437410adda3be">glm::uint32</link>&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>,&#32;<link linkend="_group__ext__scalar__uint__sized_1ga22033ef3f73efe1da8e437410adda3be">glm::uint32</link>&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>)
+138 &#32;&#32;&#32;&#32;{
+139 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__ext__scalar__uint__sized_1gae3632bf9b37da66233d78930dd06378a">glm::uint64</link>&#32;REG1(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>);
+140 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__ext__scalar__uint__sized_1gae3632bf9b37da66233d78930dd06378a">glm::uint64</link>&#32;REG2(<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>);
+141 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__ext__scalar__uint__sized_1gae3632bf9b37da66233d78930dd06378a">glm::uint64</link>&#32;REG3(<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>);
+142 
+143 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG1&#32;=&#32;((REG1&#32;&lt;&lt;&#32;32)&#32;|&#32;REG1)&#32;&amp;&#32;static_cast&lt;glm::uint64&gt;(0xFFFF00000000FFFFull);
+144 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG2&#32;=&#32;((REG2&#32;&lt;&lt;&#32;32)&#32;|&#32;REG2)&#32;&amp;&#32;static_cast&lt;glm::uint64&gt;(0xFFFF00000000FFFFull);
+145 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG3&#32;=&#32;((REG3&#32;&lt;&lt;&#32;32)&#32;|&#32;REG3)&#32;&amp;&#32;static_cast&lt;glm::uint64&gt;(0xFFFF00000000FFFFull);
+146 
+147 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG1&#32;=&#32;((REG1&#32;&lt;&lt;&#32;16)&#32;|&#32;REG1)&#32;&amp;&#32;static_cast&lt;glm::uint64&gt;(0x00FF0000FF0000FFull);
+148 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG2&#32;=&#32;((REG2&#32;&lt;&lt;&#32;16)&#32;|&#32;REG2)&#32;&amp;&#32;static_cast&lt;glm::uint64&gt;(0x00FF0000FF0000FFull);
+149 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG3&#32;=&#32;((REG3&#32;&lt;&lt;&#32;16)&#32;|&#32;REG3)&#32;&amp;&#32;static_cast&lt;glm::uint64&gt;(0x00FF0000FF0000FFull);
+150 
+151 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG1&#32;=&#32;((REG1&#32;&lt;&lt;&#32;&#32;8)&#32;|&#32;REG1)&#32;&amp;&#32;static_cast&lt;glm::uint64&gt;(0xF00F00F00F00F00Full);
+152 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG2&#32;=&#32;((REG2&#32;&lt;&lt;&#32;&#32;8)&#32;|&#32;REG2)&#32;&amp;&#32;static_cast&lt;glm::uint64&gt;(0xF00F00F00F00F00Full);
+153 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG3&#32;=&#32;((REG3&#32;&lt;&lt;&#32;&#32;8)&#32;|&#32;REG3)&#32;&amp;&#32;static_cast&lt;glm::uint64&gt;(0xF00F00F00F00F00Full);
+154 
+155 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG1&#32;=&#32;((REG1&#32;&lt;&lt;&#32;&#32;4)&#32;|&#32;REG1)&#32;&amp;&#32;static_cast&lt;glm::uint64&gt;(0x30C30C30C30C30C3ull);
+156 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG2&#32;=&#32;((REG2&#32;&lt;&lt;&#32;&#32;4)&#32;|&#32;REG2)&#32;&amp;&#32;static_cast&lt;glm::uint64&gt;(0x30C30C30C30C30C3ull);
+157 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG3&#32;=&#32;((REG3&#32;&lt;&lt;&#32;&#32;4)&#32;|&#32;REG3)&#32;&amp;&#32;static_cast&lt;glm::uint64&gt;(0x30C30C30C30C30C3ull);
+158 
+159 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG1&#32;=&#32;((REG1&#32;&lt;&lt;&#32;&#32;2)&#32;|&#32;REG1)&#32;&amp;&#32;static_cast&lt;glm::uint64&gt;(0x9249249249249249ull);
+160 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG2&#32;=&#32;((REG2&#32;&lt;&lt;&#32;&#32;2)&#32;|&#32;REG2)&#32;&amp;&#32;static_cast&lt;glm::uint64&gt;(0x9249249249249249ull);
+161 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG3&#32;=&#32;((REG3&#32;&lt;&lt;&#32;&#32;2)&#32;|&#32;REG3)&#32;&amp;&#32;static_cast&lt;glm::uint64&gt;(0x9249249249249249ull);
+162 
+163 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;REG1&#32;|&#32;(REG2&#32;&lt;&lt;&#32;1)&#32;|&#32;(REG3&#32;&lt;&lt;&#32;2);
+164 &#32;&#32;&#32;&#32;}
+165 
+166 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;&gt;
+167 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_group__ext__scalar__uint__sized_1ga22033ef3f73efe1da8e437410adda3be">glm::uint32</link>&#32;<link linkend="_namespaceglm_1_1detail_1a39644ee418ae41e3393d1cb6191e32a7">bitfieldInterleave</link>(<link linkend="_group__ext__scalar__uint__sized_1ga536143d82147bb78849bfccffece8bff">glm::uint8</link>&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<link linkend="_group__ext__scalar__uint__sized_1ga536143d82147bb78849bfccffece8bff">glm::uint8</link>&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>,&#32;<link linkend="_group__ext__scalar__uint__sized_1ga536143d82147bb78849bfccffece8bff">glm::uint8</link>&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>,&#32;<link linkend="_group__ext__scalar__uint__sized_1ga536143d82147bb78849bfccffece8bff">glm::uint8</link>&#32;<link linkend="_glad_8h_1ab78941ba2fcaab3b1a29f0432e9ea42e">w</link>)
+168 &#32;&#32;&#32;&#32;{
+169 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__ext__scalar__uint__sized_1ga22033ef3f73efe1da8e437410adda3be">glm::uint32</link>&#32;REG1(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>);
+170 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__ext__scalar__uint__sized_1ga22033ef3f73efe1da8e437410adda3be">glm::uint32</link>&#32;REG2(<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>);
+171 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__ext__scalar__uint__sized_1ga22033ef3f73efe1da8e437410adda3be">glm::uint32</link>&#32;REG3(<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>);
+172 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__ext__scalar__uint__sized_1ga22033ef3f73efe1da8e437410adda3be">glm::uint32</link>&#32;REG4(<link linkend="_glad_8h_1ab78941ba2fcaab3b1a29f0432e9ea42e">w</link>);
+173 
+174 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG1&#32;=&#32;((REG1&#32;&lt;&lt;&#32;12)&#32;|&#32;REG1)&#32;&amp;&#32;static_cast&lt;glm::uint32&gt;(0x000F000Fu);
+175 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG2&#32;=&#32;((REG2&#32;&lt;&lt;&#32;12)&#32;|&#32;REG2)&#32;&amp;&#32;static_cast&lt;glm::uint32&gt;(0x000F000Fu);
+176 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG3&#32;=&#32;((REG3&#32;&lt;&lt;&#32;12)&#32;|&#32;REG3)&#32;&amp;&#32;static_cast&lt;glm::uint32&gt;(0x000F000Fu);
+177 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG4&#32;=&#32;((REG4&#32;&lt;&lt;&#32;12)&#32;|&#32;REG4)&#32;&amp;&#32;static_cast&lt;glm::uint32&gt;(0x000F000Fu);
+178 
+179 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG1&#32;=&#32;((REG1&#32;&lt;&lt;&#32;&#32;6)&#32;|&#32;REG1)&#32;&amp;&#32;static_cast&lt;glm::uint32&gt;(0x03030303u);
+180 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG2&#32;=&#32;((REG2&#32;&lt;&lt;&#32;&#32;6)&#32;|&#32;REG2)&#32;&amp;&#32;static_cast&lt;glm::uint32&gt;(0x03030303u);
+181 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG3&#32;=&#32;((REG3&#32;&lt;&lt;&#32;&#32;6)&#32;|&#32;REG3)&#32;&amp;&#32;static_cast&lt;glm::uint32&gt;(0x03030303u);
+182 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG4&#32;=&#32;((REG4&#32;&lt;&lt;&#32;&#32;6)&#32;|&#32;REG4)&#32;&amp;&#32;static_cast&lt;glm::uint32&gt;(0x03030303u);
+183 
+184 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG1&#32;=&#32;((REG1&#32;&lt;&lt;&#32;&#32;3)&#32;|&#32;REG1)&#32;&amp;&#32;static_cast&lt;glm::uint32&gt;(0x11111111u);
+185 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG2&#32;=&#32;((REG2&#32;&lt;&lt;&#32;&#32;3)&#32;|&#32;REG2)&#32;&amp;&#32;static_cast&lt;glm::uint32&gt;(0x11111111u);
+186 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG3&#32;=&#32;((REG3&#32;&lt;&lt;&#32;&#32;3)&#32;|&#32;REG3)&#32;&amp;&#32;static_cast&lt;glm::uint32&gt;(0x11111111u);
+187 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG4&#32;=&#32;((REG4&#32;&lt;&lt;&#32;&#32;3)&#32;|&#32;REG4)&#32;&amp;&#32;static_cast&lt;glm::uint32&gt;(0x11111111u);
+188 
+189 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;REG1&#32;|&#32;(REG2&#32;&lt;&lt;&#32;1)&#32;|&#32;(REG3&#32;&lt;&lt;&#32;2)&#32;|&#32;(REG4&#32;&lt;&lt;&#32;3);
+190 &#32;&#32;&#32;&#32;}
+191 
+192 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;&gt;
+193 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_group__ext__scalar__uint__sized_1gae3632bf9b37da66233d78930dd06378a">glm::uint64</link>&#32;<link linkend="_namespaceglm_1_1detail_1a39644ee418ae41e3393d1cb6191e32a7">bitfieldInterleave</link>(<link linkend="_group__ext__scalar__uint__sized_1ga6201f5c504a50620708b19bae303c32a">glm::uint16</link>&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<link linkend="_group__ext__scalar__uint__sized_1ga6201f5c504a50620708b19bae303c32a">glm::uint16</link>&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>,&#32;<link linkend="_group__ext__scalar__uint__sized_1ga6201f5c504a50620708b19bae303c32a">glm::uint16</link>&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>,&#32;<link linkend="_group__ext__scalar__uint__sized_1ga6201f5c504a50620708b19bae303c32a">glm::uint16</link>&#32;<link linkend="_glad_8h_1ab78941ba2fcaab3b1a29f0432e9ea42e">w</link>)
+194 &#32;&#32;&#32;&#32;{
+195 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__ext__scalar__uint__sized_1gae3632bf9b37da66233d78930dd06378a">glm::uint64</link>&#32;REG1(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>);
+196 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__ext__scalar__uint__sized_1gae3632bf9b37da66233d78930dd06378a">glm::uint64</link>&#32;REG2(<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>);
+197 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__ext__scalar__uint__sized_1gae3632bf9b37da66233d78930dd06378a">glm::uint64</link>&#32;REG3(<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>);
+198 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__ext__scalar__uint__sized_1gae3632bf9b37da66233d78930dd06378a">glm::uint64</link>&#32;REG4(<link linkend="_glad_8h_1ab78941ba2fcaab3b1a29f0432e9ea42e">w</link>);
+199 
+200 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG1&#32;=&#32;((REG1&#32;&lt;&lt;&#32;24)&#32;|&#32;REG1)&#32;&amp;&#32;static_cast&lt;glm::uint64&gt;(0x000000FF000000FFull);
+201 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG2&#32;=&#32;((REG2&#32;&lt;&lt;&#32;24)&#32;|&#32;REG2)&#32;&amp;&#32;static_cast&lt;glm::uint64&gt;(0x000000FF000000FFull);
+202 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG3&#32;=&#32;((REG3&#32;&lt;&lt;&#32;24)&#32;|&#32;REG3)&#32;&amp;&#32;static_cast&lt;glm::uint64&gt;(0x000000FF000000FFull);
+203 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG4&#32;=&#32;((REG4&#32;&lt;&lt;&#32;24)&#32;|&#32;REG4)&#32;&amp;&#32;static_cast&lt;glm::uint64&gt;(0x000000FF000000FFull);
+204 
+205 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG1&#32;=&#32;((REG1&#32;&lt;&lt;&#32;12)&#32;|&#32;REG1)&#32;&amp;&#32;static_cast&lt;glm::uint64&gt;(0x000F000F000F000Full);
+206 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG2&#32;=&#32;((REG2&#32;&lt;&lt;&#32;12)&#32;|&#32;REG2)&#32;&amp;&#32;static_cast&lt;glm::uint64&gt;(0x000F000F000F000Full);
+207 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG3&#32;=&#32;((REG3&#32;&lt;&lt;&#32;12)&#32;|&#32;REG3)&#32;&amp;&#32;static_cast&lt;glm::uint64&gt;(0x000F000F000F000Full);
+208 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG4&#32;=&#32;((REG4&#32;&lt;&lt;&#32;12)&#32;|&#32;REG4)&#32;&amp;&#32;static_cast&lt;glm::uint64&gt;(0x000F000F000F000Full);
+209 
+210 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG1&#32;=&#32;((REG1&#32;&lt;&lt;&#32;&#32;6)&#32;|&#32;REG1)&#32;&amp;&#32;static_cast&lt;glm::uint64&gt;(0x0303030303030303ull);
+211 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG2&#32;=&#32;((REG2&#32;&lt;&lt;&#32;&#32;6)&#32;|&#32;REG2)&#32;&amp;&#32;static_cast&lt;glm::uint64&gt;(0x0303030303030303ull);
+212 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG3&#32;=&#32;((REG3&#32;&lt;&lt;&#32;&#32;6)&#32;|&#32;REG3)&#32;&amp;&#32;static_cast&lt;glm::uint64&gt;(0x0303030303030303ull);
+213 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG4&#32;=&#32;((REG4&#32;&lt;&lt;&#32;&#32;6)&#32;|&#32;REG4)&#32;&amp;&#32;static_cast&lt;glm::uint64&gt;(0x0303030303030303ull);
+214 
+215 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG1&#32;=&#32;((REG1&#32;&lt;&lt;&#32;&#32;3)&#32;|&#32;REG1)&#32;&amp;&#32;static_cast&lt;glm::uint64&gt;(0x1111111111111111ull);
+216 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG2&#32;=&#32;((REG2&#32;&lt;&lt;&#32;&#32;3)&#32;|&#32;REG2)&#32;&amp;&#32;static_cast&lt;glm::uint64&gt;(0x1111111111111111ull);
+217 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG3&#32;=&#32;((REG3&#32;&lt;&lt;&#32;&#32;3)&#32;|&#32;REG3)&#32;&amp;&#32;static_cast&lt;glm::uint64&gt;(0x1111111111111111ull);
+218 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG4&#32;=&#32;((REG4&#32;&lt;&lt;&#32;&#32;3)&#32;|&#32;REG4)&#32;&amp;&#32;static_cast&lt;glm::uint64&gt;(0x1111111111111111ull);
+219 
+220 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;REG1&#32;|&#32;(REG2&#32;&lt;&lt;&#32;1)&#32;|&#32;(REG3&#32;&lt;&lt;&#32;2)&#32;|&#32;(REG4&#32;&lt;&lt;&#32;3);
+221 &#32;&#32;&#32;&#32;}
+222 }<emphasis role="comment">//namespace&#32;detail</emphasis>
+223 
+224 <emphasis role="preprocessor">#if&#32;GLM_COMPILER&#32;&amp;&#32;GLM_COMPILER_CLANG</emphasis>
+225 <emphasis role="preprocessor">#&#32;&#32;&#32;pragma&#32;clang&#32;diagnostic&#32;push</emphasis>
+226 <emphasis role="preprocessor">#&#32;&#32;&#32;pragma&#32;clang&#32;diagnostic&#32;ignored&#32;&quot;-Wsign-compare&quot;</emphasis>
+227 <emphasis role="preprocessor">#endif</emphasis>
+228 
+229 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;genIUType&gt;
+230 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;genIUType&#32;<link linkend="_glad_8h_1abb269dedb7ad104274cc9f5c0c7285bc">mask</link>(genIUType&#32;Bits)
+231 &#32;&#32;&#32;&#32;{
+232 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a6893d4a6bf0ecab00f7c73166379245a">GLM_STATIC_ASSERT</link>(std::numeric_limits&lt;genIUType&gt;::is_integer,&#32;<emphasis role="stringliteral">&quot;&apos;mask&apos;&#32;accepts&#32;only&#32;integer&#32;values&quot;</emphasis>);
+233 
+234 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;Bits&#32;&gt;=&#32;<emphasis role="keyword">sizeof</emphasis>(genIUType)&#32;*&#32;8&#32;?&#32;~<emphasis role="keyword">static_cast&lt;</emphasis>genIUType<emphasis role="keyword">&gt;</emphasis>(0)&#32;:&#32;(<emphasis role="keyword">static_cast&lt;</emphasis>genIUType<emphasis role="keyword">&gt;</emphasis>(1)&#32;&lt;&lt;&#32;Bits)&#32;-&#32;<emphasis role="keyword">static_cast&lt;</emphasis>genIUType<emphasis role="keyword">&gt;</emphasis>(1);
+235 &#32;&#32;&#32;&#32;}
+236 
+237 <emphasis role="preprocessor">#if&#32;GLM_COMPILER&#32;&amp;&#32;GLM_COMPILER_CLANG</emphasis>
+238 <emphasis role="preprocessor">#&#32;&#32;&#32;pragma&#32;clang&#32;diagnostic&#32;pop</emphasis>
+239 <emphasis role="preprocessor">#endif</emphasis>
+240 
+241 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;length_t&#32;L,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+242 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<link linkend="_glad_8h_1abb269dedb7ad104274cc9f5c0c7285bc">mask</link>(<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+243 &#32;&#32;&#32;&#32;{
+244 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a6893d4a6bf0ecab00f7c73166379245a">GLM_STATIC_ASSERT</link>(std::numeric_limits&lt;T&gt;::is_integer,&#32;<emphasis role="stringliteral">&quot;&apos;mask&apos;&#32;accepts&#32;only&#32;integer&#32;values&quot;</emphasis>);
+245 
+246 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structglm_1_1detail_1_1functor1">detail::functor1&lt;vec, L, T, T, Q&gt;::call</link>(<link linkend="_glad_8h_1abb269dedb7ad104274cc9f5c0c7285bc">mask</link>,&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>);
+247 &#32;&#32;&#32;&#32;}
+248 
+249 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;genIType&gt;
+250 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;genIType&#32;<link linkend="_group__gtc__bitfield_1ga1c33d075c5fb8bd8dbfd5092bfc851ca">bitfieldRotateRight</link>(genIType&#32;In,&#32;<emphasis role="keywordtype">int</emphasis>&#32;Shift)
+251 &#32;&#32;&#32;&#32;{
+252 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a6893d4a6bf0ecab00f7c73166379245a">GLM_STATIC_ASSERT</link>(std::numeric_limits&lt;genIType&gt;::is_integer,&#32;<emphasis role="stringliteral">&quot;&apos;bitfieldRotateRight&apos;&#32;accepts&#32;only&#32;integer&#32;values&quot;</emphasis>);
+253 
+254 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;<emphasis role="keyword">const</emphasis>&#32;BitSize&#32;=&#32;<emphasis role="keyword">static_cast&lt;</emphasis>genIType<emphasis role="keyword">&gt;</emphasis>(<emphasis role="keyword">sizeof</emphasis>(genIType)&#32;*&#32;8);
+255 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;(In&#32;&lt;&lt;&#32;<emphasis role="keyword">static_cast&lt;</emphasis>genIType<emphasis role="keyword">&gt;</emphasis>(Shift))&#32;|&#32;(In&#32;&gt;&gt;&#32;<emphasis role="keyword">static_cast&lt;</emphasis>genIType<emphasis role="keyword">&gt;</emphasis>(BitSize&#32;-&#32;Shift));
+256 &#32;&#32;&#32;&#32;}
+257 
+258 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;length_t&#32;L,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+259 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<link linkend="_group__gtc__bitfield_1ga1c33d075c5fb8bd8dbfd5092bfc851ca">bitfieldRotateRight</link>(<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;In,&#32;<emphasis role="keywordtype">int</emphasis>&#32;Shift)
+260 &#32;&#32;&#32;&#32;{
+261 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a6893d4a6bf0ecab00f7c73166379245a">GLM_STATIC_ASSERT</link>(std::numeric_limits&lt;T&gt;::is_integer,&#32;<emphasis role="stringliteral">&quot;&apos;bitfieldRotateRight&apos;&#32;accepts&#32;only&#32;integer&#32;values&quot;</emphasis>);
+262 
+263 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;<emphasis role="keyword">const</emphasis>&#32;BitSize&#32;=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><emphasis role="keywordtype">int</emphasis><emphasis role="keyword">&gt;</emphasis>(<emphasis role="keyword">sizeof</emphasis>(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>)&#32;*&#32;8);
+264 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;(In&#32;&lt;&lt;&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(Shift))&#32;|&#32;(In&#32;&gt;&gt;&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(BitSize&#32;-&#32;Shift));
+265 &#32;&#32;&#32;&#32;}
+266 
+267 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;genIType&gt;
+268 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;genIType&#32;<link linkend="_group__gtc__bitfield_1ga2eb49678a344ce1495bdb5586d9896b9">bitfieldRotateLeft</link>(genIType&#32;In,&#32;<emphasis role="keywordtype">int</emphasis>&#32;Shift)
+269 &#32;&#32;&#32;&#32;{
+270 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a6893d4a6bf0ecab00f7c73166379245a">GLM_STATIC_ASSERT</link>(std::numeric_limits&lt;genIType&gt;::is_integer,&#32;<emphasis role="stringliteral">&quot;&apos;bitfieldRotateLeft&apos;&#32;accepts&#32;only&#32;integer&#32;values&quot;</emphasis>);
+271 
+272 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;<emphasis role="keyword">const</emphasis>&#32;BitSize&#32;=&#32;<emphasis role="keyword">static_cast&lt;</emphasis>genIType<emphasis role="keyword">&gt;</emphasis>(<emphasis role="keyword">sizeof</emphasis>(genIType)&#32;*&#32;8);
+273 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;(In&#32;&gt;&gt;&#32;<emphasis role="keyword">static_cast&lt;</emphasis>genIType<emphasis role="keyword">&gt;</emphasis>(Shift))&#32;|&#32;(In&#32;&lt;&lt;&#32;<emphasis role="keyword">static_cast&lt;</emphasis>genIType<emphasis role="keyword">&gt;</emphasis>(BitSize&#32;-&#32;Shift));
+274 &#32;&#32;&#32;&#32;}
+275 
+276 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;length_t&#32;L,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+277 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<link linkend="_group__gtc__bitfield_1ga2eb49678a344ce1495bdb5586d9896b9">bitfieldRotateLeft</link>(<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;In,&#32;<emphasis role="keywordtype">int</emphasis>&#32;Shift)
+278 &#32;&#32;&#32;&#32;{
+279 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a6893d4a6bf0ecab00f7c73166379245a">GLM_STATIC_ASSERT</link>(std::numeric_limits&lt;T&gt;::is_integer,&#32;<emphasis role="stringliteral">&quot;&apos;bitfieldRotateLeft&apos;&#32;accepts&#32;only&#32;integer&#32;values&quot;</emphasis>);
+280 
+281 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;<emphasis role="keyword">const</emphasis>&#32;BitSize&#32;=&#32;<emphasis role="keyword">static_cast&lt;</emphasis><emphasis role="keywordtype">int</emphasis><emphasis role="keyword">&gt;</emphasis>(<emphasis role="keyword">sizeof</emphasis>(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>)&#32;*&#32;8);
+282 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;(In&#32;&gt;&gt;&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(Shift))&#32;|&#32;(In&#32;&lt;&lt;&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(BitSize&#32;-&#32;Shift));
+283 &#32;&#32;&#32;&#32;}
+284 
+285 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;genIUType&gt;
+286 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;genIUType&#32;<link linkend="_group__gtc__bitfield_1ga46f9295abe3b5c7658f5b13c7f819f0a">bitfieldFillOne</link>(genIUType&#32;<link linkend="_d3d12_8idl_1a61d5e0a2254d39b6c6fc73b49d1359e3">Value</link>,&#32;<emphasis role="keywordtype">int</emphasis>&#32;FirstBit,&#32;<emphasis role="keywordtype">int</emphasis>&#32;BitCount)
+287 &#32;&#32;&#32;&#32;{
+288 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_d3d12_8idl_1a61d5e0a2254d39b6c6fc73b49d1359e3">Value</link>&#32;|&#32;<emphasis role="keyword">static_cast&lt;</emphasis>genIUType<emphasis role="keyword">&gt;</emphasis>(<link linkend="_glad_8h_1abb269dedb7ad104274cc9f5c0c7285bc">mask</link>(BitCount)&#32;&lt;&lt;&#32;FirstBit);
+289 &#32;&#32;&#32;&#32;}
+290 
+291 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;length_t&#32;L,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+292 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<link linkend="_group__gtc__bitfield_1ga46f9295abe3b5c7658f5b13c7f819f0a">bitfieldFillOne</link>(<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_d3d12_8idl_1a61d5e0a2254d39b6c6fc73b49d1359e3">Value</link>,&#32;<emphasis role="keywordtype">int</emphasis>&#32;FirstBit,&#32;<emphasis role="keywordtype">int</emphasis>&#32;BitCount)
+293 &#32;&#32;&#32;&#32;{
+294 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_d3d12_8idl_1a61d5e0a2254d39b6c6fc73b49d1359e3">Value</link>&#32;|&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(<link linkend="_glad_8h_1abb269dedb7ad104274cc9f5c0c7285bc">mask</link>(BitCount)&#32;&lt;&lt;&#32;FirstBit);
+295 &#32;&#32;&#32;&#32;}
+296 
+297 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;genIUType&gt;
+298 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;genIUType&#32;<link linkend="_group__gtc__bitfield_1ga697b86998b7d74ee0a69d8e9f8819fee">bitfieldFillZero</link>(genIUType&#32;<link linkend="_d3d12_8idl_1a61d5e0a2254d39b6c6fc73b49d1359e3">Value</link>,&#32;<emphasis role="keywordtype">int</emphasis>&#32;FirstBit,&#32;<emphasis role="keywordtype">int</emphasis>&#32;BitCount)
+299 &#32;&#32;&#32;&#32;{
+300 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_d3d12_8idl_1a61d5e0a2254d39b6c6fc73b49d1359e3">Value</link>&#32;&amp;&#32;<emphasis role="keyword">static_cast&lt;</emphasis>genIUType<emphasis role="keyword">&gt;</emphasis>(~(<link linkend="_glad_8h_1abb269dedb7ad104274cc9f5c0c7285bc">mask</link>(BitCount)&#32;&lt;&lt;&#32;FirstBit));
+301 &#32;&#32;&#32;&#32;}
+302 
+303 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;length_t&#32;L,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+304 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<link linkend="_group__gtc__bitfield_1ga697b86998b7d74ee0a69d8e9f8819fee">bitfieldFillZero</link>(<link linkend="_structglm_1_1vec">vec&lt;L, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_d3d12_8idl_1a61d5e0a2254d39b6c6fc73b49d1359e3">Value</link>,&#32;<emphasis role="keywordtype">int</emphasis>&#32;FirstBit,&#32;<emphasis role="keywordtype">int</emphasis>&#32;BitCount)
+305 &#32;&#32;&#32;&#32;{
+306 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_d3d12_8idl_1a61d5e0a2254d39b6c6fc73b49d1359e3">Value</link>&#32;&amp;&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link><emphasis role="keyword">&gt;</emphasis>(~(<link linkend="_glad_8h_1abb269dedb7ad104274cc9f5c0c7285bc">mask</link>(BitCount)&#32;&lt;&lt;&#32;FirstBit));
+307 &#32;&#32;&#32;&#32;}
+308 
+309 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_group__ext__scalar__int__sized_1ga22d9cd55823f7c4aeee13aceafd7238a">int16</link>&#32;<link linkend="_group__gtc__bitfield_1ga479134317bc95d99f2b2e235d3db287b">bitfieldInterleave</link>(<link linkend="_group__ext__scalar__int__sized_1gaf9d6ceaf8a36734c0a026f6f699ff60c">int8</link>&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<link linkend="_group__ext__scalar__int__sized_1gaf9d6ceaf8a36734c0a026f6f699ff60c">int8</link>&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>)
+310 &#32;&#32;&#32;&#32;{
+311 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">union&#32;</emphasis>sign8
+312 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+313 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__ext__scalar__int__sized_1gaf9d6ceaf8a36734c0a026f6f699ff60c">int8</link>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>;
+314 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__ext__scalar__uint__sized_1ga536143d82147bb78849bfccffece8bff">uint8</link>&#32;u;
+315 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}&#32;sign_x,&#32;sign_y;
+316 
+317 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">union&#32;</emphasis>sign16
+318 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+319 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__ext__scalar__int__sized_1ga22d9cd55823f7c4aeee13aceafd7238a">int16</link>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>;
+320 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__ext__scalar__uint__sized_1ga6201f5c504a50620708b19bae303c32a">uint16</link>&#32;u;
+321 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}&#32;<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>;
+322 
+323 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sign_x.i&#32;=&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>;
+324 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sign_y.i&#32;=&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>;
+325 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>.u&#32;=&#32;<link linkend="_group__gtc__bitfield_1ga479134317bc95d99f2b2e235d3db287b">bitfieldInterleave</link>(sign_x.u,&#32;sign_y.u);
+326 
+327 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>.i;
+328 &#32;&#32;&#32;&#32;}
+329 
+330 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_group__ext__scalar__uint__sized_1ga6201f5c504a50620708b19bae303c32a">uint16</link>&#32;<link linkend="_group__gtc__bitfield_1ga479134317bc95d99f2b2e235d3db287b">bitfieldInterleave</link>(<link linkend="_group__ext__scalar__uint__sized_1ga536143d82147bb78849bfccffece8bff">uint8</link>&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<link linkend="_group__ext__scalar__uint__sized_1ga536143d82147bb78849bfccffece8bff">uint8</link>&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>)
+331 &#32;&#32;&#32;&#32;{
+332 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_namespaceglm_1_1detail_1a39644ee418ae41e3393d1cb6191e32a7">detail::bitfieldInterleave&lt;uint8, uint16&gt;</link>(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>);
+333 &#32;&#32;&#32;&#32;}
+334 
+335 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_group__ext__scalar__uint__sized_1ga6201f5c504a50620708b19bae303c32a">uint16</link>&#32;<link linkend="_group__gtc__bitfield_1ga479134317bc95d99f2b2e235d3db287b">bitfieldInterleave</link>(<link linkend="_structglm_1_1vec">u8vec2</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+336 &#32;&#32;&#32;&#32;{
+337 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_namespaceglm_1_1detail_1a39644ee418ae41e3393d1cb6191e32a7">detail::bitfieldInterleave&lt;uint8, uint16&gt;</link>(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x,&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y);
+338 &#32;&#32;&#32;&#32;}
+339 
+340 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_structglm_1_1vec">u8vec2</link>&#32;<link linkend="_group__gtc__bitfield_1ga960049f17c6d851d621e094b6676f56d">bitfieldDeinterleave</link>(<link linkend="_group__ext__scalar__uint__sized_1ga6201f5c504a50620708b19bae303c32a">glm::uint16</link>&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>)
+341 &#32;&#32;&#32;&#32;{
+342 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__ext__scalar__uint__sized_1ga6201f5c504a50620708b19bae303c32a">uint16</link>&#32;REG1(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>);
+343 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__ext__scalar__uint__sized_1ga6201f5c504a50620708b19bae303c32a">uint16</link>&#32;REG2(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>&#32;&gt;&gt;=&#32;1);
+344 
+345 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG1&#32;=&#32;REG1&#32;&amp;&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="_group__ext__scalar__uint__sized_1ga6201f5c504a50620708b19bae303c32a">uint16</link><emphasis role="keyword">&gt;</emphasis>(0x5555);
+346 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG2&#32;=&#32;REG2&#32;&amp;&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="_group__ext__scalar__uint__sized_1ga6201f5c504a50620708b19bae303c32a">uint16</link><emphasis role="keyword">&gt;</emphasis>(0x5555);
+347 
+348 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG1&#32;=&#32;((REG1&#32;&gt;&gt;&#32;1)&#32;|&#32;REG1)&#32;&amp;&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="_group__ext__scalar__uint__sized_1ga6201f5c504a50620708b19bae303c32a">uint16</link><emphasis role="keyword">&gt;</emphasis>(0x3333);
+349 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG2&#32;=&#32;((REG2&#32;&gt;&gt;&#32;1)&#32;|&#32;REG2)&#32;&amp;&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="_group__ext__scalar__uint__sized_1ga6201f5c504a50620708b19bae303c32a">uint16</link><emphasis role="keyword">&gt;</emphasis>(0x3333);
+350 
+351 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG1&#32;=&#32;((REG1&#32;&gt;&gt;&#32;2)&#32;|&#32;REG1)&#32;&amp;&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="_group__ext__scalar__uint__sized_1ga6201f5c504a50620708b19bae303c32a">uint16</link><emphasis role="keyword">&gt;</emphasis>(0x0F0F);
+352 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG2&#32;=&#32;((REG2&#32;&gt;&gt;&#32;2)&#32;|&#32;REG2)&#32;&amp;&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="_group__ext__scalar__uint__sized_1ga6201f5c504a50620708b19bae303c32a">uint16</link><emphasis role="keyword">&gt;</emphasis>(0x0F0F);
+353 
+354 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG1&#32;=&#32;((REG1&#32;&gt;&gt;&#32;4)&#32;|&#32;REG1)&#32;&amp;&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="_group__ext__scalar__uint__sized_1ga6201f5c504a50620708b19bae303c32a">uint16</link><emphasis role="keyword">&gt;</emphasis>(0x00FF);
+355 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG2&#32;=&#32;((REG2&#32;&gt;&gt;&#32;4)&#32;|&#32;REG2)&#32;&amp;&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="_group__ext__scalar__uint__sized_1ga6201f5c504a50620708b19bae303c32a">uint16</link><emphasis role="keyword">&gt;</emphasis>(0x00FF);
+356 
+357 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG1&#32;=&#32;((REG1&#32;&gt;&gt;&#32;8)&#32;|&#32;REG1)&#32;&amp;&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="_group__ext__scalar__uint__sized_1ga6201f5c504a50620708b19bae303c32a">uint16</link><emphasis role="keyword">&gt;</emphasis>(0xFFFF);
+358 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG2&#32;=&#32;((REG2&#32;&gt;&gt;&#32;8)&#32;|&#32;REG2)&#32;&amp;&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="_group__ext__scalar__uint__sized_1ga6201f5c504a50620708b19bae303c32a">uint16</link><emphasis role="keyword">&gt;</emphasis>(0xFFFF);
+359 
+360 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_group__ext__vector__uint2__sized_1ga01e28d0272428f94d22ea6111f0112be">glm::u8vec2</link>(REG1,&#32;REG2);
+361 &#32;&#32;&#32;&#32;}
+362 
+363 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_group__ext__scalar__int__sized_1gafc36c598ca57ab4a9286a53bf91a5fff">int32</link>&#32;<link linkend="_group__gtc__bitfield_1ga479134317bc95d99f2b2e235d3db287b">bitfieldInterleave</link>(<link linkend="_group__ext__scalar__int__sized_1ga22d9cd55823f7c4aeee13aceafd7238a">int16</link>&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<link linkend="_group__ext__scalar__int__sized_1ga22d9cd55823f7c4aeee13aceafd7238a">int16</link>&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>)
+364 &#32;&#32;&#32;&#32;{
+365 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">union&#32;</emphasis>sign16
+366 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+367 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__ext__scalar__int__sized_1ga22d9cd55823f7c4aeee13aceafd7238a">int16</link>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>;
+368 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__ext__scalar__uint__sized_1ga6201f5c504a50620708b19bae303c32a">uint16</link>&#32;u;
+369 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}&#32;sign_x,&#32;sign_y;
+370 
+371 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">union&#32;</emphasis>sign32
+372 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+373 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__ext__scalar__int__sized_1gafc36c598ca57ab4a9286a53bf91a5fff">int32</link>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>;
+374 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__ext__scalar__uint__sized_1ga22033ef3f73efe1da8e437410adda3be">uint32</link>&#32;u;
+375 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}&#32;<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>;
+376 
+377 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sign_x.i&#32;=&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>;
+378 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sign_y.i&#32;=&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>;
+379 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>.u&#32;=&#32;<link linkend="_group__gtc__bitfield_1ga479134317bc95d99f2b2e235d3db287b">bitfieldInterleave</link>(sign_x.u,&#32;sign_y.u);
+380 
+381 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>.i;
+382 &#32;&#32;&#32;&#32;}
+383 
+384 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_group__ext__scalar__uint__sized_1ga22033ef3f73efe1da8e437410adda3be">uint32</link>&#32;<link linkend="_group__gtc__bitfield_1ga479134317bc95d99f2b2e235d3db287b">bitfieldInterleave</link>(<link linkend="_group__ext__scalar__uint__sized_1ga6201f5c504a50620708b19bae303c32a">uint16</link>&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<link linkend="_group__ext__scalar__uint__sized_1ga6201f5c504a50620708b19bae303c32a">uint16</link>&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>)
+385 &#32;&#32;&#32;&#32;{
+386 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_namespaceglm_1_1detail_1a39644ee418ae41e3393d1cb6191e32a7">detail::bitfieldInterleave&lt;uint16, uint32&gt;</link>(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>);
+387 &#32;&#32;&#32;&#32;}
+388 
+389 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_group__ext__scalar__uint__sized_1ga22033ef3f73efe1da8e437410adda3be">glm::uint32</link>&#32;<link linkend="_group__gtc__bitfield_1ga479134317bc95d99f2b2e235d3db287b">bitfieldInterleave</link>(<link linkend="_structglm_1_1vec">u16vec2</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+390 &#32;&#32;&#32;&#32;{
+391 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_namespaceglm_1_1detail_1a39644ee418ae41e3393d1cb6191e32a7">detail::bitfieldInterleave&lt;uint16, uint32&gt;</link>(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x,&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y);
+392 &#32;&#32;&#32;&#32;}
+393 
+394 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_structglm_1_1vec">glm::u16vec2</link>&#32;<link linkend="_group__gtc__bitfield_1ga960049f17c6d851d621e094b6676f56d">bitfieldDeinterleave</link>(<link linkend="_group__ext__scalar__uint__sized_1ga22033ef3f73efe1da8e437410adda3be">glm::uint32</link>&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>)
+395 &#32;&#32;&#32;&#32;{
+396 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__ext__scalar__uint__sized_1ga22033ef3f73efe1da8e437410adda3be">glm::uint32</link>&#32;REG1(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>);
+397 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__ext__scalar__uint__sized_1ga22033ef3f73efe1da8e437410adda3be">glm::uint32</link>&#32;REG2(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>&#32;&gt;&gt;=&#32;1);
+398 
+399 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG1&#32;=&#32;REG1&#32;&amp;&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="_group__ext__scalar__uint__sized_1ga22033ef3f73efe1da8e437410adda3be">glm::uint32</link><emphasis role="keyword">&gt;</emphasis>(0x55555555);
+400 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG2&#32;=&#32;REG2&#32;&amp;&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="_group__ext__scalar__uint__sized_1ga22033ef3f73efe1da8e437410adda3be">glm::uint32</link><emphasis role="keyword">&gt;</emphasis>(0x55555555);
+401 
+402 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG1&#32;=&#32;((REG1&#32;&gt;&gt;&#32;1)&#32;|&#32;REG1)&#32;&amp;&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="_group__ext__scalar__uint__sized_1ga22033ef3f73efe1da8e437410adda3be">glm::uint32</link><emphasis role="keyword">&gt;</emphasis>(0x33333333);
+403 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG2&#32;=&#32;((REG2&#32;&gt;&gt;&#32;1)&#32;|&#32;REG2)&#32;&amp;&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="_group__ext__scalar__uint__sized_1ga22033ef3f73efe1da8e437410adda3be">glm::uint32</link><emphasis role="keyword">&gt;</emphasis>(0x33333333);
+404 
+405 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG1&#32;=&#32;((REG1&#32;&gt;&gt;&#32;2)&#32;|&#32;REG1)&#32;&amp;&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="_group__ext__scalar__uint__sized_1ga22033ef3f73efe1da8e437410adda3be">glm::uint32</link><emphasis role="keyword">&gt;</emphasis>(0x0F0F0F0F);
+406 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG2&#32;=&#32;((REG2&#32;&gt;&gt;&#32;2)&#32;|&#32;REG2)&#32;&amp;&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="_group__ext__scalar__uint__sized_1ga22033ef3f73efe1da8e437410adda3be">glm::uint32</link><emphasis role="keyword">&gt;</emphasis>(0x0F0F0F0F);
+407 
+408 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG1&#32;=&#32;((REG1&#32;&gt;&gt;&#32;4)&#32;|&#32;REG1)&#32;&amp;&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="_group__ext__scalar__uint__sized_1ga22033ef3f73efe1da8e437410adda3be">glm::uint32</link><emphasis role="keyword">&gt;</emphasis>(0x00FF00FF);
+409 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG2&#32;=&#32;((REG2&#32;&gt;&gt;&#32;4)&#32;|&#32;REG2)&#32;&amp;&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="_group__ext__scalar__uint__sized_1ga22033ef3f73efe1da8e437410adda3be">glm::uint32</link><emphasis role="keyword">&gt;</emphasis>(0x00FF00FF);
+410 
+411 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG1&#32;=&#32;((REG1&#32;&gt;&gt;&#32;8)&#32;|&#32;REG1)&#32;&amp;&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="_group__ext__scalar__uint__sized_1ga22033ef3f73efe1da8e437410adda3be">glm::uint32</link><emphasis role="keyword">&gt;</emphasis>(0x0000FFFF);
+412 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG2&#32;=&#32;((REG2&#32;&gt;&gt;&#32;8)&#32;|&#32;REG2)&#32;&amp;&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="_group__ext__scalar__uint__sized_1ga22033ef3f73efe1da8e437410adda3be">glm::uint32</link><emphasis role="keyword">&gt;</emphasis>(0x0000FFFF);
+413 
+414 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_group__ext__vector__uint2__sized_1ga50bd2ceeb100a187e7c46f135269a0ec">glm::u16vec2</link>(REG1,&#32;REG2);
+415 &#32;&#32;&#32;&#32;}
+416 
+417 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_group__ext__scalar__int__sized_1ga435d75819cce297cc5fa21bd84ef89a5">int64</link>&#32;<link linkend="_group__gtc__bitfield_1ga479134317bc95d99f2b2e235d3db287b">bitfieldInterleave</link>(<link linkend="_group__ext__scalar__int__sized_1gafc36c598ca57ab4a9286a53bf91a5fff">int32</link>&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<link linkend="_group__ext__scalar__int__sized_1gafc36c598ca57ab4a9286a53bf91a5fff">int32</link>&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>)
+418 &#32;&#32;&#32;&#32;{
+419 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">union&#32;</emphasis>sign32
+420 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+421 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__ext__scalar__int__sized_1gafc36c598ca57ab4a9286a53bf91a5fff">int32</link>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>;
+422 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__ext__scalar__uint__sized_1ga22033ef3f73efe1da8e437410adda3be">uint32</link>&#32;u;
+423 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}&#32;sign_x,&#32;sign_y;
+424 
+425 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">union&#32;</emphasis>sign64
+426 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+427 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__ext__scalar__int__sized_1ga435d75819cce297cc5fa21bd84ef89a5">int64</link>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>;
+428 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__ext__scalar__uint__sized_1gae3632bf9b37da66233d78930dd06378a">uint64</link>&#32;u;
+429 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}&#32;<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>;
+430 
+431 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sign_x.i&#32;=&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>;
+432 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sign_y.i&#32;=&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>;
+433 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>.u&#32;=&#32;<link linkend="_group__gtc__bitfield_1ga479134317bc95d99f2b2e235d3db287b">bitfieldInterleave</link>(sign_x.u,&#32;sign_y.u);
+434 
+435 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>.i;
+436 &#32;&#32;&#32;&#32;}
+437 
+438 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_group__ext__scalar__uint__sized_1gae3632bf9b37da66233d78930dd06378a">uint64</link>&#32;<link linkend="_group__gtc__bitfield_1ga479134317bc95d99f2b2e235d3db287b">bitfieldInterleave</link>(<link linkend="_group__ext__scalar__uint__sized_1ga22033ef3f73efe1da8e437410adda3be">uint32</link>&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<link linkend="_group__ext__scalar__uint__sized_1ga22033ef3f73efe1da8e437410adda3be">uint32</link>&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>)
+439 &#32;&#32;&#32;&#32;{
+440 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_namespaceglm_1_1detail_1a39644ee418ae41e3393d1cb6191e32a7">detail::bitfieldInterleave&lt;uint32, uint64&gt;</link>(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>);
+441 &#32;&#32;&#32;&#32;}
+442 
+443 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_group__ext__scalar__uint__sized_1gae3632bf9b37da66233d78930dd06378a">glm::uint64</link>&#32;<link linkend="_group__gtc__bitfield_1ga479134317bc95d99f2b2e235d3db287b">bitfieldInterleave</link>(<link linkend="_structglm_1_1vec">u32vec2</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+444 &#32;&#32;&#32;&#32;{
+445 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_namespaceglm_1_1detail_1a39644ee418ae41e3393d1cb6191e32a7">detail::bitfieldInterleave&lt;uint32, uint64&gt;</link>(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x,&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y);
+446 &#32;&#32;&#32;&#32;}
+447 
+448 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_structglm_1_1vec">glm::u32vec2</link>&#32;<link linkend="_group__gtc__bitfield_1ga960049f17c6d851d621e094b6676f56d">bitfieldDeinterleave</link>(<link linkend="_group__ext__scalar__uint__sized_1gae3632bf9b37da66233d78930dd06378a">glm::uint64</link>&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>)
+449 &#32;&#32;&#32;&#32;{
+450 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__ext__scalar__uint__sized_1gae3632bf9b37da66233d78930dd06378a">glm::uint64</link>&#32;REG1(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>);
+451 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__ext__scalar__uint__sized_1gae3632bf9b37da66233d78930dd06378a">glm::uint64</link>&#32;REG2(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>&#32;&gt;&gt;=&#32;1);
+452 
+453 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG1&#32;=&#32;REG1&#32;&amp;&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="_group__ext__scalar__uint__sized_1gae3632bf9b37da66233d78930dd06378a">glm::uint64</link><emphasis role="keyword">&gt;</emphasis>(0x5555555555555555ull);
+454 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG2&#32;=&#32;REG2&#32;&amp;&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="_group__ext__scalar__uint__sized_1gae3632bf9b37da66233d78930dd06378a">glm::uint64</link><emphasis role="keyword">&gt;</emphasis>(0x5555555555555555ull);
+455 
+456 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG1&#32;=&#32;((REG1&#32;&gt;&gt;&#32;1)&#32;|&#32;REG1)&#32;&amp;&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="_group__ext__scalar__uint__sized_1gae3632bf9b37da66233d78930dd06378a">glm::uint64</link><emphasis role="keyword">&gt;</emphasis>(0x3333333333333333ull);
+457 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG2&#32;=&#32;((REG2&#32;&gt;&gt;&#32;1)&#32;|&#32;REG2)&#32;&amp;&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="_group__ext__scalar__uint__sized_1gae3632bf9b37da66233d78930dd06378a">glm::uint64</link><emphasis role="keyword">&gt;</emphasis>(0x3333333333333333ull);
+458 
+459 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG1&#32;=&#32;((REG1&#32;&gt;&gt;&#32;2)&#32;|&#32;REG1)&#32;&amp;&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="_group__ext__scalar__uint__sized_1gae3632bf9b37da66233d78930dd06378a">glm::uint64</link><emphasis role="keyword">&gt;</emphasis>(0x0F0F0F0F0F0F0F0Full);
+460 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG2&#32;=&#32;((REG2&#32;&gt;&gt;&#32;2)&#32;|&#32;REG2)&#32;&amp;&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="_group__ext__scalar__uint__sized_1gae3632bf9b37da66233d78930dd06378a">glm::uint64</link><emphasis role="keyword">&gt;</emphasis>(0x0F0F0F0F0F0F0F0Full);
+461 
+462 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG1&#32;=&#32;((REG1&#32;&gt;&gt;&#32;4)&#32;|&#32;REG1)&#32;&amp;&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="_group__ext__scalar__uint__sized_1gae3632bf9b37da66233d78930dd06378a">glm::uint64</link><emphasis role="keyword">&gt;</emphasis>(0x00FF00FF00FF00FFull);
+463 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG2&#32;=&#32;((REG2&#32;&gt;&gt;&#32;4)&#32;|&#32;REG2)&#32;&amp;&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="_group__ext__scalar__uint__sized_1gae3632bf9b37da66233d78930dd06378a">glm::uint64</link><emphasis role="keyword">&gt;</emphasis>(0x00FF00FF00FF00FFull);
+464 
+465 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG1&#32;=&#32;((REG1&#32;&gt;&gt;&#32;8)&#32;|&#32;REG1)&#32;&amp;&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="_group__ext__scalar__uint__sized_1gae3632bf9b37da66233d78930dd06378a">glm::uint64</link><emphasis role="keyword">&gt;</emphasis>(0x0000FFFF0000FFFFull);
+466 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG2&#32;=&#32;((REG2&#32;&gt;&gt;&#32;8)&#32;|&#32;REG2)&#32;&amp;&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="_group__ext__scalar__uint__sized_1gae3632bf9b37da66233d78930dd06378a">glm::uint64</link><emphasis role="keyword">&gt;</emphasis>(0x0000FFFF0000FFFFull);
+467 
+468 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG1&#32;=&#32;((REG1&#32;&gt;&gt;&#32;16)&#32;|&#32;REG1)&#32;&amp;&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="_group__ext__scalar__uint__sized_1gae3632bf9b37da66233d78930dd06378a">glm::uint64</link><emphasis role="keyword">&gt;</emphasis>(0x00000000FFFFFFFFull);
+469 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REG2&#32;=&#32;((REG2&#32;&gt;&gt;&#32;16)&#32;|&#32;REG2)&#32;&amp;&#32;<emphasis role="keyword">static_cast&lt;</emphasis><link linkend="_group__ext__scalar__uint__sized_1gae3632bf9b37da66233d78930dd06378a">glm::uint64</link><emphasis role="keyword">&gt;</emphasis>(0x00000000FFFFFFFFull);
+470 
+471 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_group__ext__vector__uint2__sized_1gad854a1005ce84d8f6e8f05e42893f5c9">glm::u32vec2</link>(REG1,&#32;REG2);
+472 &#32;&#32;&#32;&#32;}
+473 
+474 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_group__ext__scalar__int__sized_1gafc36c598ca57ab4a9286a53bf91a5fff">int32</link>&#32;<link linkend="_group__gtc__bitfield_1ga479134317bc95d99f2b2e235d3db287b">bitfieldInterleave</link>(<link linkend="_group__ext__scalar__int__sized_1gaf9d6ceaf8a36734c0a026f6f699ff60c">int8</link>&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<link linkend="_group__ext__scalar__int__sized_1gaf9d6ceaf8a36734c0a026f6f699ff60c">int8</link>&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>,&#32;<link linkend="_group__ext__scalar__int__sized_1gaf9d6ceaf8a36734c0a026f6f699ff60c">int8</link>&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>)
+475 &#32;&#32;&#32;&#32;{
+476 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">union&#32;</emphasis>sign8
+477 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+478 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__ext__scalar__int__sized_1gaf9d6ceaf8a36734c0a026f6f699ff60c">int8</link>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>;
+479 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__ext__scalar__uint__sized_1ga536143d82147bb78849bfccffece8bff">uint8</link>&#32;u;
+480 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}&#32;sign_x,&#32;sign_y,&#32;sign_z;
+481 
+482 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">union&#32;</emphasis>sign32
+483 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+484 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__ext__scalar__int__sized_1gafc36c598ca57ab4a9286a53bf91a5fff">int32</link>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>;
+485 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__ext__scalar__uint__sized_1ga22033ef3f73efe1da8e437410adda3be">uint32</link>&#32;u;
+486 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}&#32;<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>;
+487 
+488 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sign_x.i&#32;=&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>;
+489 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sign_y.i&#32;=&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>;
+490 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sign_z.i&#32;=&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>;
+491 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>.u&#32;=&#32;<link linkend="_group__gtc__bitfield_1ga479134317bc95d99f2b2e235d3db287b">bitfieldInterleave</link>(sign_x.u,&#32;sign_y.u,&#32;sign_z.u);
+492 
+493 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>.i;
+494 &#32;&#32;&#32;&#32;}
+495 
+496 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_group__ext__scalar__uint__sized_1ga22033ef3f73efe1da8e437410adda3be">uint32</link>&#32;<link linkend="_group__gtc__bitfield_1ga479134317bc95d99f2b2e235d3db287b">bitfieldInterleave</link>(<link linkend="_group__ext__scalar__uint__sized_1ga536143d82147bb78849bfccffece8bff">uint8</link>&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<link linkend="_group__ext__scalar__uint__sized_1ga536143d82147bb78849bfccffece8bff">uint8</link>&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>,&#32;<link linkend="_group__ext__scalar__uint__sized_1ga536143d82147bb78849bfccffece8bff">uint8</link>&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>)
+497 &#32;&#32;&#32;&#32;{
+498 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_namespaceglm_1_1detail_1a39644ee418ae41e3393d1cb6191e32a7">detail::bitfieldInterleave&lt;uint8, uint32&gt;</link>(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>,&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>);
+499 &#32;&#32;&#32;&#32;}
+500 
+501 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_group__ext__scalar__uint__sized_1ga22033ef3f73efe1da8e437410adda3be">uint32</link>&#32;<link linkend="_group__gtc__bitfield_1ga479134317bc95d99f2b2e235d3db287b">bitfieldInterleave</link>(<link linkend="_structglm_1_1vec">u8vec3</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+502 &#32;&#32;&#32;&#32;{
+503 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_namespaceglm_1_1detail_1a39644ee418ae41e3393d1cb6191e32a7">detail::bitfieldInterleave&lt;uint8, uint32&gt;</link>(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x,&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y,&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.z);
+504 &#32;&#32;&#32;&#32;}
+505 
+506 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_group__ext__scalar__int__sized_1ga435d75819cce297cc5fa21bd84ef89a5">int64</link>&#32;<link linkend="_group__gtc__bitfield_1ga479134317bc95d99f2b2e235d3db287b">bitfieldInterleave</link>(<link linkend="_group__ext__scalar__int__sized_1ga22d9cd55823f7c4aeee13aceafd7238a">int16</link>&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<link linkend="_group__ext__scalar__int__sized_1ga22d9cd55823f7c4aeee13aceafd7238a">int16</link>&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>,&#32;<link linkend="_group__ext__scalar__int__sized_1ga22d9cd55823f7c4aeee13aceafd7238a">int16</link>&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>)
+507 &#32;&#32;&#32;&#32;{
+508 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">union&#32;</emphasis>sign16
+509 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+510 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__ext__scalar__int__sized_1ga22d9cd55823f7c4aeee13aceafd7238a">int16</link>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>;
+511 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__ext__scalar__uint__sized_1ga6201f5c504a50620708b19bae303c32a">uint16</link>&#32;u;
+512 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}&#32;sign_x,&#32;sign_y,&#32;sign_z;
+513 
+514 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">union&#32;</emphasis>sign64
+515 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+516 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__ext__scalar__int__sized_1ga435d75819cce297cc5fa21bd84ef89a5">int64</link>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>;
+517 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__ext__scalar__uint__sized_1gae3632bf9b37da66233d78930dd06378a">uint64</link>&#32;u;
+518 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}&#32;<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>;
+519 
+520 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sign_x.i&#32;=&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>;
+521 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sign_y.i&#32;=&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>;
+522 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sign_z.i&#32;=&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>;
+523 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>.u&#32;=&#32;<link linkend="_group__gtc__bitfield_1ga479134317bc95d99f2b2e235d3db287b">bitfieldInterleave</link>(sign_x.u,&#32;sign_y.u,&#32;sign_z.u);
+524 
+525 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>.i;
+526 &#32;&#32;&#32;&#32;}
+527 
+528 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_group__ext__scalar__uint__sized_1gae3632bf9b37da66233d78930dd06378a">uint64</link>&#32;<link linkend="_group__gtc__bitfield_1ga479134317bc95d99f2b2e235d3db287b">bitfieldInterleave</link>(<link linkend="_group__ext__scalar__uint__sized_1ga6201f5c504a50620708b19bae303c32a">uint16</link>&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<link linkend="_group__ext__scalar__uint__sized_1ga6201f5c504a50620708b19bae303c32a">uint16</link>&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>,&#32;<link linkend="_group__ext__scalar__uint__sized_1ga6201f5c504a50620708b19bae303c32a">uint16</link>&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>)
+529 &#32;&#32;&#32;&#32;{
+530 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_namespaceglm_1_1detail_1a39644ee418ae41e3393d1cb6191e32a7">detail::bitfieldInterleave&lt;uint32, uint64&gt;</link>(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>,&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>);
+531 &#32;&#32;&#32;&#32;}
+532 
+533 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_group__ext__scalar__uint__sized_1gae3632bf9b37da66233d78930dd06378a">uint64</link>&#32;<link linkend="_group__gtc__bitfield_1ga479134317bc95d99f2b2e235d3db287b">bitfieldInterleave</link>(<link linkend="_structglm_1_1vec">u16vec3</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+534 &#32;&#32;&#32;&#32;{
+535 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_namespaceglm_1_1detail_1a39644ee418ae41e3393d1cb6191e32a7">detail::bitfieldInterleave&lt;uint32, uint64&gt;</link>(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x,&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y,&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.z);
+536 &#32;&#32;&#32;&#32;}
+537 
+538 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_group__ext__scalar__int__sized_1ga435d75819cce297cc5fa21bd84ef89a5">int64</link>&#32;<link linkend="_group__gtc__bitfield_1ga479134317bc95d99f2b2e235d3db287b">bitfieldInterleave</link>(<link linkend="_group__ext__scalar__int__sized_1gafc36c598ca57ab4a9286a53bf91a5fff">int32</link>&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<link linkend="_group__ext__scalar__int__sized_1gafc36c598ca57ab4a9286a53bf91a5fff">int32</link>&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>,&#32;<link linkend="_group__ext__scalar__int__sized_1gafc36c598ca57ab4a9286a53bf91a5fff">int32</link>&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>)
+539 &#32;&#32;&#32;&#32;{
+540 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">union&#32;</emphasis>sign16
+541 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+542 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__ext__scalar__int__sized_1gafc36c598ca57ab4a9286a53bf91a5fff">int32</link>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>;
+543 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__ext__scalar__uint__sized_1ga22033ef3f73efe1da8e437410adda3be">uint32</link>&#32;u;
+544 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}&#32;sign_x,&#32;sign_y,&#32;sign_z;
+545 
+546 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">union&#32;</emphasis>sign64
+547 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+548 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__ext__scalar__int__sized_1ga435d75819cce297cc5fa21bd84ef89a5">int64</link>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>;
+549 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__ext__scalar__uint__sized_1gae3632bf9b37da66233d78930dd06378a">uint64</link>&#32;u;
+550 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}&#32;<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>;
+551 
+552 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sign_x.i&#32;=&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>;
+553 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sign_y.i&#32;=&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>;
+554 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sign_z.i&#32;=&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>;
+555 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>.u&#32;=&#32;<link linkend="_group__gtc__bitfield_1ga479134317bc95d99f2b2e235d3db287b">bitfieldInterleave</link>(sign_x.u,&#32;sign_y.u,&#32;sign_z.u);
+556 
+557 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>.i;
+558 &#32;&#32;&#32;&#32;}
+559 
+560 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_group__ext__scalar__uint__sized_1gae3632bf9b37da66233d78930dd06378a">uint64</link>&#32;<link linkend="_group__gtc__bitfield_1ga479134317bc95d99f2b2e235d3db287b">bitfieldInterleave</link>(<link linkend="_group__ext__scalar__uint__sized_1ga22033ef3f73efe1da8e437410adda3be">uint32</link>&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<link linkend="_group__ext__scalar__uint__sized_1ga22033ef3f73efe1da8e437410adda3be">uint32</link>&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>,&#32;<link linkend="_group__ext__scalar__uint__sized_1ga22033ef3f73efe1da8e437410adda3be">uint32</link>&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>)
+561 &#32;&#32;&#32;&#32;{
+562 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_namespaceglm_1_1detail_1a39644ee418ae41e3393d1cb6191e32a7">detail::bitfieldInterleave&lt;uint32, uint64&gt;</link>(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>,&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>);
+563 &#32;&#32;&#32;&#32;}
+564 
+565 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_group__ext__scalar__uint__sized_1gae3632bf9b37da66233d78930dd06378a">uint64</link>&#32;<link linkend="_group__gtc__bitfield_1ga479134317bc95d99f2b2e235d3db287b">bitfieldInterleave</link>(<link linkend="_structglm_1_1vec">u32vec3</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+566 &#32;&#32;&#32;&#32;{
+567 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_namespaceglm_1_1detail_1a39644ee418ae41e3393d1cb6191e32a7">detail::bitfieldInterleave&lt;uint32, uint64&gt;</link>(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x,&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y,&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.z);
+568 &#32;&#32;&#32;&#32;}
+569 
+570 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_group__ext__scalar__int__sized_1gafc36c598ca57ab4a9286a53bf91a5fff">int32</link>&#32;<link linkend="_group__gtc__bitfield_1ga479134317bc95d99f2b2e235d3db287b">bitfieldInterleave</link>(<link linkend="_group__ext__scalar__int__sized_1gaf9d6ceaf8a36734c0a026f6f699ff60c">int8</link>&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<link linkend="_group__ext__scalar__int__sized_1gaf9d6ceaf8a36734c0a026f6f699ff60c">int8</link>&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>,&#32;<link linkend="_group__ext__scalar__int__sized_1gaf9d6ceaf8a36734c0a026f6f699ff60c">int8</link>&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>,&#32;<link linkend="_group__ext__scalar__int__sized_1gaf9d6ceaf8a36734c0a026f6f699ff60c">int8</link>&#32;<link linkend="_glad_8h_1ab78941ba2fcaab3b1a29f0432e9ea42e">w</link>)
+571 &#32;&#32;&#32;&#32;{
+572 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">union&#32;</emphasis>sign8
+573 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+574 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__ext__scalar__int__sized_1gaf9d6ceaf8a36734c0a026f6f699ff60c">int8</link>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>;
+575 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__ext__scalar__uint__sized_1ga536143d82147bb78849bfccffece8bff">uint8</link>&#32;u;
+576 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}&#32;sign_x,&#32;sign_y,&#32;sign_z,&#32;sign_w;
+577 
+578 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">union&#32;</emphasis>sign32
+579 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+580 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__ext__scalar__int__sized_1gafc36c598ca57ab4a9286a53bf91a5fff">int32</link>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>;
+581 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__ext__scalar__uint__sized_1ga22033ef3f73efe1da8e437410adda3be">uint32</link>&#32;u;
+582 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}&#32;<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>;
+583 
+584 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sign_x.i&#32;=&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>;
+585 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sign_y.i&#32;=&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>;
+586 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sign_z.i&#32;=&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>;
+587 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sign_w.i&#32;=&#32;<link linkend="_glad_8h_1ab78941ba2fcaab3b1a29f0432e9ea42e">w</link>;
+588 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>.u&#32;=&#32;<link linkend="_group__gtc__bitfield_1ga479134317bc95d99f2b2e235d3db287b">bitfieldInterleave</link>(sign_x.u,&#32;sign_y.u,&#32;sign_z.u,&#32;sign_w.u);
+589 
+590 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>.i;
+591 &#32;&#32;&#32;&#32;}
+592 
+593 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_group__ext__scalar__uint__sized_1ga22033ef3f73efe1da8e437410adda3be">uint32</link>&#32;<link linkend="_group__gtc__bitfield_1ga479134317bc95d99f2b2e235d3db287b">bitfieldInterleave</link>(<link linkend="_group__ext__scalar__uint__sized_1ga536143d82147bb78849bfccffece8bff">uint8</link>&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<link linkend="_group__ext__scalar__uint__sized_1ga536143d82147bb78849bfccffece8bff">uint8</link>&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>,&#32;<link linkend="_group__ext__scalar__uint__sized_1ga536143d82147bb78849bfccffece8bff">uint8</link>&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>,&#32;<link linkend="_group__ext__scalar__uint__sized_1ga536143d82147bb78849bfccffece8bff">uint8</link>&#32;<link linkend="_glad_8h_1ab78941ba2fcaab3b1a29f0432e9ea42e">w</link>)
+594 &#32;&#32;&#32;&#32;{
+595 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_namespaceglm_1_1detail_1a39644ee418ae41e3393d1cb6191e32a7">detail::bitfieldInterleave&lt;uint8, uint32&gt;</link>(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>,&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>,&#32;<link linkend="_glad_8h_1ab78941ba2fcaab3b1a29f0432e9ea42e">w</link>);
+596 &#32;&#32;&#32;&#32;}
+597 
+598 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_group__ext__scalar__uint__sized_1ga22033ef3f73efe1da8e437410adda3be">uint32</link>&#32;<link linkend="_group__gtc__bitfield_1ga479134317bc95d99f2b2e235d3db287b">bitfieldInterleave</link>(<link linkend="_structglm_1_1vec">u8vec4</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+599 &#32;&#32;&#32;&#32;{
+600 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_namespaceglm_1_1detail_1a39644ee418ae41e3393d1cb6191e32a7">detail::bitfieldInterleave&lt;uint8, uint32&gt;</link>(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x,&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y,&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.z,&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.w);
+601 &#32;&#32;&#32;&#32;}
+602 
+603 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_group__ext__scalar__int__sized_1ga435d75819cce297cc5fa21bd84ef89a5">int64</link>&#32;<link linkend="_group__gtc__bitfield_1ga479134317bc95d99f2b2e235d3db287b">bitfieldInterleave</link>(<link linkend="_group__ext__scalar__int__sized_1ga22d9cd55823f7c4aeee13aceafd7238a">int16</link>&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<link linkend="_group__ext__scalar__int__sized_1ga22d9cd55823f7c4aeee13aceafd7238a">int16</link>&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>,&#32;<link linkend="_group__ext__scalar__int__sized_1ga22d9cd55823f7c4aeee13aceafd7238a">int16</link>&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>,&#32;<link linkend="_group__ext__scalar__int__sized_1ga22d9cd55823f7c4aeee13aceafd7238a">int16</link>&#32;<link linkend="_glad_8h_1ab78941ba2fcaab3b1a29f0432e9ea42e">w</link>)
+604 &#32;&#32;&#32;&#32;{
+605 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">union&#32;</emphasis>sign16
+606 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+607 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__ext__scalar__int__sized_1ga22d9cd55823f7c4aeee13aceafd7238a">int16</link>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>;
+608 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__ext__scalar__uint__sized_1ga6201f5c504a50620708b19bae303c32a">uint16</link>&#32;u;
+609 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}&#32;sign_x,&#32;sign_y,&#32;sign_z,&#32;sign_w;
+610 
+611 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">union&#32;</emphasis>sign64
+612 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+613 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__ext__scalar__int__sized_1ga435d75819cce297cc5fa21bd84ef89a5">int64</link>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>;
+614 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_group__ext__scalar__uint__sized_1gae3632bf9b37da66233d78930dd06378a">uint64</link>&#32;u;
+615 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}&#32;<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>;
+616 
+617 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sign_x.i&#32;=&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>;
+618 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sign_y.i&#32;=&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>;
+619 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sign_z.i&#32;=&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>;
+620 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sign_w.i&#32;=&#32;<link linkend="_glad_8h_1ab78941ba2fcaab3b1a29f0432e9ea42e">w</link>;
+621 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>.u&#32;=&#32;<link linkend="_group__gtc__bitfield_1ga479134317bc95d99f2b2e235d3db287b">bitfieldInterleave</link>(sign_x.u,&#32;sign_y.u,&#32;sign_z.u,&#32;sign_w.u);
+622 
+623 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>.i;
+624 &#32;&#32;&#32;&#32;}
+625 
+626 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_group__ext__scalar__uint__sized_1gae3632bf9b37da66233d78930dd06378a">uint64</link>&#32;<link linkend="_group__gtc__bitfield_1ga479134317bc95d99f2b2e235d3db287b">bitfieldInterleave</link>(<link linkend="_group__ext__scalar__uint__sized_1ga6201f5c504a50620708b19bae303c32a">uint16</link>&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<link linkend="_group__ext__scalar__uint__sized_1ga6201f5c504a50620708b19bae303c32a">uint16</link>&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>,&#32;<link linkend="_group__ext__scalar__uint__sized_1ga6201f5c504a50620708b19bae303c32a">uint16</link>&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>,&#32;<link linkend="_group__ext__scalar__uint__sized_1ga6201f5c504a50620708b19bae303c32a">uint16</link>&#32;<link linkend="_glad_8h_1ab78941ba2fcaab3b1a29f0432e9ea42e">w</link>)
+627 &#32;&#32;&#32;&#32;{
+628 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_namespaceglm_1_1detail_1a39644ee418ae41e3393d1cb6191e32a7">detail::bitfieldInterleave&lt;uint16, uint64&gt;</link>(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>,&#32;<link linkend="_glad_8h_1a1c599441d9dece861ee2cd70e31ce120">z</link>,&#32;<link linkend="_glad_8h_1ab78941ba2fcaab3b1a29f0432e9ea42e">w</link>);
+629 &#32;&#32;&#32;&#32;}
+630 
+631 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_group__ext__scalar__uint__sized_1gae3632bf9b37da66233d78930dd06378a">uint64</link>&#32;<link linkend="_group__gtc__bitfield_1ga479134317bc95d99f2b2e235d3db287b">bitfieldInterleave</link>(<link linkend="_structglm_1_1vec">u16vec4</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>)
+632 &#32;&#32;&#32;&#32;{
+633 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_namespaceglm_1_1detail_1a39644ee418ae41e3393d1cb6191e32a7">detail::bitfieldInterleave&lt;uint16, uint64&gt;</link>(<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.x,&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.y,&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.z,&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>.w);
+634 &#32;&#32;&#32;&#32;}
+635 }<emphasis role="comment">//namespace&#32;glm</emphasis>
+</programlisting></section>

@@ -1,0 +1,277 @@
+.TH "adhed/common/tracy_lz4hc.cpp" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+adhed/common/tracy_lz4hc.cpp
+.SH SYNOPSIS
+.br
+.PP
+\fR#include 'tracy_lz4hc\&.hpp'\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBtracy::LZ4HC_optimal_t\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::LZ4HC_match_t\fP"
+.br
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI "namespace \fBtracy\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBLZ4HC_HEAPMODE\fP   1"
+.br
+.ti -1c
+.RI "#define \fBLZ4_HC_STATIC_LINKING_ONLY\fP"
+.br
+.ti -1c
+.RI "#define \fBLZ4_COMMONDEFS_ONLY\fP"
+.br
+.ti -1c
+.RI "#define \fBOPTIMAL_ML\fP   (int)((\fBML_MASK\fP\-1)+\fBMINMATCH\fP)"
+.br
+.ti -1c
+.RI "#define \fBLZ4_OPT_NUM\fP   (1<<12)"
+.br
+.ti -1c
+.RI "#define \fBMIN\fP(\fBa\fP,  \fBb\fP)   ( (\fBa\fP) < (\fBb\fP) ? (\fBa\fP) : (\fBb\fP) )"
+.br
+.ti -1c
+.RI "#define \fBMAX\fP(\fBa\fP,  \fBb\fP)   ( (\fBa\fP) > (\fBb\fP) ? (\fBa\fP) : (\fBb\fP) )"
+.br
+.ti -1c
+.RI "#define \fBHASH_FUNCTION\fP(\fBi\fP)   (((\fBi\fP) * 2654435761\fBU\fP) >> ((\fBMINMATCH\fP*8)\-\fBLZ4HC_HASH_LOG\fP))"
+.br
+.ti -1c
+.RI "#define \fBDELTANEXTMAXD\fP(p)   chainTable[(p) & \fBLZ4HC_MAXD_MASK\fP]    /* flexible, \fBLZ4HC_MAXD\fP dependent */"
+.br
+.ti -1c
+.RI "#define \fBDELTANEXTU16\fP(table,  pos)   table[(\fBU16\fP)(pos)]   /* faster */"
+.br
+.ti -1c
+.RI "#define \fBUPDATABLE\fP(\fBip\fP,  \fBop\fP,  \fBanchor\fP)   &\fBip\fP, &\fBop\fP, &\fBanchor\fP"
+.br
+.ti -1c
+.RI "#define \fBLZ4HC_rotl32\fP(\fBx\fP,  \fBr\fP)   ((\fBx\fP << \fBr\fP) | (\fBx\fP >> (32 \- \fBr\fP)))"
+.br
+.ti -1c
+.RI "#define \fBip\fP   (*_ip)"
+.br
+.ti -1c
+.RI "#define \fBop\fP   (*_op)"
+.br
+.ti -1c
+.RI "#define \fBanchor\fP   (*_anchor)"
+.br
+.ti -1c
+.RI "#define \fBTRAILING_LITERALS\fP   3"
+.br
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBdictCtx_directive\fP { \fBnoDictCtx\fP, \fBusingDictCtxHc\fP }"
+.br
+.ti -1c
+.RI "enum \fBtracy::repeat_state_e\fP { \fBtracy::rep_untested\fP, \fBtracy::rep_not\fP, \fBtracy::rep_confirmed\fP }"
+.br
+.ti -1c
+.RI "enum \fBtracy::HCfavor_e\fP { \fBtracy::favorCompressionRatio\fP =0, \fBtracy::favorDecompressionSpeed\fP }"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBLZ4_FORCE_INLINE\fP \fBvoid\fP \fBtracy::LZ4HC_Insert\fP (\fBLZ4HC_CCtx_internal\fP *hc4, const \fBBYTE\fP *\fBip\fP)"
+.br
+.ti -1c
+.RI "\fBLZ4_FORCE_INLINE\fP int \fBtracy::LZ4HC_countBack\fP (const \fBBYTE\fP *const \fBip\fP, const \fBBYTE\fP *const match, const \fBBYTE\fP *const iMin, const \fBBYTE\fP *const mMin)"
+.br
+.ti -1c
+.RI "\fBLZ4_FORCE_INLINE\fP int \fBtracy::LZ4HC_InsertAndGetWiderMatch\fP (\fBLZ4HC_CCtx_internal\fP *const hc4, const \fBBYTE\fP *const \fBip\fP, const \fBBYTE\fP *const iLowLimit, const \fBBYTE\fP *const iHighLimit, int longest, const \fBBYTE\fP **matchpos, const \fBBYTE\fP **startpos, const int maxNbAttempts, const int patternAnalysis, const int chainSwap, const \fBdictCtx_directive\fP dict, const \fBHCfavor_e\fP favorDecSpeed)"
+.br
+.ti -1c
+.RI "\fBLZ4_FORCE_INLINE\fP int \fBtracy::LZ4HC_InsertAndFindBestMatch\fP (\fBLZ4HC_CCtx_internal\fP *const hc4, const \fBBYTE\fP *const \fBip\fP, const \fBBYTE\fP *const iLimit, const \fBBYTE\fP **matchpos, const int maxNbAttempts, const int patternAnalysis, const \fBdictCtx_directive\fP dict)"
+.br
+.ti -1c
+.RI "\fBLZ4_FORCE_INLINE\fP int \fBtracy::LZ4HC_encodeSequence\fP (const \fBBYTE\fP **_ip, \fBBYTE\fP **_op, const \fBBYTE\fP **_anchor, int matchLength, const \fBBYTE\fP *const match, \fBlimitedOutput_directive\fP limit, \fBBYTE\fP *oend)"
+.br
+.ti -1c
+.RI "\fBLZ4_FORCE_INLINE\fP int \fBtracy::LZ4HC_compress_hashChain\fP (\fBLZ4HC_CCtx_internal\fP *const ctx, const char *const \fBsource\fP, char *const \fBdest\fP, int *srcSizePtr, int const \fBmaxOutputSize\fP, int maxNbAttempts, const \fBlimitedOutput_directive\fP limit, const \fBdictCtx_directive\fP dict)"
+.br
+.ti -1c
+.RI "\fBLZ4_FORCE_INLINE\fP int \fBtracy::LZ4HC_compress_generic_internal\fP (\fBLZ4HC_CCtx_internal\fP *const ctx, const char *const \fBsrc\fP, char *const \fBdst\fP, int *const srcSizePtr, int const dstCapacity, int cLevel, const \fBlimitedOutput_directive\fP limit, const \fBdictCtx_directive\fP dict)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_sizeofStateHC\fP (\fBvoid\fP)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_compress_HC_extStateHC_fastReset\fP (\fBvoid\fP *state, const char *\fBsrc\fP, char *\fBdst\fP, int \fBsrcSize\fP, int dstCapacity, int \fBcompressionLevel\fP)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_compress_HC_extStateHC\fP (\fBvoid\fP *state, const char *\fBsrc\fP, char *\fBdst\fP, int \fBsrcSize\fP, int dstCapacity, int \fBcompressionLevel\fP)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_compress_HC\fP (const char *\fBsrc\fP, char *\fBdst\fP, int \fBsrcSize\fP, int dstCapacity, int \fBcompressionLevel\fP)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_compress_HC_destSize\fP (\fBvoid\fP *state, const char *\fBsource\fP, char *\fBdest\fP, int *sourceSizePtr, int targetDestSize, int cLevel)"
+.br
+.ti -1c
+.RI "\fBLZ4_streamHC_t\fP * \fBtracy::LZ4_createStreamHC\fP (\fBvoid\fP)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_freeStreamHC\fP (\fBLZ4_streamHC_t\fP *LZ4_streamHCPtr)"
+.br
+.ti -1c
+.RI "\fBLZ4_streamHC_t\fP * \fBtracy::LZ4_initStreamHC\fP (\fBvoid\fP *\fBbuffer\fP, size_t \fBsize\fP)"
+.br
+.ti -1c
+.RI "\fBvoid\fP \fBtracy::LZ4_resetStreamHC\fP (\fBLZ4_streamHC_t\fP *LZ4_streamHCPtr, int \fBcompressionLevel\fP)"
+.br
+.ti -1c
+.RI "\fBvoid\fP \fBtracy::LZ4_resetStreamHC_fast\fP (\fBLZ4_streamHC_t\fP *LZ4_streamHCPtr, int \fBcompressionLevel\fP)"
+.br
+.ti -1c
+.RI "\fBvoid\fP \fBtracy::LZ4_setCompressionLevel\fP (\fBLZ4_streamHC_t\fP *LZ4_streamHCPtr, int \fBcompressionLevel\fP)"
+.br
+.ti -1c
+.RI "\fBvoid\fP \fBtracy::LZ4_favorDecompressionSpeed\fP (\fBLZ4_streamHC_t\fP *LZ4_streamHCPtr, int favor)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_loadDictHC\fP (\fBLZ4_streamHC_t\fP *LZ4_streamHCPtr, const char *dictionary, int dictSize)"
+.br
+.ti -1c
+.RI "\fBvoid\fP \fBtracy::LZ4_attach_HC_dictionary\fP (\fBLZ4_streamHC_t\fP *working_stream, const \fBLZ4_streamHC_t\fP *dictionary_stream)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_compress_HC_continue\fP (\fBLZ4_streamHC_t\fP *LZ4_streamHCPtr, const char *\fBsrc\fP, char *\fBdst\fP, int \fBsrcSize\fP, int dstCapacity)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_compress_HC_continue_destSize\fP (\fBLZ4_streamHC_t\fP *LZ4_streamHCPtr, const char *\fBsrc\fP, char *\fBdst\fP, int *srcSizePtr, int targetDestSize)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_saveDictHC\fP (\fBLZ4_streamHC_t\fP *LZ4_streamHCPtr, char *safeBuffer, int dictSize)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_compressHC\fP (const char *\fBsrc\fP, char *\fBdst\fP, int \fBsrcSize\fP)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_compressHC_limitedOutput\fP (const char *\fBsrc\fP, char *\fBdst\fP, int \fBsrcSize\fP, int \fBmaxDstSize\fP)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_compressHC2\fP (const char *\fBsrc\fP, char *\fBdst\fP, int \fBsrcSize\fP, int cLevel)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_compressHC2_limitedOutput\fP (const char *\fBsrc\fP, char *\fBdst\fP, int \fBsrcSize\fP, int \fBmaxDstSize\fP, int cLevel)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_compressHC_withStateHC\fP (\fBvoid\fP *state, const char *\fBsrc\fP, char *\fBdst\fP, int \fBsrcSize\fP)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_compressHC_limitedOutput_withStateHC\fP (\fBvoid\fP *state, const char *\fBsrc\fP, char *\fBdst\fP, int \fBsrcSize\fP, int \fBmaxDstSize\fP)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_compressHC2_withStateHC\fP (\fBvoid\fP *state, const char *\fBsrc\fP, char *\fBdst\fP, int \fBsrcSize\fP, int cLevel)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_compressHC2_limitedOutput_withStateHC\fP (\fBvoid\fP *state, const char *\fBsrc\fP, char *\fBdst\fP, int \fBsrcSize\fP, int \fBmaxDstSize\fP, int cLevel)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_compressHC_continue\fP (\fBLZ4_streamHC_t\fP *ctx, const char *\fBsrc\fP, char *\fBdst\fP, int \fBsrcSize\fP)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_compressHC_limitedOutput_continue\fP (\fBLZ4_streamHC_t\fP *ctx, const char *\fBsrc\fP, char *\fBdst\fP, int \fBsrcSize\fP, int \fBmaxDstSize\fP)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_sizeofStreamStateHC\fP (\fBvoid\fP)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_resetStreamStateHC\fP (\fBvoid\fP *state, char *\fBinputBuffer\fP)"
+.br
+.ti -1c
+.RI "\fBvoid\fP * \fBtracy::LZ4_createHC\fP (const char *\fBinputBuffer\fP)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_freeHC\fP (\fBvoid\fP *LZ4HC_Data)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_compressHC2_continue\fP (\fBvoid\fP *LZ4HC_Data, const char *\fBsrc\fP, char *\fBdst\fP, int \fBsrcSize\fP, int cLevel)"
+.br
+.ti -1c
+.RI "int \fBtracy::LZ4_compressHC2_limitedOutput_continue\fP (\fBvoid\fP *LZ4HC_Data, const char *\fBsrc\fP, char *\fBdst\fP, int \fBsrcSize\fP, int dstCapacity, int cLevel)"
+.br
+.ti -1c
+.RI "char * \fBtracy::LZ4_slideInputBufferHC\fP (\fBvoid\fP *LZ4HC_Data)"
+.br
+.ti -1c
+.RI "\fBLZ4_FORCE_INLINE\fP int \fBtracy::LZ4HC_literalsPrice\fP (int const litlen)"
+.br
+.ti -1c
+.RI "\fBLZ4_FORCE_INLINE\fP int \fBtracy::LZ4HC_sequencePrice\fP (int litlen, int mlen)"
+.br
+.ti -1c
+.RI "\fBLZ4_FORCE_INLINE\fP \fBLZ4HC_match_t\fP \fBtracy::LZ4HC_FindLongerMatch\fP (\fBLZ4HC_CCtx_internal\fP *const ctx, const \fBBYTE\fP *\fBip\fP, const \fBBYTE\fP *const iHighLimit, int minLen, int nbSearches, const \fBdictCtx_directive\fP dict, const \fBHCfavor_e\fP favorDecSpeed)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define anchor   (*_anchor)"
+
+.SS "#define DELTANEXTMAXD( p)   chainTable[(p) & \fBLZ4HC_MAXD_MASK\fP]    /* flexible, \fBLZ4HC_MAXD\fP dependent */"
+
+.SS "#define DELTANEXTU16( table,  pos)   table[(\fBU16\fP)(pos)]   /* faster */"
+
+.SS "#define HASH_FUNCTION( \fBi\fP)   (((\fBi\fP) * 2654435761\fBU\fP) >> ((\fBMINMATCH\fP*8)\-\fBLZ4HC_HASH_LOG\fP))"
+
+.SS "#define ip   (*_ip)"
+
+.SS "#define LZ4_COMMONDEFS_ONLY"
+
+.SS "#define LZ4_HC_STATIC_LINKING_ONLY"
+
+.SS "#define LZ4_OPT_NUM   (1<<12)"
+
+.SS "#define LZ4HC_HEAPMODE   1"
+HEAPMODE : Select how default compression function will allocate workplace memory, in stack (0:fastest), or in heap (1:requires malloc())\&. Since workplace is rather large, heap mode is recommended\&. 
+.SS "#define LZ4HC_rotl32( \fBx\fP,  \fBr\fP)   ((\fBx\fP << \fBr\fP) | (\fBx\fP >> (32 \- \fBr\fP)))"
+
+.SS "#define MAX( \fBa\fP,  \fBb\fP)   ( (\fBa\fP) > (\fBb\fP) ? (\fBa\fP) : (\fBb\fP) )"
+
+.SS "#define MIN( \fBa\fP,  \fBb\fP)   ( (\fBa\fP) < (\fBb\fP) ? (\fBa\fP) : (\fBb\fP) )"
+
+.SS "#define op   (*_op)"
+
+.SS "#define OPTIMAL_ML   (int)((\fBML_MASK\fP\-1)+\fBMINMATCH\fP)"
+
+.SS "#define TRAILING_LITERALS   3"
+
+.SS "#define UPDATABLE( \fBip\fP,  \fBop\fP,  \fBanchor\fP)   &\fBip\fP, &\fBop\fP, &\fBanchor\fP"
+
+.SH "Enumeration Type Documentation"
+.PP 
+.SS "\fBenum\fP \fBdictCtx_directive\fP"
+
+.PP
+\fBEnumerator\fP
+.in +1c
+.TP
+\fB\fInoDictCtx \fP\fP
+.TP
+\fB\fIusingDictCtxHc \fP\fP
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

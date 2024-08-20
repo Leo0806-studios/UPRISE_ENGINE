@@ -1,0 +1,273 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="__byte_swapper_8h_source" xml:lang="en-US">
+<title>ByteSwapper.h</title>
+<indexterm><primary>adhed/assimp/ByteSwapper.h</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 <emphasis role="comment">/*</emphasis>
+2 <emphasis role="comment">Open&#32;Asset&#32;Import&#32;Library&#32;(assimp)</emphasis>
+3 <emphasis role="comment">----------------------------------------------------------------------</emphasis>
+4 <emphasis role="comment"></emphasis>
+5 <emphasis role="comment">Copyright&#32;(c)&#32;2006-2022,&#32;assimp&#32;team</emphasis>
+6 <emphasis role="comment"></emphasis>
+7 <emphasis role="comment"></emphasis>
+8 <emphasis role="comment">All&#32;rights&#32;reserved.</emphasis>
+9 <emphasis role="comment"></emphasis>
+10 <emphasis role="comment">Redistribution&#32;and&#32;use&#32;of&#32;this&#32;software&#32;in&#32;source&#32;and&#32;binary&#32;forms,</emphasis>
+11 <emphasis role="comment">with&#32;or&#32;without&#32;modification,&#32;are&#32;permitted&#32;provided&#32;that&#32;the</emphasis>
+12 <emphasis role="comment">following&#32;conditions&#32;are&#32;met:</emphasis>
+13 <emphasis role="comment"></emphasis>
+14 <emphasis role="comment">*&#32;Redistributions&#32;of&#32;source&#32;code&#32;must&#32;retain&#32;the&#32;above</emphasis>
+15 <emphasis role="comment">&#32;&#32;copyright&#32;notice,&#32;this&#32;list&#32;of&#32;conditions&#32;and&#32;the</emphasis>
+16 <emphasis role="comment">&#32;&#32;following&#32;disclaimer.</emphasis>
+17 <emphasis role="comment"></emphasis>
+18 <emphasis role="comment">*&#32;Redistributions&#32;in&#32;binary&#32;form&#32;must&#32;reproduce&#32;the&#32;above</emphasis>
+19 <emphasis role="comment">&#32;&#32;copyright&#32;notice,&#32;this&#32;list&#32;of&#32;conditions&#32;and&#32;the</emphasis>
+20 <emphasis role="comment">&#32;&#32;following&#32;disclaimer&#32;in&#32;the&#32;documentation&#32;and/or&#32;other</emphasis>
+21 <emphasis role="comment">&#32;&#32;materials&#32;provided&#32;with&#32;the&#32;distribution.</emphasis>
+22 <emphasis role="comment"></emphasis>
+23 <emphasis role="comment">*&#32;Neither&#32;the&#32;name&#32;of&#32;the&#32;assimp&#32;team,&#32;nor&#32;the&#32;names&#32;of&#32;its</emphasis>
+24 <emphasis role="comment">&#32;&#32;contributors&#32;may&#32;be&#32;used&#32;to&#32;endorse&#32;or&#32;promote&#32;products</emphasis>
+25 <emphasis role="comment">&#32;&#32;derived&#32;from&#32;this&#32;software&#32;without&#32;specific&#32;prior</emphasis>
+26 <emphasis role="comment">&#32;&#32;written&#32;permission&#32;of&#32;the&#32;assimp&#32;team.</emphasis>
+27 <emphasis role="comment"></emphasis>
+28 <emphasis role="comment">THIS&#32;SOFTWARE&#32;IS&#32;PROVIDED&#32;BY&#32;THE&#32;COPYRIGHT&#32;HOLDERS&#32;AND&#32;CONTRIBUTORS</emphasis>
+29 <emphasis role="comment">&quot;AS&#32;IS&quot;&#32;AND&#32;ANY&#32;EXPRESS&#32;OR&#32;IMPLIED&#32;WARRANTIES,&#32;INCLUDING,&#32;BUT&#32;NOT</emphasis>
+30 <emphasis role="comment">LIMITED&#32;TO,&#32;THE&#32;IMPLIED&#32;WARRANTIES&#32;OF&#32;MERCHANTABILITY&#32;AND&#32;FITNESS&#32;FOR</emphasis>
+31 <emphasis role="comment">A&#32;PARTICULAR&#32;PURPOSE&#32;ARE&#32;DISCLAIMED.&#32;IN&#32;NO&#32;EVENT&#32;SHALL&#32;THE&#32;COPYRIGHT</emphasis>
+32 <emphasis role="comment">OWNER&#32;OR&#32;CONTRIBUTORS&#32;BE&#32;LIABLE&#32;FOR&#32;ANY&#32;DIRECT,&#32;INDIRECT,&#32;INCIDENTAL,</emphasis>
+33 <emphasis role="comment">SPECIAL,&#32;EXEMPLARY,&#32;OR&#32;CONSEQUENTIAL&#32;DAMAGES&#32;(INCLUDING,&#32;BUT&#32;NOT</emphasis>
+34 <emphasis role="comment">LIMITED&#32;TO,&#32;PROCUREMENT&#32;OF&#32;SUBSTITUTE&#32;GOODS&#32;OR&#32;SERVICES;&#32;LOSS&#32;OF&#32;USE,</emphasis>
+35 <emphasis role="comment">DATA,&#32;OR&#32;PROFITS;&#32;OR&#32;BUSINESS&#32;INTERRUPTION)&#32;HOWEVER&#32;CAUSED&#32;AND&#32;ON&#32;ANY</emphasis>
+36 <emphasis role="comment">THEORY&#32;OF&#32;LIABILITY,&#32;WHETHER&#32;IN&#32;CONTRACT,&#32;STRICT&#32;LIABILITY,&#32;OR&#32;TORT</emphasis>
+37 <emphasis role="comment">(INCLUDING&#32;NEGLIGENCE&#32;OR&#32;OTHERWISE)&#32;ARISING&#32;IN&#32;ANY&#32;WAY&#32;OUT&#32;OF&#32;THE&#32;USE</emphasis>
+38 <emphasis role="comment">OF&#32;THIS&#32;SOFTWARE,&#32;EVEN&#32;IF&#32;ADVISED&#32;OF&#32;THE&#32;POSSIBILITY&#32;OF&#32;SUCH&#32;DAMAGE.</emphasis>
+39 <emphasis role="comment"></emphasis>
+40 <emphasis role="comment">----------------------------------------------------------------------</emphasis>
+41 <emphasis role="comment">*/</emphasis>
+42 
+45 <emphasis role="preprocessor">#pragma&#32;once</emphasis>
+46 <emphasis role="preprocessor">#ifndef&#32;AI_BYTESWAPPER_H_INC</emphasis>
+47 <emphasis role="preprocessor">#define&#32;AI_BYTESWAPPER_H_INC</emphasis>
+48 
+49 <emphasis role="preprocessor">#ifdef&#32;__GNUC__</emphasis>
+50 <emphasis role="preprocessor">#&#32;&#32;&#32;pragma&#32;GCC&#32;system_header</emphasis>
+51 <emphasis role="preprocessor">#endif</emphasis>
+52 
+53 <emphasis role="preprocessor">#include&#32;&lt;<link linkend="_ai__assert_8h">assimp/ai_assert.h</link>&gt;</emphasis>
+54 <emphasis role="preprocessor">#include&#32;&lt;<link linkend="_types_8h">assimp/types.h</link>&gt;</emphasis>
+55 <emphasis role="preprocessor">#include&#32;&lt;cstdint&gt;</emphasis>
+56 
+57 <emphasis role="preprocessor">#if&#32;_MSC_VER&#32;&gt;=&#32;1400</emphasis>
+58 <emphasis role="preprocessor">#include&#32;&lt;cstdlib&gt;</emphasis>
+59 <emphasis role="preprocessor">#endif</emphasis>
+60 
+61 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespace_assimp">Assimp</link>&#32;&#32;&#32;&#32;{
+62 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------------</emphasis>
+67 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------------</emphasis>
+68 <emphasis role="keyword">class&#32;</emphasis><link linkend="_class_assimp_1_1_byte_swap">ByteSwap</link>&#32;{
+69 &#32;&#32;&#32;&#32;<link linkend="_class_assimp_1_1_byte_swap">ByteSwap</link>()&#32;<link linkend="_defs_8h_1ae032f18edd69bf6ba935ef9feb025a96">AI_NO_EXCEPT</link>&#32;{}
+70 
+71 <emphasis role="keyword">public</emphasis>:
+72 
+73 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;----------------------------------------------------------------------</emphasis>
+76 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keyword">inline</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_assimp_1_1_byte_swap_1abacbb767ce53adb84d19e6adae7d5b1d">Swap2</link>(<emphasis role="keywordtype">void</emphasis>*&#32;_szOut)
+77 &#32;&#32;&#32;&#32;{
+78 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_ai__assert_8h_1a8cda16916af68d32c6add71ef3bb7af3">ai_assert</link>(_szOut);
+79 
+80 <emphasis role="preprocessor">#if&#32;_MSC_VER&#32;&gt;=&#32;1400</emphasis>
+81 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uint16_t*&#32;<emphasis role="keyword">const</emphasis>&#32;szOut&#32;=&#32;<emphasis role="keyword">reinterpret_cast&lt;</emphasis>uint16_t*<emphasis role="keyword">&gt;</emphasis>(_szOut);
+82 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*szOut&#32;=&#32;_byteswap_ushort(*szOut);
+83 <emphasis role="preprocessor">#else</emphasis>
+84 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uint8_t*&#32;<emphasis role="keyword">const</emphasis>&#32;szOut&#32;=&#32;<emphasis role="keyword">reinterpret_cast&lt;</emphasis>uint8_t*<emphasis role="keyword">&gt;</emphasis>(_szOut);
+85 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacestd_1a4874fd00297ff5aef2872379cb521783">std::swap</link>(szOut[0],szOut[1]);
+86 <emphasis role="preprocessor">#endif</emphasis>
+87 &#32;&#32;&#32;&#32;}
+88 
+89 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;----------------------------------------------------------------------</emphasis>
+92 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keyword">inline</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_assimp_1_1_byte_swap_1a6717939ed8be817f262515c3c1ae2d77">Swap4</link>(<emphasis role="keywordtype">void</emphasis>*&#32;_szOut)
+93 &#32;&#32;&#32;&#32;{
+94 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_ai__assert_8h_1a8cda16916af68d32c6add71ef3bb7af3">ai_assert</link>(_szOut);
+95 
+96 <emphasis role="preprocessor">#if&#32;_MSC_VER&#32;&gt;=&#32;1400</emphasis>
+97 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uint32_t*&#32;<emphasis role="keyword">const</emphasis>&#32;szOut&#32;=&#32;<emphasis role="keyword">reinterpret_cast&lt;</emphasis>uint32_t*<emphasis role="keyword">&gt;</emphasis>(_szOut);
+98 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*szOut&#32;=&#32;_byteswap_ulong(*szOut);
+99 <emphasis role="preprocessor">#else</emphasis>
+100 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uint8_t*&#32;<emphasis role="keyword">const</emphasis>&#32;szOut&#32;=&#32;<emphasis role="keyword">reinterpret_cast&lt;</emphasis>uint8_t*<emphasis role="keyword">&gt;</emphasis>(_szOut);
+101 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacestd_1a4874fd00297ff5aef2872379cb521783">std::swap</link>(szOut[0],szOut[3]);
+102 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacestd_1a4874fd00297ff5aef2872379cb521783">std::swap</link>(szOut[1],szOut[2]);
+103 <emphasis role="preprocessor">#endif</emphasis>
+104 &#32;&#32;&#32;&#32;}
+105 
+106 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;----------------------------------------------------------------------</emphasis>
+109 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keyword">inline</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_assimp_1_1_byte_swap_1a2bc7200bc6ead695450266621ee114e3">Swap8</link>(<emphasis role="keywordtype">void</emphasis>*&#32;_szOut)
+110 &#32;&#32;&#32;&#32;{
+111 &#32;&#32;&#32;&#32;<link linkend="_ai__assert_8h_1a8cda16916af68d32c6add71ef3bb7af3">ai_assert</link>(_szOut);
+112 
+113 <emphasis role="preprocessor">#if&#32;_MSC_VER&#32;&gt;=&#32;1400</emphasis>
+114 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uint64_t*&#32;<emphasis role="keyword">const</emphasis>&#32;szOut&#32;=&#32;<emphasis role="keyword">reinterpret_cast&lt;</emphasis>uint64_t*<emphasis role="keyword">&gt;</emphasis>(_szOut);
+115 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*szOut&#32;=&#32;_byteswap_uint64(*szOut);
+116 <emphasis role="preprocessor">#else</emphasis>
+117 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uint8_t*&#32;<emphasis role="keyword">const</emphasis>&#32;szOut&#32;=&#32;<emphasis role="keyword">reinterpret_cast&lt;</emphasis>uint8_t*<emphasis role="keyword">&gt;</emphasis>(_szOut);
+118 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacestd_1a4874fd00297ff5aef2872379cb521783">std::swap</link>(szOut[0],szOut[7]);
+119 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacestd_1a4874fd00297ff5aef2872379cb521783">std::swap</link>(szOut[1],szOut[6]);
+120 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacestd_1a4874fd00297ff5aef2872379cb521783">std::swap</link>(szOut[2],szOut[5]);
+121 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacestd_1a4874fd00297ff5aef2872379cb521783">std::swap</link>(szOut[3],szOut[4]);
+122 <emphasis role="preprocessor">#endif</emphasis>
+123 &#32;&#32;&#32;&#32;}
+124 
+125 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;----------------------------------------------------------------------</emphasis>
+128 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keyword">inline</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_assimp_1_1_byte_swap_1a6e60cdda6ebc1db17759106023f38270">Swap</link>(<emphasis role="keywordtype">float</emphasis>*&#32;fOut)&#32;{
+129 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_assimp_1_1_byte_swap_1a6717939ed8be817f262515c3c1ae2d77">Swap4</link>(fOut);
+130 &#32;&#32;&#32;&#32;}
+131 
+132 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;----------------------------------------------------------------------</emphasis>
+135 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keyword">inline</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_assimp_1_1_byte_swap_1a388a44886b50f43198f575918bfe3c7f">Swap</link>(<emphasis role="keywordtype">double</emphasis>*&#32;fOut)&#32;{
+136 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_assimp_1_1_byte_swap_1a2bc7200bc6ead695450266621ee114e3">Swap8</link>(fOut);
+137 &#32;&#32;&#32;&#32;}
+138 
+139 
+140 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;----------------------------------------------------------------------</emphasis>
+143 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keyword">inline</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_assimp_1_1_byte_swap_1a3ea83a13aef538fa962eabd313ab3d3f">Swap</link>(int16_t*&#32;fOut)&#32;{
+144 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_assimp_1_1_byte_swap_1abacbb767ce53adb84d19e6adae7d5b1d">Swap2</link>(fOut);
+145 &#32;&#32;&#32;&#32;}
+146 
+147 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keyword">inline</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_assimp_1_1_byte_swap_1a1aef62ff32cb526202f493f8148b2fb5">Swap</link>(uint16_t*&#32;fOut)&#32;{
+148 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_assimp_1_1_byte_swap_1abacbb767ce53adb84d19e6adae7d5b1d">Swap2</link>(fOut);
+149 &#32;&#32;&#32;&#32;}
+150 
+151 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;----------------------------------------------------------------------</emphasis>
+154 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keyword">inline</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_assimp_1_1_byte_swap_1ad29a3964bab3f260c8a9933e0d85ef10">Swap</link>(int32_t*&#32;fOut){
+155 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_assimp_1_1_byte_swap_1a6717939ed8be817f262515c3c1ae2d77">Swap4</link>(fOut);
+156 &#32;&#32;&#32;&#32;}
+157 
+158 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keyword">inline</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_assimp_1_1_byte_swap_1a80873669c59df2c0ba8dd38409786164">Swap</link>(uint32_t*&#32;fOut){
+159 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_assimp_1_1_byte_swap_1a6717939ed8be817f262515c3c1ae2d77">Swap4</link>(fOut);
+160 &#32;&#32;&#32;&#32;}
+161 
+162 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;----------------------------------------------------------------------</emphasis>
+165 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keyword">inline</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_assimp_1_1_byte_swap_1a1532aae48d9c5d782ed52a6ca900e71b">Swap</link>(int64_t*&#32;fOut)&#32;{
+166 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_assimp_1_1_byte_swap_1a2bc7200bc6ead695450266621ee114e3">Swap8</link>(fOut);
+167 &#32;&#32;&#32;&#32;}
+168 
+169 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keyword">inline</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_assimp_1_1_byte_swap_1ab4df852754e09255c4bf6cbd12a1b1a1">Swap</link>(uint64_t*&#32;fOut)&#32;{
+170 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_assimp_1_1_byte_swap_1a2bc7200bc6ead695450266621ee114e3">Swap8</link>(fOut);
+171 &#32;&#32;&#32;&#32;}
+172 
+173 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;----------------------------------------------------------------------</emphasis>
+176 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;Type&gt;
+177 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keyword">inline</emphasis>&#32;Type&#32;<link linkend="_class_assimp_1_1_byte_swap_1a9b627a52b5fa630c20fc5bb6a5cd455e">Swapped</link>(Type&#32;tOut)
+178 &#32;&#32;&#32;&#32;{
+179 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;_swapper&lt;Type,sizeof(Type)&gt;()(tOut);
+180 &#32;&#32;&#32;&#32;}
+181 
+182 <emphasis role="keyword">private</emphasis>:
+183 
+184 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&#32;&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;size&gt;&#32;<emphasis role="keyword">struct&#32;</emphasis>_swapper;
+185 };
+186 
+187 <emphasis role="keyword">template</emphasis>&#32;&lt;<emphasis role="keyword">typename</emphasis>&#32;T&gt;&#32;<emphasis role="keyword">struct&#32;</emphasis>ByteSwap::_swapper&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>,2&gt;&#32;{
+188 &#32;&#32;&#32;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;operator()&#32;(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;tOut)&#32;{
+189 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_assimp_1_1_byte_swap_1abacbb767ce53adb84d19e6adae7d5b1d">Swap2</link>(&amp;tOut);
+190 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;tOut;
+191 &#32;&#32;&#32;&#32;}
+192 };
+193 
+194 <emphasis role="keyword">template</emphasis>&#32;&lt;<emphasis role="keyword">typename</emphasis>&#32;T&gt;&#32;<emphasis role="keyword">struct&#32;</emphasis>ByteSwap::_swapper&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>,4&gt;&#32;{
+195 &#32;&#32;&#32;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;operator()&#32;(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;tOut)&#32;{
+196 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_assimp_1_1_byte_swap_1a6717939ed8be817f262515c3c1ae2d77">Swap4</link>(&amp;tOut);
+197 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;tOut;
+198 &#32;&#32;&#32;&#32;}
+199 };
+200 
+201 <emphasis role="keyword">template</emphasis>&#32;&lt;<emphasis role="keyword">typename</emphasis>&#32;T&gt;&#32;<emphasis role="keyword">struct&#32;</emphasis>ByteSwap::_swapper&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>,8&gt;&#32;{
+202 &#32;&#32;&#32;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;operator()&#32;(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;tOut)&#32;{
+203 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_assimp_1_1_byte_swap_1a2bc7200bc6ead695450266621ee114e3">Swap8</link>(&amp;tOut);
+204 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;tOut;
+205 &#32;&#32;&#32;&#32;}
+206 };
+207 
+208 
+209 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------------</emphasis>
+210 <emphasis role="comment">//&#32;ByteSwap&#32;macros&#32;for&#32;BigEndian/LittleEndian&#32;support</emphasis>
+211 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------------</emphasis>
+212 <emphasis role="preprocessor">#if&#32;(defined&#32;AI_BUILD_BIG_ENDIAN)</emphasis>
+213 <emphasis role="preprocessor">#&#32;&#32;&#32;define&#32;AI_LE(t)&#32;(t)</emphasis>
+214 <emphasis role="preprocessor">#&#32;&#32;&#32;define&#32;AI_BE(t)&#32;Assimp::ByteSwap::Swapped(t)</emphasis>
+215 <emphasis role="preprocessor">#&#32;&#32;&#32;define&#32;AI_LSWAP2(p)</emphasis>
+216 <emphasis role="preprocessor">#&#32;&#32;&#32;define&#32;AI_LSWAP4(p)</emphasis>
+217 <emphasis role="preprocessor">#&#32;&#32;&#32;define&#32;AI_LSWAP8(p)</emphasis>
+218 <emphasis role="preprocessor">#&#32;&#32;&#32;define&#32;AI_LSWAP2P(p)</emphasis>
+219 <emphasis role="preprocessor">#&#32;&#32;&#32;define&#32;AI_LSWAP4P(p)</emphasis>
+220 <emphasis role="preprocessor">#&#32;&#32;&#32;define&#32;AI_LSWAP8P(p)</emphasis>
+221 <emphasis role="preprocessor">#&#32;&#32;&#32;define&#32;LE_NCONST&#32;const</emphasis>
+222 <emphasis role="preprocessor">#&#32;&#32;&#32;define&#32;AI_SWAP2(p)&#32;Assimp::ByteSwap::Swap2(&amp;(p))</emphasis>
+223 <emphasis role="preprocessor">#&#32;&#32;&#32;define&#32;AI_SWAP4(p)&#32;Assimp::ByteSwap::Swap4(&amp;(p))</emphasis>
+224 <emphasis role="preprocessor">#&#32;&#32;&#32;define&#32;AI_SWAP8(p)&#32;Assimp::ByteSwap::Swap8(&amp;(p))</emphasis>
+225 <emphasis role="preprocessor">#&#32;&#32;&#32;define&#32;AI_SWAP2P(p)&#32;Assimp::ByteSwap::Swap2((p))</emphasis>
+226 <emphasis role="preprocessor">#&#32;&#32;&#32;define&#32;AI_SWAP4P(p)&#32;Assimp::ByteSwap::Swap4((p))</emphasis>
+227 <emphasis role="preprocessor">#&#32;&#32;&#32;define&#32;AI_SWAP8P(p)&#32;Assimp::ByteSwap::Swap8((p))</emphasis>
+228 <emphasis role="preprocessor">#&#32;&#32;&#32;define&#32;BE_NCONST</emphasis>
+229 <emphasis role="preprocessor">#else</emphasis>
+230 <emphasis role="preprocessor">#&#32;&#32;&#32;define&#32;AI_BE(t)&#32;(t)</emphasis>
+231 <emphasis role="preprocessor">#&#32;&#32;&#32;define&#32;AI_LE(t)&#32;Assimp::ByteSwap::Swapped(t)</emphasis>
+232 <emphasis role="preprocessor">#&#32;&#32;&#32;define&#32;AI_SWAP2(p)</emphasis>
+233 <emphasis role="preprocessor">#&#32;&#32;&#32;define&#32;AI_SWAP4(p)</emphasis>
+234 <emphasis role="preprocessor">#&#32;&#32;&#32;define&#32;AI_SWAP8(p)</emphasis>
+235 <emphasis role="preprocessor">#&#32;&#32;&#32;define&#32;AI_SWAP2P(p)</emphasis>
+236 <emphasis role="preprocessor">#&#32;&#32;&#32;define&#32;AI_SWAP4P(p)</emphasis>
+237 <emphasis role="preprocessor">#&#32;&#32;&#32;define&#32;AI_SWAP8P(p)</emphasis>
+238 <emphasis role="preprocessor">#&#32;&#32;&#32;define&#32;BE_NCONST&#32;const</emphasis>
+239 <emphasis role="preprocessor">#&#32;&#32;&#32;define&#32;AI_LSWAP2(p)&#32;&#32;&#32;&#32;&#32;Assimp::ByteSwap::Swap2(&amp;(p))</emphasis>
+240 <emphasis role="preprocessor">#&#32;&#32;&#32;define&#32;AI_LSWAP4(p)&#32;&#32;&#32;&#32;&#32;Assimp::ByteSwap::Swap4(&amp;(p))</emphasis>
+241 <emphasis role="preprocessor">#&#32;&#32;&#32;define&#32;AI_LSWAP8(p)&#32;&#32;&#32;&#32;&#32;Assimp::ByteSwap::Swap8(&amp;(p))</emphasis>
+242 <emphasis role="preprocessor">#&#32;&#32;&#32;define&#32;AI_LSWAP2P(p)&#32;&#32;&#32;&#32;Assimp::ByteSwap::Swap2((p))</emphasis>
+243 <emphasis role="preprocessor">#&#32;&#32;&#32;define&#32;AI_LSWAP4P(p)&#32;&#32;&#32;&#32;Assimp::ByteSwap::Swap4((p))</emphasis>
+244 <emphasis role="preprocessor">#&#32;&#32;&#32;define&#32;AI_LSWAP8P(p)&#32;&#32;&#32;&#32;Assimp::ByteSwap::Swap8((p))</emphasis>
+245 <emphasis role="preprocessor">#&#32;&#32;&#32;define&#32;LE_NCONST</emphasis>
+246 <emphasis role="preprocessor">#endif</emphasis>
+247 
+248 
+249 <emphasis role="keyword">namespace&#32;</emphasis>Intern&#32;{
+250 
+251 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------------------</emphasis>
+252 <emphasis role="keyword">template</emphasis>&#32;&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;doit&gt;
+253 <emphasis role="keyword">struct&#32;</emphasis><link linkend="_struct_assimp_1_1_intern_1_1_byte_swapper">ByteSwapper</link>&#32;&#32;{
+254 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_struct_assimp_1_1_intern_1_1_byte_swapper_1a3531b179de4ba56b6873676b1fba0205">operator() </link>(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>*&#32;inout)&#32;{
+255 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_assimp_1_1_byte_swap_1a6e60cdda6ebc1db17759106023f38270">ByteSwap::Swap</link>(inout);
+256 &#32;&#32;&#32;&#32;}
+257 };
+258 
+259 <emphasis role="keyword">template</emphasis>&#32;&lt;<emphasis role="keyword">typename</emphasis>&#32;T&gt;
+260 <emphasis role="keyword">struct&#32;</emphasis><link linkend="_struct_assimp_1_1_intern_1_1_byte_swapper">ByteSwapper</link>&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>,false&gt;&#32;{
+261 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_struct_assimp_1_1_intern_1_1_byte_swapper_1a3531b179de4ba56b6873676b1fba0205">operator() </link>(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>*)&#32;{
+262 &#32;&#32;&#32;&#32;}
+263 };
+264 
+265 <emphasis role="comment">//&#32;--------------------------------------------------------------------------------------------</emphasis>
+266 <emphasis role="keyword">template</emphasis>&#32;&lt;<emphasis role="keywordtype">bool</emphasis>&#32;SwapEndianess,&#32;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;RuntimeSwitch&gt;
+267 <emphasis role="keyword">struct&#32;</emphasis><link linkend="_struct_assimp_1_1_intern_1_1_getter">Getter</link>&#32;{
+268 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_struct_assimp_1_1_intern_1_1_getter_1a73b63da5d00911e9c11664244a53b17b">operator() </link>(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>*&#32;inout,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;le)&#32;{
+269 <emphasis role="preprocessor">#ifdef&#32;AI_BUILD_BIG_ENDIAN</emphasis>
+270 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;le&#32;=&#32;&#32;le;
+271 <emphasis role="preprocessor">#else</emphasis>
+272 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;le&#32;=&#32;&#32;!le;
+273 <emphasis role="preprocessor">#endif</emphasis>
+274 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(le)&#32;{
+275 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_assimp_1_1_intern_1_1_byte_swapper">ByteSwapper</link>&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>,(<emphasis role="keyword">sizeof</emphasis>(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>)&gt;1?<emphasis role="keyword">true</emphasis>:<emphasis role="keyword">false</emphasis>)&gt;&#32;()&#32;(inout);
+276 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+277 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">else</emphasis>&#32;<link linkend="_struct_assimp_1_1_intern_1_1_byte_swapper">ByteSwapper&lt;T,false&gt;</link>&#32;()&#32;(inout);
+278 &#32;&#32;&#32;&#32;}
+279 };
+280 
+281 <emphasis role="keyword">template</emphasis>&#32;&lt;<emphasis role="keywordtype">bool</emphasis>&#32;SwapEndianess,&#32;<emphasis role="keyword">typename</emphasis>&#32;T&gt;
+282 <emphasis role="keyword">struct&#32;</emphasis><link linkend="_struct_assimp_1_1_intern_1_1_getter">Getter</link>&lt;SwapEndianess,<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>,false&gt;&#32;{
+283 
+284 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_struct_assimp_1_1_intern_1_1_getter_1a73b63da5d00911e9c11664244a53b17b">operator() </link>(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>*&#32;inout,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<emphasis role="comment">/*le*/</emphasis>)&#32;{
+285 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;static&#32;branch</emphasis>
+286 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_assimp_1_1_intern_1_1_byte_swapper">ByteSwapper</link>&lt;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>,(SwapEndianess&#32;&amp;&amp;&#32;<emphasis role="keyword">sizeof</emphasis>(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>)&gt;1)&gt;&#32;()&#32;(inout);
+287 &#32;&#32;&#32;&#32;}
+288 };
+289 }&#32;<emphasis role="comment">//&#32;end&#32;Intern</emphasis>
+290 }&#32;<emphasis role="comment">//&#32;end&#32;Assimp</emphasis>
+291 
+292 <emphasis role="preprocessor">#endif&#32;</emphasis>
+</programlisting></section>

@@ -53,7 +53,8 @@ void CORE::Startup::StartEditor(GLFWwindow* Window)
 	ImGui::CreateContext();
 	 io = &ImGui::GetIO();
 	io->ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
-	io->ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+	io->ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad; 
+	io->ConfigFlags |= ImGuiConfigFlags_ViewportsEnable; // Enable Gamepad Controls
 	ImGui_ImplGlfw_InitForOpenGL(Window, true);
 	ImGui_ImplOpenGL3_Init();
 	TracyCZoneEnd(ctx);

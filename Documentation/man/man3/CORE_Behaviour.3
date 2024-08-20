@@ -1,4 +1,4 @@
-.TH "CORE::Behaviour" 3 "Version 0.0.0.1" "My Project" \" -*- nroff -*-
+.TH "CORE::Behaviour" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -7,9 +7,9 @@ CORE::Behaviour
 .br
 .PP
 .PP
-\fR#include <BEHAVIOUR\&.h>\fP
+\fR#include <C_BEHAVIOUR\&.h>\fP
 .PP
-Inherited by \fBCOMPONENTS::_Mesh\fP, \fBCamera\fP, \fBEmpty\fP, \fBParallel_Update\fP, \fBTerrain\fP, \fBTest\fP, and \fBTransform\fP\&.
+Inherited by \fBCOMPONENTS::_Mesh\fP, \fBCamera\fP, \fBEmpty\fP, \fBParallel_Update\fP, \fBTeleport\fP, \fBTerrain\fP, \fBTest\fP, \fBTransform\fP, and \fB_PhysicsObject\fP\&.
 .SS "Public Member Functions"
 
 .in +1c
@@ -20,13 +20,22 @@ Inherited by \fBCOMPONENTS::_Mesh\fP, \fBCamera\fP, \fBEmpty\fP, \fBParallel_Upd
 .RI "\fBBehaviour\fP (\fBGameObject\fP *oobj, std::shared_ptr< \fBCORE::Behaviour\fP > trans)"
 .br
 .ti -1c
-.RI "virtual void \fBUpdate\fP ()=0"
+.RI "virtual std::shared_ptr< \fBCORE::Behaviour\fP > \fBCopy\fP ()=0"
 .br
 .ti -1c
-.RI "virtual void \fBAwake\fP ()=0"
+.RI "virtual std::shared_ptr< \fBCORE::Behaviour\fP > \fBDeepCopy\fP ()=0"
 .br
 .ti -1c
-.RI "virtual void \fBStart\fP ()=0"
+.RI "virtual void \fBEditorWindow\fP ()=0"
+.br
+.ti -1c
+.RI "virtual void \fBUpdate\fP ()"
+.br
+.ti -1c
+.RI "virtual void \fBAwake\fP ()"
+.br
+.ti -1c
+.RI "virtual void \fBStart\fP ()"
 .br
 .in -1c
 .SS "Static Public Member Functions"
@@ -58,6 +67,9 @@ Inherited by \fBCOMPONENTS::_Mesh\fP, \fBCamera\fP, \fBEmpty\fP, \fBParallel_Upd
 .RI "std::shared_ptr< \fBCORE::Behaviour\fP > \fBtransf\fP"
 .br
 .ti -1c
+.RI "std::string \fBcompname\fP"
+.br
+.ti -1c
 .RI "UUID \fBuuID\fP"
 .br
 .ti -1c
@@ -85,87 +97,203 @@ Inherited by \fBCOMPONENTS::_Mesh\fP, \fBCamera\fP, \fBEmpty\fP, \fBParallel_Upd
 .in -1c
 .SH "Detailed Description"
 .PP 
-Definition at line \fB23\fP of file \fBBEHAVIOUR\&.h\fP\&.
+Definition at line \fB26\fP of file \fBC_BEHAVIOUR\&.h\fP\&.
 .SH "Constructor & Destructor Documentation"
 .PP 
 .SS "CORE::Behaviour::Behaviour ()"
 
 .PP
-Definition at line \fB12\fP of file \fBBehaviour\&.cpp\fP\&.
+Definition at line \fB12\fP of file \fBC_BEHAVIOUR\&.cpp\fP\&.
+.nf
+12 {  }
+.PP
+.fi
+
 .SS "CORE::Behaviour::Behaviour (\fBGameObject\fP * oobj, std::shared_ptr< \fBCORE::Behaviour\fP > trans)"
 
 .PP
-Definition at line \fB14\fP of file \fBBehaviour\&.cpp\fP\&.
+Definition at line \fB14\fP of file \fBC_BEHAVIOUR\&.cpp\fP\&.
+.nf
+15  {
+16     TrPr(ctx, __func__)
+17      gameobject = oobj;
+18      transf = trans;
+19      TrPrE(ctx);
+20  }
+.PP
+.fi
+
+.PP
+References \fBTrPr\fP, and \fBTrPrE\fP\&.
 .SH "Member Function Documentation"
 .PP 
-.SS "virtual void CORE::Behaviour::Awake ()\fR [pure virtual]\fP"
+.SS "virtual void CORE::Behaviour::Awake ()\fR [inline]\fP, \fR [virtual]\fP"
 
 .PP
-Implemented in \fBCamera\fP, \fBCOMPONENTS::_Mesh\fP, \fBEmpty\fP, \fBParallel_Update\fP, \fBTerrain\fP, \fBTest\fP, and \fBTransform\fP\&.
-.SS "virtual void CORE::Behaviour::Start ()\fR [pure virtual]\fP"
+Reimplemented in \fBCOMPONENTS::_Mesh\fP, \fBEmpty\fP, \fBParallel_Update\fP, \fBTerrain\fP, and \fBTest\fP\&.
+.PP
+Definition at line \fB50\fP of file \fBC_BEHAVIOUR\&.h\fP\&.
+.nf
+50 {};
+.PP
+.fi
+
+.SS "virtual std::shared_ptr< \fBCORE::Behaviour\fP > CORE::Behaviour::Copy ()\fR [pure virtual]\fP"
 
 .PP
-Implemented in \fBCamera\fP, \fBCOMPONENTS::_Mesh\fP, \fBEmpty\fP, \fBParallel_Update\fP, \fBTerrain\fP, \fBTest\fP, and \fBTransform\fP\&.
-.SS "virtual void CORE::Behaviour::Update ()\fR [pure virtual]\fP"
+Implemented in \fBTeleport\fP, and \fBTest\fP\&.
+.SS "virtual std::shared_ptr< \fBCORE::Behaviour\fP > CORE::Behaviour::DeepCopy ()\fR [pure virtual]\fP"
+
+.SS "virtual void CORE::Behaviour::EditorWindow ()\fR [pure virtual]\fP"
+
+.SS "virtual void CORE::Behaviour::Start ()\fR [inline]\fP, \fR [virtual]\fP"
 
 .PP
-Implemented in \fBCamera\fP, \fBCOMPONENTS::_Mesh\fP, \fBEmpty\fP, \fBParallel_Update\fP, \fBTerrain\fP, \fBTest\fP, and \fBTransform\fP\&.
+Reimplemented in \fB_PhysicsObject\fP, \fBCOMPONENTS::_Mesh\fP, \fBEmpty\fP, \fBParallel_Update\fP, \fBTeleport\fP, \fBTerrain\fP, and \fBTest\fP\&.
+.PP
+Definition at line \fB51\fP of file \fBC_BEHAVIOUR\&.h\fP\&.
+.nf
+51 {};
+.PP
+.fi
+
+.SS "virtual void CORE::Behaviour::Update ()\fR [inline]\fP, \fR [virtual]\fP"
+
+.PP
+Reimplemented in \fB_PhysicsObject\fP, \fBCOMPONENTS::_Mesh\fP, \fBEmpty\fP, \fBParallel_Update\fP, \fBTeleport\fP, \fBTerrain\fP, and \fBTest\fP\&.
+.PP
+Definition at line \fB49\fP of file \fBC_BEHAVIOUR\&.h\fP\&.
+.nf
+49 {};
+.PP
+.fi
+
 .SS "void CORE::Behaviour::updateAll ()\fR [static]\fP"
 
 .PP
-Definition at line \fB20\fP of file \fBBehaviour\&.cpp\fP\&.
+Definition at line \fB22\fP of file \fBC_BEHAVIOUR\&.cpp\fP\&.
+.nf
+22                                {
+23     //std::cout << behaviours\&.size() << "\\n";
+24      TrPr(ctx, __func__)
+25          //Log << "test HotReload";
+26 
+27     for (auto& behaviour : behaviours) {
+28         behaviour\->Update();
+29 
+30     }
+31     TrPrE(ctx);
+32 }
+.PP
+.fi
+
+.PP
+References \fBTrPr\fP, and \fBTrPrE\fP\&.
+.PP
+Referenced by \fBbb()\fP, \fBmain()\fP, and \fBprocessInput()\fP\&.
 .SS "void CORE::Behaviour::updateAllAWAKE ()\fR [static]\fP"
 
 .PP
-Definition at line \fB29\fP of file \fBBehaviour\&.cpp\fP\&.
+Definition at line \fB34\fP of file \fBC_BEHAVIOUR\&.cpp\fP\&.
+.nf
+34                                     {
+35     TrPr(ctx, __func__)
+36     for (int i = AWAKES\&.size() \- 1; i >= 0; i\-\-) {
+37 
+38         AWAKES[i]\->Awake();
+39         AWAKES\&.erase(AWAKES\&.begin() + i);
+40 
+41     }
+42     TrPrE(ctx);
+43 
+44 }
+.PP
+.fi
+
+.PP
+References \fBi\fP, \fBTrPr\fP, and \fBTrPrE\fP\&.
+.PP
+Referenced by \fBmain()\fP\&.
 .SS "static void CORE::Behaviour::updateallParallel ()\fR [static]\fP"
 
 .SS "void CORE::Behaviour::updateAllSTART ()\fR [static]\fP"
 
 .PP
-Definition at line \fB40\fP of file \fBBehaviour\&.cpp\fP\&.
+Definition at line \fB46\fP of file \fBC_BEHAVIOUR\&.cpp\fP\&.
+.nf
+46                                     {
+47     TrPr(ctx, __func__)
+48     for (int i = Starts\&.size() \- 1; i >= 0; i\-\-) {
+49 
+50         Starts[i]\->Start();
+51         Starts\&.erase(Starts\&.begin() + i);
+52 
+53     }
+54     TrPrE(ctx);
+55 }
+.PP
+.fi
+
+.PP
+References \fBi\fP, \fBTrPr\fP, and \fBTrPrE\fP\&.
+.PP
+Referenced by \fBmain()\fP\&.
 .SH "Member Data Documentation"
 .PP 
 .SS "std::vector< std::shared_ptr< \fBCORE::Behaviour\fP > > CORE::Behaviour::AWAKES\fR [static]\fP"
 
 .PP
-Definition at line \fB32\fP of file \fBBEHAVIOUR\&.h\fP\&.
+Definition at line \fB36\fP of file \fBC_BEHAVIOUR\&.h\fP\&.
+.PP
+Referenced by \fBGameObject::AddComponent()\fP, \fBGameObject::AddComponent()\fP, and \fBGameObject::AddComponent()\fP\&.
 .SS "std::vector< std::shared_ptr< \fBCORE::Behaviour\fP > > CORE::Behaviour::behaviours\fR [static]\fP"
 
 .PP
-Definition at line \fB31\fP of file \fBBEHAVIOUR\&.h\fP\&.
+Definition at line \fB35\fP of file \fBC_BEHAVIOUR\&.h\fP\&.
+.PP
+Referenced by \fBGameObject::AddComponent()\fP, \fBGameObject::AddComponent()\fP, and \fBGameObject::AddComponent()\fP\&.
+.SS "std::string CORE::Behaviour::compname"
+
+.PP
+Definition at line \fB32\fP of file \fBC_BEHAVIOUR\&.h\fP\&.
 .SS "\fBGameObject\fP* CORE::Behaviour::gameobject"
 
 .PP
-Definition at line \fB26\fP of file \fBBEHAVIOUR\&.h\fP\&.
+Definition at line \fB29\fP of file \fBC_BEHAVIOUR\&.h\fP\&.
+.PP
+Referenced by \fBPHYSICS::Physics::intersect()\fP, \fBTest::Update()\fP, and \fBPHYSICS::Physics::updateBox()\fP\&.
 .SS "int CORE::Behaviour::id"
 
 .PP
-Definition at line \fB36\fP of file \fBBEHAVIOUR\&.h\fP\&.
+Definition at line \fB40\fP of file \fBC_BEHAVIOUR\&.h\fP\&.
 .SS "std::vector<std::shared_ptr<\fBCORE::Behaviour\fP> > CORE::Behaviour::objectss\fR [static]\fP"
 
 .PP
-Definition at line \fB30\fP of file \fBBEHAVIOUR\&.h\fP\&.
+Definition at line \fB34\fP of file \fBC_BEHAVIOUR\&.h\fP\&.
 .SS "std::vector<std::shared_ptr<\fBBehaviour\fP> > CORE::Behaviour::Parallel_Updates\fR [static]\fP"
 
 .PP
-Definition at line \fB34\fP of file \fBBEHAVIOUR\&.h\fP\&.
+Definition at line \fB38\fP of file \fBC_BEHAVIOUR\&.h\fP\&.
 .SS "std::vector< std::shared_ptr< \fBCORE::Behaviour\fP > > CORE::Behaviour::Starts\fR [static]\fP"
 
 .PP
-Definition at line \fB33\fP of file \fBBEHAVIOUR\&.h\fP\&.
+Definition at line \fB37\fP of file \fBC_BEHAVIOUR\&.h\fP\&.
+.PP
+Referenced by \fBGameObject::AddComponent()\fP, \fBGameObject::AddComponent()\fP, and \fBGameObject::AddComponent()\fP\&.
 .SS "std::shared_ptr<\fBCORE::Behaviour\fP> CORE::Behaviour::transf"
 
 .PP
-Definition at line \fB28\fP of file \fBBEHAVIOUR\&.h\fP\&.
+Definition at line \fB31\fP of file \fBC_BEHAVIOUR\&.h\fP\&.
 .SS "std::shared_ptr<\fBTransform\fP> CORE::Behaviour::TRANSFORM"
 
 .PP
-Definition at line \fB27\fP of file \fBBEHAVIOUR\&.h\fP\&.
+Definition at line \fB30\fP of file \fBC_BEHAVIOUR\&.h\fP\&.
+.PP
+Referenced by \fBTeleport::Update()\fP, and \fBTest::Update()\fP\&.
 .SS "UUID CORE::Behaviour::uuID"
 
 .PP
-Definition at line \fB35\fP of file \fBBEHAVIOUR\&.h\fP\&.
+Definition at line \fB39\fP of file \fBC_BEHAVIOUR\&.h\fP\&.
 
 .SH "Author"
 .PP 

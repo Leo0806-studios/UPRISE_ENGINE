@@ -1,4 +1,4 @@
-.TH "CORE::Startup" 3 "Version 0.0.0.1" "My Project" \" -*- nroff -*-
+.TH "CORE::Startup" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -7,12 +7,15 @@ CORE::Startup
 .br
 .PP
 .PP
-\fR#include <STARTUP\&.h>\fP
+\fR#include <C_STARTUP\&.h>\fP
 .SS "Static Public Member Functions"
 
 .in +1c
 .ti -1c
 .RI "static \fBDATATYPES::Startup_Config\fP \fBConfigure_Startup\fP ()"
+.br
+.ti -1c
+.RI "static void \fBStartEditor\fP (GLFWwindow *window)"
 .br
 .ti -1c
 .RI "static void \fBInit_Startup\fP (\fBDATATYPES::Startup_Config\fP config)"
@@ -33,36 +36,158 @@ CORE::Startup
 .ti -1c
 .RI "static bool \fBStartupComplete\fP"
 .br
+.ti -1c
+.RI "static ImGuiIO * \fBio\fP"
+.br
 .in -1c
 .SH "Detailed Description"
 .PP 
-Definition at line \fB23\fP of file \fBSTARTUP\&.h\fP\&.
+Definition at line \fB22\fP of file \fBC_STARTUP\&.h\fP\&.
 .SH "Member Function Documentation"
 .PP 
 .SS "\fBDATATYPES::Startup_Config\fP CORE::Startup::Configure_Startup ()\fR [static]\fP"
 
 .PP
-Definition at line \fB14\fP of file \fBSTARTUP\&.cpp\fP\&.
+Definition at line \fB15\fP of file \fBC_STARTUP\&.cpp\fP\&.
+.nf
+15                                                        {
+16     TracyCZoneN(ctx, "Configure Startup", true);
+17 
+18     if (StartupComplete == true) {
+19 
+20 
+21     }
+22     MEMORYSTATUSEX statex;
+23     statex\&.dwLength = sizeof(statex);
+24 
+25     GlobalMemoryStatusEx(&statex);
+26 
+27     DATATYPES::Startup_Config Config;
+28     Log << "getting Hardware supports\&.\&.\&.";
+29     Config\&.CPU_Cores = std::thread::hardware_concurrency();
+30     Log<<"  \- CPU Threads: " << Config\&.CPU_Cores;
+31     Config\&.Supports_AVX = CORE::InstructionSet::AVX;
+32     Log<<"  \- AVX support :" << Config\&.Supports_AVX;
+33     Config\&.Supports_AVX2 = CORE::InstructionSet::AVX2;
+34     Log<<"  \- AVX2 support :" << Config\&.Supports_AVX2;
+35     PULONGLONG* ram=0;
+36     //GetPhysicallyInstalledSystemMemory(*ram);
+37     Config\&.RAMbytes = statex\&.ullTotalPhys;;
+38     Log<<"  \- innstalled Ram :" << Config\&.RAMbytes;
+39     Log<<"  \- Setting Rennder to OpenGL (0)";
+40     Config\&.RenderMode = 0;
+41     STARTUP_CONFIG = Config;
+42     Log<<"  \- Connfig finished";
+43     Log<<"  \- returnning\&.\&.\&.";
+44     TracyCZoneEnd(ctx);
+45 
+46     return Config;
+47 }
+.PP
+.fi
+
+.PP
+References \fBCORE::InstructionSet::AVX()\fP, \fBCORE::InstructionSet::AVX2()\fP, \fBDATATYPES::Startup_Config::CPU_Cores\fP, \fBLog\fP, \fBDATATYPES::Startup_Config::RAMbytes\fP, \fBDATATYPES::Startup_Config::RenderMode\fP, \fBSTARTUP_CONFIG\fP, \fBStartupComplete\fP, \fBDATATYPES::Startup_Config::Supports_AVX\fP, and \fBDATATYPES::Startup_Config::Supports_AVX2\fP\&.
+.PP
+Referenced by \fBmain()\fP\&.
 .SS "void CORE::Startup::Init_Startup (\fBDATATYPES::Startup_Config\fP config)\fR [static]\fP"
 
 .PP
-Definition at line \fB44\fP of file \fBSTARTUP\&.cpp\fP\&.
+Definition at line \fB63\fP of file \fBC_STARTUP\&.cpp\fP\&.
+.nf
+63                                                              {
+64     TracyCZoneN(ctx, __FUNCTION__, true);
+65 
+66     Log << "Init Startup\&.\&.\&.";
+67     TracyCZoneEnd(ctx);
+68 
+69 
+70 }
+.PP
+.fi
+
+.PP
+References \fBLog\fP\&.
+.PP
+Referenced by \fBmain()\fP\&.
 .SS "static void CORE::Startup::Start_Game ()\fR [static]\fP"
 
 .SS "\fBCORE::SYSTEMS\fP CORE::Startup::Start_Systems ()\fR [static]\fP"
 
 .PP
-Definition at line \fB48\fP of file \fBSTARTUP\&.cpp\fP\&.
+Definition at line \fB71\fP of file \fBC_STARTUP\&.cpp\fP\&.
+.nf
+71                                        {
+72     //const ZoneNamedN(startup, "Startup", true);
+73     TracyCZoneN(ctx, "startig Systems", true);
+74 
+75     Log << "startig Systems\&.\&.\&.";
+76     SYSTEMS sys;
+77     Log << "    \- Starting Message Bus";
+78     MESSAGES::Message_Bus bus = MESSAGES::Message_Bus();
+79     bus\&.Exists = true;
+80     sys\&.Bus = &bus; 
+81     Log << "    \- Message Bus started\&.";
+82     Log << "    \- Startig Render";
+83     PAIN::RenderStup::Setup(1920, 1080, "UPRISE");
+84     Log << "    \- Started Render";
+85     sys\&.windw = PAIN::RenderStup::Windowvar;
+86     Log << "    \- Init Input System";
+87     CORE::Input::Init(PAIN::RenderStup::Windowvar);
+88     TracyCZoneEnd(ctx);
+89     return sys;
+90 }
+.PP
+.fi
+
+.PP
+References \fBCORE::SYSTEMS::Bus\fP, \fBMESSAGES::Message_Bus::Exists\fP, \fBCORE::Input::Init()\fP, \fBLog\fP, \fBPAIN::RenderStup::Setup()\fP, \fBPAIN::RenderStup::Windowvar\fP, and \fBCORE::SYSTEMS::windw\fP\&.
+.PP
+Referenced by \fBmain()\fP\&.
+.SS "void CORE::Startup::StartEditor (GLFWwindow * window)\fR [static]\fP"
+
+.PP
+Definition at line \fB48\fP of file \fBC_STARTUP\&.cpp\fP\&.
+.nf
+49 {
+50     TracyCZoneN(ctx, "Startup Editor", true);
+51 
+52     IMGUI_CHECKVERSION();
+53     ImGui::CreateContext();
+54      io = &ImGui::GetIO();
+55     io\->ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+56     io\->ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad; 
+57     io\->ConfigFlags |= ImGuiConfigFlags_ViewportsEnable; // Enable Gamepad Controls
+58     ImGui_ImplGlfw_InitForOpenGL(Window, true);
+59     ImGui_ImplOpenGL3_Init();
+60     TracyCZoneEnd(ctx);
+61 
+62 }
+.PP
+.fi
+
+.PP
+References \fBImGui_ImplGlfw_InitForOpenGL()\fP, and \fBImGui_ImplOpenGL3_Init()\fP\&.
+.PP
+Referenced by \fBmain()\fP\&.
 .SH "Member Data Documentation"
 .PP 
+.SS "ImGuiIO * CORE::Startup::io\fR [static]\fP"
+
+.PP
+Definition at line \fB35\fP of file \fBC_STARTUP\&.h\fP\&.
 .SS "\fBDATATYPES::Startup_Config\fP CORE::Startup::STARTUP_CONFIG\fR [static]\fP"
 
 .PP
-Definition at line \fB30\fP of file \fBSTARTUP\&.h\fP\&.
+Definition at line \fB29\fP of file \fBC_STARTUP\&.h\fP\&.
+.PP
+Referenced by \fBConfigure_Startup()\fP\&.
 .SS "bool CORE::Startup::StartupComplete\fR [static]\fP"
 
 .PP
-Definition at line \fB31\fP of file \fBSTARTUP\&.h\fP\&.
+Definition at line \fB30\fP of file \fBC_STARTUP\&.h\fP\&.
+.PP
+Referenced by \fBConfigure_Startup()\fP\&.
 
 .SH "Author"
 .PP 

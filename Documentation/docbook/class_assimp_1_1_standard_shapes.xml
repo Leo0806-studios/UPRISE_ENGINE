@@ -1,0 +1,456 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_assimp_1_1_standard_shapes" xml:lang="en-US">
+<title>Assimp::StandardShapes Class Reference</title>
+<indexterm><primary>Assimp::StandardShapes</primary></indexterm>
+<para>
+
+<para>Helper class to generate vertex buffers for standard geometric shapes, such as cylinders, cones, boxes, spheres, elipsoids ... . </para>
+ 
+</para>
+<para>
+<computeroutput>#include &lt;StandardShapes.h&gt;</computeroutput>
+</para>
+<simplesect>
+    <title>Static Public Member Functions    </title>
+        <itemizedlist>
+            <listitem><para>static <link linkend="_structai_mesh">aiMesh</link> * <link linkend="_class_assimp_1_1_standard_shapes_1a0a5b7fd434721eefdb75b23fe7275491">MakeMesh</link> (const std::vector&lt; <link linkend="_structai_vector3_d">aiVector3D</link> &gt; &amp;positions, unsigned int numIndices)</para>
+</listitem>
+            <listitem><para>static <link linkend="_structai_mesh">aiMesh</link> * <link linkend="_class_assimp_1_1_standard_shapes_1ac6eb483f3b54613a6b9c6c25bfc52097">MakeMesh</link> (unsigned int(*GenerateFunc)(std::vector&lt; <link linkend="_structai_vector3_d">aiVector3D</link> &gt; &amp;))</para>
+</listitem>
+            <listitem><para>static <link linkend="_structai_mesh">aiMesh</link> * <link linkend="_class_assimp_1_1_standard_shapes_1af685102b55f2e7fb5ba9254af17bdf87">MakeMesh</link> (unsigned int(*GenerateFunc)(std::vector&lt; <link linkend="_structai_vector3_d">aiVector3D</link> &gt; &amp;, bool))</para>
+</listitem>
+            <listitem><para>static <link linkend="_structai_mesh">aiMesh</link> * <link linkend="_class_assimp_1_1_standard_shapes_1a99a096cd8792ea45decd6252e8f7ed8b">MakeMesh</link> (unsigned int n, <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link>(*GenerateFunc)(unsigned int, std::vector&lt; <link linkend="_structai_vector3_d">aiVector3D</link> &gt; &amp;))</para>
+</listitem>
+            <listitem><para>static unsigned int <link linkend="_class_assimp_1_1_standard_shapes_1a0b650e395fdab041d561dbea624e219d">MakeHexahedron</link> (std::vector&lt; <link linkend="_structai_vector3_d">aiVector3D</link> &gt; &amp;positions, bool polygons=false)</para>
+
+<para>Generates a hexahedron (cube) </para>
+</listitem>
+            <listitem><para>static unsigned int <link linkend="_class_assimp_1_1_standard_shapes_1a824621a9e76b3fae1edcfcd964046c32">MakeIcosahedron</link> (std::vector&lt; <link linkend="_structai_vector3_d">aiVector3D</link> &gt; &amp;positions)</para>
+
+<para>Generates an icosahedron. </para>
+</listitem>
+            <listitem><para>static unsigned int <link linkend="_class_assimp_1_1_standard_shapes_1acf01013d5503685a07e169c364f2930f">MakeDodecahedron</link> (std::vector&lt; <link linkend="_structai_vector3_d">aiVector3D</link> &gt; &amp;positions, bool polygons=false)</para>
+
+<para>Generates a dodecahedron. </para>
+</listitem>
+            <listitem><para>static unsigned int <link linkend="_class_assimp_1_1_standard_shapes_1ac4d1eb309982e64b4677b94415879c34">MakeOctahedron</link> (std::vector&lt; <link linkend="_structai_vector3_d">aiVector3D</link> &gt; &amp;positions)</para>
+
+<para>Generates an octahedron. </para>
+</listitem>
+            <listitem><para>static unsigned int <link linkend="_class_assimp_1_1_standard_shapes_1abad174d8949a58da6c28193fc4c6c35e">MakeTetrahedron</link> (std::vector&lt; <link linkend="_structai_vector3_d">aiVector3D</link> &gt; &amp;positions)</para>
+
+<para>Generates a tetrahedron. </para>
+</listitem>
+            <listitem><para>static <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> <link linkend="_class_assimp_1_1_standard_shapes_1afdb18b4c02f60a7cab2db5a5a53f7599">MakeSphere</link> (unsigned int tess, std::vector&lt; <link linkend="_structai_vector3_d">aiVector3D</link> &gt; &amp;positions)</para>
+
+<para>Generates a sphere. </para>
+</listitem>
+            <listitem><para>static <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> <link linkend="_class_assimp_1_1_standard_shapes_1a416eaf5e29defb29cc9260049bb71dbc">MakeCone</link> (<link linkend="_defs_8h_1af221f9bbc3e0dc43a46efaaac6dab067">ai_real</link> <link linkend="_glad_8h_1a60075de22f90a1223dc0bea98d2ee4d5">height</link>, <link linkend="_defs_8h_1af221f9bbc3e0dc43a46efaaac6dab067">ai_real</link> radius1, <link linkend="_defs_8h_1af221f9bbc3e0dc43a46efaaac6dab067">ai_real</link> radius2, unsigned int tess, std::vector&lt; <link linkend="_structai_vector3_d">aiVector3D</link> &gt; &amp;positions, bool bOpen=false)</para>
+
+<para>Generates a cone or a cylinder, either open or closed. </para>
+</listitem>
+            <listitem><para>static <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> <link linkend="_class_assimp_1_1_standard_shapes_1a58254efd440415bd6834c123460ae7b4">MakeCircle</link> (<link linkend="_defs_8h_1af221f9bbc3e0dc43a46efaaac6dab067">ai_real</link> radius, unsigned int tess, std::vector&lt; <link linkend="_structai_vector3_d">aiVector3D</link> &gt; &amp;positions)</para>
+
+<para>Generates a flat circle. </para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para>Helper class to generate vertex buffers for standard geometric shapes, such as cylinders, cones, boxes, spheres, elipsoids ... . </para>
+</section>
+<section>
+<title>Member Function Documentation</title>
+<anchor xml:id="_class_assimp_1_1_standard_shapes_1a58254efd440415bd6834c123460ae7b4"/><section>
+    <title>MakeCircle()</title>
+<indexterm><primary>MakeCircle</primary><secondary>Assimp::StandardShapes</secondary></indexterm>
+<indexterm><primary>Assimp::StandardShapes</primary><secondary>MakeCircle</secondary></indexterm>
+<para><computeroutput>static <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> Assimp::StandardShapes::MakeCircle (<link linkend="_defs_8h_1af221f9bbc3e0dc43a46efaaac6dab067">ai_real</link> radius, unsigned int tess, std::vector&lt; <link linkend="_structai_vector3_d">aiVector3D</link> &gt; &amp; positions)<computeroutput>[static]</computeroutput></computeroutput></para><para>
+
+<para>Generates a flat circle. </para>
+</para>
+
+<para>The circle is constructed in the planned formed by the x,z axes of the cartesian coordinate system.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>radius</entry><entry>
+<para>Radius of the circle </para>
+</entry>
+                            </row>
+                            <row>
+<entry>tess</entry><entry>
+<para>Number of segments. </para>
+</entry>
+                            </row>
+                            <row>
+<entry>positions</entry><entry>
+<para>Receives output triangles. </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                </para>
+</section>
+<anchor xml:id="_class_assimp_1_1_standard_shapes_1a416eaf5e29defb29cc9260049bb71dbc"/><section>
+    <title>MakeCone()</title>
+<indexterm><primary>MakeCone</primary><secondary>Assimp::StandardShapes</secondary></indexterm>
+<indexterm><primary>Assimp::StandardShapes</primary><secondary>MakeCone</secondary></indexterm>
+<para><computeroutput>static <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> Assimp::StandardShapes::MakeCone (<link linkend="_defs_8h_1af221f9bbc3e0dc43a46efaaac6dab067">ai_real</link> height, <link linkend="_defs_8h_1af221f9bbc3e0dc43a46efaaac6dab067">ai_real</link> radius1, <link linkend="_defs_8h_1af221f9bbc3e0dc43a46efaaac6dab067">ai_real</link> radius2, unsigned int tess, std::vector&lt; <link linkend="_structai_vector3_d">aiVector3D</link> &gt; &amp; positions, bool bOpen = <computeroutput>false</computeroutput>
+)<computeroutput>[static]</computeroutput></computeroutput></para><para>
+
+<para>Generates a cone or a cylinder, either open or closed. </para>
+</para>
+
+<para><literallayout><computeroutput>&#32;&#32;&#32;&#32;|-----|&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;-&#32;radius&#32;1
+
+&#32;&#32;&#32;&#32;&#32;__x__&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&lt;-&#32;]&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;^
+&#32;&#32;&#32;&#32;/&#32;&#32;&#32;&#32;&#32;\&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;|&#32;<link linkend="_glad_8h_1a60075de22f90a1223dc0bea98d2ee4d5">height</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;|
+&#32;&#32;&#32;/&#32;&#32;&#32;&#32;&#32;&#32;&#32;\&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;|&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a798e4073d613ca5ba9618e1b3253df14">Y</link>
+&#32;&#32;/&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;\&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;|
+&#32;/&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;\&#32;&#32;&#32;&#32;&#32;&#32;&#32;|
+/______x______\&#32;&#32;&#32;&lt;-&#32;]&#32;&lt;-&#32;<link linkend="_glad_8h_1a432111147038972f06e049e18a837002">end</link>&#32;cap
+
+|-------------|&#32;&#32;&#32;&lt;-&#32;radius&#32;2
+</computeroutput></literallayout></para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>height</entry><entry>
+<para>Height of the cone </para>
+</entry>
+                            </row>
+                            <row>
+<entry>radius1</entry><entry>
+<para>First radius </para>
+</entry>
+                            </row>
+                            <row>
+<entry>radius2</entry><entry>
+<para>Second radius </para>
+</entry>
+                            </row>
+                            <row>
+<entry>tess</entry><entry>
+<para>Number of triangles. </para>
+</entry>
+                            </row>
+                            <row>
+<entry>bOpened</entry><entry>
+<para>true for an open cone/cylinder. An open shape has no &apos;end caps&apos; </para>
+</entry>
+                            </row>
+                            <row>
+<entry>positions</entry><entry>
+<para>Receives output triangles </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                </para>
+</section>
+<anchor xml:id="_class_assimp_1_1_standard_shapes_1acf01013d5503685a07e169c364f2930f"/><section>
+    <title>MakeDodecahedron()</title>
+<indexterm><primary>MakeDodecahedron</primary><secondary>Assimp::StandardShapes</secondary></indexterm>
+<indexterm><primary>Assimp::StandardShapes</primary><secondary>MakeDodecahedron</secondary></indexterm>
+<para><computeroutput>static unsigned int Assimp::StandardShapes::MakeDodecahedron (std::vector&lt; <link linkend="_structai_vector3_d">aiVector3D</link> &gt; &amp; positions, bool polygons = <computeroutput>false</computeroutput>
+)<computeroutput>[static]</computeroutput></computeroutput></para><para>
+
+<para>Generates a dodecahedron. </para>
+</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>positions</entry><entry>
+<para>Receives output triangles </para>
+</entry>
+                            </row>
+                            <row>
+<entry>polygons</entry><entry>
+<para>If you pass true here pentagons will be returned </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>Number of vertices per face </para>
+</formalpara>
+</para>
+</section>
+<anchor xml:id="_class_assimp_1_1_standard_shapes_1a0b650e395fdab041d561dbea624e219d"/><section>
+    <title>MakeHexahedron()</title>
+<indexterm><primary>MakeHexahedron</primary><secondary>Assimp::StandardShapes</secondary></indexterm>
+<indexterm><primary>Assimp::StandardShapes</primary><secondary>MakeHexahedron</secondary></indexterm>
+<para><computeroutput>static unsigned int Assimp::StandardShapes::MakeHexahedron (std::vector&lt; <link linkend="_structai_vector3_d">aiVector3D</link> &gt; &amp; positions, bool polygons = <computeroutput>false</computeroutput>
+)<computeroutput>[static]</computeroutput></computeroutput></para><para>
+
+<para>Generates a hexahedron (cube) </para>
+</para>
+
+<para>Hexahedrons can be scaled on all axes. 
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>positions</entry><entry>
+<para>Receives output triangles. </para>
+</entry>
+                            </row>
+                            <row>
+<entry>polygons</entry><entry>
+<para>If you pass true here quads will be returned </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>Number of vertices per face </para>
+</formalpara>
+</para>
+</section>
+<anchor xml:id="_class_assimp_1_1_standard_shapes_1a824621a9e76b3fae1edcfcd964046c32"/><section>
+    <title>MakeIcosahedron()</title>
+<indexterm><primary>MakeIcosahedron</primary><secondary>Assimp::StandardShapes</secondary></indexterm>
+<indexterm><primary>Assimp::StandardShapes</primary><secondary>MakeIcosahedron</secondary></indexterm>
+<para><computeroutput>static unsigned int Assimp::StandardShapes::MakeIcosahedron (std::vector&lt; <link linkend="_structai_vector3_d">aiVector3D</link> &gt; &amp; positions)<computeroutput>[static]</computeroutput></computeroutput></para><para>
+
+<para>Generates an icosahedron. </para>
+</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>positions</entry><entry>
+<para>Receives output triangles. </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>Number of vertices per face </para>
+</formalpara>
+</para>
+</section>
+<anchor xml:id="_class_assimp_1_1_standard_shapes_1a0a5b7fd434721eefdb75b23fe7275491"/><section>
+    <title>MakeMesh()<computeroutput>[1/4]</computeroutput></title>
+<indexterm><primary>MakeMesh</primary><secondary>Assimp::StandardShapes</secondary></indexterm>
+<indexterm><primary>Assimp::StandardShapes</primary><secondary>MakeMesh</secondary></indexterm>
+<para><computeroutput>static <link linkend="_structai_mesh">aiMesh</link> * Assimp::StandardShapes::MakeMesh (const std::vector&lt; <link linkend="_structai_vector3_d">aiVector3D</link> &gt; &amp; positions, unsigned int numIndices)<computeroutput>[static]</computeroutput></computeroutput></para>
+<para>Generates a mesh from an array of vertex positions.</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>positions</entry><entry>
+<para>List of vertex positions </para>
+</entry>
+                            </row>
+                            <row>
+<entry>numIndices</entry><entry>
+<para>Number of indices per primitive </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>Output mesh </para>
+</formalpara>
+</para>
+</section>
+<anchor xml:id="_class_assimp_1_1_standard_shapes_1a99a096cd8792ea45decd6252e8f7ed8b"/><section>
+    <title>MakeMesh()<computeroutput>[2/4]</computeroutput></title>
+<indexterm><primary>MakeMesh</primary><secondary>Assimp::StandardShapes</secondary></indexterm>
+<indexterm><primary>Assimp::StandardShapes</primary><secondary>MakeMesh</secondary></indexterm>
+<para><computeroutput>static <link linkend="_structai_mesh">aiMesh</link> * Assimp::StandardShapes::MakeMesh (unsigned int n, <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link>(* GenerateFunc&#160;)(unsigned int, std::vector&lt; <link linkend="_structai_vector3_d">aiVector3D</link> &gt; &amp;))<computeroutput>[static]</computeroutput></computeroutput></para></section>
+<anchor xml:id="_class_assimp_1_1_standard_shapes_1ac6eb483f3b54613a6b9c6c25bfc52097"/><section>
+    <title>MakeMesh()<computeroutput>[3/4]</computeroutput></title>
+<indexterm><primary>MakeMesh</primary><secondary>Assimp::StandardShapes</secondary></indexterm>
+<indexterm><primary>Assimp::StandardShapes</primary><secondary>MakeMesh</secondary></indexterm>
+<para><computeroutput>static <link linkend="_structai_mesh">aiMesh</link> * Assimp::StandardShapes::MakeMesh (unsigned int(* GenerateFunc&#160;)(std::vector&lt; <link linkend="_structai_vector3_d">aiVector3D</link> &gt; &amp;))<computeroutput>[static]</computeroutput></computeroutput></para></section>
+<anchor xml:id="_class_assimp_1_1_standard_shapes_1af685102b55f2e7fb5ba9254af17bdf87"/><section>
+    <title>MakeMesh()<computeroutput>[4/4]</computeroutput></title>
+<indexterm><primary>MakeMesh</primary><secondary>Assimp::StandardShapes</secondary></indexterm>
+<indexterm><primary>Assimp::StandardShapes</primary><secondary>MakeMesh</secondary></indexterm>
+<para><computeroutput>static <link linkend="_structai_mesh">aiMesh</link> * Assimp::StandardShapes::MakeMesh (unsigned int(* GenerateFunc&#160;)(std::vector&lt; <link linkend="_structai_vector3_d">aiVector3D</link> &gt; &amp;, bool))<computeroutput>[static]</computeroutput></computeroutput></para></section>
+<anchor xml:id="_class_assimp_1_1_standard_shapes_1ac4d1eb309982e64b4677b94415879c34"/><section>
+    <title>MakeOctahedron()</title>
+<indexterm><primary>MakeOctahedron</primary><secondary>Assimp::StandardShapes</secondary></indexterm>
+<indexterm><primary>Assimp::StandardShapes</primary><secondary>MakeOctahedron</secondary></indexterm>
+<para><computeroutput>static unsigned int Assimp::StandardShapes::MakeOctahedron (std::vector&lt; <link linkend="_structai_vector3_d">aiVector3D</link> &gt; &amp; positions)<computeroutput>[static]</computeroutput></computeroutput></para><para>
+
+<para>Generates an octahedron. </para>
+</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>positions</entry><entry>
+<para>Receives output triangles. </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>Number of vertices per face </para>
+</formalpara>
+</para>
+</section>
+<anchor xml:id="_class_assimp_1_1_standard_shapes_1afdb18b4c02f60a7cab2db5a5a53f7599"/><section>
+    <title>MakeSphere()</title>
+<indexterm><primary>MakeSphere</primary><secondary>Assimp::StandardShapes</secondary></indexterm>
+<indexterm><primary>Assimp::StandardShapes</primary><secondary>MakeSphere</secondary></indexterm>
+<para><computeroutput>static <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> Assimp::StandardShapes::MakeSphere (unsigned int tess, std::vector&lt; <link linkend="_structai_vector3_d">aiVector3D</link> &gt; &amp; positions)<computeroutput>[static]</computeroutput></computeroutput></para><para>
+
+<para>Generates a sphere. </para>
+</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>tess</entry><entry>
+<para>Number of subdivions - 0 generates a octahedron </para>
+</entry>
+                            </row>
+                            <row>
+<entry>positions</entry><entry>
+<para>Receives output triangles. </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                </para>
+</section>
+<anchor xml:id="_class_assimp_1_1_standard_shapes_1abad174d8949a58da6c28193fc4c6c35e"/><section>
+    <title>MakeTetrahedron()</title>
+<indexterm><primary>MakeTetrahedron</primary><secondary>Assimp::StandardShapes</secondary></indexterm>
+<indexterm><primary>Assimp::StandardShapes</primary><secondary>MakeTetrahedron</secondary></indexterm>
+<para><computeroutput>static unsigned int Assimp::StandardShapes::MakeTetrahedron (std::vector&lt; <link linkend="_structai_vector3_d">aiVector3D</link> &gt; &amp; positions)<computeroutput>[static]</computeroutput></computeroutput></para><para>
+
+<para>Generates a tetrahedron. </para>
+</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="2" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>positions</entry><entry>
+<para>Receives output triangles. </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>Number of vertices per face </para>
+</formalpara>
+</para>
+</section>
+<para>
+The documentation for this class was generated from the following file:</para>
+adhed/assimp/<link linkend="__standard_shapes_8h">StandardShapes.h</link></section>
+</section>

@@ -1,0 +1,197 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_d3dx12__barriers_8h_source" xml:lang="en-US">
+<title>d3dx12_barriers.h</title>
+<indexterm><primary>adhed/d3dx12_barriers.h</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 <emphasis role="comment">//*********************************************************</emphasis>
+2 <emphasis role="comment">//</emphasis>
+3 <emphasis role="comment">//&#32;Copyright&#32;(c)&#32;Microsoft&#32;Corporation.</emphasis>
+4 <emphasis role="comment">//&#32;Licensed&#32;under&#32;the&#32;MIT&#32;License&#32;(MIT).</emphasis>
+5 <emphasis role="comment">//</emphasis>
+6 <emphasis role="comment">//*********************************************************</emphasis>
+7 
+8 <emphasis role="preprocessor">#ifndef&#32;__D3DX12_BARRIERS_H__</emphasis>
+9 <emphasis role="preprocessor">#define&#32;__D3DX12_BARRIERS_H__</emphasis>
+10 
+11 <emphasis role="preprocessor">#if&#32;defined(&#32;__cplusplus&#32;)</emphasis>
+12 
+13 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_d3d12_8h">d3d12.h</link>&quot;</emphasis>
+14 
+15 <emphasis role="comment">//------------------------------------------------------------------------------------------------</emphasis>
+16 <emphasis role="keyword">struct&#32;</emphasis>CD3DX12_RESOURCE_BARRIER&#32;:&#32;<emphasis role="keyword">public</emphasis>&#32;<link linkend="_d3d12_8idl_1ada7b34e1309a93a0bd2a9aa56a559a97">D3D12_RESOURCE_BARRIER</link>
+17 {
+18 &#32;&#32;&#32;&#32;CD3DX12_RESOURCE_BARRIER()&#32;=&#32;<emphasis role="keywordflow">default</emphasis>;
+19 &#32;&#32;&#32;&#32;<emphasis role="keyword">explicit</emphasis>&#32;CD3DX12_RESOURCE_BARRIER(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_d3d12_8idl_1ada7b34e1309a93a0bd2a9aa56a559a97">D3D12_RESOURCE_BARRIER</link>&#32;&amp;o)&#32;noexcept&#32;:
+20 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1ada7b34e1309a93a0bd2a9aa56a559a97">D3D12_RESOURCE_BARRIER</link>(o)
+21 &#32;&#32;&#32;&#32;{}
+22 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keyword">inline</emphasis>&#32;CD3DX12_RESOURCE_BARRIER&#32;Transition(
+23 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_In_&#32;<link linkend="_interface_i_d3_d12_resource">ID3D12Resource</link>*&#32;pResource,
+24 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1a21843522197dd2f5c18b795079f11211">D3D12_RESOURCE_STATES</link>&#32;stateBefore,
+25 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1a21843522197dd2f5c18b795079f11211">D3D12_RESOURCE_STATES</link>&#32;stateAfter,
+26 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;UINT&#32;subresource&#32;=&#32;<link linkend="_d3d12_8idl_1af7b332c00e3faeeab06afff32aec6c83">D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES</link>,
+27 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1a513a291100449ffb8d68dde9c8baafaf">D3D12_RESOURCE_BARRIER_FLAGS</link>&#32;<link linkend="_glad_8h_1ac7ba7d3cce3d19ca020e056b37231289">flags</link>&#32;=&#32;<link linkend="_d3d12_8idl_1a513a291100449ffb8d68dde9c8baafafa48a7758bae21b4de3ca943cba2641b66">D3D12_RESOURCE_BARRIER_FLAG_NONE</link>)&#32;<emphasis role="keyword">noexcept</emphasis>
+28 &#32;&#32;&#32;&#32;{
+29 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;CD3DX12_RESOURCE_BARRIER&#32;<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>&#32;=&#32;{};
+30 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1ada7b34e1309a93a0bd2a9aa56a559a97">D3D12_RESOURCE_BARRIER</link>&#32;&amp;barrier&#32;=&#32;<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>;
+31 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>.Type&#32;=&#32;D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
+32 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>.Flags&#32;=&#32;<link linkend="_glad_8h_1ac7ba7d3cce3d19ca020e056b37231289">flags</link>;
+33 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;barrier.Transition.pResource&#32;=&#32;pResource;
+34 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;barrier.Transition.StateBefore&#32;=&#32;stateBefore;
+35 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;barrier.Transition.StateAfter&#32;=&#32;stateAfter;
+36 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;barrier.Transition.Subresource&#32;=&#32;subresource;
+37 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>;
+38 &#32;&#32;&#32;&#32;}
+39 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keyword">inline</emphasis>&#32;CD3DX12_RESOURCE_BARRIER&#32;Aliasing(
+40 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_In_opt_&#32;<link linkend="_interface_i_d3_d12_resource">ID3D12Resource</link>*&#32;pResourceBefore,
+41 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_In_opt_&#32;<link linkend="_interface_i_d3_d12_resource">ID3D12Resource</link>*&#32;pResourceAfter)&#32;<emphasis role="keyword">noexcept</emphasis>
+42 &#32;&#32;&#32;&#32;{
+43 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;CD3DX12_RESOURCE_BARRIER&#32;<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>&#32;=&#32;{};
+44 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1ada7b34e1309a93a0bd2a9aa56a559a97">D3D12_RESOURCE_BARRIER</link>&#32;&amp;barrier&#32;=&#32;<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>;
+45 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>.Type&#32;=&#32;D3D12_RESOURCE_BARRIER_TYPE_ALIASING;
+46 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;barrier.Aliasing.pResourceBefore&#32;=&#32;pResourceBefore;
+47 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;barrier.Aliasing.pResourceAfter&#32;=&#32;pResourceAfter;
+48 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>;
+49 &#32;&#32;&#32;&#32;}
+50 &#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keyword">inline</emphasis>&#32;CD3DX12_RESOURCE_BARRIER&#32;UAV(
+51 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_In_opt_&#32;<link linkend="_interface_i_d3_d12_resource">ID3D12Resource</link>*&#32;pResource)&#32;<emphasis role="keyword">noexcept</emphasis>
+52 &#32;&#32;&#32;&#32;{
+53 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;CD3DX12_RESOURCE_BARRIER&#32;<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>&#32;=&#32;{};
+54 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1ada7b34e1309a93a0bd2a9aa56a559a97">D3D12_RESOURCE_BARRIER</link>&#32;&amp;barrier&#32;=&#32;<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>;
+55 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>.Type&#32;=&#32;D3D12_RESOURCE_BARRIER_TYPE_UAV;
+56 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;barrier.UAV.pResource&#32;=&#32;pResource;
+57 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_imgui__impl__opengl3__loader_8h_1aa7f56a70231ed8bc64f97aa7c37fcb19">result</link>;
+58 &#32;&#32;&#32;&#32;}
+59 };
+60 
+61 <emphasis role="preprocessor">#if&#32;defined(D3D12_SDK_VERSION)&#32;&amp;&amp;&#32;(D3D12_SDK_VERSION&#32;&gt;=&#32;608)</emphasis>
+62 
+63 <emphasis role="comment">//================================================================================================</emphasis>
+64 <emphasis role="comment">//&#32;D3DX12&#32;Enhanced&#32;Barrier&#32;Helpers</emphasis>
+65 <emphasis role="comment">//================================================================================================</emphasis>
+66 
+67 <emphasis role="keyword">class&#32;</emphasis>CD3DX12_BARRIER_SUBRESOURCE_RANGE&#32;:&#32;<emphasis role="keyword">public</emphasis>&#32;<link linkend="_d3d12_8idl_1a77311951ab5607a72e5da63a98e3cebe">D3D12_BARRIER_SUBRESOURCE_RANGE</link>
+68 {
+69 <emphasis role="keyword">public</emphasis>:
+70 &#32;&#32;&#32;&#32;CD3DX12_BARRIER_SUBRESOURCE_RANGE()&#32;=&#32;<emphasis role="keywordflow">default</emphasis>;
+71 &#32;&#32;&#32;&#32;CD3DX12_BARRIER_SUBRESOURCE_RANGE(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_d3d12_8idl_1a77311951ab5607a72e5da63a98e3cebe">D3D12_BARRIER_SUBRESOURCE_RANGE</link>&#32;&amp;o)&#32;noexcept&#32;:
+72 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1a77311951ab5607a72e5da63a98e3cebe">D3D12_BARRIER_SUBRESOURCE_RANGE</link>(o)
+73 &#32;&#32;&#32;&#32;{}
+74 &#32;&#32;&#32;&#32;<emphasis role="keyword">explicit</emphasis>&#32;CD3DX12_BARRIER_SUBRESOURCE_RANGE(UINT&#32;Subresource)&#32;noexcept&#32;:
+75 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1a77311951ab5607a72e5da63a98e3cebe">D3D12_BARRIER_SUBRESOURCE_RANGE</link>{&#32;Subresource,&#32;0,&#32;0,&#32;0,&#32;0,&#32;0&#32;}
+76 &#32;&#32;&#32;&#32;{}
+77 &#32;&#32;&#32;&#32;CD3DX12_BARRIER_SUBRESOURCE_RANGE(
+78 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;UINT&#32;firstMipLevel,
+79 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;UINT&#32;numMips,
+80 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;UINT&#32;firstArraySlice,
+81 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;UINT&#32;numArraySlices,
+82 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;UINT&#32;firstPlane&#32;=&#32;0,
+83 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;UINT&#32;numPlanes&#32;=&#32;1)&#32;noexcept&#32;:
+84 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1a77311951ab5607a72e5da63a98e3cebe">D3D12_BARRIER_SUBRESOURCE_RANGE</link>
+85 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+86 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;firstMipLevel,
+87 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;numMips,
+88 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;firstArraySlice,
+89 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;numArraySlices,
+90 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;firstPlane,
+91 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;numPlanes
+92 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+93 &#32;&#32;&#32;&#32;{}
+94 };
+95 
+96 <emphasis role="keyword">class&#32;</emphasis>CD3DX12_GLOBAL_BARRIER&#32;:&#32;<emphasis role="keyword">public</emphasis>&#32;<link linkend="_struct_d3_d12___g_l_o_b_a_l___b_a_r_r_i_e_r">D3D12_GLOBAL_BARRIER</link>
+97 {
+98 <emphasis role="keyword">public</emphasis>:
+99 &#32;&#32;&#32;&#32;CD3DX12_GLOBAL_BARRIER()&#32;=&#32;<emphasis role="keywordflow">default</emphasis>;
+100 &#32;&#32;&#32;&#32;CD3DX12_GLOBAL_BARRIER(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_struct_d3_d12___g_l_o_b_a_l___b_a_r_r_i_e_r">D3D12_GLOBAL_BARRIER</link>&#32;&amp;o)&#32;noexcept&#32;:&#32;<link linkend="_d3d12_8idl_1a19678fb0d26d37522f075564ee53c4ed">D3D12_GLOBAL_BARRIER</link>(o){}
+101 &#32;&#32;&#32;&#32;CD3DX12_GLOBAL_BARRIER(
+102 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1aaab46ebfc9af69fb2bec02f21fd0f844">D3D12_BARRIER_SYNC</link>&#32;syncBefore,
+103 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1aaab46ebfc9af69fb2bec02f21fd0f844">D3D12_BARRIER_SYNC</link>&#32;syncAfter,
+104 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1af03331193d7137280aa3d9c2f1870e66">D3D12_BARRIER_ACCESS</link>&#32;accessBefore,
+105 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1af03331193d7137280aa3d9c2f1870e66">D3D12_BARRIER_ACCESS</link>&#32;accessAfter)&#32;noexcept&#32;:&#32;<link linkend="_struct_d3_d12___g_l_o_b_a_l___b_a_r_r_i_e_r">D3D12_GLOBAL_BARRIER</link>&#32;{
+106 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;syncBefore,
+107 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;syncAfter,
+108 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;accessBefore,
+109 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;accessAfter
+110 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+111 &#32;&#32;&#32;&#32;{}
+112 };
+113 
+114 <emphasis role="keyword">class&#32;</emphasis>CD3DX12_BUFFER_BARRIER&#32;:&#32;<emphasis role="keyword">public</emphasis>&#32;<link linkend="_struct_d3_d12___b_u_f_f_e_r___b_a_r_r_i_e_r">D3D12_BUFFER_BARRIER</link>
+115 {
+116 <emphasis role="keyword">public</emphasis>:
+117 &#32;&#32;&#32;&#32;CD3DX12_BUFFER_BARRIER()&#32;=&#32;<emphasis role="keywordflow">default</emphasis>;
+118 &#32;&#32;&#32;&#32;CD3DX12_BUFFER_BARRIER(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_struct_d3_d12___b_u_f_f_e_r___b_a_r_r_i_e_r">D3D12_BUFFER_BARRIER</link>&#32;&amp;o)&#32;noexcept&#32;:&#32;<link linkend="_d3d12_8idl_1a2cb07b60b4fb9a735f7a5973966af2c7">D3D12_BUFFER_BARRIER</link>(o){}
+119 &#32;&#32;&#32;&#32;CD3DX12_BUFFER_BARRIER(
+120 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1aaab46ebfc9af69fb2bec02f21fd0f844">D3D12_BARRIER_SYNC</link>&#32;syncBefore,
+121 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1aaab46ebfc9af69fb2bec02f21fd0f844">D3D12_BARRIER_SYNC</link>&#32;syncAfter,
+122 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1af03331193d7137280aa3d9c2f1870e66">D3D12_BARRIER_ACCESS</link>&#32;accessBefore,
+123 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1af03331193d7137280aa3d9c2f1870e66">D3D12_BARRIER_ACCESS</link>&#32;accessAfter,
+124 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_interface_i_d3_d12_resource">ID3D12Resource</link>&#32;*pRes)&#32;noexcept&#32;:&#32;<link linkend="_struct_d3_d12___b_u_f_f_e_r___b_a_r_r_i_e_r">D3D12_BUFFER_BARRIER</link>&#32;{
+125 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;syncBefore,
+126 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;syncAfter,
+127 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;accessBefore,
+128 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;accessAfter,
+129 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;pRes,
+130 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;0,&#32;ULLONG_MAX
+131 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+132 &#32;&#32;&#32;&#32;{}
+133 };
+134 
+135 <emphasis role="keyword">class&#32;</emphasis>CD3DX12_TEXTURE_BARRIER&#32;:&#32;<emphasis role="keyword">public</emphasis>&#32;<link linkend="_struct_d3_d12___t_e_x_t_u_r_e___b_a_r_r_i_e_r">D3D12_TEXTURE_BARRIER</link>
+136 {
+137 <emphasis role="keyword">public</emphasis>:
+138 &#32;&#32;&#32;&#32;CD3DX12_TEXTURE_BARRIER()&#32;=&#32;<emphasis role="keywordflow">default</emphasis>;
+139 &#32;&#32;&#32;&#32;CD3DX12_TEXTURE_BARRIER(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_struct_d3_d12___t_e_x_t_u_r_e___b_a_r_r_i_e_r">D3D12_TEXTURE_BARRIER</link>&#32;&amp;o)&#32;noexcept&#32;:&#32;<link linkend="_d3d12_8idl_1a1af0bd3007b82f03fdcc87336f0512ed">D3D12_TEXTURE_BARRIER</link>(o){}
+140 &#32;&#32;&#32;&#32;CD3DX12_TEXTURE_BARRIER(
+141 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1aaab46ebfc9af69fb2bec02f21fd0f844">D3D12_BARRIER_SYNC</link>&#32;syncBefore,
+142 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1aaab46ebfc9af69fb2bec02f21fd0f844">D3D12_BARRIER_SYNC</link>&#32;syncAfter,
+143 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1af03331193d7137280aa3d9c2f1870e66">D3D12_BARRIER_ACCESS</link>&#32;accessBefore,
+144 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1af03331193d7137280aa3d9c2f1870e66">D3D12_BARRIER_ACCESS</link>&#32;accessAfter,
+145 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1a7858546a4554912abee277390c3c5e44">D3D12_BARRIER_LAYOUT</link>&#32;layoutBefore,
+146 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1a7858546a4554912abee277390c3c5e44">D3D12_BARRIER_LAYOUT</link>&#32;layoutAfter,
+147 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_interface_i_d3_d12_resource">ID3D12Resource</link>&#32;*pRes,
+148 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_d3d12_8idl_1a77311951ab5607a72e5da63a98e3cebe">D3D12_BARRIER_SUBRESOURCE_RANGE</link>&#32;&amp;subresources,
+149 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1aeef3211851a5edab793c34840fda53c8">D3D12_TEXTURE_BARRIER_FLAGS</link>&#32;flag&#32;=&#32;<link linkend="_d3d12_8idl_1aeef3211851a5edab793c34840fda53c8a54df8fcfada2ca7cfca0d26a9d327bd4">D3D12_TEXTURE_BARRIER_FLAG_NONE</link>)&#32;noexcept&#32;:&#32;<link linkend="_struct_d3_d12___t_e_x_t_u_r_e___b_a_r_r_i_e_r">D3D12_TEXTURE_BARRIER</link>&#32;{
+150 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;syncBefore,
+151 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;syncAfter,
+152 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;accessBefore,
+153 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;accessAfter,
+154 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;layoutBefore,
+155 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;layoutAfter,
+156 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;pRes,
+157 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;subresources,
+158 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;flag
+159 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+160 &#32;&#32;&#32;&#32;{}
+161 };
+162 
+163 <emphasis role="keyword">class&#32;</emphasis>CD3DX12_BARRIER_GROUP&#32;:&#32;<emphasis role="keyword">public</emphasis>&#32;<link linkend="_struct_d3_d12___b_a_r_r_i_e_r___g_r_o_u_p">D3D12_BARRIER_GROUP</link>
+164 {
+165 <emphasis role="keyword">public</emphasis>:
+166 &#32;&#32;&#32;&#32;CD3DX12_BARRIER_GROUP()&#32;=&#32;<emphasis role="keywordflow">default</emphasis>;
+167 &#32;&#32;&#32;&#32;CD3DX12_BARRIER_GROUP(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_struct_d3_d12___b_a_r_r_i_e_r___g_r_o_u_p">D3D12_BARRIER_GROUP</link>&#32;&amp;o)&#32;noexcept&#32;:&#32;<link linkend="_d3d12_8idl_1aed3fc082a5bc1c04ec4c3f226c237ac2">D3D12_BARRIER_GROUP</link>(o){}
+168 &#32;&#32;&#32;&#32;CD3DX12_BARRIER_GROUP(UINT32&#32;numBarriers,&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_struct_d3_d12___b_u_f_f_e_r___b_a_r_r_i_e_r">D3D12_BUFFER_BARRIER</link>&#32;*pBarriers)&#32;<emphasis role="keyword">noexcept</emphasis>
+169 &#32;&#32;&#32;&#32;{
+170 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Type&#32;=&#32;D3D12_BARRIER_TYPE_BUFFER;
+171 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;NumBarriers&#32;=&#32;numBarriers;
+172 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;pBufferBarriers&#32;=&#32;pBarriers;
+173 &#32;&#32;&#32;&#32;}
+174 &#32;&#32;&#32;&#32;CD3DX12_BARRIER_GROUP(UINT32&#32;numBarriers,&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_struct_d3_d12___t_e_x_t_u_r_e___b_a_r_r_i_e_r">D3D12_TEXTURE_BARRIER</link>&#32;*pBarriers)&#32;<emphasis role="keyword">noexcept</emphasis>
+175 &#32;&#32;&#32;&#32;{
+176 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Type&#32;=&#32;D3D12_BARRIER_TYPE_TEXTURE;
+177 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;NumBarriers&#32;=&#32;numBarriers;
+178 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;pTextureBarriers&#32;=&#32;pBarriers;
+179 &#32;&#32;&#32;&#32;}
+180 &#32;&#32;&#32;&#32;CD3DX12_BARRIER_GROUP(UINT32&#32;numBarriers,&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_struct_d3_d12___g_l_o_b_a_l___b_a_r_r_i_e_r">D3D12_GLOBAL_BARRIER</link>&#32;*pBarriers)&#32;<emphasis role="keyword">noexcept</emphasis>
+181 &#32;&#32;&#32;&#32;{
+182 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Type&#32;=&#32;D3D12_BARRIER_TYPE_GLOBAL;
+183 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;NumBarriers&#32;=&#32;numBarriers;
+184 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;pGlobalBarriers&#32;=&#32;pBarriers;
+185 &#32;&#32;&#32;&#32;}
+186 };
+187 <emphasis role="preprocessor">#endif&#32;</emphasis><emphasis role="comment">//&#32;D3D12_SDK_VERSION&#32;&gt;=&#32;608</emphasis>
+188 
+189 
+190 <emphasis role="preprocessor">#endif&#32;</emphasis><emphasis role="comment">//&#32;defined(&#32;__cplusplus&#32;)</emphasis>
+191 
+192 <emphasis role="preprocessor">#endif&#32;</emphasis><emphasis role="comment">//&#32;__D3DX12_BARRIERS_H__</emphasis>
+</programlisting></section>

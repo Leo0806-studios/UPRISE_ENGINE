@@ -1,0 +1,41 @@
+.TH "detail::actual_object_comparator< BasicJsonType >" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+detail::actual_object_comparator< BasicJsonType >
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fR#include <json\&.hpp>\fP
+.SS "Public Types"
+
+.in +1c
+.ti -1c
+.RI "using \fBobject_t\fP = typename BasicJsonType::object_t"
+.br
+.ti -1c
+.RI "using \fBobject_comparator_t\fP = typename BasicJsonType::default_object_comparator_t"
+.br
+.ti -1c
+.RI "using \fBtype\fP"
+.br
+.in -1c
+.SH "Member Typedef Documentation"
+.PP 
+.SS "template<typename BasicJsonType > using \fBdetail::actual_object_comparator\fP< BasicJsonType >::object_comparator_t = typename BasicJsonType::default_object_comparator_t"
+
+.SS "template<typename BasicJsonType > using \fBdetail::actual_object_comparator\fP< BasicJsonType >::object_t = typename BasicJsonType::object_t"
+
+.SS "template<typename BasicJsonType > using \fBdetail::actual_object_comparator\fP< BasicJsonType >\fB::type\fP"
+\fBInitial value:\fP
+.nf
+ typename std::conditional < has_key_compare<object_t>::value,
+          typename object_t::key_compare, object_comparator_t>::type
+.PP
+.fi
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

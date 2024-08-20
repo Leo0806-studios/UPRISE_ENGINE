@@ -1,0 +1,89 @@
+.TH "adhed/assimp/cfileio.h" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+adhed/assimp/cfileio.h \- Defines generic C routines to access memory-mapped files\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+\fR#include <assimp/types\&.h>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBaiFileIO\fP"
+.br
+.RI "C-API: File system callbacks\&. "
+.ti -1c
+.RI "struct \fBaiFile\fP"
+.br
+.RI "C-API: File callbacks\&. "
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBAI_FILEIO_H_INC\fP"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef size_t(* \fBaiFileWriteProc\fP) (\fBC_STRUCT\fP \fBaiFile\fP *, const char *, size_t, size_t)"
+.br
+.ti -1c
+.RI "typedef size_t(* \fBaiFileReadProc\fP) (\fBC_STRUCT\fP \fBaiFile\fP *, char *, size_t, size_t)"
+.br
+.ti -1c
+.RI "typedef size_t(* \fBaiFileTellProc\fP) (\fBC_STRUCT\fP \fBaiFile\fP *)"
+.br
+.ti -1c
+.RI "typedef \fBvoid\fP(* \fBaiFileFlushProc\fP) (\fBC_STRUCT\fP \fBaiFile\fP *)"
+.br
+.ti -1c
+.RI "typedef \fBC_ENUM\fP \fBaiReturn\fP(* \fBaiFileSeek\fP) (\fBC_STRUCT\fP \fBaiFile\fP *, size_t, \fBC_ENUM\fP \fBaiOrigin\fP)"
+.br
+.ti -1c
+.RI "typedef \fBC_STRUCT\fP \fBaiFile\fP *(* \fBaiFileOpenProc\fP) (\fBC_STRUCT\fP \fBaiFileIO\fP *, const char *, const char *)"
+.br
+.ti -1c
+.RI "typedef \fBvoid\fP(* \fBaiFileCloseProc\fP) (\fBC_STRUCT\fP \fBaiFileIO\fP *, \fBC_STRUCT\fP \fBaiFile\fP *)"
+.br
+.ti -1c
+.RI "typedef char * \fBaiUserData\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Defines generic C routines to access memory-mapped files\&. 
+
+
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define AI_FILEIO_H_INC"
+
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef \fBvoid\fP(* aiFileCloseProc) (\fBC_STRUCT\fP \fBaiFileIO\fP *, \fBC_STRUCT\fP \fBaiFile\fP *)"
+
+.SS "typedef \fBvoid\fP(* aiFileFlushProc) (\fBC_STRUCT\fP \fBaiFile\fP *)"
+
+.SS "typedef \fBC_STRUCT\fP \fBaiFile\fP *(* aiFileOpenProc) (\fBC_STRUCT\fP \fBaiFileIO\fP *, const char *, const char *)"
+
+.SS "typedef size_t(* aiFileReadProc) (\fBC_STRUCT\fP \fBaiFile\fP *, char *, size_t, size_t)"
+
+.SS "typedef \fBC_ENUM\fP \fBaiReturn\fP(* aiFileSeek) (\fBC_STRUCT\fP \fBaiFile\fP *, size_t, \fBC_ENUM\fP \fBaiOrigin\fP)"
+
+.SS "typedef size_t(* aiFileTellProc) (\fBC_STRUCT\fP \fBaiFile\fP *)"
+
+.SS "typedef size_t(* aiFileWriteProc) (\fBC_STRUCT\fP \fBaiFile\fP *, const char *, size_t, size_t)"
+
+.SS "typedef char* \fBaiUserData\fP"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

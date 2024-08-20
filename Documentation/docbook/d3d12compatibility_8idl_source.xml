@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_d3d12compatibility_8idl_source" xml:lang="en-US">
+<title>d3d12compatibility.idl</title>
+<indexterm><primary>adhed/d3d12compatibility.idl</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 <emphasis role="comment">/*-------------------------------------------------------------------------------------</emphasis>
+2 <emphasis role="comment">&#32;*</emphasis>
+3 <emphasis role="comment">&#32;*&#32;Copyright&#32;(c)&#32;Microsoft&#32;Corporation</emphasis>
+4 <emphasis role="comment">&#32;*&#32;Licensed&#32;under&#32;the&#32;MIT&#32;license</emphasis>
+5 <emphasis role="comment">&#32;*</emphasis>
+6 <emphasis role="comment">&#32;*-------------------------------------------------------------------------------------*/</emphasis>
+7 <emphasis role="keyword">import</emphasis>&#32;<emphasis role="stringliteral">&quot;oaidl.idl&quot;</emphasis>;
+8 <emphasis role="keyword">import</emphasis>&#32;<emphasis role="stringliteral">&quot;ocidl.idl&quot;</emphasis>;
+9 
+10 <emphasis role="keyword">import</emphasis>&#32;<emphasis role="stringliteral">&quot;d3d11on12.idl&quot;</emphasis>;
+11 
+12 cpp_quote(<emphasis role="stringliteral">&quot;#include&#32;&lt;winapifamily.h&gt;&quot;</emphasis>)
+13 
+14 <emphasis role="preprocessor">#pragma&#32;region&#32;Desktop&#32;Family</emphasis>
+15 cpp_quote(<emphasis role="stringliteral">&quot;#if&#32;WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP&#32;|&#32;WINAPI_PARTITION_GAMES)&quot;</emphasis>)
+16 
+17 typedef&#32;<link linkend="_interfaceenum">enum</link>&#32;<link linkend="_d3d12compatibility_8idl_1a3641bbca6742990b31967b451e9ead85">D3D12_COMPATIBILITY_SHARED_FLAGS</link>
+18 {
+19 &#32;&#32;&#32;&#32;<link linkend="_d3d12compatibility_8idl_1a3641bbca6742990b31967b451e9ead85ae451618b3adc226a8280d61b5f061de8">D3D12_COMPATIBILITY_SHARED_FLAG_NONE</link>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;=&#32;0,
+20 &#32;&#32;&#32;&#32;<link linkend="_d3d12compatibility_8idl_1a3641bbca6742990b31967b451e9ead85a8787658466818e5a389c3e86bca48545">D3D12_COMPATIBILITY_SHARED_FLAG_NON_NT_HANDLE</link>&#32;=&#32;0x1,
+21 &#32;&#32;&#32;&#32;<link linkend="_d3d12compatibility_8idl_1a3641bbca6742990b31967b451e9ead85a367f91080102aa21a6b9e16044152ceb">D3D12_COMPATIBILITY_SHARED_FLAG_KEYED_MUTEX</link>&#32;=&#32;0x2,
+22 &#32;&#32;&#32;&#32;<link linkend="_d3d12compatibility_8idl_1a3641bbca6742990b31967b451e9ead85a2160574dac8f656f9f565b6dc064e88b">D3D12_COMPATIBILITY_SHARED_FLAG_9_ON_12</link>&#32;=&#32;0x4,
+23 
+24 }&#32;<link linkend="_d3d12compatibility_8idl_1a3641bbca6742990b31967b451e9ead85">D3D12_COMPATIBILITY_SHARED_FLAGS</link>;
+25 cpp_quote(&#32;<emphasis role="stringliteral">&quot;DEFINE_ENUM_FLAG_OPERATORS(&#32;D3D12_COMPATIBILITY_SHARED_FLAGS&#32;)&quot;</emphasis>&#32;)
+26 
+27 typedef&#32;<link linkend="_interfaceenum">enum</link>&#32;<link linkend="_d3d12compatibility_8idl_1abf5dc59eeee82a1639a00f2874175ee9">D3D12_REFLECT_SHARED_PROPERTY</link>
+28 {
+29 &#32;&#32;&#32;&#32;D3D12_REFLECT_SHARED_PROPERTY_D3D11_RESOURCE_FLAGS,&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;D3D11_RESOURCE_FLAGS</emphasis>
+30 &#32;&#32;&#32;&#32;D3D12_REFELCT_SHARED_PROPERTY_COMPATIBILITY_SHARED_FLAGS,&#32;<emphasis role="comment">//&#32;D3D12_COMPATIBILITY_SHARED_FLAGS</emphasis>
+31 &#32;&#32;&#32;&#32;D3D12_REFLECT_SHARED_PROPERTY_NON_NT_SHARED_HANDLE,&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;HANDLE</emphasis>
+32 }&#32;<link linkend="_d3d12compatibility_8idl_1abf5dc59eeee82a1639a00f2874175ee9">D3D12_REFLECT_SHARED_PROPERTY</link>;
+33 
+34 [&#32;uuid(&#32;8f1c0e3c-fae3-4a82-b098-bfe1708207ff&#32;),&#32;<link linkend="_d3d12_8idl_1ad03408aabe16bb53c780fae6cf3910f9">object</link>,&#32;<link linkend="_d3d12_8idl_1a96db3da3652c2ce91fd6b07f397ab3f5">local</link>,&#32;pointer_default(&#32;unique&#32;)&#32;]
+35 <emphasis role="keyword">interface&#32;</emphasis><link linkend="_interface_i_d3_d12_compatibility_device">ID3D12CompatibilityDevice</link>
+36 &#32;&#32;&#32;&#32;:&#32;IUnknown
+37 {
+38 &#32;&#32;&#32;&#32;HRESULT&#32;<link linkend="_interface_i_d3_d12_compatibility_device_1a6babd3e2ca2f42a032490b60d9fbfdf5">CreateSharedResource</link>(
+39 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;[annotation(<emphasis role="stringliteral">&quot;_In_&quot;</emphasis>)]&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_struct_d3_d12___h_e_a_p___p_r_o_p_e_r_t_i_e_s">D3D12_HEAP_PROPERTIES</link>*&#32;pHeapProperties,
+40 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1a9c007d573575b04587801b0b49342df7">D3D12_HEAP_FLAGS</link>&#32;HeapFlags,
+41 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;[annotation(<emphasis role="stringliteral">&quot;_In_&quot;</emphasis>)]&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_struct_d3_d12___r_e_s_o_u_r_c_e___d_e_s_c">D3D12_RESOURCE_DESC</link>*&#32;pDesc,
+42 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1a21843522197dd2f5c18b795079f11211">D3D12_RESOURCE_STATES</link>&#32;InitialResourceState,
+43 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;[annotation(<emphasis role="stringliteral">&quot;_In_opt_&quot;</emphasis>)]&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_struct_d3_d12___c_l_e_a_r___v_a_l_u_e">D3D12_CLEAR_VALUE</link>*&#32;pOptimizedClearValue,
+44 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;[annotation(<emphasis role="stringliteral">&quot;_In_opt_&quot;</emphasis>)]&#32;<emphasis role="keyword">const</emphasis>&#32;D3D11_RESOURCE_FLAGS*&#32;pFlags11,
+45 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12compatibility_8idl_1a3641bbca6742990b31967b451e9ead85">D3D12_COMPATIBILITY_SHARED_FLAGS</link>&#32;CompatibilityFlags,
+46 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;[annotation(<emphasis role="stringliteral">&quot;_In_opt_&quot;</emphasis>)]&#32;<link linkend="_d3d12_8h_1a50711683ec21607745bbb2d2539307d1">ID3D12LifetimeTracker</link>*&#32;pLifetimeTracker,
+47 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;[annotation(<emphasis role="stringliteral">&quot;_In_opt_&quot;</emphasis>)]&#32;<link linkend="_interface_i_d3_d12_swap_chain_assistant">ID3D12SwapChainAssistant</link>*&#32;pOwningSwapchain,
+48 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REFIID&#32;riid,
+49 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;[out,&#32;iid_is(riid),&#32;annotation(<emphasis role="stringliteral">&quot;_COM_Outptr_opt_&quot;</emphasis>)]&#32;<emphasis role="keywordtype">void</emphasis>**&#32;ppResource);
+50 
+51 &#32;&#32;&#32;&#32;HRESULT&#32;<link linkend="_interface_i_d3_d12_compatibility_device_1a7adc60dd06cc50242fad734a618c12ce">CreateSharedHeap</link>(
+52 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;[annotation(<emphasis role="stringliteral">&quot;_In_&quot;</emphasis>)]&#32;<emphasis role="keyword">const</emphasis>&#32;D3D12_HEAP_DESC*&#32;pHeapDesc,
+53 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12compatibility_8idl_1a3641bbca6742990b31967b451e9ead85">D3D12_COMPATIBILITY_SHARED_FLAGS</link>&#32;CompatibilityFlags,
+54 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;REFIID&#32;riid,
+55 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;[out,&#32;iid_is(riid),&#32;annotation(<emphasis role="stringliteral">&quot;_COM_Outptr_opt_&quot;</emphasis>)]&#32;<emphasis role="keywordtype">void</emphasis>**&#32;ppHeap);
+56 
+57 &#32;&#32;&#32;&#32;HRESULT&#32;<link linkend="_interface_i_d3_d12_compatibility_device_1a248203d62b6fa1270ee7951d9652701d">ReflectSharedProperties</link>(
+58 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;[annotation(<emphasis role="stringliteral">&quot;_In_&quot;</emphasis>)]&#32;<link linkend="_interface_i_d3_d12_object">ID3D12Object</link>*&#32;pHeapOrResource,
+59 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12compatibility_8idl_1abf5dc59eeee82a1639a00f2874175ee9">D3D12_REFLECT_SHARED_PROPERTY</link>&#32;ReflectType,
+60 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;[annotation(<emphasis role="stringliteral">&quot;_Out_writes_bytes_(DataSize)&quot;</emphasis>)]&#32;<emphasis role="keywordtype">void</emphasis>*&#32;pData,
+61 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;UINT&#32;DataSize);
+62 }
+63 
+64 [uuid(edbf5678-2960-4e81-8429-99d4b2630c4e),&#32;<link linkend="_d3d12_8idl_1ad03408aabe16bb53c780fae6cf3910f9">object</link>,&#32;<link linkend="_d3d12_8idl_1a96db3da3652c2ce91fd6b07f397ab3f5">local</link>,&#32;pointer_default(unique)]
+65 <emphasis role="keyword">interface&#32;</emphasis><link linkend="_interface_d3_d11_on12_creator_i_d">D3D11On12CreatorID</link>&#32;:&#32;IUnknown&#32;{&#32;};
+66 
+67 [uuid(fffcbb7f-15d3-42a2-841<link linkend="_classe">e</link>-9d8d32f37ddd),&#32;<link linkend="_d3d12_8idl_1ad03408aabe16bb53c780fae6cf3910f9">object</link>,&#32;<link linkend="_d3d12_8idl_1a96db3da3652c2ce91fd6b07f397ab3f5">local</link>,&#32;pointer_default(unique)]
+68 <emphasis role="keyword">interface&#32;</emphasis><link linkend="_interface_d3_d9_on12_creator_i_d">D3D9On12CreatorID</link>&#32;:&#32;IUnknown&#32;{&#32;};
+69 
+70 [uuid(6bb3cd34-0d19-45ab-97ed-d720ba3dfc80),&#32;<link linkend="_d3d12_8idl_1ad03408aabe16bb53c780fae6cf3910f9">object</link>,&#32;<link linkend="_d3d12_8idl_1a96db3da3652c2ce91fd6b07f397ab3f5">local</link>,&#32;pointer_default(unique)]
+71 <emphasis role="keyword">interface&#32;</emphasis><link linkend="_interface_open_g_l_on12_creator_i_d">OpenGLOn12CreatorID</link>&#32;:&#32;IUnknown&#32;{&#32;};
+72 
+73 [uuid(3f76bb74-91b5-4a88-b126-20ca0331cd60),&#32;<link linkend="_d3d12_8idl_1ad03408aabe16bb53c780fae6cf3910f9">object</link>,&#32;<link linkend="_d3d12_8idl_1a96db3da3652c2ce91fd6b07f397ab3f5">local</link>,&#32;pointer_default(unique)]
+74 <emphasis role="keyword">interface&#32;</emphasis><link linkend="_interface_open_c_l_on12_creator_i_d">OpenCLOn12CreatorID</link>&#32;:&#32;IUnknown&#32;{&#32;};
+75 
+76 [uuid(bc806e01-3052-406c-a3e8-9fc07f048f98),&#32;<link linkend="_d3d12_8idl_1ad03408aabe16bb53c780fae6cf3910f9">object</link>,&#32;<link linkend="_d3d12_8idl_1a96db3da3652c2ce91fd6b07f397ab3f5">local</link>,&#32;pointer_default(unique)]
+77 <emphasis role="keyword">interface&#32;</emphasis><link linkend="_interface_vulkan_on12_creator_i_d">VulkanOn12CreatorID</link>&#32;:&#32;IUnknown&#32;{&#32;};
+78 
+79 [uuid(cb7490ac-8a0f-44ec-9b7b-6f4cafe8e9ab),&#32;<link linkend="_d3d12_8idl_1ad03408aabe16bb53c780fae6cf3910f9">object</link>,&#32;<link linkend="_d3d12_8idl_1a96db3da3652c2ce91fd6b07f397ab3f5">local</link>,&#32;pointer_default(unique)]
+80 <emphasis role="keyword">interface&#32;</emphasis><link linkend="_interface_direct_m_l_tensor_flow_creator_i_d">DirectMLTensorFlowCreatorID</link>&#32;:&#32;IUnknown&#32;{&#32;};
+81 
+82 [uuid(af029192-fba1-4b05-9116-235e06560354),&#32;<link linkend="_d3d12_8idl_1ad03408aabe16bb53c780fae6cf3910f9">object</link>,&#32;<link linkend="_d3d12_8idl_1a96db3da3652c2ce91fd6b07f397ab3f5">local</link>,&#32;pointer_default(unique)]
+83 <emphasis role="keyword">interface&#32;</emphasis><link linkend="_interface_direct_m_l_py_torch_creator_i_d">DirectMLPyTorchCreatorID</link>&#32;:&#32;IUnknown&#32;{&#32;};
+84 
+85 
+86 cpp_quote(<emphasis role="stringliteral">&quot;#endif&#32;/*&#32;WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP&#32;|&#32;WINAPI_PARTITION_GAMES)&#32;*/&quot;</emphasis>)
+87 <emphasis role="preprocessor">#pragma&#32;endregion</emphasis>
+88 
+89 cpp_quote(&#32;<emphasis role="stringliteral">&quot;DEFINE_GUID(IID_ID3D12CompatibilityDevice,0x8f1c0e3c,0xfae3,0x4a82,0xb0,0x98,0xbf,0xe1,0x70,0x82,0x07,0xff);&quot;</emphasis>&#32;)
+90 cpp_quote(&#32;&quot;<link linkend="_d3d12compatibility_8idl_1adafffe521b93c826154b04c89a26bfe9">DEFINE_GUID</link>(IID_D3D11On12CreatorID,0xedbf5678,0x2960,0x4e81,0x84,0x29,0x99,0xd4,0xb2,0x63,0x0c,0x4e);&quot;&#32;)
+91 cpp_quote(&#32;&quot;<link linkend="_d3d12compatibility_8idl_1adafffe521b93c826154b04c89a26bfe9">DEFINE_GUID</link>(IID_D3D9On12CreatorID,0xfffcbb7f,0x15d3,0x42a2,0x84,0x1e,0x9d,0x8d,0x32,0xf3,0x7d,0xdd);&quot;&#32;)
+92 cpp_quote(&#32;&quot;<link linkend="_d3d12compatibility_8idl_1adafffe521b93c826154b04c89a26bfe9">DEFINE_GUID</link>(IID_OpenGLOn12CreatorID,0x6bb3cd34,0x0d19,0x45ab,0x97,0xed,0xd7,0x20,0xba,0x3d,0xfc,0x80);&quot;&#32;)
+93 cpp_quote(&#32;&quot;<link linkend="_d3d12compatibility_8idl_1adafffe521b93c826154b04c89a26bfe9">DEFINE_GUID</link>(IID_OpenCLOn12CreatorID,0x3f76bb74,0x91b5,0x4a88,0xb1,0x26,0x20,0xca,0x03,0x31,0xcd,0x60);&quot;&#32;)
+94 cpp_quote(&#32;&quot;<link linkend="_d3d12compatibility_8idl_1adafffe521b93c826154b04c89a26bfe9">DEFINE_GUID</link>(IID_VulkanOn12CreatorID,0xbc806e01,0x3052,0x406c,0xa3,0xe8,0x9f,0xc0,0x7f,0x04,0x8f,0x98);&quot;&#32;)
+95 cpp_quote(&#32;&quot;<link linkend="_d3d12compatibility_8idl_1adafffe521b93c826154b04c89a26bfe9">DEFINE_GUID</link>(IID_DirectMLTensorFlowCreatorID,0xcb7490ac,0x8a0f,0x44ec,0x9b,0x7b,0x6f,0x4c,0xaf,0xe8,0xe9,0xab);&quot;&#32;)
+96 cpp_quote(&#32;&quot;<link linkend="_d3d12compatibility_8idl_1adafffe521b93c826154b04c89a26bfe9">DEFINE_GUID</link>(IID_DirectMLPyTorchCreatorID,0xaf029192,0xfba1,0x4b05,0x91,0x16,0x23,0x5e,0x06,0x56,0x03,0x54);&quot;&#32;)
+</programlisting></section>

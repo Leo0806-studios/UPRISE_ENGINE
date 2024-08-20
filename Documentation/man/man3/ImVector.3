@@ -1,0 +1,279 @@
+.TH "ImVector< T >" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+ImVector< T >
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fR#include <imgui\&.h>\fP
+.SS "Public Types"
+
+.in +1c
+.ti -1c
+.RI "typedef \fBT\fP \fBvalue_type\fP"
+.br
+.ti -1c
+.RI "typedef \fBvalue_type\fP * \fBiterator\fP"
+.br
+.ti -1c
+.RI "typedef const \fBvalue_type\fP * \fBconst_iterator\fP"
+.br
+.in -1c
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBImVector\fP ()"
+.br
+.ti -1c
+.RI "\fBImVector\fP (const \fBImVector\fP< \fBT\fP > &\fBsrc\fP)"
+.br
+.ti -1c
+.RI "\fBImVector\fP< \fBT\fP > & \fBoperator=\fP (const \fBImVector\fP< \fBT\fP > &\fBsrc\fP)"
+.br
+.ti -1c
+.RI "\fB~ImVector\fP ()"
+.br
+.ti -1c
+.RI "\fBvoid\fP \fBclear\fP ()"
+.br
+.ti -1c
+.RI "\fBvoid\fP \fBclear_delete\fP ()"
+.br
+.ti -1c
+.RI "\fBvoid\fP \fBclear_destruct\fP ()"
+.br
+.ti -1c
+.RI "bool \fBempty\fP () const"
+.br
+.ti -1c
+.RI "int \fBsize\fP () const"
+.br
+.ti -1c
+.RI "int \fBsize_in_bytes\fP () const"
+.br
+.ti -1c
+.RI "int \fBmax_size\fP () const"
+.br
+.ti -1c
+.RI "int \fBcapacity\fP () const"
+.br
+.ti -1c
+.RI "\fBT\fP & \fBoperator[]\fP (int \fBi\fP)"
+.br
+.ti -1c
+.RI "const \fBT\fP & \fBoperator[]\fP (int \fBi\fP) const"
+.br
+.ti -1c
+.RI "\fBT\fP * \fBbegin\fP ()"
+.br
+.ti -1c
+.RI "const \fBT\fP * \fBbegin\fP () const"
+.br
+.ti -1c
+.RI "\fBT\fP * \fBend\fP ()"
+.br
+.ti -1c
+.RI "const \fBT\fP * \fBend\fP () const"
+.br
+.ti -1c
+.RI "\fBT\fP & \fBfront\fP ()"
+.br
+.ti -1c
+.RI "const \fBT\fP & \fBfront\fP () const"
+.br
+.ti -1c
+.RI "\fBT\fP & \fBback\fP ()"
+.br
+.ti -1c
+.RI "const \fBT\fP & \fBback\fP () const"
+.br
+.ti -1c
+.RI "\fBvoid\fP \fBswap\fP (\fBImVector\fP< \fBT\fP > &rhs)"
+.br
+.ti -1c
+.RI "int \fB_grow_capacity\fP (int sz) const"
+.br
+.ti -1c
+.RI "\fBvoid\fP \fBresize\fP (int new_size)"
+.br
+.ti -1c
+.RI "\fBvoid\fP \fBresize\fP (int new_size, const \fBT\fP &\fBv\fP)"
+.br
+.ti -1c
+.RI "\fBvoid\fP \fBshrink\fP (int new_size)"
+.br
+.ti -1c
+.RI "\fBvoid\fP \fBreserve\fP (int new_capacity)"
+.br
+.ti -1c
+.RI "\fBvoid\fP \fBreserve_discard\fP (int new_capacity)"
+.br
+.ti -1c
+.RI "\fBvoid\fP \fBpush_back\fP (const \fBT\fP &\fBv\fP)"
+.br
+.ti -1c
+.RI "\fBvoid\fP \fBpop_back\fP ()"
+.br
+.ti -1c
+.RI "\fBvoid\fP \fBpush_front\fP (const \fBT\fP &\fBv\fP)"
+.br
+.ti -1c
+.RI "\fBT\fP * \fBerase\fP (const \fBT\fP *it)"
+.br
+.ti -1c
+.RI "\fBT\fP * \fBerase\fP (const \fBT\fP *it, const \fBT\fP *it_last)"
+.br
+.ti -1c
+.RI "\fBT\fP * \fBerase_unsorted\fP (const \fBT\fP *it)"
+.br
+.ti -1c
+.RI "\fBT\fP * \fBinsert\fP (const \fBT\fP *it, const \fBT\fP &\fBv\fP)"
+.br
+.ti -1c
+.RI "bool \fBcontains\fP (const \fBT\fP &\fBv\fP) const"
+.br
+.ti -1c
+.RI "\fBT\fP * \fBfind\fP (const \fBT\fP &\fBv\fP)"
+.br
+.ti -1c
+.RI "const \fBT\fP * \fBfind\fP (const \fBT\fP &\fBv\fP) const"
+.br
+.ti -1c
+.RI "int \fBfind_index\fP (const \fBT\fP &\fBv\fP) const"
+.br
+.ti -1c
+.RI "bool \fBfind_erase\fP (const \fBT\fP &\fBv\fP)"
+.br
+.ti -1c
+.RI "bool \fBfind_erase_unsorted\fP (const \fBT\fP &\fBv\fP)"
+.br
+.ti -1c
+.RI "int \fBindex_from_ptr\fP (const \fBT\fP *it) const"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "int \fBSize\fP"
+.br
+.ti -1c
+.RI "int \fBCapacity\fP"
+.br
+.ti -1c
+.RI "\fBT\fP * \fBData\fP"
+.br
+.in -1c
+.SH "Member Typedef Documentation"
+.PP 
+.SS "template<typename \fBT\fP > typedef const \fBvalue_type\fP* \fBImVector\fP< \fBT\fP >::const_iterator"
+
+.SS "template<typename \fBT\fP > typedef \fBvalue_type\fP* \fBImVector\fP< \fBT\fP >::iterator"
+
+.SS "template<typename \fBT\fP > typedef \fBT\fP \fBImVector\fP< \fBT\fP >::value_type"
+
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "template<typename \fBT\fP > \fBImVector\fP< \fBT\fP >\fB::ImVector\fP ()\fR [inline]\fP"
+
+.SS "template<typename \fBT\fP > \fBImVector\fP< \fBT\fP >\fB::ImVector\fP (const \fBImVector\fP< \fBT\fP > & src)\fR [inline]\fP"
+
+.SS "template<typename \fBT\fP > \fBImVector\fP< \fBT\fP >::~\fBImVector\fP ()\fR [inline]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "template<typename \fBT\fP > int \fBImVector\fP< \fBT\fP >::_grow_capacity (int sz) const\fR [inline]\fP"
+
+.SS "template<typename \fBT\fP > \fBT\fP & \fBImVector\fP< \fBT\fP >::back ()\fR [inline]\fP"
+
+.SS "template<typename \fBT\fP > const \fBT\fP & \fBImVector\fP< \fBT\fP >::back () const\fR [inline]\fP"
+
+.SS "template<typename \fBT\fP > \fBT\fP * \fBImVector\fP< \fBT\fP >::begin ()\fR [inline]\fP"
+
+.SS "template<typename \fBT\fP > const \fBT\fP * \fBImVector\fP< \fBT\fP >::begin () const\fR [inline]\fP"
+
+.SS "template<typename \fBT\fP > int \fBImVector\fP< \fBT\fP >::capacity () const\fR [inline]\fP"
+
+.SS "template<typename \fBT\fP > \fBvoid\fP \fBImVector\fP< \fBT\fP >::clear ()\fR [inline]\fP"
+
+.SS "template<typename \fBT\fP > \fBvoid\fP \fBImVector\fP< \fBT\fP >::clear_delete ()\fR [inline]\fP"
+
+.SS "template<typename \fBT\fP > \fBvoid\fP \fBImVector\fP< \fBT\fP >::clear_destruct ()\fR [inline]\fP"
+
+.SS "template<typename \fBT\fP > bool \fBImVector\fP< \fBT\fP >::contains (const \fBT\fP & v) const\fR [inline]\fP"
+
+.SS "template<typename \fBT\fP > bool \fBImVector\fP< \fBT\fP >::empty () const\fR [inline]\fP"
+
+.SS "template<typename \fBT\fP > \fBT\fP * \fBImVector\fP< \fBT\fP >\fB::end\fP ()\fR [inline]\fP"
+
+.SS "template<typename \fBT\fP > const \fBT\fP * \fBImVector\fP< \fBT\fP >\fB::end\fP () const\fR [inline]\fP"
+
+.SS "template<typename \fBT\fP > \fBT\fP * \fBImVector\fP< \fBT\fP >::erase (const \fBT\fP * it)\fR [inline]\fP"
+
+.SS "template<typename \fBT\fP > \fBT\fP * \fBImVector\fP< \fBT\fP >::erase (const \fBT\fP * it, const \fBT\fP * it_last)\fR [inline]\fP"
+
+.SS "template<typename \fBT\fP > \fBT\fP * \fBImVector\fP< \fBT\fP >::erase_unsorted (const \fBT\fP * it)\fR [inline]\fP"
+
+.SS "template<typename \fBT\fP > \fBT\fP * \fBImVector\fP< \fBT\fP >::find (const \fBT\fP & v)\fR [inline]\fP"
+
+.SS "template<typename \fBT\fP > const \fBT\fP * \fBImVector\fP< \fBT\fP >::find (const \fBT\fP & v) const\fR [inline]\fP"
+
+.SS "template<typename \fBT\fP > bool \fBImVector\fP< \fBT\fP >::find_erase (const \fBT\fP & v)\fR [inline]\fP"
+
+.SS "template<typename \fBT\fP > bool \fBImVector\fP< \fBT\fP >::find_erase_unsorted (const \fBT\fP & v)\fR [inline]\fP"
+
+.SS "template<typename \fBT\fP > int \fBImVector\fP< \fBT\fP >::find_index (const \fBT\fP & v) const\fR [inline]\fP"
+
+.SS "template<typename \fBT\fP > \fBT\fP & \fBImVector\fP< \fBT\fP >::front ()\fR [inline]\fP"
+
+.SS "template<typename \fBT\fP > const \fBT\fP & \fBImVector\fP< \fBT\fP >::front () const\fR [inline]\fP"
+
+.SS "template<typename \fBT\fP > int \fBImVector\fP< \fBT\fP >::index_from_ptr (const \fBT\fP * it) const\fR [inline]\fP"
+
+.SS "template<typename \fBT\fP > \fBT\fP * \fBImVector\fP< \fBT\fP >::insert (const \fBT\fP * it, const \fBT\fP & v)\fR [inline]\fP"
+
+.SS "template<typename \fBT\fP > int \fBImVector\fP< \fBT\fP >::max_size () const\fR [inline]\fP"
+
+.SS "template<typename \fBT\fP > \fBImVector\fP< \fBT\fP > & \fBImVector\fP< \fBT\fP >::operator= (const \fBImVector\fP< \fBT\fP > & src)\fR [inline]\fP"
+
+.SS "template<typename \fBT\fP > \fBT\fP & \fBImVector\fP< \fBT\fP >::operator[] (int i)\fR [inline]\fP"
+
+.SS "template<typename \fBT\fP > const \fBT\fP & \fBImVector\fP< \fBT\fP >::operator[] (int i) const\fR [inline]\fP"
+
+.SS "template<typename \fBT\fP > \fBvoid\fP \fBImVector\fP< \fBT\fP >::pop_back ()\fR [inline]\fP"
+
+.SS "template<typename \fBT\fP > \fBvoid\fP \fBImVector\fP< \fBT\fP >::push_back (const \fBT\fP & v)\fR [inline]\fP"
+
+.SS "template<typename \fBT\fP > \fBvoid\fP \fBImVector\fP< \fBT\fP >::push_front (const \fBT\fP & v)\fR [inline]\fP"
+
+.SS "template<typename \fBT\fP > \fBvoid\fP \fBImVector\fP< \fBT\fP >::reserve (int new_capacity)\fR [inline]\fP"
+
+.SS "template<typename \fBT\fP > \fBvoid\fP \fBImVector\fP< \fBT\fP >::reserve_discard (int new_capacity)\fR [inline]\fP"
+
+.SS "template<typename \fBT\fP > \fBvoid\fP \fBImVector\fP< \fBT\fP >::resize (int new_size)\fR [inline]\fP"
+
+.SS "template<typename \fBT\fP > \fBvoid\fP \fBImVector\fP< \fBT\fP >::resize (int new_size, const \fBT\fP & v)\fR [inline]\fP"
+
+.SS "template<typename \fBT\fP > \fBvoid\fP \fBImVector\fP< \fBT\fP >::shrink (int new_size)\fR [inline]\fP"
+
+.SS "template<typename \fBT\fP > int \fBImVector\fP< \fBT\fP >\fB::size\fP () const\fR [inline]\fP"
+
+.SS "template<typename \fBT\fP > int \fBImVector\fP< \fBT\fP >::size_in_bytes () const\fR [inline]\fP"
+
+.SS "template<typename \fBT\fP > \fBvoid\fP \fBImVector\fP< \fBT\fP >::swap (\fBImVector\fP< \fBT\fP > & rhs)\fR [inline]\fP"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "template<typename \fBT\fP > int \fBImVector\fP< \fBT\fP >::Capacity"
+
+.SS "template<typename \fBT\fP > \fBT\fP* \fBImVector\fP< \fBT\fP >::Data"
+
+.SS "template<typename \fBT\fP > int \fBImVector\fP< \fBT\fP >::Size"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

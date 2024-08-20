@@ -1,0 +1,54 @@
+.TH "aiMeshAnim" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+aiMeshAnim
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fR#include <anim\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBaiMeshAnim\fP () \fBAI_NO_EXCEPT\fP"
+.br
+.ti -1c
+.RI "\fB~aiMeshAnim\fP ()"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBC_STRUCT\fP \fBaiString\fP \fBmName\fP"
+.br
+.ti -1c
+.RI "unsigned int \fBmNumKeys\fP"
+.br
+.ti -1c
+.RI "\fBC_STRUCT\fP \fBaiMeshKey\fP * \fBmKeys\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Describes vertex-based animations for a single mesh or a group of meshes\&. Meshes carry the animation data for each frame in their \fBaiMesh::mAnimMeshes\fP array\&. The purpose of \fBaiMeshAnim\fP is to define keyframes linking each mesh attachment to a particular point in time\&. 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "aiMeshAnim::aiMeshAnim ()\fR [inline]\fP"
+
+.SS "aiMeshAnim::~aiMeshAnim ()\fR [inline]\fP"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "\fBC_STRUCT\fP \fBaiMeshKey\fP* aiMeshAnim::mKeys"
+Key frames of the animation\&. May not be nullptr\&. 
+.SS "\fBC_STRUCT\fP \fBaiString\fP aiMeshAnim::mName"
+Name of the mesh to be animated\&. An empty string is not allowed, animated meshes need to be named (not necessarily uniquely, the name can basically serve as wild-card to select a group of meshes with similar animation setup) 
+.SS "unsigned int aiMeshAnim::mNumKeys"
+Size of the \fBmKeys\fP array\&. Must be 1, at least\&. 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

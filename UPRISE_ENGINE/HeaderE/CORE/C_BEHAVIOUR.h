@@ -11,7 +11,7 @@
 #pragma comment(lib, "rpcrt4.lib")  // UuidCreate - Minimum supported OS Win 2000
 #include <windows.h>
 namespace DATATYPES {
-	struct TS_P_Vector3;
+	struct TSPVector3;
 }
 
 class GameObject;
@@ -26,7 +26,7 @@ namespace CORE {
 	class Behaviour {
 
 	public:
-		GameObject* gameobject;
+		GameObject* Game_Object;
 		std::shared_ptr<Transform> TRANSFORM;
 		std::shared_ptr<CORE::Behaviour> transf;
 		std::string compname;

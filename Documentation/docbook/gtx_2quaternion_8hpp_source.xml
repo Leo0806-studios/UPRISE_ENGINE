@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_gtx_2quaternion_8hpp_source" xml:lang="en-US">
+<title>quaternion.hpp</title>
+<indexterm><primary>adhed/glm/gtx/quaternion.hpp</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 
+13 
+14 <emphasis role="preprocessor">#pragma&#32;once</emphasis>
+15 
+16 <emphasis role="comment">//&#32;Dependency:</emphasis>
+17 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_glm_8hpp">../glm.hpp</link>&quot;</emphasis>
+18 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_constants_8hpp">../gtc/constants.hpp</link>&quot;</emphasis>
+19 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_gtc_2quaternion_8hpp">../gtc/quaternion.hpp</link>&quot;</emphasis>
+20 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_quaternion__exponential_8hpp">../ext/quaternion_exponential.hpp</link>&quot;</emphasis>
+21 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_norm_8hpp">../gtx/norm.hpp</link>&quot;</emphasis>
+22 
+23 <emphasis role="preprocessor">#ifndef&#32;GLM_ENABLE_EXPERIMENTAL</emphasis>
+24 <emphasis role="preprocessor">#&#32;&#32;&#32;error&#32;&quot;GLM:&#32;GLM_GTX_quaternion&#32;is&#32;an&#32;experimental&#32;extension&#32;and&#32;may&#32;change&#32;in&#32;the&#32;future.&#32;Use&#32;#define&#32;GLM_ENABLE_EXPERIMENTAL&#32;before&#32;including&#32;it,&#32;if&#32;you&#32;really&#32;want&#32;to&#32;use&#32;it.&quot;</emphasis>
+25 <emphasis role="preprocessor">#elif&#32;GLM_MESSAGES&#32;==&#32;GLM_ENABLE&#32;&amp;&amp;&#32;!defined(GLM_EXT_INCLUDED)</emphasis>
+26 <emphasis role="preprocessor">#&#32;&#32;&#32;pragma&#32;message(&quot;GLM:&#32;GLM_GTX_quaternion&#32;extension&#32;included&quot;)</emphasis>
+27 <emphasis role="preprocessor">#endif</emphasis>
+28 
+29 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespaceglm">glm</link>
+30 {
+33 
+37 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+38 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1ab2d052de21a70539923e9bcbf6e83a51">GLM_FUNC_DECL</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;qua&lt;T,&#32;Q&gt;&#32;<link linkend="_group__gtx__quaternion_1ga96a6304e423f605c2dedd5b09d50e382">quat_identity</link>();
+39 
+43 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+44 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1ab2d052de21a70539923e9bcbf6e83a51">GLM_FUNC_DECL</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;vec&lt;3,&#32;T,&#32;Q&gt;&#32;<link linkend="_group__core__func__geometric_1ga1882f52ee88a161ed86dea9905a6da91">cross</link>(
+45 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;qua&lt;T,&#32;Q&gt;&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;q,
+46 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;vec&lt;3,&#32;T,&#32;Q&gt;&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>);
+47 
+51 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+52 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1ab2d052de21a70539923e9bcbf6e83a51">GLM_FUNC_DECL</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;vec&lt;3,&#32;T,&#32;Q&gt;&#32;<link linkend="_group__core__func__geometric_1ga1882f52ee88a161ed86dea9905a6da91">cross</link>(
+53 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;vec&lt;3,&#32;T,&#32;Q&gt;&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>,
+54 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;qua&lt;T,&#32;Q&gt;&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;q);
+55 
+60 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+61 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1ab2d052de21a70539923e9bcbf6e83a51">GLM_FUNC_DECL</link>&#32;qua&lt;T,&#32;Q&gt;&#32;<link linkend="_group__gtx__quaternion_1ga77f8e42a93c02b56d5dd6f7ca2c904bd">squad</link>(
+62 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;qua&lt;T,&#32;Q&gt;&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;q1,
+63 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;qua&lt;T,&#32;Q&gt;&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;q2,
+64 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;qua&lt;T,&#32;Q&gt;&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;s1,
+65 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;qua&lt;T,&#32;Q&gt;&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;s2,
+66 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;h);
+67 
+71 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+72 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1ab2d052de21a70539923e9bcbf6e83a51">GLM_FUNC_DECL</link>&#32;qua&lt;T,&#32;Q&gt;&#32;<link linkend="_group__gtx__quaternion_1ga674f3a481bf37d397e81787c5d4d873f">intermediate</link>(
+73 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;qua&lt;T,&#32;Q&gt;&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;prev,
+74 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;qua&lt;T,&#32;Q&gt;&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;curr,
+75 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;qua&lt;T,&#32;Q&gt;&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;next);
+76 
+80 &#32;&#32;&#32;&#32;<emphasis role="comment">//template&lt;typename&#32;T,&#32;qualifier&#32;Q&gt;</emphasis>
+81 &#32;&#32;&#32;&#32;<emphasis role="comment">//qua&lt;T,&#32;Q&gt;&#32;sqrt(</emphasis>
+82 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;qua&lt;T,&#32;Q&gt;&#32;const&amp;&#32;q);</emphasis>
+83 
+87 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+88 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1ab2d052de21a70539923e9bcbf6e83a51">GLM_FUNC_DECL</link>&#32;vec&lt;3,&#32;T,&#32;Q&gt;&#32;<link linkend="_group__ext__matrix__transform_1ga42613eb0c7deb5f5188fc159df6c8950">rotate</link>(
+89 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;qua&lt;T,&#32;Q&gt;&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;q,
+90 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;vec&lt;3,&#32;T,&#32;Q&gt;&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>);
+91 
+95 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+96 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1ab2d052de21a70539923e9bcbf6e83a51">GLM_FUNC_DECL</link>&#32;vec&lt;4,&#32;T,&#32;Q&gt;&#32;<link linkend="_group__ext__matrix__transform_1ga42613eb0c7deb5f5188fc159df6c8950">rotate</link>(
+97 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;qua&lt;T,&#32;Q&gt;&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;q,
+98 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;vec&lt;4,&#32;T,&#32;Q&gt;&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a14cfbe2fc2234f5504618905b69d1e06">v</link>);
+99 
+103 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+104 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1ab2d052de21a70539923e9bcbf6e83a51">GLM_FUNC_DECL</link>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;<link linkend="_group__gtx__quaternion_1ga321953c1b2e7befe6f5dcfddbfc6b76b">extractRealComponent</link>(
+105 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;qua&lt;T,&#32;Q&gt;&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;q);
+106 
+110 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+111 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_structglm_1_1mat">mat&lt;3, 3, T, Q&gt;</link>&#32;<link linkend="_group__gtx__quaternion_1ga0fe2a2355374afba87709cd3a6e51609">toMat3</link>(
+112 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structglm_1_1qua">qua&lt;T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>){<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_group__gtc__quaternion_1ga485b4423fd52c3ae1ff1051bda614c93">mat3_cast</link>(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>);}
+113 
+117 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+118 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_structglm_1_1mat">mat&lt;4, 4, T, Q&gt;</link>&#32;<link linkend="_group__gtx__quaternion_1gae59147ed08331ca99604771184b306d5">toMat4</link>(
+119 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structglm_1_1qua">qua&lt;T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>){<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_group__gtc__quaternion_1gaa6dc632fb953f612d07ad5b533d0390f">mat4_cast</link>(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>);}
+120 
+124 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+125 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_structglm_1_1qua">qua&lt;T, Q&gt;</link>&#32;<link linkend="_group__gtx__quaternion_1ga973bf798d3b334ae56b46463ac8a6fb5">toQuat</link>(
+126 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structglm_1_1mat">mat&lt;3, 3, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>){<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_group__gtc__quaternion_1ga3d350068ce0d14e4496cb844eb79a05f">quat_cast</link>(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>);}
+127 
+131 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+132 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1a33fdea6f91c5f834105f7415e2a64407">GLM_FUNC_QUALIFIER</link>&#32;<link linkend="_structglm_1_1qua">qua&lt;T, Q&gt;</link>&#32;<link linkend="_group__gtx__quaternion_1ga973bf798d3b334ae56b46463ac8a6fb5">toQuat</link>(
+133 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structglm_1_1mat">mat&lt;4, 4, T, Q&gt;</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>){<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_group__gtc__quaternion_1ga3d350068ce0d14e4496cb844eb79a05f">quat_cast</link>(<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>);}
+134 
+138 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+139 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1ab2d052de21a70539923e9bcbf6e83a51">GLM_FUNC_DECL</link>&#32;qua&lt;T,&#32;Q&gt;&#32;<link linkend="_group__gtx__quaternion_1gaa67d8a157c0c4df05354aafd2e40aa72">shortMix</link>(
+140 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;qua&lt;T,&#32;Q&gt;&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,
+141 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;qua&lt;T,&#32;Q&gt;&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>,
+142 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>);
+143 
+147 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+148 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1ab2d052de21a70539923e9bcbf6e83a51">GLM_FUNC_DECL</link>&#32;qua&lt;T,&#32;Q&gt;&#32;<link linkend="_group__gtx__quaternion_1ga43a95b70cd08ed3471e09d6c117e3464">fastMix</link>(
+149 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;qua&lt;T,&#32;Q&gt;&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ad80bf89d4269465d1490f160e49d4bff">x</link>,
+150 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;qua&lt;T,&#32;Q&gt;&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1a5e247fc24ceb70d83f6ad59149b8910a">y</link>,
+151 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1ac8729153468b5dcf13f971b21d84d4e5">a</link>);
+152 
+158 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+159 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1ab2d052de21a70539923e9bcbf6e83a51">GLM_FUNC_DECL</link>&#32;qua&lt;T,&#32;Q&gt;&#32;<link linkend="_group__gtx__quaternion_1gadbb992b52cef49dd3b11966e34260d17">rotation</link>(
+160 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;vec&lt;3,&#32;T,&#32;Q&gt;&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;orig,
+161 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;vec&lt;3,&#32;T,&#32;Q&gt;&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;dest);
+162 
+166 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T,&#32;qualifier&#32;Q&gt;
+167 &#32;&#32;&#32;&#32;<link linkend="_setup_8hpp_1ab2d052de21a70539923e9bcbf6e83a51">GLM_FUNC_DECL</link>&#32;<link linkend="_setup_8hpp_1a08b807947b47031d3a511f03f89645ad">GLM_CONSTEXPR</link>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;<link linkend="_group__gtx__norm_1ga8d1789651050adb7024917984b41c3de">length2</link>(qua&lt;T,&#32;Q&gt;&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;q);
+168 
+170 }<emphasis role="comment">//namespace&#32;glm</emphasis>
+171 
+172 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_glm_2gtx_2quaternion_8inl">quaternion.inl</link>&quot;</emphasis>
+</programlisting></section>

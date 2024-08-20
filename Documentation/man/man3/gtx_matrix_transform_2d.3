@@ -1,0 +1,92 @@
+.TH "gtx_matrix_transform_2d" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+gtx_matrix_transform_2d \- GLM_GTX_matrix_transform_2d
+.SH SYNOPSIS
+.br
+.PP
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "template<typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBmat\fP< 3, 3, \fBT\fP, \fBQ\fP > \fBglm::translate\fP (\fBmat\fP< 3, 3, \fBT\fP, \fBQ\fP > const &m, \fBvec\fP< 2, \fBT\fP, \fBQ\fP > const &\fBv\fP)"
+.br
+.ti -1c
+.RI "template<typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBmat\fP< 3, 3, \fBT\fP, \fBQ\fP > \fBglm::rotate\fP (\fBmat\fP< 3, 3, \fBT\fP, \fBQ\fP > const &m, \fBT\fP \fBangle\fP)"
+.br
+.ti -1c
+.RI "template<typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBmat\fP< 3, 3, \fBT\fP, \fBQ\fP > \fBglm::scale\fP (\fBmat\fP< 3, 3, \fBT\fP, \fBQ\fP > const &m, \fBvec\fP< 2, \fBT\fP, \fBQ\fP > const &\fBv\fP)"
+.br
+.ti -1c
+.RI "template<typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBmat\fP< 3, 3, \fBT\fP, \fBQ\fP > \fBglm::shearX\fP (\fBmat\fP< 3, 3, \fBT\fP, \fBQ\fP > const &m, \fBT\fP \fBy\fP)"
+.br
+.ti -1c
+.RI "template<typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBmat\fP< 3, 3, \fBT\fP, \fBQ\fP > \fBglm::shearY\fP (\fBmat\fP< 3, 3, \fBT\fP, \fBQ\fP > const &m, \fBT\fP \fBx\fP)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Include <\fBglm/gtx/matrix_transform_2d\&.hpp\fP> to use the features of this extension\&.
+.PP
+Defines functions that generate common 2d transformation matrices\&.
+.SH "Function Documentation"
+.PP 
+.SS "template<typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBmat\fP< 3, 3, \fBT\fP, \fBQ\fP > glm::rotate (\fBmat\fP< 3, 3, \fBT\fP, \fBQ\fP > const & m, \fBT\fP angle)"
+Builds a rotation 3 * 3 matrix created from an angle\&.
+.PP
+\fBParameters\fP
+.RS 4
+\fIm\fP Input matrix multiplied by this translation matrix\&. 
+.br
+\fIangle\fP Rotation angle expressed in radians\&. 
+.RE
+.PP
+
+.SS "template<typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBmat\fP< 3, 3, \fBT\fP, \fBQ\fP > glm::scale (\fBmat\fP< 3, 3, \fBT\fP, \fBQ\fP > const & m, \fBvec\fP< 2, \fBT\fP, \fBQ\fP > const & v)"
+Builds a scale 3 * 3 matrix created from a vector of 2 components\&.
+.PP
+\fBParameters\fP
+.RS 4
+\fIm\fP Input matrix multiplied by this translation matrix\&. 
+.br
+\fIv\fP Coordinates of a scale vector\&. 
+.RE
+.PP
+
+.SS "template<typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBmat\fP< 3, 3, \fBT\fP, \fBQ\fP > glm::shearX (\fBmat\fP< 3, 3, \fBT\fP, \fBQ\fP > const & m, \fBT\fP y)"
+Builds an horizontal (parallel to the x axis) shear 3 * 3 matrix\&.
+.PP
+\fBParameters\fP
+.RS 4
+\fIm\fP Input matrix multiplied by this translation matrix\&. 
+.br
+\fIy\fP Shear factor\&. 
+.RE
+.PP
+
+.SS "template<typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBmat\fP< 3, 3, \fBT\fP, \fBQ\fP > glm::shearY (\fBmat\fP< 3, 3, \fBT\fP, \fBQ\fP > const & m, \fBT\fP x)"
+Builds a vertical (parallel to the y axis) shear 3 * 3 matrix\&.
+.PP
+\fBParameters\fP
+.RS 4
+\fIm\fP Input matrix multiplied by this translation matrix\&. 
+.br
+\fIx\fP Shear factor\&. 
+.RE
+.PP
+
+.SS "template<typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBmat\fP< 3, 3, \fBT\fP, \fBQ\fP > glm::translate (\fBmat\fP< 3, 3, \fBT\fP, \fBQ\fP > const & m, \fBvec\fP< 2, \fBT\fP, \fBQ\fP > const & v)"
+Builds a translation 3 * 3 matrix created from a vector of 2 components\&.
+.PP
+\fBParameters\fP
+.RS 4
+\fIm\fP Input matrix multiplied by this translation matrix\&. 
+.br
+\fIv\fP Coordinates of a translation vector\&. 
+.RE
+.PP
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

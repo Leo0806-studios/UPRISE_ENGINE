@@ -9,5 +9,14 @@
 
 // add headers that you want to pre-compile here
 #include "framework.h"
+#include "imgui.h"
+#include "imgui_impl_glfw.h"
+#include "imgui_impl_opengl3.h"
+#include "imgui_stdlib.h"
+#include <memory>
+class Dll_Link;
+class LINK {
+	std::shared_ptr<Dll_Link> DATA_LINK;
+};
 
 #endif //PCH_H

@@ -1,4 +1,4 @@
-.TH "Projectile" 3 "Version 0.0.0.1" "My Project" \" -*- nroff -*-
+.TH "Projectile" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -7,26 +7,33 @@ Projectile
 .br
 .PP
 .PP
-\fR#include <CONFIGFILE\&.h>\fP
+\fR#include <D_CONFIGFILE\&.h>\fP
 .PP
 Inherits \fBConfigFile\fP\&.
-.SS "Additional Inherited Members"
+.SS "Public Member Functions"
 
-
-Public Types inherited from \fBConfigFile\fP
 .in +1c
 .ti -1c
-.RI "enum \fBConfigType\fP { \fBBuilding\fP, \fBVehicle\fP, \fBProjectile\fP, \fBParticle\fP, \fBIsland\fP, \fBAiObject\fP, \fBGlobal\fP, \fBManager\fP }"
+.RI "\fBProjectile\fP (std::string name, std::string modelpath, std::vector< std::string > texturepath, \fBConfigType\fP configType, nlohmann::json data)"
 .br
 .in -1c
 
 Public Member Functions inherited from \fBConfigFile\fP
 .in +1c
 .ti -1c
-.RI "\fBConfigFile\fP (std::string name, std::string modelpath, std::vector< std::string > texturepath, \fBConfigType\fP configType, std::vector< std::string > data)"
+.RI "\fBConfigFile\fP (std::string name, std::string modelpath, std::vector< std::string > texturepath, \fBConfigType\fP configType, nlohmann::json data)"
 .br
 .ti -1c
 .RI "virtual void \fBPalceholder\fP ()"
+.br
+.in -1c
+.SS "Additional Inherited Members"
+
+
+Public Types inherited from \fBConfigFile\fP
+.in +1c
+.ti -1c
+.RI "enum \fBConfigType\fP { \fBBuilding\fP, \fBVehicle\fP, \fBProjectile\fP, \fBParticle\fP, \fBIsland\fP, \fBAiObject\fP, \fBGlobal\fP, \fBManager\fP, \fBVertexShader\fP, \fBFragmentShader\fP, \fBGeometryShader\fP, \fBComputeShader\fP, \fBMaterial\fP }"
 .br
 .in -1c
 
@@ -54,13 +61,23 @@ Public Attributes inherited from \fBConfigFile\fP
 .ti -1c
 .RI "\fBConfigType\fP \fBConfigType_\fP"
 .br
-.ti -1c
-.RI "std::vector< std::string > \fBData\fP"
-.br
 .in -1c
 .SH "Detailed Description"
 .PP 
-Definition at line \fB66\fP of file \fBCONFIGFILE\&.h\fP\&.
+Definition at line \fB138\fP of file \fBD_CONFIGFILE\&.h\fP\&.
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "Projectile::Projectile (std::string name, std::string modelpath, std::vector< std::string > texturepath, \fBConfigType\fP configType, nlohmann::json data)"
+
+.PP
+Definition at line \fB91\fP of file \fBD_CONFIGFILE\&.cpp\fP\&.
+.nf
+92       : ConfigFile(name, modelpath, texturepath, configType, data) {
+93   
+94   }
+.PP
+.fi
+
 
 .SH "Author"
 .PP 

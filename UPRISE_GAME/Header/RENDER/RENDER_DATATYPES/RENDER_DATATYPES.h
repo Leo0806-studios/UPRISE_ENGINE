@@ -33,8 +33,8 @@ namespace PAIN {
 
 	unsigned int TextureFromFile(const char* path, const string& directory, bool gamma = false);
 	struct Vertex {
-		DATATYPES::TS_P_Vector3 Position;
-		DATATYPES::TS_P_Vector3 Normal;
+		DATATYPES::TSPVector3 Position;
+		DATATYPES::TSPVector3 Normal;
 
 		glm::vec2 TexCoords;
 	};

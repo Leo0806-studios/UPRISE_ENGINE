@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="__tracy_force_inline_8hpp_source" xml:lang="en-US">
+<title>TracyForceInline.hpp</title>
+<indexterm><primary>adhed/common/TracyForceInline.hpp</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 <emphasis role="preprocessor">#ifndef&#32;__TRACYFORCEINLINE_HPP__</emphasis>
+2 <emphasis role="preprocessor">#define&#32;__TRACYFORCEINLINE_HPP__</emphasis>
+3 
+4 <emphasis role="preprocessor">#if&#32;defined(__GNUC__)</emphasis>
+5 <emphasis role="preprocessor">#&#32;&#32;define&#32;tracy_force_inline&#32;__attribute__((always_inline))&#32;inline</emphasis>
+6 <emphasis role="preprocessor">#elif&#32;defined(_MSC_VER)</emphasis>
+7 <emphasis role="preprocessor">#&#32;&#32;define&#32;tracy_force_inline&#32;__forceinline</emphasis>
+8 <emphasis role="preprocessor">#else</emphasis>
+9 <emphasis role="preprocessor">#&#32;&#32;define&#32;tracy_force_inline&#32;inline</emphasis>
+10 <emphasis role="preprocessor">#endif</emphasis>
+11 
+12 <emphasis role="preprocessor">#if&#32;defined(__GNUC__)</emphasis>
+13 <emphasis role="preprocessor">#&#32;&#32;define&#32;tracy_no_inline&#32;__attribute__((noinline))</emphasis>
+14 <emphasis role="preprocessor">#elif&#32;defined(_MSC_VER)</emphasis>
+15 <emphasis role="preprocessor">#&#32;&#32;define&#32;tracy_no_inline&#32;__declspec(noinline)</emphasis>
+16 <emphasis role="preprocessor">#else</emphasis>
+17 <emphasis role="preprocessor">#&#32;&#32;define&#32;tracy_no_inline</emphasis>
+18 <emphasis role="preprocessor">#endif</emphasis>
+19 
+20 <emphasis role="preprocessor">#endif</emphasis>
+</programlisting></section>

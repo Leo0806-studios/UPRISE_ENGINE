@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="__u_p_r_i_s_e___g_a_m_e_2_header_2_c_o_r_e_2_c___s_t_a_r_t_u_p_8h_source" xml:lang="en-US">
+<title>C_STARTUP.h</title>
+<indexterm><primary>UPRISE_GAME/Header/CORE/C_STARTUP.h</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 <emphasis role="preprocessor">#pragma&#32;once</emphasis>
+2 <emphasis role="preprocessor">#ifndef&#32;_STARTUP_</emphasis>
+3 <emphasis role="preprocessor">#define&#32;_STARTUP_</emphasis>
+4 
+5 <emphasis role="comment">//#include&#32;&quot;Header/CORE/CPUFEATURES.h&quot;</emphasis>
+6 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__u_p_r_i_s_e___g_a_m_e_2_header_2_d_a_t_a_t_y_p_e_s_2_d___s_t_a_r_t_u_p___c_o_n_f_i_g_8h">Header/DATATYPES/D_STARTUP_CONFIG.h</link>&quot;</emphasis>
+7 <emphasis role="preprocessor">#include&#32;&quot;MESSAGES.h&quot;</emphasis>
+8 <emphasis role="preprocessor">#include&#32;&quot;pch.h&quot;</emphasis>
+9 <emphasis role="preprocessor">#include&#32;&quot;PHYSICS.h&quot;</emphasis>
+10 <emphasis role="preprocessor">#include&#32;&quot;RENDER.h&quot;</emphasis>
+11 
+12 <emphasis role="comment">//#include&#32;&quot;thread&quot;</emphasis>
+13 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespace_c_o_r_e">CORE</link>&#32;{
+14 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis><link linkend="_struct_c_o_r_e_1_1_s_y_s_t_e_m_s">SYSTEMS</link>&#32;{
+15 &#32;&#32;&#32;&#32;<emphasis role="keyword">public</emphasis>:
+16 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="_group__window_1ga3c96d80d363e67d13a41b5d1821f3242">GLFWwindow</link>*&#32;<link linkend="_struct_c_o_r_e_1_1_s_y_s_t_e_m_s_1a407ce50ef650786800bdca2fd07641bd">windw</link>;
+17 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_m_e_s_s_a_g_e_s_1_1_message___bus">MESSAGES::Message_Bus</link>*&#32;<link linkend="_struct_c_o_r_e_1_1_s_y_s_t_e_m_s_1ae434348c2c45a80b7cf043d2af33aa61">Bus</link>;
+18 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_struct_c_o_r_e_1_1_s_y_s_t_e_m_s_1a9a11d39e7f69acee59488e9e869e7bf6">Render</link>;
+19 
+20 
+21 &#32;&#32;&#32;&#32;};
+22 &#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">class&#32;</emphasis><link linkend="_class_c_o_r_e_1_1_startup">Startup</link>&#32;{
+23 
+24 &#32;&#32;&#32;&#32;<emphasis role="keyword">private</emphasis>:
+25 
+26 
+27 &#32;&#32;&#32;&#32;<emphasis role="keyword">public</emphasis>:
+28 
+29 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="_struct_d_a_t_a_t_y_p_e_s_1_1_startup___config">DATATYPES::Startup_Config</link>&#32;<link linkend="_class_c_o_r_e_1_1_startup_1ac2d5f0f457cb5cdb3bfb4cd752739417">STARTUP_CONFIG</link>;
+30 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_class_c_o_r_e_1_1_startup_1a41d372c6ca95a3e47e4566308b6a0ea8">StartupComplete</link>;
+31 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="_struct_d_a_t_a_t_y_p_e_s_1_1_startup___config">DATATYPES::Startup_Config</link>&#32;<link linkend="_class_c_o_r_e_1_1_startup_1acbc82200d51a3737e55f6b4d1a2c63ba">Configure_Startup</link>();
+32 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_c_o_r_e_1_1_startup_1af2b965e31fba423ef36261d311ee9e4e">StartEditor</link>(<link linkend="_group__window_1ga3c96d80d363e67d13a41b5d1821f3242">GLFWwindow</link>*&#32;window);
+33 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_c_o_r_e_1_1_startup_1a49c0b31d9fe02d1797029bb0d0afeca6">Init_Startup</link>(<link linkend="_struct_d_a_t_a_t_y_p_e_s_1_1_startup___config">DATATYPES::Startup_Config</link>&#32;config);
+34 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="_struct_c_o_r_e_1_1_s_y_s_t_e_m_s">SYSTEMS</link>&#32;&#32;<link linkend="_class_c_o_r_e_1_1_startup_1a709507e8b059cbbc621f15d4fdbf3fb4">Start_Systems</link>();
+35 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<link linkend="_struct_im_gui_i_o">ImGuiIO</link>*&#32;<link linkend="_class_c_o_r_e_1_1_startup_1a39ed8bd0605a7681c2a57e896405ec35">io</link>;
+36 
+37 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="_class_c_o_r_e_1_1_startup_1a0f75f20ec0800c41d0c60b089539e440">Start_Game</link>();
+38 
+39 &#32;&#32;&#32;&#32;};
+40 }
+41 
+42 <emphasis role="preprocessor">#endif&#32;</emphasis><emphasis role="comment">//&#32;!_STARTUP_</emphasis>
+</programlisting></section>

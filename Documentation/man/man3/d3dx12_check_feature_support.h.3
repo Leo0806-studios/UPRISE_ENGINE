@@ -1,0 +1,337 @@
+.TH "adhed/d3dx12_check_feature_support.h" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+adhed/d3dx12_check_feature_support.h
+.SH SYNOPSIS
+.br
+.PP
+\fR#include 'd3d12\&.h'\fP
+.br
+\fR#include <vector>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBCD3DX12FeatureSupport\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBFEATURE_SUPPORT_GET\fP(RETTYPE,  FEATURE,  OPTION)"
+.br
+.ti -1c
+.RI "#define \fBFEATURE_SUPPORT_GET_NAME\fP(RETTYPE,  FEATURE,  OPTION,  NAME)"
+.br
+.ti -1c
+.RI "#define \fBFEATURE_SUPPORT_GET_NODE_INDEXED\fP(RETTYPE,  FEATURE,  OPTION)"
+.br
+.ti -1c
+.RI "#define \fBFEATURE_SUPPORT_GET_NODE_INDEXED_NAME\fP(RETTYPE,  FEATURE,  OPTION,  NAME)"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBFEATURE_SUPPORT_GET\fP (BOOL, m_dOptions, DoublePrecisionFloatShaderOps)"
+.br
+.ti -1c
+.RI "\fBFEATURE_SUPPORT_GET\fP (BOOL, m_dOptions, OutputMergerLogicOp)"
+.br
+.ti -1c
+.RI "\fBFEATURE_SUPPORT_GET\fP (\fBD3D12_SHADER_MIN_PRECISION_SUPPORT\fP, m_dOptions, MinPrecisionSupport)"
+.br
+.ti -1c
+.RI "\fBFEATURE_SUPPORT_GET\fP (\fBD3D12_TILED_RESOURCES_TIER\fP, m_dOptions, TiledResourcesTier)"
+.br
+.ti -1c
+.RI "\fBFEATURE_SUPPORT_GET\fP (\fBD3D12_RESOURCE_BINDING_TIER\fP, m_dOptions, ResourceBindingTier)"
+.br
+.ti -1c
+.RI "\fBFEATURE_SUPPORT_GET\fP (BOOL, m_dOptions, PSSpecifiedStencilRefSupported)"
+.br
+.ti -1c
+.RI "\fBFEATURE_SUPPORT_GET\fP (BOOL, m_dOptions, TypedUAVLoadAdditionalFormats)"
+.br
+.ti -1c
+.RI "\fBFEATURE_SUPPORT_GET\fP (BOOL, m_dOptions, ROVsSupported)"
+.br
+.ti -1c
+.RI "\fBFEATURE_SUPPORT_GET\fP (\fBD3D12_CONSERVATIVE_RASTERIZATION_TIER\fP, m_dOptions, ConservativeRasterizationTier)"
+.br
+.ti -1c
+.RI "\fBFEATURE_SUPPORT_GET\fP (BOOL, m_dOptions, StandardSwizzle64KBSupported)"
+.br
+.ti -1c
+.RI "\fBFEATURE_SUPPORT_GET\fP (BOOL, m_dOptions, CrossAdapterRowMajorTextureSupported)"
+.br
+.ti -1c
+.RI "\fBFEATURE_SUPPORT_GET\fP (BOOL, m_dOptions, VPAndRTArrayIndexFromAnyShaderFeedingRasterizerSupportedWithoutGSEmulation)"
+.br
+.ti -1c
+.RI "\fBFEATURE_SUPPORT_GET\fP (\fBD3D12_RESOURCE_HEAP_TIER\fP, m_dOptions, ResourceHeapTier)"
+.br
+.ti -1c
+.RI "\fBFEATURE_SUPPORT_GET\fP (UINT, m_dGPUVASupport, MaxGPUVirtualAddressBitsPerProcess)"
+.br
+.ti -1c
+.RI "\fBFEATURE_SUPPORT_GET\fP (BOOL, m_dOptions1, WaveOps)"
+.br
+.ti -1c
+.RI "\fBFEATURE_SUPPORT_GET\fP (UINT, m_dOptions1, WaveLaneCountMin)"
+.br
+.ti -1c
+.RI "\fBFEATURE_SUPPORT_GET\fP (UINT, m_dOptions1, WaveLaneCountMax)"
+.br
+.ti -1c
+.RI "\fBFEATURE_SUPPORT_GET\fP (UINT, m_dOptions1, TotalLaneCount)"
+.br
+.ti -1c
+.RI "\fBFEATURE_SUPPORT_GET\fP (BOOL, m_dOptions1, ExpandedComputeResourceStates)"
+.br
+.ti -1c
+.RI "\fBFEATURE_SUPPORT_GET\fP (BOOL, m_dOptions1, Int64ShaderOps)"
+.br
+.ti -1c
+.RI "\fBFEATURE_SUPPORT_GET_NODE_INDEXED\fP (BOOL, m_dArchitecture1, TileBasedRenderer)"
+.br
+.ti -1c
+.RI "\fBFEATURE_SUPPORT_GET_NODE_INDEXED\fP (BOOL, m_dArchitecture1, UMA)"
+.br
+.ti -1c
+.RI "\fBFEATURE_SUPPORT_GET_NODE_INDEXED\fP (BOOL, m_dArchitecture1, CacheCoherentUMA)"
+.br
+.ti -1c
+.RI "\fBFEATURE_SUPPORT_GET_NODE_INDEXED\fP (BOOL, m_dArchitecture1, IsolatedMMU)"
+.br
+.ti -1c
+.RI "\fBFEATURE_SUPPORT_GET\fP (BOOL, m_dOptions2, DepthBoundsTestSupported)"
+.br
+.ti -1c
+.RI "\fBFEATURE_SUPPORT_GET\fP (\fBD3D12_PROGRAMMABLE_SAMPLE_POSITIONS_TIER\fP, m_dOptions2, ProgrammableSamplePositionsTier)"
+.br
+.ti -1c
+.RI "\fBFEATURE_SUPPORT_GET_NAME\fP (\fBD3D12_SHADER_CACHE_SUPPORT_FLAGS\fP, m_dShaderCache, SupportFlags, ShaderCacheSupportFlags)"
+.br
+.ti -1c
+.RI "\fBFEATURE_SUPPORT_GET\fP (BOOL, m_dOptions3, CopyQueueTimestampQueriesSupported)"
+.br
+.ti -1c
+.RI "\fBFEATURE_SUPPORT_GET\fP (BOOL, m_dOptions3, CastingFullyTypedFormatSupported)"
+.br
+.ti -1c
+.RI "\fBFEATURE_SUPPORT_GET\fP (\fBD3D12_COMMAND_LIST_SUPPORT_FLAGS\fP, m_dOptions3, WriteBufferImmediateSupportFlags)"
+.br
+.ti -1c
+.RI "\fBFEATURE_SUPPORT_GET\fP (\fBD3D12_VIEW_INSTANCING_TIER\fP, m_dOptions3, ViewInstancingTier)"
+.br
+.ti -1c
+.RI "\fBFEATURE_SUPPORT_GET\fP (BOOL, m_dOptions3, BarycentricsSupported)"
+.br
+.ti -1c
+.RI "\fBFEATURE_SUPPORT_GET_NAME\fP (BOOL, m_dExistingHeaps, Supported, ExistingHeapsSupported)"
+.br
+.ti -1c
+.RI "\fBFEATURE_SUPPORT_GET\fP (BOOL, m_dOptions4, MSAA64KBAlignedTextureSupported)"
+.br
+.ti -1c
+.RI "\fBFEATURE_SUPPORT_GET\fP (\fBD3D12_SHARED_RESOURCE_COMPATIBILITY_TIER\fP, m_dOptions4, SharedResourceCompatibilityTier)"
+.br
+.ti -1c
+.RI "\fBFEATURE_SUPPORT_GET\fP (BOOL, m_dOptions4, Native16BitShaderOpsSupported)"
+.br
+.ti -1c
+.RI "\fBFEATURE_SUPPORT_GET_NODE_INDEXED\fP (\fBD3D12_HEAP_SERIALIZATION_TIER\fP, m_dSerialization, HeapSerializationTier)"
+.br
+.ti -1c
+.RI "\fBFEATURE_SUPPORT_GET_NAME\fP (BOOL, m_dCrossNode, AtomicShaderInstructions, CrossNodeAtomicShaderInstructions)"
+.br
+.ti -1c
+.RI "\fBFEATURE_SUPPORT_GET\fP (BOOL, m_dOptions5, SRVOnlyTiledResourceTier3)"
+.br
+.ti -1c
+.RI "\fBFEATURE_SUPPORT_GET\fP (\fBD3D12_RENDER_PASS_TIER\fP, m_dOptions5, RenderPassesTier)"
+.br
+.ti -1c
+.RI "\fBFEATURE_SUPPORT_GET\fP (\fBD3D12_RAYTRACING_TIER\fP, m_dOptions5, RaytracingTier)"
+.br
+.ti -1c
+.RI "\fBFEATURE_SUPPORT_GET\fP (BOOL, m_dOptions6, AdditionalShadingRatesSupported)"
+.br
+.ti -1c
+.RI "\fBFEATURE_SUPPORT_GET\fP (BOOL, m_dOptions6, PerPrimitiveShadingRateSupportedWithViewportIndexing)"
+.br
+.ti -1c
+.RI "\fBFEATURE_SUPPORT_GET\fP (\fBD3D12_VARIABLE_SHADING_RATE_TIER\fP, m_dOptions6, VariableShadingRateTier)"
+.br
+.ti -1c
+.RI "\fBFEATURE_SUPPORT_GET\fP (UINT, m_dOptions6, ShadingRateImageTileSize)"
+.br
+.ti -1c
+.RI "\fBFEATURE_SUPPORT_GET\fP (BOOL, m_dOptions6, BackgroundProcessingSupported)"
+.br
+.ti -1c
+.RI "\fBFEATURE_SUPPORT_GET\fP (\fBD3D12_MESH_SHADER_TIER\fP, m_dOptions7, MeshShaderTier)"
+.br
+.ti -1c
+.RI "\fBFEATURE_SUPPORT_GET\fP (\fBD3D12_SAMPLER_FEEDBACK_TIER\fP, m_dOptions7, SamplerFeedbackTier)"
+.br
+.ti -1c
+.RI "\fBFEATURE_SUPPORT_GET_NODE_INDEXED_NAME\fP (UINT, m_dProtectedResourceSessionTypeCount, Count, ProtectedResourceSessionTypeCount)"
+.br
+.ti -1c
+.RI "\fBFEATURE_SUPPORT_GET_NODE_INDEXED_NAME\fP (std::vector< GUID >, m_dProtectedResourceSessionTypes, TypeVec, ProtectedResourceSessionTypes)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define FEATURE_SUPPORT_GET( RETTYPE,  FEATURE,  OPTION)"
+\fBValue:\fP
+.nf
+inline RETTYPE CD3DX12FeatureSupport::OPTION() const noexcept \\
+{ \\
+    return FEATURE\&.OPTION; \\
+}
+.PP
+.fi
+
+.SS "#define FEATURE_SUPPORT_GET_NAME( RETTYPE,  FEATURE,  OPTION,  NAME)"
+\fBValue:\fP
+.nf
+inline RETTYPE CD3DX12FeatureSupport::NAME() const noexcept \\
+{\\
+    return FEATURE\&.OPTION; \\
+}
+.PP
+.fi
+
+.SS "#define FEATURE_SUPPORT_GET_NODE_INDEXED( RETTYPE,  FEATURE,  OPTION)"
+\fBValue:\fP
+.nf
+inline RETTYPE CD3DX12FeatureSupport::OPTION(UINT NodeIndex) const \\
+{\\
+    return FEATURE[NodeIndex]\&.OPTION; \\
+}
+.PP
+.fi
+
+.SS "#define FEATURE_SUPPORT_GET_NODE_INDEXED_NAME( RETTYPE,  FEATURE,  OPTION,  NAME)"
+\fBValue:\fP
+.nf
+inline RETTYPE CD3DX12FeatureSupport::NAME(UINT NodeIndex) const \\
+{\\
+    return FEATURE[NodeIndex]\&.OPTION; \\
+}
+.PP
+.fi
+
+.SH "Function Documentation"
+.PP 
+.SS "FEATURE_SUPPORT_GET (BOOL , m_dOptions , CrossAdapterRowMajorTextureSupported )"
+
+.SS "FEATURE_SUPPORT_GET (BOOL , m_dOptions , DoublePrecisionFloatShaderOps )"
+
+.SS "FEATURE_SUPPORT_GET (BOOL , m_dOptions , OutputMergerLogicOp )"
+
+.SS "FEATURE_SUPPORT_GET (BOOL , m_dOptions , PSSpecifiedStencilRefSupported )"
+
+.SS "FEATURE_SUPPORT_GET (BOOL , m_dOptions , ROVsSupported )"
+
+.SS "FEATURE_SUPPORT_GET (BOOL , m_dOptions , StandardSwizzle64KBSupported )"
+
+.SS "FEATURE_SUPPORT_GET (BOOL , m_dOptions , TypedUAVLoadAdditionalFormats )"
+
+.SS "FEATURE_SUPPORT_GET (BOOL , m_dOptions , VPAndRTArrayIndexFromAnyShaderFeedingRasterizerSupportedWithoutGSEmulation )"
+
+.SS "FEATURE_SUPPORT_GET (BOOL , m_dOptions1 , ExpandedComputeResourceStates )"
+
+.SS "FEATURE_SUPPORT_GET (BOOL , m_dOptions1 , Int64ShaderOps )"
+
+.SS "FEATURE_SUPPORT_GET (BOOL , m_dOptions1 , WaveOps )"
+
+.SS "FEATURE_SUPPORT_GET (BOOL , m_dOptions2 , DepthBoundsTestSupported )"
+
+.SS "FEATURE_SUPPORT_GET (BOOL , m_dOptions3 , BarycentricsSupported )"
+
+.SS "FEATURE_SUPPORT_GET (BOOL , m_dOptions3 , CastingFullyTypedFormatSupported )"
+
+.SS "FEATURE_SUPPORT_GET (BOOL , m_dOptions3 , CopyQueueTimestampQueriesSupported )"
+
+.SS "FEATURE_SUPPORT_GET (BOOL , m_dOptions4 , MSAA64KBAlignedTextureSupported )"
+
+.SS "FEATURE_SUPPORT_GET (BOOL , m_dOptions4 , Native16BitShaderOpsSupported )"
+
+.SS "FEATURE_SUPPORT_GET (BOOL , m_dOptions5 , SRVOnlyTiledResourceTier3 )"
+
+.SS "FEATURE_SUPPORT_GET (BOOL , m_dOptions6 , AdditionalShadingRatesSupported )"
+
+.SS "FEATURE_SUPPORT_GET (BOOL , m_dOptions6 , BackgroundProcessingSupported )"
+
+.SS "FEATURE_SUPPORT_GET (BOOL , m_dOptions6 , PerPrimitiveShadingRateSupportedWithViewportIndexing )"
+
+.SS "FEATURE_SUPPORT_GET (\fBD3D12_COMMAND_LIST_SUPPORT_FLAGS\fP , m_dOptions3 , WriteBufferImmediateSupportFlags )"
+
+.SS "FEATURE_SUPPORT_GET (\fBD3D12_CONSERVATIVE_RASTERIZATION_TIER\fP , m_dOptions , ConservativeRasterizationTier )"
+
+.SS "FEATURE_SUPPORT_GET (\fBD3D12_MESH_SHADER_TIER\fP , m_dOptions7 , MeshShaderTier )"
+
+.SS "FEATURE_SUPPORT_GET (\fBD3D12_PROGRAMMABLE_SAMPLE_POSITIONS_TIER\fP , m_dOptions2 , ProgrammableSamplePositionsTier )"
+
+.SS "FEATURE_SUPPORT_GET (\fBD3D12_RAYTRACING_TIER\fP , m_dOptions5 , RaytracingTier )"
+
+.SS "FEATURE_SUPPORT_GET (\fBD3D12_RENDER_PASS_TIER\fP , m_dOptions5 , RenderPassesTier )"
+
+.SS "FEATURE_SUPPORT_GET (\fBD3D12_RESOURCE_BINDING_TIER\fP , m_dOptions , ResourceBindingTier )"
+
+.SS "FEATURE_SUPPORT_GET (\fBD3D12_RESOURCE_HEAP_TIER\fP , m_dOptions , ResourceHeapTier )"
+
+.SS "FEATURE_SUPPORT_GET (\fBD3D12_SAMPLER_FEEDBACK_TIER\fP , m_dOptions7 , SamplerFeedbackTier )"
+
+.SS "FEATURE_SUPPORT_GET (\fBD3D12_SHADER_MIN_PRECISION_SUPPORT\fP , m_dOptions , MinPrecisionSupport )"
+
+.SS "FEATURE_SUPPORT_GET (\fBD3D12_SHARED_RESOURCE_COMPATIBILITY_TIER\fP , m_dOptions4 , SharedResourceCompatibilityTier )"
+
+.SS "FEATURE_SUPPORT_GET (\fBD3D12_TILED_RESOURCES_TIER\fP , m_dOptions , TiledResourcesTier )"
+
+.SS "FEATURE_SUPPORT_GET (\fBD3D12_VARIABLE_SHADING_RATE_TIER\fP , m_dOptions6 , VariableShadingRateTier )"
+
+.SS "FEATURE_SUPPORT_GET (\fBD3D12_VIEW_INSTANCING_TIER\fP , m_dOptions3 , ViewInstancingTier )"
+
+.SS "FEATURE_SUPPORT_GET (UINT , m_dGPUVASupport , MaxGPUVirtualAddressBitsPerProcess )"
+
+.SS "FEATURE_SUPPORT_GET (UINT , m_dOptions1 , TotalLaneCount )"
+
+.SS "FEATURE_SUPPORT_GET (UINT , m_dOptions1 , WaveLaneCountMax )"
+
+.SS "FEATURE_SUPPORT_GET (UINT , m_dOptions1 , WaveLaneCountMin )"
+
+.SS "FEATURE_SUPPORT_GET (UINT , m_dOptions6 , ShadingRateImageTileSize )"
+
+.SS "FEATURE_SUPPORT_GET_NAME (BOOL , m_dCrossNode , AtomicShaderInstructions , CrossNodeAtomicShaderInstructions )"
+
+.SS "FEATURE_SUPPORT_GET_NAME (BOOL , m_dExistingHeaps , Supported , ExistingHeapsSupported )"
+
+.SS "FEATURE_SUPPORT_GET_NAME (\fBD3D12_SHADER_CACHE_SUPPORT_FLAGS\fP , m_dShaderCache , SupportFlags , ShaderCacheSupportFlags )"
+
+.SS "FEATURE_SUPPORT_GET_NODE_INDEXED (BOOL , m_dArchitecture1 , CacheCoherentUMA )"
+
+.SS "FEATURE_SUPPORT_GET_NODE_INDEXED (BOOL , m_dArchitecture1 , IsolatedMMU )"
+
+.SS "FEATURE_SUPPORT_GET_NODE_INDEXED (BOOL , m_dArchitecture1 , TileBasedRenderer )"
+
+.SS "FEATURE_SUPPORT_GET_NODE_INDEXED (BOOL , m_dArchitecture1 , UMA )"
+
+.SS "FEATURE_SUPPORT_GET_NODE_INDEXED (\fBD3D12_HEAP_SERIALIZATION_TIER\fP , m_dSerialization , HeapSerializationTier )"
+
+.SS "FEATURE_SUPPORT_GET_NODE_INDEXED_NAME (std::vector< GUID > , m_dProtectedResourceSessionTypes , TypeVec , ProtectedResourceSessionTypes )"
+
+.SS "FEATURE_SUPPORT_GET_NODE_INDEXED_NAME (UINT , m_dProtectedResourceSessionTypeCount , Count , ProtectedResourceSessionTypeCount )"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

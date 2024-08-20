@@ -11,13 +11,13 @@ GUID Test::UUID = GUID_NULL;
 		//std::cout << "test" << wo << "\n";
 		//auto aut = oobj;
 		//std::cout << "name of object is: " << gameobject->name<<"\n";
-		auto aaa = gameobject->TrAnSfOrM->Position - gameobject->TrAnSfOrM->forward.Normalized();
+		auto aaa = Game_Object->TrAnSfOrM->Position - Game_Object->TrAnSfOrM->forward.Normalized();
 
-		gameobject->TrAnSfOrM->Position = aaa;
+		Game_Object->TrAnSfOrM->Position = aaa;
 	}
 	if (CORE::Input::GetKey(S)) {
 
-		gameobject->TrAnSfOrM->Position = gameobject->TrAnSfOrM->Position + gameobject->TrAnSfOrM->forward.Normalized();
+		Game_Object->TrAnSfOrM->Position = Game_Object->TrAnSfOrM->Position + Game_Object->TrAnSfOrM->forward.Normalized();
 	}
 	if (CORE::Input::GetKey(A)) {
 
@@ -39,7 +39,7 @@ GUID Test::UUID = GUID_NULL;
 	if (CORE::Input::GetKey(Q)) {
 		//quat = DATATYPES::Quaternion().FromEulerAngles(DATATYPES::TS_P_Vector3(0, 0, quat.ToRotationVector().z + 0.1));
 		rrot.z = rrot.z + 0.1;
-		pos->SetRotation(DATATYPES::TS_P_Vector3(pos->Vec3Rotation.x, pos->Vec3Rotation.y, pos->Vec3Rotation.z + 0.1));
+		pos->SetRotation(DATATYPES::TSPVector3(pos->Vec3Rotation.x, pos->Vec3Rotation.y, pos->Vec3Rotation.z + 0.1));
 
 		//std::cout << "x" << std::dynamic_pointer_cast<Transform>(transf).get()->rotation.ToRotationVector().x << "y" << std::dynamic_pointer_cast<Transform>(transf).get()->rotation.ToRotationVector().y << "Z" << std::dynamic_pointer_cast<Transform>(transf).get()->rotation.ToRotationVector().z << "\n";
 		// std::cout << "x" << quat.ToRotationVector().x << "y" << quat.ToRotationVector().y << "Z" << quat.ToRotationVector().z << "\n";
@@ -47,7 +47,7 @@ GUID Test::UUID = GUID_NULL;
 	}
 	if (CORE::Input::GetKey(E)) {
 		rrot.z = rrot.z - 0.1;
-		pos->SetRotation(DATATYPES::TS_P_Vector3(pos->Vec3Rotation.x, pos->Vec3Rotation.y, pos->Vec3Rotation.z - 0.1));
+		pos->SetRotation(DATATYPES::TSPVector3(pos->Vec3Rotation.x, pos->Vec3Rotation.y, pos->Vec3Rotation.z - 0.1));
 
 
 		// quat = DATATYPES::Quaternion().FromEulerAngles(DATATYPES::TS_P_Vector3(0, 0, quat.ToRotationVector().z - 0.1));

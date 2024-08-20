@@ -15,7 +15,7 @@ CORE::Behaviour::Behaviour(int remove):ToBeRemoved(true) {  }
  CORE::Behaviour::Behaviour(GameObject* oobj, std::shared_ptr<CORE::Behaviour> trans)
  {
 	TrPr(ctx, __func__)
-	 gameobject = oobj;
+	 Game_Object = oobj;
 	 transf = trans;
 	 TrPrE(ctx);
  }

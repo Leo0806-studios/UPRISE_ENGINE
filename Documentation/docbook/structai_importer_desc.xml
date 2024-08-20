@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_structai_importer_desc" xml:lang="en-US">
+<title>aiImporterDesc Struct Reference</title>
+<indexterm><primary>aiImporterDesc</primary></indexterm>
+<para>
+<computeroutput>#include &lt;importerdesc.h&gt;</computeroutput>
+</para>
+<simplesect>
+    <title>Public Attributes    </title>
+        <itemizedlist>
+            <listitem><para>const char * <link linkend="_structai_importer_desc_1a2a9d5fd818c01bba1a0a782722ab9495">mName</link></para>
+</listitem>
+            <listitem><para>const char * <link linkend="_structai_importer_desc_1a8e050453324b1e855701c7c082c1b24b">mAuthor</link></para>
+</listitem>
+            <listitem><para>const char * <link linkend="_structai_importer_desc_1a53bf0ecb36ce0b97018b4b6bd2748f02">mMaintainer</link></para>
+</listitem>
+            <listitem><para>const char * <link linkend="_structai_importer_desc_1a2d8ad562f6c18ee9e8bfdb2da4871118">mComments</link></para>
+</listitem>
+            <listitem><para>unsigned int <link linkend="_structai_importer_desc_1a9939db58b9f95a537f9f5a749524b6b2">mFlags</link></para>
+</listitem>
+            <listitem><para>unsigned int <link linkend="_structai_importer_desc_1aee34d348f522807f0a36607664e92a57">mMinMajor</link></para>
+</listitem>
+            <listitem><para>unsigned int <link linkend="_structai_importer_desc_1adb265dee32c6533234c45638df66ddab">mMinMinor</link></para>
+</listitem>
+            <listitem><para>unsigned int <link linkend="_structai_importer_desc_1a9d33eac3be20f7f4630f838a228ada63">mMaxMajor</link></para>
+</listitem>
+            <listitem><para>unsigned int <link linkend="_structai_importer_desc_1ae4c60eec7020af836b23537148f47f83">mMaxMinor</link></para>
+</listitem>
+            <listitem><para>const char * <link linkend="_structai_importer_desc_1a074bd688ffd15d7f4df32e794111a413">mFileExtensions</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+
+<para>Meta information about a particular importer. Importers need to fill this structure, but they can freely decide how talkative they are. A common use case for loader meta info is a user interface in which the user can choose between various import/export file formats. <link linkend="_class_building">Building</link> such an UI by hand means a lot of maintenance as importers/exporters are added to <link linkend="_namespace_assimp">Assimp</link>, so it might be useful to have a common mechanism to query some rough importer characteristics. </para>
+</section>
+<section>
+<title>Member Data Documentation</title>
+<anchor xml:id="_structai_importer_desc_1a8e050453324b1e855701c7c082c1b24b"/><section>
+    <title>mAuthor</title>
+<indexterm><primary>mAuthor</primary><secondary>aiImporterDesc</secondary></indexterm>
+<indexterm><primary>aiImporterDesc</primary><secondary>mAuthor</secondary></indexterm>
+<para><computeroutput>const char* aiImporterDesc::mAuthor</computeroutput></para>
+<para>Original author (left blank if unknown or whole assimp team) </para>
+</section>
+<anchor xml:id="_structai_importer_desc_1a2d8ad562f6c18ee9e8bfdb2da4871118"/><section>
+    <title>mComments</title>
+<indexterm><primary>mComments</primary><secondary>aiImporterDesc</secondary></indexterm>
+<indexterm><primary>aiImporterDesc</primary><secondary>mComments</secondary></indexterm>
+<para><computeroutput>const char* aiImporterDesc::mComments</computeroutput></para>
+<para>Implementation comments, i.e. unimplemented features </para>
+</section>
+<anchor xml:id="_structai_importer_desc_1a074bd688ffd15d7f4df32e794111a413"/><section>
+    <title>mFileExtensions</title>
+<indexterm><primary>mFileExtensions</primary><secondary>aiImporterDesc</secondary></indexterm>
+<indexterm><primary>aiImporterDesc</primary><secondary>mFileExtensions</secondary></indexterm>
+<para><computeroutput>const char* aiImporterDesc::mFileExtensions</computeroutput></para>
+<para>List of file extensions this importer can handle. List entries are separated by space characters. All entries are lower case without a leading dot (i.e. &quot;xml dae&quot; would be a valid value. Note that multiple importers may respond to the same file extension - assimp calls all importers in the order in which they are registered and each importer gets the opportunity to load the file until one importer &quot;claims&quot; the file. Apart from file extension checks, importers typically use other methods to quickly reject files (i.e. magic words) so this does not mean that common or generic file extensions such as XML would be tediously slow. </para>
+</section>
+<anchor xml:id="_structai_importer_desc_1a9939db58b9f95a537f9f5a749524b6b2"/><section>
+    <title>mFlags</title>
+<indexterm><primary>mFlags</primary><secondary>aiImporterDesc</secondary></indexterm>
+<indexterm><primary>aiImporterDesc</primary><secondary>mFlags</secondary></indexterm>
+<para><computeroutput>unsigned int aiImporterDesc::mFlags</computeroutput></para>
+<para>These flags indicate some characteristics common to many importers. </para>
+</section>
+<anchor xml:id="_structai_importer_desc_1a53bf0ecb36ce0b97018b4b6bd2748f02"/><section>
+    <title>mMaintainer</title>
+<indexterm><primary>mMaintainer</primary><secondary>aiImporterDesc</secondary></indexterm>
+<indexterm><primary>aiImporterDesc</primary><secondary>mMaintainer</secondary></indexterm>
+<para><computeroutput>const char* aiImporterDesc::mMaintainer</computeroutput></para>
+<para>Current maintainer, left blank if the author maintains </para>
+</section>
+<anchor xml:id="_structai_importer_desc_1a9d33eac3be20f7f4630f838a228ada63"/><section>
+    <title>mMaxMajor</title>
+<indexterm><primary>mMaxMajor</primary><secondary>aiImporterDesc</secondary></indexterm>
+<indexterm><primary>aiImporterDesc</primary><secondary>mMaxMajor</secondary></indexterm>
+<para><computeroutput>unsigned int aiImporterDesc::mMaxMajor</computeroutput></para>
+<para>Maximum format version that can be loaded im major.minor format, both are set to 0 if there is either no version scheme or if the loader doesn&apos;t care. Loaders that expect to be forward-compatible to potential future format versions should indicate zero, otherwise they should specify the current maximum version. </para>
+</section>
+<anchor xml:id="_structai_importer_desc_1ae4c60eec7020af836b23537148f47f83"/><section>
+    <title>mMaxMinor</title>
+<indexterm><primary>mMaxMinor</primary><secondary>aiImporterDesc</secondary></indexterm>
+<indexterm><primary>aiImporterDesc</primary><secondary>mMaxMinor</secondary></indexterm>
+<para><computeroutput>unsigned int aiImporterDesc::mMaxMinor</computeroutput></para></section>
+<anchor xml:id="_structai_importer_desc_1aee34d348f522807f0a36607664e92a57"/><section>
+    <title>mMinMajor</title>
+<indexterm><primary>mMinMajor</primary><secondary>aiImporterDesc</secondary></indexterm>
+<indexterm><primary>aiImporterDesc</primary><secondary>mMinMajor</secondary></indexterm>
+<para><computeroutput>unsigned int aiImporterDesc::mMinMajor</computeroutput></para>
+<para>Minimum format version that can be loaded im major.minor format, both are set to 0 if there is either no version scheme or if the loader doesn&apos;t care. </para>
+</section>
+<anchor xml:id="_structai_importer_desc_1adb265dee32c6533234c45638df66ddab"/><section>
+    <title>mMinMinor</title>
+<indexterm><primary>mMinMinor</primary><secondary>aiImporterDesc</secondary></indexterm>
+<indexterm><primary>aiImporterDesc</primary><secondary>mMinMinor</secondary></indexterm>
+<para><computeroutput>unsigned int aiImporterDesc::mMinMinor</computeroutput></para></section>
+<anchor xml:id="_structai_importer_desc_1a2a9d5fd818c01bba1a0a782722ab9495"/><section>
+    <title>mName</title>
+<indexterm><primary>mName</primary><secondary>aiImporterDesc</secondary></indexterm>
+<indexterm><primary>aiImporterDesc</primary><secondary>mName</secondary></indexterm>
+<para><computeroutput>const char* aiImporterDesc::mName</computeroutput></para>
+<para>Full name of the importer (i.e. Blender3D importer) </para>
+</section>
+<para>
+The documentation for this struct was generated from the following file:</para>
+adhed/assimp/<link linkend="_importerdesc_8h">importerdesc.h</link></section>
+</section>

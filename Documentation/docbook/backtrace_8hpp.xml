@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_backtrace_8hpp" xml:lang="en-US">
+<title>adhed/libbacktrace/backtrace.hpp File Reference</title>
+<indexterm><primary>adhed/libbacktrace/backtrace.hpp</primary></indexterm>
+<programlisting linenumbering="unnumbered">#include &lt;stddef.h&gt;<?linebreak?>#include &lt;stdint.h&gt;<?linebreak?>#include &lt;stdio.h&gt;<?linebreak?></programlisting><simplesect>
+    <title>Namespaces    </title>
+        <itemizedlist>
+            <listitem><para>namespace <link linkend="_namespacetracy">tracy</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Typedefs    </title>
+        <itemizedlist>
+            <listitem><para>typedef <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link>(* <link linkend="_namespacetracy_1a019d09b2670f8caee2a5ed29b09066e8">tracy::backtrace_error_callback</link>) (<link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> *<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>, const char *msg, int errnum)</para>
+</listitem>
+            <listitem><para>typedef int(* <link linkend="_namespacetracy_1a2a25ade160f538b672ca5c4781c4deeb">tracy::backtrace_full_callback</link>) (<link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> *<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>, uintptr_t pc, uintptr_t lowaddr, const char *filename, int lineno, const char *<link linkend="_structtracy_1_1function">function</link>)</para>
+</listitem>
+            <listitem><para>typedef int(* <link linkend="_namespacetracy_1aa4680184870468857e6c9e12069dc528">tracy::backtrace_simple_callback</link>) (<link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> *<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>, uintptr_t pc)</para>
+</listitem>
+            <listitem><para>typedef <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link>(* <link linkend="_namespacetracy_1a0ddd2a54f6bfd249b745ebef94c09b0b">tracy::backtrace_syminfo_callback</link>) (<link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> *<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>, uintptr_t pc, const char *symname, uintptr_t symval, uintptr_t symsize)</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Functions    </title>
+        <itemizedlist>
+            <listitem><para><link linkend="_interfacestruct">struct</link> <link linkend="_structtracy_1_1backtrace__state">backtrace_state</link> * <link linkend="_namespacetracy_1aa84bb7798868471692907727d02c6a55">tracy::backtrace_create_state</link> (const char *filename, int threaded, <link linkend="_namespacetracy_1a019d09b2670f8caee2a5ed29b09066e8">backtrace_error_callback</link> error_callback, <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> *<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>)</para>
+</listitem>
+            <listitem><para>int <link linkend="_namespacetracy_1a47e2c53a011c0193aaae39d2a7cb3b1a">tracy::backtrace_full</link> (<link linkend="_interfacestruct">struct</link> <link linkend="_structtracy_1_1backtrace__state">backtrace_state</link> *state, int skip, <link linkend="_namespacetracy_1a2a25ade160f538b672ca5c4781c4deeb">backtrace_full_callback</link> callback, <link linkend="_namespacetracy_1a019d09b2670f8caee2a5ed29b09066e8">backtrace_error_callback</link> error_callback, <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> *<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>)</para>
+</listitem>
+            <listitem><para>int <link linkend="_namespacetracy_1acb448314c91a8aa3fb121fd63623419f">tracy::backtrace_simple</link> (<link linkend="_interfacestruct">struct</link> <link linkend="_structtracy_1_1backtrace__state">backtrace_state</link> *state, int skip, <link linkend="_namespacetracy_1aa4680184870468857e6c9e12069dc528">backtrace_simple_callback</link> callback, <link linkend="_namespacetracy_1a019d09b2670f8caee2a5ed29b09066e8">backtrace_error_callback</link> error_callback, <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> *<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>)</para>
+</listitem>
+            <listitem><para><link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> <link linkend="_namespacetracy_1ad3bd6ef9cc27bc02259b448b25ba9d6c">tracy::backtrace_print</link> (<link linkend="_interfacestruct">struct</link> <link linkend="_structtracy_1_1backtrace__state">backtrace_state</link> *state, int skip, FILE *)</para>
+</listitem>
+            <listitem><para>int <link linkend="_namespacetracy_1ae6d23fcb54847202b263515410d83650">tracy::backtrace_pcinfo</link> (<link linkend="_interfacestruct">struct</link> <link linkend="_structtracy_1_1backtrace__state">backtrace_state</link> *state, uintptr_t pc, <link linkend="_namespacetracy_1a2a25ade160f538b672ca5c4781c4deeb">backtrace_full_callback</link> callback, <link linkend="_namespacetracy_1a019d09b2670f8caee2a5ed29b09066e8">backtrace_error_callback</link> error_callback, <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> *<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>)</para>
+</listitem>
+            <listitem><para>int <link linkend="_namespacetracy_1a81f745cb0c73515e062c5e9ee49e2c13">tracy::backtrace_syminfo</link> (<link linkend="_interfacestruct">struct</link> <link linkend="_structtracy_1_1backtrace__state">backtrace_state</link> *state, uintptr_t addr, <link linkend="_namespacetracy_1a0ddd2a54f6bfd249b745ebef94c09b0b">backtrace_syminfo_callback</link> callback, <link linkend="_namespacetracy_1a019d09b2670f8caee2a5ed29b09066e8">backtrace_error_callback</link> error_callback, <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> *<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>)</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+</section>

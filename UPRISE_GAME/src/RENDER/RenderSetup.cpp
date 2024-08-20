@@ -57,7 +57,7 @@ void PAIN::RenderStup::Setup(int w, int h, const char* Title)
 	Log << "		- Creating Viewport";
 	glViewport(0, 0, w, h);
 	Log << "		- Creating Camera";
-	Render_cam = GameObject::CreateCamera(TS_P_Vector3(0, 0, 0), Quaternion(1, 0, 0, 0));
+	Render_cam = GameObject::CreateCamera(TSPVector3(0, 0, 0), Quaternion(1, 0, 0, 0));
 	Render_cam.name = "CAMERA";
 	//CORE::Behaviour::updateAll();
 	PAIN::Render::CAM = std::dynamic_pointer_cast<Camera>(Render_cam.behaviours[1]);

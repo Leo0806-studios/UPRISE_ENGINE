@@ -1,0 +1,946 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_directxtk12__uwp_82024_86_85_81_2include_2_effects_8h_source" xml:lang="en-US">
+<title>Effects.h</title>
+<indexterm><primary>packages/directxtk12_uwp.2024.6.5.1/include/Effects.h</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 <emphasis role="comment">//--------------------------------------------------------------------------------------</emphasis>
+2 <emphasis role="comment">//&#32;File:&#32;Effects.h</emphasis>
+3 <emphasis role="comment">//</emphasis>
+4 <emphasis role="comment">//&#32;Copyright&#32;(c)&#32;Microsoft&#32;Corporation.</emphasis>
+5 <emphasis role="comment">//&#32;Licensed&#32;under&#32;the&#32;MIT&#32;License.</emphasis>
+6 <emphasis role="comment">//</emphasis>
+7 <emphasis role="comment">//&#32;http://go.microsoft.com/fwlink/?LinkID=615561</emphasis>
+8 <emphasis role="comment">//--------------------------------------------------------------------------------------</emphasis>
+9 
+10 <emphasis role="preprocessor">#pragma&#32;once</emphasis>
+11 
+12 <emphasis role="preprocessor">#ifndef&#32;__DIRECTXTK_EFFECTS_H__</emphasis>
+13 <emphasis role="preprocessor">#define&#32;__DIRECTXTK_EFFECTS_H__</emphasis>
+14 
+15 <emphasis role="preprocessor">#ifdef&#32;_GAMING_XBOX_SCARLETT</emphasis>
+16 <emphasis role="preprocessor">#include&#32;&lt;d3d12_xs.h&gt;</emphasis>
+17 <emphasis role="preprocessor">#elif&#32;(defined(_XBOX_ONE)&#32;&amp;&amp;&#32;defined(_TITLE))&#32;||&#32;defined(_GAMING_XBOX)</emphasis>
+18 <emphasis role="preprocessor">#include&#32;&lt;d3d12_x.h&gt;</emphasis>
+19 <emphasis role="preprocessor">#elif&#32;defined(USING_DIRECTX_HEADERS)</emphasis>
+20 <emphasis role="preprocessor">#include&#32;&lt;directx/d3d12.h&gt;</emphasis>
+21 <emphasis role="preprocessor">#include&#32;&lt;dxguids/dxguids.h&gt;</emphasis>
+22 <emphasis role="preprocessor">#else</emphasis>
+23 <emphasis role="preprocessor">#include&#32;&lt;<link linkend="_d3d12_8h">d3d12.h</link>&gt;</emphasis>
+24 <emphasis role="preprocessor">#endif</emphasis>
+25 
+26 <emphasis role="preprocessor">#include&#32;&lt;cstddef&gt;</emphasis>
+27 <emphasis role="preprocessor">#include&#32;&lt;cstdint&gt;</emphasis>
+28 <emphasis role="preprocessor">#include&#32;&lt;memory&gt;</emphasis>
+29 <emphasis role="preprocessor">#include&#32;&lt;string&gt;</emphasis>
+30 
+31 <emphasis role="preprocessor">#include&#32;&lt;DirectXMath.h&gt;</emphasis>
+32 
+33 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_directxtk12__uwp_82024_86_85_81_2include_2_render_target_state_8h">RenderTargetState.h</link>&quot;</emphasis>
+34 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_directxtk12__uwp_82024_86_85_81_2include_2_effect_pipeline_state_description_8h">EffectPipelineStateDescription.h</link>&quot;</emphasis>
+35 
+36 
+37 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespace_direct_x">DirectX</link>
+38 {
+39 &#32;&#32;&#32;&#32;<emphasis role="keyword">class&#32;</emphasis>DescriptorHeap;
+40 &#32;&#32;&#32;&#32;<emphasis role="keyword">class&#32;</emphasis>ResourceUploadBatch;
+41 
+42 &#32;&#32;&#32;&#32;<emphasis role="keyword">inline</emphasis>&#32;<emphasis role="keyword">namespace&#32;</emphasis>DX12
+43 &#32;&#32;&#32;&#32;{
+44 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//------------------------------------------------------------------------------</emphasis>
+45 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Abstract&#32;interface&#32;representing&#32;any&#32;effect&#32;which&#32;can&#32;be&#32;applied&#32;onto&#32;a&#32;D3D&#32;device&#32;context.</emphasis>
+46 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">class&#32;</emphasis><link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect">IEffect</link>
+47 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+48 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">public</emphasis>:
+49 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">virtual</emphasis>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_1afddf73d3f3434b758fe277620ea52168">~IEffect</link>()&#32;=&#32;<emphasis role="keywordflow">default</emphasis>;
+50 
+51 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_1a13dd9fffae2d686e657a1ad318d755d1">IEffect</link>(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect">IEffect</link>&amp;)&#32;=&#32;<emphasis role="keyword">delete</emphasis>;
+52 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect">IEffect</link>&amp;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_1ad46de5806b6933346f89b6c168827bb5">operator=</link>(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect">IEffect</link>&amp;)&#32;=&#32;<emphasis role="keyword">delete</emphasis>;
+53 
+54 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">virtual</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_1a792add1e626fa7be82edf764fc7bbcad">Apply</link>(_In_&#32;<link linkend="_interface_i_d3_d12_graphics_command_list">ID3D12GraphicsCommandList</link>*&#32;commandList)&#32;=&#32;0;
+55 
+56 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">protected</emphasis>:
+57 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_1a3ad32707981487529afa892e6ac30941">IEffect</link>()&#32;=&#32;<emphasis role="keywordflow">default</emphasis>;
+58 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_1a4aae504d27b5ad2ff294ca757d95b0db">IEffect</link>(<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect">IEffect</link>&amp;&amp;)&#32;=&#32;<emphasis role="keywordflow">default</emphasis>;
+59 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect">IEffect</link>&amp;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_1af31f158ce8213bac57bd49b96ef2396f">operator=</link>(<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect">IEffect</link>&amp;&amp;)&#32;=&#32;<emphasis role="keywordflow">default</emphasis>;
+60 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+61 
+62 
+63 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Abstract&#32;interface&#32;for&#32;effects&#32;with&#32;world,&#32;view,&#32;and&#32;projection&#32;matrices.</emphasis>
+64 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">class&#32;</emphasis><link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_matrices">IEffectMatrices</link>
+65 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+66 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">public</emphasis>:
+67 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">virtual</emphasis>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_matrices_1a080291c7fefd128db1b1b0059279e78e">~IEffectMatrices</link>()&#32;=&#32;<emphasis role="keywordflow">default</emphasis>;
+68 
+69 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_matrices_1a4da6a6bb2a1fda43775ebcc8476b53b9">IEffectMatrices</link>(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_matrices">IEffectMatrices</link>&amp;)&#32;=&#32;<emphasis role="keyword">delete</emphasis>;
+70 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_matrices">IEffectMatrices</link>&amp;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_matrices_1af4d6ce3286ac5f478afc34b05d2e6fc0">operator=</link>(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_matrices">IEffectMatrices</link>&amp;)&#32;=&#32;<emphasis role="keyword">delete</emphasis>;
+71 
+72 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">virtual</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_matrices_1abfe7dce2c809182e7ef75d20c6d94eff">SetWorld</link>(FXMMATRIX&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;=&#32;0;
+73 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">virtual</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_matrices_1aa273417bea8e7fbab4f8d3ab022bb46c">SetView</link>(FXMMATRIX&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;=&#32;0;
+74 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">virtual</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_matrices_1ad01609370f448519d89a18a4d8ddbc87">SetProjection</link>(FXMMATRIX&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;=&#32;0;
+75 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">virtual</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_matrices_1abfa6b7ecc899678f62514e46def75116">SetMatrices</link>(FXMMATRIX&#32;world,&#32;CXMMATRIX&#32;view,&#32;CXMMATRIX&#32;projection);
+76 
+77 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">protected</emphasis>:
+78 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_matrices_1aeeafeefe6e8ed6cfb4353418226fca90">IEffectMatrices</link>()&#32;=&#32;<emphasis role="keywordflow">default</emphasis>;
+79 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_matrices_1a04987b4b7fe5fbdb4683f8d841f2f283">IEffectMatrices</link>(<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_matrices">IEffectMatrices</link>&amp;&amp;)&#32;=&#32;<emphasis role="keywordflow">default</emphasis>;
+80 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_matrices">IEffectMatrices</link>&amp;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_matrices_1aed04e8d41c28a6e1e2b5494f85e3835c">operator=</link>(<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_matrices">IEffectMatrices</link>&amp;&amp;)&#32;=&#32;<emphasis role="keywordflow">default</emphasis>;
+81 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+82 
+83 
+84 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Abstract&#32;interface&#32;for&#32;effects&#32;which&#32;support&#32;directional&#32;lighting.</emphasis>
+85 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">class&#32;</emphasis><link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_lights">IEffectLights</link>
+86 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+87 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">public</emphasis>:
+88 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">virtual</emphasis>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_lights_1a36c9223c5b3d3ec74bfc92e5afd557a5">~IEffectLights</link>()&#32;=&#32;<emphasis role="keywordflow">default</emphasis>;
+89 
+90 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_lights_1a62772c68a77e7d5954ba0c97f9b67743">IEffectLights</link>(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_lights">IEffectLights</link>&amp;)&#32;=&#32;<emphasis role="keyword">delete</emphasis>;
+91 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_lights">IEffectLights</link>&amp;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_lights_1a825962f413b9bf77a0a56d547bb31f94">operator=</link>(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_lights">IEffectLights</link>&amp;)&#32;=&#32;<emphasis role="keyword">delete</emphasis>;
+92 
+93 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">virtual</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_lights_1a387f96438f993ef62fc78565bebeaf44">SetAmbientLightColor</link>(FXMVECTOR&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;=&#32;0;
+94 
+95 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">virtual</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_lights_1a92361faa7d5e08fe594e8b4225699552">SetLightEnabled</link>(<emphasis role="keywordtype">int</emphasis>&#32;whichLight,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;=&#32;0;
+96 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">virtual</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_lights_1ab49a5b33ac55a81a865dbbe10f072318">SetLightDirection</link>(<emphasis role="keywordtype">int</emphasis>&#32;whichLight,&#32;FXMVECTOR&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;=&#32;0;
+97 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">virtual</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_lights_1a43f9b894cbc58f35d8fbedc1cf01b708">SetLightDiffuseColor</link>(<emphasis role="keywordtype">int</emphasis>&#32;whichLight,&#32;FXMVECTOR&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;=&#32;0;
+98 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">virtual</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_lights_1ab9cfb97480449f4af16172c8d906d4a1">SetLightSpecularColor</link>(<emphasis role="keywordtype">int</emphasis>&#32;whichLight,&#32;FXMVECTOR&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;=&#32;0;
+99 
+100 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">virtual</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_lights_1addc5a13985bd3dce1b9adceb8ebd74a0">EnableDefaultLighting</link>()&#32;=&#32;0;
+101 
+102 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keyword">constexpr</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_lights_1a096388a6a1fd48e3aa2c07e5562c4ae7">MaxDirectionalLights</link>&#32;=&#32;3;
+103 
+104 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">protected</emphasis>:
+105 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_lights_1af4f782e02d6a8b2e3018040f56338808">IEffectLights</link>()&#32;=&#32;<emphasis role="keywordflow">default</emphasis>;
+106 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_lights_1ac846019182f01d1d621eea019bff9cd4">IEffectLights</link>(<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_lights">IEffectLights</link>&amp;&amp;)&#32;=&#32;<emphasis role="keywordflow">default</emphasis>;
+107 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_lights">IEffectLights</link>&amp;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_lights_1aaf6c83bc5e663571fd3a618dda8046bc">operator=</link>(<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_lights">IEffectLights</link>&amp;&amp;)&#32;=&#32;<emphasis role="keywordflow">default</emphasis>;
+108 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+109 
+110 
+111 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Abstract&#32;interface&#32;for&#32;effects&#32;which&#32;support&#32;fog.</emphasis>
+112 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">class&#32;</emphasis><link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_fog">IEffectFog</link>
+113 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+114 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">public</emphasis>:
+115 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">virtual</emphasis>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_fog_1a4c9bdd16d05d559342549e4649cbaa90">~IEffectFog</link>()&#32;=&#32;<emphasis role="keywordflow">default</emphasis>;
+116 
+117 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_fog_1a14b4a9c920f0a232177abbc5697ed024">IEffectFog</link>(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_fog">IEffectFog</link>&amp;)&#32;=&#32;<emphasis role="keyword">delete</emphasis>;
+118 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_fog">IEffectFog</link>&amp;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_fog_1a2cc45197a6a57cbee0af5abf1a1f5630">operator=</link>(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_fog">IEffectFog</link>&amp;)&#32;=&#32;<emphasis role="keyword">delete</emphasis>;
+119 
+120 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">virtual</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_fog_1adb2bb345f1687a388891a455baea7142">SetFogStart</link>(<emphasis role="keywordtype">float</emphasis>&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;=&#32;0;
+121 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">virtual</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_fog_1a2c2b8b79608cf83f31d3aacc989b7513">SetFogEnd</link>(<emphasis role="keywordtype">float</emphasis>&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;=&#32;0;
+122 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">virtual</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_fog_1a2b9cbc00e3e031a7e04b64c97ff7ef99">SetFogColor</link>(FXMVECTOR&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;=&#32;0;
+123 
+124 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">protected</emphasis>:
+125 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_fog_1a5e3d0f1b75c1cd5b210eab7912dd85f6">IEffectFog</link>()&#32;=&#32;<emphasis role="keywordflow">default</emphasis>;
+126 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_fog_1acf08569e707c8f16fbef781697ca4607">IEffectFog</link>(<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_fog">IEffectFog</link>&amp;&amp;)&#32;=&#32;<emphasis role="keywordflow">default</emphasis>;
+127 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_fog">IEffectFog</link>&amp;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_fog_1ada330ab142f636a60db3896562ead96a">operator=</link>(<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_fog">IEffectFog</link>&amp;&amp;)&#32;=&#32;<emphasis role="keywordflow">default</emphasis>;
+128 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+129 
+130 
+131 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Abstract&#32;interface&#32;for&#32;effects&#32;which&#32;support&#32;skinning</emphasis>
+132 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">class&#32;</emphasis><link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_skinning">IEffectSkinning</link>
+133 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+134 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">public</emphasis>:
+135 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">virtual</emphasis>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_skinning_1abdd26da14b77763cf76983f396b00c5d">~IEffectSkinning</link>()&#32;=&#32;<emphasis role="keywordflow">default</emphasis>;
+136 
+137 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_skinning_1a36767adf2dc2d789f43c07edb38c4685">IEffectSkinning</link>(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_skinning">IEffectSkinning</link>&amp;)&#32;=&#32;<emphasis role="keyword">delete</emphasis>;
+138 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_skinning">IEffectSkinning</link>&amp;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_skinning_1a30874580c343f082477365f4ea17f391">operator=</link>(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_skinning">IEffectSkinning</link>&amp;)&#32;=&#32;<emphasis role="keyword">delete</emphasis>;
+139 
+140 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">virtual</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_skinning_1afdd1b01bf4fdbae75433876a7c970827">SetBoneTransforms</link>(_In_reads_(<link linkend="_glad_8h_1a619bc20e8198de3bd3f3d7fc34de66b2">count</link>)&#32;XMMATRIX&#32;<emphasis role="keyword">const</emphasis>*&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1a619bc20e8198de3bd3f3d7fc34de66b2">count</link>)&#32;=&#32;0;
+141 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">virtual</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_skinning_1a736383b9ca44287283791a858c65acdf">ResetBoneTransforms</link>()&#32;=&#32;0;
+142 
+143 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keyword">constexpr</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_skinning_1a603dfee65f45e010012f289f30b39913">MaxBones</link>&#32;=&#32;72;
+144 
+145 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">protected</emphasis>:
+146 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_skinning_1aaa4c0284926552eb29988dc58405b2f0">IEffectSkinning</link>()&#32;=&#32;<emphasis role="keywordflow">default</emphasis>;
+147 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_skinning_1af68b4182e063d2c98503308067fc07b3">IEffectSkinning</link>(<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_skinning">IEffectSkinning</link>&amp;&amp;)&#32;=&#32;<emphasis role="keywordflow">default</emphasis>;
+148 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_skinning">IEffectSkinning</link>&amp;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_skinning_1a9bf00773e06efb3dbe7aa6bb1d39d1dc">operator=</link>(<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_skinning">IEffectSkinning</link>&amp;&amp;)&#32;=&#32;<emphasis role="keywordflow">default</emphasis>;
+149 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+150 
+151 
+152 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//------------------------------------------------------------------------------</emphasis>
+153 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">namespace&#32;</emphasis>EffectFlags
+154 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+155 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">constexpr</emphasis>&#32;uint32_t&#32;<link linkend="_namespace_direct_x_1_1_d_x12_1_1_effect_flags_1a7e66487adadc7867d18ea82cfc23ba40">None</link>&#32;=&#32;0x00;
+156 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">constexpr</emphasis>&#32;uint32_t&#32;<link linkend="_namespace_direct_x_1_1_d_x12_1_1_effect_flags_1ac902ae515f19b88f05bec91d82b38533">Fog</link>&#32;=&#32;0x01;
+157 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">constexpr</emphasis>&#32;uint32_t&#32;<link linkend="_namespace_direct_x_1_1_d_x12_1_1_effect_flags_1a25ea2d09486d75fc30beed35eb412b55">Lighting</link>&#32;=&#32;0x02;
+158 
+159 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">constexpr</emphasis>&#32;uint32_t&#32;<link linkend="_namespace_direct_x_1_1_d_x12_1_1_effect_flags_1a0ef9349b75524089adc039c332394770">PerPixelLighting</link>&#32;=&#32;0x04&#32;|&#32;<link linkend="_namespace_direct_x_1_1_d_x12_1_1_effect_flags_1a25ea2d09486d75fc30beed35eb412b55">Lighting</link>;
+160 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;per&#32;pixel&#32;lighting&#32;implies&#32;lighting&#32;enabled</emphasis>
+161 
+162 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">constexpr</emphasis>&#32;uint32_t&#32;<link linkend="_namespace_direct_x_1_1_d_x12_1_1_effect_flags_1a1ef7aa4db75bda7c66708a882bad68c0">VertexColor</link>&#32;=&#32;0x08;
+163 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">constexpr</emphasis>&#32;uint32_t&#32;<link linkend="_namespace_direct_x_1_1_d_x12_1_1_effect_flags_1aa98737a6dcd14520a0a5fe336644232d">Texture</link>&#32;=&#32;0x10;
+164 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">constexpr</emphasis>&#32;uint32_t&#32;<link linkend="_namespace_direct_x_1_1_d_x12_1_1_effect_flags_1a164e47d1d508be5673df0494ef0ff0a8">Instancing</link>&#32;=&#32;0x20;
+165 
+166 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">constexpr</emphasis>&#32;uint32_t&#32;<link linkend="_namespace_direct_x_1_1_d_x12_1_1_effect_flags_1a1db1bb9752e7818dca1bd6e358145516">Specular</link>&#32;=&#32;0x100;
+167 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;enable&#32;optional&#32;specular/specularMap&#32;feature</emphasis>
+168 
+169 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">constexpr</emphasis>&#32;uint32_t&#32;<link linkend="_namespace_direct_x_1_1_d_x12_1_1_effect_flags_1a330becfbe7283db341858d414aa5491f">Emissive</link>&#32;=&#32;0x200;
+170 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;enable&#32;optional&#32;emissive/emissiveMap&#32;feature</emphasis>
+171 
+172 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">constexpr</emphasis>&#32;uint32_t&#32;<link linkend="_namespace_direct_x_1_1_d_x12_1_1_effect_flags_1a531666dc85c4aa139572b661bbfc7d07">Fresnel</link>&#32;=&#32;0x400;
+173 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;enable&#32;optional&#32;Fresnel&#32;feature</emphasis>
+174 
+175 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">constexpr</emphasis>&#32;uint32_t&#32;<link linkend="_namespace_direct_x_1_1_d_x12_1_1_effect_flags_1abc4a47096b1a235d5d8dca4494a8332a">Velocity</link>&#32;=&#32;0x800;
+176 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;enable&#32;optional&#32;velocity&#32;feature</emphasis>
+177 
+178 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">constexpr</emphasis>&#32;uint32_t&#32;<link linkend="_namespace_direct_x_1_1_d_x12_1_1_effect_flags_1a4669d06a7ef60cd6606447eb2f3d2dc7">BiasedVertexNormals</link>&#32;=&#32;0x10000;
+179 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;compressed&#32;vertex&#32;normals&#32;need&#32;x2&#32;bias</emphasis>
+180 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+181 
+182 
+183 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//------------------------------------------------------------------------------</emphasis>
+184 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Built-in&#32;shader&#32;supports&#32;optional&#32;texture&#32;mapping,&#32;vertex&#32;coloring,&#32;directional&#32;lighting,&#32;and&#32;fog.</emphasis>
+185 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">class&#32;</emphasis><link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect">BasicEffect</link>&#32;:&#32;<emphasis role="keyword">public</emphasis>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect">IEffect</link>,&#32;<emphasis role="keyword">public</emphasis>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_matrices">IEffectMatrices</link>,&#32;<emphasis role="keyword">public</emphasis>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_lights">IEffectLights</link>,&#32;<emphasis role="keyword">public</emphasis>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_fog">IEffectFog</link>
+186 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+187 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">public</emphasis>:
+188 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a5e31deefd229ccdedb3058c7d7257ef1">BasicEffect</link>(_In_&#32;<link linkend="_interface_i_d3_d12_device">ID3D12Device</link>*&#32;device,&#32;uint32_t&#32;effectFlags,&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_struct_direct_x_1_1_effect_pipeline_state_description">EffectPipelineStateDescription</link>&amp;&#32;pipelineDescription);
+189 
+190 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a39a8a9544f5e162f381c75d33f967f3e">BasicEffect</link>(<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect">BasicEffect</link>&amp;&amp;)&#32;noexcept;
+191 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect">BasicEffect</link>&amp;&#32;operator=&#32;(<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect">BasicEffect</link>&amp;&amp;)&#32;noexcept;
+192 
+193 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect">BasicEffect</link>(<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect">BasicEffect</link>&#32;const&amp;)&#32;=&#32;delete;
+194 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect">BasicEffect</link>&amp;&#32;operator=&#32;(<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect">BasicEffect</link>&#32;const&amp;)&#32;=&#32;delete;
+195 
+196 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;~<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect">BasicEffect</link>()&#32;override;
+197 
+198 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;IEffect&#32;methods.</emphasis>
+199 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a7fdbc2f4d524e8696d1fdcd0f2a8ff9f">Apply</link>(_In_&#32;<link linkend="_interface_i_d3_d12_graphics_command_list">ID3D12GraphicsCommandList</link>*&#32;commandList)&#32;override;
+200 
+201 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Camera&#32;settings.</emphasis>
+202 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a0e07017a34d43be1b456e0edd58684f5">SetWorld</link>(FXMMATRIX&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+203 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a81d241188bfa6d93e92f736120d88a6b">SetView</link>(FXMMATRIX&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+204 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1ab9ba5a1e98d8bfbbd1d5922d39d3c35c">SetProjection</link>(FXMMATRIX&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+205 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a854b85272193da2b7439d9bb8a36d5ea">SetMatrices</link>(FXMMATRIX&#32;world,&#32;CXMMATRIX&#32;view,&#32;CXMMATRIX&#32;projection)&#32;override;
+206 
+207 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Material&#32;settings.</emphasis>
+208 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a593f987a7890077ef6fec52fb9c3a0dd">SetDiffuseColor</link>(FXMVECTOR&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>);
+209 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1ab01f752641c1b44d1100d0138361729b">SetEmissiveColor</link>(FXMVECTOR&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>);
+210 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1aac02654411e795a1dbbbdbb568bda53f">SetSpecularColor</link>(FXMVECTOR&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>);
+211 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a0308e31fe771a377c4db781598a96aa8">SetSpecularPower</link>(<emphasis role="keywordtype">float</emphasis>&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>);
+212 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1ae239f06e78ccdef9233faa97973cee6b">DisableSpecular</link>();
+213 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a799b8de2f717a14ccb56550f53ce0698">SetAlpha</link>(<emphasis role="keywordtype">float</emphasis>&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>);
+214 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1acb3f5ff5711fe7e226f069c133839561">SetColorAndAlpha</link>(FXMVECTOR&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>);
+215 
+216 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Light&#32;settings.</emphasis>
+217 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1ac6a6fda7e26b973351373bc50e0ecb30">SetAmbientLightColor</link>(FXMVECTOR&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+218 
+219 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a54531decfc36593fa8840b241460f793">SetLightEnabled</link>(<emphasis role="keywordtype">int</emphasis>&#32;whichLight,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+220 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a7aed80ecf82c15b5fecf60383f257c0f">SetLightDirection</link>(<emphasis role="keywordtype">int</emphasis>&#32;whichLight,&#32;FXMVECTOR&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+221 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a483b4c60831f23840b13cdf251c12822">SetLightDiffuseColor</link>(<emphasis role="keywordtype">int</emphasis>&#32;whichLight,&#32;FXMVECTOR&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+222 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1addc6a2d0e42230bbe40bbd039ab78aed">SetLightSpecularColor</link>(<emphasis role="keywordtype">int</emphasis>&#32;whichLight,&#32;FXMVECTOR&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+223 
+224 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a88774ad797efbc9421015ea6fa8a3435">EnableDefaultLighting</link>()&#32;override;
+225 
+226 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Fog&#32;settings.</emphasis>
+227 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a91fb0cd1325131414bca1f0da5c21d60">SetFogStart</link>(<emphasis role="keywordtype">float</emphasis>&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+228 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1aa70e7c50a2bc604aa336554080a5180a">SetFogEnd</link>(<emphasis role="keywordtype">float</emphasis>&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+229 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a8b3e7fcf428e492fbcd4520adbf1bc84">SetFogColor</link>(FXMVECTOR&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+230 
+231 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Texture&#32;setting.</emphasis>
+232 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a695679cc77400c5282b1976680b47b47">SetTexture</link>(<link linkend="_struct_d3_d12___g_p_u___d_e_s_c_r_i_p_t_o_r___h_a_n_d_l_e">D3D12_GPU_DESCRIPTOR_HANDLE</link>&#32;srvDescriptor,&#32;<link linkend="_struct_d3_d12___g_p_u___d_e_s_c_r_i_p_t_o_r___h_a_n_d_l_e">D3D12_GPU_DESCRIPTOR_HANDLE</link>&#32;samplerDescriptor);
+233 
+234 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;private:
+235 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Private&#32;implementation.</emphasis>
+236 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;class&#32;Impl;
+237 
+238 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacestd">std</link>::unique_ptr&lt;Impl&gt;&#32;pImpl;
+239 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+240 
+241 
+242 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Built-in&#32;shader&#32;supports&#32;per-pixel&#32;alpha&#32;testing.</emphasis>
+243 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;class&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_alpha_test_effect">AlphaTestEffect</link>&#32;:&#32;public&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect">IEffect</link>,&#32;public&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_matrices">IEffectMatrices</link>,&#32;public&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_fog">IEffectFog</link>
+244 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+245 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">public</emphasis>:
+246 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_alpha_test_effect_1a61dd712625de671d7d3107b146640628">AlphaTestEffect</link>(_In_&#32;<link linkend="_interface_i_d3_d12_device">ID3D12Device</link>*&#32;device,&#32;uint32_t&#32;effectFlags,
+247 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_struct_direct_x_1_1_effect_pipeline_state_description">EffectPipelineStateDescription</link>&amp;&#32;pipelineDescription,
+248 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1ad6a344eb6e138554b412331390602e30">D3D12_COMPARISON_FUNC</link>&#32;alphaFunction&#32;=&#32;<link linkend="_d3d12_8idl_1ad6a344eb6e138554b412331390602e30aacfd96b925ef2614060f471f8862a30a">D3D12_COMPARISON_FUNC_GREATER</link>);
+249 
+250 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_alpha_test_effect_1a788ef012ba923f178f003fd26d75f881">AlphaTestEffect</link>(<link linkend="_class_direct_x_1_1_d_x12_1_1_alpha_test_effect">AlphaTestEffect</link>&amp;&amp;)&#32;noexcept;
+251 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_alpha_test_effect">AlphaTestEffect</link>&amp;&#32;operator=&#32;(<link linkend="_class_direct_x_1_1_d_x12_1_1_alpha_test_effect">AlphaTestEffect</link>&amp;&amp;)&#32;noexcept;
+252 
+253 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_alpha_test_effect">AlphaTestEffect</link>(<link linkend="_class_direct_x_1_1_d_x12_1_1_alpha_test_effect">AlphaTestEffect</link>&#32;const&amp;)&#32;=&#32;delete;
+254 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_alpha_test_effect">AlphaTestEffect</link>&amp;&#32;operator=&#32;(<link linkend="_class_direct_x_1_1_d_x12_1_1_alpha_test_effect">AlphaTestEffect</link>&#32;const&amp;)&#32;=&#32;delete;
+255 
+256 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;~<link linkend="_class_direct_x_1_1_d_x12_1_1_alpha_test_effect">AlphaTestEffect</link>()&#32;override;
+257 
+258 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;IEffect&#32;methods.</emphasis>
+259 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a7fdbc2f4d524e8696d1fdcd0f2a8ff9f">Apply</link>(_In_&#32;<link linkend="_interface_i_d3_d12_graphics_command_list">ID3D12GraphicsCommandList</link>*&#32;commandList)&#32;override;
+260 
+261 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Camera&#32;settings.</emphasis>
+262 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a0e07017a34d43be1b456e0edd58684f5">SetWorld</link>(FXMMATRIX&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+263 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a81d241188bfa6d93e92f736120d88a6b">SetView</link>(FXMMATRIX&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+264 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1ab9ba5a1e98d8bfbbd1d5922d39d3c35c">SetProjection</link>(FXMMATRIX&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+265 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a854b85272193da2b7439d9bb8a36d5ea">SetMatrices</link>(FXMMATRIX&#32;world,&#32;CXMMATRIX&#32;view,&#32;CXMMATRIX&#32;projection)&#32;override;
+266 
+267 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Material&#32;settings.</emphasis>
+268 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a593f987a7890077ef6fec52fb9c3a0dd">SetDiffuseColor</link>(FXMVECTOR&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>);
+269 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a799b8de2f717a14ccb56550f53ce0698">SetAlpha</link>(<emphasis role="keywordtype">float</emphasis>&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>);
+270 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1acb3f5ff5711fe7e226f069c133839561">SetColorAndAlpha</link>(FXMVECTOR&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>);
+271 
+272 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Fog&#32;settings.</emphasis>
+273 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a91fb0cd1325131414bca1f0da5c21d60">SetFogStart</link>(<emphasis role="keywordtype">float</emphasis>&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+274 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1aa70e7c50a2bc604aa336554080a5180a">SetFogEnd</link>(<emphasis role="keywordtype">float</emphasis>&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+275 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a8b3e7fcf428e492fbcd4520adbf1bc84">SetFogColor</link>(FXMVECTOR&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+276 
+277 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Texture&#32;setting.</emphasis>
+278 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a695679cc77400c5282b1976680b47b47">SetTexture</link>(<link linkend="_struct_d3_d12___g_p_u___d_e_s_c_r_i_p_t_o_r___h_a_n_d_l_e">D3D12_GPU_DESCRIPTOR_HANDLE</link>&#32;srvDescriptor,&#32;<link linkend="_struct_d3_d12___g_p_u___d_e_s_c_r_i_p_t_o_r___h_a_n_d_l_e">D3D12_GPU_DESCRIPTOR_HANDLE</link>&#32;samplerDescriptor);
+279 
+280 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Alpha&#32;test&#32;settings.</emphasis>
+281 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;SetReferenceAlpha(<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>);
+282 
+283 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;private:
+284 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Private&#32;implementation.</emphasis>
+285 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;class&#32;Impl;
+286 
+287 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacestd">std</link>::unique_ptr&lt;Impl&gt;&#32;pImpl;
+288 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+289 
+290 
+291 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Built-in&#32;shader&#32;supports&#32;two&#32;layer&#32;multitexturing&#32;(eg.&#32;for&#32;lightmaps&#32;or&#32;detail&#32;textures).</emphasis>
+292 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;class&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_dual_texture_effect">DualTextureEffect</link>&#32;:&#32;public&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect">IEffect</link>,&#32;public&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_matrices">IEffectMatrices</link>,&#32;public&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_fog">IEffectFog</link>
+293 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+294 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">public</emphasis>:
+295 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_dual_texture_effect_1a6818ba583fea840d47bf8dd9d28c5ad0">DualTextureEffect</link>(_In_&#32;<link linkend="_interface_i_d3_d12_device">ID3D12Device</link>*&#32;device,&#32;uint32_t&#32;effectFlags,
+296 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_struct_direct_x_1_1_effect_pipeline_state_description">EffectPipelineStateDescription</link>&amp;&#32;pipelineDescription);
+297 
+298 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_dual_texture_effect_1a52657c5bf25e1d035e8ce93c0176487b">DualTextureEffect</link>(<link linkend="_class_direct_x_1_1_d_x12_1_1_dual_texture_effect">DualTextureEffect</link>&amp;&amp;)&#32;noexcept;
+299 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_dual_texture_effect">DualTextureEffect</link>&amp;&#32;operator=&#32;(<link linkend="_class_direct_x_1_1_d_x12_1_1_dual_texture_effect">DualTextureEffect</link>&amp;&amp;)&#32;noexcept;
+300 
+301 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_dual_texture_effect">DualTextureEffect</link>(<link linkend="_class_direct_x_1_1_d_x12_1_1_dual_texture_effect">DualTextureEffect</link>&#32;const&amp;)&#32;=&#32;delete;
+302 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_dual_texture_effect">DualTextureEffect</link>&amp;&#32;operator=&#32;(<link linkend="_class_direct_x_1_1_d_x12_1_1_dual_texture_effect">DualTextureEffect</link>&#32;const&amp;)&#32;=&#32;delete;
+303 
+304 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;~<link linkend="_class_direct_x_1_1_d_x12_1_1_dual_texture_effect">DualTextureEffect</link>()&#32;override;
+305 
+306 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;IEffect&#32;methods.</emphasis>
+307 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a7fdbc2f4d524e8696d1fdcd0f2a8ff9f">Apply</link>(_In_&#32;<link linkend="_interface_i_d3_d12_graphics_command_list">ID3D12GraphicsCommandList</link>*&#32;commandList)&#32;override;
+308 
+309 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Camera&#32;settings.</emphasis>
+310 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a0e07017a34d43be1b456e0edd58684f5">SetWorld</link>(FXMMATRIX&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+311 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a81d241188bfa6d93e92f736120d88a6b">SetView</link>(FXMMATRIX&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+312 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1ab9ba5a1e98d8bfbbd1d5922d39d3c35c">SetProjection</link>(FXMMATRIX&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+313 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a854b85272193da2b7439d9bb8a36d5ea">SetMatrices</link>(FXMMATRIX&#32;world,&#32;CXMMATRIX&#32;view,&#32;CXMMATRIX&#32;projection)&#32;override;
+314 
+315 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Material&#32;settings.</emphasis>
+316 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a593f987a7890077ef6fec52fb9c3a0dd">SetDiffuseColor</link>(FXMVECTOR&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>);
+317 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a799b8de2f717a14ccb56550f53ce0698">SetAlpha</link>(<emphasis role="keywordtype">float</emphasis>&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>);
+318 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1acb3f5ff5711fe7e226f069c133839561">SetColorAndAlpha</link>(FXMVECTOR&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>);
+319 
+320 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Fog&#32;settings.</emphasis>
+321 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a91fb0cd1325131414bca1f0da5c21d60">SetFogStart</link>(<emphasis role="keywordtype">float</emphasis>&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+322 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1aa70e7c50a2bc604aa336554080a5180a">SetFogEnd</link>(<emphasis role="keywordtype">float</emphasis>&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+323 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a8b3e7fcf428e492fbcd4520adbf1bc84">SetFogColor</link>(FXMVECTOR&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+324 
+325 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Texture&#32;settings.</emphasis>
+326 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a695679cc77400c5282b1976680b47b47">SetTexture</link>(<link linkend="_struct_d3_d12___g_p_u___d_e_s_c_r_i_p_t_o_r___h_a_n_d_l_e">D3D12_GPU_DESCRIPTOR_HANDLE</link>&#32;srvDescriptor,&#32;<link linkend="_struct_d3_d12___g_p_u___d_e_s_c_r_i_p_t_o_r___h_a_n_d_l_e">D3D12_GPU_DESCRIPTOR_HANDLE</link>&#32;samplerDescriptor);
+327 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;SetTexture2(<link linkend="_struct_d3_d12___g_p_u___d_e_s_c_r_i_p_t_o_r___h_a_n_d_l_e">D3D12_GPU_DESCRIPTOR_HANDLE</link>&#32;srvDescriptor,&#32;<link linkend="_struct_d3_d12___g_p_u___d_e_s_c_r_i_p_t_o_r___h_a_n_d_l_e">D3D12_GPU_DESCRIPTOR_HANDLE</link>&#32;samplerDescriptor);
+328 
+329 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;private:
+330 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Private&#32;implementation.</emphasis>
+331 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;class&#32;Impl;
+332 
+333 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacestd">std</link>::unique_ptr&lt;Impl&gt;&#32;pImpl;
+334 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+335 
+336 
+337 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Built-in&#32;shader&#32;supports&#32;cubic&#32;environment&#32;mapping.</emphasis>
+338 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;class&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_environment_map_effect">EnvironmentMapEffect</link>&#32;:&#32;public&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect">IEffect</link>,&#32;public&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_matrices">IEffectMatrices</link>,&#32;public&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_lights">IEffectLights</link>,&#32;public&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_fog">IEffectFog</link>
+339 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+340 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">public</emphasis>:
+341 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">enum</emphasis>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_environment_map_effect_1a1405851c91e7cd447efbb9ad3e681861">Mapping</link>
+342 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+343 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Mapping_Cube&#32;=&#32;0,&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Cubic&#32;environment&#32;map</emphasis>
+344 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Mapping_Sphere,&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Spherical&#32;environment&#32;map</emphasis>
+345 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Mapping_DualParabola,&#32;&#32;&#32;<emphasis role="comment">//&#32;Dual-parabola&#32;environment&#32;map&#32;(requires&#32;Feature&#32;Level&#32;10.0)</emphasis>
+346 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+347 
+348 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_environment_map_effect_1ad212dee556f3981440ca9d34f876b4ae">EnvironmentMapEffect</link>(_In_&#32;<link linkend="_interface_i_d3_d12_device">ID3D12Device</link>*&#32;device,&#32;uint32_t&#32;effectFlags,
+349 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_struct_direct_x_1_1_effect_pipeline_state_description">EffectPipelineStateDescription</link>&amp;&#32;pipelineDescription,
+350 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_environment_map_effect_1a1405851c91e7cd447efbb9ad3e681861">Mapping</link>&#32;mapping&#32;=&#32;Mapping_Cube);
+351 
+352 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_environment_map_effect_1ace1a75a636fb95fb1d0264963b6b3c91">EnvironmentMapEffect</link>(<link linkend="_class_direct_x_1_1_d_x12_1_1_environment_map_effect">EnvironmentMapEffect</link>&amp;&amp;)&#32;noexcept;
+353 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_environment_map_effect">EnvironmentMapEffect</link>&amp;&#32;operator=&#32;(<link linkend="_class_direct_x_1_1_d_x12_1_1_environment_map_effect">EnvironmentMapEffect</link>&amp;&amp;)&#32;noexcept;
+354 
+355 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_environment_map_effect">EnvironmentMapEffect</link>(<link linkend="_class_direct_x_1_1_d_x12_1_1_environment_map_effect">EnvironmentMapEffect</link>&#32;const&amp;)&#32;=&#32;delete;
+356 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_environment_map_effect">EnvironmentMapEffect</link>&amp;&#32;operator=&#32;(<link linkend="_class_direct_x_1_1_d_x12_1_1_environment_map_effect">EnvironmentMapEffect</link>&#32;const&amp;)&#32;=&#32;delete;
+357 
+358 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;~<link linkend="_class_direct_x_1_1_d_x12_1_1_environment_map_effect">EnvironmentMapEffect</link>()&#32;override;
+359 
+360 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;IEffect&#32;methods.</emphasis>
+361 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a7fdbc2f4d524e8696d1fdcd0f2a8ff9f">Apply</link>(_In_&#32;<link linkend="_interface_i_d3_d12_graphics_command_list">ID3D12GraphicsCommandList</link>*&#32;commandList)&#32;override;
+362 
+363 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Camera&#32;settings.</emphasis>
+364 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a0e07017a34d43be1b456e0edd58684f5">SetWorld</link>(FXMMATRIX&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+365 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a81d241188bfa6d93e92f736120d88a6b">SetView</link>(FXMMATRIX&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+366 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1ab9ba5a1e98d8bfbbd1d5922d39d3c35c">SetProjection</link>(FXMMATRIX&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+367 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a854b85272193da2b7439d9bb8a36d5ea">SetMatrices</link>(FXMMATRIX&#32;world,&#32;CXMMATRIX&#32;view,&#32;CXMMATRIX&#32;projection)&#32;override;
+368 
+369 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Material&#32;settings.</emphasis>
+370 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a593f987a7890077ef6fec52fb9c3a0dd">SetDiffuseColor</link>(FXMVECTOR&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>);
+371 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1ab01f752641c1b44d1100d0138361729b">SetEmissiveColor</link>(FXMVECTOR&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>);
+372 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a799b8de2f717a14ccb56550f53ce0698">SetAlpha</link>(<emphasis role="keywordtype">float</emphasis>&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>);
+373 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1acb3f5ff5711fe7e226f069c133839561">SetColorAndAlpha</link>(FXMVECTOR&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>);
+374 
+375 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Light&#32;settings.</emphasis>
+376 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1ac6a6fda7e26b973351373bc50e0ecb30">SetAmbientLightColor</link>(FXMVECTOR&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+377 
+378 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a54531decfc36593fa8840b241460f793">SetLightEnabled</link>(<emphasis role="keywordtype">int</emphasis>&#32;whichLight,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+379 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a7aed80ecf82c15b5fecf60383f257c0f">SetLightDirection</link>(<emphasis role="keywordtype">int</emphasis>&#32;whichLight,&#32;FXMVECTOR&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+380 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a483b4c60831f23840b13cdf251c12822">SetLightDiffuseColor</link>(<emphasis role="keywordtype">int</emphasis>&#32;whichLight,&#32;FXMVECTOR&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+381 
+382 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a88774ad797efbc9421015ea6fa8a3435">EnableDefaultLighting</link>()&#32;override;
+383 
+384 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Fog&#32;settings.</emphasis>
+385 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a91fb0cd1325131414bca1f0da5c21d60">SetFogStart</link>(<emphasis role="keywordtype">float</emphasis>&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+386 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1aa70e7c50a2bc604aa336554080a5180a">SetFogEnd</link>(<emphasis role="keywordtype">float</emphasis>&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+387 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a8b3e7fcf428e492fbcd4520adbf1bc84">SetFogColor</link>(FXMVECTOR&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+388 
+389 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Texture&#32;setting.</emphasis>
+390 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a695679cc77400c5282b1976680b47b47">SetTexture</link>(<link linkend="_struct_d3_d12___g_p_u___d_e_s_c_r_i_p_t_o_r___h_a_n_d_l_e">D3D12_GPU_DESCRIPTOR_HANDLE</link>&#32;<link linkend="_glad_8h_1ab21590c4736d1459a5a0674a42b5a655">texture</link>,&#32;<link linkend="_struct_d3_d12___g_p_u___d_e_s_c_r_i_p_t_o_r___h_a_n_d_l_e">D3D12_GPU_DESCRIPTOR_HANDLE</link>&#32;<link linkend="_glad_8h_1a4f7acaf0f814147f227f72b9065e8ed0">sampler</link>);
+391 
+392 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Environment&#32;map&#32;settings.</emphasis>
+393 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;SetEnvironmentMap(<link linkend="_struct_d3_d12___g_p_u___d_e_s_c_r_i_p_t_o_r___h_a_n_d_l_e">D3D12_GPU_DESCRIPTOR_HANDLE</link>&#32;<link linkend="_glad_8h_1ab21590c4736d1459a5a0674a42b5a655">texture</link>,&#32;<link linkend="_struct_d3_d12___g_p_u___d_e_s_c_r_i_p_t_o_r___h_a_n_d_l_e">D3D12_GPU_DESCRIPTOR_HANDLE</link>&#32;<link linkend="_glad_8h_1a4f7acaf0f814147f227f72b9065e8ed0">sampler</link>);
+394 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;SetEnvironmentMapAmount(<emphasis role="keywordtype">float</emphasis>&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>);
+395 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;SetEnvironmentMapSpecular(FXMVECTOR&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>);
+396 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;SetFresnelFactor(<emphasis role="keywordtype">float</emphasis>&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>);
+397 
+398 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;private:
+399 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Private&#32;implementation.</emphasis>
+400 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;class&#32;Impl;
+401 
+402 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacestd">std</link>::unique_ptr&lt;Impl&gt;&#32;pImpl;
+403 
+404 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Unsupported&#32;interface&#32;methods.</emphasis>
+405 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1addc6a2d0e42230bbe40bbd039ab78aed">SetLightSpecularColor</link>(<emphasis role="keywordtype">int</emphasis>&#32;whichLight,&#32;FXMVECTOR&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+406 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+407 
+408 
+409 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Built-in&#32;shader&#32;supports&#32;skinned&#32;animation.</emphasis>
+410 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;class&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_skinned_effect">SkinnedEffect</link>&#32;:&#32;public&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect">IEffect</link>,&#32;public&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_matrices">IEffectMatrices</link>,&#32;public&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_lights">IEffectLights</link>,&#32;public&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_fog">IEffectFog</link>,&#32;public&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_skinning">IEffectSkinning</link>
+411 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+412 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">public</emphasis>:
+413 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_skinned_effect_1a3ce925e98040c924f3a31164fb4e7f3b">SkinnedEffect</link>(_In_&#32;<link linkend="_interface_i_d3_d12_device">ID3D12Device</link>*&#32;device,&#32;uint32_t&#32;effectFlags,
+414 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_struct_direct_x_1_1_effect_pipeline_state_description">EffectPipelineStateDescription</link>&amp;&#32;pipelineDescription);
+415 
+416 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_skinned_effect_1abc0e07cff15d5d27c5b3bf79d6e4dd6a">SkinnedEffect</link>(<link linkend="_class_direct_x_1_1_d_x12_1_1_skinned_effect">SkinnedEffect</link>&amp;&amp;)&#32;noexcept;
+417 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_skinned_effect">SkinnedEffect</link>&amp;&#32;operator=&#32;(<link linkend="_class_direct_x_1_1_d_x12_1_1_skinned_effect">SkinnedEffect</link>&amp;&amp;)&#32;noexcept;
+418 
+419 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_skinned_effect">SkinnedEffect</link>(<link linkend="_class_direct_x_1_1_d_x12_1_1_skinned_effect">SkinnedEffect</link>&#32;const&amp;)&#32;=&#32;delete;
+420 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_skinned_effect">SkinnedEffect</link>&amp;&#32;operator=&#32;(<link linkend="_class_direct_x_1_1_d_x12_1_1_skinned_effect">SkinnedEffect</link>&#32;const&amp;)&#32;=&#32;delete;
+421 
+422 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;~<link linkend="_class_direct_x_1_1_d_x12_1_1_skinned_effect">SkinnedEffect</link>()&#32;override;
+423 
+424 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;IEffect&#32;methods.</emphasis>
+425 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a7fdbc2f4d524e8696d1fdcd0f2a8ff9f">Apply</link>(_In_&#32;<link linkend="_interface_i_d3_d12_graphics_command_list">ID3D12GraphicsCommandList</link>*&#32;commandList)&#32;override;
+426 
+427 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Camera&#32;settings.</emphasis>
+428 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a0e07017a34d43be1b456e0edd58684f5">SetWorld</link>(FXMMATRIX&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+429 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a81d241188bfa6d93e92f736120d88a6b">SetView</link>(FXMMATRIX&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+430 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1ab9ba5a1e98d8bfbbd1d5922d39d3c35c">SetProjection</link>(FXMMATRIX&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+431 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a854b85272193da2b7439d9bb8a36d5ea">SetMatrices</link>(FXMMATRIX&#32;world,&#32;CXMMATRIX&#32;view,&#32;CXMMATRIX&#32;projection)&#32;override;
+432 
+433 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Material&#32;settings.</emphasis>
+434 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a593f987a7890077ef6fec52fb9c3a0dd">SetDiffuseColor</link>(FXMVECTOR&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>);
+435 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1ab01f752641c1b44d1100d0138361729b">SetEmissiveColor</link>(FXMVECTOR&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>);
+436 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1aac02654411e795a1dbbbdbb568bda53f">SetSpecularColor</link>(FXMVECTOR&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>);
+437 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a0308e31fe771a377c4db781598a96aa8">SetSpecularPower</link>(<emphasis role="keywordtype">float</emphasis>&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>);
+438 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1ae239f06e78ccdef9233faa97973cee6b">DisableSpecular</link>();
+439 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a799b8de2f717a14ccb56550f53ce0698">SetAlpha</link>(<emphasis role="keywordtype">float</emphasis>&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>);
+440 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1acb3f5ff5711fe7e226f069c133839561">SetColorAndAlpha</link>(FXMVECTOR&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>);
+441 
+442 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Light&#32;settings.</emphasis>
+443 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1ac6a6fda7e26b973351373bc50e0ecb30">SetAmbientLightColor</link>(FXMVECTOR&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+444 
+445 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a54531decfc36593fa8840b241460f793">SetLightEnabled</link>(<emphasis role="keywordtype">int</emphasis>&#32;whichLight,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+446 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a7aed80ecf82c15b5fecf60383f257c0f">SetLightDirection</link>(<emphasis role="keywordtype">int</emphasis>&#32;whichLight,&#32;FXMVECTOR&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+447 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a483b4c60831f23840b13cdf251c12822">SetLightDiffuseColor</link>(<emphasis role="keywordtype">int</emphasis>&#32;whichLight,&#32;FXMVECTOR&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+448 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1addc6a2d0e42230bbe40bbd039ab78aed">SetLightSpecularColor</link>(<emphasis role="keywordtype">int</emphasis>&#32;whichLight,&#32;FXMVECTOR&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+449 
+450 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a88774ad797efbc9421015ea6fa8a3435">EnableDefaultLighting</link>()&#32;override;
+451 
+452 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Fog&#32;settings.</emphasis>
+453 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a91fb0cd1325131414bca1f0da5c21d60">SetFogStart</link>(<emphasis role="keywordtype">float</emphasis>&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+454 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1aa70e7c50a2bc604aa336554080a5180a">SetFogEnd</link>(<emphasis role="keywordtype">float</emphasis>&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+455 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a8b3e7fcf428e492fbcd4520adbf1bc84">SetFogColor</link>(FXMVECTOR&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+456 
+457 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Texture&#32;setting.</emphasis>
+458 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a695679cc77400c5282b1976680b47b47">SetTexture</link>(<link linkend="_struct_d3_d12___g_p_u___d_e_s_c_r_i_p_t_o_r___h_a_n_d_l_e">D3D12_GPU_DESCRIPTOR_HANDLE</link>&#32;srvDescriptor,&#32;<link linkend="_struct_d3_d12___g_p_u___d_e_s_c_r_i_p_t_o_r___h_a_n_d_l_e">D3D12_GPU_DESCRIPTOR_HANDLE</link>&#32;samplerDescriptor);
+459 
+460 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Animation&#32;settings.</emphasis>
+461 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;SetBoneTransforms(_In_reads_(<link linkend="_glad_8h_1a619bc20e8198de3bd3f3d7fc34de66b2">count</link>)&#32;XMMATRIX&#32;const*&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1a619bc20e8198de3bd3f3d7fc34de66b2">count</link>)&#32;override;
+462 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;ResetBoneTransforms()&#32;override;
+463 
+464 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;private:
+465 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Private&#32;implementation.</emphasis>
+466 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;class&#32;Impl;
+467 
+468 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacestd">std</link>::unique_ptr&lt;Impl&gt;&#32;pImpl;
+469 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+470 
+471 
+472 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//------------------------------------------------------------------------------</emphasis>
+473 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Built-in&#32;shader&#32;extends&#32;BasicEffect&#32;with&#32;normal&#32;map&#32;and&#32;optional&#32;specular&#32;map</emphasis>
+474 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;class&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_normal_map_effect">NormalMapEffect</link>&#32;:&#32;public&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect">IEffect</link>,&#32;public&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_matrices">IEffectMatrices</link>,&#32;public&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_lights">IEffectLights</link>,&#32;public&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_fog">IEffectFog</link>
+475 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+476 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">public</emphasis>:
+477 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_normal_map_effect_1a8703705b4a97164da28fe2a7b119ed04">NormalMapEffect</link>(_In_&#32;<link linkend="_interface_i_d3_d12_device">ID3D12Device</link>*&#32;device,&#32;uint32_t&#32;effectFlags,
+478 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_struct_direct_x_1_1_effect_pipeline_state_description">EffectPipelineStateDescription</link>&amp;&#32;pipelineDescription)&#32;:
+479 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_normal_map_effect">NormalMapEffect</link>(device,&#32;effectFlags,&#32;pipelineDescription,&#32;false)
+480 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+481 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+482 
+483 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_normal_map_effect_1a13907f9493a05036c6b1683d585cb02a">NormalMapEffect</link>(<link linkend="_class_direct_x_1_1_d_x12_1_1_normal_map_effect">NormalMapEffect</link>&amp;&amp;)&#32;noexcept;
+484 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_normal_map_effect">NormalMapEffect</link>&amp;&#32;operator=&#32;(<link linkend="_class_direct_x_1_1_d_x12_1_1_normal_map_effect">NormalMapEffect</link>&amp;&amp;)&#32;noexcept;
+485 
+486 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_normal_map_effect">NormalMapEffect</link>(<link linkend="_class_direct_x_1_1_d_x12_1_1_normal_map_effect">NormalMapEffect</link>&#32;const&amp;)&#32;=&#32;delete;
+487 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_normal_map_effect">NormalMapEffect</link>&amp;&#32;operator=&#32;(<link linkend="_class_direct_x_1_1_d_x12_1_1_normal_map_effect">NormalMapEffect</link>&#32;const&amp;)&#32;=&#32;delete;
+488 
+489 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;~<link linkend="_class_direct_x_1_1_d_x12_1_1_normal_map_effect">NormalMapEffect</link>()&#32;override;
+490 
+491 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;IEffect&#32;methods.</emphasis>
+492 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a7fdbc2f4d524e8696d1fdcd0f2a8ff9f">Apply</link>(_In_&#32;<link linkend="_interface_i_d3_d12_graphics_command_list">ID3D12GraphicsCommandList</link>*&#32;commandList)&#32;override;
+493 
+494 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Camera&#32;settings.</emphasis>
+495 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a0e07017a34d43be1b456e0edd58684f5">SetWorld</link>(FXMMATRIX&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+496 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a81d241188bfa6d93e92f736120d88a6b">SetView</link>(FXMMATRIX&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+497 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1ab9ba5a1e98d8bfbbd1d5922d39d3c35c">SetProjection</link>(FXMMATRIX&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+498 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a854b85272193da2b7439d9bb8a36d5ea">SetMatrices</link>(FXMMATRIX&#32;world,&#32;CXMMATRIX&#32;view,&#32;CXMMATRIX&#32;projection)&#32;override;
+499 
+500 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Material&#32;settings.</emphasis>
+501 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a593f987a7890077ef6fec52fb9c3a0dd">SetDiffuseColor</link>(FXMVECTOR&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>);
+502 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1ab01f752641c1b44d1100d0138361729b">SetEmissiveColor</link>(FXMVECTOR&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>);
+503 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1aac02654411e795a1dbbbdbb568bda53f">SetSpecularColor</link>(FXMVECTOR&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>);
+504 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a0308e31fe771a377c4db781598a96aa8">SetSpecularPower</link>(<emphasis role="keywordtype">float</emphasis>&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>);
+505 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1ae239f06e78ccdef9233faa97973cee6b">DisableSpecular</link>();
+506 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a799b8de2f717a14ccb56550f53ce0698">SetAlpha</link>(<emphasis role="keywordtype">float</emphasis>&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>);
+507 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1acb3f5ff5711fe7e226f069c133839561">SetColorAndAlpha</link>(FXMVECTOR&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>);
+508 
+509 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Light&#32;settings.</emphasis>
+510 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1ac6a6fda7e26b973351373bc50e0ecb30">SetAmbientLightColor</link>(FXMVECTOR&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+511 
+512 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a54531decfc36593fa8840b241460f793">SetLightEnabled</link>(<emphasis role="keywordtype">int</emphasis>&#32;whichLight,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+513 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a7aed80ecf82c15b5fecf60383f257c0f">SetLightDirection</link>(<emphasis role="keywordtype">int</emphasis>&#32;whichLight,&#32;FXMVECTOR&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+514 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a483b4c60831f23840b13cdf251c12822">SetLightDiffuseColor</link>(<emphasis role="keywordtype">int</emphasis>&#32;whichLight,&#32;FXMVECTOR&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+515 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1addc6a2d0e42230bbe40bbd039ab78aed">SetLightSpecularColor</link>(<emphasis role="keywordtype">int</emphasis>&#32;whichLight,&#32;FXMVECTOR&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+516 
+517 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a88774ad797efbc9421015ea6fa8a3435">EnableDefaultLighting</link>()&#32;override;
+518 
+519 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Fog&#32;settings.</emphasis>
+520 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a91fb0cd1325131414bca1f0da5c21d60">SetFogStart</link>(<emphasis role="keywordtype">float</emphasis>&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+521 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1aa70e7c50a2bc604aa336554080a5180a">SetFogEnd</link>(<emphasis role="keywordtype">float</emphasis>&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+522 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a8b3e7fcf428e492fbcd4520adbf1bc84">SetFogColor</link>(FXMVECTOR&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+523 
+524 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Texture&#32;setting&#32;-&#32;albedo,&#32;normal&#32;and&#32;specular&#32;intensity</emphasis>
+525 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1a695679cc77400c5282b1976680b47b47">SetTexture</link>(<link linkend="_struct_d3_d12___g_p_u___d_e_s_c_r_i_p_t_o_r___h_a_n_d_l_e">D3D12_GPU_DESCRIPTOR_HANDLE</link>&#32;srvDescriptor,&#32;<link linkend="_struct_d3_d12___g_p_u___d_e_s_c_r_i_p_t_o_r___h_a_n_d_l_e">D3D12_GPU_DESCRIPTOR_HANDLE</link>&#32;samplerDescriptor);
+526 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;SetNormalTexture(<link linkend="_struct_d3_d12___g_p_u___d_e_s_c_r_i_p_t_o_r___h_a_n_d_l_e">D3D12_GPU_DESCRIPTOR_HANDLE</link>&#32;srvDescriptor);
+527 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;SetSpecularTexture(<link linkend="_struct_d3_d12___g_p_u___d_e_s_c_r_i_p_t_o_r___h_a_n_d_l_e">D3D12_GPU_DESCRIPTOR_HANDLE</link>&#32;srvDescriptor);
+528 
+529 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;protected:
+530 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Private&#32;implementation.</emphasis>
+531 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;class&#32;Impl;
+532 
+533 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacestd">std</link>::unique_ptr&lt;Impl&gt;&#32;pImpl;
+534 
+535 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_normal_map_effect">NormalMapEffect</link>(_In_&#32;<link linkend="_interface_i_d3_d12_device">ID3D12Device</link>*&#32;device,&#32;uint32_t&#32;effectFlags,
+536 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;const&#32;<link linkend="_struct_direct_x_1_1_effect_pipeline_state_description">EffectPipelineStateDescription</link>&amp;&#32;pipelineDescription,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;skinningEnabled);
+537 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+538 
+539 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;class&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_skinned_normal_map_effect">SkinnedNormalMapEffect</link>&#32;:&#32;public&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_normal_map_effect">NormalMapEffect</link>,&#32;public&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_skinning">IEffectSkinning</link>
+540 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+541 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">public</emphasis>:
+542 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_skinned_normal_map_effect_1ae99ee77767a9181c2800c9cad407cd99">SkinnedNormalMapEffect</link>(_In_&#32;<link linkend="_interface_i_d3_d12_device">ID3D12Device</link>*&#32;device,&#32;uint32_t&#32;effectFlags,
+543 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_struct_direct_x_1_1_effect_pipeline_state_description">EffectPipelineStateDescription</link>&amp;&#32;pipelineDescription)&#32;:
+544 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_normal_map_effect">NormalMapEffect</link>(device,&#32;effectFlags,&#32;pipelineDescription,&#32;true)
+545 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+546 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+547 
+548 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_skinned_normal_map_effect_1abb2283d797aab8929be0ec718b5baabd">SkinnedNormalMapEffect</link>(<link linkend="_class_direct_x_1_1_d_x12_1_1_skinned_normal_map_effect">SkinnedNormalMapEffect</link>&amp;&amp;)&#32;=&#32;<emphasis role="keywordflow">default</emphasis>;
+549 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_skinned_normal_map_effect">SkinnedNormalMapEffect</link>&amp;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1abf200680b37e0a11b32e495547ed9e44">operator= </link>(<link linkend="_class_direct_x_1_1_d_x12_1_1_skinned_normal_map_effect">SkinnedNormalMapEffect</link>&amp;&amp;)&#32;=&#32;<emphasis role="keywordflow">default</emphasis>;
+550 
+551 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_skinned_normal_map_effect_1a0ee9cd7d381c2eaae782fe2c044baf33">SkinnedNormalMapEffect</link>(<link linkend="_class_direct_x_1_1_d_x12_1_1_skinned_normal_map_effect">SkinnedNormalMapEffect</link>&#32;<emphasis role="keyword">const</emphasis>&amp;)&#32;=&#32;<emphasis role="keyword">delete</emphasis>;
+552 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_skinned_normal_map_effect">SkinnedNormalMapEffect</link>&amp;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_basic_effect_1abf200680b37e0a11b32e495547ed9e44">operator= </link>(<link linkend="_class_direct_x_1_1_d_x12_1_1_skinned_normal_map_effect">SkinnedNormalMapEffect</link>&#32;<emphasis role="keyword">const</emphasis>&amp;)&#32;=&#32;<emphasis role="keyword">delete</emphasis>;
+553 
+554 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_skinned_normal_map_effect_1af47d6e7b45fc2405f9255be6948d0a8e">~SkinnedNormalMapEffect</link>()&#32;<emphasis role="keyword">override</emphasis>;
+555 
+556 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Animation&#32;settings.</emphasis>
+557 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_skinned_normal_map_effect_1a036845d7d1de9eb1eab8cebb7a9c56f9">SetBoneTransforms</link>(_In_reads_(<link linkend="_glad_8h_1a619bc20e8198de3bd3f3d7fc34de66b2">count</link>)&#32;XMMATRIX&#32;<emphasis role="keyword">const</emphasis>*&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1a619bc20e8198de3bd3f3d7fc34de66b2">count</link>)&#32;<emphasis role="keyword">override</emphasis>;
+558 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_skinned_normal_map_effect_1aaaf708f8da5b38c7fadfbeba5facfd02">ResetBoneTransforms</link>()&#32;<emphasis role="keyword">override</emphasis>;
+559 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+560 
+561 
+562 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//------------------------------------------------------------------------------</emphasis>
+563 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Built-in&#32;shader&#32;for&#32;Physically-Based&#32;Rendering&#32;(Roughness/Metalness)&#32;with&#32;Image-based&#32;lighting</emphasis>
+564 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">class&#32;</emphasis><link linkend="_class_direct_x_1_1_d_x12_1_1_p_b_r_effect">PBREffect</link>&#32;:&#32;<emphasis role="keyword">public</emphasis>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect">IEffect</link>,&#32;<emphasis role="keyword">public</emphasis>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_matrices">IEffectMatrices</link>,&#32;<emphasis role="keyword">public</emphasis>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_lights">IEffectLights</link>
+565 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+566 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">public</emphasis>:
+567 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_p_b_r_effect_1a66383b785e5a6516ef08975367501c21">PBREffect</link>(_In_&#32;<link linkend="_interface_i_d3_d12_device">ID3D12Device</link>*&#32;device,&#32;uint32_t&#32;effectFlags,
+568 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_struct_direct_x_1_1_effect_pipeline_state_description">EffectPipelineStateDescription</link>&amp;&#32;pipelineDescription)&#32;:
+569 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_p_b_r_effect">PBREffect</link>(device,&#32;effectFlags,&#32;pipelineDescription,&#32;false)
+570 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+571 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+572 
+573 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_p_b_r_effect_1a386f136a30e3fbec06c2227dc9d9f250">PBREffect</link>(<link linkend="_class_direct_x_1_1_d_x12_1_1_p_b_r_effect">PBREffect</link>&amp;&amp;)&#32;noexcept;
+574 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_p_b_r_effect">PBREffect</link>&amp;&#32;operator=&#32;(<link linkend="_class_direct_x_1_1_d_x12_1_1_p_b_r_effect">PBREffect</link>&amp;&amp;)&#32;noexcept;
+575 
+576 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_p_b_r_effect">PBREffect</link>(<link linkend="_class_direct_x_1_1_d_x12_1_1_p_b_r_effect">PBREffect</link>&#32;const&amp;)&#32;=&#32;delete;
+577 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_p_b_r_effect">PBREffect</link>&amp;&#32;operator=&#32;(<link linkend="_class_direct_x_1_1_d_x12_1_1_p_b_r_effect">PBREffect</link>&#32;const&amp;)&#32;=&#32;delete;
+578 
+579 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;~<link linkend="_class_direct_x_1_1_d_x12_1_1_p_b_r_effect">PBREffect</link>()&#32;override;
+580 
+581 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;IEffect&#32;methods.</emphasis>
+582 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;Apply(_In_&#32;<link linkend="_interface_i_d3_d12_graphics_command_list">ID3D12GraphicsCommandList</link>*&#32;commandList)&#32;override;
+583 
+584 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Camera&#32;settings.</emphasis>
+585 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;SetWorld(FXMMATRIX&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+586 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;SetView(FXMMATRIX&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+587 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;SetProjection(FXMMATRIX&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+588 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;SetMatrices(FXMMATRIX&#32;world,&#32;CXMMATRIX&#32;view,&#32;CXMMATRIX&#32;projection)&#32;override;
+589 
+590 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Light&#32;settings.</emphasis>
+591 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;SetLightEnabled(<emphasis role="keywordtype">int</emphasis>&#32;whichLight,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+592 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;SetLightDirection(<emphasis role="keywordtype">int</emphasis>&#32;whichLight,&#32;FXMVECTOR&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+593 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;SetLightDiffuseColor(<emphasis role="keywordtype">int</emphasis>&#32;whichLight,&#32;FXMVECTOR&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+594 
+595 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;EnableDefaultLighting()&#32;override;
+596 
+597 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;PBR&#32;Settings.</emphasis>
+598 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;SetAlpha(<emphasis role="keywordtype">float</emphasis>&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>);
+599 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;SetConstantAlbedo(FXMVECTOR&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>);
+600 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;SetConstantMetallic(<emphasis role="keywordtype">float</emphasis>&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>);
+601 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;SetConstantRoughness(<emphasis role="keywordtype">float</emphasis>&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>);
+602 
+603 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Texture&#32;settings.</emphasis>
+604 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;SetAlbedoTexture(<link linkend="_struct_d3_d12___g_p_u___d_e_s_c_r_i_p_t_o_r___h_a_n_d_l_e">D3D12_GPU_DESCRIPTOR_HANDLE</link>&#32;srvDescriptor,&#32;<link linkend="_struct_d3_d12___g_p_u___d_e_s_c_r_i_p_t_o_r___h_a_n_d_l_e">D3D12_GPU_DESCRIPTOR_HANDLE</link>&#32;samplerDescriptor);
+605 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;SetNormalTexture(<link linkend="_struct_d3_d12___g_p_u___d_e_s_c_r_i_p_t_o_r___h_a_n_d_l_e">D3D12_GPU_DESCRIPTOR_HANDLE</link>&#32;srvDescriptor);
+606 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;SetRMATexture(<link linkend="_struct_d3_d12___g_p_u___d_e_s_c_r_i_p_t_o_r___h_a_n_d_l_e">D3D12_GPU_DESCRIPTOR_HANDLE</link>&#32;srvDescriptor);
+607 
+608 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;SetEmissiveTexture(<link linkend="_struct_d3_d12___g_p_u___d_e_s_c_r_i_p_t_o_r___h_a_n_d_l_e">D3D12_GPU_DESCRIPTOR_HANDLE</link>&#32;srvDescriptor);
+609 
+610 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;SetSurfaceTextures(
+611 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___g_p_u___d_e_s_c_r_i_p_t_o_r___h_a_n_d_l_e">D3D12_GPU_DESCRIPTOR_HANDLE</link>&#32;albedo,
+612 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___g_p_u___d_e_s_c_r_i_p_t_o_r___h_a_n_d_l_e">D3D12_GPU_DESCRIPTOR_HANDLE</link>&#32;normal,
+613 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___g_p_u___d_e_s_c_r_i_p_t_o_r___h_a_n_d_l_e">D3D12_GPU_DESCRIPTOR_HANDLE</link>&#32;roughnessMetallicAmbientOcclusion,
+614 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___g_p_u___d_e_s_c_r_i_p_t_o_r___h_a_n_d_l_e">D3D12_GPU_DESCRIPTOR_HANDLE</link>&#32;<link linkend="_glad_8h_1a4f7acaf0f814147f227f72b9065e8ed0">sampler</link>);
+615 
+616 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;SetIBLTextures(
+617 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___g_p_u___d_e_s_c_r_i_p_t_o_r___h_a_n_d_l_e">D3D12_GPU_DESCRIPTOR_HANDLE</link>&#32;radiance,
+618 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;numRadianceMips,
+619 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___g_p_u___d_e_s_c_r_i_p_t_o_r___h_a_n_d_l_e">D3D12_GPU_DESCRIPTOR_HANDLE</link>&#32;irradiance,
+620 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___g_p_u___d_e_s_c_r_i_p_t_o_r___h_a_n_d_l_e">D3D12_GPU_DESCRIPTOR_HANDLE</link>&#32;<link linkend="_glad_8h_1a4f7acaf0f814147f227f72b9065e8ed0">sampler</link>);
+621 
+622 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Render&#32;target&#32;size,&#32;required&#32;for&#32;velocity&#32;buffer&#32;output.</emphasis>
+623 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;SetRenderTargetSizeInPixels(<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a6879d830f164725df67adeeabca3ea47">width</link>,&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1a60075de22f90a1223dc0bea98d2ee4d5">height</link>);
+624 
+625 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;protected:
+626 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Private&#32;implementation.</emphasis>
+627 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;class&#32;Impl;
+628 
+629 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacestd">std</link>::unique_ptr&lt;Impl&gt;&#32;pImpl;
+630 
+631 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_p_b_r_effect">PBREffect</link>(_In_&#32;<link linkend="_interface_i_d3_d12_device">ID3D12Device</link>*&#32;device,&#32;uint32_t&#32;effectFlags,
+632 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;const&#32;<link linkend="_struct_direct_x_1_1_effect_pipeline_state_description">EffectPipelineStateDescription</link>&amp;&#32;pipelineDescription,&#32;<emphasis role="keywordtype">bool</emphasis>&#32;skinningEnabled);
+633 
+634 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Unsupported&#32;interface&#32;methods.</emphasis>
+635 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;SetAmbientLightColor(FXMVECTOR&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+636 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;SetLightSpecularColor(<emphasis role="keywordtype">int</emphasis>&#32;whichLight,&#32;FXMVECTOR&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+637 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+638 
+639 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;class&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_skinned_p_b_r_effect">SkinnedPBREffect</link>&#32;:&#32;public&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_p_b_r_effect">PBREffect</link>,&#32;public&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_skinning">IEffectSkinning</link>
+640 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+641 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">public</emphasis>:
+642 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_skinned_p_b_r_effect_1a4d09ed97907a368d417255e7b480442b">SkinnedPBREffect</link>(_In_&#32;<link linkend="_interface_i_d3_d12_device">ID3D12Device</link>*&#32;device,&#32;uint32_t&#32;effectFlags,
+643 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_struct_direct_x_1_1_effect_pipeline_state_description">EffectPipelineStateDescription</link>&amp;&#32;pipelineDescription)&#32;:
+644 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_p_b_r_effect">PBREffect</link>(device,&#32;effectFlags,&#32;pipelineDescription,&#32;true)
+645 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+646 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+647 
+648 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_skinned_p_b_r_effect_1a8948fbbbf2849b397965fa2e9b1571c8">SkinnedPBREffect</link>(<link linkend="_class_direct_x_1_1_d_x12_1_1_skinned_p_b_r_effect">SkinnedPBREffect</link>&amp;&amp;)&#32;=&#32;<emphasis role="keywordflow">default</emphasis>;
+649 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_skinned_p_b_r_effect">SkinnedPBREffect</link>&amp;&#32;operator=&#32;(<link linkend="_class_direct_x_1_1_d_x12_1_1_skinned_p_b_r_effect">SkinnedPBREffect</link>&amp;&amp;)&#32;=&#32;<emphasis role="keywordflow">default</emphasis>;
+650 
+651 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_skinned_p_b_r_effect_1a801df858127482217fc83d03801777ae">SkinnedPBREffect</link>(<link linkend="_class_direct_x_1_1_d_x12_1_1_skinned_p_b_r_effect">SkinnedPBREffect</link>&#32;<emphasis role="keyword">const</emphasis>&amp;)&#32;=&#32;<emphasis role="keyword">delete</emphasis>;
+652 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_skinned_p_b_r_effect">SkinnedPBREffect</link>&amp;&#32;operator=&#32;(<link linkend="_class_direct_x_1_1_d_x12_1_1_skinned_p_b_r_effect">SkinnedPBREffect</link>&#32;<emphasis role="keyword">const</emphasis>&amp;)&#32;=&#32;<emphasis role="keyword">delete</emphasis>;
+653 
+654 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_skinned_p_b_r_effect_1a574be6e7680331532574d61f8c87cf8c">~SkinnedPBREffect</link>()&#32;<emphasis role="keyword">override</emphasis>;
+655 
+656 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Animation&#32;settings.</emphasis>
+657 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_skinned_p_b_r_effect_1af3f929bf6b022f937102d4b026645d5b">SetBoneTransforms</link>(_In_reads_(<link linkend="_glad_8h_1a619bc20e8198de3bd3f3d7fc34de66b2">count</link>)&#32;XMMATRIX&#32;<emphasis role="keyword">const</emphasis>*&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1a619bc20e8198de3bd3f3d7fc34de66b2">count</link>)&#32;<emphasis role="keyword">override</emphasis>;
+658 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_skinned_p_b_r_effect_1a2dd5307f75d76f1d9f3bdd9edbc2f275">ResetBoneTransforms</link>()&#32;<emphasis role="keyword">override</emphasis>;
+659 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+660 
+661 
+662 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//------------------------------------------------------------------------------</emphasis>
+663 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Built-in&#32;shader&#32;for&#32;debug&#32;visualization&#32;of&#32;normals,&#32;tangents,&#32;etc.</emphasis>
+664 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">class&#32;</emphasis><link linkend="_class_direct_x_1_1_d_x12_1_1_debug_effect">DebugEffect</link>&#32;:&#32;<emphasis role="keyword">public</emphasis>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect">IEffect</link>,&#32;<emphasis role="keyword">public</emphasis>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_matrices">IEffectMatrices</link>
+665 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+666 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">public</emphasis>:
+667 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">enum</emphasis>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_debug_effect_1a63e4f6db82e6ce68c4a17cb144b48b59">Mode</link>
+668 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+669 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Mode_Default&#32;=&#32;0,&#32;&#32;&#32;<emphasis role="comment">//&#32;Hemispherical&#32;ambient&#32;lighting</emphasis>
+670 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Mode_Normals,&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;RGB&#32;normals</emphasis>
+671 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Mode_Tangents,&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;RGB&#32;tangents</emphasis>
+672 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;Mode_BiTangents,&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;RGB&#32;bi-tangents</emphasis>
+673 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+674 
+675 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_debug_effect_1a9f2c008b9b216f0e54b874b1ef3ee1de">DebugEffect</link>(_In_&#32;<link linkend="_interface_i_d3_d12_device">ID3D12Device</link>*&#32;device,&#32;uint32_t&#32;effectFlags,
+676 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_struct_direct_x_1_1_effect_pipeline_state_description">EffectPipelineStateDescription</link>&amp;&#32;pipelineDescription,
+677 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_debug_effect_1a63e4f6db82e6ce68c4a17cb144b48b59">Mode</link>&#32;debugMode&#32;=&#32;Mode_Default);
+678 
+679 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_debug_effect_1a6cba244ed4c76897aec47521044b9bb8">DebugEffect</link>(<link linkend="_class_direct_x_1_1_d_x12_1_1_debug_effect">DebugEffect</link>&amp;&amp;)&#32;noexcept;
+680 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_debug_effect">DebugEffect</link>&amp;&#32;operator=&#32;(<link linkend="_class_direct_x_1_1_d_x12_1_1_debug_effect">DebugEffect</link>&amp;&amp;)&#32;noexcept;
+681 
+682 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_debug_effect">DebugEffect</link>(<link linkend="_class_direct_x_1_1_d_x12_1_1_debug_effect">DebugEffect</link>&#32;const&amp;)&#32;=&#32;delete;
+683 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_debug_effect">DebugEffect</link>&amp;&#32;operator=&#32;(<link linkend="_class_direct_x_1_1_d_x12_1_1_debug_effect">DebugEffect</link>&#32;const&amp;)&#32;=&#32;delete;
+684 
+685 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;~<link linkend="_class_direct_x_1_1_d_x12_1_1_debug_effect">DebugEffect</link>()&#32;override;
+686 
+687 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;IEffect&#32;methods.</emphasis>
+688 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;Apply(_In_&#32;<link linkend="_interface_i_d3_d12_graphics_command_list">ID3D12GraphicsCommandList</link>*&#32;commandList)&#32;override;
+689 
+690 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Camera&#32;settings.</emphasis>
+691 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;SetWorld(FXMMATRIX&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+692 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;SetView(FXMMATRIX&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+693 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;SetProjection(FXMMATRIX&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>)&#32;override;
+694 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;SetMatrices(FXMMATRIX&#32;world,&#32;CXMMATRIX&#32;view,&#32;CXMMATRIX&#32;projection)&#32;override;
+695 
+696 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Debug&#32;Settings.</emphasis>
+697 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;XM_CALLCONV&#32;SetHemisphericalAmbientColor(FXMVECTOR&#32;upper,&#32;FXMVECTOR&#32;lower);
+698 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;SetAlpha(<emphasis role="keywordtype">float</emphasis>&#32;<link linkend="_glad_8h_1ad6103472bb51773301db1ff4a207ea3f">value</link>);
+699 
+700 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;private:
+701 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Private&#32;implementation.</emphasis>
+702 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;class&#32;Impl;
+703 
+704 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacestd">std</link>::unique_ptr&lt;Impl&gt;&#32;pImpl;
+705 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+706 
+707 
+708 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//------------------------------------------------------------------------------</emphasis>
+709 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Abstract&#32;interface&#32;to&#32;factory&#32;texture&#32;resources</emphasis>
+710 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;class&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_texture_factory">IEffectTextureFactory</link>
+711 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+712 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">public</emphasis>:
+713 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">virtual</emphasis>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_texture_factory_1ad2645c132d00873be7d8aae1184f3eef">~IEffectTextureFactory</link>()&#32;=&#32;<emphasis role="keywordflow">default</emphasis>;
+714 
+715 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_texture_factory_1a48991a7ccfcbb6c65a3620f66c7e3bed">IEffectTextureFactory</link>(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_texture_factory">IEffectTextureFactory</link>&amp;)&#32;=&#32;<emphasis role="keyword">delete</emphasis>;
+716 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_texture_factory">IEffectTextureFactory</link>&amp;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_texture_factory_1a9f0b753fb8edcb729ffeb7ea08dbafe7">operator=</link>(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_texture_factory">IEffectTextureFactory</link>&amp;)&#32;=&#32;<emphasis role="keyword">delete</emphasis>;
+717 
+718 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">virtual</emphasis>&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_texture_factory_1a88a129c0fd8804ab20f6c66872fa25b8">CreateTexture</link>(_In_z_&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">wchar_t</emphasis>*&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>,&#32;<emphasis role="keywordtype">int</emphasis>&#32;descriptorIndex)&#32;=&#32;0;
+719 
+720 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">protected</emphasis>:
+721 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_texture_factory_1a806ddb07090122422e6675c400ff9db8">IEffectTextureFactory</link>()&#32;=&#32;<emphasis role="keywordflow">default</emphasis>;
+722 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_texture_factory_1ae040bb84180fd528fade2cff475795a5">IEffectTextureFactory</link>(<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_texture_factory">IEffectTextureFactory</link>&amp;&amp;)&#32;=&#32;<emphasis role="keywordflow">default</emphasis>;
+723 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_texture_factory">IEffectTextureFactory</link>&amp;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_texture_factory_1a1522eb10c90e4d4694d41a8579ef21b9">operator=</link>(<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_texture_factory">IEffectTextureFactory</link>&amp;&amp;)&#32;=&#32;<emphasis role="keywordflow">default</emphasis>;
+724 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+725 
+726 
+727 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Factory&#32;for&#32;sharing&#32;texture&#32;resources</emphasis>
+728 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">class&#32;</emphasis><link linkend="_class_direct_x_1_1_d_x12_1_1_effect_texture_factory">EffectTextureFactory</link>&#32;:&#32;<emphasis role="keyword">public</emphasis>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_texture_factory">IEffectTextureFactory</link>
+729 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+730 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">public</emphasis>:
+731 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_effect_texture_factory_1a5b1901197347266daac7604be85ce1ed">EffectTextureFactory</link>(
+732 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_In_&#32;<link linkend="_interface_i_d3_d12_device">ID3D12Device</link>*&#32;device,
+733 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_resource_upload_batch">ResourceUploadBatch</link>&amp;&#32;resourceUploadBatch,
+734 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_In_&#32;<link linkend="_interface_i_d3_d12_descriptor_heap">ID3D12DescriptorHeap</link>*&#32;descriptorHeap)&#32;<emphasis role="keyword">noexcept</emphasis>(<emphasis role="keyword">false</emphasis>);
+735 
+736 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_effect_texture_factory_1a18b811ff8dc39f53c0a638d2080ea7e6">EffectTextureFactory</link>(
+737 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_In_&#32;<link linkend="_interface_i_d3_d12_device">ID3D12Device</link>*&#32;device,
+738 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_resource_upload_batch">ResourceUploadBatch</link>&amp;&#32;resourceUploadBatch,
+739 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_In_&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;numDescriptors,
+740 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_In_&#32;<link linkend="_d3d12_8idl_1a8719c063a8b3f958471d9dcc2345a4a6">D3D12_DESCRIPTOR_HEAP_FLAGS</link>&#32;descriptorHeapFlags&#32;=&#32;<link linkend="_d3d12_8idl_1a8719c063a8b3f958471d9dcc2345a4a6af4f2a33c7ea5adf266f45ee9d3a08ed4">D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE</link>)&#32;<emphasis role="keyword">noexcept</emphasis>(<emphasis role="keyword">false</emphasis>);
+741 
+742 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_effect_texture_factory_1a46f86527d76edcc851d7cbdda4c3390f">EffectTextureFactory</link>(<link linkend="_class_direct_x_1_1_d_x12_1_1_effect_texture_factory">EffectTextureFactory</link>&amp;&amp;)&#32;noexcept;
+743 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_effect_texture_factory">EffectTextureFactory</link>&amp;&#32;operator=&#32;(<link linkend="_class_direct_x_1_1_d_x12_1_1_effect_texture_factory">EffectTextureFactory</link>&amp;&amp;)&#32;noexcept;
+744 
+745 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_effect_texture_factory">EffectTextureFactory</link>(<link linkend="_class_direct_x_1_1_d_x12_1_1_effect_texture_factory">EffectTextureFactory</link>&#32;const&amp;)&#32;=&#32;delete;
+746 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_effect_texture_factory">EffectTextureFactory</link>&amp;&#32;operator=&#32;(<link linkend="_class_direct_x_1_1_d_x12_1_1_effect_texture_factory">EffectTextureFactory</link>&#32;const&amp;)&#32;=&#32;delete;
+747 
+748 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;~<link linkend="_class_direct_x_1_1_d_x12_1_1_effect_texture_factory">EffectTextureFactory</link>()&#32;override;
+749 
+750 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;__cdecl&#32;CreateTexture(_In_z_&#32;const&#32;<emphasis role="keywordtype">wchar_t</emphasis>*&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>,&#32;<emphasis role="keywordtype">int</emphasis>&#32;descriptorIndex)&#32;override;
+751 
+752 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_interface_i_d3_d12_descriptor_heap">ID3D12DescriptorHeap</link>*&#32;__cdecl&#32;Heap()&#32;const&#32;noexcept;
+753 
+754 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Shorthand&#32;accessors&#32;for&#32;the&#32;descriptor&#32;heap</emphasis>
+755 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___c_p_u___d_e_s_c_r_i_p_t_o_r___h_a_n_d_l_e">D3D12_CPU_DESCRIPTOR_HANDLE</link>&#32;__cdecl&#32;GetCpuDescriptorHandle(<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1a57f14e05b1900f16a2da82ade47d0c6d">index</link>)&#32;const;
+756 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_d3_d12___g_p_u___d_e_s_c_r_i_p_t_o_r___h_a_n_d_l_e">D3D12_GPU_DESCRIPTOR_HANDLE</link>&#32;__cdecl&#32;GetGpuDescriptorHandle(<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1a57f14e05b1900f16a2da82ade47d0c6d">index</link>)&#32;const;
+757 
+758 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;How&#32;many&#32;textures&#32;are&#32;there&#32;in&#32;this&#32;factory?</emphasis>
+759 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;__cdecl&#32;ResourceCount()&#32;const&#32;noexcept;
+760 
+761 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Get&#32;a&#32;resource&#32;in&#32;a&#32;specific&#32;slot&#32;(note:&#32;increases&#32;reference&#32;count&#32;on&#32;resource)</emphasis>
+762 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;GetResource(<emphasis role="keywordtype">size_t</emphasis>&#32;slot,&#32;_Out_&#32;<link linkend="_interface_i_d3_d12_resource">ID3D12Resource</link>**&#32;resource,&#32;_Out_opt_&#32;<emphasis role="keywordtype">bool</emphasis>*&#32;isCubeMap&#32;=&#32;<emphasis role="keywordtype">nullptr</emphasis>);
+763 
+764 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Settings.</emphasis>
+765 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;ReleaseCache();
+766 
+767 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;SetSharing(<emphasis role="keywordtype">bool</emphasis>&#32;enabled)&#32;noexcept;
+768 
+769 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;EnableForceSRGB(<emphasis role="keywordtype">bool</emphasis>&#32;forceSRGB)&#32;noexcept;
+770 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;EnableAutoGenMips(<emphasis role="keywordtype">bool</emphasis>&#32;generateMips)&#32;noexcept;
+771 
+772 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;SetDirectory(_In_opt_z_&#32;const&#32;<emphasis role="keywordtype">wchar_t</emphasis>*&#32;path)&#32;noexcept;
+773 
+774 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;private:
+775 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Private&#32;implementation</emphasis>
+776 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;class&#32;Impl;
+777 
+778 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacestd">std</link>::unique_ptr&lt;Impl&gt;&#32;pImpl;
+779 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+780 
+781 
+782 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//------------------------------------------------------------------------------</emphasis>
+783 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Abstract&#32;interface&#32;to&#32;factory&#32;for&#32;sharing&#32;effects</emphasis>
+784 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;class&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_factory">IEffectFactory</link>
+785 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+786 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">public</emphasis>:
+787 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">virtual</emphasis>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_factory_1aa44c1830ff3ee92262bbb476eca82d2b">~IEffectFactory</link>()&#32;=&#32;<emphasis role="keywordflow">default</emphasis>;
+788 
+789 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_factory_1af95c8416e4b1d213205f23f4834ebc9f">IEffectFactory</link>(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_factory">IEffectFactory</link>&amp;)&#32;=&#32;<emphasis role="keyword">delete</emphasis>;
+790 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_factory">IEffectFactory</link>&amp;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_factory_1a0485959063f942a1fb684cea3389f3a0">operator=</link>(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_factory">IEffectFactory</link>&amp;)&#32;=&#32;<emphasis role="keyword">delete</emphasis>;
+791 
+792 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis><link linkend="_struct_direct_x_1_1_d_x12_1_1_i_effect_factory_1_1_effect_info">EffectInfo</link>
+793 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+794 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::wstring&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a5c4947d4516dd7cfa3505ce3a648a4ef">name</link>;
+795 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;perVertexColor;
+796 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;enableSkinning;
+797 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;enableDualTexture;
+798 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;enableNormalMaps;
+799 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;biasedVertexNormals;
+800 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">float</emphasis>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;specularPower;
+801 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">float</emphasis>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;alphaValue;
+802 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;XMFLOAT3&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ambientColor;
+803 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;XMFLOAT3&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;diffuseColor;
+804 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;XMFLOAT3&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;specularColor;
+805 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;XMFLOAT3&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;emissiveColor;
+806 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;diffuseTextureIndex;
+807 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;specularTextureIndex;
+808 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;normalTextureIndex;
+809 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;emissiveTextureIndex;
+810 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;samplerIndex;
+811 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;samplerIndex2;
+812 
+813 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_struct_direct_x_1_1_d_x12_1_1_i_effect_factory_1_1_effect_info_1ab90705bbe90ffde49a77e3d6c1f79cbf">EffectInfo</link>()&#32;noexcept
+814 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;perVertexColor(false)
+815 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;enableSkinning(false)
+816 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;enableDualTexture(false)
+817 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;enableNormalMaps(false)
+818 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;biasedVertexNormals(false)
+819 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;specularPower(0)
+820 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;alphaValue(0)
+821 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;ambientColor(0,&#32;0,&#32;0)
+822 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;diffuseColor(0,&#32;0,&#32;0)
+823 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;specularColor(0,&#32;0,&#32;0)
+824 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;emissiveColor(0,&#32;0,&#32;0)
+825 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;diffuseTextureIndex(-1)
+826 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;specularTextureIndex(-1)
+827 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;normalTextureIndex(-1)
+828 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;emissiveTextureIndex(-1)
+829 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;samplerIndex(-1)
+830 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;,&#32;samplerIndex2(-1)
+831 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+832 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+833 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+834 
+835 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">virtual</emphasis>&#32;std::shared_ptr&lt;IEffect&gt;&#32;__cdecl&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_factory_1a2e171df07571d3104e874a1003faf84b">CreateEffect</link>(
+836 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_struct_direct_x_1_1_d_x12_1_1_i_effect_factory_1_1_effect_info">EffectInfo</link>&amp;&#32;info,
+837 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_struct_direct_x_1_1_effect_pipeline_state_description">EffectPipelineStateDescription</link>&amp;&#32;opaquePipelineState,
+838 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_struct_direct_x_1_1_effect_pipeline_state_description">EffectPipelineStateDescription</link>&amp;&#32;alphaPipelineState,
+839 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_struct_d3_d12___i_n_p_u_t___l_a_y_o_u_t___d_e_s_c">D3D12_INPUT_LAYOUT_DESC</link>&amp;&#32;inputLayout,
+840 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;textureDescriptorOffset&#32;=&#32;0,
+841 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;samplerDescriptorOffset&#32;=&#32;0)&#32;=&#32;0;
+842 
+843 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">protected</emphasis>:
+844 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_factory_1a7423d54e6c40fefe59709a43319bbfe3">IEffectFactory</link>()&#32;=&#32;<emphasis role="keywordflow">default</emphasis>;
+845 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_factory_1a23ca087e85f94a9fc67227a9bcb6ed64">IEffectFactory</link>(<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_factory">IEffectFactory</link>&amp;&amp;)&#32;=&#32;<emphasis role="keywordflow">default</emphasis>;
+846 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_factory">IEffectFactory</link>&amp;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_factory_1a4b42d2ef3f50a3cbb821dde8fdf648e4">operator=</link>(<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_factory">IEffectFactory</link>&amp;&amp;)&#32;=&#32;<emphasis role="keywordflow">default</emphasis>;
+847 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+848 
+849 
+850 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Factory&#32;for&#32;sharing&#32;effects</emphasis>
+851 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">class&#32;</emphasis><link linkend="_class_direct_x_1_1_d_x12_1_1_effect_factory">EffectFactory</link>&#32;:&#32;<emphasis role="keyword">public</emphasis>&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_factory">IEffectFactory</link>
+852 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+853 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">public</emphasis>:
+854 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_effect_factory_1a6605819100df01b70508bbf33b8d4c85">EffectFactory</link>(_In_&#32;<link linkend="_interface_i_d3_d12_device">ID3D12Device</link>*&#32;device);
+855 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_effect_factory_1acc33d1056186077f57024e0fa169e82b">EffectFactory</link>(
+856 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_In_&#32;<link linkend="_interface_i_d3_d12_descriptor_heap">ID3D12DescriptorHeap</link>*&#32;textureDescriptors,
+857 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_In_&#32;<link linkend="_interface_i_d3_d12_descriptor_heap">ID3D12DescriptorHeap</link>*&#32;samplerDescriptors);
+858 
+859 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_effect_factory_1ac490aad202e7d8ec4b5f26c163dcc888">EffectFactory</link>(<link linkend="_class_direct_x_1_1_d_x12_1_1_effect_factory">EffectFactory</link>&amp;&amp;)&#32;noexcept;
+860 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_effect_factory">EffectFactory</link>&amp;&#32;operator=&#32;(<link linkend="_class_direct_x_1_1_d_x12_1_1_effect_factory">EffectFactory</link>&amp;&amp;)&#32;noexcept;
+861 
+862 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_effect_factory">EffectFactory</link>(<link linkend="_class_direct_x_1_1_d_x12_1_1_effect_factory">EffectFactory</link>&#32;const&amp;)&#32;=&#32;delete;
+863 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_effect_factory">EffectFactory</link>&amp;&#32;operator=&#32;(<link linkend="_class_direct_x_1_1_d_x12_1_1_effect_factory">EffectFactory</link>&#32;const&amp;)&#32;=&#32;delete;
+864 
+865 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;~<link linkend="_class_direct_x_1_1_d_x12_1_1_effect_factory">EffectFactory</link>()&#32;override;
+866 
+867 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;IEffectFactory&#32;methods.</emphasis>
+868 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;virtual&#32;<link linkend="_namespacestd">std</link>::shared_ptr&lt;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect">IEffect</link>&gt;&#32;__cdecl&#32;CreateEffect(
+869 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;const&#32;<link linkend="_struct_direct_x_1_1_d_x12_1_1_i_effect_factory_1_1_effect_info">EffectInfo</link>&amp;&#32;info,
+870 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;const&#32;<link linkend="_struct_direct_x_1_1_effect_pipeline_state_description">EffectPipelineStateDescription</link>&amp;&#32;opaquePipelineState,
+871 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;const&#32;<link linkend="_struct_direct_x_1_1_effect_pipeline_state_description">EffectPipelineStateDescription</link>&amp;&#32;alphaPipelineState,
+872 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;const&#32;<link linkend="_struct_d3_d12___i_n_p_u_t___l_a_y_o_u_t___d_e_s_c">D3D12_INPUT_LAYOUT_DESC</link>&amp;&#32;inputLayout,
+873 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;textureDescriptorOffset&#32;=&#32;0,
+874 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;samplerDescriptorOffset&#32;=&#32;0)&#32;override;
+875 
+876 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Settings.</emphasis>
+877 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;ReleaseCache();
+878 
+879 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;SetSharing(<emphasis role="keywordtype">bool</emphasis>&#32;enabled)&#32;noexcept;
+880 
+881 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;EnableLighting(<emphasis role="keywordtype">bool</emphasis>&#32;enabled)&#32;noexcept;
+882 
+883 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;EnablePerPixelLighting(<emphasis role="keywordtype">bool</emphasis>&#32;enabled)&#32;noexcept;
+884 
+885 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;EnableNormalMapEffect(<emphasis role="keywordtype">bool</emphasis>&#32;enabled)&#32;noexcept;
+886 
+887 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;EnableFogging(<emphasis role="keywordtype">bool</emphasis>&#32;enabled)&#32;noexcept;
+888 
+889 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;EnableInstancing(<emphasis role="keywordtype">bool</emphasis>&#32;enabled)&#32;noexcept;
+890 
+891 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;private:
+892 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Private&#32;implementation.</emphasis>
+893 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;class&#32;Impl;
+894 
+895 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacestd">std</link>::shared_ptr&lt;Impl&gt;&#32;pImpl;
+896 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+897 
+898 
+899 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Factory&#32;for&#32;Physically&#32;Based&#32;Rendering&#32;(PBR)</emphasis>
+900 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;class&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_p_b_r_effect_factory">PBREffectFactory</link>&#32;:&#32;public&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect_factory">IEffectFactory</link>
+901 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+902 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">public</emphasis>:
+903 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_p_b_r_effect_factory_1a942fb683e37f8b049b714e9157feae5b">PBREffectFactory</link>(_In_&#32;<link linkend="_interface_i_d3_d12_device">ID3D12Device</link>*&#32;device)&#32;<emphasis role="keyword">noexcept</emphasis>(<emphasis role="keyword">false</emphasis>);
+904 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_p_b_r_effect_factory_1a45d6ce3d465e7b9c69cf4d81a655a0c6">PBREffectFactory</link>(
+905 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_In_&#32;<link linkend="_interface_i_d3_d12_descriptor_heap">ID3D12DescriptorHeap</link>*&#32;textureDescriptors,
+906 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_In_&#32;<link linkend="_interface_i_d3_d12_descriptor_heap">ID3D12DescriptorHeap</link>*&#32;samplerDescriptors)&#32;<emphasis role="keyword">noexcept</emphasis>(<emphasis role="keyword">false</emphasis>);
+907 
+908 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_p_b_r_effect_factory_1a312a6eec3eec51b1c2b102d5dc89c3e0">PBREffectFactory</link>(<link linkend="_class_direct_x_1_1_d_x12_1_1_p_b_r_effect_factory">PBREffectFactory</link>&amp;&amp;)&#32;noexcept;
+909 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_p_b_r_effect_factory">PBREffectFactory</link>&amp;&#32;operator=&#32;(<link linkend="_class_direct_x_1_1_d_x12_1_1_p_b_r_effect_factory">PBREffectFactory</link>&amp;&amp;)&#32;noexcept;
+910 
+911 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_p_b_r_effect_factory">PBREffectFactory</link>(<link linkend="_class_direct_x_1_1_d_x12_1_1_p_b_r_effect_factory">PBREffectFactory</link>&#32;const&amp;)&#32;=&#32;delete;
+912 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_d_x12_1_1_p_b_r_effect_factory">PBREffectFactory</link>&amp;&#32;operator=&#32;(<link linkend="_class_direct_x_1_1_d_x12_1_1_p_b_r_effect_factory">PBREffectFactory</link>&#32;const&amp;)&#32;=&#32;delete;
+913 
+914 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;~<link linkend="_class_direct_x_1_1_d_x12_1_1_p_b_r_effect_factory">PBREffectFactory</link>()&#32;override;
+915 
+916 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;IEffectFactory&#32;methods.</emphasis>
+917 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;virtual&#32;<link linkend="_namespacestd">std</link>::shared_ptr&lt;<link linkend="_class_direct_x_1_1_d_x12_1_1_i_effect">IEffect</link>&gt;&#32;__cdecl&#32;CreateEffect(
+918 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;const&#32;<link linkend="_struct_direct_x_1_1_d_x12_1_1_i_effect_factory_1_1_effect_info">EffectInfo</link>&amp;&#32;info,
+919 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;const&#32;<link linkend="_struct_direct_x_1_1_effect_pipeline_state_description">EffectPipelineStateDescription</link>&amp;&#32;opaquePipelineState,
+920 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;const&#32;<link linkend="_struct_direct_x_1_1_effect_pipeline_state_description">EffectPipelineStateDescription</link>&amp;&#32;alphaPipelineState,
+921 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;const&#32;<link linkend="_struct_d3_d12___i_n_p_u_t___l_a_y_o_u_t___d_e_s_c">D3D12_INPUT_LAYOUT_DESC</link>&amp;&#32;inputLayout,
+922 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;textureDescriptorOffset&#32;=&#32;0,
+923 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;samplerDescriptorOffset&#32;=&#32;0)&#32;override;
+924 
+925 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Settings.</emphasis>
+926 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;ReleaseCache();
+927 
+928 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;SetSharing(<emphasis role="keywordtype">bool</emphasis>&#32;enabled)&#32;noexcept;
+929 
+930 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;__cdecl&#32;EnableInstancing(<emphasis role="keywordtype">bool</emphasis>&#32;enabled)&#32;noexcept;
+931 
+932 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;private:
+933 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Private&#32;implementation.</emphasis>
+934 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;class&#32;Impl;
+935 
+936 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_namespacestd">std</link>::shared_ptr&lt;Impl&gt;&#32;pImpl;
+937 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;};
+938 &#32;&#32;&#32;&#32;}
+939 }
+940 
+941 <emphasis role="preprocessor">#endif&#32;</emphasis><emphasis role="comment">//&#32;__DIRECTXTK_EFFECTS_H__</emphasis>
+</programlisting></section>

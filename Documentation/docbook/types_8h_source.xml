@@ -1,0 +1,421 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_types_8h_source" xml:lang="en-US">
+<title>types.h</title>
+<indexterm><primary>adhed/assimp/types.h</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 <emphasis role="comment">/*</emphasis>
+2 <emphasis role="comment">---------------------------------------------------------------------------</emphasis>
+3 <emphasis role="comment">Open&#32;Asset&#32;Import&#32;Library&#32;(assimp)</emphasis>
+4 <emphasis role="comment">---------------------------------------------------------------------------</emphasis>
+5 <emphasis role="comment"></emphasis>
+6 <emphasis role="comment">Copyright&#32;(c)&#32;2006-2022,&#32;assimp&#32;team</emphasis>
+7 <emphasis role="comment"></emphasis>
+8 <emphasis role="comment">All&#32;rights&#32;reserved.</emphasis>
+9 <emphasis role="comment"></emphasis>
+10 <emphasis role="comment">Redistribution&#32;and&#32;use&#32;of&#32;this&#32;software&#32;in&#32;source&#32;and&#32;binary&#32;forms,</emphasis>
+11 <emphasis role="comment">with&#32;or&#32;without&#32;modification,&#32;are&#32;permitted&#32;provided&#32;that&#32;the&#32;following</emphasis>
+12 <emphasis role="comment">conditions&#32;are&#32;met:</emphasis>
+13 <emphasis role="comment"></emphasis>
+14 <emphasis role="comment">*&#32;Redistributions&#32;of&#32;source&#32;code&#32;must&#32;retain&#32;the&#32;above</emphasis>
+15 <emphasis role="comment">&#32;&#32;copyright&#32;notice,&#32;this&#32;list&#32;of&#32;conditions&#32;and&#32;the</emphasis>
+16 <emphasis role="comment">&#32;&#32;following&#32;disclaimer.</emphasis>
+17 <emphasis role="comment"></emphasis>
+18 <emphasis role="comment">*&#32;Redistributions&#32;in&#32;binary&#32;form&#32;must&#32;reproduce&#32;the&#32;above</emphasis>
+19 <emphasis role="comment">&#32;&#32;copyright&#32;notice,&#32;this&#32;list&#32;of&#32;conditions&#32;and&#32;the</emphasis>
+20 <emphasis role="comment">&#32;&#32;following&#32;disclaimer&#32;in&#32;the&#32;documentation&#32;and/or&#32;other</emphasis>
+21 <emphasis role="comment">&#32;&#32;materials&#32;provided&#32;with&#32;the&#32;distribution.</emphasis>
+22 <emphasis role="comment"></emphasis>
+23 <emphasis role="comment">*&#32;Neither&#32;the&#32;name&#32;of&#32;the&#32;assimp&#32;team,&#32;nor&#32;the&#32;names&#32;of&#32;its</emphasis>
+24 <emphasis role="comment">&#32;&#32;contributors&#32;may&#32;be&#32;used&#32;to&#32;endorse&#32;or&#32;promote&#32;products</emphasis>
+25 <emphasis role="comment">&#32;&#32;derived&#32;from&#32;this&#32;software&#32;without&#32;specific&#32;prior</emphasis>
+26 <emphasis role="comment">&#32;&#32;written&#32;permission&#32;of&#32;the&#32;assimp&#32;team.</emphasis>
+27 <emphasis role="comment"></emphasis>
+28 <emphasis role="comment">THIS&#32;SOFTWARE&#32;IS&#32;PROVIDED&#32;BY&#32;THE&#32;COPYRIGHT&#32;HOLDERS&#32;AND&#32;CONTRIBUTORS</emphasis>
+29 <emphasis role="comment">&quot;AS&#32;IS&quot;&#32;AND&#32;ANY&#32;EXPRESS&#32;OR&#32;IMPLIED&#32;WARRANTIES,&#32;INCLUDING,&#32;BUT&#32;NOT</emphasis>
+30 <emphasis role="comment">LIMITED&#32;TO,&#32;THE&#32;IMPLIED&#32;WARRANTIES&#32;OF&#32;MERCHANTABILITY&#32;AND&#32;FITNESS&#32;FOR</emphasis>
+31 <emphasis role="comment">A&#32;PARTICULAR&#32;PURPOSE&#32;ARE&#32;DISCLAIMED.&#32;IN&#32;NO&#32;EVENT&#32;SHALL&#32;THE&#32;COPYRIGHT</emphasis>
+32 <emphasis role="comment">OWNER&#32;OR&#32;CONTRIBUTORS&#32;BE&#32;LIABLE&#32;FOR&#32;ANY&#32;DIRECT,&#32;INDIRECT,&#32;INCIDENTAL,</emphasis>
+33 <emphasis role="comment">SPECIAL,&#32;EXEMPLARY,&#32;OR&#32;CONSEQUENTIAL&#32;DAMAGES&#32;(INCLUDING,&#32;BUT&#32;NOT</emphasis>
+34 <emphasis role="comment">LIMITED&#32;TO,&#32;PROCUREMENT&#32;OF&#32;SUBSTITUTE&#32;GOODS&#32;OR&#32;SERVICES;&#32;LOSS&#32;OF&#32;USE,</emphasis>
+35 <emphasis role="comment">DATA,&#32;OR&#32;PROFITS;&#32;OR&#32;BUSINESS&#32;INTERRUPTION)&#32;HOWEVER&#32;CAUSED&#32;AND&#32;ON&#32;ANY</emphasis>
+36 <emphasis role="comment">THEORY&#32;OF&#32;LIABILITY,&#32;WHETHER&#32;IN&#32;CONTRACT,&#32;STRICT&#32;LIABILITY,&#32;OR&#32;TORT</emphasis>
+37 <emphasis role="comment">(INCLUDING&#32;NEGLIGENCE&#32;OR&#32;OTHERWISE)&#32;ARISING&#32;IN&#32;ANY&#32;WAY&#32;OUT&#32;OF&#32;THE&#32;USE</emphasis>
+38 <emphasis role="comment">OF&#32;THIS&#32;SOFTWARE,&#32;EVEN&#32;IF&#32;ADVISED&#32;OF&#32;THE&#32;POSSIBILITY&#32;OF&#32;SUCH&#32;DAMAGE.</emphasis>
+39 <emphasis role="comment">---------------------------------------------------------------------------</emphasis>
+40 <emphasis role="comment">*/</emphasis>
+41 
+45 <emphasis role="preprocessor">#pragma&#32;once</emphasis>
+46 <emphasis role="preprocessor">#ifndef&#32;AI_TYPES_H_INC</emphasis>
+47 <emphasis role="preprocessor">#define&#32;AI_TYPES_H_INC</emphasis>
+48 
+49 <emphasis role="preprocessor">#ifdef&#32;__GNUC__</emphasis>
+50 <emphasis role="preprocessor">#pragma&#32;GCC&#32;system_header</emphasis>
+51 <emphasis role="preprocessor">#endif</emphasis>
+52 
+53 <emphasis role="comment">//&#32;Some&#32;runtime&#32;headers</emphasis>
+54 <emphasis role="preprocessor">#include&#32;&lt;limits.h&gt;</emphasis>
+55 <emphasis role="preprocessor">#include&#32;&lt;stddef.h&gt;</emphasis>
+56 <emphasis role="preprocessor">#include&#32;&lt;stdint.h&gt;</emphasis>
+57 <emphasis role="preprocessor">#include&#32;&lt;string.h&gt;</emphasis>
+58 <emphasis role="preprocessor">#include&#32;&lt;sys/types.h&gt;</emphasis>
+59 
+60 <emphasis role="comment">//&#32;Our&#32;compile&#32;configuration</emphasis>
+61 <emphasis role="preprocessor">#include&#32;&lt;<link linkend="_defs_8h">assimp/defs.h</link>&gt;</emphasis>
+62 
+63 <emphasis role="comment">//&#32;Some&#32;types&#32;moved&#32;to&#32;separate&#32;header&#32;due&#32;to&#32;size&#32;of&#32;operators</emphasis>
+64 <emphasis role="preprocessor">#include&#32;&lt;<link linkend="_vector2_8h">assimp/vector2.h</link>&gt;</emphasis>
+65 <emphasis role="preprocessor">#include&#32;&lt;<link linkend="_vector3_8h">assimp/vector3.h</link>&gt;</emphasis>
+66 <emphasis role="preprocessor">#include&#32;&lt;<link linkend="_color4_8h">assimp/color4.h</link>&gt;</emphasis>
+67 <emphasis role="preprocessor">#include&#32;&lt;<link linkend="_matrix3x3_8h">assimp/matrix3x3.h</link>&gt;</emphasis>
+68 <emphasis role="preprocessor">#include&#32;&lt;<link linkend="_matrix4x4_8h">assimp/matrix4x4.h</link>&gt;</emphasis>
+69 <emphasis role="preprocessor">#include&#32;&lt;<link linkend="_quaternion_8h">assimp/quaternion.h</link>&gt;</emphasis>
+70 
+71 <emphasis role="keyword">typedef</emphasis>&#32;int32_t&#32;<link linkend="_types_8h_1a3ae7f34c2ad2e1575490615c3504e84f">ai_int32</link>;
+72 <emphasis role="keyword">typedef</emphasis>&#32;uint32_t&#32;<link linkend="_types_8h_1a62b54a3ae3ae350c86fe848e22cb5b0a">ai_uint32</link>;
+73 
+74 <emphasis role="preprocessor">#ifdef&#32;__cplusplus</emphasis>
+75 
+76 <emphasis role="preprocessor">#include&#32;&lt;cstring&gt;</emphasis>
+77 <emphasis role="preprocessor">#include&#32;&lt;new&gt;</emphasis>&#32;<emphasis role="comment">//&#32;for&#32;std::nothrow_t</emphasis>
+78 <emphasis role="preprocessor">#include&#32;&lt;string&gt;</emphasis>&#32;<emphasis role="comment">//&#32;for&#32;aiString::Set(const&#32;std::string&amp;)</emphasis>
+79 
+80 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespace_assimp">Assimp</link>&#32;{
+82 <emphasis role="keyword">namespace&#32;</emphasis>Intern&#32;{
+83 <emphasis role="comment">//&#32;--------------------------------------------------------------------</emphasis>
+95 <emphasis role="comment">//&#32;--------------------------------------------------------------------</emphasis>
+96 <emphasis role="preprocessor">#ifndef&#32;SWIG</emphasis>
+97 <emphasis role="keyword">struct&#32;</emphasis><link linkend="_defs_8h_1a7d617d307e656cb6ff315ba71ff958d4">ASSIMP_API</link>&#32;AllocateFromAssimpHeap&#32;{
+98 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;http://www.gotw.ca/publications/mill15.htm</emphasis>
+99 
+100 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;new/delete&#32;overload</emphasis>
+101 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;*<emphasis role="keyword">operator</emphasis>&#32;<emphasis role="keyword">new</emphasis>(<emphasis role="keywordtype">size_t</emphasis>&#32;num_bytes)&#32;<emphasis role="comment">/*&#32;throw(&#32;std::bad_alloc&#32;)&#32;*/</emphasis>;
+102 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;*<emphasis role="keyword">operator</emphasis>&#32;<emphasis role="keyword">new</emphasis>(<emphasis role="keywordtype">size_t</emphasis>&#32;num_bytes,&#32;<emphasis role="keyword">const</emphasis>&#32;std::nothrow_t&#32;&amp;)&#32;<emphasis role="keywordflow">throw</emphasis>();
+103 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;<emphasis role="keyword">operator</emphasis>&#32;<emphasis role="keyword">delete</emphasis>(<emphasis role="keywordtype">void</emphasis>&#32;*<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>);
+104 
+105 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;array&#32;new/delete&#32;overload</emphasis>
+106 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;*<emphasis role="keyword">operator</emphasis>&#32;<emphasis role="keyword">new</emphasis>[](<emphasis role="keywordtype">size_t</emphasis>&#32;num_bytes)&#32;<emphasis role="comment">/*&#32;throw(&#32;std::bad_alloc&#32;)&#32;*/</emphasis>;
+107 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;*<emphasis role="keyword">operator</emphasis>&#32;<emphasis role="keyword">new</emphasis>[](<emphasis role="keywordtype">size_t</emphasis>&#32;num_bytes,&#32;<emphasis role="keyword">const</emphasis>&#32;std::nothrow_t&#32;&amp;)&#32;<emphasis role="keywordflow">throw</emphasis>();
+108 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;<emphasis role="keyword">operator</emphasis>&#32;<emphasis role="keyword">delete</emphasis>[](<emphasis role="keywordtype">void</emphasis>&#32;*<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>);
+109 
+110 };&#32;<emphasis role="comment">//&#32;struct&#32;AllocateFromAssimpHeap</emphasis>
+111 <emphasis role="preprocessor">#endif</emphasis>
+112 }&#32;<emphasis role="comment">//&#32;namespace&#32;Intern</emphasis>
+114 }&#32;<emphasis role="comment">//&#32;namespace&#32;Assimp</emphasis>
+115 
+116 <emphasis role="keyword">extern</emphasis>&#32;<emphasis role="stringliteral">&quot;C&quot;</emphasis>&#32;{
+117 <emphasis role="preprocessor">#endif</emphasis>
+118 
+120 <emphasis role="preprocessor">#ifdef&#32;__cplusplus</emphasis>
+121 <emphasis role="keyword">static</emphasis>&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_types_8h_1ae6648cd71a8bd49d58ae8ed33ba910d1">MAXLEN</link>&#32;=&#32;1024;
+122 <emphasis role="preprocessor">#else</emphasis>
+123 <emphasis role="preprocessor">#define&#32;MAXLEN&#32;1024</emphasis>
+124 <emphasis role="preprocessor">#endif</emphasis>
+125 
+126 <emphasis role="comment">//&#32;----------------------------------------------------------------------------------</emphasis>
+129 <emphasis role="keyword">struct&#32;</emphasis><link linkend="_structai_plane">aiPlane</link>&#32;{
+130 <emphasis role="preprocessor">#ifdef&#32;__cplusplus</emphasis>
+131 &#32;&#32;&#32;&#32;<link linkend="_structai_plane">aiPlane</link>()&#32;<link linkend="_defs_8h_1ae032f18edd69bf6ba935ef9feb025a96">AI_NO_EXCEPT</link>&#32;:&#32;<link linkend="_structai_plane_1a0e2f46be0d810fef7633c9d4b77c5556">a</link>(0.f),&#32;<link linkend="_structai_plane_1aac7052fbb5bb20714031a65c9cc5865d">b</link>(0.f),&#32;<link linkend="_structai_plane_1a5640a9648412543e704c0a8f4623a401">c</link>(0.f),&#32;<link linkend="_structai_plane_1a3a1fee6c44184dfd0bba7f82deae1dd2">d</link>(0.f)&#32;{}
+132 &#32;&#32;&#32;&#32;<link linkend="_structai_plane">aiPlane</link>(<link linkend="_defs_8h_1af221f9bbc3e0dc43a46efaaac6dab067">ai_real</link>&#32;_a,&#32;<link linkend="_defs_8h_1af221f9bbc3e0dc43a46efaaac6dab067">ai_real</link>&#32;_b,&#32;<link linkend="_defs_8h_1af221f9bbc3e0dc43a46efaaac6dab067">ai_real</link>&#32;_c,&#32;<link linkend="_defs_8h_1af221f9bbc3e0dc43a46efaaac6dab067">ai_real</link>&#32;_d)&#32;:
+133 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structai_plane_1a0e2f46be0d810fef7633c9d4b77c5556">a</link>(_a),&#32;<link linkend="_structai_plane_1aac7052fbb5bb20714031a65c9cc5865d">b</link>(_b),&#32;<link linkend="_structai_plane_1a5640a9648412543e704c0a8f4623a401">c</link>(_c),&#32;<link linkend="_structai_plane_1a3a1fee6c44184dfd0bba7f82deae1dd2">d</link>(_d)&#32;{}
+134 
+135 &#32;&#32;&#32;&#32;<link linkend="_structai_plane">aiPlane</link>(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_structai_plane">aiPlane</link>&#32;&amp;o)&#32;:
+136 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structai_plane_1a0e2f46be0d810fef7633c9d4b77c5556">a</link>(o.<link linkend="_structai_plane_1a0e2f46be0d810fef7633c9d4b77c5556">a</link>),&#32;<link linkend="_structai_plane_1aac7052fbb5bb20714031a65c9cc5865d">b</link>(o.<link linkend="_structai_plane_1aac7052fbb5bb20714031a65c9cc5865d">b</link>),&#32;<link linkend="_structai_plane_1a5640a9648412543e704c0a8f4623a401">c</link>(o.<link linkend="_structai_plane_1a5640a9648412543e704c0a8f4623a401">c</link>),&#32;<link linkend="_structai_plane_1a3a1fee6c44184dfd0bba7f82deae1dd2">d</link>(o.<link linkend="_structai_plane_1a3a1fee6c44184dfd0bba7f82deae1dd2">d</link>)&#32;{}
+137 
+138 <emphasis role="preprocessor">#endif&#32;</emphasis><emphasis role="comment">//&#32;!__cplusplus</emphasis>
+139 
+141 &#32;&#32;&#32;&#32;<link linkend="_defs_8h_1af221f9bbc3e0dc43a46efaaac6dab067">ai_real</link>&#32;<link linkend="_structai_plane_1a0e2f46be0d810fef7633c9d4b77c5556">a</link>,&#32;<link linkend="_structai_plane_1aac7052fbb5bb20714031a65c9cc5865d">b</link>,&#32;<link linkend="_structai_plane_1a5640a9648412543e704c0a8f4623a401">c</link>,&#32;<link linkend="_structai_plane_1a3a1fee6c44184dfd0bba7f82deae1dd2">d</link>;
+142 };&#32;<emphasis role="comment">//&#32;!struct&#32;aiPlane</emphasis>
+143 
+144 <emphasis role="comment">//&#32;----------------------------------------------------------------------------------</emphasis>
+147 <emphasis role="keyword">struct&#32;</emphasis><link linkend="_structai_ray">aiRay</link>&#32;{
+148 <emphasis role="preprocessor">#ifdef&#32;__cplusplus</emphasis>
+149 &#32;&#32;&#32;&#32;<link linkend="_structai_ray">aiRay</link>()&#32;<link linkend="_defs_8h_1ae032f18edd69bf6ba935ef9feb025a96">AI_NO_EXCEPT</link>&#32;{}
+150 &#32;&#32;&#32;&#32;<link linkend="_structai_ray">aiRay</link>(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&#32;&amp;_pos,&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&#32;&amp;_dir)&#32;:
+151 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structai_ray_1a312f663a7d2580b1b3beb52ffd4ab4c9">pos</link>(_pos),&#32;<link linkend="_structai_ray_1a635d9120af2654716e5e7952d837282b">dir</link>(_dir)&#32;{}
+152 
+153 &#32;&#32;&#32;&#32;<link linkend="_structai_ray">aiRay</link>(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_structai_ray">aiRay</link>&#32;&amp;o)&#32;:
+154 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structai_ray_1a312f663a7d2580b1b3beb52ffd4ab4c9">pos</link>(o.<link linkend="_structai_ray_1a312f663a7d2580b1b3beb52ffd4ab4c9">pos</link>),&#32;<link linkend="_structai_ray_1a635d9120af2654716e5e7952d837282b">dir</link>(o.<link linkend="_structai_ray_1a635d9120af2654716e5e7952d837282b">dir</link>)&#32;{}
+155 
+156 <emphasis role="preprocessor">#endif&#32;</emphasis><emphasis role="comment">//&#32;!__cplusplus</emphasis>
+157 
+159 &#32;&#32;&#32;&#32;<link linkend="_defs_8h_1ab51df4230ceb602bbc1bc109c432a6a0">C_STRUCT</link>&#32;<link linkend="_structai_vector3_d">aiVector3D</link>&#32;<link linkend="_structai_ray_1a312f663a7d2580b1b3beb52ffd4ab4c9">pos</link>,&#32;<link linkend="_structai_ray_1a635d9120af2654716e5e7952d837282b">dir</link>;
+160 };&#32;<emphasis role="comment">//&#32;!struct&#32;aiRay</emphasis>
+161 
+162 <emphasis role="comment">//&#32;----------------------------------------------------------------------------------</emphasis>
+165 <emphasis role="keyword">struct&#32;</emphasis><link linkend="_structai_color3_d">aiColor3D</link>&#32;{
+166 <emphasis role="preprocessor">#ifdef&#32;__cplusplus</emphasis>
+167 &#32;&#32;&#32;&#32;<link linkend="_structai_color3_d">aiColor3D</link>()&#32;<link linkend="_defs_8h_1ae032f18edd69bf6ba935ef9feb025a96">AI_NO_EXCEPT</link>&#32;:&#32;<link linkend="_structai_color3_d_1a9244c589dc4c8d95e4107951f2a9a386">r</link>(0.0f),&#32;<link linkend="_structai_color3_d_1a1d0d24589ceb621da76b550a347859a5">g</link>(0.0f),&#32;<link linkend="_structai_color3_d_1a6ddfc96e5a77a1277687021494fbe844">b</link>(0.0f)&#32;{}
+168 &#32;&#32;&#32;&#32;<link linkend="_structai_color3_d">aiColor3D</link>(<link linkend="_defs_8h_1af221f9bbc3e0dc43a46efaaac6dab067">ai_real</link>&#32;_r,&#32;<link linkend="_defs_8h_1af221f9bbc3e0dc43a46efaaac6dab067">ai_real</link>&#32;_g,&#32;<link linkend="_defs_8h_1af221f9bbc3e0dc43a46efaaac6dab067">ai_real</link>&#32;_b)&#32;:
+169 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structai_color3_d_1a9244c589dc4c8d95e4107951f2a9a386">r</link>(_r),&#32;<link linkend="_structai_color3_d_1a1d0d24589ceb621da76b550a347859a5">g</link>(_g),&#32;<link linkend="_structai_color3_d_1a6ddfc96e5a77a1277687021494fbe844">b</link>(_b)&#32;{}
+170 &#32;&#32;&#32;&#32;<emphasis role="keyword">explicit</emphasis>&#32;<link linkend="_structai_color3_d">aiColor3D</link>(<link linkend="_defs_8h_1af221f9bbc3e0dc43a46efaaac6dab067">ai_real</link>&#32;_r)&#32;:
+171 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structai_color3_d_1a9244c589dc4c8d95e4107951f2a9a386">r</link>(_r),&#32;<link linkend="_structai_color3_d_1a1d0d24589ceb621da76b550a347859a5">g</link>(_r),&#32;<link linkend="_structai_color3_d_1a6ddfc96e5a77a1277687021494fbe844">b</link>(_r)&#32;{}
+172 &#32;&#32;&#32;&#32;<link linkend="_structai_color3_d">aiColor3D</link>(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_structai_color3_d">aiColor3D</link>&#32;&amp;o)&#32;:
+173 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structai_color3_d_1a9244c589dc4c8d95e4107951f2a9a386">r</link>(o.<link linkend="_structai_color3_d_1a9244c589dc4c8d95e4107951f2a9a386">r</link>),&#32;<link linkend="_structai_color3_d_1a1d0d24589ceb621da76b550a347859a5">g</link>(o.<link linkend="_structai_color3_d_1a1d0d24589ceb621da76b550a347859a5">g</link>),&#32;<link linkend="_structai_color3_d_1a6ddfc96e5a77a1277687021494fbe844">b</link>(o.<link linkend="_structai_color3_d_1a6ddfc96e5a77a1277687021494fbe844">b</link>)&#32;{}
+174 
+175 &#32;&#32;&#32;&#32;<link linkend="_structai_color3_d">aiColor3D</link>&#32;&amp;operator=(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_structai_color3_d">aiColor3D</link>&#32;&amp;o)&#32;{
+176 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1abe08814c2f72843fde4d8df41440d5a0">r</link>&#32;=&#32;o.<link linkend="_structai_color3_d_1a9244c589dc4c8d95e4107951f2a9a386">r</link>;
+177 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a9cd653b1648845554169fbc3a3f6d37a">g</link>&#32;=&#32;o.<link linkend="_structai_color3_d_1a1d0d24589ceb621da76b550a347859a5">g</link>;
+178 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>&#32;=&#32;o.<link linkend="_structai_color3_d_1a6ddfc96e5a77a1277687021494fbe844">b</link>;
+179 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;*<emphasis role="keyword">this</emphasis>;
+180 &#32;&#32;&#32;&#32;}
+181 
+183 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;TODO:&#32;add&#32;epsilon?</emphasis>
+184 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_d3dx12__core_8h_1abaa7b9c9360889b3da29669bdf7103a6">operator==</link>(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_structai_color3_d">aiColor3D</link>&#32;&amp;other)<emphasis role="keyword">&#32;const&#32;</emphasis>{&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_glad_8h_1abe08814c2f72843fde4d8df41440d5a0">r</link>&#32;==&#32;other.<link linkend="_structai_color3_d_1a9244c589dc4c8d95e4107951f2a9a386">r</link>&#32;&amp;&amp;&#32;<link linkend="_glad_8h_1a9cd653b1648845554169fbc3a3f6d37a">g</link>&#32;==&#32;other.<link linkend="_structai_color3_d_1a1d0d24589ceb621da76b550a347859a5">g</link>&#32;&amp;&amp;&#32;<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>&#32;==&#32;other.<link linkend="_structai_color3_d_1a6ddfc96e5a77a1277687021494fbe844">b</link>;&#32;}
+185 
+187 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;TODO:&#32;add&#32;epsilon?</emphasis>
+188 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_d3dx12__core_8h_1a9db3eda2cb0b747ec337ec87a15d4b0a">operator!=</link>(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_structai_color3_d">aiColor3D</link>&#32;&amp;other)<emphasis role="keyword">&#32;const&#32;</emphasis>{&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_glad_8h_1abe08814c2f72843fde4d8df41440d5a0">r</link>&#32;!=&#32;other.<link linkend="_structai_color3_d_1a9244c589dc4c8d95e4107951f2a9a386">r</link>&#32;||&#32;<link linkend="_glad_8h_1a9cd653b1648845554169fbc3a3f6d37a">g</link>&#32;!=&#32;other.<link linkend="_structai_color3_d_1a1d0d24589ceb621da76b550a347859a5">g</link>&#32;||&#32;<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>&#32;!=&#32;other.<link linkend="_structai_color3_d_1a6ddfc96e5a77a1277687021494fbe844">b</link>;&#32;}
+189 
+191 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;TODO:&#32;add&#32;epsilon?</emphasis>
+192 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_json_8hpp_1a7f5e896ecae9860b0368b945abd45cfb">operator&lt;</link>(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_structai_color3_d">aiColor3D</link>&#32;&amp;other)<emphasis role="keyword">&#32;const&#32;</emphasis>{
+193 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_glad_8h_1abe08814c2f72843fde4d8df41440d5a0">r</link>&#32;&lt;&#32;other.<link linkend="_structai_color3_d_1a9244c589dc4c8d95e4107951f2a9a386">r</link>&#32;||&#32;(<link linkend="_glad_8h_1abe08814c2f72843fde4d8df41440d5a0">r</link>&#32;==&#32;other.<link linkend="_structai_color3_d_1a9244c589dc4c8d95e4107951f2a9a386">r</link>&#32;&amp;&amp;&#32;(<link linkend="_glad_8h_1a9cd653b1648845554169fbc3a3f6d37a">g</link>&#32;&lt;&#32;other.<link linkend="_structai_color3_d_1a1d0d24589ceb621da76b550a347859a5">g</link>&#32;||&#32;(<link linkend="_glad_8h_1a9cd653b1648845554169fbc3a3f6d37a">g</link>&#32;==&#32;other.<link linkend="_structai_color3_d_1a1d0d24589ceb621da76b550a347859a5">g</link>&#32;&amp;&amp;&#32;<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>&#32;&lt;&#32;other.<link linkend="_structai_color3_d_1a6ddfc96e5a77a1277687021494fbe844">b</link>)));
+194 &#32;&#32;&#32;&#32;}
+195 
+197 &#32;&#32;&#32;&#32;<link linkend="_structai_color3_d">aiColor3D</link>&#32;<link linkend="_directxtk12__desktop__2019_82024_86_85_81_2include_2_simple_math_8inl_1afd36bb5599ebe3be5da50c970138d80b">operator+</link>(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_structai_color3_d">aiColor3D</link>&#32;&amp;c)<emphasis role="keyword">&#32;const&#32;</emphasis>{
+198 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structai_color3_d">aiColor3D</link>(<link linkend="_glad_8h_1abe08814c2f72843fde4d8df41440d5a0">r</link>&#32;+&#32;c.<link linkend="_structai_color3_d_1a9244c589dc4c8d95e4107951f2a9a386">r</link>,&#32;<link linkend="_glad_8h_1a9cd653b1648845554169fbc3a3f6d37a">g</link>&#32;+&#32;c.<link linkend="_structai_color3_d_1a1d0d24589ceb621da76b550a347859a5">g</link>,&#32;<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>&#32;+&#32;c.<link linkend="_structai_color3_d_1a6ddfc96e5a77a1277687021494fbe844">b</link>);
+199 &#32;&#32;&#32;&#32;}
+200 
+202 &#32;&#32;&#32;&#32;<link linkend="_structai_color3_d">aiColor3D</link>&#32;<link linkend="_directxtk12__desktop__2019_82024_86_85_81_2include_2_simple_math_8inl_1a597126d284468478376731d2f6e908f5">operator-</link>(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_structai_color3_d">aiColor3D</link>&#32;&amp;c)<emphasis role="keyword">&#32;const&#32;</emphasis>{
+203 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structai_color3_d">aiColor3D</link>(<link linkend="_glad_8h_1abe08814c2f72843fde4d8df41440d5a0">r</link>&#32;-&#32;c.<link linkend="_structai_color3_d_1a9244c589dc4c8d95e4107951f2a9a386">r</link>,&#32;<link linkend="_glad_8h_1a9cd653b1648845554169fbc3a3f6d37a">g</link>&#32;-&#32;c.<link linkend="_structai_color3_d_1a1d0d24589ceb621da76b550a347859a5">g</link>,&#32;<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>&#32;-&#32;c.<link linkend="_structai_color3_d_1a6ddfc96e5a77a1277687021494fbe844">b</link>);
+204 &#32;&#32;&#32;&#32;}
+205 
+207 &#32;&#32;&#32;&#32;<link linkend="_structai_color3_d">aiColor3D</link>&#32;<link linkend="_directxtk12__desktop__2019_82024_86_85_81_2include_2_simple_math_8inl_1ac6fdab017606296adde41006764cc6fd">operator*</link>(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_structai_color3_d">aiColor3D</link>&#32;&amp;c)<emphasis role="keyword">&#32;const&#32;</emphasis>{
+208 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structai_color3_d">aiColor3D</link>(<link linkend="_glad_8h_1abe08814c2f72843fde4d8df41440d5a0">r</link>&#32;*&#32;c.<link linkend="_structai_color3_d_1a9244c589dc4c8d95e4107951f2a9a386">r</link>,&#32;<link linkend="_glad_8h_1a9cd653b1648845554169fbc3a3f6d37a">g</link>&#32;*&#32;c.<link linkend="_structai_color3_d_1a1d0d24589ceb621da76b550a347859a5">g</link>,&#32;<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>&#32;*&#32;c.<link linkend="_structai_color3_d_1a6ddfc96e5a77a1277687021494fbe844">b</link>);
+209 &#32;&#32;&#32;&#32;}
+210 
+212 &#32;&#32;&#32;&#32;<link linkend="_structai_color3_d">aiColor3D</link>&#32;<link linkend="_directxtk12__desktop__2019_82024_86_85_81_2include_2_simple_math_8inl_1ac6fdab017606296adde41006764cc6fd">operator*</link>(<link linkend="_defs_8h_1af221f9bbc3e0dc43a46efaaac6dab067">ai_real</link>&#32;<link linkend="_glad_8h_1ae29c29480f1260cc37ad71203904ea4d">f</link>)<emphasis role="keyword">&#32;const&#32;</emphasis>{
+213 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structai_color3_d">aiColor3D</link>(<link linkend="_glad_8h_1abe08814c2f72843fde4d8df41440d5a0">r</link>&#32;*&#32;<link linkend="_glad_8h_1ae29c29480f1260cc37ad71203904ea4d">f</link>,&#32;<link linkend="_glad_8h_1a9cd653b1648845554169fbc3a3f6d37a">g</link>&#32;*&#32;<link linkend="_glad_8h_1ae29c29480f1260cc37ad71203904ea4d">f</link>,&#32;<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>&#32;*&#32;<link linkend="_glad_8h_1ae29c29480f1260cc37ad71203904ea4d">f</link>);
+214 &#32;&#32;&#32;&#32;}
+215 
+217 &#32;&#32;&#32;&#32;<link linkend="_defs_8h_1af221f9bbc3e0dc43a46efaaac6dab067">ai_real</link>&#32;operator[](<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>)<emphasis role="keyword">&#32;const&#32;</emphasis>{
+218 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;*(&amp;<link linkend="_glad_8h_1abe08814c2f72843fde4d8df41440d5a0">r</link>&#32;+&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>);
+219 &#32;&#32;&#32;&#32;}
+220 
+222 &#32;&#32;&#32;&#32;<link linkend="_defs_8h_1af221f9bbc3e0dc43a46efaaac6dab067">ai_real</link>&#32;&amp;operator[](<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>)&#32;{
+223 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(0&#32;==&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>)&#32;{
+224 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structai_color3_d_1a9244c589dc4c8d95e4107951f2a9a386">r</link>;
+225 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}&#32;<emphasis role="keywordflow">else</emphasis>&#32;<emphasis role="keywordflow">if</emphasis>&#32;(1&#32;==&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>)&#32;{
+226 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structai_color3_d_1a1d0d24589ceb621da76b550a347859a5">g</link>;
+227 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}&#32;<emphasis role="keywordflow">else</emphasis>&#32;<emphasis role="keywordflow">if</emphasis>&#32;(2&#32;==&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1acb559820d9ca11295b4500f179ef6392">i</link>)&#32;{
+228 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structai_color3_d_1a6ddfc96e5a77a1277687021494fbe844">b</link>;
+229 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+230 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structai_color3_d_1a9244c589dc4c8d95e4107951f2a9a386">r</link>;
+231 &#32;&#32;&#32;&#32;}
+232 
+234 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;IsBlack()<emphasis role="keyword">&#32;const&#32;</emphasis>{
+235 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">static</emphasis>&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_defs_8h_1af221f9bbc3e0dc43a46efaaac6dab067">ai_real</link>&#32;epsilon&#32;=&#32;<link linkend="_defs_8h_1af221f9bbc3e0dc43a46efaaac6dab067">ai_real</link>(10<link linkend="_classe">e</link>-3);
+236 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;std::fabs(<link linkend="_glad_8h_1abe08814c2f72843fde4d8df41440d5a0">r</link>)&#32;&lt;&#32;epsilon&#32;&amp;&amp;&#32;std::fabs(<link linkend="_glad_8h_1a9cd653b1648845554169fbc3a3f6d37a">g</link>)&#32;&lt;&#32;epsilon&#32;&amp;&amp;&#32;std::fabs(<link linkend="_glad_8h_1a6eba317e3cf44d6d26c04a5a8f197dcb">b</link>)&#32;&lt;&#32;epsilon;
+237 &#32;&#32;&#32;&#32;}
+238 
+239 <emphasis role="preprocessor">#endif&#32;</emphasis><emphasis role="comment">//&#32;!__cplusplus</emphasis>
+240 
+242 &#32;&#32;&#32;&#32;<link linkend="_defs_8h_1af221f9bbc3e0dc43a46efaaac6dab067">ai_real</link>&#32;<link linkend="_structai_color3_d_1a9244c589dc4c8d95e4107951f2a9a386">r</link>,&#32;<link linkend="_structai_color3_d_1a1d0d24589ceb621da76b550a347859a5">g</link>,&#32;<link linkend="_structai_color3_d_1a6ddfc96e5a77a1277687021494fbe844">b</link>;
+243 };&#32;<emphasis role="comment">//&#32;!struct&#32;aiColor3D</emphasis>
+244 
+245 <emphasis role="comment">//&#32;----------------------------------------------------------------------------------</emphasis>
+266 <emphasis role="keyword">struct&#32;</emphasis><link linkend="_structai_string">aiString</link>&#32;{
+267 <emphasis role="preprocessor">#ifdef&#32;__cplusplus</emphasis>
+269 &#32;&#32;&#32;&#32;<link linkend="_structai_string">aiString</link>()&#32;<link linkend="_defs_8h_1ae032f18edd69bf6ba935ef9feb025a96">AI_NO_EXCEPT</link>
+270 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;<link linkend="_structai_string_1aed051e2996a96ca3a53e069f9b93da0c">length</link>(0)&#32;{
+271 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>[0]&#32;=&#32;<emphasis role="charliteral">&apos;\0&apos;</emphasis>;
+272 
+273 <emphasis role="preprocessor">#ifdef&#32;ASSIMP_BUILD_DEBUG</emphasis>
+274 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Debug&#32;build:&#32;overwrite&#32;the&#32;string&#32;on&#32;its&#32;full&#32;length&#32;with&#32;ESC&#32;(27)</emphasis>
+275 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memset(<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>&#32;+&#32;1,&#32;27,&#32;<link linkend="_types_8h_1ae6648cd71a8bd49d58ae8ed33ba910d1">MAXLEN</link>&#32;-&#32;1);
+276 <emphasis role="preprocessor">#endif</emphasis>
+277 &#32;&#32;&#32;&#32;}
+278 
+280 &#32;&#32;&#32;&#32;<link linkend="_structai_string">aiString</link>(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_structai_string">aiString</link>&#32;&amp;rOther)&#32;:
+281 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structai_string_1aed051e2996a96ca3a53e069f9b93da0c">length</link>(rOther.<link linkend="_structai_string_1aed051e2996a96ca3a53e069f9b93da0c">length</link>)&#32;{
+282 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Crop&#32;the&#32;string&#32;to&#32;the&#32;maximum&#32;length</emphasis>
+283 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a011fc24f10426c01349e94a4edd4b0d5">length</link>&#32;=&#32;<link linkend="_glad_8h_1a011fc24f10426c01349e94a4edd4b0d5">length</link>&#32;&gt;=&#32;<link linkend="_types_8h_1ae6648cd71a8bd49d58ae8ed33ba910d1">MAXLEN</link>&#32;?&#32;<link linkend="_types_8h_1ae6648cd71a8bd49d58ae8ed33ba910d1">MAXLEN</link>&#32;-&#32;1&#32;:&#32;<link linkend="_structai_string_1aed051e2996a96ca3a53e069f9b93da0c">length</link>;
+284 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memcpy(<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>,&#32;rOther.<link linkend="_structai_string_1aa90b1da7d347a3dcca0a95061e6ea41d">data</link>,&#32;<link linkend="_glad_8h_1a011fc24f10426c01349e94a4edd4b0d5">length</link>);
+285 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>[<link linkend="_structai_string_1aed051e2996a96ca3a53e069f9b93da0c">length</link>]&#32;=&#32;<emphasis role="charliteral">&apos;\0&apos;</emphasis>;
+286 &#32;&#32;&#32;&#32;}
+287 
+289 &#32;&#32;&#32;&#32;<emphasis role="keyword">explicit</emphasis>&#32;<link linkend="_structai_string">aiString</link>(<emphasis role="keyword">const</emphasis>&#32;std::string&#32;&amp;pString)&#32;:
+290 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structai_string_1aed051e2996a96ca3a53e069f9b93da0c">length</link>((<link linkend="_types_8h_1a62b54a3ae3ae350c86fe848e22cb5b0a">ai_uint32</link>)pString.length())&#32;{
+291 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a011fc24f10426c01349e94a4edd4b0d5">length</link>&#32;=&#32;<link linkend="_glad_8h_1a011fc24f10426c01349e94a4edd4b0d5">length</link>&#32;&gt;=&#32;<link linkend="_types_8h_1ae6648cd71a8bd49d58ae8ed33ba910d1">MAXLEN</link>&#32;?&#32;<link linkend="_types_8h_1ae6648cd71a8bd49d58ae8ed33ba910d1">MAXLEN</link>&#32;-&#32;1&#32;:&#32;<link linkend="_structai_string_1aed051e2996a96ca3a53e069f9b93da0c">length</link>;
+292 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memcpy(<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>,&#32;pString.c_str(),&#32;<link linkend="_glad_8h_1a011fc24f10426c01349e94a4edd4b0d5">length</link>);
+293 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>[<link linkend="_structai_string_1aed051e2996a96ca3a53e069f9b93da0c">length</link>]&#32;=&#32;<emphasis role="charliteral">&apos;\0&apos;</emphasis>;
+294 &#32;&#32;&#32;&#32;}
+295 
+297 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1a04b214e7efdfd660ece81f0561f2ee4d">Set</link>(<emphasis role="keyword">const</emphasis>&#32;std::string&#32;&amp;pString)&#32;{
+298 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(pString.length()&#32;&gt;&#32;<link linkend="_types_8h_1ae6648cd71a8bd49d58ae8ed33ba910d1">MAXLEN</link>&#32;-&#32;1)&#32;{
+299 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>;
+300 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+301 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a011fc24f10426c01349e94a4edd4b0d5">length</link>&#32;=&#32;(<link linkend="_types_8h_1a62b54a3ae3ae350c86fe848e22cb5b0a">ai_uint32</link>)pString.length();
+302 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memcpy(<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>,&#32;pString.c_str(),&#32;<link linkend="_glad_8h_1a011fc24f10426c01349e94a4edd4b0d5">length</link>);
+303 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>[<link linkend="_structai_string_1aed051e2996a96ca3a53e069f9b93da0c">length</link>]&#32;=&#32;0;
+304 &#32;&#32;&#32;&#32;}
+305 
+307 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1a04b214e7efdfd660ece81f0561f2ee4d">Set</link>(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*sz)&#32;{
+308 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_types_8h_1a3ae7f34c2ad2e1575490615c3504e84f">ai_int32</link>&#32;len&#32;=&#32;(<link linkend="_types_8h_1a62b54a3ae3ae350c86fe848e22cb5b0a">ai_uint32</link>)::strlen(sz);
+309 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(len&#32;&gt;&#32;(<link linkend="_types_8h_1a3ae7f34c2ad2e1575490615c3504e84f">ai_int32</link>)<link linkend="_types_8h_1ae6648cd71a8bd49d58ae8ed33ba910d1">MAXLEN</link>&#32;-&#32;1)&#32;{
+310 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;len&#32;=&#32;(<link linkend="_types_8h_1a3ae7f34c2ad2e1575490615c3504e84f">ai_int32</link>)&#32;<link linkend="_types_8h_1ae6648cd71a8bd49d58ae8ed33ba910d1">MAXLEN</link>&#32;-&#32;1;
+311 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+312 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a011fc24f10426c01349e94a4edd4b0d5">length</link>&#32;=&#32;len;
+313 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memcpy(<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>,&#32;sz,&#32;len);
+314 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>[len]&#32;=&#32;0;
+315 &#32;&#32;&#32;&#32;}
+316 
+318 &#32;&#32;&#32;&#32;<link linkend="_structai_string">aiString</link>&#32;&amp;operator=(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_structai_string">aiString</link>&#32;&amp;rOther)&#32;{
+319 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(<emphasis role="keyword">this</emphasis>&#32;==&#32;&amp;rOther)&#32;{
+320 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;*<emphasis role="keyword">this</emphasis>;
+321 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+322 
+323 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a011fc24f10426c01349e94a4edd4b0d5">length</link>&#32;=&#32;rOther.<link linkend="_structai_string_1aed051e2996a96ca3a53e069f9b93da0c">length</link>;
+324 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(<link linkend="_glad_8h_1a011fc24f10426c01349e94a4edd4b0d5">length</link>&#32;&gt;(<link linkend="_types_8h_1ae6648cd71a8bd49d58ae8ed33ba910d1">MAXLEN</link>&#32;-&#32;1))&#32;{
+325 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a011fc24f10426c01349e94a4edd4b0d5">length</link>&#32;=&#32;(<link linkend="_types_8h_1a3ae7f34c2ad2e1575490615c3504e84f">ai_int32</link>)&#32;<link linkend="_types_8h_1ae6648cd71a8bd49d58ae8ed33ba910d1">MAXLEN</link>&#32;-&#32;1;
+326 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+327 
+328 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memcpy(<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>,&#32;rOther.<link linkend="_structai_string_1aa90b1da7d347a3dcca0a95061e6ea41d">data</link>,&#32;<link linkend="_glad_8h_1a011fc24f10426c01349e94a4edd4b0d5">length</link>);
+329 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>[<link linkend="_structai_string_1aed051e2996a96ca3a53e069f9b93da0c">length</link>]&#32;=&#32;<emphasis role="charliteral">&apos;\0&apos;</emphasis>;
+330 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;*<emphasis role="keyword">this</emphasis>;
+331 &#32;&#32;&#32;&#32;}
+332 
+334 &#32;&#32;&#32;&#32;<link linkend="_structai_string">aiString</link>&#32;&amp;operator=(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*sz)&#32;{
+335 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1a04b214e7efdfd660ece81f0561f2ee4d">Set</link>(sz);
+336 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;*<emphasis role="keyword">this</emphasis>;
+337 &#32;&#32;&#32;&#32;}
+338 
+340 &#32;&#32;&#32;&#32;<link linkend="_structai_string">aiString</link>&#32;&amp;operator=(<emphasis role="keyword">const</emphasis>&#32;std::string&#32;&amp;pString)&#32;{
+341 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e___m_a_i_n_8cpp_1a04b214e7efdfd660ece81f0561f2ee4d">Set</link>(pString);
+342 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;*<emphasis role="keyword">this</emphasis>;
+343 &#32;&#32;&#32;&#32;}
+344 
+346 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_d3dx12__core_8h_1abaa7b9c9360889b3da29669bdf7103a6">operator==</link>(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_structai_string">aiString</link>&#32;&amp;other)<emphasis role="keyword">&#32;const&#32;</emphasis>{
+347 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;(<link linkend="_glad_8h_1a011fc24f10426c01349e94a4edd4b0d5">length</link>&#32;==&#32;other.<link linkend="_structai_string_1aed051e2996a96ca3a53e069f9b93da0c">length</link>&#32;&amp;&amp;&#32;0&#32;==&#32;memcmp(<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>,&#32;other.<link linkend="_structai_string_1aa90b1da7d347a3dcca0a95061e6ea41d">data</link>,&#32;<link linkend="_glad_8h_1a011fc24f10426c01349e94a4edd4b0d5">length</link>));
+348 &#32;&#32;&#32;&#32;}
+349 
+351 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;<link linkend="_d3dx12__core_8h_1a9db3eda2cb0b747ec337ec87a15d4b0a">operator!=</link>(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_structai_string">aiString</link>&#32;&amp;other)<emphasis role="keyword">&#32;const&#32;</emphasis>{
+352 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;(<link linkend="_glad_8h_1a011fc24f10426c01349e94a4edd4b0d5">length</link>&#32;!=&#32;other.<link linkend="_structai_string_1aed051e2996a96ca3a53e069f9b93da0c">length</link>&#32;||&#32;0&#32;!=&#32;memcmp(<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>,&#32;other.<link linkend="_structai_string_1aa90b1da7d347a3dcca0a95061e6ea41d">data</link>,&#32;<link linkend="_glad_8h_1a011fc24f10426c01349e94a4edd4b0d5">length</link>));
+353 &#32;&#32;&#32;&#32;}
+354 
+356 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;Append(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*app)&#32;{
+357 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_types_8h_1a62b54a3ae3ae350c86fe848e22cb5b0a">ai_uint32</link>&#32;len&#32;=&#32;(<link linkend="_types_8h_1a62b54a3ae3ae350c86fe848e22cb5b0a">ai_uint32</link>)::strlen(app);
+358 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(!len)&#32;{
+359 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>;
+360 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+361 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(<link linkend="_glad_8h_1a011fc24f10426c01349e94a4edd4b0d5">length</link>&#32;+&#32;len&#32;&gt;=&#32;<link linkend="_types_8h_1ae6648cd71a8bd49d58ae8ed33ba910d1">MAXLEN</link>)&#32;{
+362 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>;
+363 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+364 
+365 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memcpy(&amp;<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>[<link linkend="_glad_8h_1a011fc24f10426c01349e94a4edd4b0d5">length</link>],&#32;app,&#32;len&#32;+&#32;1);
+366 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a011fc24f10426c01349e94a4edd4b0d5">length</link>&#32;+=&#32;len;
+367 &#32;&#32;&#32;&#32;}
+368 
+370 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>&#32;Clear()&#32;{
+371 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1a011fc24f10426c01349e94a4edd4b0d5">length</link>&#32;=&#32;0;
+372 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>[0]&#32;=&#32;<emphasis role="charliteral">&apos;\0&apos;</emphasis>;
+373 
+374 <emphasis role="preprocessor">#ifdef&#32;ASSIMP_BUILD_DEBUG</emphasis>
+375 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Debug&#32;build:&#32;overwrite&#32;the&#32;string&#32;on&#32;its&#32;full&#32;length&#32;with&#32;ESC&#32;(27)</emphasis>
+376 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;memset(<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>&#32;+&#32;1,&#32;27,&#32;<link linkend="_types_8h_1ae6648cd71a8bd49d58ae8ed33ba910d1">MAXLEN</link>&#32;-&#32;1);
+377 <emphasis role="preprocessor">#endif</emphasis>
+378 &#32;&#32;&#32;&#32;}
+379 
+381 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*C_Str()<emphasis role="keyword">&#32;const&#32;</emphasis>{
+382 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_structai_string_1aa90b1da7d347a3dcca0a95061e6ea41d">data</link>;
+383 &#32;&#32;&#32;&#32;}
+384 
+385 <emphasis role="preprocessor">#endif&#32;</emphasis><emphasis role="comment">//&#32;!__cplusplus</emphasis>
+386 
+390 &#32;&#32;&#32;&#32;<link linkend="_types_8h_1a62b54a3ae3ae350c86fe848e22cb5b0a">ai_uint32</link>&#32;<link linkend="_structai_string_1aed051e2996a96ca3a53e069f9b93da0c">length</link>;
+391 
+393 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">char</emphasis>&#32;<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>[<link linkend="_types_8h_1ae6648cd71a8bd49d58ae8ed33ba910d1">MAXLEN</link>];
+394 };&#32;<emphasis role="comment">//&#32;!struct&#32;aiString</emphasis>
+395 
+396 <emphasis role="comment">//&#32;----------------------------------------------------------------------------------</emphasis>
+400 <emphasis role="keyword">typedef</emphasis>&#32;<emphasis role="keyword">enum</emphasis>&#32;<link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link>&#32;{
+402 &#32;&#32;&#32;&#32;<link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711a7bde061360634cbb833c7b5199cc9a86">aiReturn_SUCCESS</link>&#32;=&#32;0x0,
+403 
+405 &#32;&#32;&#32;&#32;<link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711a2c3ac03541b60141d29673edd7220e76">aiReturn_FAILURE</link>&#32;=&#32;-0x1,
+406 
+410 &#32;&#32;&#32;&#32;<link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711aec066535964aaa165dd72815ade727f1">aiReturn_OUTOFMEMORY</link>&#32;=&#32;-0x3,
+411 
+415 &#32;&#32;&#32;&#32;_AI_ENFORCE_ENUM_SIZE&#32;=&#32;0x7fffffff
+416 
+418 }&#32;<link linkend="_types_8h_1a1f78dfb65090aa930cabb984c8abe711">aiReturn</link>;&#32;<emphasis role="comment">//&#32;!enum&#32;aiReturn</emphasis>
+419 
+420 <emphasis role="comment">//&#32;just&#32;for&#32;backwards&#32;compatibility,&#32;don&apos;t&#32;use&#32;these&#32;constants&#32;anymore</emphasis>
+421 <emphasis role="preprocessor">#define&#32;AI_SUCCESS&#32;aiReturn_SUCCESS</emphasis>
+422 <emphasis role="preprocessor">#define&#32;AI_FAILURE&#32;aiReturn_FAILURE</emphasis>
+423 <emphasis role="preprocessor">#define&#32;AI_OUTOFMEMORY&#32;aiReturn_OUTOFMEMORY</emphasis>
+424 
+425 <emphasis role="comment">//&#32;----------------------------------------------------------------------------------</emphasis>
+429 <emphasis role="keyword">enum</emphasis>&#32;<link linkend="_types_8h_1ac50fbaa57d78776ca99e42104d9b2786">aiOrigin</link>&#32;{
+431 &#32;&#32;&#32;&#32;<link linkend="_types_8h_1ac50fbaa57d78776ca99e42104d9b2786a94a44e681b6c891e39767c518b64b56f">aiOrigin_SET</link>&#32;=&#32;0x0,
+432 
+434 &#32;&#32;&#32;&#32;<link linkend="_types_8h_1ac50fbaa57d78776ca99e42104d9b2786a34f9f30078835fdb09212bf69d5ebb36">aiOrigin_CUR</link>&#32;=&#32;0x1,
+435 
+437 &#32;&#32;&#32;&#32;<link linkend="_types_8h_1ac50fbaa57d78776ca99e42104d9b2786a88929c7834e2026ab642fd84bea2fec7">aiOrigin_END</link>&#32;=&#32;0x2,
+438 
+442 &#32;&#32;&#32;&#32;_AI_ORIGIN_ENFORCE_ENUM_SIZE&#32;=&#32;0x7fffffff
+443 
+445 };&#32;<emphasis role="comment">//&#32;!enum&#32;aiOrigin</emphasis>
+446 
+447 <emphasis role="comment">//&#32;----------------------------------------------------------------------------------</emphasis>
+452 <emphasis role="keyword">enum</emphasis>&#32;<link linkend="_types_8h_1ae4271f61a7c06cd4770fc3e11f58f9c6">aiDefaultLogStream</link>&#32;{
+454 &#32;&#32;&#32;&#32;<link linkend="_types_8h_1ae4271f61a7c06cd4770fc3e11f58f9c6a53f81f9d36437ced72e67b297dc17815">aiDefaultLogStream_FILE</link>&#32;=&#32;0x1,
+455 
+457 &#32;&#32;&#32;&#32;<link linkend="_types_8h_1ae4271f61a7c06cd4770fc3e11f58f9c6a215b1796e410eed0b7ce1944ac54e72e">aiDefaultLogStream_STDOUT</link>&#32;=&#32;0x2,
+458 
+460 &#32;&#32;&#32;&#32;<link linkend="_types_8h_1ae4271f61a7c06cd4770fc3e11f58f9c6a3e0052f70e0098160739ee06c7f59048">aiDefaultLogStream_STDERR</link>&#32;=&#32;0x4,
+461 
+465 &#32;&#32;&#32;&#32;<link linkend="_types_8h_1ae4271f61a7c06cd4770fc3e11f58f9c6a424869369b939e649decec5cea6bb52c">aiDefaultLogStream_DEBUGGER</link>&#32;=&#32;0x8,
+466 
+470 &#32;&#32;&#32;&#32;_AI_DLS_ENFORCE_ENUM_SIZE&#32;=&#32;0x7fffffff
+472 };&#32;<emphasis role="comment">//&#32;!enum&#32;aiDefaultLogStream</emphasis>
+473 
+474 <emphasis role="comment">//&#32;just&#32;for&#32;backwards&#32;compatibility,&#32;don&apos;t&#32;use&#32;these&#32;constants&#32;anymore</emphasis>
+475 <emphasis role="preprocessor">#define&#32;DLS_FILE&#32;aiDefaultLogStream_FILE</emphasis>
+476 <emphasis role="preprocessor">#define&#32;DLS_STDOUT&#32;aiDefaultLogStream_STDOUT</emphasis>
+477 <emphasis role="preprocessor">#define&#32;DLS_STDERR&#32;aiDefaultLogStream_STDERR</emphasis>
+478 <emphasis role="preprocessor">#define&#32;DLS_DEBUGGER&#32;aiDefaultLogStream_DEBUGGER</emphasis>
+479 
+480 <emphasis role="comment">//&#32;----------------------------------------------------------------------------------</emphasis>
+485 <emphasis role="keyword">struct&#32;</emphasis><link linkend="_structai_memory_info">aiMemoryInfo</link>&#32;{
+486 <emphasis role="preprocessor">#ifdef&#32;__cplusplus</emphasis>
+487 
+489 &#32;&#32;&#32;&#32;<link linkend="_structai_memory_info_1ac33db49ed124ee37e8aa6da6ade03140">aiMemoryInfo</link>()&#32;<link linkend="_defs_8h_1ae032f18edd69bf6ba935ef9feb025a96">AI_NO_EXCEPT</link>
+490 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;:&#32;<link linkend="_glad_8h_1acc6ef2e5deceddd0970c990b9eafea99">textures</link>(0),
+491 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structai_memory_info_1a08b2ccd0cef8dec36e47fc1beeb168f1">materials</link>(0),
+492 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structai_memory_info_1ac24ed2b3c141f043765b6e34783d1e24">meshes</link>(0),
+493 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structai_memory_info_1a5a084942c81a29f7bb03c9903430b033">nodes</link>(0),
+494 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structai_memory_info_1af82394dc3a17a644061ed647817efa68">animations</link>(0),
+495 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structai_memory_info_1a3ddd36d7eabcf989ab72cda2dd3ff015">cameras</link>(0),
+496 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structai_memory_info_1afcd2ccdfab49e2fce989413a362b8d35">lights</link>(0),
+497 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_structai_memory_info_1a590739a4cef4876901d1cf6ff48f01b3">total</link>(0)&#32;{}
+498 
+499 <emphasis role="preprocessor">#endif</emphasis>
+500 
+502 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_structai_memory_info_1a32817d13f0e280777e49769f8c46f168">textures</link>;
+503 
+505 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_structai_memory_info_1a08b2ccd0cef8dec36e47fc1beeb168f1">materials</link>;
+506 
+508 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_structai_memory_info_1ac24ed2b3c141f043765b6e34783d1e24">meshes</link>;
+509 
+511 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_structai_memory_info_1a5a084942c81a29f7bb03c9903430b033">nodes</link>;
+512 
+514 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_structai_memory_info_1af82394dc3a17a644061ed647817efa68">animations</link>;
+515 
+517 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_structai_memory_info_1a3ddd36d7eabcf989ab72cda2dd3ff015">cameras</link>;
+518 
+520 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_structai_memory_info_1afcd2ccdfab49e2fce989413a362b8d35">lights</link>;
+521 
+523 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_structai_memory_info_1a590739a4cef4876901d1cf6ff48f01b3">total</link>;
+524 };&#32;<emphasis role="comment">//&#32;!struct&#32;aiMemoryInfo</emphasis>
+525 
+526 <emphasis role="preprocessor">#ifdef&#32;__cplusplus</emphasis>
+527 }
+528 <emphasis role="preprocessor">#endif&#32;</emphasis>
+529 
+530 <emphasis role="comment">//&#32;Include&#32;implementation&#32;files</emphasis>
+531 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_vector2_8inl">vector2.inl</link>&quot;</emphasis>
+532 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_vector3_8inl">vector3.inl</link>&quot;</emphasis>
+533 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_color4_8inl">color4.inl</link>&quot;</emphasis>
+534 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_matrix3x3_8inl">matrix3x3.inl</link>&quot;</emphasis>
+535 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_matrix4x4_8inl">matrix4x4.inl</link>&quot;</emphasis>
+536 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="_assimp_2quaternion_8inl">quaternion.inl</link>&quot;</emphasis>
+537 
+538 <emphasis role="preprocessor">#endif&#32;</emphasis><emphasis role="comment">//&#32;AI_TYPES_H_INC</emphasis>
+</programlisting></section>

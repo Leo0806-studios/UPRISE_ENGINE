@@ -1,0 +1,613 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_structjson__sax" xml:lang="en-US">
+<title>json_sax&lt; BasicJsonType &gt; Struct Template Reference</title>
+<indexterm><primary>json_sax&lt; BasicJsonType &gt;</primary></indexterm>
+<para>
+
+<para>SAX interface. </para>
+ 
+</para>
+<para>
+<computeroutput>#include &lt;json.hpp&gt;</computeroutput>
+</para>
+<simplesect>
+    <title>Public Types    </title>
+        <itemizedlist>
+            <listitem><para>using <link linkend="_structjson__sax_1a5fd59c56514447ab1a7c5e7f0ab24601">number_integer_t</link> = typename BasicJsonType::number_integer_t</para>
+</listitem>
+            <listitem><para>using <link linkend="_structjson__sax_1acbd02515ccdc3bfe940688fc96ac1359">number_unsigned_t</link> = typename BasicJsonType::number_unsigned_t</para>
+</listitem>
+            <listitem><para>using <link linkend="_structjson__sax_1acb0bfbb3b0c6e9dc02cd6aab12c85654">number_float_t</link> = typename BasicJsonType::number_float_t</para>
+</listitem>
+            <listitem><para>using <link linkend="_structjson__sax_1a62085d156a899aaf2913ac25ded93996">string_t</link> = typename BasicJsonType::string_t</para>
+</listitem>
+            <listitem><para>using <link linkend="_structjson__sax_1aeb5a583cc482d34e764d038a9c682e02">binary_t</link> = typename BasicJsonType::binary_t</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Public Member Functions    </title>
+        <itemizedlist>
+            <listitem><para>virtual bool <link linkend="_structjson__sax_1acbcc09c0ada2782cd73cc4135823181d">null</link> ()=0</para>
+
+<para>a null value was read </para>
+</listitem>
+            <listitem><para>virtual bool <link linkend="_structjson__sax_1ab89f75382c0fd7fe81c95fc84cfa3150">boolean</link> (bool <link linkend="_glad_8h_1aa857b95cc76669c2a9109239ef40a47c">val</link>)=0</para>
+
+<para>a boolean value was read </para>
+</listitem>
+            <listitem><para>virtual bool <link linkend="_structjson__sax_1a46cc306b7677553d8f6bd8c9592eb1bd">number_integer</link> (<link linkend="_structjson__sax_1a5fd59c56514447ab1a7c5e7f0ab24601">number_integer_t</link> <link linkend="_glad_8h_1aa857b95cc76669c2a9109239ef40a47c">val</link>)=0</para>
+
+<para>an integer number was read </para>
+</listitem>
+            <listitem><para>virtual bool <link linkend="_structjson__sax_1a32f8a32794cb384f0de3d3a96a6bb696">number_unsigned</link> (<link linkend="_structjson__sax_1acbd02515ccdc3bfe940688fc96ac1359">number_unsigned_t</link> <link linkend="_glad_8h_1aa857b95cc76669c2a9109239ef40a47c">val</link>)=0</para>
+
+<para>an unsigned integer number was read </para>
+</listitem>
+            <listitem><para>virtual bool <link linkend="_structjson__sax_1a19eafa3a92fc75e0258a842283396aa9">number_float</link> (<link linkend="_structjson__sax_1acb0bfbb3b0c6e9dc02cd6aab12c85654">number_float_t</link> <link linkend="_glad_8h_1aa857b95cc76669c2a9109239ef40a47c">val</link>, const <link linkend="_structjson__sax_1a62085d156a899aaf2913ac25ded93996">string_t</link> &amp;s)=0</para>
+
+<para>a floating-point number was read </para>
+</listitem>
+            <listitem><para>virtual bool <link linkend="_structjson__sax_1a3da9ee0c61f1a37e6c6a3d2dccb16765">string</link> (<link linkend="_structjson__sax_1a62085d156a899aaf2913ac25ded93996">string_t</link> &amp;<link linkend="_glad_8h_1aa857b95cc76669c2a9109239ef40a47c">val</link>)=0</para>
+
+<para>a string value was read </para>
+</listitem>
+            <listitem><para>virtual bool <link linkend="_structjson__sax_1a15d6c5d0dcaceb906405f427faf9b34e">binary</link> (<link linkend="_structjson__sax_1aeb5a583cc482d34e764d038a9c682e02">binary_t</link> &amp;<link linkend="_glad_8h_1aa857b95cc76669c2a9109239ef40a47c">val</link>)=0</para>
+
+<para>a binary value was read </para>
+</listitem>
+            <listitem><para>virtual bool <link linkend="_structjson__sax_1a54a0883df64f40664395e3dad674aaa5">start_object</link> (std::size_t elements)=0</para>
+
+<para>the beginning of an object was read </para>
+</listitem>
+            <listitem><para>virtual bool <link linkend="_structjson__sax_1a3355ecd7e3e9806dcb80b2f8842b82ce">key</link> (<link linkend="_structjson__sax_1a62085d156a899aaf2913ac25ded93996">string_t</link> &amp;<link linkend="_glad_8h_1aa857b95cc76669c2a9109239ef40a47c">val</link>)=0</para>
+
+<para>an object key was read </para>
+</listitem>
+            <listitem><para>virtual bool <link linkend="_structjson__sax_1ac34854cab5e023c5d0e8b381a11aba5b">end_object</link> ()=0</para>
+
+<para>the end of an object was read </para>
+</listitem>
+            <listitem><para>virtual bool <link linkend="_structjson__sax_1afc4d5c0d123f2e3c939060a778c4f22c">start_array</link> (std::size_t elements)=0</para>
+
+<para>the beginning of an array was read </para>
+</listitem>
+            <listitem><para>virtual bool <link linkend="_structjson__sax_1a81fbddbf7dc96eab21ef916625ad5f3b">end_array</link> ()=0</para>
+
+<para>the end of an array was read </para>
+</listitem>
+            <listitem><para>virtual bool <link linkend="_structjson__sax_1af165920966b60b78e57a2e4d92a63897">parse_error</link> (std::size_t position, const std::string &amp;last_token, const <link linkend="_classdetail_1_1exception">detail::exception</link> &amp;ex)=0</para>
+
+<para>a parse error occurred </para>
+</listitem>
+            <listitem><para><link linkend="_structjson__sax_1a3603caf3847143337b9974d4b1c94f11">json_sax</link> ()=default</para>
+</listitem>
+            <listitem><para><link linkend="_structjson__sax_1a978a4d26990f64d60686ef22568e76eb">json_sax</link> (const <link linkend="_structjson__sax">json_sax</link> &amp;)=default</para>
+</listitem>
+            <listitem><para><link linkend="_structjson__sax_1adb6b743b889faf0c050f80bfae890450">json_sax</link> (<link linkend="_structjson__sax">json_sax</link> &amp;&amp;) noexcept=default</para>
+</listitem>
+            <listitem><para><link linkend="_structjson__sax">json_sax</link> &amp; <link linkend="_structjson__sax_1afff13171be3b416d8a6bcfa925883d9b">operator=</link> (const <link linkend="_structjson__sax">json_sax</link> &amp;)=default</para>
+</listitem>
+            <listitem><para><link linkend="_structjson__sax">json_sax</link> &amp; <link linkend="_structjson__sax_1a892558995c2ee775c9a3223282fd8733">operator=</link> (<link linkend="_structjson__sax">json_sax</link> &amp;&amp;) noexcept=default</para>
+</listitem>
+            <listitem><para>virtual <link linkend="_structjson__sax_1aa6c51db3f302401a85a89b750b654ad9">~json_sax</link> ()=default</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+<simplesect><title>template&lt;typename BasicJsonType&gt;<?linebreak?>struct json_sax&lt; BasicJsonType &gt;</title></simplesect>
+
+<para>SAX interface. </para>
+
+
+
+<para>This class describes the SAX interface used by <link linkend="_classbasic__json_1addedd5e53fa6eff6cd621f1615741c3d">nlohmann::json::sax_parse</link>. Each function is called in different situations while the input is parsed. The boolean return value informs the parser whether to continue processing the input. </para>
+</section>
+<section>
+<title>Member Typedef Documentation</title>
+<anchor xml:id="_structjson__sax_1aeb5a583cc482d34e764d038a9c682e02"/><section>
+    <title>binary_t</title>
+<indexterm><primary>binary_t</primary><secondary>json_sax&lt; BasicJsonType &gt;</secondary></indexterm>
+<indexterm><primary>json_sax&lt; BasicJsonType &gt;</primary><secondary>binary_t</secondary></indexterm>
+<computeroutput>template&lt;typename BasicJsonType &gt; </computeroutput><para><computeroutput>using <link linkend="_structjson__sax">json_sax</link>&lt; BasicJsonType &gt;::binary_t = typename BasicJsonType::binary_t</computeroutput></para></section>
+<anchor xml:id="_structjson__sax_1acb0bfbb3b0c6e9dc02cd6aab12c85654"/><section>
+    <title>number_float_t</title>
+<indexterm><primary>number_float_t</primary><secondary>json_sax&lt; BasicJsonType &gt;</secondary></indexterm>
+<indexterm><primary>json_sax&lt; BasicJsonType &gt;</primary><secondary>number_float_t</secondary></indexterm>
+<computeroutput>template&lt;typename BasicJsonType &gt; </computeroutput><para><computeroutput>using <link linkend="_structjson__sax">json_sax</link>&lt; BasicJsonType &gt;::number_float_t = typename BasicJsonType::number_float_t</computeroutput></para></section>
+<anchor xml:id="_structjson__sax_1a5fd59c56514447ab1a7c5e7f0ab24601"/><section>
+    <title>number_integer_t</title>
+<indexterm><primary>number_integer_t</primary><secondary>json_sax&lt; BasicJsonType &gt;</secondary></indexterm>
+<indexterm><primary>json_sax&lt; BasicJsonType &gt;</primary><secondary>number_integer_t</secondary></indexterm>
+<computeroutput>template&lt;typename BasicJsonType &gt; </computeroutput><para><computeroutput>using <link linkend="_structjson__sax">json_sax</link>&lt; BasicJsonType &gt;::number_integer_t = typename BasicJsonType::number_integer_t</computeroutput></para></section>
+<anchor xml:id="_structjson__sax_1acbd02515ccdc3bfe940688fc96ac1359"/><section>
+    <title>number_unsigned_t</title>
+<indexterm><primary>number_unsigned_t</primary><secondary>json_sax&lt; BasicJsonType &gt;</secondary></indexterm>
+<indexterm><primary>json_sax&lt; BasicJsonType &gt;</primary><secondary>number_unsigned_t</secondary></indexterm>
+<computeroutput>template&lt;typename BasicJsonType &gt; </computeroutput><para><computeroutput>using <link linkend="_structjson__sax">json_sax</link>&lt; BasicJsonType &gt;::number_unsigned_t = typename BasicJsonType::number_unsigned_t</computeroutput></para></section>
+<anchor xml:id="_structjson__sax_1a62085d156a899aaf2913ac25ded93996"/><section>
+    <title>string_t</title>
+<indexterm><primary>string_t</primary><secondary>json_sax&lt; BasicJsonType &gt;</secondary></indexterm>
+<indexterm><primary>json_sax&lt; BasicJsonType &gt;</primary><secondary>string_t</secondary></indexterm>
+<computeroutput>template&lt;typename BasicJsonType &gt; </computeroutput><para><computeroutput>using <link linkend="_structjson__sax">json_sax</link>&lt; BasicJsonType &gt;::string_t = typename BasicJsonType::string_t</computeroutput></para></section>
+</section>
+<section>
+<title>Constructor &amp; Destructor Documentation</title>
+<anchor xml:id="_structjson__sax_1a3603caf3847143337b9974d4b1c94f11"/><section>
+    <title>json_sax()<computeroutput>[1/3]</computeroutput></title>
+<indexterm><primary>json_sax</primary><secondary>json_sax&lt; BasicJsonType &gt;</secondary></indexterm>
+<indexterm><primary>json_sax&lt; BasicJsonType &gt;</primary><secondary>json_sax</secondary></indexterm>
+<computeroutput>template&lt;typename BasicJsonType &gt; </computeroutput><para><computeroutput><link linkend="_structjson__sax">json_sax</link>&lt; BasicJsonType &gt;<link linkend="_structjson__sax">::json_sax</link> ( )<computeroutput>[default]</computeroutput></computeroutput></para></section>
+<anchor xml:id="_structjson__sax_1a978a4d26990f64d60686ef22568e76eb"/><section>
+    <title>json_sax()<computeroutput>[2/3]</computeroutput></title>
+<indexterm><primary>json_sax</primary><secondary>json_sax&lt; BasicJsonType &gt;</secondary></indexterm>
+<indexterm><primary>json_sax&lt; BasicJsonType &gt;</primary><secondary>json_sax</secondary></indexterm>
+<computeroutput>template&lt;typename BasicJsonType &gt; </computeroutput><para><computeroutput><link linkend="_structjson__sax">json_sax</link>&lt; BasicJsonType &gt;<link linkend="_structjson__sax">::json_sax</link> (const <link linkend="_structjson__sax">json_sax</link>&lt; BasicJsonType &gt; &amp; )<computeroutput>[default]</computeroutput></computeroutput></para></section>
+<anchor xml:id="_structjson__sax_1adb6b743b889faf0c050f80bfae890450"/><section>
+    <title>json_sax()<computeroutput>[3/3]</computeroutput></title>
+<indexterm><primary>json_sax</primary><secondary>json_sax&lt; BasicJsonType &gt;</secondary></indexterm>
+<indexterm><primary>json_sax&lt; BasicJsonType &gt;</primary><secondary>json_sax</secondary></indexterm>
+<computeroutput>template&lt;typename BasicJsonType &gt; </computeroutput><para><computeroutput><link linkend="_structjson__sax">json_sax</link>&lt; BasicJsonType &gt;<link linkend="_structjson__sax">::json_sax</link> (<link linkend="_structjson__sax">json_sax</link>&lt; BasicJsonType &gt; &amp;&amp; )<computeroutput>[default]</computeroutput>, <computeroutput>[noexcept]</computeroutput></computeroutput></para></section>
+<anchor xml:id="_structjson__sax_1aa6c51db3f302401a85a89b750b654ad9"/><section>
+    <title>~json_sax()</title>
+<indexterm><primary>~json_sax</primary><secondary>json_sax&lt; BasicJsonType &gt;</secondary></indexterm>
+<indexterm><primary>json_sax&lt; BasicJsonType &gt;</primary><secondary>~json_sax</secondary></indexterm>
+<computeroutput>template&lt;typename BasicJsonType &gt; </computeroutput><para><computeroutput>virtual <link linkend="_structjson__sax">json_sax</link>&lt; BasicJsonType &gt;::~<link linkend="_structjson__sax">json_sax</link> ( )<computeroutput>[virtual]</computeroutput>, <computeroutput>[default]</computeroutput></computeroutput></para></section>
+</section>
+<section>
+<title>Member Function Documentation</title>
+<anchor xml:id="_structjson__sax_1a15d6c5d0dcaceb906405f427faf9b34e"/><section>
+    <title>binary()</title>
+<indexterm><primary>binary</primary><secondary>json_sax&lt; BasicJsonType &gt;</secondary></indexterm>
+<indexterm><primary>json_sax&lt; BasicJsonType &gt;</primary><secondary>binary</secondary></indexterm>
+<computeroutput>template&lt;typename BasicJsonType &gt; </computeroutput><para><computeroutput>virtual bool <link linkend="_structjson__sax">json_sax</link>&lt; BasicJsonType &gt;::binary (<link linkend="_structjson__sax_1aeb5a583cc482d34e764d038a9c682e02">binary_t</link> &amp; val)<computeroutput>[pure virtual]</computeroutput></computeroutput></para><para>
+
+<para>a binary value was read </para>
+</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>in</entry><entry>val</entry><entry>
+<para>binary value </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>whether parsing should proceed </para>
+</formalpara>
+<note><title>Note</title>
+
+<para>It is safe to move the passed binary value. </para>
+</note>
+</para>
+</section>
+<anchor xml:id="_structjson__sax_1ab89f75382c0fd7fe81c95fc84cfa3150"/><section>
+    <title>boolean()</title>
+<indexterm><primary>boolean</primary><secondary>json_sax&lt; BasicJsonType &gt;</secondary></indexterm>
+<indexterm><primary>json_sax&lt; BasicJsonType &gt;</primary><secondary>boolean</secondary></indexterm>
+<computeroutput>template&lt;typename BasicJsonType &gt; </computeroutput><para><computeroutput>virtual bool <link linkend="_structjson__sax">json_sax</link>&lt; BasicJsonType &gt;::boolean (bool val)<computeroutput>[pure virtual]</computeroutput></computeroutput></para><para>
+
+<para>a boolean value was read </para>
+</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>in</entry><entry>val</entry><entry>
+<para>boolean value </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>whether parsing should proceed </para>
+</formalpara>
+</para>
+</section>
+<anchor xml:id="_structjson__sax_1a81fbddbf7dc96eab21ef916625ad5f3b"/><section>
+    <title>end_array()</title>
+<indexterm><primary>end_array</primary><secondary>json_sax&lt; BasicJsonType &gt;</secondary></indexterm>
+<indexterm><primary>json_sax&lt; BasicJsonType &gt;</primary><secondary>end_array</secondary></indexterm>
+<computeroutput>template&lt;typename BasicJsonType &gt; </computeroutput><para><computeroutput>virtual bool <link linkend="_structjson__sax">json_sax</link>&lt; BasicJsonType &gt;::end_array ( )<computeroutput>[pure virtual]</computeroutput></computeroutput></para><para>
+
+<para>the end of an array was read </para>
+</para>
+
+<para><formalpara><title>Returns</title>
+
+<para>whether parsing should proceed </para>
+</formalpara>
+</para>
+</section>
+<anchor xml:id="_structjson__sax_1ac34854cab5e023c5d0e8b381a11aba5b"/><section>
+    <title>end_object()</title>
+<indexterm><primary>end_object</primary><secondary>json_sax&lt; BasicJsonType &gt;</secondary></indexterm>
+<indexterm><primary>json_sax&lt; BasicJsonType &gt;</primary><secondary>end_object</secondary></indexterm>
+<computeroutput>template&lt;typename BasicJsonType &gt; </computeroutput><para><computeroutput>virtual bool <link linkend="_structjson__sax">json_sax</link>&lt; BasicJsonType &gt;::end_object ( )<computeroutput>[pure virtual]</computeroutput></computeroutput></para><para>
+
+<para>the end of an object was read </para>
+</para>
+
+<para><formalpara><title>Returns</title>
+
+<para>whether parsing should proceed </para>
+</formalpara>
+</para>
+</section>
+<anchor xml:id="_structjson__sax_1a3355ecd7e3e9806dcb80b2f8842b82ce"/><section>
+    <title>key()</title>
+<indexterm><primary>key</primary><secondary>json_sax&lt; BasicJsonType &gt;</secondary></indexterm>
+<indexterm><primary>json_sax&lt; BasicJsonType &gt;</primary><secondary>key</secondary></indexterm>
+<computeroutput>template&lt;typename BasicJsonType &gt; </computeroutput><para><computeroutput>virtual bool <link linkend="_structjson__sax">json_sax</link>&lt; BasicJsonType &gt;::key (<link linkend="_structjson__sax_1a62085d156a899aaf2913ac25ded93996">string_t</link> &amp; val)<computeroutput>[pure virtual]</computeroutput></computeroutput></para><para>
+
+<para>an object key was read </para>
+</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>in</entry><entry>val</entry><entry>
+<para>object key </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>whether parsing should proceed </para>
+</formalpara>
+<note><title>Note</title>
+
+<para>It is safe to move the passed string. </para>
+</note>
+</para>
+</section>
+<anchor xml:id="_structjson__sax_1acbcc09c0ada2782cd73cc4135823181d"/><section>
+    <title>null()</title>
+<indexterm><primary>null</primary><secondary>json_sax&lt; BasicJsonType &gt;</secondary></indexterm>
+<indexterm><primary>json_sax&lt; BasicJsonType &gt;</primary><secondary>null</secondary></indexterm>
+<computeroutput>template&lt;typename BasicJsonType &gt; </computeroutput><para><computeroutput>virtual bool <link linkend="_structjson__sax">json_sax</link>&lt; BasicJsonType &gt;::null ( )<computeroutput>[pure virtual]</computeroutput></computeroutput></para><para>
+
+<para>a null value was read </para>
+</para>
+
+<para><formalpara><title>Returns</title>
+
+<para>whether parsing should proceed </para>
+</formalpara>
+</para>
+</section>
+<anchor xml:id="_structjson__sax_1a19eafa3a92fc75e0258a842283396aa9"/><section>
+    <title>number_float()</title>
+<indexterm><primary>number_float</primary><secondary>json_sax&lt; BasicJsonType &gt;</secondary></indexterm>
+<indexterm><primary>json_sax&lt; BasicJsonType &gt;</primary><secondary>number_float</secondary></indexterm>
+<computeroutput>template&lt;typename BasicJsonType &gt; </computeroutput><para><computeroutput>virtual bool <link linkend="_structjson__sax">json_sax</link>&lt; BasicJsonType &gt;::number_float (<link linkend="_structjson__sax_1acb0bfbb3b0c6e9dc02cd6aab12c85654">number_float_t</link> val, const <link linkend="_structjson__sax_1a62085d156a899aaf2913ac25ded93996">string_t</link> &amp; s)<computeroutput>[pure virtual]</computeroutput></computeroutput></para><para>
+
+<para>a floating-point number was read </para>
+</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>in</entry><entry>val</entry><entry>
+<para>floating-point value </para>
+</entry>
+                            </row>
+                            <row>
+<entry>in</entry><entry>s</entry><entry>
+<para>raw token value </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>whether parsing should proceed </para>
+</formalpara>
+</para>
+</section>
+<anchor xml:id="_structjson__sax_1a46cc306b7677553d8f6bd8c9592eb1bd"/><section>
+    <title>number_integer()</title>
+<indexterm><primary>number_integer</primary><secondary>json_sax&lt; BasicJsonType &gt;</secondary></indexterm>
+<indexterm><primary>json_sax&lt; BasicJsonType &gt;</primary><secondary>number_integer</secondary></indexterm>
+<computeroutput>template&lt;typename BasicJsonType &gt; </computeroutput><para><computeroutput>virtual bool <link linkend="_structjson__sax">json_sax</link>&lt; BasicJsonType &gt;::number_integer (<link linkend="_structjson__sax_1a5fd59c56514447ab1a7c5e7f0ab24601">number_integer_t</link> val)<computeroutput>[pure virtual]</computeroutput></computeroutput></para><para>
+
+<para>an integer number was read </para>
+</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>in</entry><entry>val</entry><entry>
+<para>integer value </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>whether parsing should proceed </para>
+</formalpara>
+</para>
+</section>
+<anchor xml:id="_structjson__sax_1a32f8a32794cb384f0de3d3a96a6bb696"/><section>
+    <title>number_unsigned()</title>
+<indexterm><primary>number_unsigned</primary><secondary>json_sax&lt; BasicJsonType &gt;</secondary></indexterm>
+<indexterm><primary>json_sax&lt; BasicJsonType &gt;</primary><secondary>number_unsigned</secondary></indexterm>
+<computeroutput>template&lt;typename BasicJsonType &gt; </computeroutput><para><computeroutput>virtual bool <link linkend="_structjson__sax">json_sax</link>&lt; BasicJsonType &gt;::number_unsigned (<link linkend="_structjson__sax_1acbd02515ccdc3bfe940688fc96ac1359">number_unsigned_t</link> val)<computeroutput>[pure virtual]</computeroutput></computeroutput></para><para>
+
+<para>an unsigned integer number was read </para>
+</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>in</entry><entry>val</entry><entry>
+<para>unsigned integer value </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>whether parsing should proceed </para>
+</formalpara>
+</para>
+</section>
+<anchor xml:id="_structjson__sax_1afff13171be3b416d8a6bcfa925883d9b"/><section>
+    <title>operator=()<computeroutput>[1/2]</computeroutput></title>
+<indexterm><primary>operator=</primary><secondary>json_sax&lt; BasicJsonType &gt;</secondary></indexterm>
+<indexterm><primary>json_sax&lt; BasicJsonType &gt;</primary><secondary>operator=</secondary></indexterm>
+<computeroutput>template&lt;typename BasicJsonType &gt; </computeroutput><para><computeroutput><link linkend="_structjson__sax">json_sax</link> &amp; <link linkend="_structjson__sax">json_sax</link>&lt; BasicJsonType &gt;::operator= (const <link linkend="_structjson__sax">json_sax</link>&lt; BasicJsonType &gt; &amp; )<computeroutput>[default]</computeroutput></computeroutput></para></section>
+<anchor xml:id="_structjson__sax_1a892558995c2ee775c9a3223282fd8733"/><section>
+    <title>operator=()<computeroutput>[2/2]</computeroutput></title>
+<indexterm><primary>operator=</primary><secondary>json_sax&lt; BasicJsonType &gt;</secondary></indexterm>
+<indexterm><primary>json_sax&lt; BasicJsonType &gt;</primary><secondary>operator=</secondary></indexterm>
+<computeroutput>template&lt;typename BasicJsonType &gt; </computeroutput><para><computeroutput><link linkend="_structjson__sax">json_sax</link> &amp; <link linkend="_structjson__sax">json_sax</link>&lt; BasicJsonType &gt;::operator= (<link linkend="_structjson__sax">json_sax</link>&lt; BasicJsonType &gt; &amp;&amp; )<computeroutput>[default]</computeroutput>, <computeroutput>[noexcept]</computeroutput></computeroutput></para></section>
+<anchor xml:id="_structjson__sax_1af165920966b60b78e57a2e4d92a63897"/><section>
+    <title>parse_error()</title>
+<indexterm><primary>parse_error</primary><secondary>json_sax&lt; BasicJsonType &gt;</secondary></indexterm>
+<indexterm><primary>json_sax&lt; BasicJsonType &gt;</primary><secondary>parse_error</secondary></indexterm>
+<computeroutput>template&lt;typename BasicJsonType &gt; </computeroutput><para><computeroutput>virtual bool <link linkend="_structjson__sax">json_sax</link>&lt; BasicJsonType &gt;::parse_error (std::size_t position, const std::string &amp; last_token, const <link linkend="_classdetail_1_1exception">detail::exception</link> &amp; ex)<computeroutput>[pure virtual]</computeroutput></computeroutput></para><para>
+
+<para>a parse error occurred </para>
+</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>in</entry><entry>position</entry><entry>
+<para>the position in the input where the error occurs </para>
+</entry>
+                            </row>
+                            <row>
+<entry>in</entry><entry>last_token</entry><entry>
+<para>the last read token </para>
+</entry>
+                            </row>
+                            <row>
+<entry>in</entry><entry>ex</entry><entry>
+<para>an exception object describing the error </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>whether parsing should proceed (must return false) </para>
+</formalpara>
+</para>
+</section>
+<anchor xml:id="_structjson__sax_1afc4d5c0d123f2e3c939060a778c4f22c"/><section>
+    <title>start_array()</title>
+<indexterm><primary>start_array</primary><secondary>json_sax&lt; BasicJsonType &gt;</secondary></indexterm>
+<indexterm><primary>json_sax&lt; BasicJsonType &gt;</primary><secondary>start_array</secondary></indexterm>
+<computeroutput>template&lt;typename BasicJsonType &gt; </computeroutput><para><computeroutput>virtual bool <link linkend="_structjson__sax">json_sax</link>&lt; BasicJsonType &gt;::start_array (std::size_t elements)<computeroutput>[pure virtual]</computeroutput></computeroutput></para><para>
+
+<para>the beginning of an array was read </para>
+</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>in</entry><entry>elements</entry><entry>
+<para>number of array elements or -1 if unknown </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>whether parsing should proceed </para>
+</formalpara>
+<note><title>Note</title>
+
+<para>binary formats may report the number of elements </para>
+</note>
+</para>
+</section>
+<anchor xml:id="_structjson__sax_1a54a0883df64f40664395e3dad674aaa5"/><section>
+    <title>start_object()</title>
+<indexterm><primary>start_object</primary><secondary>json_sax&lt; BasicJsonType &gt;</secondary></indexterm>
+<indexterm><primary>json_sax&lt; BasicJsonType &gt;</primary><secondary>start_object</secondary></indexterm>
+<computeroutput>template&lt;typename BasicJsonType &gt; </computeroutput><para><computeroutput>virtual bool <link linkend="_structjson__sax">json_sax</link>&lt; BasicJsonType &gt;::start_object (std::size_t elements)<computeroutput>[pure virtual]</computeroutput></computeroutput></para><para>
+
+<para>the beginning of an object was read </para>
+</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>in</entry><entry>elements</entry><entry>
+<para>number of object elements or -1 if unknown </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>whether parsing should proceed </para>
+</formalpara>
+<note><title>Note</title>
+
+<para>binary formats may report the number of elements </para>
+</note>
+</para>
+</section>
+<anchor xml:id="_structjson__sax_1a3da9ee0c61f1a37e6c6a3d2dccb16765"/><section>
+    <title>string()</title>
+<indexterm><primary>string</primary><secondary>json_sax&lt; BasicJsonType &gt;</secondary></indexterm>
+<indexterm><primary>json_sax&lt; BasicJsonType &gt;</primary><secondary>string</secondary></indexterm>
+<computeroutput>template&lt;typename BasicJsonType &gt; </computeroutput><para><computeroutput>virtual bool <link linkend="_structjson__sax">json_sax</link>&lt; BasicJsonType &gt;<link linkend="_glad_8h_1ac83513893df92266f79a515488701770">::string</link> (<link linkend="_structjson__sax_1a62085d156a899aaf2913ac25ded93996">string_t</link> &amp; val)<computeroutput>[pure virtual]</computeroutput></computeroutput></para><para>
+
+<para>a string value was read </para>
+</para>
+
+<para>
+                <formalpara>
+                    <title>
+Parameters</title>
+                    <para>
+                    <table frame="all">
+                        <tgroup cols="3" align="left" colsep="1" rowsep="1">
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="1*"/>
+                        <colspec colwidth="4*"/>
+                        <tbody>
+                            <row>
+<entry>in</entry><entry>val</entry><entry>
+<para>string value </para>
+</entry>
+                            </row>
+                        </tbody>
+                        </tgroup>
+                    </table>
+                    </para>
+                </formalpara>
+                <formalpara><title>Returns</title>
+
+<para>whether parsing should proceed </para>
+</formalpara>
+<note><title>Note</title>
+
+<para>It is safe to move the passed string value. </para>
+</note>
+</para>
+</section>
+<para>
+The documentation for this struct was generated from the following file:</para>
+adhed/nlohmann/<link linkend="_json_8hpp">json.hpp</link></section>
+</section>

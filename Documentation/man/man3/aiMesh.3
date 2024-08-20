@@ -1,0 +1,194 @@
+.TH "aiMesh" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+aiMesh \- enum aiMorphingMethod  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fR#include <mesh\&.h>\fP
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "unsigned int \fBmPrimitiveTypes\fP"
+.br
+.ti -1c
+.RI "unsigned int \fBmNumVertices\fP"
+.br
+.ti -1c
+.RI "unsigned int \fBmNumFaces\fP"
+.br
+.ti -1c
+.RI "\fBC_STRUCT\fP \fBaiVector3D\fP * \fBmVertices\fP"
+.br
+.ti -1c
+.RI "\fBC_STRUCT\fP \fBaiVector3D\fP * \fBmNormals\fP"
+.br
+.ti -1c
+.RI "\fBC_STRUCT\fP \fBaiVector3D\fP * \fBmTangents\fP"
+.br
+.ti -1c
+.RI "\fBC_STRUCT\fP \fBaiVector3D\fP * \fBmBitangents\fP"
+.br
+.ti -1c
+.RI "\fBC_STRUCT\fP \fBaiColor4D\fP * \fBmColors\fP [\fBAI_MAX_NUMBER_OF_COLOR_SETS\fP]"
+.br
+.ti -1c
+.RI "\fBC_STRUCT\fP \fBaiVector3D\fP * \fBmTextureCoords\fP [\fBAI_MAX_NUMBER_OF_TEXTURECOORDS\fP]"
+.br
+.ti -1c
+.RI "unsigned int \fBmNumUVComponents\fP [\fBAI_MAX_NUMBER_OF_TEXTURECOORDS\fP]"
+.br
+.ti -1c
+.RI "\fBC_STRUCT\fP \fBaiFace\fP * \fBmFaces\fP"
+.br
+.ti -1c
+.RI "unsigned int \fBmNumBones\fP"
+.br
+.ti -1c
+.RI "\fBC_STRUCT\fP \fBaiBone\fP ** \fBmBones\fP"
+.br
+.ti -1c
+.RI "unsigned int \fBmMaterialIndex\fP"
+.br
+.ti -1c
+.RI "\fBC_STRUCT\fP \fBaiString\fP \fBmName\fP"
+.br
+.ti -1c
+.RI "unsigned int \fBmNumAnimMeshes\fP"
+.br
+.ti -1c
+.RI "\fBC_STRUCT\fP \fBaiAnimMesh\fP ** \fBmAnimMeshes\fP"
+.br
+.ti -1c
+.RI "unsigned int \fBmMethod\fP"
+.br
+.ti -1c
+.RI "\fBC_STRUCT\fP \fBaiAABB\fP \fBmAABB\fP"
+.br
+.ti -1c
+.RI "\fBC_STRUCT\fP \fBaiString\fP ** \fBmTextureCoordsNames\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+enum aiMorphingMethod 
+
+A mesh represents a geometry or model with a single material\&.
+.PP
+It usually consists of a number of vertices and a series of primitives/faces referencing the vertices\&. In addition there might be a series of bones, each of them addressing a number of vertices with a certain weight\&. Vertex data is presented in channels with each channel containing a single per-vertex information such as a set of texture coordinates or a normal vector\&. If a data pointer is non-null, the corresponding data stream is present\&. From C++-programs you can also use the comfort functions Has*() to test for the presence of various data streams\&.
+.PP
+A Mesh uses only a single material which is referenced by a material ID\&. 
+.PP
+\fBNote\fP
+.RS 4
+The mPositions member is usually not optional\&. However, vertex positions \fIcould\fP be missing if the \fBAI_SCENE_FLAGS_INCOMPLETE\fP flag is set in 
+.PP
+.nf
+aiScene::mFlags
+
+.fi
+.PP
+ 
+.RE
+.PP
+
+.SH "Member Data Documentation"
+.PP 
+.SS "\fBC_STRUCT\fP \fBaiAABB\fP aiMesh::mAABB"
+The bounding box\&. 
+.SS "\fBC_STRUCT\fP \fBaiAnimMesh\fP** aiMesh::mAnimMeshes"
+Attachment meshes for this mesh, for vertex-based animation\&. Attachment meshes carry replacement data for some of the mesh'es vertex components (usually positions, normals)\&. Note! Currently only works with Collada loader\&. 
+.SS "\fBC_STRUCT\fP \fBaiVector3D\fP* aiMesh::mBitangents"
+Vertex bitangents\&. The bitangent of a vertex points in the direction of the positive Y texture axis\&. The array contains normalized vectors, nullptr if not present\&. The array is mNumVertices in size\&. 
+.PP
+\fBNote\fP
+.RS 4
+If the mesh contains tangents, it automatically also contains bitangents\&. 
+.RE
+.PP
+
+.SS "\fBC_STRUCT\fP \fBaiBone\fP** aiMesh::mBones"
+The bones of this mesh\&. A bone consists of a name by which it can be found in the frame hierarchy and a set of vertex weights\&. 
+.SS "\fBC_STRUCT\fP \fBaiColor4D\fP* aiMesh::mColors[\fBAI_MAX_NUMBER_OF_COLOR_SETS\fP]"
+Vertex color sets\&. A mesh may contain 0 to \fBAI_MAX_NUMBER_OF_COLOR_SETS\fP vertex colors per vertex\&. nullptr if not present\&. Each array is mNumVertices in size if present\&. 
+.SS "\fBC_STRUCT\fP \fBaiFace\fP* aiMesh::mFaces"
+The faces the mesh is constructed from\&. Each face refers to a number of vertices by their indices\&. This array is always present in a mesh, its size is given in mNumFaces\&. If the \fBAI_SCENE_FLAGS_NON_VERBOSE_FORMAT\fP is NOT set each face references an unique set of vertices\&. 
+.SS "unsigned int aiMesh::mMaterialIndex"
+The material used by this mesh\&. A mesh uses only a single material\&. If an imported model uses multiple materials, the import splits up the mesh\&. Use this value as index into the scene's material list\&. 
+.SS "unsigned int aiMesh::mMethod"
+Method of morphing when anim-meshes are specified\&. 
+.PP
+\fBSee also\fP
+.RS 4
+\fBaiMorphingMethod\fP to learn more about the provided morphing targets\&. 
+.RE
+.PP
+
+.SS "\fBC_STRUCT\fP \fBaiString\fP aiMesh::mName"
+Name of the mesh\&. Meshes can be named, but this is not a requirement and leaving this field empty is totally fine\&. There are mainly three uses for mesh names:
+.IP "\(bu" 2
+some formats name nodes and meshes independently\&.
+.IP "\(bu" 2
+importers tend to split meshes up to meet the one-material-per-mesh requirement\&. Assigning the same (dummy) name to each of the result meshes aids the caller at recovering the original mesh partitioning\&.
+.IP "\(bu" 2
+Vertex animations refer to meshes by their names\&. 
+.PP
+
+.SS "\fBC_STRUCT\fP \fBaiVector3D\fP* aiMesh::mNormals"
+Vertex normals\&. The array contains normalized vectors, nullptr if not present\&. The array is mNumVertices in size\&. Normals are undefined for point and line primitives\&. A mesh consisting of points and lines only may not have normal vectors\&. Meshes with mixed primitive types (i\&.e\&. lines and triangles) may have normals, but the normals for vertices that are only referenced by point or line primitives are undefined and set to QNaN (WARN: qNaN compares to inequal to \fIeverything\fP, even to qNaN itself\&. Using code like this to check whether a field is qnan is: 
+.PP
+.nf
+#define IS_QNAN(f) (f != f)
+
+.fi
+.PP
+ still dangerous because even 1\&.f == 1\&.f could evaluate to false! ( remember the subtleties of IEEE754 artithmetics)\&. Use stuff like \fRfpclassify\fP instead\&. 
+.PP
+\fBNote\fP
+.RS 4
+Normal vectors computed by \fBAssimp\fP are always unit-length\&. However, this needn't apply for normals that have been taken directly from the model file\&. 
+.RE
+.PP
+
+.SS "unsigned int aiMesh::mNumAnimMeshes"
+The number of attachment meshes\&. Note! Currently only works with Collada loader\&. 
+.SS "unsigned int aiMesh::mNumBones"
+The number of bones this mesh contains\&. Can be 0, in which case the mBones array is nullptr\&. 
+.SS "unsigned int aiMesh::mNumFaces"
+The number of primitives (triangles, polygons, lines) in this mesh\&. This is also the size of the mFaces array\&. The maximum value for this member is \fBAI_MAX_FACES\fP\&. 
+.SS "unsigned int aiMesh::mNumUVComponents[\fBAI_MAX_NUMBER_OF_TEXTURECOORDS\fP]"
+Specifies the number of components for a given UV channel\&. Up to three channels are supported (UVW, for accessing volume or cube maps)\&. If the value is 2 for a given channel n, the component p\&.z of mTextureCoords[n][p] is set to 0\&.0f\&. If the value is 1 for a given channel, p\&.y is set to 0\&.0f, too\&. 
+.PP
+\fBNote\fP
+.RS 4
+4D coordinates are not supported 
+.RE
+.PP
+
+.SS "unsigned int aiMesh::mNumVertices"
+The number of vertices in this mesh\&. This is also the size of all of the per-vertex data arrays\&. The maximum value for this member is \fBAI_MAX_VERTICES\fP\&. 
+.SS "unsigned int aiMesh::mPrimitiveTypes"
+Bitwise combination of the members of the \fBaiPrimitiveType\fP enum\&. This specifies which types of primitives are present in the mesh\&. The 'SortByPrimitiveType'-Step can be used to make sure the output meshes consist of one primitive type each\&. 
+.SS "\fBC_STRUCT\fP \fBaiVector3D\fP* aiMesh::mTangents"
+Vertex tangents\&. The tangent of a vertex points in the direction of the positive X texture axis\&. The array contains normalized vectors, nullptr if not present\&. The array is mNumVertices in size\&. A mesh consisting of points and lines only may not have normal vectors\&. Meshes with mixed primitive types (i\&.e\&. lines and triangles) may have normals, but the normals for vertices that are only referenced by point or line primitives are undefined and set to qNaN\&. See the \fBmNormals\fP member for a detailed discussion of qNaNs\&. 
+.PP
+\fBNote\fP
+.RS 4
+If the mesh contains tangents, it automatically also contains bitangents\&. 
+.RE
+.PP
+
+.SS "\fBC_STRUCT\fP \fBaiVector3D\fP* aiMesh::mTextureCoords[\fBAI_MAX_NUMBER_OF_TEXTURECOORDS\fP]"
+Vertex texture coordinates, also known as UV channels\&. A mesh may contain 0 to AI_MAX_NUMBER_OF_TEXTURECOORDS per vertex\&. nullptr if not present\&. The array is mNumVertices in size\&. 
+.SS "\fBC_STRUCT\fP \fBaiString\fP** aiMesh::mTextureCoordsNames"
+Vertex UV stream names\&. Pointer to array of size AI_MAX_NUMBER_OF_TEXTURECOORDS 
+.SS "\fBC_STRUCT\fP \fBaiVector3D\fP* aiMesh::mVertices"
+Vertex positions\&. This array is always present in a mesh\&. The array is mNumVertices in size\&. 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

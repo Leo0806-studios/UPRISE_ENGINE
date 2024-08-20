@@ -1,4 +1,4 @@
-.TH "CORE::InstructionSet::InstructionSet_Internal" 3 "Version 0.0.0.1" "My Project" \" -*- nroff -*-
+.TH "CORE::InstructionSet::InstructionSet_Internal" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -7,7 +7,7 @@ CORE::InstructionSet::InstructionSet_Internal
 .br
 .PP
 .PP
-\fR#include <CPUFEATURES\&.h>\fP
+\fR#include <C_CPUFEATURES\&.h>\fP
 .SS "Public Member Functions"
 
 .in +1c
@@ -63,71 +63,192 @@ CORE::InstructionSet::InstructionSet_Internal
 .in -1c
 .SH "Detailed Description"
 .PP 
-Definition at line \fB77\fP of file \fBCPUFEATURES\&.h\fP\&.
+Definition at line \fB79\fP of file \fBC_CPUFEATURES\&.h\fP\&.
 .SH "Constructor & Destructor Documentation"
 .PP 
 .SS "CORE::InstructionSet::InstructionSet_Internal::InstructionSet_Internal ()\fR [inline]\fP"
 
 .PP
-Definition at line \fB80\fP of file \fBCPUFEATURES\&.h\fP\&.
+Definition at line \fB82\fP of file \fBC_CPUFEATURES\&.h\fP\&.
+.nf
+83                 : nIds_{ 0 },
+84                 nExIds_{ 0 },
+85                 isIntel_{ false },
+86                 isAMD_{ false },
+87                 f_1_ECX_{ 0 },
+88                 f_1_EDX_{ 0 },
+89                 f_7_EBX_{ 0 },
+90                 f_7_ECX_{ 0 },
+91                 f_81_ECX_{ 0 },
+92                 f_81_EDX_{ 0 },
+93                 data_{},
+94                 extdata_{}
+95             {
+96                 //int cpuInfo[4] = {\-1};
+97                 std::array<int, 4> cpui;
+98 
+99                 // Calling __cpuid with 0x0 as the function_id argument
+100                 // gets the number of the highest valid function ID\&.
+101                 __cpuid(cpui\&.data(), 0);
+102                 nIds_ = cpui[0];
+103 
+104                 for (int i = 0; i <= nIds_; ++i)
+105                 {
+106                     __cpuidex(cpui\&.data(), i, 0);
+107                     data_\&.push_back(cpui);
+108                 }
+109 
+110                 // Capture vendor string
+111                 char vendor[0x20];
+112                 memset(vendor, 0, sizeof(vendor));
+113                 *reinterpret_cast<int*>(vendor) = data_[0][1];
+114                 *reinterpret_cast<int*>(vendor + 4) = data_[0][3];
+115                 *reinterpret_cast<int*>(vendor + 8) = data_[0][2];
+116                 vendor_ = vendor;
+117                 if (vendor_ == "GenuineIntel")
+118                 {
+119                     isIntel_ = true;
+120                 }
+121                 else if (vendor_ == "AuthenticAMD")
+122                 {
+123                     isAMD_ = true;
+124                 }
+125 
+126                 // load bitset with flags for function 0x00000001
+127                 if (nIds_ >= 1)
+128                 {
+129                     f_1_ECX_ = data_[1][2];
+130                     f_1_EDX_ = data_[1][3];
+131                 }
+132 
+133                 // load bitset with flags for function 0x00000007
+134                 if (nIds_ >= 7)
+135                 {
+136                     f_7_EBX_ = data_[7][1];
+137                     f_7_ECX_ = data_[7][2];
+138                 }
+139 
+140                 // Calling __cpuid with 0x80000000 as the function_id argument
+141                 // gets the number of the highest valid extended ID\&.
+142                 __cpuid(cpui\&.data(), 0x80000000);
+143                 nExIds_ = cpui[0];
+144 
+145                 char brand[0x40];
+146                 memset(brand, 0, sizeof(brand));
+147 
+148                 for (int i = 0x80000000; i <= nExIds_; ++i)
+149                 {
+150                     __cpuidex(cpui\&.data(), i, 0);
+151                     extdata_\&.push_back(cpui);
+152                 }
+153 
+154                 // load bitset with flags for function 0x80000001
+155                 if (nExIds_ >= 0x80000001)
+156                 {
+157                     f_81_ECX_ = extdata_[1][2];
+158                     f_81_EDX_ = extdata_[1][3];
+159                 }
+160 
+161                 // Interpret CPU brand string if reported
+162                 if (nExIds_ >= 0x80000004)
+163                 {
+164                     memcpy(brand, extdata_[2]\&.data(), sizeof(cpui));
+165                     memcpy(brand + 16, extdata_[3]\&.data(), sizeof(cpui));
+166                     memcpy(brand + 32, extdata_[4]\&.data(), sizeof(cpui));
+167                     brand_ = brand;
+168                 }
+169             };
+.PP
+.fi
+
+.PP
+References \fBbrand_\fP, \fBdata_\fP, \fBextdata_\fP, \fBf_1_ECX_\fP, \fBf_1_EDX_\fP, \fBf_7_EBX_\fP, \fBf_7_ECX_\fP, \fBf_81_ECX_\fP, \fBf_81_EDX_\fP, \fBi\fP, \fBisAMD_\fP, \fBisIntel_\fP, \fBnExIds_\fP, \fBnIds_\fP, and \fBvendor_\fP\&.
 .SH "Member Data Documentation"
 .PP 
 .SS "std::string CORE::InstructionSet::InstructionSet_Internal::brand_"
 
 .PP
-Definition at line \fB172\fP of file \fBCPUFEATURES\&.h\fP\&.
+Definition at line \fB174\fP of file \fBC_CPUFEATURES\&.h\fP\&.
+.PP
+Referenced by \fBInstructionSet_Internal()\fP\&.
 .SS "std::vector<std::array<int, 4> > CORE::InstructionSet::InstructionSet_Internal::data_"
 
 .PP
-Definition at line \fB181\fP of file \fBCPUFEATURES\&.h\fP\&.
+Definition at line \fB183\fP of file \fBC_CPUFEATURES\&.h\fP\&.
+.PP
+Referenced by \fBInstructionSet_Internal()\fP\&.
 .SS "std::vector<std::array<int, 4> > CORE::InstructionSet::InstructionSet_Internal::extdata_"
 
 .PP
-Definition at line \fB182\fP of file \fBCPUFEATURES\&.h\fP\&.
+Definition at line \fB184\fP of file \fBC_CPUFEATURES\&.h\fP\&.
+.PP
+Referenced by \fBInstructionSet_Internal()\fP\&.
 .SS "std::bitset<32> CORE::InstructionSet::InstructionSet_Internal::f_1_ECX_"
 
 .PP
-Definition at line \fB175\fP of file \fBCPUFEATURES\&.h\fP\&.
+Definition at line \fB177\fP of file \fBC_CPUFEATURES\&.h\fP\&.
+.PP
+Referenced by \fBInstructionSet_Internal()\fP, and \fBCORE::InstructionSet::SSE3()\fP\&.
 .SS "std::bitset<32> CORE::InstructionSet::InstructionSet_Internal::f_1_EDX_"
 
 .PP
-Definition at line \fB176\fP of file \fBCPUFEATURES\&.h\fP\&.
+Definition at line \fB178\fP of file \fBC_CPUFEATURES\&.h\fP\&.
+.PP
+Referenced by \fBInstructionSet_Internal()\fP\&.
 .SS "std::bitset<32> CORE::InstructionSet::InstructionSet_Internal::f_7_EBX_"
 
 .PP
-Definition at line \fB177\fP of file \fBCPUFEATURES\&.h\fP\&.
+Definition at line \fB179\fP of file \fBC_CPUFEATURES\&.h\fP\&.
+.PP
+Referenced by \fBInstructionSet_Internal()\fP\&.
 .SS "std::bitset<32> CORE::InstructionSet::InstructionSet_Internal::f_7_ECX_"
 
 .PP
-Definition at line \fB178\fP of file \fBCPUFEATURES\&.h\fP\&.
+Definition at line \fB180\fP of file \fBC_CPUFEATURES\&.h\fP\&.
+.PP
+Referenced by \fBInstructionSet_Internal()\fP\&.
 .SS "std::bitset<32> CORE::InstructionSet::InstructionSet_Internal::f_81_ECX_"
 
 .PP
-Definition at line \fB179\fP of file \fBCPUFEATURES\&.h\fP\&.
+Definition at line \fB181\fP of file \fBC_CPUFEATURES\&.h\fP\&.
+.PP
+Referenced by \fBInstructionSet_Internal()\fP\&.
 .SS "std::bitset<32> CORE::InstructionSet::InstructionSet_Internal::f_81_EDX_"
 
 .PP
-Definition at line \fB180\fP of file \fBCPUFEATURES\&.h\fP\&.
+Definition at line \fB182\fP of file \fBC_CPUFEATURES\&.h\fP\&.
+.PP
+Referenced by \fBInstructionSet_Internal()\fP\&.
 .SS "bool CORE::InstructionSet::InstructionSet_Internal::isAMD_"
 
 .PP
-Definition at line \fB174\fP of file \fBCPUFEATURES\&.h\fP\&.
+Definition at line \fB176\fP of file \fBC_CPUFEATURES\&.h\fP\&.
+.PP
+Referenced by \fBInstructionSet_Internal()\fP\&.
 .SS "bool CORE::InstructionSet::InstructionSet_Internal::isIntel_"
 
 .PP
-Definition at line \fB173\fP of file \fBCPUFEATURES\&.h\fP\&.
+Definition at line \fB175\fP of file \fBC_CPUFEATURES\&.h\fP\&.
+.PP
+Referenced by \fBInstructionSet_Internal()\fP\&.
 .SS "int CORE::InstructionSet::InstructionSet_Internal::nExIds_"
 
 .PP
-Definition at line \fB170\fP of file \fBCPUFEATURES\&.h\fP\&.
+Definition at line \fB172\fP of file \fBC_CPUFEATURES\&.h\fP\&.
+.PP
+Referenced by \fBInstructionSet_Internal()\fP\&.
 .SS "int CORE::InstructionSet::InstructionSet_Internal::nIds_"
 
 .PP
-Definition at line \fB169\fP of file \fBCPUFEATURES\&.h\fP\&.
+Definition at line \fB171\fP of file \fBC_CPUFEATURES\&.h\fP\&.
+.PP
+Referenced by \fBInstructionSet_Internal()\fP\&.
 .SS "std::string CORE::InstructionSet::InstructionSet_Internal::vendor_"
 
 .PP
-Definition at line \fB171\fP of file \fBCPUFEATURES\&.h\fP\&.
+Definition at line \fB173\fP of file \fBC_CPUFEATURES\&.h\fP\&.
+.PP
+Referenced by \fBInstructionSet_Internal()\fP, and \fBCORE::InstructionSet::Vendor()\fP\&.
 
 .SH "Author"
 .PP 

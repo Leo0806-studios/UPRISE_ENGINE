@@ -1,0 +1,120 @@
+.TH "adhed/common/TracyProtocol.hpp" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+adhed/common/TracyProtocol.hpp
+.SH SYNOPSIS
+.br
+.PP
+\fR#include <limits>\fP
+.br
+\fR#include <stdint\&.h>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBtracy::ServerQueryPacket\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::WelcomeFlag\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::WelcomeMessage\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::OnDemandPayloadMessage\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::BroadcastMessage\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::BroadcastMessage_v2\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::BroadcastMessage_v1\fP"
+.br
+.ti -1c
+.RI "struct \fBtracy::BroadcastMessage_v0\fP"
+.br
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI "namespace \fBtracy\fP"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "using \fBtracy::lz4sz_t\fP = uint32_t"
+.br
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum : uint32_t { \fBtracy::ProtocolVersion\fP = 64 }"
+.br
+.ti -1c
+.RI "enum : uint16_t { \fBtracy::BroadcastVersion\fP = 3 }"
+.br
+.ti -1c
+.RI "enum { \fBtracy::TargetFrameSize\fP = 256 * 1024 }"
+.br
+.ti -1c
+.RI "enum { \fBtracy::LZ4Size\fP = Lz4CompressBound( TargetFrameSize ) }"
+.br
+.ti -1c
+.RI "enum { \fBtracy::HandshakeShibbolethSize\fP = 8 }"
+.br
+.ti -1c
+.RI "enum \fBtracy::HandshakeStatus\fP : uint8_t { \fBtracy::HandshakePending\fP, \fBtracy::HandshakeWelcome\fP, \fBtracy::HandshakeProtocolMismatch\fP, \fBtracy::HandshakeNotAvailable\fP, \fBtracy::HandshakeDropped\fP }"
+.br
+.ti -1c
+.RI "enum { \fBtracy::WelcomeMessageProgramNameSize\fP = 64 }"
+.br
+.ti -1c
+.RI "enum { \fBtracy::WelcomeMessageHostInfoSize\fP = 1024 }"
+.br
+.ti -1c
+.RI "enum \fBtracy::ServerQuery\fP : uint8_t { \fBtracy::ServerQueryTerminate\fP, \fBtracy::ServerQueryString\fP, \fBtracy::ServerQueryThreadString\fP, \fBtracy::ServerQuerySourceLocation\fP, \fBtracy::ServerQueryPlotName\fP, \fBtracy::ServerQueryFrameName\fP, \fBtracy::ServerQueryParameter\fP, \fBtracy::ServerQueryFiberName\fP, \fBtracy::ServerQueryDisconnect\fP, \fBtracy::ServerQueryCallstackFrame\fP, \fBtracy::ServerQueryExternalName\fP, \fBtracy::ServerQuerySymbol\fP, \fBtracy::ServerQuerySymbolCode\fP, \fBtracy::ServerQuerySourceCode\fP, \fBtracy::ServerQueryDataTransfer\fP, \fBtracy::ServerQueryDataTransferPart\fP }"
+.br
+.ti -1c
+.RI "enum { \fBtracy::ServerQueryPacketSize\fP = sizeof( ServerQueryPacket ) }"
+.br
+.ti -1c
+.RI "enum \fBtracy::CpuArchitecture\fP : uint8_t { \fBtracy::CpuArchUnknown\fP, \fBtracy::CpuArchX86\fP, \fBtracy::CpuArchX64\fP, \fBtracy::CpuArchArm32\fP, \fBtracy::CpuArchArm64\fP }"
+.br
+.ti -1c
+.RI "enum { \fBtracy::WelcomeMessageSize\fP = sizeof( WelcomeMessage ) }"
+.br
+.ti -1c
+.RI "enum { \fBtracy::OnDemandPayloadMessageSize\fP = sizeof( OnDemandPayloadMessage ) }"
+.br
+.ti -1c
+.RI "enum { \fBtracy::BroadcastMessageSize\fP = sizeof( BroadcastMessage ) }"
+.br
+.ti -1c
+.RI "enum { \fBtracy::BroadcastMessageSize_v2\fP = sizeof( BroadcastMessage_v2 ) }"
+.br
+.ti -1c
+.RI "enum { \fBtracy::BroadcastMessageSize_v1\fP = sizeof( BroadcastMessage_v1 ) }"
+.br
+.ti -1c
+.RI "enum { \fBtracy::BroadcastMessageSize_v0\fP = sizeof( BroadcastMessage_v0 ) }"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "constexpr unsigned \fBtracy::Lz4CompressBound\fP (unsigned \fBisize\fP)"
+.br
+.in -1c
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

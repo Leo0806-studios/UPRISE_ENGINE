@@ -3,10 +3,13 @@
 #define _CONFIGLOADER_
 #include "pch.h"
 #include "HeaderE/DATATYPES/D_CONFIGFILE.h"
+#include "filesystem"
 class ConfigFile;
 namespace PAIN {
 	class Shader;
 }
+class GameObject;
+
 namespace CORE {
 
 	class ConfigLoader {
@@ -18,10 +21,10 @@ namespace CORE {
 		static void LoadModels(const std::filesystem::path path);
 		bool safemode;
 		static void LoadTerrains();
-		template	<class _Ty, class _Arg>
-		static _Ty GameobjectFromCFGFile(std::shared_ptr<ConfigFile> CFG);
+		//template	<class _Ty, class _Arg>
+		static std::shared_ptr<GameObject> GameobjectFromCFGFile(std::shared_ptr<ConfigFile> CFG, ConfigFile::ConfigType type);
 		static PAIN::Shader ShaderFromCFGFile(std::shared_ptr<ConfigFile> vertexshader, std::shared_ptr<ConfigFile>frgmentshader, std::shared_ptr<ConfigFile>geometryshader);
-		static PAIN::Shader ShaderFromCFGFile(std::shared_ptr<ConfigFile> vertexshader, std::shared_ptr<ConfigFile>frgmentshader);
+		static PAIN::Shader* ShaderFromCFGFile(std::shared_ptr<ConfigFile> vertexshader, std::shared_ptr<ConfigFile>frgmentshader);
 		static void LoadMaterials(const std::filesystem::path path);
 
 	private:

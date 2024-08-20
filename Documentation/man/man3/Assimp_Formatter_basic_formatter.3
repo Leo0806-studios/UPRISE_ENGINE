@@ -1,0 +1,115 @@
+.TH "Assimp::Formatter::basic_formatter< T, CharTraits, Allocator >" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Assimp::Formatter::basic_formatter< T, CharTraits, Allocator >
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fR#include <TinyFormatter\&.h>\fP
+.SS "Public Types"
+
+.in +1c
+.ti -1c
+.RI "typedef class std::basic_string< \fBT\fP, CharTraits, Allocator > \fBstring\fP"
+.br
+.ti -1c
+.RI "typedef class std::basic_ostringstream< \fBT\fP, CharTraits, Allocator > \fBstringstream\fP"
+.br
+.in -1c
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBbasic_formatter\fP ()"
+.br
+.ti -1c
+.RI "template<typename TT > \fBbasic_formatter\fP (const TT &sin)"
+.br
+.ti -1c
+.RI "\fBbasic_formatter\fP (\fBbasic_formatter\fP &&other)"
+.br
+.ti -1c
+.RI "\fBbasic_formatter\fP (const \fBbasic_formatter\fP &other)"
+.br
+.ti -1c
+.RI "\fBoperator string\fP () const"
+.br
+.ti -1c
+.RI "template<typename TToken , typename std::enable_if<!std::is_base_of< std::exception, TToken >\fB::value\fP >\fB::type\fP *  = nullptr> const \fBbasic_formatter\fP & \fBoperator<<\fP (const TToken &s) const"
+.br
+.ti -1c
+.RI "template<typename TToken , typename std::enable_if< std::is_base_of< std::exception, TToken >\fB::value\fP >\fB::type\fP *  = nullptr> const \fBbasic_formatter\fP & \fBoperator<<\fP (const TToken &s) const"
+.br
+.ti -1c
+.RI "template<typename TToken , typename std::enable_if<!std::is_base_of< std::exception, TToken >\fB::value\fP >\fB::type\fP *  = nullptr> \fBbasic_formatter\fP & \fBoperator<<\fP (const TToken &s)"
+.br
+.ti -1c
+.RI "template<typename TToken , typename std::enable_if< std::is_base_of< std::exception, TToken >\fB::value\fP >\fB::type\fP *  = nullptr> \fBbasic_formatter\fP & \fBoperator<<\fP (const TToken &s)"
+.br
+.ti -1c
+.RI "template<typename TToken > const \fBbasic_formatter\fP & \fBoperator,\fP (const TToken &s) const"
+.br
+.ti -1c
+.RI "template<typename TToken > \fBbasic_formatter\fP & \fBoperator,\fP (const TToken &s)"
+.br
+.ti -1c
+.RI "template<typename TToken > \fBbasic_formatter\fP & \fBoperator,\fP (TToken &s)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.SS "template<typename \fBT\fP, typename CharTraits = std::char_traits<T>, typename Allocator = std::allocator<T>>
+.br
+class Assimp::Formatter::basic_formatter< T, CharTraits, Allocator >"stringstream utility\&. Usage: 
+.PP
+.nf
+void writelog(const std::string&s);
+void writelog(const std::wstring&s);
+\&.\&.\&.
+writelog(format()<< "hi! this is a number: " << 4);
+writelog(wformat()<< L"hi! this is a number: " << 4);
+
+.fi
+.PP
+ 
+.SH "Member Typedef Documentation"
+.PP 
+.SS "template<typename \fBT\fP , typename CharTraits  = std::char_traits<T>, typename Allocator  = std::allocator<T>> typedef class std::basic_string< \fBT\fP, CharTraits, Allocator > \fBAssimp::Formatter::basic_formatter\fP< \fBT\fP, CharTraits, Allocator >\fB::string\fP"
+
+.SS "template<typename \fBT\fP , typename CharTraits  = std::char_traits<T>, typename Allocator  = std::allocator<T>> typedef class std::basic_ostringstream< \fBT\fP, CharTraits, Allocator > \fBAssimp::Formatter::basic_formatter\fP< \fBT\fP, CharTraits, Allocator >::stringstream"
+
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "template<typename \fBT\fP , typename CharTraits  = std::char_traits<T>, typename Allocator  = std::allocator<T>> \fBAssimp::Formatter::basic_formatter\fP< \fBT\fP, CharTraits, Allocator >::basic_formatter ()\fR [inline]\fP"
+
+.SS "template<typename \fBT\fP , typename CharTraits  = std::char_traits<T>, typename Allocator  = std::allocator<T>> template<typename TT > \fBAssimp::Formatter::basic_formatter\fP< \fBT\fP, CharTraits, Allocator >::basic_formatter (const TT & sin)\fR [inline]\fP"
+
+.SS "template<typename \fBT\fP , typename CharTraits  = std::char_traits<T>, typename Allocator  = std::allocator<T>> \fBAssimp::Formatter::basic_formatter\fP< \fBT\fP, CharTraits, Allocator >::basic_formatter (\fBbasic_formatter\fP< \fBT\fP, CharTraits, Allocator > && other)\fR [inline]\fP"
+
+.SS "template<typename \fBT\fP , typename CharTraits  = std::char_traits<T>, typename Allocator  = std::allocator<T>> \fBAssimp::Formatter::basic_formatter\fP< \fBT\fP, CharTraits, Allocator >::basic_formatter (const \fBbasic_formatter\fP< \fBT\fP, CharTraits, Allocator > & other)\fR [inline]\fP, \fR [explicit]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "template<typename \fBT\fP , typename CharTraits  = std::char_traits<T>, typename Allocator  = std::allocator<T>> \fBAssimp::Formatter::basic_formatter\fP< \fBT\fP, CharTraits, Allocator >::operator \fBstring\fP () const\fR [inline]\fP"
+
+.SS "template<typename \fBT\fP , typename CharTraits  = std::char_traits<T>, typename Allocator  = std::allocator<T>> template<typename TToken > \fBbasic_formatter\fP & \fBAssimp::Formatter::basic_formatter\fP< \fBT\fP, CharTraits, Allocator >::operator, (const TToken & s)\fR [inline]\fP"
+
+.SS "template<typename \fBT\fP , typename CharTraits  = std::char_traits<T>, typename Allocator  = std::allocator<T>> template<typename TToken > const \fBbasic_formatter\fP & \fBAssimp::Formatter::basic_formatter\fP< \fBT\fP, CharTraits, Allocator >::operator, (const TToken & s) const\fR [inline]\fP"
+
+.SS "template<typename \fBT\fP , typename CharTraits  = std::char_traits<T>, typename Allocator  = std::allocator<T>> template<typename TToken > \fBbasic_formatter\fP & \fBAssimp::Formatter::basic_formatter\fP< \fBT\fP, CharTraits, Allocator >::operator, (TToken & s)\fR [inline]\fP"
+
+.SS "template<typename \fBT\fP , typename CharTraits  = std::char_traits<T>, typename Allocator  = std::allocator<T>> template<typename TToken , typename std::enable_if<!std::is_base_of< std::exception, TToken >\fB::value\fP >\fB::type\fP *  = nullptr> \fBbasic_formatter\fP & \fBAssimp::Formatter::basic_formatter\fP< \fBT\fP, CharTraits, Allocator >::operator<< (const TToken & s)\fR [inline]\fP"
+
+.SS "template<typename \fBT\fP , typename CharTraits  = std::char_traits<T>, typename Allocator  = std::allocator<T>> template<typename TToken , typename std::enable_if< std::is_base_of< std::exception, TToken >\fB::value\fP >\fB::type\fP *  = nullptr> \fBbasic_formatter\fP & \fBAssimp::Formatter::basic_formatter\fP< \fBT\fP, CharTraits, Allocator >::operator<< (const TToken & s)\fR [inline]\fP"
+
+.SS "template<typename \fBT\fP , typename CharTraits  = std::char_traits<T>, typename Allocator  = std::allocator<T>> template<typename TToken , typename std::enable_if<!std::is_base_of< std::exception, TToken >\fB::value\fP >\fB::type\fP *  = nullptr> const \fBbasic_formatter\fP & \fBAssimp::Formatter::basic_formatter\fP< \fBT\fP, CharTraits, Allocator >::operator<< (const TToken & s) const\fR [inline]\fP"
+
+.SS "template<typename \fBT\fP , typename CharTraits  = std::char_traits<T>, typename Allocator  = std::allocator<T>> template<typename TToken , typename std::enable_if< std::is_base_of< std::exception, TToken >\fB::value\fP >\fB::type\fP *  = nullptr> const \fBbasic_formatter\fP & \fBAssimp::Formatter::basic_formatter\fP< \fBT\fP, CharTraits, Allocator >::operator<< (const TToken & s) const\fR [inline]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

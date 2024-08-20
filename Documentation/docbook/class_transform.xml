@@ -4,7 +4,7 @@
 <indexterm><primary>Transform</primary></indexterm>
 <para>
 
-<para>#include &quot;TS_P_VECTOR3.h&quot; </para>
+<para>#include &quot;HeaderE/DATATYPES/D_TS_P_VECTOR3.h&quot; </para>
  
 </para>
 <para>
@@ -21,17 +21,7 @@
 <simplesect>
     <title>Public Member Functions    </title>
         <itemizedlist>
-            <listitem><para>void <link linkend="_class_transform_1a4dc43df7bb600186c831e6a41b6b602f">SetRotation</link> (<link linkend="_struct_d_a_t_a_t_y_p_e_s_1_1_t_s___p___vector3">DATATYPES::TS_P_Vector3</link> vec)</para>
-</listitem>
-            <listitem><para>void <link linkend="_class_transform_1af6b43af43b651c934313d33ff7fcf5b0">SetRotation</link> (<link linkend="_struct_d_a_t_a_t_y_p_e_s_1_1_quaternion">DATATYPES::Quaternion</link> quat)</para>
-</listitem>
-            <listitem><para>void <link linkend="_class_transform_1a8e1207da9d197d6c3bfb401624dbc12f">Update</link> () override</para>
-</listitem>
-            <listitem><para>void <link linkend="_class_transform_1a0b5fe4bd2b4f408268720a6b50196c23">Awake</link> () override</para>
-</listitem>
-            <listitem><para>void <link linkend="_class_transform_1ad441f4a3a50d257372f40f98eee97feb">Start</link> () override</para>
-</listitem>
-            <listitem><para>void <link linkend="_class_transform_1aea7eacf77c076177ee58d9d58908a3e6">UpdateDirections</link> ()</para>
+            <listitem><para><link linkend="_class_transform_1a43a22112fa4ff967a96a5b02cbdb1a60">I_WINDOW</link> (ImGui::InputFloat3(&quot;Rotation&quot;, &amp;this-&gt;Vec3Rotation.x);this-&gt;SetRotation(this -&gt; Vec3Rotation);ImGui::InputFloat3(&quot;Position&quot;, &amp;this-&gt;Position.x);) <link linkend="__c___b_e_h_a_v_i_o_u_r_8h_1a24110a191034623d4a7374edef9b03c4">COPY</link>(<link linkend="_class_transform">Transform</link></para>
 </listitem>
         </itemizedlist>
 </simplesect>
@@ -40,53 +30,17 @@ Public Member Functions inherited from <link linkend="_class_c_o_r_e_1_1_behavio
 </listitem>
             <listitem><para><link linkend="_class_c_o_r_e_1_1_behaviour_1aa54ab7738a17169baec807df01de3b37">Behaviour</link> (<link linkend="_class_game_object">GameObject</link> *oobj, std::shared_ptr&lt; <link linkend="_class_c_o_r_e_1_1_behaviour">CORE::Behaviour</link> &gt; trans)</para>
 </listitem>
-        </itemizedlist>
-<simplesect>
-    <title>Public Attributes    </title>
-        <itemizedlist>
-            <listitem><para><link linkend="_class_game_object">GameObject</link> * <link linkend="_class_transform_1a9cf2b5a5334c28a8a5f6efde4528d4a7">oobj</link> = nullptr</para>
+            <listitem><para>virtual std::shared_ptr&lt; <link linkend="_class_c_o_r_e_1_1_behaviour">CORE::Behaviour</link> &gt; <link linkend="_class_c_o_r_e_1_1_behaviour_1a376fa39b0a3a9cb7c982e1c61df75ab8">Copy</link> ()=0</para>
 </listitem>
-            <listitem><para><link linkend="_struct_d_a_t_a_t_y_p_e_s_1_1_t_s___p___vector3">DATATYPES::TS_P_Vector3</link> <link linkend="_class_transform_1a2ab2f58a50b111570a0f09e2f7305185">Position</link></para>
+            <listitem><para>virtual std::shared_ptr&lt; <link linkend="_class_c_o_r_e_1_1_behaviour">CORE::Behaviour</link> &gt; <link linkend="_class_c_o_r_e_1_1_behaviour_1a791cbaf9d8be99cea24d78b80177a555">DeepCopy</link> ()=0</para>
 </listitem>
-            <listitem><para><link linkend="_struct_d_a_t_a_t_y_p_e_s_1_1_quaternion">DATATYPES::Quaternion</link> <link linkend="_class_transform_1a66c340473682623f8fdc6660fa30ca6d">rotation</link></para>
+            <listitem><para>virtual void <link linkend="_class_c_o_r_e_1_1_behaviour_1af939526e780e260523e321d27507c974">EditorWindow</link> ()=0</para>
 </listitem>
-            <listitem><para><link linkend="_struct_d_a_t_a_t_y_p_e_s_1_1_t_s___p___vector3">DATATYPES::TS_P_Vector3</link> <link linkend="_class_transform_1a901cd85af95561b1de77dd77b83d7353">forward</link></para>
+            <listitem><para>virtual void <link linkend="_class_c_o_r_e_1_1_behaviour_1a4a0de0e3555170c221503bf59ea1ef49">Update</link> ()</para>
 </listitem>
-            <listitem><para><link linkend="_struct_d_a_t_a_t_y_p_e_s_1_1_t_s___p___vector3">DATATYPES::TS_P_Vector3</link> <link linkend="_class_transform_1adb5de90792580be5d043ee62fa37ed22">up</link></para>
+            <listitem><para>virtual void <link linkend="_class_c_o_r_e_1_1_behaviour_1a9ee42bf018b419d29c80bdd3aa7b277d">Awake</link> ()</para>
 </listitem>
-            <listitem><para><link linkend="_struct_d_a_t_a_t_y_p_e_s_1_1_t_s___p___vector3">DATATYPES::TS_P_Vector3</link> <link linkend="_class_transform_1a30b16fd2e285dcf985ba540322554d13">right</link></para>
-</listitem>
-        </itemizedlist>
-</simplesect>
-Public Attributes inherited from <link linkend="_class_c_o_r_e_1_1_behaviour">CORE::Behaviour</link>        <itemizedlist>
-            <listitem><para><link linkend="_class_game_object">GameObject</link> * <link linkend="_class_c_o_r_e_1_1_behaviour_1a21df8e75961e6af7df7ab87cd4468181">gameobject</link></para>
-</listitem>
-            <listitem><para>std::shared_ptr&lt; <link linkend="_class_transform">Transform</link> &gt; <link linkend="_class_c_o_r_e_1_1_behaviour_1ae391aa7c5a9610782ae94b6bf0eeadcc">TRANSFORM</link></para>
-</listitem>
-            <listitem><para>std::shared_ptr&lt; <link linkend="_class_c_o_r_e_1_1_behaviour">CORE::Behaviour</link> &gt; <link linkend="_class_c_o_r_e_1_1_behaviour_1ae2fac71708ace730352621fd312a96e4">transf</link></para>
-</listitem>
-            <listitem><para>UUID <link linkend="_class_c_o_r_e_1_1_behaviour_1a941e395674b18126684c0128001f0caf">uuID</link></para>
-</listitem>
-            <listitem><para>int <link linkend="_class_c_o_r_e_1_1_behaviour_1abab33e429040ffa520ba3724a5fc4a09">id</link></para>
-</listitem>
-        </itemizedlist>
-<simplesect>
-    <title>Static Public Attributes    </title>
-        <itemizedlist>
-            <listitem><para>static UUID <link linkend="_class_transform_1ac5cd15000defa3799b191fdd710818e1">UUID</link> = GUID_NULL</para>
-</listitem>
-        </itemizedlist>
-</simplesect>
-Static Public Attributes inherited from <link linkend="_class_c_o_r_e_1_1_behaviour">CORE::Behaviour</link>        <itemizedlist>
-            <listitem><para>static std::vector&lt; std::shared_ptr&lt; <link linkend="_class_c_o_r_e_1_1_behaviour">CORE::Behaviour</link> &gt; &gt; <link linkend="_class_c_o_r_e_1_1_behaviour_1ad894ab7d47475d3930a5d15cd9cee80a">objectss</link></para>
-</listitem>
-            <listitem><para>static std::vector&lt; std::shared_ptr&lt; <link linkend="_class_c_o_r_e_1_1_behaviour">Behaviour</link> &gt; &gt; <link linkend="_class_c_o_r_e_1_1_behaviour_1aaedcef1027c022b04f7bc22327a0ae3f">behaviours</link></para>
-</listitem>
-            <listitem><para>static std::vector&lt; std::shared_ptr&lt; <link linkend="_class_c_o_r_e_1_1_behaviour">Behaviour</link> &gt; &gt; <link linkend="_class_c_o_r_e_1_1_behaviour_1a4bf31591cc8fd7d5eb4d17ca7fe8d314">AWAKES</link></para>
-</listitem>
-            <listitem><para>static std::vector&lt; std::shared_ptr&lt; <link linkend="_class_c_o_r_e_1_1_behaviour">Behaviour</link> &gt; &gt; <link linkend="_class_c_o_r_e_1_1_behaviour_1a6f4299ac2021d1e9ab3064b17c2f9209">Starts</link></para>
-</listitem>
-            <listitem><para>static std::vector&lt; std::shared_ptr&lt; <link linkend="_class_c_o_r_e_1_1_behaviour">Behaviour</link> &gt; &gt; <link linkend="_class_c_o_r_e_1_1_behaviour_1afd991d482fc425719170bf5bed2d1f3f">Parallel_Updates</link></para>
+            <listitem><para>virtual void <link linkend="_class_c_o_r_e_1_1_behaviour_1a11a25e6600baa3c5a6924c33b0b86071">Start</link> ()</para>
 </listitem>
         </itemizedlist>
 <simplesect>
@@ -102,116 +56,45 @@ Static Public Member Functions inherited from <link linkend="_class_c_o_r_e_1_1_
 </listitem>
         </itemizedlist>
 </simplesect>
+Public Attributes inherited from <link linkend="_class_c_o_r_e_1_1_behaviour">CORE::Behaviour</link>        <itemizedlist>
+            <listitem><para><link linkend="_class_game_object">GameObject</link> * <link linkend="_class_c_o_r_e_1_1_behaviour_1a21df8e75961e6af7df7ab87cd4468181">gameobject</link></para>
+</listitem>
+            <listitem><para>std::shared_ptr&lt; <link linkend="_class_transform">Transform</link> &gt; <link linkend="_class_c_o_r_e_1_1_behaviour_1ae391aa7c5a9610782ae94b6bf0eeadcc">TRANSFORM</link></para>
+</listitem>
+            <listitem><para>std::shared_ptr&lt; <link linkend="_class_c_o_r_e_1_1_behaviour">CORE::Behaviour</link> &gt; <link linkend="_class_c_o_r_e_1_1_behaviour_1ae2fac71708ace730352621fd312a96e4">transf</link></para>
+</listitem>
+            <listitem><para>std::string <link linkend="_class_c_o_r_e_1_1_behaviour_1ae22a1897f4fc705c26b77a667ea2e5e5">compname</link></para>
+</listitem>
+            <listitem><para>UUID <link linkend="_class_c_o_r_e_1_1_behaviour_1a941e395674b18126684c0128001f0caf">uuID</link></para>
+</listitem>
+            <listitem><para>int <link linkend="_class_c_o_r_e_1_1_behaviour_1abab33e429040ffa520ba3724a5fc4a09">id</link></para>
+</listitem>
+        </itemizedlist>
+Static Public Attributes inherited from <link linkend="_class_c_o_r_e_1_1_behaviour">CORE::Behaviour</link>        <itemizedlist>
+            <listitem><para>static std::vector&lt; std::shared_ptr&lt; <link linkend="_class_c_o_r_e_1_1_behaviour">CORE::Behaviour</link> &gt; &gt; <link linkend="_class_c_o_r_e_1_1_behaviour_1ad894ab7d47475d3930a5d15cd9cee80a">objectss</link></para>
+</listitem>
+            <listitem><para>static std::vector&lt; std::shared_ptr&lt; <link linkend="_class_c_o_r_e_1_1_behaviour">Behaviour</link> &gt; &gt; <link linkend="_class_c_o_r_e_1_1_behaviour_1aaedcef1027c022b04f7bc22327a0ae3f">behaviours</link></para>
+</listitem>
+            <listitem><para>static std::vector&lt; std::shared_ptr&lt; <link linkend="_class_c_o_r_e_1_1_behaviour">Behaviour</link> &gt; &gt; <link linkend="_class_c_o_r_e_1_1_behaviour_1a4bf31591cc8fd7d5eb4d17ca7fe8d314">AWAKES</link></para>
+</listitem>
+            <listitem><para>static std::vector&lt; std::shared_ptr&lt; <link linkend="_class_c_o_r_e_1_1_behaviour">Behaviour</link> &gt; &gt; <link linkend="_class_c_o_r_e_1_1_behaviour_1a6f4299ac2021d1e9ab3064b17c2f9209">Starts</link></para>
+</listitem>
+            <listitem><para>static std::vector&lt; std::shared_ptr&lt; <link linkend="_class_c_o_r_e_1_1_behaviour">Behaviour</link> &gt; &gt; <link linkend="_class_c_o_r_e_1_1_behaviour_1afd991d482fc425719170bf5bed2d1f3f">Parallel_Updates</link></para>
+</listitem>
+        </itemizedlist>
 <section>
 <title>Detailed Description</title>
 
-<para>#include &quot;TS_P_VECTOR3.h&quot; </para>
-<para>
-Definition at line <link linkend="__t_r_a_n_s_f_o_r_m_8h_source_1l00014">14</link> of file <link linkend="__t_r_a_n_s_f_o_r_m_8h_source">TRANSFORM.h</link>.</para>
+<para>#include &quot;HeaderE/DATATYPES/D_TS_P_VECTOR3.h&quot; </para>
 </section>
 <section>
 <title>Member Function Documentation</title>
-<anchor xml:id="_class_transform_1a0b5fe4bd2b4f408268720a6b50196c23"/><section>
-    <title>Awake()</title>
-<indexterm><primary>Awake</primary><secondary>Transform</secondary></indexterm>
-<indexterm><primary>Transform</primary><secondary>Awake</secondary></indexterm>
-<para><computeroutput>void Transform::Awake ( )<computeroutput>[override]</computeroutput>, <computeroutput>[virtual]</computeroutput></computeroutput></para><para>
-Implements <link linkend="_class_c_o_r_e_1_1_behaviour_1ae7e766196b986d52c572c4dd792bd3b3">CORE::Behaviour</link>.</para>
+<anchor xml:id="_class_transform_1a43a22112fa4ff967a96a5b02cbdb1a60"/><section>
+    <title>I_WINDOW()</title>
+<indexterm><primary>I_WINDOW</primary><secondary>Transform</secondary></indexterm>
+<indexterm><primary>Transform</primary><secondary>I_WINDOW</secondary></indexterm>
+<para><computeroutput>Transform::I_WINDOW (ImGui::InputFloat3(&quot;Rotation&quot;, &amp;this-&gt;Vec3Rotation.x);this-&gt;SetRotation(this -&gt; Vec3Rotation);ImGui::InputFloat3(&quot;Position&quot;, &amp;this-&gt;Position.x); )</computeroutput></para></section>
 <para>
-Definition at line <link linkend="__t_r_a_n_s_f_o_r_m_8cpp_source_1l00029">29</link> of file <link linkend="__t_r_a_n_s_f_o_r_m_8cpp_source">TRANSFORM.cpp</link>.</para>
-</section>
-<anchor xml:id="_class_transform_1af6b43af43b651c934313d33ff7fcf5b0"/><section>
-    <title>SetRotation()<computeroutput>[1/2]</computeroutput></title>
-<indexterm><primary>SetRotation</primary><secondary>Transform</secondary></indexterm>
-<indexterm><primary>Transform</primary><secondary>SetRotation</secondary></indexterm>
-<para><computeroutput>void Transform::SetRotation (<link linkend="_struct_d_a_t_a_t_y_p_e_s_1_1_quaternion">DATATYPES::Quaternion</link> quat)</computeroutput></para><para>
-Definition at line <link linkend="__t_r_a_n_s_f_o_r_m_8cpp_source_1l00017">17</link> of file <link linkend="__t_r_a_n_s_f_o_r_m_8cpp_source">TRANSFORM.cpp</link>.</para>
-</section>
-<anchor xml:id="_class_transform_1a4dc43df7bb600186c831e6a41b6b602f"/><section>
-    <title>SetRotation()<computeroutput>[2/2]</computeroutput></title>
-<indexterm><primary>SetRotation</primary><secondary>Transform</secondary></indexterm>
-<indexterm><primary>Transform</primary><secondary>SetRotation</secondary></indexterm>
-<para><computeroutput>void Transform::SetRotation (<link linkend="_struct_d_a_t_a_t_y_p_e_s_1_1_t_s___p___vector3">DATATYPES::TS_P_Vector3</link> vec)</computeroutput></para><para>
-Definition at line <link linkend="__t_r_a_n_s_f_o_r_m_8cpp_source_1l00007">7</link> of file <link linkend="__t_r_a_n_s_f_o_r_m_8cpp_source">TRANSFORM.cpp</link>.</para>
-</section>
-<anchor xml:id="_class_transform_1ad441f4a3a50d257372f40f98eee97feb"/><section>
-    <title>Start()</title>
-<indexterm><primary>Start</primary><secondary>Transform</secondary></indexterm>
-<indexterm><primary>Transform</primary><secondary>Start</secondary></indexterm>
-<para><computeroutput>void Transform::Start ( )<computeroutput>[override]</computeroutput>, <computeroutput>[virtual]</computeroutput></computeroutput></para><para>
-Implements <link linkend="_class_c_o_r_e_1_1_behaviour_1ac59e412c02f55fd077bc9b3f543e2b1a">CORE::Behaviour</link>.</para>
-<para>
-Definition at line <link linkend="__t_r_a_n_s_f_o_r_m_8cpp_source_1l00031">31</link> of file <link linkend="__t_r_a_n_s_f_o_r_m_8cpp_source">TRANSFORM.cpp</link>.</para>
-</section>
-<anchor xml:id="_class_transform_1a8e1207da9d197d6c3bfb401624dbc12f"/><section>
-    <title>Update()</title>
-<indexterm><primary>Update</primary><secondary>Transform</secondary></indexterm>
-<indexterm><primary>Transform</primary><secondary>Update</secondary></indexterm>
-<para><computeroutput>void Transform::Update ( )<computeroutput>[override]</computeroutput>, <computeroutput>[virtual]</computeroutput></computeroutput></para><para>
-Implements <link linkend="_class_c_o_r_e_1_1_behaviour_1ae5a866762abca2dfabff14209306059a">CORE::Behaviour</link>.</para>
-<para>
-Definition at line <link linkend="__t_r_a_n_s_f_o_r_m_8cpp_source_1l00027">27</link> of file <link linkend="__t_r_a_n_s_f_o_r_m_8cpp_source">TRANSFORM.cpp</link>.</para>
-</section>
-<anchor xml:id="_class_transform_1aea7eacf77c076177ee58d9d58908a3e6"/><section>
-    <title>UpdateDirections()</title>
-<indexterm><primary>UpdateDirections</primary><secondary>Transform</secondary></indexterm>
-<indexterm><primary>Transform</primary><secondary>UpdateDirections</secondary></indexterm>
-<para><computeroutput>void Transform::UpdateDirections ( )</computeroutput></para><para>
-Definition at line <link linkend="__t_r_a_n_s_f_o_r_m_8cpp_source_1l00033">33</link> of file <link linkend="__t_r_a_n_s_f_o_r_m_8cpp_source">TRANSFORM.cpp</link>.</para>
-</section>
-</section>
-<section>
-<title>Member Data Documentation</title>
-<anchor xml:id="_class_transform_1a901cd85af95561b1de77dd77b83d7353"/><section>
-    <title>forward</title>
-<indexterm><primary>forward</primary><secondary>Transform</secondary></indexterm>
-<indexterm><primary>Transform</primary><secondary>forward</secondary></indexterm>
-<para><computeroutput><link linkend="_struct_d_a_t_a_t_y_p_e_s_1_1_t_s___p___vector3">DATATYPES::TS_P_Vector3</link> Transform::forward</computeroutput></para><para>
-Definition at line <link linkend="__t_r_a_n_s_f_o_r_m_8h_source_1l00021">21</link> of file <link linkend="__t_r_a_n_s_f_o_r_m_8h_source">TRANSFORM.h</link>.</para>
-</section>
-<anchor xml:id="_class_transform_1a9cf2b5a5334c28a8a5f6efde4528d4a7"/><section>
-    <title>oobj</title>
-<indexterm><primary>oobj</primary><secondary>Transform</secondary></indexterm>
-<indexterm><primary>Transform</primary><secondary>oobj</secondary></indexterm>
-<para><computeroutput><link linkend="_class_game_object">GameObject</link>* Transform::oobj = nullptr</computeroutput></para><para>
-Definition at line <link linkend="__t_r_a_n_s_f_o_r_m_8h_source_1l00017">17</link> of file <link linkend="__t_r_a_n_s_f_o_r_m_8h_source">TRANSFORM.h</link>.</para>
-</section>
-<anchor xml:id="_class_transform_1a2ab2f58a50b111570a0f09e2f7305185"/><section>
-    <title>Position</title>
-<indexterm><primary>Position</primary><secondary>Transform</secondary></indexterm>
-<indexterm><primary>Transform</primary><secondary>Position</secondary></indexterm>
-<para><computeroutput><link linkend="_struct_d_a_t_a_t_y_p_e_s_1_1_t_s___p___vector3">DATATYPES::TS_P_Vector3</link> Transform::Position</computeroutput></para><para>
-Definition at line <link linkend="__t_r_a_n_s_f_o_r_m_8h_source_1l00019">19</link> of file <link linkend="__t_r_a_n_s_f_o_r_m_8h_source">TRANSFORM.h</link>.</para>
-</section>
-<anchor xml:id="_class_transform_1a30b16fd2e285dcf985ba540322554d13"/><section>
-    <title>right</title>
-<indexterm><primary>right</primary><secondary>Transform</secondary></indexterm>
-<indexterm><primary>Transform</primary><secondary>right</secondary></indexterm>
-<para><computeroutput><link linkend="_struct_d_a_t_a_t_y_p_e_s_1_1_t_s___p___vector3">DATATYPES::TS_P_Vector3</link> Transform::right</computeroutput></para><para>
-Definition at line <link linkend="__t_r_a_n_s_f_o_r_m_8h_source_1l00023">23</link> of file <link linkend="__t_r_a_n_s_f_o_r_m_8h_source">TRANSFORM.h</link>.</para>
-</section>
-<anchor xml:id="_class_transform_1a66c340473682623f8fdc6660fa30ca6d"/><section>
-    <title>rotation</title>
-<indexterm><primary>rotation</primary><secondary>Transform</secondary></indexterm>
-<indexterm><primary>Transform</primary><secondary>rotation</secondary></indexterm>
-<para><computeroutput><link linkend="_struct_d_a_t_a_t_y_p_e_s_1_1_quaternion">DATATYPES::Quaternion</link> Transform::rotation</computeroutput></para><para>
-Definition at line <link linkend="__t_r_a_n_s_f_o_r_m_8h_source_1l00020">20</link> of file <link linkend="__t_r_a_n_s_f_o_r_m_8h_source">TRANSFORM.h</link>.</para>
-</section>
-<anchor xml:id="_class_transform_1adb5de90792580be5d043ee62fa37ed22"/><section>
-    <title>up</title>
-<indexterm><primary>up</primary><secondary>Transform</secondary></indexterm>
-<indexterm><primary>Transform</primary><secondary>up</secondary></indexterm>
-<para><computeroutput><link linkend="_struct_d_a_t_a_t_y_p_e_s_1_1_t_s___p___vector3">DATATYPES::TS_P_Vector3</link> Transform::up</computeroutput></para><para>
-Definition at line <link linkend="__t_r_a_n_s_f_o_r_m_8h_source_1l00022">22</link> of file <link linkend="__t_r_a_n_s_f_o_r_m_8h_source">TRANSFORM.h</link>.</para>
-</section>
-<anchor xml:id="_class_transform_1ac5cd15000defa3799b191fdd710818e1"/><section>
-    <title>UUID</title>
-<indexterm><primary>UUID</primary><secondary>Transform</secondary></indexterm>
-<indexterm><primary>Transform</primary><secondary>UUID</secondary></indexterm>
-<para><computeroutput>GUID Transform::UUID = GUID_NULL<computeroutput>[static]</computeroutput></computeroutput></para><para>
-Definition at line <link linkend="__t_r_a_n_s_f_o_r_m_8h_source_1l00016">16</link> of file <link linkend="__t_r_a_n_s_f_o_r_m_8h_source">TRANSFORM.h</link>.</para>
-</section>
-<para>
-The documentation for this class was generated from the following files:</para>
-UPRISE_ENGINE/<link linkend="__t_r_a_n_s_f_o_r_m_8h">TRANSFORM.h</link>UPRISE_ENGINE/<link linkend="__t_r_a_n_s_f_o_r_m_8cpp">TRANSFORM.cpp</link></section>
+The documentation for this class was generated from the following file:</para>
+UPRISE_ENGINE/<link linkend="__t_r_a_n_s_f_o_r_m_8h">TRANSFORM.h</link></section>
 </section>

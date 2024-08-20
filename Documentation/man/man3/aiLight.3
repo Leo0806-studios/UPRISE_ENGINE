@@ -1,0 +1,142 @@
+.TH "aiLight" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+aiLight
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fR#include <light\&.h>\fP
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBC_STRUCT\fP \fBaiString\fP \fBmName\fP"
+.br
+.ti -1c
+.RI "\fBC_ENUM\fP \fBaiLightSourceType\fP \fBmType\fP"
+.br
+.ti -1c
+.RI "\fBC_STRUCT\fP \fBaiVector3D\fP \fBmPosition\fP"
+.br
+.ti -1c
+.RI "\fBC_STRUCT\fP \fBaiVector3D\fP \fBmDirection\fP"
+.br
+.ti -1c
+.RI "\fBC_STRUCT\fP \fBaiVector3D\fP \fBmUp\fP"
+.br
+.ti -1c
+.RI "float \fBmAttenuationConstant\fP"
+.br
+.ti -1c
+.RI "float \fBmAttenuationLinear\fP"
+.br
+.ti -1c
+.RI "float \fBmAttenuationQuadratic\fP"
+.br
+.ti -1c
+.RI "\fBC_STRUCT\fP \fBaiColor3D\fP \fBmColorDiffuse\fP"
+.br
+.ti -1c
+.RI "\fBC_STRUCT\fP \fBaiColor3D\fP \fBmColorSpecular\fP"
+.br
+.ti -1c
+.RI "\fBC_STRUCT\fP \fBaiColor3D\fP \fBmColorAmbient\fP"
+.br
+.ti -1c
+.RI "float \fBmAngleInnerCone\fP"
+.br
+.ti -1c
+.RI "float \fBmAngleOuterCone\fP"
+.br
+.ti -1c
+.RI "\fBC_STRUCT\fP \fBaiVector2D\fP \fBmSize\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Helper structure to describe a light source\&.
+.PP
+\fBAssimp\fP supports multiple sorts of light sources, including directional, point and spot lights\&. All of them are defined with just a single structure and distinguished by their parameters\&. Note - some file formats (such as 3DS, ASE) export a 'target point' - the point a spot light is looking at (it can even be animated)\&. \fBAssimp\fP writes the target point as a sub-node of a spot-lights's main node, called '<spotName>\&.Target'\&. However, this is just additional information then, the transformation tracks of the main node make the spot light already point in the right direction\&. 
+.SH "Member Data Documentation"
+.PP 
+.SS "float aiLight::mAngleInnerCone"
+Inner angle of a spot light's light cone\&.
+.PP
+The spot light has maximum influence on objects inside this angle\&. The angle is given in radians\&. It is 2PI for point lights and undefined for directional lights\&. 
+.SS "float aiLight::mAngleOuterCone"
+Outer angle of a spot light's light cone\&.
+.PP
+The spot light does not affect objects outside this angle\&. The angle is given in radians\&. It is 2PI for point lights and undefined for directional lights\&. The outer angle must be greater than or equal to the inner angle\&. It is assumed that the application uses a smooth interpolation between the inner and the outer cone of the spot light\&. 
+.SS "float aiLight::mAttenuationConstant"
+Constant light attenuation factor\&.
+.PP
+The intensity of the light source at a given distance 'd' from the light's position is 
+.PP
+.nf
+Atten = 1/( att0 + att1 * d + att2 * d*d)
+
+.fi
+.PP
+ This member corresponds to the att0 variable in the equation\&. Naturally undefined for directional lights\&. 
+.SS "float aiLight::mAttenuationLinear"
+Linear light attenuation factor\&.
+.PP
+The intensity of the light source at a given distance 'd' from the light's position is 
+.PP
+.nf
+Atten = 1/( att0 + att1 * d + att2 * d*d)
+
+.fi
+.PP
+ This member corresponds to the att1 variable in the equation\&. Naturally undefined for directional lights\&. 
+.SS "float aiLight::mAttenuationQuadratic"
+Quadratic light attenuation factor\&.
+.PP
+The intensity of the light source at a given distance 'd' from the light's position is 
+.PP
+.nf
+Atten = 1/( att0 + att1 * d + att2 * d*d)
+
+.fi
+.PP
+ This member corresponds to the att2 variable in the equation\&. Naturally undefined for directional lights\&. 
+.SS "\fBC_STRUCT\fP \fBaiColor3D\fP aiLight::mColorAmbient"
+Ambient color of the light source
+.PP
+The ambient light color is multiplied with the ambient material color to obtain the final color that contributes to the ambient shading term\&. Most renderers will ignore this value it, is just a remaining of the fixed-function pipeline that is still supported by quite many file formats\&. 
+.SS "\fBC_STRUCT\fP \fBaiColor3D\fP aiLight::mColorDiffuse"
+Diffuse color of the light source
+.PP
+The diffuse light color is multiplied with the diffuse material color to obtain the final color that contributes to the diffuse shading term\&. 
+.SS "\fBC_STRUCT\fP \fBaiColor3D\fP aiLight::mColorSpecular"
+Specular color of the light source
+.PP
+The specular light color is multiplied with the specular material color to obtain the final color that contributes to the specular shading term\&. 
+.SS "\fBC_STRUCT\fP \fBaiVector3D\fP aiLight::mDirection"
+Direction of the light source in space\&. Relative to the transformation of the node corresponding to the light\&.
+.PP
+The direction is undefined for point lights\&. The vector may be normalized, but it needn't\&. 
+.SS "\fBC_STRUCT\fP \fBaiString\fP aiLight::mName"
+The name of the light source\&.
+.PP
+There must be a node in the scene-graph with the same name\&. This node specifies the position of the light in the scene hierarchy and can be animated\&. 
+.SS "\fBC_STRUCT\fP \fBaiVector3D\fP aiLight::mPosition"
+Position of the light source in space\&. Relative to the transformation of the node corresponding to the light\&.
+.PP
+The position is undefined for directional lights\&. 
+.SS "\fBC_STRUCT\fP \fBaiVector2D\fP aiLight::mSize"
+Size of area light source\&. 
+.SS "\fBC_ENUM\fP \fBaiLightSourceType\fP aiLight::mType"
+The type of the light source\&.
+.PP
+aiLightSource_UNDEFINED is not a valid value for this member\&. 
+.SS "\fBC_STRUCT\fP \fBaiVector3D\fP aiLight::mUp"
+Up direction of the light source in space\&. Relative to the transformation of the node corresponding to the light\&.
+.PP
+The direction is undefined for point lights\&. The vector may be normalized, but it needn't\&. 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

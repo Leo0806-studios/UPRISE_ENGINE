@@ -1,4 +1,4 @@
-.TH "PAIN::RenderStup" 3 "Version 0.0.0.1" "My Project" \" -*- nroff -*-
+.TH "PAIN::RenderStup" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -40,7 +40,16 @@ Definition at line \fB11\fP of file \fBRENDERSETUP\&.h\fP\&.
 .SS "void PAIN::RenderStup::framebuffer_size_callback (GLFWwindow * window, int width, int height)\fR [static]\fP"
 
 .PP
-Definition at line \fB37\fP of file \fBRenderSetup\&.cpp\fP\&.
+Definition at line \fB38\fP of file \fBRenderSetup\&.cpp\fP\&.
+.nf
+39 {
+40     glViewport(0, 0, width, height);
+41 }
+.PP
+.fi
+
+.PP
+Referenced by \fBWindow()\fP\&.
 .SS "void PAIN::RenderStup::Setup (int w, int h, const char * Title)\fR [static]\fP"
 
 .PP
@@ -57,21 +66,82 @@ HAS TO BE CALLED TWICE!!
 .PP
 
 .PP
-Definition at line \fB42\fP of file \fBRenderSetup\&.cpp\fP\&.
+Definition at line \fB43\fP of file \fBRenderSetup\&.cpp\fP\&.
+.nf
+44 {
+45     if (setup_call == true) {
+46 
+47         return;
+48     }
+49     setup_call = true;
+50     Log << "        \- GLFW Init";
+51     glfwInit();
+52     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+53     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+54     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+55     Log << "        \- Creating Window";
+56      Windowvar = Window(w,h,Title);
+57      Log << "       \- Creating Viewport";
+58      glViewport(0, 0, w, h);
+59      Log << "       \- Creating Camera";
+60     Render_cam = GameObject::CreateCamera(TS_P_Vector3(0,0,0),Quaternion(1,0,0,0));
+61     Render_cam\&.name = "CAMERA";
+62     //CORE::Behaviour::updateAll();
+63     PAIN::Render::CAM = std::dynamic_pointer_cast<Camera>(Render_cam\&.behaviours[1]);
+64     PAIN::Render::RenderCam = &Render_cam\&.GetComponentDynamic(Camera())\->camera;
+65     //PAIN::Render::RenderCam;
+66 
+67 }
+.PP
+.fi
+
+.PP
+References \fBPAIN::Render::CAM\fP, \fBGameObject::CreateCamera()\fP, \fBLog\fP, and \fBPAIN::Render::RenderCam\fP\&.
+.PP
+Referenced by \fBCORE::Startup::Start_Systems()\fP\&.
 .SS "GLFWwindow * PAIN::RenderStup::Window (int w, int h, const char * Title)\fR [static]\fP"
 
 .PP
-Definition at line \fB16\fP of file \fBRenderSetup\&.cpp\fP\&.
+Definition at line \fB17\fP of file \fBRenderSetup\&.cpp\fP\&.
+.nf
+18 {
+19     GLFWwindow* window = glfwCreateWindow(w, h, "UPRISE", NULL, NULL);
+20     if (window == NULL) {
+21         std::cout << "Failed to create window\\n";
+22         std::cout << "either with or heeight or the window title is invalid\&. try deleting the config file to reset to default values \\n" << " or put a 1 at the first spot in the first line to start safe\\n";
+23         glfwTerminate();
+24         exit( \- 1);
+25     }
+26     Log << "        \- Setting Context";
+27     glfwMakeContextCurrent(window);
+28 
+29     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+30         std::cout << "womp womp";;
+31         exit(\-1);
+32     }
+33     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+34 
+35     return window;
+36 }
+.PP
+.fi
+
+.PP
+References \fBframebuffer_size_callback()\fP, and \fBLog\fP\&.
 .SH "Member Data Documentation"
 .PP 
 .SS "\fBGameObject\fP PAIN::RenderStup::Render_cam\fR [static]\fP"
 
 .PP
 Definition at line \fB15\fP of file \fBRENDERSETUP\&.h\fP\&.
+.PP
+Referenced by \fBmain()\fP\&.
 .SS "GLFWwindow * PAIN::RenderStup::Windowvar\fR [static]\fP"
 
 .PP
 Definition at line \fB17\fP of file \fBRENDERSETUP\&.h\fP\&.
+.PP
+Referenced by \fBmain()\fP, and \fBCORE::Startup::Start_Systems()\fP\&.
 
 .SH "Author"
 .PP 

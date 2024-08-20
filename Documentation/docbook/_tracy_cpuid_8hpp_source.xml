@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="__tracy_cpuid_8hpp_source" xml:lang="en-US">
+<title>TracyCpuid.hpp</title>
+<indexterm><primary>adhed/client/TracyCpuid.hpp</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 <emphasis role="preprocessor">#ifndef&#32;__TRACYCPUID_HPP__</emphasis>
+2 <emphasis role="preprocessor">#define&#32;__TRACYCPUID_HPP__</emphasis>
+3 
+4 <emphasis role="comment">//&#32;Prior&#32;to&#32;GCC&#32;11&#32;the&#32;cpuid.h&#32;header&#32;did&#32;not&#32;have&#32;any&#32;include&#32;guards&#32;and&#32;thus</emphasis>
+5 <emphasis role="comment">//&#32;including&#32;it&#32;more&#32;than&#32;once&#32;would&#32;cause&#32;a&#32;compiler&#32;error&#32;due&#32;to&#32;symbol</emphasis>
+6 <emphasis role="comment">//&#32;redefinitions.&#32;In&#32;order&#32;to&#32;support&#32;older&#32;GCC&#32;versions,&#32;we&#32;have&#32;to&#32;wrap&#32;this</emphasis>
+7 <emphasis role="comment">//&#32;include&#32;between&#32;custom&#32;include&#32;guards&#32;to&#32;prevent&#32;this&#32;issue.</emphasis>
+8 <emphasis role="comment">//&#32;See&#32;also&#32;https://github.com/wolfpld/tracy/issues/452</emphasis>
+9 
+10 <emphasis role="preprocessor">#include&#32;&lt;cpuid.h&gt;</emphasis>
+11 
+12 <emphasis role="preprocessor">#endif</emphasis>
+</programlisting></section>

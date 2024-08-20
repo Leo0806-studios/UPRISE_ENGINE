@@ -9,6 +9,7 @@
 //class Camera :public CORE::Behaviour;
 
 namespace PAIN {
+	
 	class MiniModel {
 	public:
 		MiniModel() = default;
@@ -33,6 +34,7 @@ namespace PAIN {
 
 
 	public:
+		static unsigned int FBO;
 		static std::unordered_map<std::string, int> MaterialIdLinkDict;
 		static std::unordered_map<std::string, std::shared_ptr<PAIN::Model>> Modeldict;
 		static std::vector<PAIN::Material> mats;
@@ -43,6 +45,7 @@ namespace PAIN {
 		std::vector< void* > voidobjects;
 		static PAIN::Render_Camera* RenderCam;
 		static std::shared_ptr<Camera> CAM;
+		static VEC(Shader*) Shader_Ptr;
 		static bool Check_Removed;
 		virtual void DrawObj() = 0;
 
@@ -57,7 +60,9 @@ namespace PAIN {
 		Shader* shader;
 		Shader Shader_;
 		Material(Shader* shade);
+		Material(Shader* shade,int id);
 		Material(Shader shade);
+		Material(Shader shade,int id);
 		void DrawObj()override;
 	};
 	class TerrainModel : public PAIN::Model, PAIN::Render {

@@ -1,0 +1,292 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_tracy__rpmalloc_8hpp_source" xml:lang="en-US">
+<title>tracy_rpmalloc.hpp</title>
+<indexterm><primary>adhed/client/tracy_rpmalloc.hpp</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 <emphasis role="comment">/*&#32;rpmalloc.h&#32;&#32;-&#32;&#32;Memory&#32;allocator&#32;&#32;-&#32;&#32;Public&#32;Domain&#32;&#32;-&#32;&#32;2016&#32;Mattias&#32;Jansson</emphasis>
+2 <emphasis role="comment">&#32;*</emphasis>
+3 <emphasis role="comment">&#32;*&#32;This&#32;library&#32;provides&#32;a&#32;cross-platform&#32;lock&#32;free&#32;thread&#32;caching&#32;malloc&#32;implementation&#32;in&#32;C11.</emphasis>
+4 <emphasis role="comment">&#32;*&#32;The&#32;latest&#32;source&#32;code&#32;is&#32;always&#32;available&#32;at</emphasis>
+5 <emphasis role="comment">&#32;*</emphasis>
+6 <emphasis role="comment">&#32;*&#32;https://github.com/mjansson/rpmalloc</emphasis>
+7 <emphasis role="comment">&#32;*</emphasis>
+8 <emphasis role="comment">&#32;*&#32;This&#32;library&#32;is&#32;put&#32;in&#32;the&#32;public&#32;domain;&#32;you&#32;can&#32;redistribute&#32;it&#32;and/or&#32;modify&#32;it&#32;without&#32;any&#32;restrictions.</emphasis>
+9 <emphasis role="comment">&#32;*</emphasis>
+10 <emphasis role="comment">&#32;*/</emphasis>
+11 
+12 <emphasis role="preprocessor">#pragma&#32;once</emphasis>
+13 
+14 <emphasis role="preprocessor">#include&#32;&lt;stddef.h&gt;</emphasis>
+15 <emphasis role="preprocessor">#include&#32;&quot;<link linkend="__tracy_api_8h">../common/TracyApi.h</link>&quot;</emphasis>
+16 
+17 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespacetracy">tracy</link>
+18 {
+19 
+20 <emphasis role="preprocessor">#if&#32;defined(__clang__)&#32;||&#32;defined(__GNUC__)</emphasis>
+21 <emphasis role="preprocessor">#&#32;define&#32;RPMALLOC_EXPORT&#32;__attribute__((visibility(&quot;default&quot;)))</emphasis>
+22 <emphasis role="preprocessor">#&#32;define&#32;RPMALLOC_ALLOCATOR&#32;</emphasis>
+23 <emphasis role="preprocessor">#&#32;if&#32;(defined(__clang_major__)&#32;&amp;&amp;&#32;(__clang_major__&#32;&lt;&#32;4))&#32;||&#32;(defined(__GNUC__)&#32;&amp;&amp;&#32;defined(ENABLE_PRELOAD)&#32;&amp;&amp;&#32;ENABLE_PRELOAD)</emphasis>
+24 <emphasis role="preprocessor">#&#32;define&#32;RPMALLOC_ATTRIB_MALLOC</emphasis>
+25 <emphasis role="preprocessor">#&#32;define&#32;RPMALLOC_ATTRIB_ALLOC_SIZE(size)</emphasis>
+26 <emphasis role="preprocessor">#&#32;define&#32;RPMALLOC_ATTRIB_ALLOC_SIZE2(count,&#32;size)</emphasis>
+27 <emphasis role="preprocessor">#&#32;else</emphasis>
+28 <emphasis role="preprocessor">#&#32;define&#32;RPMALLOC_ATTRIB_MALLOC&#32;__attribute__((__malloc__))</emphasis>
+29 <emphasis role="preprocessor">#&#32;define&#32;RPMALLOC_ATTRIB_ALLOC_SIZE(size)&#32;__attribute__((alloc_size(size)))</emphasis>
+30 <emphasis role="preprocessor">#&#32;define&#32;RPMALLOC_ATTRIB_ALLOC_SIZE2(count,&#32;size)&#32;&#32;__attribute__((alloc_size(count,&#32;size)))</emphasis>
+31 <emphasis role="preprocessor">#&#32;endif</emphasis>
+32 <emphasis role="preprocessor">#&#32;define&#32;RPMALLOC_CDECL</emphasis>
+33 <emphasis role="preprocessor">#elif&#32;defined(_MSC_VER)</emphasis>
+34 <emphasis role="preprocessor">#&#32;define&#32;RPMALLOC_EXPORT</emphasis>
+35 <emphasis role="preprocessor">#&#32;define&#32;RPMALLOC_ALLOCATOR&#32;__declspec(allocator)&#32;__declspec(restrict)</emphasis>
+36 <emphasis role="preprocessor">#&#32;define&#32;RPMALLOC_ATTRIB_MALLOC</emphasis>
+37 <emphasis role="preprocessor">#&#32;define&#32;RPMALLOC_ATTRIB_ALLOC_SIZE(size)</emphasis>
+38 <emphasis role="preprocessor">#&#32;define&#32;RPMALLOC_ATTRIB_ALLOC_SIZE2(count,size)</emphasis>
+39 <emphasis role="preprocessor">#&#32;define&#32;RPMALLOC_CDECL&#32;__cdecl</emphasis>
+40 <emphasis role="preprocessor">#else</emphasis>
+41 <emphasis role="preprocessor">#&#32;define&#32;RPMALLOC_EXPORT</emphasis>
+42 <emphasis role="preprocessor">#&#32;define&#32;RPMALLOC_ALLOCATOR</emphasis>
+43 <emphasis role="preprocessor">#&#32;define&#32;RPMALLOC_ATTRIB_MALLOC</emphasis>
+44 <emphasis role="preprocessor">#&#32;define&#32;RPMALLOC_ATTRIB_ALLOC_SIZE(size)</emphasis>
+45 <emphasis role="preprocessor">#&#32;define&#32;RPMALLOC_ATTRIB_ALLOC_SIZE2(count,size)</emphasis>
+46 <emphasis role="preprocessor">#&#32;define&#32;RPMALLOC_CDECL</emphasis>
+47 <emphasis role="preprocessor">#endif</emphasis>
+48 
+50 <emphasis role="comment">//&#32;&#32;a&#32;very&#32;small&#32;overhead&#32;due&#32;to&#32;some&#32;size&#32;calculations&#32;not&#32;being&#32;compile&#32;time&#32;constants</emphasis>
+51 <emphasis role="preprocessor">#ifndef&#32;RPMALLOC_CONFIGURABLE</emphasis>
+52 <emphasis role="preprocessor">#define&#32;RPMALLOC_CONFIGURABLE&#32;0</emphasis>
+53 <emphasis role="preprocessor">#endif</emphasis>
+54 
+56 <emphasis role="comment">//&#32;&#32;Will&#32;introduce&#32;a&#32;very&#32;small&#32;overhead&#32;to&#32;track&#32;fully&#32;allocated&#32;spans&#32;in&#32;heaps</emphasis>
+57 <emphasis role="preprocessor">#ifndef&#32;RPMALLOC_FIRST_CLASS_HEAPS</emphasis>
+58 <emphasis role="preprocessor">#define&#32;RPMALLOC_FIRST_CLASS_HEAPS&#32;0</emphasis>
+59 <emphasis role="preprocessor">#endif</emphasis>
+60 
+62 <emphasis role="preprocessor">#define&#32;RPMALLOC_NO_PRESERVE&#32;&#32;&#32;&#32;1</emphasis>
+64 <emphasis role="comment">//&#32;&#32;in&#32;which&#32;case&#32;the&#32;original&#32;pointer&#32;is&#32;still&#32;valid&#32;(just&#32;like&#32;a&#32;call&#32;to&#32;realloc&#32;which&#32;failes&#32;to&#32;allocate</emphasis>
+65 <emphasis role="comment">//&#32;&#32;a&#32;new&#32;block).</emphasis>
+66 <emphasis role="preprocessor">#define&#32;RPMALLOC_GROW_OR_FAIL&#32;&#32;&#32;2</emphasis>
+67 
+68 <emphasis role="keyword">typedef</emphasis>&#32;<emphasis role="keyword">struct&#32;</emphasis><link linkend="_structtracy_1_1rpmalloc__global__statistics__t">rpmalloc_global_statistics_t</link>&#32;{
+70 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_structtracy_1_1rpmalloc__global__statistics__t_1a606cb993f67389ed965c6ee79a6d0837">mapped</link>;
+72 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_structtracy_1_1rpmalloc__global__statistics__t_1a8f6cc2282c7495750b719a3b611d24ee">mapped_peak</link>;
+74 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_structtracy_1_1rpmalloc__global__statistics__t_1a0dab805b7c5ffb1d2a3c92b757234f47">cached</link>;
+76 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_structtracy_1_1rpmalloc__global__statistics__t_1ae284682b20532895ffcfc6628835dda6">huge_alloc</link>;
+78 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_structtracy_1_1rpmalloc__global__statistics__t_1a1d45e25e328866d8971a3614a8a3805f">huge_alloc_peak</link>;
+80 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_structtracy_1_1rpmalloc__global__statistics__t_1af69040d1e1c1b2e23db38a18233ed2c6">mapped_total</link>;
+82 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_structtracy_1_1rpmalloc__global__statistics__t_1a4906ca43ce96dcb6db82f5f11bd998b3">unmapped_total</link>;
+83 }&#32;<link linkend="_namespacetracy_1a9bbc53226af66a35ddd9013c6717d16e">rpmalloc_global_statistics_t</link>;
+84 
+85 <emphasis role="keyword">typedef</emphasis>&#32;<emphasis role="keyword">struct&#32;</emphasis><link linkend="_structtracy_1_1rpmalloc__thread__statistics__t">rpmalloc_thread_statistics_t</link>&#32;{
+87 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_structtracy_1_1rpmalloc__thread__statistics__t_1af0a807ca21b2470717d04f758223609c">sizecache</link>;
+89 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_structtracy_1_1rpmalloc__thread__statistics__t_1a4007974540545c5ba1c8e4ddd3091020">spancache</link>;
+91 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_structtracy_1_1rpmalloc__thread__statistics__t_1aed0e725e168e87f5b65fbd136061f145">thread_to_global</link>;
+93 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_structtracy_1_1rpmalloc__thread__statistics__t_1a071f0cea2e8171766a687e6748c9ced4">global_to_thread</link>;
+95 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis>{
+97 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_structtracy_1_1rpmalloc__thread__statistics__t_1aa6e8825c86b53ab331bd205b845c954c">current</link>;
+99 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_structtracy_1_1rpmalloc__thread__statistics__t_1a9627cd51d21bfe3fef84b7d9da43b46f">peak</link>;
+101 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_structtracy_1_1rpmalloc__thread__statistics__t_1a99a4f855ac7da561a1554c6c8506038c">to_global</link>;
+103 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_structtracy_1_1rpmalloc__thread__statistics__t_1afe20e10f87bdee345d456b2457f751d3">from_global</link>;
+105 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_structtracy_1_1rpmalloc__thread__statistics__t_1af1d1b2cfee4af6f0d6b0b7de6f407332">to_cache</link>;
+107 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_structtracy_1_1rpmalloc__thread__statistics__t_1aea23aa323141b45acdebb709195e5fc9">from_cache</link>;
+109 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_structtracy_1_1rpmalloc__thread__statistics__t_1af1e4880ed3f6db41106e01e113f7665c">to_reserved</link>;
+111 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_structtracy_1_1rpmalloc__thread__statistics__t_1a55f678a3195300162018681dcbc162d8">from_reserved</link>;
+113 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_structtracy_1_1rpmalloc__thread__statistics__t_1aa5f8e2e73e8281f78c6fc346dbfedc2c">map_calls</link>;
+114 &#32;&#32;&#32;&#32;}&#32;<link linkend="_structtracy_1_1rpmalloc__thread__statistics__t_1a1be7053d1be042f705b606bcb5c722ec">span_use</link>[64];
+116 &#32;&#32;&#32;&#32;<emphasis role="keyword">struct&#32;</emphasis>{
+118 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_structtracy_1_1rpmalloc__thread__statistics__t_1adf64a1d20f5e137576e0ac142838b52e">alloc_current</link>;
+120 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_structtracy_1_1rpmalloc__thread__statistics__t_1a53f979ba090b494c7bd9520833e4e2a9">alloc_peak</link>;
+122 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_structtracy_1_1rpmalloc__thread__statistics__t_1a4447838cc92edc8cc74fea57d9ce793d">alloc_total</link>;
+124 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_structtracy_1_1rpmalloc__thread__statistics__t_1a433be9627762863d044ffb308d8aaa09">free_total</link>;
+126 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_structtracy_1_1rpmalloc__thread__statistics__t_1a46f9e08426b85995e42a6d86353eb339">spans_to_cache</link>;
+128 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_structtracy_1_1rpmalloc__thread__statistics__t_1af24f53ef6b5ef0ad32634ef1866bf3bc">spans_from_cache</link>;
+130 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_structtracy_1_1rpmalloc__thread__statistics__t_1a739a32044e36b9f46c991b0f46c727f8">spans_from_reserved</link>;
+132 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_structtracy_1_1rpmalloc__thread__statistics__t_1aa5f8e2e73e8281f78c6fc346dbfedc2c">map_calls</link>;
+133 &#32;&#32;&#32;&#32;}&#32;<link linkend="_structtracy_1_1rpmalloc__thread__statistics__t_1a2b23324b1ee92355324e2ae1aa6f2a3c">size_use</link>[128];
+134 }&#32;<link linkend="_namespacetracy_1ab7ea9e1253469fe080d17b3d06803959">rpmalloc_thread_statistics_t</link>;
+135 
+136 <emphasis role="keyword">typedef</emphasis>&#32;<emphasis role="keyword">struct&#32;</emphasis><link linkend="_structtracy_1_1rpmalloc__config__t">rpmalloc_config_t</link>&#32;{
+138 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;aligned&#32;to&#32;the&#32;rpmalloc&#32;span&#32;size,&#32;which&#32;will&#32;always&#32;be&#32;a&#32;power&#32;of&#32;two.</emphasis>
+139 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;Optionally&#32;the&#32;function&#32;can&#32;store&#32;an&#32;alignment&#32;offset&#32;in&#32;the&#32;offset&#32;variable</emphasis>
+140 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;in&#32;case&#32;it&#32;performs&#32;alignment&#32;and&#32;the&#32;returned&#32;pointer&#32;is&#32;offset&#32;from&#32;the</emphasis>
+141 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;actual&#32;start&#32;of&#32;the&#32;memory&#32;region&#32;due&#32;to&#32;this&#32;alignment.&#32;The&#32;alignment&#32;offset</emphasis>
+142 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;will&#32;be&#32;passed&#32;to&#32;the&#32;memory&#32;unmap&#32;function.&#32;The&#32;alignment&#32;offset&#32;MUST&#32;NOT&#32;be</emphasis>
+143 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;larger&#32;than&#32;65535&#32;(storable&#32;in&#32;an&#32;uint16_t),&#32;if&#32;it&#32;is&#32;you&#32;must&#32;use&#32;natural</emphasis>
+144 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;alignment&#32;to&#32;shift&#32;it&#32;into&#32;16&#32;bits.&#32;If&#32;you&#32;set&#32;a&#32;memory_map&#32;function,&#32;you</emphasis>
+145 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;must&#32;also&#32;set&#32;a&#32;memory_unmap&#32;function&#32;or&#32;else&#32;the&#32;default&#32;implementation&#32;will</emphasis>
+146 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;be&#32;used&#32;for&#32;both.&#32;This&#32;function&#32;must&#32;be&#32;thread&#32;safe,&#32;it&#32;can&#32;be&#32;called&#32;by</emphasis>
+147 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;multiple&#32;threads&#32;simultaneously.</emphasis>
+148 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">void</emphasis>*&#32;(*memory_map)(<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>,&#32;<emphasis role="keywordtype">size_t</emphasis>*&#32;<link linkend="_glad_8h_1ae1b92ae085ddef4b1cdca7d749339fb0">offset</link>);
+150 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;If&#32;release&#32;is&#32;set&#32;to&#32;non-zero,&#32;the&#32;unmap&#32;is&#32;for&#32;an&#32;entire&#32;span&#32;range&#32;as&#32;returned&#32;by</emphasis>
+151 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;a&#32;previous&#32;call&#32;to&#32;memory_map&#32;and&#32;that&#32;the&#32;entire&#32;range&#32;should&#32;be&#32;released.&#32;The</emphasis>
+152 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;release&#32;argument&#32;holds&#32;the&#32;size&#32;of&#32;the&#32;entire&#32;span&#32;range.&#32;If&#32;release&#32;is&#32;set&#32;to&#32;0,</emphasis>
+153 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;the&#32;unmap&#32;is&#32;a&#32;partial&#32;decommit&#32;of&#32;a&#32;subset&#32;of&#32;the&#32;mapped&#32;memory&#32;range.</emphasis>
+154 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;If&#32;you&#32;set&#32;a&#32;memory_unmap&#32;function,&#32;you&#32;must&#32;also&#32;set&#32;a&#32;memory_map&#32;function&#32;or</emphasis>
+155 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;else&#32;the&#32;default&#32;implementation&#32;will&#32;be&#32;used&#32;for&#32;both.&#32;This&#32;function&#32;must&#32;be&#32;thread</emphasis>
+156 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;safe,&#32;it&#32;can&#32;be&#32;called&#32;by&#32;multiple&#32;threads&#32;simultaneously.</emphasis>
+157 &#32;&#32;&#32;&#32;<link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link>&#32;(*<link linkend="_structtracy_1_1rpmalloc__config__t_1a94306297d8adb4e0172bcb9423052dde">memory_unmap</link>)(<emphasis role="keywordtype">void</emphasis>*&#32;address,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1ae1b92ae085ddef4b1cdca7d749339fb0">offset</link>,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;release);
+159 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;if&#32;this&#32;is&#32;not&#32;set.</emphasis>
+160 &#32;&#32;&#32;&#32;<link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link>&#32;(*<link linkend="_structtracy_1_1rpmalloc__config__t_1adee775f60c6840eb531952b8bae09f22">error_callback</link>)(<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>*&#32;message);
+162 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;not&#32;set&#32;or&#32;returns&#32;zero&#32;the&#32;library&#32;will&#32;return&#32;a&#32;null&#32;pointer&#32;in&#32;the&#32;allocation</emphasis>
+163 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;call.&#32;If&#32;this&#32;callback&#32;returns&#32;non-zero&#32;the&#32;map&#32;call&#32;will&#32;be&#32;retried.&#32;The&#32;argument</emphasis>
+164 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;passed&#32;is&#32;the&#32;number&#32;of&#32;bytes&#32;that&#32;was&#32;requested&#32;in&#32;the&#32;map&#32;call.&#32;Only&#32;used&#32;if</emphasis>
+165 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;the&#32;default&#32;system&#32;memory&#32;map&#32;function&#32;is&#32;used&#32;(memory_map&#32;callback&#32;is&#32;not&#32;set).</emphasis>
+166 &#32;&#32;&#32;&#32;int&#32;(*<link linkend="_structtracy_1_1rpmalloc__config__t_1ab408e9a32df34d6008cfa4e9fc88f08e">map_fail_callback</link>)(<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>);
+168 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;requests&#32;to&#32;memory_map&#32;will&#32;be&#32;made&#32;with&#32;size&#32;set&#32;to&#32;a&#32;multiple&#32;of&#32;the&#32;page&#32;size.</emphasis>
+169 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;Used&#32;if&#32;RPMALLOC_CONFIGURABLE&#32;is&#32;defined&#32;to&#32;1,&#32;otherwise&#32;system&#32;page&#32;size&#32;is&#32;used.</emphasis>
+170 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_structtracy_1_1rpmalloc__config__t_1a016273c10f4292a6103fb99a6329a264">page_size</link>;
+172 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;range&#32;(unless&#32;0&#32;-&#32;set&#32;to&#32;0&#32;to&#32;use&#32;the&#32;default&#32;span&#32;size).&#32;Used&#32;if&#32;RPMALLOC_CONFIGURABLE</emphasis>
+173 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;is&#32;defined&#32;to&#32;1.</emphasis>
+174 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_structtracy_1_1rpmalloc__config__t_1acecb3d48893b849641196cc1375cd63a">span_size</link>;
+176 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;be&#32;used&#32;to&#32;minimize&#32;the&#32;system&#32;call&#32;overhead&#32;at&#32;the&#32;cost&#32;of&#32;virtual&#32;memory&#32;address</emphasis>
+177 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;space.&#32;The&#32;extra&#32;mapped&#32;pages&#32;will&#32;not&#32;be&#32;written&#32;until&#32;actually&#32;used,&#32;so&#32;physical</emphasis>
+178 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;committed&#32;memory&#32;should&#32;not&#32;be&#32;affected&#32;in&#32;the&#32;default&#32;implementation.&#32;Will&#32;be</emphasis>
+179 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;aligned&#32;to&#32;a&#32;multiple&#32;of&#32;spans&#32;that&#32;match&#32;memory&#32;page&#32;size&#32;in&#32;case&#32;of&#32;huge&#32;pages.</emphasis>
+180 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_structtracy_1_1rpmalloc__config__t_1af25cea628f1e92a15cde2964b0edbe0b">span_map_count</link>;
+182 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;zero,&#32;the&#32;allocator&#32;will&#32;try&#32;to&#32;enable&#32;huge&#32;pages&#32;and&#32;auto&#32;detect&#32;the&#32;configuration.</emphasis>
+183 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;If&#32;this&#32;is&#32;set&#32;to&#32;non-zero&#32;and&#32;page_size&#32;is&#32;also&#32;non-zero,&#32;the&#32;allocator&#32;will</emphasis>
+184 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;assume&#32;huge&#32;pages&#32;have&#32;been&#32;configured&#32;and&#32;enabled&#32;prior&#32;to&#32;initializing&#32;the</emphasis>
+185 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;allocator.</emphasis>
+186 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;For&#32;Windows,&#32;see&#32;https://docs.microsoft.com/en-us/windows/desktop/memory/large-page-support</emphasis>
+187 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;For&#32;Linux,&#32;see&#32;https://www.kernel.org/doc/Documentation/vm/hugetlbpage.txt</emphasis>
+188 &#32;&#32;&#32;&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_structtracy_1_1rpmalloc__config__t_1a10efd1ec3d9c3924ff602da759a20f8b">enable_huge_pages</link>;
+190 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;&#32;supporting&#32;it&#32;to&#32;be&#32;able&#32;to&#32;distinguish&#32;among&#32;anonymous&#32;regions.</emphasis>
+191 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*<link linkend="_structtracy_1_1rpmalloc__config__t_1a9aea11b22bb315e2b486ddb2ddab9631">page_name</link>;
+192 &#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">char</emphasis>&#32;*<link linkend="_structtracy_1_1rpmalloc__config__t_1afe84827d2805f94251420f8dcf0b09c5">huge_page_name</link>;
+193 }&#32;<link linkend="_namespacetracy_1a4f0038ec56189927a644de164bdc3369">rpmalloc_config_t</link>;
+194 
+196 <link linkend="__tracy_api_8h_1a5669cbc1d88076c41f72827fde0a4a57">TRACY_API</link>&#32;<emphasis role="keywordtype">int</emphasis>
+197 <link linkend="_namespacetracy_1afbcf8168029c19f2c0e53828480094b3">rpmalloc_initialize</link>(<emphasis role="keywordtype">void</emphasis>);
+198 
+200 <link linkend="_tracy__rpmalloc_8hpp_1a2d18f870b8bad81e931c8c0a01e3672b">RPMALLOC_EXPORT</link>&#32;<emphasis role="keywordtype">int</emphasis>
+201 <link linkend="_namespacetracy_1aa8ed7c6e5bb9fdc84ea56d61932949fd">rpmalloc_initialize_config</link>(<emphasis role="keyword">const</emphasis>&#32;<link linkend="_structtracy_1_1rpmalloc__config__t">rpmalloc_config_t</link>*&#32;config);
+202 
+204 <link linkend="_tracy__rpmalloc_8hpp_1a2d18f870b8bad81e931c8c0a01e3672b">RPMALLOC_EXPORT</link>&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_structtracy_1_1rpmalloc__config__t">rpmalloc_config_t</link>*
+205 <link linkend="_namespacetracy_1a60dac4f0da6b5c3bb8fbe0cfca377846">rpmalloc_config</link>(<emphasis role="keywordtype">void</emphasis>);
+206 
+208 <link linkend="__tracy_api_8h_1a5669cbc1d88076c41f72827fde0a4a57">TRACY_API</link>&#32;<emphasis role="keywordtype">void</emphasis>
+209 <link linkend="_namespacetracy_1af633ba5769da0dcc57c1459be49acb05">rpmalloc_finalize</link>(<emphasis role="keywordtype">void</emphasis>);
+210 
+212 <link linkend="__tracy_api_8h_1a5669cbc1d88076c41f72827fde0a4a57">TRACY_API</link>&#32;<emphasis role="keywordtype">void</emphasis>
+213 <link linkend="_namespacetracy_1a35260f674a2dd31fd57e02e15c551a2f">rpmalloc_thread_initialize</link>(<emphasis role="keywordtype">void</emphasis>);
+214 
+216 <link linkend="__tracy_api_8h_1a5669cbc1d88076c41f72827fde0a4a57">TRACY_API</link>&#32;<emphasis role="keywordtype">void</emphasis>
+217 <link linkend="_namespacetracy_1a8c26965af4d0000ce7afe8a50aab8e7f">rpmalloc_thread_finalize</link>(<emphasis role="keywordtype">int</emphasis>&#32;release_caches);
+218 
+220 <link linkend="_tracy__rpmalloc_8hpp_1a2d18f870b8bad81e931c8c0a01e3672b">RPMALLOC_EXPORT</link>&#32;<emphasis role="keywordtype">void</emphasis>
+221 <link linkend="_namespacetracy_1a671b24501753df3b539ccdc4a15ef82f">rpmalloc_thread_collect</link>(<emphasis role="keywordtype">void</emphasis>);
+222 
+224 <link linkend="_tracy__rpmalloc_8hpp_1a2d18f870b8bad81e931c8c0a01e3672b">RPMALLOC_EXPORT</link>&#32;<emphasis role="keywordtype">int</emphasis>
+225 <link linkend="_namespacetracy_1a5dab16fc16a8a06df10c56bf87eb74c2">rpmalloc_is_thread_initialized</link>(<emphasis role="keywordtype">void</emphasis>);
+226 
+228 <link linkend="_tracy__rpmalloc_8hpp_1a2d18f870b8bad81e931c8c0a01e3672b">RPMALLOC_EXPORT</link>&#32;<emphasis role="keywordtype">void</emphasis>
+229 <link linkend="_namespacetracy_1abe7bc81894687705271a18de3af1a136">rpmalloc_thread_statistics</link>(<link linkend="_structtracy_1_1rpmalloc__thread__statistics__t">rpmalloc_thread_statistics_t</link>*&#32;stats);
+230 
+232 <link linkend="_tracy__rpmalloc_8hpp_1a2d18f870b8bad81e931c8c0a01e3672b">RPMALLOC_EXPORT</link>&#32;<emphasis role="keywordtype">void</emphasis>
+233 <link linkend="_namespacetracy_1a782d6e9a88a131e26e709737dc05494f">rpmalloc_global_statistics</link>(<link linkend="_structtracy_1_1rpmalloc__global__statistics__t">rpmalloc_global_statistics_t</link>*&#32;stats);
+234 
+236 <link linkend="_tracy__rpmalloc_8hpp_1a2d18f870b8bad81e931c8c0a01e3672b">RPMALLOC_EXPORT</link>&#32;<emphasis role="keywordtype">void</emphasis>
+237 <link linkend="_namespacetracy_1ac1e1f649b0ab5437991a98722f403296">rpmalloc_dump_statistics</link>(<emphasis role="keywordtype">void</emphasis>*&#32;file);
+238 
+240 <link linkend="__tracy_api_8h_1a5669cbc1d88076c41f72827fde0a4a57">TRACY_API</link>&#32;<link linkend="_tracy__rpmalloc_8hpp_1a85561f3ac6a729bf480cdf706d6c75dc">RPMALLOC_ALLOCATOR</link>&#32;<emphasis role="keywordtype">void</emphasis>*
+241 <link linkend="_namespacetracy_1ac1b1d857cf4070e50919670cf95a4d66">rpmalloc</link>(<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>)&#32;<link linkend="_tracy__rpmalloc_8hpp_1aaec208006a1707aadcfb577cd0e05014">RPMALLOC_ATTRIB_MALLOC</link>&#32;<link linkend="_tracy__rpmalloc_8hpp_1aa78a4db7a8c062ad908eb3756e88cc8a">RPMALLOC_ATTRIB_ALLOC_SIZE</link>(1);
+242 
+244 <link linkend="__tracy_api_8h_1a5669cbc1d88076c41f72827fde0a4a57">TRACY_API</link>&#32;<emphasis role="keywordtype">void</emphasis>
+245 <link linkend="_namespacetracy_1a3f7d8839dff1f23fc24b353c6021d21c">rpfree</link>(<emphasis role="keywordtype">void</emphasis>*&#32;ptr);
+246 
+248 <link linkend="_tracy__rpmalloc_8hpp_1a2d18f870b8bad81e931c8c0a01e3672b">RPMALLOC_EXPORT</link>&#32;<link linkend="_tracy__rpmalloc_8hpp_1a85561f3ac6a729bf480cdf706d6c75dc">RPMALLOC_ALLOCATOR</link>&#32;<emphasis role="keywordtype">void</emphasis>*
+249 <link linkend="_namespacetracy_1a25f685012e7d2de0861e76b17afe6a32">rpcalloc</link>(<emphasis role="keywordtype">size_t</emphasis>&#32;num,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>)&#32;<link linkend="_tracy__rpmalloc_8hpp_1aaec208006a1707aadcfb577cd0e05014">RPMALLOC_ATTRIB_MALLOC</link>&#32;<link linkend="_tracy__rpmalloc_8hpp_1a5a97eca6d8747153e041a7acbdf2d2d4">RPMALLOC_ATTRIB_ALLOC_SIZE2</link>(1,&#32;2);
+250 
+252 <link linkend="__tracy_api_8h_1a5669cbc1d88076c41f72827fde0a4a57">TRACY_API</link>&#32;<link linkend="_tracy__rpmalloc_8hpp_1a85561f3ac6a729bf480cdf706d6c75dc">RPMALLOC_ALLOCATOR</link>&#32;<emphasis role="keywordtype">void</emphasis>*
+253 <link linkend="_namespacetracy_1a2eaff55b0694134c0cd4a523aedebb85">rprealloc</link>(<emphasis role="keywordtype">void</emphasis>*&#32;ptr,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>)&#32;<link linkend="_tracy__rpmalloc_8hpp_1aaec208006a1707aadcfb577cd0e05014">RPMALLOC_ATTRIB_MALLOC</link>&#32;<link linkend="_tracy__rpmalloc_8hpp_1aa78a4db7a8c062ad908eb3756e88cc8a">RPMALLOC_ATTRIB_ALLOC_SIZE</link>(2);
+254 
+256 <emphasis role="comment">//&#32;&#32;with&#32;optional&#32;control&#32;flags&#32;(see&#32;RPMALLOC_NO_PRESERVE).</emphasis>
+257 <emphasis role="comment">//&#32;&#32;Alignment&#32;must&#32;be&#32;a&#32;power&#32;of&#32;two&#32;and&#32;a&#32;multiple&#32;of&#32;sizeof(void*),</emphasis>
+258 <emphasis role="comment">//&#32;&#32;and&#32;should&#32;ideally&#32;be&#32;less&#32;than&#32;memory&#32;page&#32;size.&#32;A&#32;caveat&#32;of&#32;rpmalloc</emphasis>
+259 <emphasis role="comment">//&#32;&#32;internals&#32;is&#32;that&#32;this&#32;must&#32;also&#32;be&#32;strictly&#32;less&#32;than&#32;the&#32;span&#32;size&#32;(default&#32;64KiB)</emphasis>
+260 <link linkend="_tracy__rpmalloc_8hpp_1a2d18f870b8bad81e931c8c0a01e3672b">RPMALLOC_EXPORT</link>&#32;<link linkend="_tracy__rpmalloc_8hpp_1a85561f3ac6a729bf480cdf706d6c75dc">RPMALLOC_ALLOCATOR</link>&#32;<emphasis role="keywordtype">void</emphasis>*
+261 <link linkend="_namespacetracy_1a1f416fa07f7f28a38e4b44b90a3edc92">rpaligned_realloc</link>(<emphasis role="keywordtype">void</emphasis>*&#32;ptr,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;alignment,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;oldsize,&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1ac7ba7d3cce3d19ca020e056b37231289">flags</link>)&#32;<link linkend="_tracy__rpmalloc_8hpp_1aaec208006a1707aadcfb577cd0e05014">RPMALLOC_ATTRIB_MALLOC</link>&#32;<link linkend="_tracy__rpmalloc_8hpp_1aa78a4db7a8c062ad908eb3756e88cc8a">RPMALLOC_ATTRIB_ALLOC_SIZE</link>(3);
+262 
+264 <emphasis role="comment">//&#32;&#32;Alignment&#32;must&#32;be&#32;a&#32;power&#32;of&#32;two&#32;and&#32;a&#32;multiple&#32;of&#32;sizeof(void*),</emphasis>
+265 <emphasis role="comment">//&#32;&#32;and&#32;should&#32;ideally&#32;be&#32;less&#32;than&#32;memory&#32;page&#32;size.&#32;A&#32;caveat&#32;of&#32;rpmalloc</emphasis>
+266 <emphasis role="comment">//&#32;&#32;internals&#32;is&#32;that&#32;this&#32;must&#32;also&#32;be&#32;strictly&#32;less&#32;than&#32;the&#32;span&#32;size&#32;(default&#32;64KiB)</emphasis>
+267 <link linkend="_tracy__rpmalloc_8hpp_1a2d18f870b8bad81e931c8c0a01e3672b">RPMALLOC_EXPORT</link>&#32;<link linkend="_tracy__rpmalloc_8hpp_1a85561f3ac6a729bf480cdf706d6c75dc">RPMALLOC_ALLOCATOR</link>&#32;<emphasis role="keywordtype">void</emphasis>*
+268 <link linkend="_namespacetracy_1ab5a6a52954a62b636c37cacd60fba037">rpaligned_alloc</link>(<emphasis role="keywordtype">size_t</emphasis>&#32;alignment,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>)&#32;<link linkend="_tracy__rpmalloc_8hpp_1aaec208006a1707aadcfb577cd0e05014">RPMALLOC_ATTRIB_MALLOC</link>&#32;<link linkend="_tracy__rpmalloc_8hpp_1aa78a4db7a8c062ad908eb3756e88cc8a">RPMALLOC_ATTRIB_ALLOC_SIZE</link>(2);
+269 
+271 <emphasis role="comment">//&#32;&#32;Alignment&#32;must&#32;be&#32;a&#32;power&#32;of&#32;two&#32;and&#32;a&#32;multiple&#32;of&#32;sizeof(void*),</emphasis>
+272 <emphasis role="comment">//&#32;&#32;and&#32;should&#32;ideally&#32;be&#32;less&#32;than&#32;memory&#32;page&#32;size.&#32;A&#32;caveat&#32;of&#32;rpmalloc</emphasis>
+273 <emphasis role="comment">//&#32;&#32;internals&#32;is&#32;that&#32;this&#32;must&#32;also&#32;be&#32;strictly&#32;less&#32;than&#32;the&#32;span&#32;size&#32;(default&#32;64KiB)</emphasis>
+274 <link linkend="_tracy__rpmalloc_8hpp_1a2d18f870b8bad81e931c8c0a01e3672b">RPMALLOC_EXPORT</link>&#32;<link linkend="_tracy__rpmalloc_8hpp_1a85561f3ac6a729bf480cdf706d6c75dc">RPMALLOC_ALLOCATOR</link>&#32;<emphasis role="keywordtype">void</emphasis>*
+275 <link linkend="_namespacetracy_1a16afad56a55a8324c67c50244365f6c5">rpaligned_calloc</link>(<emphasis role="keywordtype">size_t</emphasis>&#32;alignment,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;num,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>)&#32;<link linkend="_tracy__rpmalloc_8hpp_1aaec208006a1707aadcfb577cd0e05014">RPMALLOC_ATTRIB_MALLOC</link>&#32;<link linkend="_tracy__rpmalloc_8hpp_1a5a97eca6d8747153e041a7acbdf2d2d4">RPMALLOC_ATTRIB_ALLOC_SIZE2</link>(2,&#32;3);
+276 
+278 <emphasis role="comment">//&#32;&#32;Alignment&#32;must&#32;be&#32;a&#32;power&#32;of&#32;two&#32;and&#32;a&#32;multiple&#32;of&#32;sizeof(void*),</emphasis>
+279 <emphasis role="comment">//&#32;&#32;and&#32;should&#32;ideally&#32;be&#32;less&#32;than&#32;memory&#32;page&#32;size.&#32;A&#32;caveat&#32;of&#32;rpmalloc</emphasis>
+280 <emphasis role="comment">//&#32;&#32;internals&#32;is&#32;that&#32;this&#32;must&#32;also&#32;be&#32;strictly&#32;less&#32;than&#32;the&#32;span&#32;size&#32;(default&#32;64KiB)</emphasis>
+281 <link linkend="_tracy__rpmalloc_8hpp_1a2d18f870b8bad81e931c8c0a01e3672b">RPMALLOC_EXPORT</link>&#32;<link linkend="_tracy__rpmalloc_8hpp_1a85561f3ac6a729bf480cdf706d6c75dc">RPMALLOC_ALLOCATOR</link>&#32;<emphasis role="keywordtype">void</emphasis>*
+282 <link linkend="_namespacetracy_1ae3368ad2ad53112844835fcdab9453ef">rpmemalign</link>(<emphasis role="keywordtype">size_t</emphasis>&#32;alignment,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>)&#32;<link linkend="_tracy__rpmalloc_8hpp_1aaec208006a1707aadcfb577cd0e05014">RPMALLOC_ATTRIB_MALLOC</link>&#32;<link linkend="_tracy__rpmalloc_8hpp_1aa78a4db7a8c062ad908eb3756e88cc8a">RPMALLOC_ATTRIB_ALLOC_SIZE</link>(2);
+283 
+285 <emphasis role="comment">//&#32;&#32;Alignment&#32;must&#32;be&#32;a&#32;power&#32;of&#32;two&#32;and&#32;a&#32;multiple&#32;of&#32;sizeof(void*),</emphasis>
+286 <emphasis role="comment">//&#32;&#32;and&#32;should&#32;ideally&#32;be&#32;less&#32;than&#32;memory&#32;page&#32;size.&#32;A&#32;caveat&#32;of&#32;rpmalloc</emphasis>
+287 <emphasis role="comment">//&#32;&#32;internals&#32;is&#32;that&#32;this&#32;must&#32;also&#32;be&#32;strictly&#32;less&#32;than&#32;the&#32;span&#32;size&#32;(default&#32;64KiB)</emphasis>
+288 <link linkend="_tracy__rpmalloc_8hpp_1a2d18f870b8bad81e931c8c0a01e3672b">RPMALLOC_EXPORT</link>&#32;<emphasis role="keywordtype">int</emphasis>
+289 <link linkend="_namespacetracy_1a806436f20ec97d022223f98cadcb6b34">rpposix_memalign</link>(<emphasis role="keywordtype">void</emphasis>**&#32;memptr,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;alignment,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>);
+290 
+292 <link linkend="_tracy__rpmalloc_8hpp_1a2d18f870b8bad81e931c8c0a01e3672b">RPMALLOC_EXPORT</link>&#32;<emphasis role="keywordtype">size_t</emphasis>
+293 <link linkend="_namespacetracy_1a15bad1fee4be750041a19306ae266a2f">rpmalloc_usable_size</link>(<emphasis role="keywordtype">void</emphasis>*&#32;ptr);
+294 
+295 <emphasis role="preprocessor">#if&#32;RPMALLOC_FIRST_CLASS_HEAPS</emphasis>
+296 
+298 <emphasis role="keyword">typedef</emphasis>&#32;<emphasis role="keyword">struct&#32;</emphasis>heap_t&#32;rpmalloc_heap_t;
+299 
+301 <emphasis role="comment">//&#32;&#32;if&#32;none&#32;available.&#32;Heap&#32;API&#32;is&#32;implemented&#32;with&#32;the&#32;strict&#32;assumption&#32;that&#32;only&#32;one&#32;single</emphasis>
+302 <emphasis role="comment">//&#32;&#32;thread&#32;will&#32;call&#32;heap&#32;functions&#32;for&#32;a&#32;given&#32;heap&#32;at&#32;any&#32;given&#32;time,&#32;no&#32;functions&#32;are&#32;thread&#32;safe.</emphasis>
+303 <link linkend="_tracy__rpmalloc_8hpp_1a2d18f870b8bad81e931c8c0a01e3672b">RPMALLOC_EXPORT</link>&#32;rpmalloc_heap_t*
+304 rpmalloc_heap_acquire(<emphasis role="keywordtype">void</emphasis>);
+305 
+307 <emphasis role="comment">//&#32;&#32;Releasing&#32;a&#32;heap&#32;will&#32;enable&#32;it&#32;to&#32;be&#32;reused&#32;by&#32;other&#32;threads.&#32;Safe&#32;to&#32;pass&#32;a&#32;null&#32;pointer.</emphasis>
+308 <link linkend="_tracy__rpmalloc_8hpp_1a2d18f870b8bad81e931c8c0a01e3672b">RPMALLOC_EXPORT</link>&#32;<emphasis role="keywordtype">void</emphasis>
+309 rpmalloc_heap_release(rpmalloc_heap_t*&#32;heap);
+310 
+312 <link linkend="_tracy__rpmalloc_8hpp_1a2d18f870b8bad81e931c8c0a01e3672b">RPMALLOC_EXPORT</link>&#32;<link linkend="_tracy__rpmalloc_8hpp_1a85561f3ac6a729bf480cdf706d6c75dc">RPMALLOC_ALLOCATOR</link>&#32;<emphasis role="keywordtype">void</emphasis>*
+313 rpmalloc_heap_alloc(rpmalloc_heap_t*&#32;heap,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>)&#32;<link linkend="_tracy__rpmalloc_8hpp_1aaec208006a1707aadcfb577cd0e05014">RPMALLOC_ATTRIB_MALLOC</link>&#32;<link linkend="_tracy__rpmalloc_8hpp_1aa78a4db7a8c062ad908eb3756e88cc8a">RPMALLOC_ATTRIB_ALLOC_SIZE</link>(2);
+314 
+316 <emphasis role="comment">//&#32;&#32;block&#32;will&#32;have&#32;the&#32;requested&#32;alignment.&#32;Alignment&#32;must&#32;be&#32;a&#32;power&#32;of&#32;two&#32;and&#32;a&#32;multiple&#32;of&#32;sizeof(void*),</emphasis>
+317 <emphasis role="comment">//&#32;&#32;and&#32;should&#32;ideally&#32;be&#32;less&#32;than&#32;memory&#32;page&#32;size.&#32;A&#32;caveat&#32;of&#32;rpmalloc</emphasis>
+318 <emphasis role="comment">//&#32;&#32;internals&#32;is&#32;that&#32;this&#32;must&#32;also&#32;be&#32;strictly&#32;less&#32;than&#32;the&#32;span&#32;size&#32;(default&#32;64KiB).</emphasis>
+319 <link linkend="_tracy__rpmalloc_8hpp_1a2d18f870b8bad81e931c8c0a01e3672b">RPMALLOC_EXPORT</link>&#32;<link linkend="_tracy__rpmalloc_8hpp_1a85561f3ac6a729bf480cdf706d6c75dc">RPMALLOC_ALLOCATOR</link>&#32;<emphasis role="keywordtype">void</emphasis>*
+320 rpmalloc_heap_aligned_alloc(rpmalloc_heap_t*&#32;heap,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;alignment,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>)&#32;<link linkend="_tracy__rpmalloc_8hpp_1aaec208006a1707aadcfb577cd0e05014">RPMALLOC_ATTRIB_MALLOC</link>&#32;<link linkend="_tracy__rpmalloc_8hpp_1aa78a4db7a8c062ad908eb3756e88cc8a">RPMALLOC_ATTRIB_ALLOC_SIZE</link>(3);
+321 
+323 <link linkend="_tracy__rpmalloc_8hpp_1a2d18f870b8bad81e931c8c0a01e3672b">RPMALLOC_EXPORT</link>&#32;<link linkend="_tracy__rpmalloc_8hpp_1a85561f3ac6a729bf480cdf706d6c75dc">RPMALLOC_ALLOCATOR</link>&#32;<emphasis role="keywordtype">void</emphasis>*
+324 rpmalloc_heap_calloc(rpmalloc_heap_t*&#32;heap,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;num,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>)&#32;<link linkend="_tracy__rpmalloc_8hpp_1aaec208006a1707aadcfb577cd0e05014">RPMALLOC_ATTRIB_MALLOC</link>&#32;<link linkend="_tracy__rpmalloc_8hpp_1a5a97eca6d8747153e041a7acbdf2d2d4">RPMALLOC_ATTRIB_ALLOC_SIZE2</link>(2,&#32;3);
+325 
+327 <emphasis role="comment">//&#32;&#32;block&#32;will&#32;have&#32;the&#32;requested&#32;alignment.&#32;Alignment&#32;must&#32;either&#32;be&#32;zero,&#32;or&#32;a&#32;power&#32;of&#32;two&#32;and&#32;a&#32;multiple&#32;of&#32;sizeof(void*),</emphasis>
+328 <emphasis role="comment">//&#32;&#32;and&#32;should&#32;ideally&#32;be&#32;less&#32;than&#32;memory&#32;page&#32;size.&#32;A&#32;caveat&#32;of&#32;rpmalloc</emphasis>
+329 <emphasis role="comment">//&#32;&#32;internals&#32;is&#32;that&#32;this&#32;must&#32;also&#32;be&#32;strictly&#32;less&#32;than&#32;the&#32;span&#32;size&#32;(default&#32;64KiB).</emphasis>
+330 <link linkend="_tracy__rpmalloc_8hpp_1a2d18f870b8bad81e931c8c0a01e3672b">RPMALLOC_EXPORT</link>&#32;<link linkend="_tracy__rpmalloc_8hpp_1a85561f3ac6a729bf480cdf706d6c75dc">RPMALLOC_ALLOCATOR</link>&#32;<emphasis role="keywordtype">void</emphasis>*
+331 rpmalloc_heap_aligned_calloc(rpmalloc_heap_t*&#32;heap,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;alignment,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;num,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>)&#32;<link linkend="_tracy__rpmalloc_8hpp_1aaec208006a1707aadcfb577cd0e05014">RPMALLOC_ATTRIB_MALLOC</link>&#32;<link linkend="_tracy__rpmalloc_8hpp_1a5a97eca6d8747153e041a7acbdf2d2d4">RPMALLOC_ATTRIB_ALLOC_SIZE2</link>(2,&#32;3);
+332 
+334 <emphasis role="comment">//&#32;&#32;by&#32;the&#32;same&#32;heap&#32;given&#32;to&#32;this&#32;function.</emphasis>
+335 <link linkend="_tracy__rpmalloc_8hpp_1a2d18f870b8bad81e931c8c0a01e3672b">RPMALLOC_EXPORT</link>&#32;<link linkend="_tracy__rpmalloc_8hpp_1a85561f3ac6a729bf480cdf706d6c75dc">RPMALLOC_ALLOCATOR</link>&#32;<emphasis role="keywordtype">void</emphasis>*
+336 rpmalloc_heap_realloc(rpmalloc_heap_t*&#32;heap,&#32;<emphasis role="keywordtype">void</emphasis>*&#32;ptr,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>,&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1ac7ba7d3cce3d19ca020e056b37231289">flags</link>)&#32;<link linkend="_tracy__rpmalloc_8hpp_1aaec208006a1707aadcfb577cd0e05014">RPMALLOC_ATTRIB_MALLOC</link>&#32;<link linkend="_tracy__rpmalloc_8hpp_1aa78a4db7a8c062ad908eb3756e88cc8a">RPMALLOC_ATTRIB_ALLOC_SIZE</link>(3);
+337 
+339 <emphasis role="comment">//&#32;&#32;by&#32;the&#32;same&#32;heap&#32;given&#32;to&#32;this&#32;function.&#32;The&#32;returned&#32;block&#32;will&#32;have&#32;the&#32;requested&#32;alignment.</emphasis>
+340 <emphasis role="comment">//&#32;&#32;Alignment&#32;must&#32;be&#32;either&#32;zero,&#32;or&#32;a&#32;power&#32;of&#32;two&#32;and&#32;a&#32;multiple&#32;of&#32;sizeof(void*),&#32;and&#32;should&#32;ideally&#32;be</emphasis>
+341 <emphasis role="comment">//&#32;&#32;less&#32;than&#32;memory&#32;page&#32;size.&#32;A&#32;caveat&#32;of&#32;rpmalloc&#32;internals&#32;is&#32;that&#32;this&#32;must&#32;also&#32;be&#32;strictly&#32;less&#32;than</emphasis>
+342 <emphasis role="comment">//&#32;&#32;the&#32;span&#32;size&#32;(default&#32;64KiB).</emphasis>
+343 <link linkend="_tracy__rpmalloc_8hpp_1a2d18f870b8bad81e931c8c0a01e3672b">RPMALLOC_EXPORT</link>&#32;<link linkend="_tracy__rpmalloc_8hpp_1a85561f3ac6a729bf480cdf706d6c75dc">RPMALLOC_ALLOCATOR</link>&#32;<emphasis role="keywordtype">void</emphasis>*
+344 rpmalloc_heap_aligned_realloc(rpmalloc_heap_t*&#32;heap,&#32;<emphasis role="keywordtype">void</emphasis>*&#32;ptr,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;alignment,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1a3d1e3edfcf61ca2d831883e1afbad89e">size</link>,&#32;<emphasis role="keywordtype">unsigned</emphasis>&#32;<emphasis role="keywordtype">int</emphasis>&#32;<link linkend="_glad_8h_1ac7ba7d3cce3d19ca020e056b37231289">flags</link>)&#32;<link linkend="_tracy__rpmalloc_8hpp_1aaec208006a1707aadcfb577cd0e05014">RPMALLOC_ATTRIB_MALLOC</link>&#32;<link linkend="_tracy__rpmalloc_8hpp_1aa78a4db7a8c062ad908eb3756e88cc8a">RPMALLOC_ATTRIB_ALLOC_SIZE</link>(4);
+345 
+347 <emphasis role="comment">//&#32;&#32;by&#32;the&#32;same&#32;heap&#32;given&#32;to&#32;this&#32;function.</emphasis>
+348 <link linkend="_tracy__rpmalloc_8hpp_1a2d18f870b8bad81e931c8c0a01e3672b">RPMALLOC_EXPORT</link>&#32;<emphasis role="keywordtype">void</emphasis>
+349 rpmalloc_heap_free(rpmalloc_heap_t*&#32;heap,&#32;<emphasis role="keywordtype">void</emphasis>*&#32;ptr);
+350 
+352 <link linkend="_tracy__rpmalloc_8hpp_1a2d18f870b8bad81e931c8c0a01e3672b">RPMALLOC_EXPORT</link>&#32;<emphasis role="keywordtype">void</emphasis>
+353 rpmalloc_heap_free_all(rpmalloc_heap_t*&#32;heap);
+354 
+356 <emphasis role="comment">//&#32;&#32;for&#32;a&#32;single&#32;thread,&#32;a&#32;heap&#32;can&#32;never&#32;be&#32;shared&#32;between&#32;multiple&#32;threads.&#32;The&#32;previous</emphasis>
+357 <emphasis role="comment">//&#32;&#32;current&#32;heap&#32;for&#32;the&#32;calling&#32;thread&#32;is&#32;released&#32;to&#32;be&#32;reused&#32;by&#32;other&#32;threads.</emphasis>
+358 <link linkend="_tracy__rpmalloc_8hpp_1a2d18f870b8bad81e931c8c0a01e3672b">RPMALLOC_EXPORT</link>&#32;<emphasis role="keywordtype">void</emphasis>
+359 rpmalloc_heap_thread_set_current(rpmalloc_heap_t*&#32;heap);
+360 
+361 <emphasis role="preprocessor">#endif</emphasis>
+362 
+363 }
+</programlisting></section>

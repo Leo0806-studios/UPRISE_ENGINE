@@ -1,0 +1,352 @@
+.TH "adhed/glm/gtc/packing.inl" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+adhed/glm/gtc/packing.inl
+.SH SYNOPSIS
+.br
+.PP
+\fR#include '\&.\&./ext/scalar_relational\&.hpp'\fP
+.br
+\fR#include '\&.\&./ext/vector_relational\&.hpp'\fP
+.br
+\fR#include '\&.\&./common\&.hpp'\fP
+.br
+\fR#include '\&.\&./vec2\&.hpp'\fP
+.br
+\fR#include '\&.\&./vec3\&.hpp'\fP
+.br
+\fR#include '\&.\&./vec4\&.hpp'\fP
+.br
+\fR#include '\&.\&./detail/type_half\&.hpp'\fP
+.br
+\fR#include <cstring>\fP
+.br
+\fR#include <limits>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "union \fBglm::detail::u3u3u2\fP"
+.br
+.ti -1c
+.RI "struct \fBglm::detail::u3u3u2::Data\fP"
+.br
+.ti -1c
+.RI "union \fBglm::detail::u4u4\fP"
+.br
+.ti -1c
+.RI "struct \fBglm::detail::u4u4::Data\fP"
+.br
+.ti -1c
+.RI "union \fBglm::detail::u4u4u4u4\fP"
+.br
+.ti -1c
+.RI "struct \fBglm::detail::u4u4u4u4::Data\fP"
+.br
+.ti -1c
+.RI "union \fBglm::detail::u5u6u5\fP"
+.br
+.ti -1c
+.RI "struct \fBglm::detail::u5u6u5::Data\fP"
+.br
+.ti -1c
+.RI "union \fBglm::detail::u5u5u5u1\fP"
+.br
+.ti -1c
+.RI "struct \fBglm::detail::u5u5u5u1::Data\fP"
+.br
+.ti -1c
+.RI "union \fBglm::detail::u10u10u10u2\fP"
+.br
+.ti -1c
+.RI "struct \fBglm::detail::u10u10u10u2::Data\fP"
+.br
+.ti -1c
+.RI "union \fBglm::detail::i10i10i10i2\fP"
+.br
+.ti -1c
+.RI "struct \fBglm::detail::i10i10i10i2::Data\fP"
+.br
+.ti -1c
+.RI "union \fBglm::detail::u9u9u9e5\fP"
+.br
+.ti -1c
+.RI "struct \fBglm::detail::u9u9u9e5::Data\fP"
+.br
+.ti -1c
+.RI "struct \fBglm::detail::compute_half< L, Q >\fP"
+.br
+.ti -1c
+.RI "struct \fBglm::detail::compute_half< 1, Q >\fP"
+.br
+.ti -1c
+.RI "struct \fBglm::detail::compute_half< 2, Q >\fP"
+.br
+.ti -1c
+.RI "struct \fBglm::detail::compute_half< 3, Q >\fP"
+.br
+.ti -1c
+.RI "struct \fBglm::detail::compute_half< 4, Q >\fP"
+.br
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI "namespace \fBglm\fP"
+.br
+.RI "\fBCore features\fP "
+.ti -1c
+.RI "namespace \fBglm::detail\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBGLM_FUNC_QUALIFIER\fP \fBglm::uint16\fP \fBglm::detail::float2half\fP (\fBglm::uint32\fP \fBf\fP)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_QUALIFIER\fP \fBglm::uint32\fP \fBglm::detail::float2packed11\fP (\fBglm::uint32\fP \fBf\fP)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_QUALIFIER\fP \fBglm::uint32\fP \fBglm::detail::packed11ToFloat\fP (\fBglm::uint32\fP p)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_QUALIFIER\fP \fBglm::uint32\fP \fBglm::detail::float2packed10\fP (\fBglm::uint32\fP \fBf\fP)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_QUALIFIER\fP \fBglm::uint32\fP \fBglm::detail::packed10ToFloat\fP (\fBglm::uint32\fP p)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_QUALIFIER\fP \fBglm::uint\fP \fBglm::detail::half2float\fP (\fBglm::uint\fP h)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_QUALIFIER\fP \fBglm::uint\fP \fBglm::detail::floatTo11bit\fP (float \fBx\fP)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_QUALIFIER\fP float \fBglm::detail::packed11bitToFloat\fP (\fBglm::uint\fP \fBx\fP)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_QUALIFIER\fP \fBglm::uint\fP \fBglm::detail::floatTo10bit\fP (float \fBx\fP)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_QUALIFIER\fP float \fBglm::detail::packed10bitToFloat\fP (\fBglm::uint\fP \fBx\fP)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP \fBuint8\fP \fBglm::packUnorm1x8\fP (float \fBv\fP)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP float \fBglm::unpackUnorm1x8\fP (\fBuint8\fP p)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP \fBuint16\fP \fBglm::packUnorm2x8\fP (\fBvec2\fP const &\fBv\fP)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP \fBvec2\fP \fBglm::unpackUnorm2x8\fP (\fBuint16\fP p)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP \fBuint8\fP \fBglm::packSnorm1x8\fP (float s)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP float \fBglm::unpackSnorm1x8\fP (\fBuint8\fP p)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP \fBuint16\fP \fBglm::packSnorm2x8\fP (\fBvec2\fP const &\fBv\fP)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP \fBvec2\fP \fBglm::unpackSnorm2x8\fP (\fBuint16\fP p)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP \fBuint16\fP \fBglm::packUnorm1x16\fP (float \fBv\fP)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP float \fBglm::unpackUnorm1x16\fP (\fBuint16\fP p)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP \fBuint64\fP \fBglm::packUnorm4x16\fP (\fBvec4\fP const &\fBv\fP)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP \fBvec4\fP \fBglm::unpackUnorm4x16\fP (\fBuint64\fP p)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP \fBuint16\fP \fBglm::packSnorm1x16\fP (float \fBv\fP)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP float \fBglm::unpackSnorm1x16\fP (\fBuint16\fP p)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP \fBuint64\fP \fBglm::packSnorm4x16\fP (\fBvec4\fP const &\fBv\fP)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP \fBvec4\fP \fBglm::unpackSnorm4x16\fP (\fBuint64\fP p)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP \fBuint16\fP \fBglm::packHalf1x16\fP (float \fBv\fP)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP float \fBglm::unpackHalf1x16\fP (\fBuint16\fP \fBv\fP)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP \fBuint64\fP \fBglm::packHalf4x16\fP (\fBvec4\fP const &\fBv\fP)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP \fBvec4\fP \fBglm::unpackHalf4x16\fP (\fBuint64\fP p)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP \fBuint32\fP \fBglm::packI3x10_1x2\fP (\fBivec4\fP const &\fBv\fP)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP \fBivec4\fP \fBglm::unpackI3x10_1x2\fP (\fBuint32\fP p)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP \fBuint32\fP \fBglm::packU3x10_1x2\fP (\fBuvec4\fP const &\fBv\fP)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP \fBuvec4\fP \fBglm::unpackU3x10_1x2\fP (\fBuint32\fP p)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP \fBuint32\fP \fBglm::packSnorm3x10_1x2\fP (\fBvec4\fP const &\fBv\fP)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP \fBvec4\fP \fBglm::unpackSnorm3x10_1x2\fP (\fBuint32\fP p)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP \fBuint32\fP \fBglm::packUnorm3x10_1x2\fP (\fBvec4\fP const &\fBv\fP)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP \fBvec4\fP \fBglm::unpackUnorm3x10_1x2\fP (\fBuint32\fP p)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP \fBuint32\fP \fBglm::packF2x11_1x10\fP (\fBvec3\fP const &\fBv\fP)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP \fBvec3\fP \fBglm::unpackF2x11_1x10\fP (\fBuint32\fP p)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP \fBuint32\fP \fBglm::packF3x9_E1x5\fP (\fBvec3\fP const &\fBv\fP)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP \fBvec3\fP \fBglm::unpackF3x9_E1x5\fP (\fBuint32\fP p)"
+.br
+.ti -1c
+.RI "template<typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBvec\fP< 4, \fBT\fP, \fBQ\fP > \fBglm::packRGBM\fP (\fBvec\fP< 3, \fBT\fP, \fBQ\fP > const &rgb)"
+.br
+.ti -1c
+.RI "template<typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBvec\fP< 3, \fBT\fP, \fBQ\fP > \fBglm::unpackRGBM\fP (\fBvec\fP< 4, \fBT\fP, \fBQ\fP > const &rgbm)"
+.br
+.ti -1c
+.RI "template<\fBlength_t\fP L, \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBvec\fP< \fBL\fP, \fBuint16\fP, \fBQ\fP > \fBglm::packHalf\fP (\fBvec\fP< \fBL\fP, float, \fBQ\fP > const &\fBv\fP)"
+.br
+.ti -1c
+.RI "template<\fBlength_t\fP L, \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBvec\fP< \fBL\fP, float, \fBQ\fP > \fBglm::unpackHalf\fP (\fBvec\fP< \fBL\fP, \fBuint16\fP, \fBQ\fP > const &\fBv\fP)"
+.br
+.ti -1c
+.RI "template<typename uintType , \fBlength_t\fP L, typename floatType , \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBvec\fP< \fBL\fP, uintType, \fBQ\fP > \fBglm::packUnorm\fP (\fBvec\fP< \fBL\fP, floatType, \fBQ\fP > const &\fBv\fP)"
+.br
+.ti -1c
+.RI "template<typename floatType , \fBlength_t\fP L, typename uintType , \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBvec\fP< \fBL\fP, floatType, \fBQ\fP > \fBglm::unpackUnorm\fP (\fBvec\fP< \fBL\fP, uintType, \fBQ\fP > const &\fBv\fP)"
+.br
+.ti -1c
+.RI "template<typename intType , \fBlength_t\fP L, typename floatType , \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBvec\fP< \fBL\fP, intType, \fBQ\fP > \fBglm::packSnorm\fP (\fBvec\fP< \fBL\fP, floatType, \fBQ\fP > const &\fBv\fP)"
+.br
+.ti -1c
+.RI "template<typename floatType , \fBlength_t\fP L, typename intType , \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBvec\fP< \fBL\fP, floatType, \fBQ\fP > \fBglm::unpackSnorm\fP (\fBvec\fP< \fBL\fP, intType, \fBQ\fP > const &\fBv\fP)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP \fBuint8\fP \fBglm::packUnorm2x4\fP (\fBvec2\fP const &\fBv\fP)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP \fBvec2\fP \fBglm::unpackUnorm2x4\fP (\fBuint8\fP p)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP \fBuint16\fP \fBglm::packUnorm4x4\fP (\fBvec4\fP const &\fBv\fP)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP \fBvec4\fP \fBglm::unpackUnorm4x4\fP (\fBuint16\fP p)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP \fBuint16\fP \fBglm::packUnorm1x5_1x6_1x5\fP (\fBvec3\fP const &\fBv\fP)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP \fBvec3\fP \fBglm::unpackUnorm1x5_1x6_1x5\fP (\fBuint16\fP p)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP \fBuint16\fP \fBglm::packUnorm3x5_1x1\fP (\fBvec4\fP const &\fBv\fP)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP \fBvec4\fP \fBglm::unpackUnorm3x5_1x1\fP (\fBuint16\fP p)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP \fBuint8\fP \fBglm::packUnorm2x3_1x2\fP (\fBvec3\fP const &\fBv\fP)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP \fBvec3\fP \fBglm::unpackUnorm2x3_1x2\fP (\fBuint8\fP p)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP \fBint16\fP \fBglm::packInt2x8\fP (\fBi8vec2\fP const &\fBv\fP)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP \fBi8vec2\fP \fBglm::unpackInt2x8\fP (\fBint16\fP p)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP \fBuint16\fP \fBglm::packUint2x8\fP (\fBu8vec2\fP const &\fBv\fP)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP \fBu8vec2\fP \fBglm::unpackUint2x8\fP (\fBuint16\fP p)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP \fBint32\fP \fBglm::packInt4x8\fP (\fBi8vec4\fP const &\fBv\fP)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP \fBi8vec4\fP \fBglm::unpackInt4x8\fP (\fBint32\fP p)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP \fBuint32\fP \fBglm::packUint4x8\fP (\fBu8vec4\fP const &\fBv\fP)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP \fBu8vec4\fP \fBglm::unpackUint4x8\fP (\fBuint32\fP p)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP int \fBglm::packInt2x16\fP (\fBi16vec2\fP const &\fBv\fP)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP \fBi16vec2\fP \fBglm::unpackInt2x16\fP (int p)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP \fBint64\fP \fBglm::packInt4x16\fP (\fBi16vec4\fP const &\fBv\fP)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP \fBi16vec4\fP \fBglm::unpackInt4x16\fP (\fBint64\fP p)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP \fBuint\fP \fBglm::packUint2x16\fP (\fBu16vec2\fP const &\fBv\fP)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP \fBu16vec2\fP \fBglm::unpackUint2x16\fP (\fBuint\fP p)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP \fBuint64\fP \fBglm::packUint4x16\fP (\fBu16vec4\fP const &\fBv\fP)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP \fBu16vec4\fP \fBglm::unpackUint4x16\fP (\fBuint64\fP p)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP \fBint64\fP \fBglm::packInt2x32\fP (\fBi32vec2\fP const &\fBv\fP)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP \fBi32vec2\fP \fBglm::unpackInt2x32\fP (\fBint64\fP p)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP \fBuint64\fP \fBglm::packUint2x32\fP (\fBu32vec2\fP const &\fBv\fP)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP \fBu32vec2\fP \fBglm::unpackUint2x32\fP (\fBuint64\fP p)"
+.br
+.in -1c
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

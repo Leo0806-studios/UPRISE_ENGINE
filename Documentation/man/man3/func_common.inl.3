@@ -1,0 +1,281 @@
+.TH "adhed/glm/detail/func_common.inl" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+adhed/glm/detail/func_common.inl
+.SH SYNOPSIS
+.br
+.PP
+\fR#include '\&.\&./vector_relational\&.hpp'\fP
+.br
+\fR#include 'compute_common\&.hpp'\fP
+.br
+\fR#include 'type_vec1\&.hpp'\fP
+.br
+\fR#include 'type_vec2\&.hpp'\fP
+.br
+\fR#include 'type_vec3\&.hpp'\fP
+.br
+\fR#include 'type_vec4\&.hpp'\fP
+.br
+\fR#include '_vectorize\&.hpp'\fP
+.br
+\fR#include <limits>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBglm::detail::compute_abs_vector< L, T, Q, Aligned >\fP"
+.br
+.ti -1c
+.RI "struct \fBglm::detail::compute_mix_vector< L, T, U, Q, Aligned >\fP"
+.br
+.ti -1c
+.RI "struct \fBglm::detail::compute_mix_vector< L, T, bool, Q, Aligned >\fP"
+.br
+.ti -1c
+.RI "struct \fBglm::detail::compute_mix_scalar< L, T, U, Q, Aligned >\fP"
+.br
+.ti -1c
+.RI "struct \fBglm::detail::compute_mix_scalar< L, T, bool, Q, Aligned >\fP"
+.br
+.ti -1c
+.RI "struct \fBglm::detail::compute_mix< T, U >\fP"
+.br
+.ti -1c
+.RI "struct \fBglm::detail::compute_mix< T, bool >\fP"
+.br
+.ti -1c
+.RI "struct \fBglm::detail::compute_sign< L, T, Q, isFloat, Aligned >\fP"
+.br
+.ti -1c
+.RI "struct \fBglm::detail::compute_floor< L, T, Q, Aligned >\fP"
+.br
+.ti -1c
+.RI "struct \fBglm::detail::compute_ceil< L, T, Q, Aligned >\fP"
+.br
+.ti -1c
+.RI "struct \fBglm::detail::compute_fract< L, T, Q, Aligned >\fP"
+.br
+.ti -1c
+.RI "struct \fBglm::detail::compute_trunc< L, T, Q, Aligned >\fP"
+.br
+.ti -1c
+.RI "struct \fBglm::detail::compute_round< L, T, Q, Aligned >\fP"
+.br
+.ti -1c
+.RI "struct \fBglm::detail::compute_mod< L, T, Q, Aligned >\fP"
+.br
+.ti -1c
+.RI "struct \fBglm::detail::compute_min_vector< L, T, Q, Aligned >\fP"
+.br
+.ti -1c
+.RI "struct \fBglm::detail::compute_max_vector< L, T, Q, Aligned >\fP"
+.br
+.ti -1c
+.RI "struct \fBglm::detail::compute_clamp_vector< L, T, Q, Aligned >\fP"
+.br
+.ti -1c
+.RI "struct \fBglm::detail::compute_step_vector< L, T, Q, Aligned >\fP"
+.br
+.ti -1c
+.RI "struct \fBglm::detail::compute_smoothstep_vector< L, T, Q, Aligned >\fP"
+.br
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI "namespace \fBglm\fP"
+.br
+.RI "\fBCore features\fP "
+.ti -1c
+.RI "namespace \fBglm::detail\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "template<typename genType > \fBGLM_FUNC_QUALIFIER\fP \fBGLM_CONSTEXPR\fP genType \fBglm::min\fP (genType \fBx\fP, genType \fBy\fP)"
+.br
+.ti -1c
+.RI "template<typename genType > \fBGLM_FUNC_QUALIFIER\fP \fBGLM_CONSTEXPR\fP genType \fBglm::max\fP (genType \fBx\fP, genType \fBy\fP)"
+.br
+.ti -1c
+.RI "template<> \fBGLM_FUNC_QUALIFIER\fP \fBGLM_CONSTEXPR\fP int \fBglm::abs\fP (int \fBx\fP)"
+.br
+.ti -1c
+.RI "template<typename genType > \fBGLM_FUNC_QUALIFIER\fP genType \fBglm::round\fP (genType \fBx\fP)"
+.br
+.ti -1c
+.RI "template<typename genType > \fBGLM_FUNC_QUALIFIER\fP genType \fBglm::trunc\fP (genType \fBx\fP)"
+.br
+.ti -1c
+.RI "template<typename genFIType > \fBGLM_FUNC_QUALIFIER\fP \fBGLM_CONSTEXPR\fP genFIType \fBglm::abs\fP (genFIType \fBx\fP)"
+.br
+.ti -1c
+.RI "template<\fBlength_t\fP L, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBGLM_CONSTEXPR\fP \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > \fBglm::abs\fP (\fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const &\fBx\fP)"
+.br
+.ti -1c
+.RI "template<typename genFIType > \fBGLM_FUNC_QUALIFIER\fP \fBGLM_CONSTEXPR\fP genFIType \fBglm::sign\fP (genFIType \fBx\fP)"
+.br
+.ti -1c
+.RI "template<\fBlength_t\fP L, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBGLM_CONSTEXPR\fP \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > \fBglm::sign\fP (\fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const &\fBx\fP)"
+.br
+.ti -1c
+.RI "template<\fBlength_t\fP L, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > \fBglm::floor\fP (\fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const &\fBx\fP)"
+.br
+.ti -1c
+.RI "template<\fBlength_t\fP L, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > \fBglm::trunc\fP (\fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const &\fBx\fP)"
+.br
+.ti -1c
+.RI "template<\fBlength_t\fP L, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > \fBglm::round\fP (\fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const &\fBx\fP)"
+.br
+.ti -1c
+.RI "template<typename genType > \fBGLM_FUNC_QUALIFIER\fP genType \fBglm::roundEven\fP (genType \fBx\fP)"
+.br
+.ti -1c
+.RI "template<\fBlength_t\fP L, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > \fBglm::roundEven\fP (\fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const &\fBx\fP)"
+.br
+.ti -1c
+.RI "template<\fBlength_t\fP L, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > \fBglm::ceil\fP (\fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const &\fBx\fP)"
+.br
+.ti -1c
+.RI "template<typename genType > \fBGLM_FUNC_QUALIFIER\fP genType \fBglm::fract\fP (genType \fBx\fP)"
+.br
+.ti -1c
+.RI "template<\fBlength_t\fP L, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > \fBglm::fract\fP (\fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const &\fBx\fP)"
+.br
+.ti -1c
+.RI "template<typename genType > \fBGLM_FUNC_QUALIFIER\fP genType \fBglm::mod\fP (genType \fBx\fP, genType \fBy\fP)"
+.br
+.ti -1c
+.RI "template<\fBlength_t\fP L, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > \fBglm::mod\fP (\fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const &\fBx\fP, \fBT\fP \fBy\fP)"
+.br
+.ti -1c
+.RI "template<\fBlength_t\fP L, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > \fBglm::mod\fP (\fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const &\fBx\fP, \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const &\fBy\fP)"
+.br
+.ti -1c
+.RI "template<typename genType > \fBGLM_FUNC_QUALIFIER\fP genType \fBglm::modf\fP (genType \fBx\fP, genType &\fBi\fP)"
+.br
+.ti -1c
+.RI "template<typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBvec\fP< 1, \fBT\fP, \fBQ\fP > \fBglm::modf\fP (\fBvec\fP< 1, \fBT\fP, \fBQ\fP > const &\fBx\fP, \fBvec\fP< 1, \fBT\fP, \fBQ\fP > &\fBi\fP)"
+.br
+.ti -1c
+.RI "template<typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBvec\fP< 2, \fBT\fP, \fBQ\fP > \fBglm::modf\fP (\fBvec\fP< 2, \fBT\fP, \fBQ\fP > const &\fBx\fP, \fBvec\fP< 2, \fBT\fP, \fBQ\fP > &\fBi\fP)"
+.br
+.ti -1c
+.RI "template<typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBvec\fP< 3, \fBT\fP, \fBQ\fP > \fBglm::modf\fP (\fBvec\fP< 3, \fBT\fP, \fBQ\fP > const &\fBx\fP, \fBvec\fP< 3, \fBT\fP, \fBQ\fP > &\fBi\fP)"
+.br
+.ti -1c
+.RI "template<typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBvec\fP< 4, \fBT\fP, \fBQ\fP > \fBglm::modf\fP (\fBvec\fP< 4, \fBT\fP, \fBQ\fP > const &\fBx\fP, \fBvec\fP< 4, \fBT\fP, \fBQ\fP > &\fBi\fP)"
+.br
+.ti -1c
+.RI "template<\fBlength_t\fP L, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBGLM_CONSTEXPR\fP \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > \fBglm::min\fP (\fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const &\fBa\fP, \fBT\fP \fBb\fP)"
+.br
+.ti -1c
+.RI "template<\fBlength_t\fP L, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBGLM_CONSTEXPR\fP \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > \fBglm::min\fP (\fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const &\fBa\fP, \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const &\fBb\fP)"
+.br
+.ti -1c
+.RI "template<\fBlength_t\fP L, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBGLM_CONSTEXPR\fP \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > \fBglm::max\fP (\fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const &\fBa\fP, \fBT\fP \fBb\fP)"
+.br
+.ti -1c
+.RI "template<\fBlength_t\fP L, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBGLM_CONSTEXPR\fP \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > \fBglm::max\fP (\fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const &\fBa\fP, \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const &\fBb\fP)"
+.br
+.ti -1c
+.RI "template<typename genType > \fBGLM_FUNC_QUALIFIER\fP \fBGLM_CONSTEXPR\fP genType \fBglm::clamp\fP (genType \fBx\fP, genType minVal, genType maxVal)"
+.br
+.ti -1c
+.RI "template<\fBlength_t\fP L, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBGLM_CONSTEXPR\fP \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > \fBglm::clamp\fP (\fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const &\fBx\fP, \fBT\fP minVal, \fBT\fP maxVal)"
+.br
+.ti -1c
+.RI "template<\fBlength_t\fP L, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBGLM_CONSTEXPR\fP \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > \fBglm::clamp\fP (\fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const &\fBx\fP, \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const &minVal, \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const &maxVal)"
+.br
+.ti -1c
+.RI "template<typename genTypeT , typename genTypeU > \fBGLM_FUNC_QUALIFIER\fP \fBGLM_CONSTEXPR\fP genTypeT \fBglm::mix\fP (genTypeT \fBx\fP, genTypeT \fBy\fP, genTypeU \fBa\fP)"
+.br
+.ti -1c
+.RI "template<\fBlength_t\fP L, typename \fBT\fP , typename \fBU\fP , \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBGLM_CONSTEXPR\fP \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > \fBglm::mix\fP (\fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const &\fBx\fP, \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const &\fBy\fP, \fBU\fP \fBa\fP)"
+.br
+.ti -1c
+.RI "template<\fBlength_t\fP L, typename \fBT\fP , typename \fBU\fP , \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBGLM_CONSTEXPR\fP \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > \fBglm::mix\fP (\fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const &\fBx\fP, \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const &\fBy\fP, \fBvec\fP< \fBL\fP, \fBU\fP, \fBQ\fP > const &\fBa\fP)"
+.br
+.ti -1c
+.RI "template<typename genType > \fBGLM_FUNC_QUALIFIER\fP genType \fBglm::step\fP (genType edge, genType \fBx\fP)"
+.br
+.ti -1c
+.RI "template<\fBlength_t\fP L, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > \fBglm::step\fP (\fBT\fP edge, \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const &\fBx\fP)"
+.br
+.ti -1c
+.RI "template<\fBlength_t\fP L, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > \fBglm::step\fP (\fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const &edge, \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const &\fBx\fP)"
+.br
+.ti -1c
+.RI "template<typename genType > \fBGLM_FUNC_QUALIFIER\fP genType \fBglm::smoothstep\fP (genType edge0, genType edge1, genType \fBx\fP)"
+.br
+.ti -1c
+.RI "template<\fBlength_t\fP L, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > \fBglm::smoothstep\fP (\fBT\fP edge0, \fBT\fP edge1, \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const &\fBx\fP)"
+.br
+.ti -1c
+.RI "template<\fBlength_t\fP L, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > \fBglm::smoothstep\fP (\fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const &edge0, \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const &edge1, \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const &\fBx\fP)"
+.br
+.ti -1c
+.RI "template<typename genType > \fBGLM_FUNC_QUALIFIER\fP bool \fBglm::isnan\fP (genType \fBx\fP)"
+.br
+.ti -1c
+.RI "template<\fBlength_t\fP L, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBvec\fP< \fBL\fP, bool, \fBQ\fP > \fBglm::isnan\fP (\fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const &\fBv\fP)"
+.br
+.ti -1c
+.RI "template<typename genType > \fBGLM_FUNC_QUALIFIER\fP bool \fBglm::isinf\fP (genType \fBx\fP)"
+.br
+.ti -1c
+.RI "template<\fBlength_t\fP L, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBvec\fP< \fBL\fP, bool, \fBQ\fP > \fBglm::isinf\fP (\fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const &\fBv\fP)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP int \fBglm::floatBitsToInt\fP (float \fBv\fP)"
+.br
+.ti -1c
+.RI "template<\fBlength_t\fP L, \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBvec\fP< \fBL\fP, int, \fBQ\fP > \fBglm::floatBitsToInt\fP (\fBvec\fP< \fBL\fP, float, \fBQ\fP > const &\fBv\fP)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP \fBuint\fP \fBglm::floatBitsToUint\fP (float \fBv\fP)"
+.br
+.ti -1c
+.RI "template<\fBlength_t\fP L, \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBvec\fP< \fBL\fP, \fBuint\fP, \fBQ\fP > \fBglm::floatBitsToUint\fP (\fBvec\fP< \fBL\fP, float, \fBQ\fP > const &\fBv\fP)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP float \fBglm::intBitsToFloat\fP (int \fBv\fP)"
+.br
+.ti -1c
+.RI "template<\fBlength_t\fP L, \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBvec\fP< \fBL\fP, float, \fBQ\fP > \fBglm::intBitsToFloat\fP (\fBvec\fP< \fBL\fP, int, \fBQ\fP > const &\fBv\fP)"
+.br
+.ti -1c
+.RI "\fBGLM_FUNC_DECL\fP float \fBglm::uintBitsToFloat\fP (\fBuint\fP \fBv\fP)"
+.br
+.ti -1c
+.RI "template<\fBlength_t\fP L, \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBvec\fP< \fBL\fP, float, \fBQ\fP > \fBglm::uintBitsToFloat\fP (\fBvec\fP< \fBL\fP, \fBuint\fP, \fBQ\fP > const &\fBv\fP)"
+.br
+.ti -1c
+.RI "template<typename genType > \fBGLM_FUNC_QUALIFIER\fP genType \fBglm::fma\fP (genType const &\fBa\fP, genType const &\fBb\fP, genType const &c)"
+.br
+.ti -1c
+.RI "template<typename genType > \fBGLM_FUNC_QUALIFIER\fP genType \fBglm::frexp\fP (genType \fBx\fP, int &exp)"
+.br
+.ti -1c
+.RI "template<\fBlength_t\fP L, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > \fBglm::frexp\fP (\fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const &\fBv\fP, \fBvec\fP< \fBL\fP, int, \fBQ\fP > &exp)"
+.br
+.ti -1c
+.RI "template<typename genType > \fBGLM_FUNC_QUALIFIER\fP genType \fBglm::ldexp\fP (genType const &\fBx\fP, int const &exp)"
+.br
+.ti -1c
+.RI "template<\fBlength_t\fP L, typename \fBT\fP , \fBqualifier\fP Q> \fBGLM_FUNC_QUALIFIER\fP \fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > \fBglm::ldexp\fP (\fBvec\fP< \fBL\fP, \fBT\fP, \fBQ\fP > const &\fBv\fP, \fBvec\fP< \fBL\fP, int, \fBQ\fP > const &exp)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+\fBCore features\fP 
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

@@ -1,4 +1,4 @@
-.TH "PAIN::Model" 3 "Version 0.0.0.1" "My Project" \" -*- nroff -*-
+.TH "PAIN::Model" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -23,6 +23,13 @@ Inherited by \fBPAIN::TerrainModel\fP\&.
 .RI "void \fBDraw\fP (\fBShader\fP &\fBshader\fP)"
 .br
 .in -1c
+.SS "Static Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "static std::shared_ptr< \fBModel\fP > \fBEmpty\fP ()"
+.br
+.in -1c
 .SS "Public Attributes"
 
 .in +1c
@@ -38,23 +45,63 @@ Definition at line \fB79\fP of file \fBRENDER_DATATYPES\&.h\fP\&.
 .SS "PAIN::Model::Model ()"
 
 .PP
-Definition at line \fB103\fP of file \fBRENDER_DATATYPES\&.cpp\fP\&.
+Definition at line \fB105\fP of file \fBRENDER_DATATYPES\&.cpp\fP\&.
+.nf
+105 {}
+.PP
+.fi
+
 .SS "PAIN::Model::Model (std::string path)"
 
 .PP
-Definition at line \fB105\fP of file \fBRENDER_DATATYPES\&.cpp\fP\&.
+Definition at line \fB107\fP of file \fBRENDER_DATATYPES\&.cpp\fP\&.
+.nf
+108     {
+109         TrPr(ctxt, __func__)
+110 
+111         loadModel(path);
+112         TrPrE(ctxt);
+113     }
+.PP
+.fi
+
+.PP
+References \fBTrPr\fP, and \fBTrPrE\fP\&.
 .SH "Member Function Documentation"
 .PP 
 .SS "void PAIN::Model::Draw (\fBShader\fP & shader)"
 
 .PP
-Definition at line \fB111\fP of file \fBRENDER_DATATYPES\&.cpp\fP\&.
+Definition at line \fB115\fP of file \fBRENDER_DATATYPES\&.cpp\fP\&.
+.nf
+116     {
+117         for (unsigned int i = 0; i < meshes\&.size(); i++)
+118             meshes[i]\&.Draw(shader);
+119     }
+.PP
+.fi
+
+.PP
+References \fBDraw()\fP, \fBi\fP, \fBmeshes\fP, and \fBshader\fP\&.
+.PP
+Referenced by \fBDraw()\fP\&.
+.SS "static std::shared_ptr< \fBModel\fP > PAIN::Model::Empty ()\fR [inline]\fP, \fR [static]\fP"
+
+.PP
+Definition at line \fB86\fP of file \fBRENDER_DATATYPES\&.h\fP\&.
+.nf
+86 { return std::make_shared< Model>(); }
+.PP
+.fi
+
 .SH "Member Data Documentation"
 .PP 
 .SS "vector<\fBMesh\fP> PAIN::Model::meshes"
 
 .PP
 Definition at line \fB85\fP of file \fBRENDER_DATATYPES\&.h\fP\&.
+.PP
+Referenced by \fBDraw()\fP\&.
 
 .SH "Author"
 .PP 

@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_fileline_8cpp" xml:lang="en-US">
+<title>adhed/libbacktrace/fileline.cpp File Reference</title>
+<indexterm><primary>adhed/libbacktrace/fileline.cpp</primary></indexterm>
+<programlisting linenumbering="unnumbered">#include &quot;config.h&quot;<?linebreak?>#include &lt;sys/types.h&gt;<?linebreak?>#include &lt;sys/stat.h&gt;<?linebreak?>#include &lt;errno.h&gt;<?linebreak?>#include &lt;fcntl.h&gt;<?linebreak?>#include &lt;stdlib.h&gt;<?linebreak?>#include &lt;unistd.h&gt;<?linebreak?>#include &quot;backtrace.hpp&quot;<?linebreak?>#include &quot;internal.hpp&quot;<?linebreak?></programlisting><simplesect>
+    <title>Namespaces    </title>
+        <itemizedlist>
+            <listitem><para>namespace <link linkend="_namespacetracy">tracy</link></para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Macros    </title>
+        <itemizedlist>
+            <listitem><para>#define <link linkend="_fileline_8cpp_1adcbc4c43a2f6aeacdf9d47ddd0aa82cd">getexecname</link>()&#160;&#160;&#160;NULL</para>
+</listitem>
+            <listitem><para>#define <link linkend="_fileline_8cpp_1adfa941fcdf0efc299e9b18d979d580ac">sysctl_exec_name1</link>(state,  error_callback,  <link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>)&#160;&#160;&#160;NULL</para>
+</listitem>
+            <listitem><para>#define <link linkend="_fileline_8cpp_1ac86daf7d20e57a4adaabc62bbfcc330f">sysctl_exec_name2</link>(state,  error_callback,  <link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>)&#160;&#160;&#160;NULL</para>
+</listitem>
+            <listitem><para>#define <link linkend="_fileline_8cpp_1aee2fb151e9c3936fb788629edf44e3b5">macho_get_executable_path</link>(state,  error_callback,  <link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>)&#160;&#160;&#160;NULL</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<simplesect>
+    <title>Functions    </title>
+        <itemizedlist>
+            <listitem><para>int <link linkend="_namespacetracy_1ae6d23fcb54847202b263515410d83650">tracy::backtrace_pcinfo</link> (<link linkend="_interfacestruct">struct</link> <link linkend="_structtracy_1_1backtrace__state">backtrace_state</link> *state, uintptr_t pc, <link linkend="_namespacetracy_1a2a25ade160f538b672ca5c4781c4deeb">backtrace_full_callback</link> callback, <link linkend="_namespacetracy_1a019d09b2670f8caee2a5ed29b09066e8">backtrace_error_callback</link> error_callback, <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> *<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>)</para>
+</listitem>
+            <listitem><para>int <link linkend="_namespacetracy_1a81f745cb0c73515e062c5e9ee49e2c13">tracy::backtrace_syminfo</link> (<link linkend="_interfacestruct">struct</link> <link linkend="_structtracy_1_1backtrace__state">backtrace_state</link> *state, uintptr_t addr, <link linkend="_namespacetracy_1a0ddd2a54f6bfd249b745ebef94c09b0b">backtrace_syminfo_callback</link> callback, <link linkend="_namespacetracy_1a019d09b2670f8caee2a5ed29b09066e8">backtrace_error_callback</link> error_callback, <link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> *<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>)</para>
+</listitem>
+            <listitem><para><link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> <link linkend="_namespacetracy_1aa8cde953da1362dc2c4f31154582aa5e">tracy::backtrace_syminfo_to_full_callback</link> (<link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> *<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>, uintptr_t pc, const char *symname, uintptr_t symval <link linkend="_filenames_8hpp_1a635a8d08da53567d5c3b67deb7f98ed3">ATTRIBUTE_UNUSED</link>, uintptr_t symsize <link linkend="_filenames_8hpp_1a635a8d08da53567d5c3b67deb7f98ed3">ATTRIBUTE_UNUSED</link>)</para>
+</listitem>
+            <listitem><para><link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> <link linkend="_namespacetracy_1a233047b7da0cc47857fcf0b93f8c4e5e">tracy::backtrace_syminfo_to_full_error_callback</link> (<link linkend="_d3dcommon_8h_1a7c519f1a5c88707e509aba3a18925f3a">void</link> *<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>, const char *msg, int errnum)</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Macro Definition Documentation</title>
+<anchor xml:id="_fileline_8cpp_1adcbc4c43a2f6aeacdf9d47ddd0aa82cd"/><section>
+    <title>getexecname</title>
+<indexterm><primary>getexecname</primary><secondary>fileline.cpp</secondary></indexterm>
+<indexterm><primary>fileline.cpp</primary><secondary>getexecname</secondary></indexterm>
+<para><computeroutput>#define getexecname( )&#160;&#160;&#160;NULL</computeroutput></para></section>
+<anchor xml:id="_fileline_8cpp_1aee2fb151e9c3936fb788629edf44e3b5"/><section>
+    <title>macho_get_executable_path</title>
+<indexterm><primary>macho_get_executable_path</primary><secondary>fileline.cpp</secondary></indexterm>
+<indexterm><primary>fileline.cpp</primary><secondary>macho_get_executable_path</secondary></indexterm>
+<para><computeroutput>#define macho_get_executable_path( state,  error_callback,  <link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>)&#160;&#160;&#160;NULL</computeroutput></para></section>
+<anchor xml:id="_fileline_8cpp_1adfa941fcdf0efc299e9b18d979d580ac"/><section>
+    <title>sysctl_exec_name1</title>
+<indexterm><primary>sysctl_exec_name1</primary><secondary>fileline.cpp</secondary></indexterm>
+<indexterm><primary>fileline.cpp</primary><secondary>sysctl_exec_name1</secondary></indexterm>
+<para><computeroutput>#define sysctl_exec_name1( state,  error_callback,  <link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>)&#160;&#160;&#160;NULL</computeroutput></para></section>
+<anchor xml:id="_fileline_8cpp_1ac86daf7d20e57a4adaabc62bbfcc330f"/><section>
+    <title>sysctl_exec_name2</title>
+<indexterm><primary>sysctl_exec_name2</primary><secondary>fileline.cpp</secondary></indexterm>
+<indexterm><primary>fileline.cpp</primary><secondary>sysctl_exec_name2</secondary></indexterm>
+<para><computeroutput>#define sysctl_exec_name2( state,  error_callback,  <link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>)&#160;&#160;&#160;NULL</computeroutput></para></section>
+</section>
+</section>

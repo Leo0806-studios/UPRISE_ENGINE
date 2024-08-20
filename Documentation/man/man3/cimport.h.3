@@ -1,0 +1,1754 @@
+.TH "adhed/assimp/cimport.h" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+adhed/assimp/cimport.h \- Defines the C-API to the Open Asset Import Library\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+\fR#include <assimp/importerdesc\&.h>\fP
+.br
+\fR#include <assimp/types\&.h>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBaiLogStream\fP"
+.br
+.ti -1c
+.RI "struct \fBaiPropertyStore\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBAI_ASSIMP_H_INC\fP"
+.br
+.ti -1c
+.RI "#define \fBAI_FALSE\fP   0"
+.br
+.ti -1c
+.RI "#define \fBAI_TRUE\fP   1"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef \fBvoid\fP(* \fBaiLogStreamCallback\fP) (const char *, char *)"
+.br
+.ti -1c
+.RI "typedef int \fBaiBool\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBASSIMP_API\fP const \fBC_STRUCT\fP \fBaiScene\fP * \fBaiImportFile\fP (const char *pFile, unsigned int pFlags)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP const \fBC_STRUCT\fP \fBaiScene\fP * \fBaiImportFileEx\fP (const char *pFile, unsigned int pFlags, \fBC_STRUCT\fP \fBaiFileIO\fP *pFS)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP const \fBC_STRUCT\fP \fBaiScene\fP * \fBaiImportFileExWithProperties\fP (const char *pFile, unsigned int pFlags, \fBC_STRUCT\fP \fBaiFileIO\fP *pFS, const \fBC_STRUCT\fP \fBaiPropertyStore\fP *pProps)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP const \fBC_STRUCT\fP \fBaiScene\fP * \fBaiImportFileFromMemory\fP (const char *\fBpBuffer\fP, unsigned int pLength, unsigned int pFlags, const char *pHint)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP const \fBC_STRUCT\fP \fBaiScene\fP * \fBaiImportFileFromMemoryWithProperties\fP (const char *\fBpBuffer\fP, unsigned int pLength, unsigned int pFlags, const char *pHint, const \fBC_STRUCT\fP \fBaiPropertyStore\fP *pProps)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP const \fBC_STRUCT\fP \fBaiScene\fP * \fBaiApplyPostProcessing\fP (const \fBC_STRUCT\fP \fBaiScene\fP *pScene, unsigned int pFlags)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBC_STRUCT\fP \fBaiLogStream\fP \fBaiGetPredefinedLogStream\fP (\fBC_ENUM\fP \fBaiDefaultLogStream\fP pStreams, const char *file)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiAttachLogStream\fP (const \fBC_STRUCT\fP \fBaiLogStream\fP *\fBstream\fP)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiEnableVerboseLogging\fP (\fBaiBool\fP d)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBC_ENUM\fP \fBaiReturn\fP \fBaiDetachLogStream\fP (const \fBC_STRUCT\fP \fBaiLogStream\fP *\fBstream\fP)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiDetachAllLogStreams\fP (\fBvoid\fP)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiReleaseImport\fP (const \fBC_STRUCT\fP \fBaiScene\fP *pScene)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP const char * \fBaiGetErrorString\fP (\fBvoid\fP)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBaiBool\fP \fBaiIsExtensionSupported\fP (const char *szExtension)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiGetExtensionList\fP (\fBC_STRUCT\fP \fBaiString\fP *szOut)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiGetMemoryRequirements\fP (const \fBC_STRUCT\fP \fBaiScene\fP *pIn, \fBC_STRUCT\fP \fBaiMemoryInfo\fP *in)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBC_STRUCT\fP \fBaiPropertyStore\fP * \fBaiCreatePropertyStore\fP (\fBvoid\fP)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiReleasePropertyStore\fP (\fBC_STRUCT\fP \fBaiPropertyStore\fP *p)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiSetImportPropertyInteger\fP (\fBC_STRUCT\fP \fBaiPropertyStore\fP *store, const char *szName, int \fBvalue\fP)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiSetImportPropertyFloat\fP (\fBC_STRUCT\fP \fBaiPropertyStore\fP *store, const char *szName, \fBai_real\fP \fBvalue\fP)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiSetImportPropertyString\fP (\fBC_STRUCT\fP \fBaiPropertyStore\fP *store, const char *szName, const \fBC_STRUCT\fP \fBaiString\fP *st)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiSetImportPropertyMatrix\fP (\fBC_STRUCT\fP \fBaiPropertyStore\fP *store, const char *szName, const \fBC_STRUCT\fP \fBaiMatrix4x4\fP *mat)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiCreateQuaternionFromMatrix\fP (\fBC_STRUCT\fP \fBaiQuaternion\fP *quat, const \fBC_STRUCT\fP \fBaiMatrix3x3\fP *mat)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiDecomposeMatrix\fP (const \fBC_STRUCT\fP \fBaiMatrix4x4\fP *mat, \fBC_STRUCT\fP \fBaiVector3D\fP *scaling, \fBC_STRUCT\fP \fBaiQuaternion\fP *rotation, \fBC_STRUCT\fP \fBaiVector3D\fP *position)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiTransposeMatrix4\fP (\fBC_STRUCT\fP \fBaiMatrix4x4\fP *mat)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiTransposeMatrix3\fP (\fBC_STRUCT\fP \fBaiMatrix3x3\fP *mat)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiTransformVecByMatrix3\fP (\fBC_STRUCT\fP \fBaiVector3D\fP *vec, const \fBC_STRUCT\fP \fBaiMatrix3x3\fP *mat)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiTransformVecByMatrix4\fP (\fBC_STRUCT\fP \fBaiVector3D\fP *vec, const \fBC_STRUCT\fP \fBaiMatrix4x4\fP *mat)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiMultiplyMatrix4\fP (\fBC_STRUCT\fP \fBaiMatrix4x4\fP *\fBdst\fP, const \fBC_STRUCT\fP \fBaiMatrix4x4\fP *\fBsrc\fP)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiMultiplyMatrix3\fP (\fBC_STRUCT\fP \fBaiMatrix3x3\fP *\fBdst\fP, const \fBC_STRUCT\fP \fBaiMatrix3x3\fP *\fBsrc\fP)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiIdentityMatrix3\fP (\fBC_STRUCT\fP \fBaiMatrix3x3\fP *mat)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiIdentityMatrix4\fP (\fBC_STRUCT\fP \fBaiMatrix4x4\fP *mat)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP size_t \fBaiGetImportFormatCount\fP (\fBvoid\fP)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP const \fBC_STRUCT\fP \fBaiImporterDesc\fP * \fBaiGetImportFormatDescription\fP (size_t pIndex)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP int \fBaiVector2AreEqual\fP (const \fBC_STRUCT\fP \fBaiVector2D\fP *\fBa\fP, const \fBC_STRUCT\fP \fBaiVector2D\fP *\fBb\fP)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP int \fBaiVector2AreEqualEpsilon\fP (const \fBC_STRUCT\fP \fBaiVector2D\fP *\fBa\fP, const \fBC_STRUCT\fP \fBaiVector2D\fP *\fBb\fP, const float epsilon)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiVector2Add\fP (\fBC_STRUCT\fP \fBaiVector2D\fP *\fBdst\fP, const \fBC_STRUCT\fP \fBaiVector2D\fP *\fBsrc\fP)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiVector2Subtract\fP (\fBC_STRUCT\fP \fBaiVector2D\fP *\fBdst\fP, const \fBC_STRUCT\fP \fBaiVector2D\fP *\fBsrc\fP)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiVector2Scale\fP (\fBC_STRUCT\fP \fBaiVector2D\fP *\fBdst\fP, const float s)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiVector2SymMul\fP (\fBC_STRUCT\fP \fBaiVector2D\fP *\fBdst\fP, const \fBC_STRUCT\fP \fBaiVector2D\fP *other)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiVector2DivideByScalar\fP (\fBC_STRUCT\fP \fBaiVector2D\fP *\fBdst\fP, const float s)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiVector2DivideByVector\fP (\fBC_STRUCT\fP \fBaiVector2D\fP *\fBdst\fP, \fBC_STRUCT\fP \fBaiVector2D\fP *\fBv\fP)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP float \fBaiVector2Length\fP (const \fBC_STRUCT\fP \fBaiVector2D\fP *\fBv\fP)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP float \fBaiVector2SquareLength\fP (const \fBC_STRUCT\fP \fBaiVector2D\fP *\fBv\fP)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiVector2Negate\fP (\fBC_STRUCT\fP \fBaiVector2D\fP *\fBdst\fP)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP float \fBaiVector2DotProduct\fP (const \fBC_STRUCT\fP \fBaiVector2D\fP *\fBa\fP, const \fBC_STRUCT\fP \fBaiVector2D\fP *\fBb\fP)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiVector2Normalize\fP (\fBC_STRUCT\fP \fBaiVector2D\fP *\fBv\fP)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP int \fBaiVector3AreEqual\fP (const \fBC_STRUCT\fP \fBaiVector3D\fP *\fBa\fP, const \fBC_STRUCT\fP \fBaiVector3D\fP *\fBb\fP)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP int \fBaiVector3AreEqualEpsilon\fP (const \fBC_STRUCT\fP \fBaiVector3D\fP *\fBa\fP, const \fBC_STRUCT\fP \fBaiVector3D\fP *\fBb\fP, const float epsilon)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP int \fBaiVector3LessThan\fP (const \fBC_STRUCT\fP \fBaiVector3D\fP *\fBa\fP, const \fBC_STRUCT\fP \fBaiVector3D\fP *\fBb\fP)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiVector3Add\fP (\fBC_STRUCT\fP \fBaiVector3D\fP *\fBdst\fP, const \fBC_STRUCT\fP \fBaiVector3D\fP *\fBsrc\fP)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiVector3Subtract\fP (\fBC_STRUCT\fP \fBaiVector3D\fP *\fBdst\fP, const \fBC_STRUCT\fP \fBaiVector3D\fP *\fBsrc\fP)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiVector3Scale\fP (\fBC_STRUCT\fP \fBaiVector3D\fP *\fBdst\fP, const float s)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiVector3SymMul\fP (\fBC_STRUCT\fP \fBaiVector3D\fP *\fBdst\fP, const \fBC_STRUCT\fP \fBaiVector3D\fP *other)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiVector3DivideByScalar\fP (\fBC_STRUCT\fP \fBaiVector3D\fP *\fBdst\fP, const float s)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiVector3DivideByVector\fP (\fBC_STRUCT\fP \fBaiVector3D\fP *\fBdst\fP, \fBC_STRUCT\fP \fBaiVector3D\fP *\fBv\fP)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP float \fBaiVector3Length\fP (const \fBC_STRUCT\fP \fBaiVector3D\fP *\fBv\fP)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP float \fBaiVector3SquareLength\fP (const \fBC_STRUCT\fP \fBaiVector3D\fP *\fBv\fP)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiVector3Negate\fP (\fBC_STRUCT\fP \fBaiVector3D\fP *\fBdst\fP)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP float \fBaiVector3DotProduct\fP (const \fBC_STRUCT\fP \fBaiVector3D\fP *\fBa\fP, const \fBC_STRUCT\fP \fBaiVector3D\fP *\fBb\fP)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiVector3CrossProduct\fP (\fBC_STRUCT\fP \fBaiVector3D\fP *\fBdst\fP, const \fBC_STRUCT\fP \fBaiVector3D\fP *\fBa\fP, const \fBC_STRUCT\fP \fBaiVector3D\fP *\fBb\fP)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiVector3Normalize\fP (\fBC_STRUCT\fP \fBaiVector3D\fP *\fBv\fP)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiVector3NormalizeSafe\fP (\fBC_STRUCT\fP \fBaiVector3D\fP *\fBv\fP)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiVector3RotateByQuaternion\fP (\fBC_STRUCT\fP \fBaiVector3D\fP *\fBv\fP, const \fBC_STRUCT\fP \fBaiQuaternion\fP *q)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiMatrix3FromMatrix4\fP (\fBC_STRUCT\fP \fBaiMatrix3x3\fP *\fBdst\fP, const \fBC_STRUCT\fP \fBaiMatrix4x4\fP *mat)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiMatrix3FromQuaternion\fP (\fBC_STRUCT\fP \fBaiMatrix3x3\fP *mat, const \fBC_STRUCT\fP \fBaiQuaternion\fP *q)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP int \fBaiMatrix3AreEqual\fP (const \fBC_STRUCT\fP \fBaiMatrix3x3\fP *\fBa\fP, const \fBC_STRUCT\fP \fBaiMatrix3x3\fP *\fBb\fP)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP int \fBaiMatrix3AreEqualEpsilon\fP (const \fBC_STRUCT\fP \fBaiMatrix3x3\fP *\fBa\fP, const \fBC_STRUCT\fP \fBaiMatrix3x3\fP *\fBb\fP, const float epsilon)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiMatrix3Inverse\fP (\fBC_STRUCT\fP \fBaiMatrix3x3\fP *mat)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP float \fBaiMatrix3Determinant\fP (const \fBC_STRUCT\fP \fBaiMatrix3x3\fP *mat)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiMatrix3RotationZ\fP (\fBC_STRUCT\fP \fBaiMatrix3x3\fP *mat, const float angle)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiMatrix3FromRotationAroundAxis\fP (\fBC_STRUCT\fP \fBaiMatrix3x3\fP *mat, const \fBC_STRUCT\fP \fBaiVector3D\fP *axis, const float angle)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiMatrix3Translation\fP (\fBC_STRUCT\fP \fBaiMatrix3x3\fP *mat, const \fBC_STRUCT\fP \fBaiVector2D\fP *translation)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiMatrix3FromTo\fP (\fBC_STRUCT\fP \fBaiMatrix3x3\fP *mat, const \fBC_STRUCT\fP \fBaiVector3D\fP *from, const \fBC_STRUCT\fP \fBaiVector3D\fP *to)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiMatrix4FromMatrix3\fP (\fBC_STRUCT\fP \fBaiMatrix4x4\fP *\fBdst\fP, const \fBC_STRUCT\fP \fBaiMatrix3x3\fP *mat)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiMatrix4FromScalingQuaternionPosition\fP (\fBC_STRUCT\fP \fBaiMatrix4x4\fP *mat, const \fBC_STRUCT\fP \fBaiVector3D\fP *scaling, const \fBC_STRUCT\fP \fBaiQuaternion\fP *rotation, const \fBC_STRUCT\fP \fBaiVector3D\fP *position)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiMatrix4Add\fP (\fBC_STRUCT\fP \fBaiMatrix4x4\fP *\fBdst\fP, const \fBC_STRUCT\fP \fBaiMatrix4x4\fP *\fBsrc\fP)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP int \fBaiMatrix4AreEqual\fP (const \fBC_STRUCT\fP \fBaiMatrix4x4\fP *\fBa\fP, const \fBC_STRUCT\fP \fBaiMatrix4x4\fP *\fBb\fP)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP int \fBaiMatrix4AreEqualEpsilon\fP (const \fBC_STRUCT\fP \fBaiMatrix4x4\fP *\fBa\fP, const \fBC_STRUCT\fP \fBaiMatrix4x4\fP *\fBb\fP, const float epsilon)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiMatrix4Inverse\fP (\fBC_STRUCT\fP \fBaiMatrix4x4\fP *mat)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP float \fBaiMatrix4Determinant\fP (const \fBC_STRUCT\fP \fBaiMatrix4x4\fP *mat)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP int \fBaiMatrix4IsIdentity\fP (const \fBC_STRUCT\fP \fBaiMatrix4x4\fP *mat)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiMatrix4DecomposeIntoScalingEulerAnglesPosition\fP (const \fBC_STRUCT\fP \fBaiMatrix4x4\fP *mat, \fBC_STRUCT\fP \fBaiVector3D\fP *scaling, \fBC_STRUCT\fP \fBaiVector3D\fP *rotation, \fBC_STRUCT\fP \fBaiVector3D\fP *position)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiMatrix4DecomposeIntoScalingAxisAnglePosition\fP (const \fBC_STRUCT\fP \fBaiMatrix4x4\fP *mat, \fBC_STRUCT\fP \fBaiVector3D\fP *scaling, \fBC_STRUCT\fP \fBaiVector3D\fP *axis, \fBai_real\fP *angle, \fBC_STRUCT\fP \fBaiVector3D\fP *position)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiMatrix4DecomposeNoScaling\fP (const \fBC_STRUCT\fP \fBaiMatrix4x4\fP *mat, \fBC_STRUCT\fP \fBaiQuaternion\fP *rotation, \fBC_STRUCT\fP \fBaiVector3D\fP *position)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiMatrix4FromEulerAngles\fP (\fBC_STRUCT\fP \fBaiMatrix4x4\fP *mat, float \fBx\fP, float \fBy\fP, float \fBz\fP)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiMatrix4RotationX\fP (\fBC_STRUCT\fP \fBaiMatrix4x4\fP *mat, const float angle)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiMatrix4RotationY\fP (\fBC_STRUCT\fP \fBaiMatrix4x4\fP *mat, const float angle)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiMatrix4RotationZ\fP (\fBC_STRUCT\fP \fBaiMatrix4x4\fP *mat, const float angle)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiMatrix4FromRotationAroundAxis\fP (\fBC_STRUCT\fP \fBaiMatrix4x4\fP *mat, const \fBC_STRUCT\fP \fBaiVector3D\fP *axis, const float angle)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiMatrix4Translation\fP (\fBC_STRUCT\fP \fBaiMatrix4x4\fP *mat, const \fBC_STRUCT\fP \fBaiVector3D\fP *translation)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiMatrix4Scaling\fP (\fBC_STRUCT\fP \fBaiMatrix4x4\fP *mat, const \fBC_STRUCT\fP \fBaiVector3D\fP *scaling)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiMatrix4FromTo\fP (\fBC_STRUCT\fP \fBaiMatrix4x4\fP *mat, const \fBC_STRUCT\fP \fBaiVector3D\fP *from, const \fBC_STRUCT\fP \fBaiVector3D\fP *to)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiQuaternionFromEulerAngles\fP (\fBC_STRUCT\fP \fBaiQuaternion\fP *q, float \fBx\fP, float \fBy\fP, float \fBz\fP)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiQuaternionFromAxisAngle\fP (\fBC_STRUCT\fP \fBaiQuaternion\fP *q, const \fBC_STRUCT\fP \fBaiVector3D\fP *axis, const float angle)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiQuaternionFromNormalizedQuaternion\fP (\fBC_STRUCT\fP \fBaiQuaternion\fP *q, const \fBC_STRUCT\fP \fBaiVector3D\fP *\fBnormalized\fP)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP int \fBaiQuaternionAreEqual\fP (const \fBC_STRUCT\fP \fBaiQuaternion\fP *\fBa\fP, const \fBC_STRUCT\fP \fBaiQuaternion\fP *\fBb\fP)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP int \fBaiQuaternionAreEqualEpsilon\fP (const \fBC_STRUCT\fP \fBaiQuaternion\fP *\fBa\fP, const \fBC_STRUCT\fP \fBaiQuaternion\fP *\fBb\fP, const float epsilon)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiQuaternionNormalize\fP (\fBC_STRUCT\fP \fBaiQuaternion\fP *q)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiQuaternionConjugate\fP (\fBC_STRUCT\fP \fBaiQuaternion\fP *q)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiQuaternionMultiply\fP (\fBC_STRUCT\fP \fBaiQuaternion\fP *\fBdst\fP, const \fBC_STRUCT\fP \fBaiQuaternion\fP *q)"
+.br
+.ti -1c
+.RI "\fBASSIMP_API\fP \fBvoid\fP \fBaiQuaternionInterpolate\fP (\fBC_STRUCT\fP \fBaiQuaternion\fP *\fBdst\fP, const \fBC_STRUCT\fP \fBaiQuaternion\fP *\fBstart\fP, const \fBC_STRUCT\fP \fBaiQuaternion\fP *\fBend\fP, const float factor)"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Defines the C-API to the Open Asset Import Library\&. 
+
+
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define AI_ASSIMP_H_INC"
+
+.SS "#define AI_FALSE   0"
+
+.SS "#define AI_TRUE   1"
+
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef int \fBaiBool\fP"
+Our own C boolean type 
+.SS "typedef \fBvoid\fP(* aiLogStreamCallback) (const char *, char *)"
+
+.SH "Function Documentation"
+.PP 
+.SS "\fBASSIMP_API\fP const \fBC_STRUCT\fP \fBaiScene\fP * aiApplyPostProcessing (const \fBC_STRUCT\fP \fBaiScene\fP * pScene, unsigned int pFlags)"
+Apply post-processing to an already-imported scene\&.
+.PP
+This is strictly equivalent to calling \fBaiImportFile()\fP/\fBaiImportFileEx\fP with the same flags\&. However, you can use this separate function to inspect the imported scene first to fine-tune your post-processing setup\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIpScene\fP Scene to work on\&. 
+.br
+\fIpFlags\fP Provide a bitwise combination of the \fBaiPostProcessSteps\fP flags\&. 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+A pointer to the post-processed data\&. Post processing is done in-place, meaning this is still the same \fBaiScene\fP which you passed for pScene\&. However, \fIif\fP post-processing failed, the scene could now be NULL\&. That's quite a rare case, post processing steps are not really designed to 'fail'\&. To be exact, the \fBaiProcess_ValidateDataStructure\fP flag is currently the only post processing step which can actually cause the scene to be reset to NULL\&. 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiAttachLogStream (const \fBC_STRUCT\fP \fBaiLogStream\fP * stream)"
+Attach a custom log stream to the libraries' logging system\&.
+.PP
+Attaching a log stream can slightly reduce \fBAssimp\fP's overall import performance\&. Multiple log-streams can be attached\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIstream\fP Describes the new log stream\&. 
+.RE
+.PP
+\fBNote\fP
+.RS 4
+To ensure proper destruction of the logging system, you need to manually call \fBaiDetachLogStream()\fP on every single log stream you attach\&. Alternatively (for the lazy folks) \fBaiDetachAllLogStreams\fP is provided\&. 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBC_STRUCT\fP \fBaiPropertyStore\fP * aiCreatePropertyStore (\fBvoid\fP )"
+Create an empty property store\&. Property stores are used to collect import settings\&. 
+.PP
+\fBReturns\fP
+.RS 4
+New property store\&. Property stores need to be manually destroyed using the \fBaiReleasePropertyStore\fP API function\&. 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiCreateQuaternionFromMatrix (\fBC_STRUCT\fP \fBaiQuaternion\fP * quat, const \fBC_STRUCT\fP \fBaiMatrix3x3\fP * mat)"
+Construct a quaternion from a 3x3 rotation matrix\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIquat\fP Receives the output quaternion\&. 
+.br
+\fImat\fP Matrix to 'quaternionize'\&. 
+.RE
+.PP
+\fBSee also\fP
+.RS 4
+\fBaiQuaternion(const aiMatrix3x3& pRotMatrix)\fP 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiDecomposeMatrix (const \fBC_STRUCT\fP \fBaiMatrix4x4\fP * mat, \fBC_STRUCT\fP \fBaiVector3D\fP * scaling, \fBC_STRUCT\fP \fBaiQuaternion\fP * rotation, \fBC_STRUCT\fP \fBaiVector3D\fP * position)"
+Decompose a transformation matrix into its rotational, translational and scaling components\&.
+.PP
+\fBParameters\fP
+.RS 4
+\fImat\fP Matrix to decompose 
+.br
+\fIscaling\fP Receives the scaling component 
+.br
+\fIrotation\fP Receives the rotational component 
+.br
+\fIposition\fP Receives the translational component\&. 
+.RE
+.PP
+\fBSee also\fP
+.RS 4
+aiMatrix4x4::Decompose (\fBaiVector3D\fP&, \fBaiQuaternion\fP&, \fBaiVector3D\fP&) const; 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiDetachAllLogStreams (\fBvoid\fP )"
+Detach all active log streams from the libraries' logging system\&. This ensures that the logging system is terminated properly and all resources allocated by it are actually freed\&. If you attached a stream, don't forget to detach it again\&. 
+.PP
+\fBSee also\fP
+.RS 4
+\fBaiAttachLogStream\fP 
+.PP
+\fBaiDetachLogStream\fP 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBC_ENUM\fP \fBaiReturn\fP aiDetachLogStream (const \fBC_STRUCT\fP \fBaiLogStream\fP * stream)"
+Detach a custom log stream from the libraries' logging system\&.
+.PP
+This is the counterpart of \fBaiAttachLogStream\fP\&. If you attached a stream, don't forget to detach it again\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIstream\fP The log stream to be detached\&. 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+AI_SUCCESS if the log stream has been detached successfully\&. 
+.RE
+.PP
+\fBSee also\fP
+.RS 4
+\fBaiDetachAllLogStreams\fP 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiEnableVerboseLogging (\fBaiBool\fP d)"
+Enable verbose logging\&. Verbose logging includes debug-related stuff and detailed import statistics\&. This can have severe impact on import performance and memory consumption\&. However, it might be useful to find out why a file didn't read correctly\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fId\fP AI_TRUE or AI_FALSE, your decision\&. 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP const char * aiGetErrorString (\fBvoid\fP )"
+Returns the error text of the last failed import process\&.
+.PP
+\fBReturns\fP
+.RS 4
+A textual description of the error that occurred at the last import process\&. NULL if there was no error\&. There can't be an error if you got a non-NULL \fBaiScene\fP from \fBaiImportFile\fP/\fBaiImportFileEx\fP/\fBaiApplyPostProcessing\fP\&. 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiGetExtensionList (\fBC_STRUCT\fP \fBaiString\fP * szOut)"
+Get a list of all file extensions supported by ASSIMP\&.
+.PP
+If a file extension is contained in the list this does, of course, not mean that ASSIMP is able to load all files with this extension\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIszOut\fP String to receive the extension list\&. Format of the list: '*\&.3ds;*\&.obj;*\&.dae'\&. NULL is not a valid parameter\&. 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP size_t aiGetImportFormatCount (\fBvoid\fP )"
+Returns the number of import file formats available in the current \fBAssimp\fP build\&. Use \fBaiGetImportFormatDescription()\fP to retrieve infos of a specific import format\&. 
+.SS "\fBASSIMP_API\fP const \fBC_STRUCT\fP \fBaiImporterDesc\fP * aiGetImportFormatDescription (size_t pIndex)"
+Returns a description of the nth import file format\&. Use \fBaiGetImportFormatCount()\fP to learn how many import formats are supported\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIpIndex\fP Index of the import format to retrieve information for\&. Valid range is 0 to \fBaiGetImportFormatCount()\fP 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+A description of that specific import format\&. NULL if pIndex is out of range\&. 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiGetMemoryRequirements (const \fBC_STRUCT\fP \fBaiScene\fP * pIn, \fBC_STRUCT\fP \fBaiMemoryInfo\fP * in)"
+Get the approximated storage required by an imported asset 
+.PP
+\fBParameters\fP
+.RS 4
+\fIpIn\fP Input asset\&. 
+.br
+\fIin\fP Data structure to be filled\&. 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBC_STRUCT\fP \fBaiLogStream\fP aiGetPredefinedLogStream (\fBC_ENUM\fP \fBaiDefaultLogStream\fP pStreams, const char * file)"
+Get one of the predefine log streams\&. This is the quick'n'easy solution to access \fBAssimp\fP's log system\&. Attaching a log stream can slightly reduce \fBAssimp\fP's overall import performance\&.
+.PP
+Usage is rather simple (this will stream the log to a file, named log\&.txt, and the stdout stream of the process: 
+.PP
+.nf
+struct aiLogStream c;
+c = aiGetPredefinedLogStream(aiDefaultLogStream_FILE,"log\&.txt");
+aiAttachLogStream(&c);
+c = aiGetPredefinedLogStream(aiDefaultLogStream_STDOUT,NULL);
+aiAttachLogStream(&c);
+
+.fi
+.PP
+.PP
+\fBParameters\fP
+.RS 4
+\fIpStreams\fP One of the \fBaiDefaultLogStream\fP enumerated values\&. 
+.br
+\fIfile\fP Solely for the \fBaiDefaultLogStream_FILE\fP flag: specifies the file to write to\&. Pass NULL for all other flags\&. 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+The log stream\&. callback is set to NULL if something went wrong\&. 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiIdentityMatrix3 (\fBC_STRUCT\fP \fBaiMatrix3x3\fP * mat)"
+Get a 3x3 identity matrix\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fImat\fP Matrix to receive its personal identity 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiIdentityMatrix4 (\fBC_STRUCT\fP \fBaiMatrix4x4\fP * mat)"
+Get a 4x4 identity matrix\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fImat\fP Matrix to receive its personal identity 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP const \fBC_STRUCT\fP \fBaiScene\fP * aiImportFile (const char * pFile, unsigned int pFlags)"
+Reads the given file and returns its content\&.
+.PP
+If the call succeeds, the imported data is returned in an \fBaiScene\fP structure\&. The data is intended to be read-only, it stays property of the ASSIMP library and will be stable until \fBaiReleaseImport()\fP is called\&. After you're done with it, call \fBaiReleaseImport()\fP to free the resources associated with this file\&. If the import fails, NULL is returned instead\&. Call \fBaiGetErrorString()\fP to retrieve a human-readable error text\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIpFile\fP Path and filename of the file to be imported, expected to be a null-terminated c-string\&. NULL is not a valid value\&. 
+.br
+\fIpFlags\fP Optional post processing steps to be executed after a successful import\&. Provide a bitwise combination of the \fBaiPostProcessSteps\fP flags\&. 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+Pointer to the imported data or NULL if the import failed\&. 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP const \fBC_STRUCT\fP \fBaiScene\fP * aiImportFileEx (const char * pFile, unsigned int pFlags, \fBC_STRUCT\fP \fBaiFileIO\fP * pFS)"
+Reads the given file using user-defined I/O functions and returns its content\&.
+.PP
+If the call succeeds, the imported data is returned in an \fBaiScene\fP structure\&. The data is intended to be read-only, it stays property of the ASSIMP library and will be stable until \fBaiReleaseImport()\fP is called\&. After you're done with it, call \fBaiReleaseImport()\fP to free the resources associated with this file\&. If the import fails, NULL is returned instead\&. Call \fBaiGetErrorString()\fP to retrieve a human-readable error text\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIpFile\fP Path and filename of the file to be imported, expected to be a null-terminated c-string\&. NULL is not a valid value\&. 
+.br
+\fIpFlags\fP Optional post processing steps to be executed after a successful import\&. Provide a bitwise combination of the \fBaiPostProcessSteps\fP flags\&. 
+.br
+\fIpFS\fP \fBaiFileIO\fP structure\&. Will be used to open the model file itself and any other files the loader needs to open\&. Pass NULL to use the default implementation\&. 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+Pointer to the imported data or NULL if the import failed\&. 
+.RE
+.PP
+\fBNote\fP
+.RS 4
+Include <aiFileIO\&.h> for the definition of \fBaiFileIO\fP\&. 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP const \fBC_STRUCT\fP \fBaiScene\fP * aiImportFileExWithProperties (const char * pFile, unsigned int pFlags, \fBC_STRUCT\fP \fBaiFileIO\fP * pFS, const \fBC_STRUCT\fP \fBaiPropertyStore\fP * pProps)"
+Same as \fBaiImportFileEx\fP, but adds an extra parameter containing importer settings\&.
+.PP
+\fBParameters\fP
+.RS 4
+\fIpFile\fP Path and filename of the file to be imported, expected to be a null-terminated c-string\&. NULL is not a valid value\&. 
+.br
+\fIpFlags\fP Optional post processing steps to be executed after a successful import\&. Provide a bitwise combination of the \fBaiPostProcessSteps\fP flags\&. 
+.br
+\fIpFS\fP \fBaiFileIO\fP structure\&. Will be used to open the model file itself and any other files the loader needs to open\&. Pass NULL to use the default implementation\&. 
+.br
+\fIpProps\fP \fBaiPropertyStore\fP instance containing import settings\&. 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+Pointer to the imported data or NULL if the import failed\&. 
+.RE
+.PP
+\fBNote\fP
+.RS 4
+Include <aiFileIO\&.h> for the definition of \fBaiFileIO\fP\&. 
+.RE
+.PP
+\fBSee also\fP
+.RS 4
+\fBaiImportFileEx\fP 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP const \fBC_STRUCT\fP \fBaiScene\fP * aiImportFileFromMemory (const char * pBuffer, unsigned int pLength, unsigned int pFlags, const char * pHint)"
+Reads the given file from a given memory buffer,
+.PP
+If the call succeeds, the contents of the file are returned as a pointer to an \fBaiScene\fP object\&. The returned data is intended to be read-only, the importer keeps ownership of the data and will destroy it upon destruction\&. If the import fails, NULL is returned\&. A human-readable error description can be retrieved by calling \fBaiGetErrorString()\fP\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIpBuffer\fP Pointer to the file data 
+.br
+\fIpLength\fP Length of pBuffer, in bytes 
+.br
+\fIpFlags\fP Optional post processing steps to be executed after a successful import\&. Provide a bitwise combination of the \fBaiPostProcessSteps\fP flags\&. If you wish to inspect the imported scene first in order to fine-tune your post-processing setup, consider to use \fBaiApplyPostProcessing()\fP\&. 
+.br
+\fIpHint\fP An additional hint to the library\&. If this is a non empty string, the library looks for a loader to support the file extension specified by pHint and passes the file to the first matching loader\&. If this loader is unable to completely the request, the library continues and tries to determine the file format on its own, a task that may or may not be successful\&. Check the return value, and you'll know \&.\&.\&. 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+A pointer to the imported data, NULL if the import failed\&.
+.RE
+.PP
+\fBNote\fP
+.RS 4
+This is a straightforward way to decode models from memory buffers, but it doesn't handle model formats that spread their data across multiple files or even directories\&. Examples include OBJ or MD3, which outsource parts of their material info into external scripts\&. If you need full functionality, provide a custom IOSystem to make \fBAssimp\fP find these files and use the regular \fBaiImportFileEx()\fP/aiImportFileExWithProperties() API\&. 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP const \fBC_STRUCT\fP \fBaiScene\fP * aiImportFileFromMemoryWithProperties (const char * pBuffer, unsigned int pLength, unsigned int pFlags, const char * pHint, const \fBC_STRUCT\fP \fBaiPropertyStore\fP * pProps)"
+Same as \fBaiImportFileFromMemory\fP, but adds an extra parameter containing importer settings\&.
+.PP
+\fBParameters\fP
+.RS 4
+\fIpBuffer\fP Pointer to the file data 
+.br
+\fIpLength\fP Length of pBuffer, in bytes 
+.br
+\fIpFlags\fP Optional post processing steps to be executed after a successful import\&. Provide a bitwise combination of the \fBaiPostProcessSteps\fP flags\&. If you wish to inspect the imported scene first in order to fine-tune your post-processing setup, consider to use \fBaiApplyPostProcessing()\fP\&. 
+.br
+\fIpHint\fP An additional hint to the library\&. If this is a non empty string, the library looks for a loader to support the file extension specified by pHint and passes the file to the first matching loader\&. If this loader is unable to completely the request, the library continues and tries to determine the file format on its own, a task that may or may not be successful\&. Check the return value, and you'll know \&.\&.\&. 
+.br
+\fIpProps\fP \fBaiPropertyStore\fP instance containing import settings\&. 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+A pointer to the imported data, NULL if the import failed\&.
+.RE
+.PP
+\fBNote\fP
+.RS 4
+This is a straightforward way to decode models from memory buffers, but it doesn't handle model formats that spread their data across multiple files or even directories\&. Examples include OBJ or MD3, which outsource parts of their material info into external scripts\&. If you need full functionality, provide a custom IOSystem to make \fBAssimp\fP find these files and use the regular \fBaiImportFileEx()\fP/aiImportFileExWithProperties() API\&. 
+.RE
+.PP
+\fBSee also\fP
+.RS 4
+\fBaiImportFileFromMemory\fP 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBaiBool\fP aiIsExtensionSupported (const char * szExtension)"
+Returns whether a given file extension is supported by ASSIMP
+.PP
+\fBParameters\fP
+.RS 4
+\fIszExtension\fP Extension for which the function queries support for\&. Must include a leading dot '\&.'\&. Example: '\&.3ds', '\&.md3' 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+AI_TRUE if the file extension is supported\&. 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP int aiMatrix3AreEqual (const \fBC_STRUCT\fP \fBaiMatrix3x3\fP * a, const \fBC_STRUCT\fP \fBaiMatrix3x3\fP * b)"
+Check if 3x3 matrices are equal\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIa\fP First matrix to compare 
+.br
+\fIb\fP Second matrix to compare 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+1 if the matrices are equal 
+.PP
+0 if the matrices are not equal 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP int aiMatrix3AreEqualEpsilon (const \fBC_STRUCT\fP \fBaiMatrix3x3\fP * a, const \fBC_STRUCT\fP \fBaiMatrix3x3\fP * b, const float epsilon)"
+Check if 3x3 matrices are equal\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIa\fP First matrix to compare 
+.br
+\fIb\fP Second matrix to compare 
+.br
+\fIepsilon\fP Epsilon 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+1 if the matrices are equal 
+.PP
+0 if the matrices are not equal 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP float aiMatrix3Determinant (const \fBC_STRUCT\fP \fBaiMatrix3x3\fP * mat)"
+Get the determinant of a 3x3 matrix\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fImat\fP Matrix to get the determinant from 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiMatrix3FromMatrix4 (\fBC_STRUCT\fP \fBaiMatrix3x3\fP * dst, const \fBC_STRUCT\fP \fBaiMatrix4x4\fP * mat)"
+Construct a 3x3 matrix from a 4x4 matrix\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIdst\fP Receives the output matrix 
+.br
+\fImat\fP The 4x4 matrix to use 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiMatrix3FromQuaternion (\fBC_STRUCT\fP \fBaiMatrix3x3\fP * mat, const \fBC_STRUCT\fP \fBaiQuaternion\fP * q)"
+Construct a 3x3 matrix from a quaternion\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fImat\fP Receives the output matrix 
+.br
+\fIq\fP The quaternion matrix to use 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiMatrix3FromRotationAroundAxis (\fBC_STRUCT\fP \fBaiMatrix3x3\fP * mat, const \fBC_STRUCT\fP \fBaiVector3D\fP * axis, const float angle)"
+Returns a 3x3 rotation matrix for a rotation around an arbitrary axis\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fImat\fP Receives the output matrix 
+.br
+\fIaxis\fP Rotation axis, should be a normalized vector 
+.br
+\fIangle\fP Rotation angle, in radians 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiMatrix3FromTo (\fBC_STRUCT\fP \fBaiMatrix3x3\fP * mat, const \fBC_STRUCT\fP \fBaiVector3D\fP * from, const \fBC_STRUCT\fP \fBaiVector3D\fP * to)"
+Create a 3x3 matrix that rotates one vector to another vector\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fImat\fP Receives the output matrix 
+.br
+\fIfrom\fP Vector to rotate from 
+.br
+\fIto\fP Vector to rotate to 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiMatrix3Inverse (\fBC_STRUCT\fP \fBaiMatrix3x3\fP * mat)"
+Invert a 3x3 matrix\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fImat\fP Matrix to invert 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiMatrix3RotationZ (\fBC_STRUCT\fP \fBaiMatrix3x3\fP * mat, const float angle)"
+Get a 3x3 rotation matrix around the Z axis\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fImat\fP Receives the output matrix 
+.br
+\fIangle\fP Rotation angle, in radians 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiMatrix3Translation (\fBC_STRUCT\fP \fBaiMatrix3x3\fP * mat, const \fBC_STRUCT\fP \fBaiVector2D\fP * translation)"
+Get a 3x3 translation matrix\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fImat\fP Receives the output matrix 
+.br
+\fItranslation\fP The translation vector 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiMatrix4Add (\fBC_STRUCT\fP \fBaiMatrix4x4\fP * dst, const \fBC_STRUCT\fP \fBaiMatrix4x4\fP * src)"
+Add 4x4 matrices\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIdst\fP First addend, receives result\&. 
+.br
+\fIsrc\fP Matrix to be added to 'dst'\&. 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP int aiMatrix4AreEqual (const \fBC_STRUCT\fP \fBaiMatrix4x4\fP * a, const \fBC_STRUCT\fP \fBaiMatrix4x4\fP * b)"
+Check if 4x4 matrices are equal\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIa\fP First matrix to compare 
+.br
+\fIb\fP Second matrix to compare 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+1 if the matrices are equal 
+.PP
+0 if the matrices are not equal 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP int aiMatrix4AreEqualEpsilon (const \fBC_STRUCT\fP \fBaiMatrix4x4\fP * a, const \fBC_STRUCT\fP \fBaiMatrix4x4\fP * b, const float epsilon)"
+Check if 4x4 matrices are equal\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIa\fP First matrix to compare 
+.br
+\fIb\fP Second matrix to compare 
+.br
+\fIepsilon\fP Epsilon 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+1 if the matrices are equal 
+.PP
+0 if the matrices are not equal 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiMatrix4DecomposeIntoScalingAxisAnglePosition (const \fBC_STRUCT\fP \fBaiMatrix4x4\fP * mat, \fBC_STRUCT\fP \fBaiVector3D\fP * scaling, \fBC_STRUCT\fP \fBaiVector3D\fP * axis, \fBai_real\fP * angle, \fBC_STRUCT\fP \fBaiVector3D\fP * position)"
+Decompose a transformation matrix into its scaling, rotational split into an axis and rotational angle, and it's translational components\&.
+.PP
+\fBParameters\fP
+.RS 4
+\fImat\fP Matrix to decompose 
+.br
+\fIrotation\fP Receives the rotational component 
+.br
+\fIaxis\fP Receives the output rotation axis 
+.br
+\fIangle\fP Receives the output rotation angle 
+.br
+\fIposition\fP Receives the output position for the x,y,z axes\&. 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiMatrix4DecomposeIntoScalingEulerAnglesPosition (const \fBC_STRUCT\fP \fBaiMatrix4x4\fP * mat, \fBC_STRUCT\fP \fBaiVector3D\fP * scaling, \fBC_STRUCT\fP \fBaiVector3D\fP * rotation, \fBC_STRUCT\fP \fBaiVector3D\fP * position)"
+Decompose a transformation matrix into its scaling, rotational as euler angles, and translational components\&.
+.PP
+\fBParameters\fP
+.RS 4
+\fImat\fP Matrix to decompose 
+.br
+\fIscaling\fP Receives the output scaling for the x,y,z axes 
+.br
+\fIrotation\fP Receives the output rotation as a Euler angles 
+.br
+\fIposition\fP Receives the output position for the x,y,z axes 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiMatrix4DecomposeNoScaling (const \fBC_STRUCT\fP \fBaiMatrix4x4\fP * mat, \fBC_STRUCT\fP \fBaiQuaternion\fP * rotation, \fBC_STRUCT\fP \fBaiVector3D\fP * position)"
+Decompose a transformation matrix into its rotational and translational components\&.
+.PP
+\fBParameters\fP
+.RS 4
+\fImat\fP Matrix to decompose 
+.br
+\fIrotation\fP Receives the rotational component 
+.br
+\fIposition\fP Receives the translational component\&. 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP float aiMatrix4Determinant (const \fBC_STRUCT\fP \fBaiMatrix4x4\fP * mat)"
+Get the determinant of a 4x4 matrix\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fImat\fP Matrix to get the determinant from 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+The determinant of the matrix 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiMatrix4FromEulerAngles (\fBC_STRUCT\fP \fBaiMatrix4x4\fP * mat, float x, float y, float z)"
+Creates a 4x4 matrix from a set of euler angles\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fImat\fP Receives the output matrix 
+.br
+\fIx\fP Rotation angle for the x-axis, in radians 
+.br
+\fIy\fP Rotation angle for the y-axis, in radians 
+.br
+\fIz\fP Rotation angle for the z-axis, in radians 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiMatrix4FromMatrix3 (\fBC_STRUCT\fP \fBaiMatrix4x4\fP * dst, const \fBC_STRUCT\fP \fBaiMatrix3x3\fP * mat)"
+Construct a 4x4 matrix from a 3x3 matrix\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIdst\fP Receives the output matrix 
+.br
+\fImat\fP The 3x3 matrix to use 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiMatrix4FromRotationAroundAxis (\fBC_STRUCT\fP \fBaiMatrix4x4\fP * mat, const \fBC_STRUCT\fP \fBaiVector3D\fP * axis, const float angle)"
+Returns a 4x4 rotation matrix for a rotation around an arbitrary axis\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fImat\fP Receives the output matrix 
+.br
+\fIaxis\fP Rotation axis, should be a normalized vector 
+.br
+\fIangle\fP Rotation angle, in radians 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiMatrix4FromScalingQuaternionPosition (\fBC_STRUCT\fP \fBaiMatrix4x4\fP * mat, const \fBC_STRUCT\fP \fBaiVector3D\fP * scaling, const \fBC_STRUCT\fP \fBaiQuaternion\fP * rotation, const \fBC_STRUCT\fP \fBaiVector3D\fP * position)"
+Construct a 4x4 matrix from scaling, rotation and position\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fImat\fP Receives the output matrix\&. 
+.br
+\fIscaling\fP The scaling for the x,y,z axes 
+.br
+\fIrotation\fP The rotation as a hamilton quaternion 
+.br
+\fIposition\fP The position for the x,y,z axes 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiMatrix4FromTo (\fBC_STRUCT\fP \fBaiMatrix4x4\fP * mat, const \fBC_STRUCT\fP \fBaiVector3D\fP * from, const \fBC_STRUCT\fP \fBaiVector3D\fP * to)"
+Create a 4x4 matrix that rotates one vector to another vector\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fImat\fP Receives the output matrix 
+.br
+\fIfrom\fP Vector to rotate from 
+.br
+\fIto\fP Vector to rotate to 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiMatrix4Inverse (\fBC_STRUCT\fP \fBaiMatrix4x4\fP * mat)"
+Invert a 4x4 matrix\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIresult\fP Matrix to invert 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP int aiMatrix4IsIdentity (const \fBC_STRUCT\fP \fBaiMatrix4x4\fP * mat)"
+Returns true of the matrix is the identity matrix\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fImat\fP Matrix to get the determinant from 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+1 if \fRmat\fP is an identity matrix\&. 
+.PP
+0 if \fRmat\fP is not an identity matrix\&. 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiMatrix4RotationX (\fBC_STRUCT\fP \fBaiMatrix4x4\fP * mat, const float angle)"
+Get a 4x4 rotation matrix around the X axis\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fImat\fP Receives the output matrix 
+.br
+\fIangle\fP Rotation angle, in radians 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiMatrix4RotationY (\fBC_STRUCT\fP \fBaiMatrix4x4\fP * mat, const float angle)"
+Get a 4x4 rotation matrix around the Y axis\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fImat\fP Receives the output matrix 
+.br
+\fIangle\fP Rotation angle, in radians 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiMatrix4RotationZ (\fBC_STRUCT\fP \fBaiMatrix4x4\fP * mat, const float angle)"
+Get a 4x4 rotation matrix around the Z axis\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fImat\fP Receives the output matrix 
+.br
+\fIangle\fP Rotation angle, in radians 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiMatrix4Scaling (\fBC_STRUCT\fP \fBaiMatrix4x4\fP * mat, const \fBC_STRUCT\fP \fBaiVector3D\fP * scaling)"
+Get a 4x4 scaling matrix\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fImat\fP Receives the output matrix 
+.br
+\fIscaling\fP The scaling vector 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiMatrix4Translation (\fBC_STRUCT\fP \fBaiMatrix4x4\fP * mat, const \fBC_STRUCT\fP \fBaiVector3D\fP * translation)"
+Get a 4x4 translation matrix\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fImat\fP Receives the output matrix 
+.br
+\fItranslation\fP The translation vector 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiMultiplyMatrix3 (\fBC_STRUCT\fP \fBaiMatrix3x3\fP * dst, const \fBC_STRUCT\fP \fBaiMatrix3x3\fP * src)"
+Multiply two 3x3 matrices\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIdst\fP First factor, receives result\&. 
+.br
+\fIsrc\fP Matrix to be multiplied with 'dst'\&. 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiMultiplyMatrix4 (\fBC_STRUCT\fP \fBaiMatrix4x4\fP * dst, const \fBC_STRUCT\fP \fBaiMatrix4x4\fP * src)"
+Multiply two 4x4 matrices\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIdst\fP First factor, receives result\&. 
+.br
+\fIsrc\fP Matrix to be multiplied with 'dst'\&. 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP int aiQuaternionAreEqual (const \fBC_STRUCT\fP \fBaiQuaternion\fP * a, const \fBC_STRUCT\fP \fBaiQuaternion\fP * b)"
+Check if quaternions are equal\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIa\fP First quaternion to compare 
+.br
+\fIb\fP Second quaternion to compare 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+1 if the quaternions are equal 
+.PP
+0 if the quaternions are not equal 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP int aiQuaternionAreEqualEpsilon (const \fBC_STRUCT\fP \fBaiQuaternion\fP * a, const \fBC_STRUCT\fP \fBaiQuaternion\fP * b, const float epsilon)"
+Check if quaternions are equal using epsilon\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIa\fP First quaternion to compare 
+.br
+\fIb\fP Second quaternion to compare 
+.br
+\fIepsilon\fP Epsilon 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+1 if the quaternions are equal 
+.PP
+0 if the quaternions are not equal 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiQuaternionConjugate (\fBC_STRUCT\fP \fBaiQuaternion\fP * q)"
+Compute quaternion conjugate\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIq\fP Quaternion to compute conjugate, receives the output quaternion 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiQuaternionFromAxisAngle (\fBC_STRUCT\fP \fBaiQuaternion\fP * q, const \fBC_STRUCT\fP \fBaiVector3D\fP * axis, const float angle)"
+Create a Quaternion from an axis angle pair\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIq\fP Receives the output quaternion 
+.br
+\fIaxis\fP The orientation axis 
+.br
+\fIangle\fP The rotation angle, in radians 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiQuaternionFromEulerAngles (\fBC_STRUCT\fP \fBaiQuaternion\fP * q, float x, float y, float z)"
+Create a Quaternion from euler angles\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIq\fP Receives the output quaternion 
+.br
+\fIx\fP Rotation angle for the x-axis, in radians 
+.br
+\fIy\fP Rotation angle for the y-axis, in radians 
+.br
+\fIz\fP Rotation angle for the z-axis, in radians 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiQuaternionFromNormalizedQuaternion (\fBC_STRUCT\fP \fBaiQuaternion\fP * q, const \fBC_STRUCT\fP \fBaiVector3D\fP * normalized)"
+Create a Quaternion from a normalized quaternion stored in a 3D vector\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIq\fP Receives the output quaternion 
+.br
+\fInormalized\fP The vector that stores the quaternion 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiQuaternionInterpolate (\fBC_STRUCT\fP \fBaiQuaternion\fP * dst, const \fBC_STRUCT\fP \fBaiQuaternion\fP * start, const \fBC_STRUCT\fP \fBaiQuaternion\fP * end, const float factor)"
+Performs a spherical interpolation between two quaternions\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIdst\fP Receives the quaternion resulting from the interpolation\&. 
+.br
+\fIstart\fP Quaternion when factor == 0 
+.br
+\fIend\fP Quaternion when factor == 1 
+.br
+\fIfactor\fP Interpolation factor between 0 and 1 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiQuaternionMultiply (\fBC_STRUCT\fP \fBaiQuaternion\fP * dst, const \fBC_STRUCT\fP \fBaiQuaternion\fP * q)"
+Multiply quaternions\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIdst\fP First quaternion, receives the output quaternion 
+.br
+\fIq\fP Second quaternion 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiQuaternionNormalize (\fBC_STRUCT\fP \fBaiQuaternion\fP * q)"
+Normalize a quaternion\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIq\fP Quaternion to normalize 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiReleaseImport (const \fBC_STRUCT\fP \fBaiScene\fP * pScene)"
+Releases all resources associated with the given import process\&.
+.PP
+Call this function after you're done with the imported data\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIpScene\fP The imported data to release\&. NULL is a valid value\&. 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiReleasePropertyStore (\fBC_STRUCT\fP \fBaiPropertyStore\fP * p)"
+Delete a property store\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIp\fP Property store to be deleted\&. 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiSetImportPropertyFloat (\fBC_STRUCT\fP \fBaiPropertyStore\fP * store, const char * szName, \fBai_real\fP value)"
+Set a floating-point property\&.
+.PP
+This is the C-version of \fBAssimp::Importer::SetPropertyFloat()\fP\&. In the C interface, properties are always shared by all imports\&. It is not possible to specify them per import\&.
+.PP
+\fBParameters\fP
+.RS 4
+\fIstore\fP Store to modify\&. Use \fBaiCreatePropertyStore\fP to obtain a store\&. 
+.br
+\fIszName\fP Name of the configuration property to be set\&. All supported public properties are defined in the config\&.h header file (AI_CONFIG_XXX)\&. 
+.br
+\fIvalue\fP New value for the property 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiSetImportPropertyInteger (\fBC_STRUCT\fP \fBaiPropertyStore\fP * store, const char * szName, int value)"
+Set an integer property\&.
+.PP
+This is the C-version of \fBAssimp::Importer::SetPropertyInteger()\fP\&. In the C interface, properties are always shared by all imports\&. It is not possible to specify them per import\&.
+.PP
+\fBParameters\fP
+.RS 4
+\fIstore\fP Store to modify\&. Use \fBaiCreatePropertyStore\fP to obtain a store\&. 
+.br
+\fIszName\fP Name of the configuration property to be set\&. All supported public properties are defined in the config\&.h header file (AI_CONFIG_XXX)\&. 
+.br
+\fIvalue\fP New value for the property 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiSetImportPropertyMatrix (\fBC_STRUCT\fP \fBaiPropertyStore\fP * store, const char * szName, const \fBC_STRUCT\fP \fBaiMatrix4x4\fP * mat)"
+Set a matrix property\&.
+.PP
+This is the C-version of \fBAssimp::Importer::SetPropertyMatrix()\fP\&. In the C interface, properties are always shared by all imports\&. It is not possible to specify them per import\&.
+.PP
+\fBParameters\fP
+.RS 4
+\fIstore\fP Store to modify\&. Use \fBaiCreatePropertyStore\fP to obtain a store\&. 
+.br
+\fIszName\fP Name of the configuration property to be set\&. All supported public properties are defined in the config\&.h header file (AI_CONFIG_XXX)\&. 
+.br
+\fImat\fP New value for the property 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiSetImportPropertyString (\fBC_STRUCT\fP \fBaiPropertyStore\fP * store, const char * szName, const \fBC_STRUCT\fP \fBaiString\fP * st)"
+Set a string property\&.
+.PP
+This is the C-version of \fBAssimp::Importer::SetPropertyString()\fP\&. In the C interface, properties are always shared by all imports\&. It is not possible to specify them per import\&.
+.PP
+\fBParameters\fP
+.RS 4
+\fIstore\fP Store to modify\&. Use \fBaiCreatePropertyStore\fP to obtain a store\&. 
+.br
+\fIszName\fP Name of the configuration property to be set\&. All supported public properties are defined in the config\&.h header file (AI_CONFIG_XXX)\&. 
+.br
+\fIst\fP New value for the property 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiTransformVecByMatrix3 (\fBC_STRUCT\fP \fBaiVector3D\fP * vec, const \fBC_STRUCT\fP \fBaiMatrix3x3\fP * mat)"
+\fBTransform\fP a vector by a 3x3 matrix 
+.PP
+\fBParameters\fP
+.RS 4
+\fIvec\fP Vector to be transformed\&. 
+.br
+\fImat\fP Matrix to transform the vector with\&. 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiTransformVecByMatrix4 (\fBC_STRUCT\fP \fBaiVector3D\fP * vec, const \fBC_STRUCT\fP \fBaiMatrix4x4\fP * mat)"
+\fBTransform\fP a vector by a 4x4 matrix 
+.PP
+\fBParameters\fP
+.RS 4
+\fIvec\fP Vector to be transformed\&. 
+.br
+\fImat\fP Matrix to transform the vector with\&. 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiTransposeMatrix3 (\fBC_STRUCT\fP \fBaiMatrix3x3\fP * mat)"
+Transpose a 3x3 matrix\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fImat\fP Pointer to the matrix to be transposed 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiTransposeMatrix4 (\fBC_STRUCT\fP \fBaiMatrix4x4\fP * mat)"
+Transpose a 4x4 matrix\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fImat\fP Pointer to the matrix to be transposed 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiVector2Add (\fBC_STRUCT\fP \fBaiVector2D\fP * dst, const \fBC_STRUCT\fP \fBaiVector2D\fP * src)"
+Add 2D vectors\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIdst\fP First addend, receives result\&. 
+.br
+\fIsrc\fP Vector to be added to 'dst'\&. 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP int aiVector2AreEqual (const \fBC_STRUCT\fP \fBaiVector2D\fP * a, const \fBC_STRUCT\fP \fBaiVector2D\fP * b)"
+Check if 2D vectors are equal\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIa\fP First vector to compare 
+.br
+\fIb\fP Second vector to compare 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+1 if the vectors are equal 
+.PP
+0 if the vectors are not equal 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP int aiVector2AreEqualEpsilon (const \fBC_STRUCT\fP \fBaiVector2D\fP * a, const \fBC_STRUCT\fP \fBaiVector2D\fP * b, const float epsilon)"
+Check if 2D vectors are equal using epsilon\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIa\fP First vector to compare 
+.br
+\fIb\fP Second vector to compare 
+.br
+\fIepsilon\fP Epsilon 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+1 if the vectors are equal 
+.PP
+0 if the vectors are not equal 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiVector2DivideByScalar (\fBC_STRUCT\fP \fBaiVector2D\fP * dst, const float s)"
+Divide a 2D vector by a scalar\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIdst\fP Vector to be divided by \fRs\fP 
+.br
+\fIs\fP Scalar divisor 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiVector2DivideByVector (\fBC_STRUCT\fP \fBaiVector2D\fP * dst, \fBC_STRUCT\fP \fBaiVector2D\fP * v)"
+Divide each component of a 2D vector by the components of another vector\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIdst\fP Vector as the dividend 
+.br
+\fIv\fP Vector as the divisor 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP float aiVector2DotProduct (const \fBC_STRUCT\fP \fBaiVector2D\fP * a, const \fBC_STRUCT\fP \fBaiVector2D\fP * b)"
+Get the dot product of 2D vectors\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIa\fP First vector 
+.br
+\fIb\fP Second vector 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+The dot product of vectors 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP float aiVector2Length (const \fBC_STRUCT\fP \fBaiVector2D\fP * v)"
+Get the length of a 2D vector\&. 
+.PP
+\fBReturns\fP
+.RS 4
+v Vector to evaluate 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiVector2Negate (\fBC_STRUCT\fP \fBaiVector2D\fP * dst)"
+Negate a 2D vector\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIdst\fP Vector to be negated 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiVector2Normalize (\fBC_STRUCT\fP \fBaiVector2D\fP * v)"
+Normalize a 2D vector\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIv\fP Vector to normalize 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiVector2Scale (\fBC_STRUCT\fP \fBaiVector2D\fP * dst, const float s)"
+Multiply a 2D vector by a scalar\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIdst\fP Vector to be scaled by \fRs\fP 
+.br
+\fIs\fP Scale factor 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP float aiVector2SquareLength (const \fBC_STRUCT\fP \fBaiVector2D\fP * v)"
+Get the squared length of a 2D vector\&. 
+.PP
+\fBReturns\fP
+.RS 4
+v Vector to evaluate 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiVector2Subtract (\fBC_STRUCT\fP \fBaiVector2D\fP * dst, const \fBC_STRUCT\fP \fBaiVector2D\fP * src)"
+Subtract 2D vectors\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIdst\fP Minuend, receives result\&. 
+.br
+\fIsrc\fP Vector to be subtracted from 'dst'\&. 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiVector2SymMul (\fBC_STRUCT\fP \fBaiVector2D\fP * dst, const \fBC_STRUCT\fP \fBaiVector2D\fP * other)"
+Multiply each component of a 2D vector with the components of another vector\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIdst\fP First vector, receives result 
+.br
+\fIother\fP Second vector 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiVector3Add (\fBC_STRUCT\fP \fBaiVector3D\fP * dst, const \fBC_STRUCT\fP \fBaiVector3D\fP * src)"
+Add 3D vectors\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIdst\fP First addend, receives result\&. 
+.br
+\fIsrc\fP Vector to be added to 'dst'\&. 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP int aiVector3AreEqual (const \fBC_STRUCT\fP \fBaiVector3D\fP * a, const \fBC_STRUCT\fP \fBaiVector3D\fP * b)"
+Check if 3D vectors are equal\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIa\fP First vector to compare 
+.br
+\fIb\fP Second vector to compare 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+1 if the vectors are equal 
+.PP
+0 if the vectors are not equal 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP int aiVector3AreEqualEpsilon (const \fBC_STRUCT\fP \fBaiVector3D\fP * a, const \fBC_STRUCT\fP \fBaiVector3D\fP * b, const float epsilon)"
+Check if 3D vectors are equal using epsilon\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIa\fP First vector to compare 
+.br
+\fIb\fP Second vector to compare 
+.br
+\fIepsilon\fP Epsilon 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+1 if the vectors are equal 
+.PP
+0 if the vectors are not equal 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiVector3CrossProduct (\fBC_STRUCT\fP \fBaiVector3D\fP * dst, const \fBC_STRUCT\fP \fBaiVector3D\fP * a, const \fBC_STRUCT\fP \fBaiVector3D\fP * b)"
+Get cross product of 3D vectors\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIdst\fP Vector to receive the result\&. 
+.br
+\fIa\fP First vector 
+.br
+\fIb\fP Second vector 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+The dot product of vectors 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiVector3DivideByScalar (\fBC_STRUCT\fP \fBaiVector3D\fP * dst, const float s)"
+Divide a 3D vector by a scalar\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIdst\fP Vector to be divided by \fRs\fP 
+.br
+\fIs\fP Scalar divisor 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiVector3DivideByVector (\fBC_STRUCT\fP \fBaiVector3D\fP * dst, \fBC_STRUCT\fP \fBaiVector3D\fP * v)"
+Divide each component of a 3D vector by the components of another vector\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIdst\fP Vector as the dividend 
+.br
+\fIv\fP Vector as the divisor 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP float aiVector3DotProduct (const \fBC_STRUCT\fP \fBaiVector3D\fP * a, const \fBC_STRUCT\fP \fBaiVector3D\fP * b)"
+Get the dot product of 3D vectors\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIa\fP First vector 
+.br
+\fIb\fP Second vector 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+The dot product of vectors 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP float aiVector3Length (const \fBC_STRUCT\fP \fBaiVector3D\fP * v)"
+Get the length of a 3D vector\&. 
+.PP
+\fBReturns\fP
+.RS 4
+v Vector to evaluate 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP int aiVector3LessThan (const \fBC_STRUCT\fP \fBaiVector3D\fP * a, const \fBC_STRUCT\fP \fBaiVector3D\fP * b)"
+Check if vector \fRa\fP is less than vector \fRb\fP\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIa\fP First vector to compare 
+.br
+\fIb\fP Second vector to compare 
+.br
+\fIepsilon\fP Epsilon 
+.RE
+.PP
+\fBReturns\fP
+.RS 4
+1 if \fRa\fP is less than \fRb\fP 
+.PP
+0 if \fRa\fP is equal or greater than \fRb\fP 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiVector3Negate (\fBC_STRUCT\fP \fBaiVector3D\fP * dst)"
+Negate a 3D vector\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIdst\fP Vector to be negated 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiVector3Normalize (\fBC_STRUCT\fP \fBaiVector3D\fP * v)"
+Normalize a 3D vector\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIv\fP Vector to normalize 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiVector3NormalizeSafe (\fBC_STRUCT\fP \fBaiVector3D\fP * v)"
+Check for division by zero and normalize a 3D vector\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIv\fP Vector to normalize 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiVector3RotateByQuaternion (\fBC_STRUCT\fP \fBaiVector3D\fP * v, const \fBC_STRUCT\fP \fBaiQuaternion\fP * q)"
+Rotate a 3D vector by a quaternion\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIv\fP The vector to rotate by \fRq\fP 
+.br
+\fIq\fP Quaternion to use to rotate \fRv\fP 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiVector3Scale (\fBC_STRUCT\fP \fBaiVector3D\fP * dst, const float s)"
+Multiply a 3D vector by a scalar\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIdst\fP Vector to be scaled by \fRs\fP 
+.br
+\fIs\fP Scale factor 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP float aiVector3SquareLength (const \fBC_STRUCT\fP \fBaiVector3D\fP * v)"
+Get the squared length of a 3D vector\&. 
+.PP
+\fBReturns\fP
+.RS 4
+v Vector to evaluate 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiVector3Subtract (\fBC_STRUCT\fP \fBaiVector3D\fP * dst, const \fBC_STRUCT\fP \fBaiVector3D\fP * src)"
+Subtract 3D vectors\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIdst\fP Minuend, receives result\&. 
+.br
+\fIsrc\fP Vector to be subtracted from 'dst'\&. 
+.RE
+.PP
+
+.SS "\fBASSIMP_API\fP \fBvoid\fP aiVector3SymMul (\fBC_STRUCT\fP \fBaiVector3D\fP * dst, const \fBC_STRUCT\fP \fBaiVector3D\fP * other)"
+Multiply each component of a 3D vector with the components of another vector\&. 
+.PP
+\fBParameters\fP
+.RS 4
+\fIdst\fP First vector, receives result 
+.br
+\fIother\fP Second vector 
+.RE
+.PP
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.

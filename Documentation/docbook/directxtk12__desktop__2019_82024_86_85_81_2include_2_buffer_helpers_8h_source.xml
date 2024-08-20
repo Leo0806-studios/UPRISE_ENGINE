@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_directxtk12__desktop__2019_82024_86_85_81_2include_2_buffer_helpers_8h_source" xml:lang="en-US">
+<title>BufferHelpers.h</title>
+<indexterm><primary>packages/directxtk12_desktop_2019.2024.6.5.1/include/BufferHelpers.h</primary></indexterm>
+Go to the documentation of this file.<programlisting linenumbering="unnumbered">1 <emphasis role="comment">//--------------------------------------------------------------------------------------</emphasis>
+2 <emphasis role="comment">//&#32;File:&#32;BufferHelpers.h</emphasis>
+3 <emphasis role="comment">//</emphasis>
+4 <emphasis role="comment">//&#32;Copyright&#32;(c)&#32;Microsoft&#32;Corporation.</emphasis>
+5 <emphasis role="comment">//&#32;Licensed&#32;under&#32;the&#32;MIT&#32;License.</emphasis>
+6 <emphasis role="comment">//</emphasis>
+7 <emphasis role="comment">//&#32;http://go.microsoft.com/fwlink/?LinkID=615561</emphasis>
+8 <emphasis role="comment">//--------------------------------------------------------------------------------------</emphasis>
+9 
+10 <emphasis role="preprocessor">#pragma&#32;once</emphasis>
+11 
+12 <emphasis role="preprocessor">#ifdef&#32;_GAMING_XBOX_SCARLETT</emphasis>
+13 <emphasis role="preprocessor">#include&#32;&lt;d3d12_xs.h&gt;</emphasis>
+14 <emphasis role="preprocessor">#elif&#32;(defined(_XBOX_ONE)&#32;&amp;&amp;&#32;defined(_TITLE))&#32;||&#32;defined(_GAMING_XBOX)</emphasis>
+15 <emphasis role="preprocessor">#include&#32;&lt;d3d12_x.h&gt;</emphasis>
+16 <emphasis role="preprocessor">#elif&#32;defined(USING_DIRECTX_HEADERS)</emphasis>
+17 <emphasis role="preprocessor">#include&#32;&lt;directx/d3d12.h&gt;</emphasis>
+18 <emphasis role="preprocessor">#include&#32;&lt;dxguids/dxguids.h&gt;</emphasis>
+19 <emphasis role="preprocessor">#else</emphasis>
+20 <emphasis role="preprocessor">#include&#32;&lt;<link linkend="_d3d12_8h">d3d12.h</link>&gt;</emphasis>
+21 <emphasis role="preprocessor">#endif</emphasis>
+22 
+23 <emphasis role="preprocessor">#include&#32;&lt;cstddef&gt;</emphasis>
+24 <emphasis role="preprocessor">#include&#32;&lt;cstdint&gt;</emphasis>
+25 
+26 
+27 <emphasis role="keyword">namespace&#32;</emphasis><link linkend="_namespace_direct_x">DirectX</link>
+28 {
+29 &#32;&#32;&#32;&#32;<emphasis role="keyword">class&#32;</emphasis>ResourceUploadBatch;
+30 
+31 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Helpers&#32;for&#32;creating&#32;initialized&#32;Direct3D&#32;buffer&#32;resources.</emphasis>
+32 &#32;&#32;&#32;&#32;HRESULT&#32;__cdecl&#32;<link linkend="_namespace_direct_x_1aa15f72f5b1394051d090c653839fb09d">CreateStaticBuffer</link>(_In_&#32;<link linkend="_interface_i_d3_d12_device">ID3D12Device</link>*&#32;device,
+33 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_resource_upload_batch">ResourceUploadBatch</link>&amp;&#32;resourceUpload,
+34 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_In_reads_bytes_(<link linkend="_glad_8h_1a619bc20e8198de3bd3f3d7fc34de66b2">count</link>*&#32;<link linkend="_glad_8h_1a9d21c1b0530d07b637b5b71b969d7921">stride</link>)&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>*&#32;ptr,
+35 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1a619bc20e8198de3bd3f3d7fc34de66b2">count</link>,
+36 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1a9d21c1b0530d07b637b5b71b969d7921">stride</link>,
+37 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1a21843522197dd2f5c18b795079f11211">D3D12_RESOURCE_STATES</link>&#32;afterState,
+38 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_COM_Outptr_&#32;<link linkend="_interface_i_d3_d12_resource">ID3D12Resource</link>**&#32;<link linkend="_d3d12video_8idl_1adebbca472aa0dd274a8ec93e30ddfcd1">pBuffer</link>,
+39 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1a6b39131a2c1f6a2d37c4e993830531e4">D3D12_RESOURCE_FLAGS</link>&#32;resFlags&#32;=&#32;<link linkend="_d3d12_8idl_1a6b39131a2c1f6a2d37c4e993830531e4a4a457205402c583cb3a0540947f864c7">D3D12_RESOURCE_FLAG_NONE</link>)&#32;<emphasis role="keyword">noexcept</emphasis>;
+40 
+41 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T&gt;
+42 &#32;&#32;&#32;&#32;HRESULT&#32;<link linkend="_namespace_direct_x_1aa15f72f5b1394051d090c653839fb09d">CreateStaticBuffer</link>(_In_&#32;<link linkend="_interface_i_d3_d12_device">ID3D12Device</link>*&#32;device,
+43 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_resource_upload_batch">ResourceUploadBatch</link>&amp;&#32;resourceUpload,
+44 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_In_reads_(<link linkend="_glad_8h_1a619bc20e8198de3bd3f3d7fc34de66b2">count</link>)&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;<emphasis role="keyword">const</emphasis>*&#32;<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>,
+45 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1a619bc20e8198de3bd3f3d7fc34de66b2">count</link>,
+46 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1a21843522197dd2f5c18b795079f11211">D3D12_RESOURCE_STATES</link>&#32;afterState,
+47 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_COM_Outptr_&#32;<link linkend="_interface_i_d3_d12_resource">ID3D12Resource</link>**&#32;<link linkend="_d3d12video_8idl_1adebbca472aa0dd274a8ec93e30ddfcd1">pBuffer</link>,
+48 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1a6b39131a2c1f6a2d37c4e993830531e4">D3D12_RESOURCE_FLAGS</link>&#32;resFlags&#32;=&#32;<link linkend="_d3d12_8idl_1a6b39131a2c1f6a2d37c4e993830531e4a4a457205402c583cb3a0540947f864c7">D3D12_RESOURCE_FLAG_NONE</link>)&#32;<emphasis role="keyword">noexcept</emphasis>
+49 &#32;&#32;&#32;&#32;{
+50 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_namespace_direct_x_1aa15f72f5b1394051d090c653839fb09d">CreateStaticBuffer</link>(device,&#32;resourceUpload,&#32;<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>,&#32;<link linkend="_glad_8h_1a619bc20e8198de3bd3f3d7fc34de66b2">count</link>,&#32;<emphasis role="keyword">sizeof</emphasis>(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>),&#32;afterState,&#32;<link linkend="_d3d12video_8idl_1adebbca472aa0dd274a8ec93e30ddfcd1">pBuffer</link>,&#32;resFlags);
+51 &#32;&#32;&#32;&#32;}
+52 
+53 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T&gt;
+54 &#32;&#32;&#32;&#32;HRESULT&#32;<link linkend="_namespace_direct_x_1aa15f72f5b1394051d090c653839fb09d">CreateStaticBuffer</link>(_In_&#32;<link linkend="_interface_i_d3_d12_device">ID3D12Device</link>*&#32;device,
+55 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_resource_upload_batch">ResourceUploadBatch</link>&amp;&#32;resourceUpload,
+56 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>,
+57 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1a21843522197dd2f5c18b795079f11211">D3D12_RESOURCE_STATES</link>&#32;afterState,
+58 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_COM_Outptr_&#32;<link linkend="_interface_i_d3_d12_resource">ID3D12Resource</link>**&#32;<link linkend="_d3d12video_8idl_1adebbca472aa0dd274a8ec93e30ddfcd1">pBuffer</link>,
+59 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1a6b39131a2c1f6a2d37c4e993830531e4">D3D12_RESOURCE_FLAGS</link>&#32;resFlags&#32;=&#32;<link linkend="_d3d12_8idl_1a6b39131a2c1f6a2d37c4e993830531e4a4a457205402c583cb3a0540947f864c7">D3D12_RESOURCE_FLAG_NONE</link>)&#32;<emphasis role="keyword">noexcept</emphasis>
+60 &#32;&#32;&#32;&#32;{
+61 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_namespace_direct_x_1aa15f72f5b1394051d090c653839fb09d">CreateStaticBuffer</link>(device,&#32;resourceUpload,&#32;<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>.data(),&#32;<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>.size(),&#32;<emphasis role="keyword">sizeof</emphasis>(<emphasis role="keyword">typename</emphasis>&#32;T::value_type),
+62 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;afterState,&#32;<link linkend="_d3d12video_8idl_1adebbca472aa0dd274a8ec93e30ddfcd1">pBuffer</link>,&#32;resFlags);
+63 &#32;&#32;&#32;&#32;}
+64 
+65 &#32;&#32;&#32;&#32;HRESULT&#32;__cdecl&#32;<link linkend="_namespace_direct_x_1a90279337d99066a206e8714c92c97e94">CreateUAVBuffer</link>(_In_&#32;<link linkend="_interface_i_d3_d12_device">ID3D12Device</link>*&#32;device,
+66 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;uint64_t&#32;bufferSize,
+67 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_COM_Outptr_&#32;<link linkend="_interface_i_d3_d12_resource">ID3D12Resource</link>**&#32;<link linkend="_d3d12video_8idl_1adebbca472aa0dd274a8ec93e30ddfcd1">pBuffer</link>,
+68 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1a21843522197dd2f5c18b795079f11211">D3D12_RESOURCE_STATES</link>&#32;initialState&#32;=&#32;D3D12_RESOURCE_STATE_COMMON,
+69 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1a6b39131a2c1f6a2d37c4e993830531e4">D3D12_RESOURCE_FLAGS</link>&#32;additionalResFlags&#32;=&#32;<link linkend="_d3d12_8idl_1a6b39131a2c1f6a2d37c4e993830531e4a4a457205402c583cb3a0540947f864c7">D3D12_RESOURCE_FLAG_NONE</link>)&#32;<emphasis role="keyword">noexcept</emphasis>;
+70 
+71 &#32;&#32;&#32;&#32;HRESULT&#32;__cdecl&#32;<link linkend="_namespace_direct_x_1a874261185250f43d26298f90c3d42294">CreateUploadBuffer</link>(_In_&#32;<link linkend="_interface_i_d3_d12_device">ID3D12Device</link>*&#32;device,
+72 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_In_reads_bytes_opt_(<link linkend="_glad_8h_1a619bc20e8198de3bd3f3d7fc34de66b2">count</link>*&#32;<link linkend="_glad_8h_1a9d21c1b0530d07b637b5b71b969d7921">stride</link>)&#32;<emphasis role="keyword">const</emphasis>&#32;<emphasis role="keywordtype">void</emphasis>*&#32;ptr,
+73 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1a619bc20e8198de3bd3f3d7fc34de66b2">count</link>,
+74 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1a9d21c1b0530d07b637b5b71b969d7921">stride</link>,
+75 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_COM_Outptr_&#32;<link linkend="_interface_i_d3_d12_resource">ID3D12Resource</link>**&#32;<link linkend="_d3d12video_8idl_1adebbca472aa0dd274a8ec93e30ddfcd1">pBuffer</link>,
+76 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1a6b39131a2c1f6a2d37c4e993830531e4">D3D12_RESOURCE_FLAGS</link>&#32;resFlags&#32;=&#32;<link linkend="_d3d12_8idl_1a6b39131a2c1f6a2d37c4e993830531e4a4a457205402c583cb3a0540947f864c7">D3D12_RESOURCE_FLAG_NONE</link>)&#32;<emphasis role="keyword">noexcept</emphasis>;
+77 
+78 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T&gt;
+79 &#32;&#32;&#32;&#32;HRESULT&#32;<link linkend="_namespace_direct_x_1a874261185250f43d26298f90c3d42294">CreateUploadBuffer</link>(_In_&#32;<link linkend="_interface_i_d3_d12_device">ID3D12Device</link>*&#32;device,
+80 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_In_reads_(<link linkend="_glad_8h_1a619bc20e8198de3bd3f3d7fc34de66b2">count</link>)&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;<emphasis role="keyword">const</emphasis>*&#32;<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>,
+81 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1a619bc20e8198de3bd3f3d7fc34de66b2">count</link>,
+82 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_COM_Outptr_&#32;<link linkend="_interface_i_d3_d12_resource">ID3D12Resource</link>**&#32;<link linkend="_d3d12video_8idl_1adebbca472aa0dd274a8ec93e30ddfcd1">pBuffer</link>,
+83 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1a6b39131a2c1f6a2d37c4e993830531e4">D3D12_RESOURCE_FLAGS</link>&#32;resFlags&#32;=&#32;<link linkend="_d3d12_8idl_1a6b39131a2c1f6a2d37c4e993830531e4a4a457205402c583cb3a0540947f864c7">D3D12_RESOURCE_FLAG_NONE</link>)&#32;<emphasis role="keyword">noexcept</emphasis>
+84 &#32;&#32;&#32;&#32;{
+85 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_namespace_direct_x_1a874261185250f43d26298f90c3d42294">CreateUploadBuffer</link>(device,&#32;<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>,&#32;<link linkend="_glad_8h_1a619bc20e8198de3bd3f3d7fc34de66b2">count</link>,&#32;<emphasis role="keyword">sizeof</emphasis>(<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>),&#32;<link linkend="_d3d12video_8idl_1adebbca472aa0dd274a8ec93e30ddfcd1">pBuffer</link>,&#32;resFlags);
+86 &#32;&#32;&#32;&#32;}
+87 
+88 &#32;&#32;&#32;&#32;<emphasis role="keyword">template</emphasis>&lt;<emphasis role="keyword">typename</emphasis>&#32;T&gt;
+89 &#32;&#32;&#32;&#32;HRESULT&#32;<link linkend="_namespace_direct_x_1a874261185250f43d26298f90c3d42294">CreateUploadBuffer</link>(_In_&#32;<link linkend="_interface_i_d3_d12_device">ID3D12Device</link>*&#32;device,
+90 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="__u_p_r_i_s_e___e_n_g_i_n_e_2_header_e_2_c_o_r_e_2_c___i_n_p_u_t_8h_1a0acb682b8260ab1c60b918599864e2e5">T</link>&#32;<emphasis role="keyword">const</emphasis>&amp;&#32;<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>,
+91 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_COM_Outptr_&#32;<link linkend="_interface_i_d3_d12_resource">ID3D12Resource</link>**&#32;<link linkend="_d3d12video_8idl_1adebbca472aa0dd274a8ec93e30ddfcd1">pBuffer</link>,
+92 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1a6b39131a2c1f6a2d37c4e993830531e4">D3D12_RESOURCE_FLAGS</link>&#32;resFlags&#32;=&#32;<link linkend="_d3d12_8idl_1a6b39131a2c1f6a2d37c4e993830531e4a4a457205402c583cb3a0540947f864c7">D3D12_RESOURCE_FLAG_NONE</link>)&#32;<emphasis role="keyword">noexcept</emphasis>
+93 &#32;&#32;&#32;&#32;{
+94 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">return</emphasis>&#32;<link linkend="_namespace_direct_x_1a874261185250f43d26298f90c3d42294">CreateUploadBuffer</link>(device,&#32;<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>.data(),&#32;<link linkend="_glad_8h_1abd87654504355b4c1bb002dcb1d4d16a">data</link>.size(),&#32;<emphasis role="keyword">sizeof</emphasis>(<emphasis role="keyword">typename</emphasis>&#32;T::value_type),
+95 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12video_8idl_1adebbca472aa0dd274a8ec93e30ddfcd1">pBuffer</link>,&#32;resFlags);
+96 &#32;&#32;&#32;&#32;}
+97 
+98 &#32;&#32;&#32;&#32;<emphasis role="comment">//&#32;Helpers&#32;for&#32;creating&#32;texture&#32;from&#32;memory&#32;arrays.</emphasis>
+99 &#32;&#32;&#32;&#32;HRESULT&#32;__cdecl&#32;<link linkend="_namespace_direct_x_1a493609b8270ac766a8f6d751e9d36539">CreateTextureFromMemory</link>(_In_&#32;<link linkend="_interface_i_d3_d12_device">ID3D12Device</link>*&#32;device,
+100 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_resource_upload_batch">ResourceUploadBatch</link>&amp;&#32;resourceUpload,
+101 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1a6879d830f164725df67adeeabca3ea47">width</link>,
+102 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_dxgiformat_8h_1a6a9cbc7eff00c7ec769e4e6c3b2cb3bc">DXGI_FORMAT</link>&#32;<link linkend="_glad_8h_1a1e3b09934060e9d373139c3557730d37">format</link>,
+103 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_d3d12_8idl_1a072d5f038136878079147a50e137e25e">D3D12_SUBRESOURCE_DATA</link>&amp;&#32;initData,
+104 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_COM_Outptr_&#32;<link linkend="_interface_i_d3_d12_resource">ID3D12Resource</link>**&#32;<link linkend="_glad_8h_1ab21590c4736d1459a5a0674a42b5a655">texture</link>,
+105 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1a21843522197dd2f5c18b795079f11211">D3D12_RESOURCE_STATES</link>&#32;afterState&#32;=&#32;D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
+106 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1a6b39131a2c1f6a2d37c4e993830531e4">D3D12_RESOURCE_FLAGS</link>&#32;resFlags&#32;=&#32;<link linkend="_d3d12_8idl_1a6b39131a2c1f6a2d37c4e993830531e4a4a457205402c583cb3a0540947f864c7">D3D12_RESOURCE_FLAG_NONE</link>)&#32;<emphasis role="keyword">noexcept</emphasis>;
+107 
+108 &#32;&#32;&#32;&#32;HRESULT&#32;__cdecl&#32;<link linkend="_namespace_direct_x_1a493609b8270ac766a8f6d751e9d36539">CreateTextureFromMemory</link>(_In_&#32;<link linkend="_interface_i_d3_d12_device">ID3D12Device</link>*&#32;device,
+109 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_resource_upload_batch">ResourceUploadBatch</link>&amp;&#32;resourceUpload,
+110 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1a6879d830f164725df67adeeabca3ea47">width</link>,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1a60075de22f90a1223dc0bea98d2ee4d5">height</link>,
+111 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_dxgiformat_8h_1a6a9cbc7eff00c7ec769e4e6c3b2cb3bc">DXGI_FORMAT</link>&#32;<link linkend="_glad_8h_1a1e3b09934060e9d373139c3557730d37">format</link>,
+112 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_d3d12_8idl_1a072d5f038136878079147a50e137e25e">D3D12_SUBRESOURCE_DATA</link>&amp;&#32;initData,
+113 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_COM_Outptr_&#32;<link linkend="_interface_i_d3_d12_resource">ID3D12Resource</link>**&#32;<link linkend="_glad_8h_1ab21590c4736d1459a5a0674a42b5a655">texture</link>,
+114 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">bool</emphasis>&#32;generateMips&#32;=&#32;<emphasis role="keyword">false</emphasis>,
+115 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1a21843522197dd2f5c18b795079f11211">D3D12_RESOURCE_STATES</link>&#32;afterState&#32;=&#32;D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
+116 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1a6b39131a2c1f6a2d37c4e993830531e4">D3D12_RESOURCE_FLAGS</link>&#32;resFlags&#32;=&#32;<link linkend="_d3d12_8idl_1a6b39131a2c1f6a2d37c4e993830531e4a4a457205402c583cb3a0540947f864c7">D3D12_RESOURCE_FLAG_NONE</link>)&#32;<emphasis role="keyword">noexcept</emphasis>;
+117 
+118 &#32;&#32;&#32;&#32;HRESULT&#32;__cdecl&#32;<link linkend="_namespace_direct_x_1a493609b8270ac766a8f6d751e9d36539">CreateTextureFromMemory</link>(_In_&#32;<link linkend="_interface_i_d3_d12_device">ID3D12Device</link>*&#32;device,
+119 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_class_direct_x_1_1_resource_upload_batch">ResourceUploadBatch</link>&amp;&#32;resourceUpload,
+120 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1a6879d830f164725df67adeeabca3ea47">width</link>,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1a60075de22f90a1223dc0bea98d2ee4d5">height</link>,&#32;<emphasis role="keywordtype">size_t</emphasis>&#32;<link linkend="_glad_8h_1a2aa5ce5567a58e4da543ce468fb1711a">depth</link>,
+121 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_dxgiformat_8h_1a6a9cbc7eff00c7ec769e4e6c3b2cb3bc">DXGI_FORMAT</link>&#32;<link linkend="_glad_8h_1a1e3b09934060e9d373139c3557730d37">format</link>,
+122 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keyword">const</emphasis>&#32;<link linkend="_d3d12_8idl_1a072d5f038136878079147a50e137e25e">D3D12_SUBRESOURCE_DATA</link>&amp;&#32;initData,
+123 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;_COM_Outptr_&#32;<link linkend="_interface_i_d3_d12_resource">ID3D12Resource</link>**&#32;<link linkend="_glad_8h_1ab21590c4736d1459a5a0674a42b5a655">texture</link>,
+124 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1a21843522197dd2f5c18b795079f11211">D3D12_RESOURCE_STATES</link>&#32;afterState&#32;=&#32;D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
+125 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_d3d12_8idl_1a6b39131a2c1f6a2d37c4e993830531e4">D3D12_RESOURCE_FLAGS</link>&#32;resFlags&#32;=&#32;<link linkend="_d3d12_8idl_1a6b39131a2c1f6a2d37c4e993830531e4a4a457205402c583cb3a0540947f864c7">D3D12_RESOURCE_FLAG_NONE</link>)&#32;<emphasis role="keyword">noexcept</emphasis>;
+126 }
+</programlisting></section>

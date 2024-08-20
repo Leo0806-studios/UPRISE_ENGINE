@@ -3,7 +3,7 @@
 #define _GLINCLUDE_
 
 //#define GLFW_INCLUDE_NONE
-
+#define GLM_FORCE_SSE2 
 #include "glad.h"
 #include "glfw3.h"
 #include <glm/glm.hpp>

@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="_class_register" xml:lang="en-US">
+<title>Register&lt; _T &gt; Class Template Reference</title>
+<indexterm><primary>Register&lt; _T &gt;</primary></indexterm>
+<para>
+<computeroutput>#include &lt;C_BEHAVIOUR.h&gt;</computeroutput>
+</para>
+<simplesect>
+    <title>Public Member Functions    </title>
+        <itemizedlist>
+            <listitem><para><link linkend="_class_register_1aba07c9555c3152b2f4918e7cc08e79f7">Register</link> (_T arg, const std::string className)</para>
+</listitem>
+        </itemizedlist>
+</simplesect>
+<section>
+<title>Detailed Description</title>
+<simplesect><title>template&lt;typename _T&gt;<?linebreak?>class Register&lt; _T &gt;</title></simplesect>
+<para>
+Definition at line <link linkend="__c___b_e_h_a_v_i_o_u_r_8h_source_1l00061">61</link> of file <link linkend="__c___b_e_h_a_v_i_o_u_r_8h_source">C_BEHAVIOUR.h</link>.</para>
+</section>
+<section>
+<title>Constructor &amp; Destructor Documentation</title>
+<anchor xml:id="_class_register_1aba07c9555c3152b2f4918e7cc08e79f7"/><section>
+    <title>Register()</title>
+<indexterm><primary>Register</primary><secondary>Register&lt; _T &gt;</secondary></indexterm>
+<indexterm><primary>Register&lt; _T &gt;</primary><secondary>Register</secondary></indexterm>
+<computeroutput>template&lt;typename _T &gt; </computeroutput><para><computeroutput><link linkend="_class_register">Register</link>&lt; _T &gt;<link linkend="_class_register">::Register</link> (_T arg, const std::string className)<computeroutput>[inline]</computeroutput>, <computeroutput>[explicit]</computeroutput></computeroutput></para><para>
+Definition at line <link linkend="__c___b_e_h_a_v_i_o_u_r_8h_source_1l00065">65</link> of file <link linkend="__c___b_e_h_a_v_i_o_u_r_8h_source">C_BEHAVIOUR.h</link>.</para>
+<programlisting linenumbering="unnumbered">00065 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;{
+00066 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="keywordflow">if</emphasis>&#32;(arg.UUID&#32;==&#32;GUID_NULL)&#32;{
+00067 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;UUID&#32;uuid;
+00068 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;UuidCreate(&amp;uuid);
+00069 
+00070 
+00071 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;arg.UUID&#32;=&#32;uuid;
+00072 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;arg.uuID&#32;=&#32;arg.UUID;
+00073 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;std::shared_ptr&lt;CORE::Behaviour&gt;&#32;aa&#32;=&#32;std::make_shared&lt;_T&gt;();
+00074 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fact::inst.push_back(aa);
+00075 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis role="comment">//fact::anys.push_back(arg);</emphasis>
+00076 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="_classfact_1a3c206a68dc0a7b520cc94105a7d456f6">fact::creators</link>[className]&#32;=&#32;[]()-&gt;std::shared_ptr&lt;CORE::Behaviour&gt;&#32;{std::shared_ptr&lt;CORE::Behaviour&gt;&#32;a&#32;=&#32;std::make_shared&lt;_T&gt;();&#32;<emphasis role="keywordflow">return</emphasis>&#32;a;&#32;};
+00077 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+00078 
+00079 &#32;&#32;&#32;&#32;}
+</programlisting><para>
+References <link linkend="_pch_8h_source_1l00159">fact::creators</link>.</para>
+</section>
+<para>
+The documentation for this class was generated from the following file:</para>
+UPRISE_ENGINE/HeaderE/CORE/<link linkend="__c___b_e_h_a_v_i_o_u_r_8h">C_BEHAVIOUR.h</link></section>
+</section>

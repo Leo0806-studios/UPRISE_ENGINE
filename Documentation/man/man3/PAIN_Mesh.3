@@ -1,4 +1,4 @@
-.TH "PAIN::Mesh" 3 "Version 0.0.0.1" "My Project" \" -*- nroff -*-
+.TH "PAIN::Mesh" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -42,31 +42,109 @@ Definition at line \fB63\fP of file \fBRENDER_DATATYPES\&.h\fP\&.
 .SS "PAIN::Mesh::Mesh (vector< \fBVertex\fP > vertices, vector< unsigned int > indices, vector< \fBTexture\fP > textures)"
 
 .PP
-Definition at line \fB11\fP of file \fBRENDER_DATATYPES\&.cpp\fP\&.
+Definition at line \fB12\fP of file \fBRENDER_DATATYPES\&.cpp\fP\&.
+.nf
+13     {
+14         this\->vertices = vertices;
+15         this\->indices = indices;
+16         this\->textures = textures;
+17         setupMesh();
+18     }
+.PP
+.fi
+
+.PP
+References \fBindices\fP, \fBtextures\fP, and \fBvertices\fP\&.
 .SH "Member Function Documentation"
 .PP 
 .SS "void PAIN::Mesh::Draw (\fBShader\fP & shader)"
 
 .PP
-Definition at line \fB19\fP of file \fBRENDER_DATATYPES\&.cpp\fP\&.
+Definition at line \fB20\fP of file \fBRENDER_DATATYPES\&.cpp\fP\&.
+.nf
+21     {
+22         unsigned int diffuseNr = 1;
+23         unsigned int specularNr = 1;
+24         for (unsigned int i = 0; i < textures\&.size(); i++)
+25         {
+26             glActiveTexture(GL_TEXTURE0 + i); // activate texture unit first
+27             // retrieve texture number (the N in diffuse_textureN)
+28             string number;
+29             string name = textures[i]\&.type;
+30             if (name == "texture_diffuse")
+31                 number = std::to_string(diffuseNr++);
+32             else if (name == "texture_specular")
+33                 number = std::to_string(specularNr++);
+34                 shader\&.setFloat(("material" + name + number)\&.c_str(), i);
+35             glBindTexture(GL_TEXTURE_2D, textures[i]\&.id);
+36         }
+37         glActiveTexture(GL_TEXTURE0);
+38         // draw mesh
+39 //      glBindFramebuffer(GL_FRAMEBUFFER, PAIN::Render::FBO);
+40 
+41         glBindVertexArray(VAO);
+42         glDrawElements(GL_TRIANGLES, indices\&.size(), GL_UNSIGNED_INT, 0);
+43         glBindVertexArray(0);
+44     //  glBindFramebuffer(GL_FRAMEBUFFER, 0);
+45 
+46     }
+.PP
+.fi
+
+.PP
+References \fBi\fP, \fBindices\fP, \fBPAIN::Shader::setFloat()\fP, \fBshader\fP, and \fBtextures\fP\&.
 .SS "void PAIN::Mesh::Draw (\fBShaderU\fP & shader)"
 
 .PP
-Definition at line \fB44\fP of file \fBRENDER_DATATYPES\&.cpp\fP\&.
+Definition at line \fB48\fP of file \fBRENDER_DATATYPES\&.cpp\fP\&.
+.nf
+49     {
+50         unsigned int diffuseNr = 1;
+51         unsigned int specularNr = 1;
+52         for (unsigned int i = 0; i < textures\&.size(); i++)
+53         {
+54             glActiveTexture(GL_TEXTURE0 + i); // activate texture unit first
+55             // retrieve texture number (the N in diffuse_textureN)
+56             string number;
+57             string name = textures[i]\&.type;
+58             if (name == "texture_diffuse")
+59                 number = std::to_string(diffuseNr++);
+60             else if (name == "texture_specular")
+61                 number = std::to_string(specularNr++);
+62             shader\&.setFloat(("material\&." + name + number)\&.c_str(), i);
+63             glBindTexture(GL_TEXTURE_2D, textures[i]\&.id);
+64         }
+65         glActiveTexture(GL_TEXTURE0);
+66         // draw mesh
+67         glBindVertexArray(VAO);
+68         glDrawElements(GL_TRIANGLES, indices\&.size(), GL_UNSIGNED_INT, 0);
+69         glBindVertexArray(0);
+70     }
+.PP
+.fi
+
+.PP
+References \fBi\fP, \fBindices\fP, \fBPAIN::Shader::setFloat()\fP, \fBshader\fP, and \fBtextures\fP\&.
 .SH "Member Data Documentation"
 .PP 
 .SS "vector<unsigned int> PAIN::Mesh::indices"
 
 .PP
 Definition at line \fB67\fP of file \fBRENDER_DATATYPES\&.h\fP\&.
+.PP
+Referenced by \fBDraw()\fP, \fBDraw()\fP, and \fBMesh()\fP\&.
 .SS "vector<\fBTexture\fP> PAIN::Mesh::textures"
 
 .PP
 Definition at line \fB68\fP of file \fBRENDER_DATATYPES\&.h\fP\&.
+.PP
+Referenced by \fBDraw()\fP, \fBDraw()\fP, and \fBMesh()\fP\&.
 .SS "vector<\fBVertex\fP> PAIN::Mesh::vertices"
 
 .PP
 Definition at line \fB66\fP of file \fBRENDER_DATATYPES\&.h\fP\&.
+.PP
+Referenced by \fBMesh()\fP\&.
 
 .SH "Author"
 .PP 

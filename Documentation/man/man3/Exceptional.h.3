@@ -1,0 +1,100 @@
+.TH "adhed/assimp/Exceptional.h" 3 "Version 0.0.0.2" "My Project" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+adhed/assimp/Exceptional.h
+.SH SYNOPSIS
+.br
+.PP
+\fR#include <assimp/DefaultIOStream\&.h>\fP
+.br
+\fR#include <assimp/TinyFormatter\&.h>\fP
+.br
+\fR#include <stdexcept>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBDeadlyErrorBase\fP"
+.br
+.ti -1c
+.RI "class \fBDeadlyImportError\fP"
+.br
+.ti -1c
+.RI "class \fBDeadlyExportError\fP"
+.br
+.ti -1c
+.RI "struct \fBExceptionSwallower< T >\fP"
+.br
+.ti -1c
+.RI "struct \fBExceptionSwallower< T * >\fP"
+.br
+.ti -1c
+.RI "struct \fBExceptionSwallower< aiReturn >\fP"
+.br
+.ti -1c
+.RI "struct \fBExceptionSwallower< void >\fP"
+.br
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBAI_INCLUDED_EXCEPTIONAL_H\fP"
+.br
+.ti -1c
+.RI "#define \fBASSIMP_BEGIN_EXCEPTION_REGION\fP()"
+.br
+.ti -1c
+.RI "#define \fBASSIMP_END_EXCEPTION_REGION_WITH_ERROR_STRING\fP(\fBtype\fP,  ASSIMP_END_EXCEPTION_REGION_errorString,  ASSIMP_END_EXCEPTION_REGION_exception)"
+.br
+.ti -1c
+.RI "#define \fBASSIMP_END_EXCEPTION_REGION\fP(\fBtype\fP)"
+.br
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define AI_INCLUDED_EXCEPTIONAL_H"
+
+.SS "#define ASSIMP_BEGIN_EXCEPTION_REGION()"
+\fBValue:\fP
+.nf
+    {                                   \\
+        try {
+.PP
+.fi
+
+.SS "#define ASSIMP_END_EXCEPTION_REGION( \fBtype\fP)"
+\fBValue:\fP
+.nf
+    }                                        \\
+    catch (\&.\&.\&.) {                            \\
+        return ExceptionSwallower<type>()(); \\
+    }                                        \\
+    }
+.PP
+.fi
+
+.SS "#define ASSIMP_END_EXCEPTION_REGION_WITH_ERROR_STRING( \fBtype\fP,  ASSIMP_END_EXCEPTION_REGION_errorString,  ASSIMP_END_EXCEPTION_REGION_exception)"
+\fBValue:\fP
+.nf
+    }                                                                                                                                           \\
+    catch (const DeadlyImportError &e) {                                                                                                        \\
+        ASSIMP_END_EXCEPTION_REGION_errorString = e\&.what();                                                                                     \\
+        ASSIMP_END_EXCEPTION_REGION_exception = std::current_exception();                                                                       \\
+        return ExceptionSwallower<type>()();                                                                                                    \\
+    }                                                                                                                                           \\
+    catch (\&.\&.\&.) {                                                                                                                               \\
+        ASSIMP_END_EXCEPTION_REGION_errorString = "Unknown exception";                                                                          \\
+        ASSIMP_END_EXCEPTION_REGION_exception = std::current_exception();                                                                       \\
+        return ExceptionSwallower<type>()();                                                                                                    \\
+    }                                                                                                                                           \\
+}
+.PP
+.fi
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for My Project from the source code\&.
