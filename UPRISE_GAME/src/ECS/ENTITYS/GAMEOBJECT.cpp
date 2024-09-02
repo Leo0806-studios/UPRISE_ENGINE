@@ -117,8 +117,14 @@ bool GameObject::Delete(std::shared_ptr<GameObject> Object)
 		Object->isRemoved = true;
 		auto a = Object.get();
 		//delete a;
-		Object.DESTROY();
-		 Object.setPTR(nullptr);
+		//unsigned long ll;
+		auto ptrtouses = ((unsigned long*)(((long*)(((long*)&Object)[1]))[1]));
+		*ptrtouses = 1;
+		//Object.DESTROY();
+		auto ptraaa = &Object;
+		auto owoa = (GameObject**)ptraaa;
+		*owoa = nullptr;
+		 //Object.setPTR(nullptr);
 		//auto a = std::make_shared<GameObject>(Replacer);
 		//==//=;
 

@@ -61,7 +61,7 @@ CORE::Behaviour::Behaviour(int remove):ToBeRemoved(true) {  }
 	TrPrE(ctx);
 }
 
- using  CreatorFunc = std::function<std::shared_ptr<CORE::Behaviour>()>;
- std::shared_ptr<std::map<std::string, CreatorFunc>> factT::creators;
- std::map<std::string, CreatorFunc> factT::creatorS;
+ //using  CreatorFunc = std::function<std::shared_ptr<CORE::Behaviour>()>;
+ //std::shared_ptr<std::map<std::string, CreatorFunc>> factT::creators;
+ //std::map<std::string, CreatorFunc> factT::creatorS;
  //using  CreatorFunc = std::function<std::shared_ptr<CORE::Behaviour>()>;

@@ -2,6 +2,7 @@
 #ifndef _STARTUP_CONFIG_
 #define _STARTUP_CONFIG_
 
+#include "MODULE_IMPORTS.h"
 namespace DATATYPES {
 
 	struct Startup_Config {

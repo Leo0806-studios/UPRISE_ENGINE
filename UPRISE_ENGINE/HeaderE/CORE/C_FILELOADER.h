@@ -3,6 +3,8 @@
 #define _FILELOADER_
 
 #include "pch.h"
+#include "MODULE_IMPORTS.h"
+
 namespace CORE {
 
 	class File {

@@ -3,6 +3,8 @@
 #define _CONFIG_FILE_
 
 #include "pch.h"
+#include "MODULE_IMPORTS.h"
+
 namespace DATATYPES {
 
 

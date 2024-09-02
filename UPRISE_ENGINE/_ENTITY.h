@@ -1,6 +1,7 @@
 #pragma once
 #ifndef __ENTITY_
 #define __ENTITY_
+#include "MODULE_IMPORTS.h"
 #include "GAMEOBJECT.h"
 
 namespace ENTITY {

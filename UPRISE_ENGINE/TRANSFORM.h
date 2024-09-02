@@ -2,6 +2,7 @@
 #ifndef _TRANSFORM_
 #define _TRANSFORM_
 
+#include "MODULE_IMPORTS.h"
 #include "HeaderE/CORE/CORE.h"
 
 ///#include "HeaderE/DATATYPES/D_TS_P_VECTOR3.h"

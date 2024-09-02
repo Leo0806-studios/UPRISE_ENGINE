@@ -2,6 +2,7 @@
 #ifndef _NEED_
 #define _NEED_
 #include "pch.h"
+#include "MODULE_IMPORTS.h"
 enum NEED_TYPE {
 	NEED_TYPE_Consumable,
 	NEED_TYPE_Building

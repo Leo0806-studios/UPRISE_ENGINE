@@ -4,10 +4,13 @@
 
 #define _DLL_ENGINE_LINK_
 #include "pch.h"
+#include "MODULE_IMPORTS.h"
 #include "GLINCLUDES.h"
+//import GLMODULE;
 #include "RENDER_MATERIAL.h"
 #include "CAMERA.h"
 #include "HeaderE/CORE/C_BEHAVIOUR.h"
+
 namespace CORE {
 	class Scene;
 }
@@ -65,9 +68,7 @@ public:
 
 	//Editor
 	using  CreatorFunc = std::function<std::shared_ptr<CORE::Behaviour>()>;
-
-	std::shared_ptr<std::map<std::string, CreatorFunc>> creators_LINK;
-	std::shared_ptr<VEC(std::shared_ptr<CORE::Behaviour>)> inst_LINK;
+	std::map<std::string, CreatorFunc>* creators;
 	int* III;
 
 

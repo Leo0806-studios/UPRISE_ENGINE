@@ -2,6 +2,7 @@
 #ifndef _TERRAIN_
 #define _TERRAIN_
 #include "pch.h"
+#include "MODULE_IMPORTS.h"
 #include "HeaderE/CORE/C_BEHAVIOUR.h"
 #include "HeaderE/DATATYPES/D_TERRAIN_DATA.h"
 class Terrain : public CORE::Behaviour {

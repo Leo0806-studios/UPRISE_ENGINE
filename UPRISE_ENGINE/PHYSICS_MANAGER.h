@@ -2,6 +2,7 @@
 #ifndef _PHYSICS_MANAGER_
 #define _PHYSICS_MANAGER_
 #include "pch.h"
+#include "MODULE_IMPORTS.h"
 #include "PHYSICS_OBJECT.h"
 class _PhysicsObject;
 namespace PHYSICS {

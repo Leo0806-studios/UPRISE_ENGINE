@@ -2,6 +2,7 @@
 #ifndef _TEST_
 #define _TEST_
 
+#include "MODULE_IMPORTS.h"
 #include "HeaderE/CORE/C_BEHAVIOUR.h"
 #include "HeaderE/CORE/C_INPUT.h"
 #include "_COMPONENT.h"

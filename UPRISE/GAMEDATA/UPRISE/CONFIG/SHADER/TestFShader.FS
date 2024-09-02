@@ -5,7 +5,19 @@
     "texturePaths": [
         "NULL"
     ],
-    "data":{
+    "data": {
+        "LayoutVars": {
+            "test": {
+                "location": "1",
+                "type": "vec3"
+            }
+        },
+        "Uniforms": {
+            "sampler2D": [
+                "texture1",
+                "texture2"
+            ]
+        },
         "shaderCode": [
             "#version 330 core",
             "out vec4 FragColor;",
@@ -18,10 +30,4 @@
             "}"
         ]
     }
-
-
 }
-
-
-
-

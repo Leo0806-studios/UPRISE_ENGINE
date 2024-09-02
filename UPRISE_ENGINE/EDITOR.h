@@ -1,6 +1,7 @@
 #pragma once
 #ifndef _EDITOR_
 #include "pch.h"
+#include "MODULE_IMPORTS.h"
 #define _EDITOR_
 class GameObject;
 namespace EDITOR {

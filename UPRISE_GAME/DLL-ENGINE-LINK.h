@@ -67,9 +67,7 @@ public:
 
 	//Editor
 	using  CreatorFunc = std::function<std::shared_ptr<CORE::Behaviour>()>;
-
-	std::shared_ptr<std::map<std::string, CreatorFunc>> creators_LINK;
-	std::shared_ptr<VEC(std::shared_ptr<CORE::Behaviour>)> inst_LINK;
+	std::map<std::string, CreatorFunc>* creators;
 	int* III;
 
 	//CORE

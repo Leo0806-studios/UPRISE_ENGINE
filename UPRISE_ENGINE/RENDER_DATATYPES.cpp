@@ -3,6 +3,7 @@
 #include "RENDER_DATATYPES.h"
 #include "RENDER_SHADER_UTILLS.h"
 #include "RENDER_MATERIAL.h"
+#include <stb_image.h>
 
 
 namespace PAIN {

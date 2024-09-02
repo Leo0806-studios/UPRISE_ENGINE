@@ -4,6 +4,7 @@
 #define _GAMEOBJECT_
 
 #include "pch.h"
+#include "MODULE_IMPORTS.h"
 #include "HeaderE/CORE/CORE.h"
 #include "HeaderE/DATATYPES/D_DATATYPES.h"
 #include "HeaderE/DATATYPES/D_TS_P_QUATERION.h"

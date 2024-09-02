@@ -2,6 +2,7 @@
 #ifndef _TAG_LAYERS_
 #define _TAG_LAYERS_
 #include "pch.h"
+#include "MODULE_IMPORTS.h"
 class Tag {
 public:
 	Tag() = default;

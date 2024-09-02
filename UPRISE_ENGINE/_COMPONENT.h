@@ -3,6 +3,7 @@
 
 #define __COMPONENT_
 
+#include "MODULE_IMPORTS.h"
 #include "MESH.h"
 #include "TRANSFORM.h"
 #include "CAMERA.h"

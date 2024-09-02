@@ -6,6 +6,7 @@
 #include "HeaderE/DATATYPES/D_DATATYPES.h"
 #include "GLINCLUDES.h"
 #include "pch.h"
+#include "MODULE_IMPORTS.h"
 #include "RENDER_DATATYPES.h"
 //#include "glfw3.h"
 

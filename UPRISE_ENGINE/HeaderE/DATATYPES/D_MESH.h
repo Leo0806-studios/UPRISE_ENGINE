@@ -3,6 +3,7 @@
 
 #define __MESH_
 #include "pch.h"
+#include "MODULE_IMPORTS.h"
 #include "HeaderE/DATATYPES/D_TS_P_VECTOR3.h"
 using namespace  DATATYPES;
 namespace DATATYPES {

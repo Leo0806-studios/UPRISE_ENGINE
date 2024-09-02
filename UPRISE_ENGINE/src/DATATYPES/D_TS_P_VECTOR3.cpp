@@ -6,7 +6,7 @@ using namespace DATATYPES;
 
  DATATYPES::TSPVector3::TSPVector3() : x(0), y(0), z(0), pad(0) {}
 
- DATATYPES::TSPVector3::TSPVector3(float x, float y, float z) : x(x), y(y), z(z), pad(0) {}
+
 
  DATATYPES::TSPVector3::TSPVector3(glm::vec3 vec) {
 	x = vec.x; y = vec.y; z = vec.z; pad = 0;
@@ -21,7 +21,7 @@ using namespace DATATYPES;
 
  DATATYPES::TSPVector3::operator __m128() const {
 	 TrPr(ctx, __func__)
-	__m128 tmp = _mm_set_ps(x, y, z, 0);
+	__m128 tmp = _mm_setr_ps(x, y, z, pad);
 	 TrPrE(ctx)
 	 return tmp;
 }
@@ -34,30 +34,12 @@ using namespace DATATYPES;
 	 return glm::vec3(x, y, z);
 }
 
- float DATATYPES::TSPVector3::magnitude() {
-	__m128 val = _mm_set_ps(x, y, z, pad);
-	 return  _mm_cvtss_f32(_mm_sqrt_ps(_mm_hadd_ps(_mm_hadd_ps(_mm_mul_ps(val, val), _mm_setzero_ps()), _mm_setzero_ps())));
-}
+ //float DATATYPES::TSPVector3::magnitude() 
 
- TSPVector3 DATATYPES::TSPVector3::Normalized()
- {	
-	 TrPr(ctx, __func__)
-		 float mag = this->magnitude();
-	 //__m128 val = _mm_set_ps(x, y, z, pad);
-	 TSPVector3 tmp;
-	  tmp=DATATYPES::TSPVector3(x,y,z)/mag;
-	  TrPrE(ctx)
-		  return tmp;
- }
+ //TSPVector3 DATATYPES::TSPVector3::Normalized()
 
- float DATATYPES::TSPVector3::point(TSPVector3 a) {
-	 TrPr(ctx, __func__)
-		 __m128 val = _mm_set_ps(x, y, z, pad);
-	__m128 val1 = _mm_set_ps(a.x, a.y, a.z, a.pad);
 
-	TrPrE(ctx)
-		return _mm_cvtss_f32((_mm_hadd_ps(_mm_hadd_ps(_mm_mul_ps(val, val1), _mm_setzero_ps()), _mm_setzero_ps())));
-}
+ //float DATATYPES::TSPVector3::point(TSPVector3 a) 
 
  TSPVector3 DATATYPES::TSPVector3::operator/(const float b) {
 
@@ -93,28 +75,9 @@ using namespace DATATYPES;
 
 }
 
- TSPVector3 DATATYPES::TSPVector3::operator*(const TSPVector3 b) {
-	 TrPr(ctx, __func__)
-		 TSPVector3 _tmp;
-	__m128 val = _mm_setr_ps(x, y, z, pad);
-	__m128 val1 = _mm_setr_ps(b.x, b.y, b.z, b.pad);
+ //TSPVector3 DATATYPES::TSPVector3::operator*(const TSPVector3 b) 
 
-	_mm_store_ps(&_tmp.x, _mm_mul_ps(val, val1));
-	TrPrE(ctx)
-		return _tmp;
-}
-
- TSPVector3 DATATYPES::TSPVector3::operator-(const TSPVector3 b) {
-	 TrPr(ctx, __func__)
-		 __m128 val = _mm_setr_ps(x, y, z, pad);
-
-	__m128 val1 = _mm_setr_ps(b.x, b.y, b.z, b.pad);
-	TSPVector3 _tmp;
-	_mm_store_ps(&_tmp.x, _mm_sub_ps(val, val1));
-	TrPrE(ctx)
-		return _tmp;
-
-}
+// TSPVector3 DATATYPES::TSPVector3::operator-(const TSPVector3 b) 
 
  //TSPVector3 DATATYPES::TSPVector3::operator+(const TSPVector3 b)
 

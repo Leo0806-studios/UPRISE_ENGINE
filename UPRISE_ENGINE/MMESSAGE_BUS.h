@@ -2,6 +2,7 @@
 #ifndef _MESSAGE_BUS_
 #define _MESSAGE_BUS_
 #include "pch.h"
+#include "MODULE_IMPORTS.h"
 #include "HeaderE/DATATYPES/D_DATATYPES.h"
 using namespace std;
 

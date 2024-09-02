@@ -13,6 +13,7 @@
 #include "C_SCENE.h"
 //#include "scripts/Teleport.h"
 #include "scripts/Empty.h"
+#include "scripts/C_Building.h"
   ;
 BOOL APIENTRY DllMain(HMODULE hModule,
 	DWORD  ul_reason_for_call,
@@ -31,9 +32,28 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 	return TRUE;
 }
 
+//static Register<Empty> Empty_Register(Empty(), "Empty");
 
 void bb();
+struct vecTupple {
+	std::vector<int> a, b;
+};
 extern "C" {
+	char* getObj(UUID uuid) {
+		return (char*)IMPORTANT::DATA->ACTIVE_SCENE->FindObjectByUUIDP(uuid).get();
+
+	}
+	vecTupple GetVarPos(std::string typeName) {
+		if (typeName == "C_Building") {
+			vecTupple ret;
+			ret.a.push_back(offsetof(C_Building, uuID));
+			ret.a.push_back(offsetof(C_Building, Name));
+			ret.a.push_back(offsetof(C_Building, HP));
+			ret.b.push_back(offsetof(C_Building, HP));
+			return ret;
+		}
+	}
+
 	 class  __declspec(dllexport)   test  {
 	public:
 		int i=1;
@@ -117,9 +137,9 @@ extern "C" {
 				   
 				   shadergood = true;
 			   }
-			   for (auto& a : tetsss) {
+			   //for (auto& a : tetsss) {
 				  // DATA->creators_LINK->operator[](a()->compname) = a;
-			   }
+			   //}
 			   
 			    //DATA = std::make_shared<DATALINK>();
 		}
@@ -148,7 +168,6 @@ extern "C" {
 extern "C" {
 	__declspec(dllexport) DATALINK* GetDatabase()
 	{
-
 		IMPORTANT::DATA->CAM =PAIN::Render::CAM;
 		IMPORTANT::DATA->RenderCam =PAIN::Render::RenderCam;
 		//DATA->VOID_OBJECTS_LINK =&PAIN::Render::voidobjects;
@@ -162,7 +181,10 @@ extern "C" {
 		return IMPORTANT::DATA;
 	}
 	__declspec(dllexport) void SetDatabase(DATALINK* in) {
+
 		IMPORTANT::DATA = in;
+		(*IMPORTANT::DATA->creators) = *fact::links;
+
 		PAIN::Render::CAM = in->CAM;
 		PAIN::Render::RenderCam = in->RenderCam;
 		PAIN::RenderStup::Windowvar = in->window;
@@ -176,6 +198,7 @@ extern "C" {
 		if(in->M_DICT_LINK)PAIN::Render::Modeldict = in->M_DICT_LINK;
 		if(in->M_ID_LINK)PAIN::Render::MaterialIdLinkDict = in->M_ID_LINK;
 		if(in->ConfigDatabase_LINK)CORE::ConfigLoader::ConfigDatabase = in->ConfigDatabase_LINK;
+
 //		factT::creators = IMPORTANT::DATA->creators_LINK;
 		CORE::Input::Init(in->window);
 		//factT::inst = IMPORTANT::DATA->inst_LINK;

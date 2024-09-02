@@ -132,6 +132,23 @@ FragmentShader::FragmentShader(std::string name, std::string modelpath, std::vec
 		shadercode = shadercode + s + "\n";
 	}
 	ShaderCode = shadercode;
+	
+		std::string Varname;
+		std::string Vartype;
+		for (auto& obj : data["Uniforms"].items()) {
+			Vartype = obj.key();
+			for (auto& var : obj.value()) {
+				Varname = var;
+				VarLocsU[Vartype].push_back(Varname);
+			}
+		}
+		//for (auto& obj : data["LayoutVars"].items()) {
+		//	Vartype = obj.key();
+		//	VarLocsL[Vartype].push_back(FragmentShader::_internal_Pair(obj.value()["location"], obj.value()["type"]));
+
+		//}
+
+	
 
 }
 
@@ -142,6 +159,23 @@ GeometryShader::GeometryShader(std::string name, std::string modelpath, std::vec
 		shadercode = shadercode + s;
 	}
 	ShaderCode = shadercode;
+	
+		std::string Varname;
+		std::string Vartype;
+		for (auto& obj : data["Uniforms"].items()) {
+			Vartype = obj.key();
+			for (auto& var : obj.value()) {
+				Varname = var;
+				VarLocsU[Vartype].push_back(Varname);
+			}
+		}
+		for (auto& obj : data["LayoutVars"].items()) {
+			Vartype = obj.key();
+			VarLocsL[Vartype].emplace_back(GeometryShader::_internal_Pair((int)obj.value()["location"], obj.value()["type"]));
+
+		}
+
+	
 }
 
 Material::Material(std::string name, std::string modelpath, std::vector<std::string> texturepath, ConfigType configType, nlohmann::json data)
@@ -161,6 +195,23 @@ VertexShader::VertexShader(std::string name, std::string modelpath, std::vector<
 		shadercode = shadercode + s + "\n";
 	}
 	ShaderCode = shadercode;
+	
+		std::string Varname;
+		std::string Vartype;
+		for (auto& obj : data["Uniforms"].items()) {
+			Vartype = obj.key();
+			for (auto& var : obj.value()) {
+				Varname = var;
+				VarLocsU[Vartype].push_back( Varname);
+			}
+		}
+		for (auto& obj : data["LayoutVars"].items()) {
+			Vartype = obj.key();
+			auto a = obj.value();
+			VarLocsL[Vartype].emplace_back(VertexShader::_internal_Pair(a["location"], a["type"]));
+			
+		}
+	
 
 }
 
@@ -171,6 +222,23 @@ ComputeShader::ComputeShader(std::string name, std::string modelpath, std::vecto
 		shadercode = shadercode + s;
 	}
 	ShaderCode = shadercode;
+	
+		std::string Varname;
+		std::string Vartype;
+		for (auto& obj : data["Uniforms"].items()) {
+			Vartype = obj.key();
+			for (auto& var : obj.value()) {
+				Varname = var;
+				VarLocsU[Vartype].push_back(Varname);
+			}
+		}
+		for (auto& obj : data["LayoutVars"].items()) {
+			Vartype = obj.key();
+			VarLocsL[Vartype].emplace_back(ComputeShader::_internal_Pair(obj.value()["location"], obj.value()["type"]));
+
+		}
+
+	
 
 }
 

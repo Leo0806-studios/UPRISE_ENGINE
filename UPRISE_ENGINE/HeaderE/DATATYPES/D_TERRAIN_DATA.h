@@ -1,6 +1,7 @@
 #pragma once
 #ifndef _TERRAIN_DATA_
 #define _TERRAIN_DATA_
+#include "MODULE_IMPORTS.h"
 #include "RENDER_MATERIAL.h"
 #include "stb_image.h"
 namespace PAIN {

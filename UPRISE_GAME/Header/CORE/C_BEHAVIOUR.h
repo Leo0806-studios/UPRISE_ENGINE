@@ -1,5 +1,6 @@
 #ifndef _BEHAVIOUR_
 #define _BEHAVIOUR_
+
 #include "pch.h"
 //#include "Header/CORE/CORE.h"
 //#include "ECS.h"
@@ -60,22 +61,7 @@ namespace CORE {
 		
 	};
 }
-using  CreatorFunc = std::function<std::shared_ptr<CORE::Behaviour>()>;
-static VEC(CreatorFunc) tetsss;
 
-using  CreatorFunc = std::function<std::shared_ptr<CORE::Behaviour>()>;
-class factT {
-public:
-	//static VEC(std::shared_ptr<CORE::Behaviour>)* inst;
-	static VEC(std::any) anys;
-	//static std::function<std::unique_ptr<Behaviour>()> CreatorFunc;
-	using  CreatorFunc = std::function<std::shared_ptr<CORE::Behaviour>()>;
-
-
-	static std::shared_ptr<std::map<std::string, CreatorFunc>> creators;
-	static std::map<std::string, CreatorFunc> creatorS;
-
-};
 template<typename _T>
 class Register {
 public:
@@ -90,13 +76,9 @@ public:
 
 			arg.UUID = uuid;
 			arg.uuID = arg.UUID;
-			std::shared_ptr<CORE::Behaviour> aa = std::make_shared<_T>();
-			tetsss.push_back([]()->std::shared_ptr<CORE::Behaviour> {std::shared_ptr<CORE::Behaviour> a = std::make_shared<_T>(); return a; });
-			//factT::creatorS[className] = []()->std::shared_ptr<CORE::Behaviour> {std::shared_ptr<CORE::Behaviour> a = std::make_shared<_T>(); return a; };
-			//fact::inst->push_back(aa);
-			
-			//auto aq = []()->std::shared_ptr<CORE::Behaviour> {std::shared_ptr<CORE::Behaviour> a = std::make_shared<_T>(); return a; }
-			//(*fact::creators)[className] = aq;
+			fact::ADD(arg, className);
+
+
 		}
 
 	}

@@ -2,8 +2,10 @@
 #ifndef _STARTUP_
 #define _STARTUP_
 
-//#include "HeaderE/CORE/CPUFEATURES.h"
+//#include "HeaderE/CORE/C_CPUFEATURES.h"
 #include "HeaderE/DATATYPES/D_STARTUP_CONFIG.h"
+//#include "MODULE_IMPORTS.h"
+
 #include "MESSAGES.h"
 #include "pch.h"
 #include "PHYSICS.h"
@@ -14,7 +16,7 @@ namespace CORE {
 	struct SYSTEMS {
 	public:
 		static GLFWwindow* windw;
-		MESSAGES::Message_Bus* Bus;
+		//MESSAGES::Message_Bus* Bus;
 		bool Render;
 
 

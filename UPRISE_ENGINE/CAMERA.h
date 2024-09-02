@@ -2,6 +2,7 @@
 #ifndef _CAMERA_
 
 #define _CAMERA_
+#include "MODULE_IMPORTS.h"
 #include "HeaderE/CORE/C_BEHAVIOUR.h"
 #include "pch.h"
 #include "RENDER_CAMERA.h"
@@ -19,7 +20,7 @@ public:
 	ImGui::SliderFloat("FOV Direct", &camera.FOV,0,90);
 	)
 	COPY(Camera, Log << "DONT";throw(std::exception()))
-	DEEP_COPY(Camera, Log << "DONT";throw(std::exception()))
+	DEEP_COPY(Camera, Log << "DONT";throw(std::exception()),)
 	DATATYPES::Quaternion quat;
 	DATATYPES::TSPVector3 rrot = DATATYPES::TSPVector3(0, 0, 0);
 	static UUID UUID;

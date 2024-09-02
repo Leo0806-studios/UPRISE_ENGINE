@@ -1,6 +1,7 @@
 #ifndef _CORE_
 #define _CORE_
 #include "pch.h"
+#include "MODULE_IMPORTS.h"
 
 #include "HeaderE/CORE/C_INPUT.h"
 #include "HeaderE/CORE/C_CPUFEATURES.h"

@@ -5,6 +5,7 @@
 #include "HeaderE/CORE/CORE.h"
 #include "HeaderE/CORE/C_BEHAVIOUR.h"
 #include "DEBUG_LOGGER.h"
+#include "MODULE_IMPORTS.h"
 namespace CORE {
 
 	class Behaviour;

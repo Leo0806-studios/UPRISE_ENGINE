@@ -2,6 +2,8 @@
 #ifndef _OBJECT_
 #define _OBJECT_
 #include "pch.h"
+#include "MODULE_IMPORTS.h"
+
 class Component;
 namespace CORE {
 

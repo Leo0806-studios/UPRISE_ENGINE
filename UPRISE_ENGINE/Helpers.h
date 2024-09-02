@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "MODULE_IMPORTS.h"
 // From DXSampleHelper.h 
 
 // Source: https://github.com/Microsoft/DirectX-Graphics-Samples

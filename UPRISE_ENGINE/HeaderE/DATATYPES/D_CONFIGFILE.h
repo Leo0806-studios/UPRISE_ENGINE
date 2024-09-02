@@ -2,6 +2,7 @@
 #ifndef _CONFIGFILE_
 #define _CONFIGFILE_
 #include "pch.h"
+#include "MODULE_IMPORTS.h"
 #include "SLOT.h"
 #include "NEED.h"
 #ifndef _LOCK_
@@ -10,6 +11,11 @@
 #endif // !1
 class GameObject;
 class Ressource;
+class Shader_Config_Base{
+public:
+
+
+};
 class ConfigFile {
 
 public:
@@ -202,24 +208,58 @@ public:
 };
 class VertexShader : public ConfigFile {
 public:
+	class _internal_Pair {
+	public:
+		_internal_Pair(int pos, std::string name) :position(pos), name(name) {}
+		int position;
+		std::string name;
+	};
 	std::string ShaderCode;
+	std::unordered_map<std::string, VEC(std::string)> VarLocsU;
+	std::unordered_map<std::string, VEC(_internal_Pair)> VarLocsL;
+
 	VertexShader(std::string name, std::string modelpath, std::vector<std::string> texturepath, ConfigType configType, nlohmann::json data);
 };
 class FragmentShader : public ConfigFile {
 public:
+	class _internal_Pair {
+	public:
+		int position;
+		std::string name;
+
+	};
 	std::string ShaderCode;
+	std::unordered_map<std::string, VEC(std::string)> VarLocsU;
+	std::unordered_map<std::string, VEC(_internal_Pair)> VarLocsL;
+
 
 	FragmentShader(std::string name, std::string modelpath, std::vector<std::string> texturepath, ConfigType configType, nlohmann::json data);
 };
 class GeometryShader : public ConfigFile {
 public:
+	class _internal_Pair {
+	public:
+		int position;
+		std::string name;
+	};
 	std::string ShaderCode;
+	std::unordered_map<std::string, VEC(std::string)> VarLocsU;
+	std::unordered_map<std::string, VEC(_internal_Pair)> VarLocsL;
+
+
 
 	GeometryShader(std::string name, std::string modelpath, std::vector<std::string> texturepath, ConfigType configType, nlohmann::json data);
 };
 class ComputeShader : public ConfigFile {
 public:
+	class _internal_Pair {
+	public:
+		int position;
+		std::string name;
+	};
 	std::string ShaderCode;
+	std::unordered_map<std::string, VEC(std::string)> VarLocsU;
+	std::unordered_map<std::string, VEC(_internal_Pair)> VarLocsL;
 
 	ComputeShader(std::string name, std::string modelpath, std::vector<std::string> texturepath, ConfigType configType, nlohmann::json data);
 };

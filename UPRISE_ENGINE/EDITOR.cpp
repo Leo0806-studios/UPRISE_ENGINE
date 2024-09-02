@@ -31,6 +31,8 @@
 #include <HeaderE/CORE/C_CONFIGLOADER.h>
 #include "new"
 #include "EDITOR.h"
+#include "MISC.h"
+;
 #define FUNC(x,y,z)(IMPORTANT::x)GetProcAddress(IMPORTANT::y,z);
 
 #define BEGIN(x) ImGui::Begin(x);
@@ -39,7 +41,7 @@ std::shared_ptr<GameObject> EDITOR::Editor::SelectedObj;
 std::string EDITOR::Editor::Current_Path;
 int EDITOR::Editor::StartEditor()
 {
-    return 0;
+	return 0;
 }
 static void SearchFolderRecrusively( std::filesystem::path& path) {
 	TrPr(ctx, __func__);
@@ -55,8 +57,8 @@ static void SearchFolderRecrusively( std::filesystem::path& path) {
 	ImGui::TableNextRow();
 	//ImGui::BeginGroup();
 
-    for (auto& Directory_entry : std::filesystem::directory_iterator(path))
-    {
+	for (auto& Directory_entry : std::filesystem::directory_iterator(path))
+	{
 		if (i == 9) {
 			i = 0;
 			ImGui::TableNextRow();
@@ -97,9 +99,9 @@ static void SearchFolderRecrusively( std::filesystem::path& path) {
 				ImGui::PopStyleColor();
 			}
 		}
-    
+	
 		i++;
-    }
+	}
 	ImGui::EndTable();
 	//ImGui::EndGroup();
 	//ImGui::EndMenu();
@@ -107,8 +109,24 @@ static void SearchFolderRecrusively( std::filesystem::path& path) {
 }
 void EDITOR::Editor::DrawEditor()
 {
-    ImGui::ShowDemoWindow();
+	static std::stringstream sstream;
+	static string testlines;
+	static bool test = false;
+	if (test ==false) {
+		test = true;
+		static std::ifstream stream;
+		stream.open(__FILE__);
+		sstream << stream.rdbuf();
+		testlines = sstream.str();
+	}
+	ImGui::ShowDemoWindow();
+	{
+		ImGui::SetNextWindowSize(ImVec2(1600, 900));
+		ImGui::Begin("werewrewr");
+		ImGui::InputTextMultiline("Code", &testlines,ImVec2(1600,900));
 
+		ImGui::End();
+	}
 
 	 {
 		ImGui::Begin("Editor");
@@ -211,6 +229,22 @@ void EDITOR::Editor::DrawEditor()
 			std::rename("C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\UPRISE\\ENGINE\\UPRISE_GAME.dll", "C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\UPRISE\\ENGINE\\UPRISE_GAME_LOADED.dll");
 
 			IMPORTANT::handle = LoadLibrary(IMPORTANT::addrs);
+			{
+				PIMAGE_DOS_HEADER dosHeader = (PIMAGE_DOS_HEADER)IMPORTANT::handle;
+				PIMAGE_NT_HEADERS ntHeaders = (PIMAGE_NT_HEADERS)((BYTE*)IMPORTANT::handle + dosHeader->e_lfanew);
+				PIMAGE_EXPORT_DIRECTORY exportDir = (PIMAGE_EXPORT_DIRECTORY)((BYTE*)IMPORTANT::handle + ntHeaders->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_EXPORT].VirtualAddress);
+
+				DWORD* names = (DWORD*)((BYTE*)IMPORTANT::handle + exportDir->AddressOfNames);
+				WORD* ordinals = (WORD*)((BYTE*)IMPORTANT::handle + exportDir->AddressOfNameOrdinals);
+				DWORD* functions = (DWORD*)((BYTE*)IMPORTANT::handle + exportDir->AddressOfFunctions);
+
+				std::cout << "Exported Functions:\n";
+				for (DWORD i = 0; i < exportDir->NumberOfNames; i++) {
+					char* functionName = (char*)((BYTE*)IMPORTANT::handle + names[i]);
+					DWORD functionRVA = functions[ordinals[i]];
+					std::cout << "Function: " << functionName << " at RVA: 0x" << std::hex << functionRVA << std::dec << "\n";
+				}
+			}
 			IMPORTANT::mode = GameMode::GameMode_Play;
 			IMPORTANT::Function = (IMPORTANT::externFuction)GetProcAddress(IMPORTANT::handle, "INITIALIZE");
 
@@ -242,6 +276,7 @@ void EDITOR::Editor::DrawEditor()
 		}
 		if (ImGui::Button("Stop")) {
 			IMPORTANT::Stop();
+			SelectedObj = NULL;
 			CORE::Scene::activeScene_obj = CORE::Scene::Backups_SCENE_obj;
 			IMPORTANT::mode = GameMode::GameMode_Stoped;
 			IMPORTANT::LINK = IMPORTANT::Get();
@@ -281,29 +316,29 @@ void EDITOR::Editor::DrawEditor()
 
 
 
-    {
+	{
 		TrPr(ctx4,"Draw Test Window")
-        ImGui::Begin("TEST");
+		ImGui::Begin("TEST");
 
 
-        ImGui::Text("This is some useful text.");
-        if (ImGui::Button("Click Me")) {
-            //bb(); // Call the function when the button is clicked
-            //spawned = true;
+		ImGui::Text("This is some useful text.");
+		if (ImGui::Button("Click Me")) {
+			//bb(); // Call the function when the button is clicked
+			//spawned = true;
 
-        }
-        ImGui::End();
+		}
+		ImGui::End();
 		TrPrE(ctx4)
-    }
-    {
+	}
+	{
 		TrPr(ctx5,"Draw Asset Window")
-        BEGIN("ASSETS");
-        static auto assetfolder = CORE::Filehandler::ApplicationPath()+"\\ASSETS";
+		BEGIN("ASSETS");
+		static auto assetfolder = CORE::Filehandler::ApplicationPath()+"\\ASSETS";
 		static std::filesystem::path pathf(assetfolder);
-        SearchFolderRecrusively(pathf);
-        END;
+		SearchFolderRecrusively(pathf);
+		END;
 		TrPrE(ctx5)
-    }
+	}
 }
 
 void EDITOR::Editor::CompileCode()

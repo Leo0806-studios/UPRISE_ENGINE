@@ -84,6 +84,26 @@ namespace PAIN {
 		 glAttachShader(ID, fragment);
 		 glLinkProgram(ID);
 		 checkCompileErrors(ID, "PROGRAM");
+		//Get ShaderVar Locations: Fragment 
+		 {
+			 for (auto& pair : vertexshader->VarLocsU) {
+
+				 for (auto& scnd : pair.second) {
+					 this->VarLocationsU[scnd]= glGetUniformLocation(ID, scnd.c_str());
+				 }
+				 //this->VarLocationsU[pair.second] = glGetUniformLocation(ID, pair.second.c_str());
+			 }
+		 }
+		 //Get ShaderVar Locations: Vertex 
+		 {
+			 for (auto& pair : frgmentshader->VarLocsU) {
+
+				 for (auto& scnd : pair.second) {
+					 this->VarLocationsU[scnd] = glGetUniformLocation(ID, scnd.c_str());
+				 }
+				 //this->VarLocationsU[pair.second] = glGetUniformLocation(ID, pair.second.c_str());
+			 }
+		 }
 		 // delete the shaders as they're linked into our program now and no longer necessary
 		 glDeleteShader(vertex);
 		 glDeleteShader(fragment);
@@ -198,21 +218,42 @@ namespace PAIN {
 
 	 void Shader::setMat2(const std::string& name, const glm::mat2& mat) const
 	{
-		glUniformMatrix2fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, &mat[0][0]);
+		 static std::map< std::string, GLint> VarLocations;
+		 if (!VarLocations.contains((char*)name.data())) {
+
+			 VarLocations[name] = glGetUniformLocation(ID, name.c_str());
+		 }
+		 glUniformMatrix3fv(VarLocations[name], 1, GL_FALSE, &mat[0][0]);
+		//glUniformMatrix2fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, &mat[0][0]);
 	}
 
 	// ------------------------------------------------------------------------
 
 	 void Shader::setMat3(const std::string& name, const glm::mat3& mat) const
 	{
-		glUniformMatrix3fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, &mat[0][0]);
+		 static std::map< std::string, GLint> VarLocations;
+		 if (!VarLocations.contains((char*)name.data())) {
+			 
+			 VarLocations[name] = glGetUniformLocation(ID, name.c_str());
+		 }
+		glUniformMatrix3fv(VarLocations[name], 1, GL_FALSE, &mat[0][0]);
 	}
 
 	// ------------------------------------------------------------------------
 
-	 void Shader::setMat4(const std::string& name, const glm::mat4& mat) const
+	   void Shader::setMat4(const std::string& name, const glm::mat4& mat) const
 	{
-		glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, &mat[0][0]);
+		 //ZoneScoped;
+		 //static std::map< std::string, GLint> VarLocations;
+		 //if (!VarLocations[name]) {
+
+			// VarLocations[name] = glGetUniformLocation(ID, name.c_str());
+		 //}
+		 //glUniformMatrix3fv(VarLocations[name], 1, GL_FALSE, &mat[0][0]);
+		//glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, &mat[0][0]);
+		// auto pos = glGetUniformLocation(ID, name.c_str());
+		//GLint loc = VarLocationsU.at(name);
+		 glUniformMatrix4fv(VarLocationsU.at(name),1 , GL_FALSE, &mat[0][0]);
 	}
 
 	// utility function for checking shader compilation/linking errors.

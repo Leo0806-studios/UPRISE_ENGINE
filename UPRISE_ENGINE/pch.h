@@ -7,12 +7,15 @@
 
 #define _PCH_
 #define DEBUG_Engine
+//import <string>
 
 #include "tracy/Tracy.hpp"
 #include "tracy/TracyC.h"
 //#include "tracy/TracyOpenGL.hpp"
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
+//import Windows;
+
 #define symLoad GetProcAddress 
 
 
@@ -27,14 +30,15 @@
 #undef CreateWindow
 #endif
 #include <wrl.h>
+;
 using namespace Microsoft::WRL;
-using namespace std;
+//using namespace std;
 
 #include "vector"
+//
+//// D3D12 extension library.
 
-// D3D12 extension library.
-#include <immintrin.h>
-// STL Headers
+//// STL Headers
 #include <algorithm>
 #include "numeric"
 #include <cassert>
@@ -45,10 +49,10 @@ using namespace std;
 
 
 #include "memory"
-
-
-
-
+//
+//
+//
+//
 #include "filesystem"
 #include <iostream>
 #include <array>
@@ -60,10 +64,12 @@ using namespace std;
 #include <sstream>
 #include "functional"
 #include "mutex"
-#include <xmmintrin.h>
-#include <emmintrin.h>
+
 #include <cmath>
+#ifndef JSON__
+#define JSON__
 #include "nlohmann/json.hpp"
+#endif
 
 #ifndef _assimp_
 #define _assimp_
@@ -74,10 +80,19 @@ using namespace std;
 
 
 #endif // !_assimp_
+
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 #include "imgui_stdlib.h"
+
+
+#include "boost/compute.hpp"
+#include <boost/compute/algorithm/transform.hpp>
+#include <boost/compute/container/vector.hpp>
+#include <boost/compute/functional/math.hpp>
+#include <boost/compute/types/complex.hpp>
+//import BOOST_COMPUTE;
 //#include "imgui_impl_opengl3_loader.h"
 //#include "RENDER.h"
 //#include "HeaderE/CORE/CORE.h"
@@ -85,6 +100,9 @@ using namespace std;
 //#include "ECS.h"
 //
 //#include "MESSAGES.h"
+
+//import std;
+
 
 inline void ThrowIfFailed(HRESULT hr)
 
@@ -151,7 +169,7 @@ namespace CORE {
 }
 class fact {
 public:
-    static VEC(std::shared_ptr<CORE::Behaviour>) inst;
+    static std::vector<std::shared_ptr<CORE::Behaviour>> inst;
     //static VEC(std::any) anys;
     //static std::function<std::unique_ptr<Behaviour>()> CreatorFunc;
     using  CreatorFunc = std::function<std::shared_ptr<CORE::Behaviour>()>;
@@ -210,45 +228,75 @@ public:
 //    }
 //};
 
-class DATALINK;
-enum GameMode {
-    GameMode_Paused,
-    GameMode_Play,
-    GameMode_Stoped
-};
-class IMPORTANT {
-public:
-   static DATALINK* LINK;
-   static  const WCHAR* addrs;
-   static HINSTANCE handle; ;
-   typedef void (*create)();
-   typedef void(*print)();
-   typedef void(*externFuction)(DATALINK* DATA);
-   typedef DATALINK* (*GetDatabase)();
-   typedef void(*SetDatabase)(DATALINK*);
-   typedef void(*BEHAVIOUR_UPDATE)();
-   typedef void(*BEHAVIOUR_UPDATE_AWAKE)();
-   typedef void(*BEHAVIOUR_UPDATE_START)();
-   typedef void(*PHYSICS_UPDATE)();
-   typedef void(*DRAW_EDITOR)();
-   typedef void(*STOP)();
 
-   //static test* inst = NULL;
-
-  static create CREATE;
-  static print PRINT;
-  static externFuction Function;
-  static SetDatabase Set;
-  static GetDatabase Get;
-  static BEHAVIOUR_UPDATE B_Up;
-  static BEHAVIOUR_UPDATE_AWAKE B_Up_A;
-  static BEHAVIOUR_UPDATE_START B_Up_S;
-  static PHYSICS_UPDATE P_Up;
-  static DRAW_EDITOR D_E;
-  static STOP Stop;
-  static GameMode mode;
-  
-};
+#ifdef Force_inline
+#define _inline_func __forceinline
+#else
+#define _inline_func __inline
+#endif
+_inline_func VEC(float) Tofloat(const __m128& a) {
+    return std::vector<float>(4, (*(const float*)&a));
+}
+//class DATALINK;
+//enum GameMode {
+//    GameMode_Paused,
+//    GameMode_Play,
+//    GameMode_Stoped
+//};
+#define TD(t,r,p) typedef r(*t)(p);
+#define FUNCI(x,y,z)(IMPORTANT::x)GetProcAddress(IMPORTANT::y,z);
+#define FUNCE(x,y,z)(EDITOR_IMPORTANT::x)GetProcAddress(EDITOR_IMPORTANT::y,z);
+//namespace compute = boost::compute;
+//class EDITOR_IMPORTANT {
+//public:
+//    static  const WCHAR* addrs;
+//
+//    static HINSTANCE EDITORHANDLE;
+//    TD(INIT, void, ImGuiContext* ctx)
+//        TD(DRAW, void, void)
+//        TD(SHUTDOWN, void, void)
+//        ;
+//    static SHUTDOWN Shutdown_Editor;
+//    static INIT init_EDITOR;
+//    static DRAW Draw_EDITOR;
+//};
+//class IMPORTANT {
+//public:
+//
+//   static DATALINK* LINK;
+//   static  const WCHAR* addrs;
+//   static HINSTANCE handle; 
+//   typedef void (*create)();
+//   typedef void(*print)();
+//   typedef void(*externFuction)(DATALINK* DATA);
+//   typedef DATALINK* (*GetDatabase)();
+//   typedef void(*SetDatabase)(DATALINK*);
+//   typedef void(*BEHAVIOUR_UPDATE)();
+//   typedef void(*BEHAVIOUR_UPDATE_AWAKE)();
+//   typedef void(*BEHAVIOUR_UPDATE_START)();
+//   typedef void(*PHYSICS_UPDATE)();
+//   typedef void(*DRAW_EDITOR)();
+//   typedef void(*STOP)();
+//
+//   //static test* inst = NULL;
+//
+//  static create CREATE;
+//  static print PRINT;
+//  static externFuction Function;
+//  static SetDatabase Set;
+//  static GetDatabase Get;
+//  static BEHAVIOUR_UPDATE B_Up;
+//  static BEHAVIOUR_UPDATE_AWAKE B_Up_A;
+//  static BEHAVIOUR_UPDATE_START B_Up_S;
+//  static PHYSICS_UPDATE P_Up;
+//  static DRAW_EDITOR D_E;
+//  static STOP Stop;
+//  static GameMode mode;
+//  //static boost::compute::device device;
+// // static boost::compute::context context;
+//  //static boost::compute::command_queue cq;
+//  
+//};
 #ifndef _OVERLOADLOCK_
 #define _OVERLOADLOCK_
 

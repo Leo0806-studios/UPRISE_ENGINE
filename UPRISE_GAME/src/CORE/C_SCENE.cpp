@@ -42,6 +42,38 @@ GameObject* CORE::Scene::FindObjectByUUID(UUID uuid)
 	return NULL;
 }
 
+std::shared_ptr<GameObject> CORE::Scene::FindObjectByNameP(const char* name)
+{
+	TrPr(ctx, __func__)
+		int leengt = ObjectsInScene.size();
+	for (int i = 0; i < leengt; i++) {
+		if (ObjectsInScene[i]->name == name) {
+			TrPrE(ctx);
+
+			return ObjectsInScene[i];
+		}
+	}
+	TrPrE(ctx);
+
+	return NULL;
+}
+
+std::shared_ptr<GameObject> CORE::Scene::FindObjectByUUIDP(UUID uuid)
+{
+	TrPr(ctx, __func__)
+		int leengt = ObjectsInScene.size();
+	for (int i = 0; i < leengt; i++) {
+		if (ObjectsInScene[i]->uuid == uuid) {
+			TrPrE(ctx);
+
+			return ObjectsInScene[i];
+		}
+	}
+	TrPrE(ctx);
+	return NULL;
+
+}
+
 CORE::Scene CORE::Scene::Create()
 {
 	

@@ -1,0 +1,89 @@
+//#include "pch.h"
+import std;
+import MISC;
+#include "HEADER/SCRIPT_SERIALIZER.h"
+
+
+
+std::string EDITOR::Script_Serializer::Find_Decorated_Name(std::string FuncSig)
+{
+	return std::string();
+}
+
+std::string EDITOR::Script_Serializer::Create_Decorated_Name(const FuncSig& sig)
+{
+	std::string DecoratedName = "?";
+	DecoratedName = DecoratedName + sig.name;
+	DecoratedName = DecoratedName + "@";
+	DecoratedName = DecoratedName + sig.Namespace_class_List;
+	DecoratedName = DecoratedName + "@";
+
+	return std::string();
+}
+
+std::string EDITOR::Script_Serializer::Create_Decorated_Name(const VarSig& sig)
+{
+	std::string DecoratedName = "?";
+	DecoratedName = DecoratedName + sig.Name;
+	DecoratedName = DecoratedName + "@";
+	DecoratedName = DecoratedName + sig.Namespace_class_List;
+	DecoratedName = DecoratedName + "@@";
+
+	if (sig.FunctType == "static" && sig.Visibility == "private") {
+		DecoratedName = DecoratedName + "0";
+	}
+	else if (sig.FunctType == "static " && sig.Visibility == "ptotected") {
+		DecoratedName = DecoratedName + "1";
+
+	}
+	else if (sig.FunctType == "static " && sig.Visibility == "public") {
+		DecoratedName = DecoratedName + "2";
+
+	}
+	else {
+		DecoratedName = DecoratedName + "3";
+
+	}
+
+	DecoratedName = DecoratedName + "V";
+	DecoratedName = DecoratedName + sig.Type;
+	DecoratedName = DecoratedName + "@@";
+	if (sig.Type_Mod == "&") {
+		DecoratedName = DecoratedName + "A";
+
+	}
+	else if (sig.Type_Mod == "*") {
+		DecoratedName = DecoratedName + "P";
+
+	}
+	return DecoratedName;
+}
+
+EDITOR::Serialized_Script EDITOR::Script_Serializer::Serialize_Script(std::filesystem::path file)
+{
+
+
+	return Serialized_Script();
+}
+std::string Find_Decorated_Name(std::string FuncSig)
+{
+	return std::string();
+}
+
+std::vector<EDITOR::Serialized_Script> EDITOR::Script_Serializer::Serialize_Scripts(std::vector<std::filesystem::path> files)
+{
+	std::vector<EDITOR::Serialized_Script> ret;
+
+	for (auto& script : files) {
+		Serialized_Script get = EDITOR::Script_Serializer::Serialize_Script(script);
+		if (get.FAIL) {
+			std::cout << "SERIALIZER encounterd an error during serialization of script " << script.filename() << ".\n" <<
+				"script is stored at  " << script << "\n" << "Error Message " << get.Get_Error() << "\n";
+			return std::vector<Serialized_Script>();
+		}
+		else {
+			ret.push_back(get);
+		}
+	}
+	return ret;
+}

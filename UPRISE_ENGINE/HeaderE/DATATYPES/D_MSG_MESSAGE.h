@@ -4,6 +4,7 @@
 #define _MSG_MESSAGE_
 
 #include "pch.h"
+#include "MODULE_IMPORTS.h"
 
 namespace DATATYPES {
 

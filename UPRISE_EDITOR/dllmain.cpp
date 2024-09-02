@@ -1,6 +1,17 @@
 // dllmain.cpp : Defines the entry point for the DLL application.
-#include "pch.h"
+//#include "pch.h"
+
+
+#define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
+// Windows Header Files
 #include "HEADER/DLL_LINK.h"
+#include "HEADER/H_IMGUI.h"
+#include <windows.h>
+import std;
+import SCRIPT_EDITOR_MODULE_DEF;
+
+ImGuiIO* io;
+
 
 BOOL APIENTRY DllMain( HMODULE hModule,
                        DWORD  ul_reason_for_call,
@@ -21,13 +32,35 @@ void(*DRAWp)();
 #define EX __declspec(dllexport)
 extern "C" {
 
-    EX void INIT() {
-
+    EX void INIT(ImGuiContext* ctx) {
+        std::cout << "EDITOR START";
+        ImGui::SetCurrentContext(ctx);
+        //ImGui::CreateContext();
+        //io = &ImGui::GetIO();
+        //io->ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+        //io->ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
+        //io->ConfigFlags |= ImGuiConfigFlags_ViewportsEnable; // Enable Gamepad Controls
+        //ImGui_ImplGlfw_InitForOpenGL(Window, true);
+        //ImGui_ImplOpenGL3_Init();
     }
     EX void DRAW() {
         {
             
-            DRAWp();
+           // ImGui_ImplOpenGL3_NewFrame();
+         //   ImGui_ImplGlfw_NewFrame();
+          //  ImGui::NewFrame();
+            std::cout << "EDITOR DRAW PLACEHOLDER";
+            SCRIPT_EDITOR::Editor::DrawEditor();
+
+            ImGui::Render();
+            //ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+            ////if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+            ////{
+            //GLFWwindow* backup_current_context = glfwGetCurrentContext();
+            //ImGui::UpdatePlatformWindows();
+            //ImGui::RenderPlatformWindowsDefault();
+            //glfwMakeContextCurrent(backup_current_context);
+            //DRAWp();
 
         }
     }

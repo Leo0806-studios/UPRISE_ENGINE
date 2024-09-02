@@ -3,6 +3,7 @@
 #define _RENDER_SETUP_
 #include "GLINCLUDES.h"
 #include "pch.h"
+#include "MODULE_IMPORTS.h"
 #include "CAMERA.h"
 namespace PAIN {
 	class Shader;

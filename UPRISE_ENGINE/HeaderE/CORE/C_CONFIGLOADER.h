@@ -2,6 +2,8 @@
 #ifndef _CONFIGLOADER_
 #define _CONFIGLOADER_
 #include "pch.h"
+#include "MODULE_IMPORTS.h"
+
 #include "HeaderE/DATATYPES/D_CONFIGFILE.h"
 #include "filesystem"
 class ConfigFile;

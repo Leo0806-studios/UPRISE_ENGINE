@@ -1,0 +1,4 @@
+export module DATATYPES_MODULE_MAIN_DEF;
+
+export import :EDITOR_SCRIPT;
+export import DATATYPES_MODULE_MAIN_DEF.SIMPLYFIED_TYPES;

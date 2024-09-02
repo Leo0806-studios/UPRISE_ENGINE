@@ -9,6 +9,7 @@ public:
 	static UUID UUID;
 	std::string Name;
 	std::shared_ptr<CORE::Behaviour> Main_Component;
+	int HP;
 	
 	COPY(C_Building, )
 		DEEP_COPY(C_Building, , )

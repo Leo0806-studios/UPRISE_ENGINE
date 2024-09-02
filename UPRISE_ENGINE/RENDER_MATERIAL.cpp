@@ -5,6 +5,7 @@
 #include "HeaderE/DATATYPES/D_TERRAIN_DATA.h"
 #include "CAMERA.h"
 #include "tracy/TracyOpenGL.hpp"
+#include "D_MAT4.h"
 
  PAIN::Material::Material(Shader* shade) {
 	 shader = shade;
@@ -50,7 +51,8 @@ inline void PAIN::Material::DrawObj() {
 			//auto poss = std::dynamic_pointer_cast<Transform>(objects[i]->behaviours[1]);
 
 			TrPr(ctx, "Perspective");
-			glm::mat4 projection = glm::perspective(glm::radians(CAM->camera.FOV), (float)1600 / (float)900, 0.1f, 500.0f);
+			glm::mat4 projection = Mat4::Perspective(CAM->camera.FOV, (float)1600 / (float)900, 0.1f, 500.0f);//glm::perspective(glm::radians(CAM->camera.FOV), (float)1600 / (float)900, 0.1f, 500.0f);
+			//Mat4 projection = Mat4::Perspective(CAM->camera.FOV, (float)1600 / (float)900, 0.1f, 500.0f);
 			TrPrE(ctx);
 			//auto rott = poss.get();
 			//auto rot = rott->rotation;
@@ -66,6 +68,7 @@ inline void PAIN::Material::DrawObj() {
 			model = glm::translate(model, glm::vec3(Object_ModelSubstitute[i]->_Transform->Position));
 			TrPrE(ctx2);
 			TrPr(ctx3, "Set Shader Vars");
+			//shader->setMat4("projection", projection.operator glm::mat<4, 4, float, glm::packed_highp>());
 			shader->setMat4("projection", projection);
 			shader->setMat4("view", view);
 			shader->setMat4("model", model);

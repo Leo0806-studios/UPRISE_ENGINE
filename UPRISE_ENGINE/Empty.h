@@ -2,6 +2,7 @@
 #ifndef _EMPTY_
 #define _EMPTY_
 #include "HeaderE//CORE/C_BEHAVIOUR.h"
+#include "MODULE_IMPORTS.h"
 class Empty :public CORE::Behaviour {
 
 

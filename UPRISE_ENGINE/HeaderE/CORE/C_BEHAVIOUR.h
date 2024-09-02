@@ -1,6 +1,7 @@
 #ifndef _BEHAVIOUR_
 #define _BEHAVIOUR_
 #include "pch.h"
+#include "MODULE_IMPORTS.h"
 //#include "HeaderE/CORE/CORE.h"
 //#include "ECS.h"
 //#include "HeaderE/DATATYPES/D_TS_P_VECTOR3.h"
@@ -38,10 +39,13 @@ namespace CORE {
 		static std::vector<std::shared_ptr<Behaviour>> Parallel_Updates;
 		UUID uuID;
 		int id;
+		bool ToBeRemoved;
+		bool enabled;
 	//	static std::vector<Behaviour*> tester;
 		//template <class _Ty, class... _Types>
 		//static std::vector<_Ty> types;
 		Behaviour();
+		Behaviour(int remove);
 		Behaviour(GameObject* oobj, std::shared_ptr<CORE::Behaviour> trans);
 		virtual std::shared_ptr<CORE::Behaviour> Copy() = 0;
 		virtual std::shared_ptr<CORE::Behaviour> DeepCopy() = 0;

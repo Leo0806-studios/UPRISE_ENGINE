@@ -1,5 +1,6 @@
 #ifndef _COMPONENT_
 #define _COMPONENT_
+#include "MODULE_IMPORTS.h"
 
 namespace CORE {
 

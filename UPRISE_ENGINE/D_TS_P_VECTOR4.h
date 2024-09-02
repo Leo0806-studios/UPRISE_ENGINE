@@ -3,6 +3,7 @@
 #define _T_S_P_VECTOR4
 #include "GLINCLUDES.h"
 #include "pch.h"
+#include "MODULE_IMPORTS.h"
 class TSPVector4 {
 
 public:

@@ -4,6 +4,7 @@
 
 //#define GLFW_INCLUDE_NONE
 #define GLM_FORCE_SSE2 
+#define GLM_FORCE_AVX
 #include "glad.h"
 #include "glfw3.h"
 #include <glm/glm.hpp>

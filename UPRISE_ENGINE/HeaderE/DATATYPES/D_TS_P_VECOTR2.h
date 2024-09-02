@@ -2,6 +2,7 @@
 #ifndef _TS_P_VECTOR2_
 #define _TS_P_VECTOR2_
 #include "pch.h"
+#include "MODULE_IMPORTS.h"
 
 
 struct TS_P_Vector2 {

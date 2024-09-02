@@ -1,8 +1,12 @@
 
 #include "pch.h"
 #include "DLL-ENGINE-LINK.h"
+using  CreatorFunc = std::function<std::shared_ptr<CORE::Behaviour>()>;
 
 
+ //std::map<std::string, CreatorFunc> fact::creators;
+
+std::map<std::string, CreatorFunc>* fact::links;
 
 DATALINK* IMPORTANT::DATA;
 int IMPORTANT::GameObj_count = 0;
@@ -22,6 +26,7 @@ void operator delete(void* ptr) noexcept
 void PLTADD(const char* name, int val)
 {
     IMPORTANT::DATA->PLOTADD(name, val);
+    
 }
 
 void PLTREM(const char* name, int val)

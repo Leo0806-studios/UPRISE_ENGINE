@@ -3,6 +3,7 @@
 #define _EVENT_
 
 #include "pch.h"
+#include "MODULE_IMPORTS.h"
 //#include "GAMEOBJECT.h"
 class GameObject;
 class Event {

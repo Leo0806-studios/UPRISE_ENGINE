@@ -3,6 +3,7 @@
 #define _DEBUG_LOGGER_
 
 #include "pch.h"
+#include "MODULE_IMPORTS.h"
 #define ERROR Error
 #define White system("COLOR 0F");
 #define Red system("COLOR 0C");

@@ -22,6 +22,7 @@ namespace PAIN {
 
 
 }
+#include "MODULE_IMPORTS.h"
 #include "RENDER_OBJECT_SPAWNING.h"
 
 

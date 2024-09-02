@@ -3,6 +3,8 @@
 
 #include "GLINCLUDES.h"
 #include "HeaderE/DATATYPES/D_TS_P_VECOTR2.h"
+#include "MODULE_IMPORTS.h"
+
 #define A GLFW_KEY_A
 #define B GLFW_KEY_B
 #define C GLFW_KEY_C

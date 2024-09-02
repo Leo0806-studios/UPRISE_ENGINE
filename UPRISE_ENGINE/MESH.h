@@ -2,6 +2,7 @@
 #ifndef _MESH_
 #define _MESH_
 
+#include "MODULE_IMPORTS.h"
 #include "HeaderE/CORE/CORE.h"
 #include "RENDER_DATATYPES.h"
 

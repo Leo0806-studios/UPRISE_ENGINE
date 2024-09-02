@@ -1,7 +1,10 @@
 #pragma once
 #ifndef _RENDER_MATERIAL_
 #define _RENDER_MATERIAL_
+
 #include "pch.h"
+#include "MODULE_IMPORTS.h"
+
 #include "RENDER_SHADER_UTILLS.h"
 #include "RENDER_CAMERA.h"
 #include "ECS.h" 

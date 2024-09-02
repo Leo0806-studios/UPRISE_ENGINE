@@ -149,13 +149,42 @@ _Ty CallCSharpFunction(const WCHAR* patrh, char* functionName, _Arg argument) {
 #define TrPr(V,N)    ;
 #define TrPrE(V) ;
 #endif //DEBUG_Engine
-#ifndef globlist
-#define globlist
+//#ifndef globlist
+//#define globlist
 namespace CORE {
     class Behaviour;
 }
+//using  CreatorFunc = std::function<std::shared_ptr<CORE::Behaviour>()>;
+//static VEC(CreatorFunc) tetsss;
 
-#endif // !globlist
+//using  CreatorFunc = std::function<std::shared_ptr<CORE::Behaviour>()>;
+class fact {
+public:
+
+
+    using  CreatorFunc = std::function<std::shared_ptr<CORE::Behaviour>()>;
+
+
+    template<typename _T>
+    static void ADD(_T arg, const std::string className) {
+
+       // (*fact::creators)[className] = []()->std::shared_ptr<CORE::Behaviour> {std::shared_ptr<CORE::Behaviour> a = std::make_shared<_T>(); return a; };
+        links=&MP(className, []()->std::shared_ptr<CORE::Behaviour> {std::shared_ptr<CORE::Behaviour> a = std::make_shared<_T>(); return a; });
+
+    }
+    static  std::map<std::string, CreatorFunc>* links;
+    static std::map<std::string, CreatorFunc>& MP(std::string name,CreatorFunc func) {
+
+
+        static std::map<std::string, CreatorFunc> creators;
+        creators[name] = func;
+        return creators;
+    }
+
+
+
+};
+//#endif // !globlist
 
 
 //class BaseFactory {

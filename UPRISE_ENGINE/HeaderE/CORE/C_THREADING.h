@@ -3,6 +3,7 @@
 #define _THREADING_
 
 #include "pch.h"
+#include "MODULE_IMPORTS.h"
 
 //#include "thread"
 namespace CORE {

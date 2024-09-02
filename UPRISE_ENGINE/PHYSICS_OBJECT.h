@@ -5,6 +5,7 @@
 //#include "PARRALEL_UPDATE.h"
 
 //#include "PHYSICS_MANAGER.h"
+#include "MODULE_IMPORTS.h"
 #include "HeaderE/DATATYPES/D_TS_P_VECTOR3.h"
 
 

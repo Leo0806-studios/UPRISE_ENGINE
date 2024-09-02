@@ -1,5 +1,6 @@
 #pragma once
 #include "pch.h"
+#include "MODULE_IMPORTS.h"
 #include "HeaderE/CORE/C_BEHAVIOUR.h"
 #include "HeaderE/CORE/C_INPUT.h"
 #include "TRANSFORM.h"

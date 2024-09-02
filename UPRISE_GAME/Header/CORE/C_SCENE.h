@@ -23,6 +23,8 @@ namespace CORE {
 		virtual ~Scene() ;
 		GameObject* FindObjectByName(const char* name);
 		GameObject* FindObjectByUUID(UUID uuid);
+		std::shared_ptr<GameObject> FindObjectByNameP(const char* name);
+		std::shared_ptr<GameObject> FindObjectByUUIDP(UUID uuid);
 		static Scene Create();
 
 

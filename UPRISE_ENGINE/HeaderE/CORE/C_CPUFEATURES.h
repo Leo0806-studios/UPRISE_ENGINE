@@ -2,6 +2,8 @@
 #define _CPUFEATURES_
 
 #include "pch.h"
+#include "MODULE_IMPORTS.h"
+
 namespace CORE {
     /// <summary>
     /// contains cpu secs

@@ -45,6 +45,9 @@
 #include "EDITOR.h"
 #include "tracy/TracyOpenGL.hpp"
 #include "D_MAT4.h"
+#include "MISC.h"
+#include "Smart_ptr.h"
+
 //#include "C_SMART_POINTER.h"
 //#include "HeaderE/CORE/C_BEHAVIOUR.h"
 //#include "MESH.h"
@@ -59,7 +62,7 @@ extern "C" {
 	// Physics system functions
 	//extern void update_position(float* positions, const float* velocities, float* dt, int* n);
 }
-#define FUNC(x,y,z)(x)GetProcAddress(y,z);
+//#define FUNC(x,y,z)(x)GetProcAddress(y,z);
 //DATALINK* DATA;
 bool GameRunning;
 class Behaviour;
@@ -80,42 +83,9 @@ PAIN::Shader shader;
 
 CORE::Scene scene;
 
-//void framebuffer_size_callback(GLFWwindow* window, int width, int height)
-//{
-//	glViewport(0, 0, width, height);
-//}
 
 
-void bb() {
-	GameObject_ TestObj;
-	const  char* pth = "C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\GAMEDATA\\untitled.glb";
-	auto mod = COMPONENTS::_Mesh(pth);
-	PAIN::Material mat = PAIN::Material(&shader);
-	mat.ID = 0;
-	PAIN::Render::mats.push_back(mat);
-	TestObj = GameObject::Create(DATATYPES::TSPVector3(0, 0, 0), &mod, mat.ID);
-	if (mat.ID < PAIN::Render::mats.size() || PAIN::Render::mats.size() == 0) {
-		PAIN::Render::mats[mat.ID].objects.push_back(TestObj);
-	}
-	std::string s = "TESTOBJ";
-	s.push_back(i + 48);
-	TestObj->name = s;
-	i++;
-	auto ppp = Test();
-	ppp.Game_Object = TestObj.get();
-	ppp.oobj = TestObj.get();
-	void* msc = &ppp;
 
-
-	TestObj->AddComponent(Test());
-
-	std::cout << "pressed O";
-
-
-	scene.ObjectsInScene.push_back(TestObj);
-	CORE::Behaviour::updateAll();
-	spawned = true;
-}
 /// <summary>
 /// basicly obsolete
 /// </summary>
@@ -165,41 +135,7 @@ void DecreasePlot(const char* name, int val) {
 	TracyCPlot(name, val);
 
 }
-class t {
-public:
-	int i;
-	 t() {}
-	 virtual  void test() {}
 
-};
-class tt :public t {
-	void test() override {
-		i = 5;
-		Log << "DERIVED TT";
-	}
-};
-class TTT :public t{
-	void test() override {
-		Log << "DERIVED TTT";
-	}
-};
-class   test {
-public :
-	int i;
-
-	static void Print(test* in){
-
-	}
-	virtual void prnt() {
-
-	}
-};
-class e : public test {
-public:
-	void prnt()override {
-		std::cout << "hello from derived. i is " << i;
-	}
-};
 
 PAIN::Shader* CreateSHADER(const char* vertexPath, const char* fragmentPath) {
 
@@ -221,13 +157,44 @@ bool CreateMaterial(PAIN::Shader*  shader) {
 	PAIN::Render::mats.push_back(mat);
 	return true;
 }
+
+
+void Termination_Handler() {
+	auto exc = std::current_exception();
+	if (exc) {
+		try {
+			std::rethrow_exception(exc);
+		}
+		catch (const std::exception& e) {
+			std::cout << "##########################FATAL_ERROR##########################\n"
+				<< "The program has been terminated due to an uncaught exception\n"
+				<< e.what() << "\n";
+			std::abort();
+		}
+		catch (...) { // Catch any other types of exceptions
+			std::cout << "##########################FATAL_ERROR##########################\n"
+				<< "The program has been terminated due to an uncaught non-standard exception\n";
+			std::abort();
+		}
+	}
+	else {
+		std::cout << "##########################FATAL_ERROR##########################\n"
+			<< "The program has been terminated due to an unknown reason\n";
+		std::abort();
+	}
+}
+
+
+
 /// <summary>
 /// Main Function
 /// </summary>
 /// <returns></returns>
-int main()
-{
-	
+int main() {
+	std::set_terminate(Termination_Handler);
+
+	// Force an uncaught exception to test the handler
+	//throw std::runtime_error("Test uncaught exception");
 
 	float aW[] = { 1.0, 2.0, 3.0 };
 	float bW[] = { 4.0, 5.0, 6.0 };
@@ -235,49 +202,92 @@ int main()
 	float cW[3];
 	float result = dot_product(aW, bW, &nW);
 	std::cout << "Dot product: " << result << std::endl;
+	{
 
-	Mat4 matf(1);
-	std::cout << "mem adr of this " << &matf << " alingof i " << (((int)&(matf.row0)) - (int)(&matf))  << "mem addr of i " << &(matf.row0) << "\n";
+		TSPVector3 inA(21, 32, 63);
+		TSPVector3 inB(19, 82, 73);
+		TSPVector3 inC(39, 42, 93);
+		TSPVector3 OuT;
 
-	auto mm = matf[0];
-	Log << mm.m128_f32[0] << " " << mm.m128_f32[1] << " " << mm.m128_f32[2] << " " << mm.m128_f32[3] << " \n";
-	 mm = matf[1];
-	Log << mm.m128_f32[0] << " " << mm.m128_f32[1] << " " << mm.m128_f32[2] << " " << mm.m128_f32[3] << " \n";
-	mm = matf[2];
-	Log << mm.m128_f32[0] << " " << mm.m128_f32[1] << " " << mm.m128_f32[2] << " " << mm.m128_f32[3] << " \n";
-	mm = matf[3];
-	Log << mm.m128_f32[0] << " " << mm.m128_f32[1] << " " << mm.m128_f32[2] << " " << mm.m128_f32[3] << " \n";
+		DATATYPES::Quaternion tquat(1, 0, 0, 0);
+		__m128 resULT;
+
+		{
+
+		}
+
+		{
+			TrPr(profiletestO, "old way")
+				//glm::mat4 testmat4 = glm::perspective(glm::radians((float)30),(float) (16 / 9), (float)1, (float)100);
+				for (int i = 0; i < 10000; i++) {
+					inA.x = i;
+
+					glm::mat4 testmat4 = glm::lookAt((glm::vec3)inA, (glm::vec3)inB, (glm::vec3)inC);//(tquat.ToMat4());
+				}
+
+			TrPrE(profiletestO);
+			glm::mat4 testmat4 = glm::lookAt((glm::vec3)inA, (glm::vec3)inB, (glm::vec3)inC);//(tquat.ToMat4());
+
+			Log << testmat4[0][0] << " " << testmat4[0][1] << " " << testmat4[0][2] << " " << testmat4[0][3] << "\n" << testmat4[1][0] << " " << testmat4[1][1] << " " << testmat4[1][2] << " " << testmat4[1][3] << "\n" << testmat4[2][0] << " " << testmat4[2][1] << " " << testmat4[2][2] << " " << testmat4[2][3] << " " << "\n" << testmat4[3][0] << " " << testmat4[3][1] << " " << testmat4[3][2] << " " << testmat4[3][3] << "\n" << "-----------------------\n";
+
+		}
+
+		{
+			TrPr(profiletest, "new way");
+			for (int i = 0; i < 10000; i++) {
+				inA.x = i;
+
+				//Mat4 testmat4=Mat4::Look_At_GLM()//(tquat);// Mat4::Perspective((float)30, (float)(16 / 9), (float)1, (float)100);
+				glm::mat4 testmat4s = Mat4::Look_At_GLM(inA, inB, inC);// testmat4.operator glm::mat<4, 4, float, glm::packed_highp>();
+			}
 
 
+			TrPrE(profiletest);
+			//Log << testmat4(0, 0) << " " << testmat4(0, 1) << " " << testmat4(0, 2) << " " << testmat4(0, 3) << " " << "\n" << testmat4(1, 0) << " " << testmat4(1, 1) << " " << testmat4(1, 2) << " " << testmat4(1, 3) << "\n" << testmat4(2, 0) << " " << testmat4(2, 1) << " " << testmat4(2, 2) << " " << testmat4(2, 3) << "\n" << testmat4(3, 0) << " " << testmat4(3, 1) << " " << testmat4(3, 2) << " " << testmat4(3, 3) << "\n" << "-----------------------\n";
+			glm::mat4 testmat4s = Mat4::Look_At_GLM(inA, inB, inC);// testmat4.operator glm::mat<4, 4, float, glm::packed_highp>();
 
-//	std::shared_ptr<tt> tptr = std::make_shared<tt>();
-	//std::shared_ptr<t> tpter = tptr;
-//	tt* chk;
-//	{
-//		auto tster = UTILLS::Make_Shared<tt>();
-////		auto roererw = tster.GT();
-//		//chk = tster.Pointer;
-//		{
-//			UTILLS::Shared_ptr<t> testst = tster;
-//			{
-//				auto ererwrwerw = testst;
-//				Log << ererwrwerw.ref_block->ref_cout;
-//				Log << tster.ref_block->ref_cout;
-//
-//			}
-//			testst->test();
-//			Log << tster.ref_block->ref_cout;
-//
-//		}
-//		Log << tster.ref_block->ref_cout;
-//	}
-	//Log << chk->i;
-	///Log << chk->i;
+			Log << testmat4s[0][0] << " " << testmat4s[0][1] << " " << testmat4s[0][2] << " " << testmat4s[0][3] << "\n" << testmat4s[1][0] << " " << testmat4s[1][1] << " " << testmat4s[1][2] << " " << testmat4s[1][3] << "\n" << testmat4s[2][0] << " " << testmat4s[2][1] << " " << testmat4s[2][2] << " " << testmat4s[2][3] << " " << "\n" << testmat4s[3][0] << " " << testmat4s[3][1] << " " << testmat4s[3][2] << " " << testmat4s[3][3] << "\n" << "-----------------------\n";
+
+		}
+
+
+	}
+	bool* prerer;
+	bool testbool = false;
+	std::vector< utills::Smart_ptr<bool>> TTESTVEC;
+	utills::Smart_ptr< std::vector< utills::Smart_ptr<bool>>> TESTTEST = utills::make_shared < std::vector< utills::Smart_ptr<bool>>>(TTESTVEC);
+	{
+		utills::Smart_ptr<bool> testsmrt = utills::make_shared<bool>(testbool);
+		TTESTVEC.push_back(testsmrt);
+		prerer = testsmrt.ptr;
+		{
+			utills::Smart_ptr<bool> testsmrtwe = testsmrt;
+			testsmrt.Ref->Decrem();
+			testsmrt.Ref->Decrem();
+			//*testsmrtwe.ptr = true;
+		}
+	}
+	std::shared_ptr<bool> Object = std::make_shared<bool>(testbool);
+	auto Objecttwo = Object;
+	long* reftoobj = (long*)&Object;
+	//delete (bool*)reftoobj;
+	long* ptrtocntrblck = *(long**)reftoobj-4;
+	_Ref_count_base* refbasecaster = (_Ref_count_base*)ptrtocntrblck;
+	long long null = (long long)0b0000000000000000000000000000000000000000000000000000000000000000;
+	auto uses = ((unsigned long*)((long long*)refbasecaster)+1)+1;
+	auto refs = ((unsigned long*)((long long*)refbasecaster)+1)+2;
+	*uses = null;
+	*refs = null;
+	_Destroy_in_place(*Object.get());
+	
+
+	auto ptrtouses = ((unsigned long*)(((long*)(((long*)&Object)[1]))[1]));
+	*ptrtouses = 1;
 	IMPORTANT::LINK = new DATALINK();
 
 	IMPORTANT::mode = GameMode::GameMode_Stoped;
 	std::remove("C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\UPRISE\\ENGINE\\UPRISE_GAME_LOADED.dll");
-
+	std::remove("C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\UPRISE\\EDITOR\\UPRISE_EDITOR_LOADED.dll");
 	
 
 
@@ -293,8 +303,14 @@ int main()
 	z = CORE::Startup::Start_Systems();
 	std::dynamic_pointer_cast<Camera>(PAIN::Render::CAM).get()->FOV = 45;
 	scene = CORE::Scene::Create();
-	CORE::Scene::activeScene.setPTR(&CORE::Scene::activeScene_obj);
-	CORE::Scene::Backups_SCENE.setPTR(&CORE::Scene::Backups_SCENE_obj);
+	&CORE::Scene::activeScene_obj;
+	auto ptraa = &CORE::Scene::activeScene;
+	auto owo = (CORE::Scene**)ptraa;
+	* owo = &CORE::Scene::activeScene_obj;
+	auto ptraaa = &CORE::Scene::Backups_SCENE;
+	auto owoa = (CORE::Scene**)ptraaa;
+	*owoa = &CORE::Scene::Backups_SCENE_obj;
+	//CORE::Scene::Backups_SCENE.setPTR(&CORE::Scene::Backups_SCENE_obj);
 	CORE::Scene::activeScene->ObjectsInScene.push_back(std::make_shared<GameObject>(PAIN::RenderStup::Render_cam));
 #ifdef DEBUG_Engine
 	CORE::Startup::StartEditor(z.windw);
@@ -330,9 +346,9 @@ int main()
 	IMPORTANT::LINK->CreateMaterial = CreateMaterial;
 	using  CreatorFunc = std::function<std::shared_ptr<CORE::Behaviour>()>;
 
-	IMPORTANT::LINK->creators_LINK = std::make_shared<std::map<std::string, CreatorFunc>>(fact::creators);
+	IMPORTANT::LINK->creators = &fact::creators;
 	
-	IMPORTANT::LINK->inst_LINK = std::make_shared<decltype(fact::inst)>(fact::inst);
+	//IMPORTANT::LINK->inst_LINK = std::make_shared<decltype(fact::inst)>(fact::inst);
 	IMPORTANT::LINK->III = (int*)& fact::inst;
 	IMPORTANT::LINK->GetKey = CORE::Input::GetKey;
 	IMPORTANT::LINK->PLOTADD = IncreasePlot;
@@ -387,6 +403,7 @@ int main()
 		//}
 		TrPr(ctx2, "Draw Editor")
 		EDITOR::Editor::DrawEditor();
+		EDITOR_IMPORTANT::Draw_EDITOR();
 		TrPrE(ctx2)
 			//auto text = buffer;
 		//{
@@ -435,6 +452,7 @@ int main()
 		FrameMark;
 		glfwPollEvents();
 		while (glfwGetTime() < lasttime + 1.0 / 60) {
+			Sleep((lasttime + 1.0 / 60) - glfwGetTime());
 			// TODO: Put the thread to sleep, yield, or simply do nothing
 		}
 		lasttime += 1.0 / 60;
@@ -443,6 +461,7 @@ int main()
 	ImGui_ImplGlfw_Shutdown();
 	ImGui::DestroyContext();
 	glfwTerminate();
+	std::remove("C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\UPRISE\\EDITOR\\UPRISE_EDITOR_LOADED.dll");
 	std::remove("C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\UPRISE\\ENGINE\\UPRISE_GAME_LOADED.dll");
 	return 0;
 

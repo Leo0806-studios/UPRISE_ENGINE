@@ -3,6 +3,8 @@
 #define _SCENE_
 #include "pch.h"
 #include "GAMEOBJECT.h"
+#include "MODULE_IMPORTS.h"
+
 class Gameobject;
 namespace CORE {
 

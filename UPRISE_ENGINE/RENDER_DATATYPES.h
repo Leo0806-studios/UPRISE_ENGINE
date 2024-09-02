@@ -6,6 +6,7 @@
 
 
 #include "pch.h"
+#include "MODULE_IMPORTS.h"
 namespace PAIN {
 
 	class Render;

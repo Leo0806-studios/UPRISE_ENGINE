@@ -1,8 +1,9 @@
 #pragma once
 #ifndef _RENDER_SHADER_UTILLS_
 #include "GLINCLUDES.h"
-
+//import GLMODULE;
 #include "pch.h"
+#include "MODULE_IMPORTS.h"
 #include "HeaderE/DATATYPES/D_CONFIGFILE.h"
 
 #define _RENDER_SHADER_UTILLS_
@@ -59,6 +60,8 @@ namespace PAIN {
 	{
 	public:
 		unsigned int ID;
+		 std::unordered_map< std::string, GLint> VarLocationsU;
+		std::unordered_map< std::string, GLint> VarLocationsL;
 		// constructor generates the shader on the fly
 		// ------------------------------------------------------------------------
 		Shader(const char* vertexPath, const char* fragmentPath);
@@ -89,7 +92,7 @@ namespace PAIN {
 		// ------------------------------------------------------------------------
 		void setMat3(const std::string& name, const glm::mat3& mat) const;
 		// ------------------------------------------------------------------------
-		void setMat4(const std::string& name, const glm::mat4& mat) const;
+		void setMat4(const std::string& name, const glm::mat4& mat)const;
 
 	private:
 		// utility function for checking shader compilation/linking errors.
