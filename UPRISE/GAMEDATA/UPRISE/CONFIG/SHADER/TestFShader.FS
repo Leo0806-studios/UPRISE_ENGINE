@@ -8,7 +8,7 @@
     "data": {
         "LayoutVars": {
             "test": {
-                "location": "1",
+                "location": 1,
                 "type": "vec3"
             }
         },

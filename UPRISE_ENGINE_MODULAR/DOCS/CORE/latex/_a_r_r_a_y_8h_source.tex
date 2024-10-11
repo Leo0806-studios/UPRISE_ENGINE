@@ -1,0 +1,79 @@
+\doxysection{ARRAY.\+h}
+\hypertarget{_a_r_r_a_y_8h_source}{}\label{_a_r_r_a_y_8h_source}\index{HEADER/DATATYPES/ARRAY/ARRAY.h@{HEADER/DATATYPES/ARRAY/ARRAY.h}}
+\mbox{\hyperlink{_a_r_r_a_y_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00001}00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00002}00002\ \textcolor{preprocessor}{\#ifndef\ \_ARRAY\_}}
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00003}\mbox{\hyperlink{_a_r_r_a_y_8h_a750153f5b94c199e465f7abdf37a511f}{00003}}\ \textcolor{preprocessor}{\#define\ \_ARRAY\_}}
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00004}00004\ \textcolor{keyword}{import}\ std;}
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00005}\mbox{\hyperlink{_a_r_r_a_y_8h_a7aead736a07eaf25623ad7bfa1f0ee2dad31aa031e5d14d7fbd4997da13384fa2}{00005}}\ \textcolor{keyword}{enum}\ \mbox{\hyperlink{_a_r_r_a_y_8h_a7aead736a07eaf25623ad7bfa1f0ee2d}{type}}\ \{\ \mbox{\hyperlink{_a_r_r_a_y_8h_a7aead736a07eaf25623ad7bfa1f0ee2da78331c231f0f1261205e7f04d31355fa}{stack}},\ \mbox{\hyperlink{_a_r_r_a_y_8h_a7aead736a07eaf25623ad7bfa1f0ee2dad31aa031e5d14d7fbd4997da13384fa2}{heap}}\ \};}
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00006}00006\ \textcolor{keyword}{template}<\textcolor{keyword}{class}\ T,\ \textcolor{keywordtype}{int}\ i,\ type\ t>}
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00007}\mbox{\hyperlink{class_array}{00007}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_array}{Array}}\ \{}
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00008}00008\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00009}00009\ \ \ \ \ \textcolor{keyword}{typename}\ std::conditional<t\ ==\ stack,\ T[i],\ T*>::type\ data;}
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00010}00010\ }
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00011}00011\ \ \ \ \ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ size=i;}
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00012}00012\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00013}\mbox{\hyperlink{class_array_a0f33bf3ba21729f0d49198167afa7bd6}{00013}}\ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{_a_r_r_a_y_8h_a7aead736a07eaf25623ad7bfa1f0ee2d}{type}}\ \mbox{\hyperlink{class_array_a0f33bf3ba21729f0d49198167afa7bd6}{SoH}}\ =\ t;}
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00014}\mbox{\hyperlink{class_array_a29189a121803a4ebd81ed35c0ea00d74}{00014}}\ \ \ \ \ \mbox{\hyperlink{class_array_a29189a121803a4ebd81ed35c0ea00d74}{Array}}()\ \{}
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00015}00015\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (t\ ==\ \mbox{\hyperlink{_a_r_r_a_y_8h_a7aead736a07eaf25623ad7bfa1f0ee2dad31aa031e5d14d7fbd4997da13384fa2}{heap}})\ \{}
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00016}00016\ \ \ \ \ \ \ \ \ \ \ \ \ data\ =\ \textcolor{keyword}{new}\ T[i];}
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00017}00017\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00018}00018\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00019}00019\ }
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00020}00020\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00021}00021\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00022}\mbox{\hyperlink{class_array_af2fbbf7f28bfd68216483fe0d11b5d1c}{00022}}\ \ \ \ \ \mbox{\hyperlink{class_array_af2fbbf7f28bfd68216483fe0d11b5d1c}{\string~Array}}()\ \{}
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00023}00023\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (t\ ==\ \mbox{\hyperlink{_a_r_r_a_y_8h_a7aead736a07eaf25623ad7bfa1f0ee2dad31aa031e5d14d7fbd4997da13384fa2}{heap}})\ \{}
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00024}00024\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{delete}[]data;}
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00025}00025\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00026}00026\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00028}00028\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00029}00029\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00030}00030\ \ \ \ \ \textcolor{comment}{//const\ T\&\ operator[](long\ long\ index)\ \{}}
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00031}00031\ \ \ \ \ \textcolor{comment}{//\ \ if\ constexpr\ (t\ ==\ heap)\ \{}}
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00032}00032\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ return\ data[index];}}
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00033}00033\ }
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00034}00034\ \ \ \ \ \textcolor{comment}{//\ \ \}}}
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00035}00035\ \ \ \ \ \textcolor{comment}{//\ \ else\ \{}}
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00036}00036\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ return\ data[index];}}
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00037}00037\ }
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00038}00038\ \ \ \ \ \textcolor{comment}{//\ \ \}}}
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00039}00039\ }
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00040}00040\ \ \ \ \ \textcolor{comment}{//\}}}
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00041}\mbox{\hyperlink{class_array_a1e65cf3711c3e9623a821b8667ad323e}{00041}}\ \ \ \ \ \textcolor{keyword}{const}\ T\&\ \mbox{\hyperlink{class_array_a1e65cf3711c3e9623a821b8667ad323e}{operator[]}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ index)\ \{}
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00042}00042\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (index\ >\ size||\ index<0)\ \{}
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::out\_of\_range(\textcolor{stringliteral}{"{}Index\ out\ of\ bounds"{}});}
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00044}00044\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00045}00045\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (t\ ==\ \mbox{\hyperlink{_a_r_r_a_y_8h_a7aead736a07eaf25623ad7bfa1f0ee2dad31aa031e5d14d7fbd4997da13384fa2}{heap}})\ \{}
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ data[index];}
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00048}00048\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00049}00049\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ data[index];}
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00052}00052\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00053}00053\ }
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00054}00054\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00055}00055\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ ind>}
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00056}\mbox{\hyperlink{class_array_ac451ec664720e8cb566f5f4ecf6da55d}{00056}}\ \ \ \ \ \textcolor{keyword}{const}\ T\&\ \mbox{\hyperlink{class_array_ac451ec664720e8cb566f5f4ecf6da55d}{get}}()\ \{}
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00057}00057\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (ind\ >\ size\ ||\ ind\ <\ 0)\ \{}
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::out\_of\_range(\textcolor{stringliteral}{"{}Index\ out\ of\ bounds"{}});}
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00059}00059\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00060}00060\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (t\ ==\ \mbox{\hyperlink{_a_r_r_a_y_8h_a7aead736a07eaf25623ad7bfa1f0ee2dad31aa031e5d14d7fbd4997da13384fa2}{heap}})\ \{}
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ data[ind];}
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00062}00062\ }
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00063}00063\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00064}00064\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ data[ind];}
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00066}00066\ }
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00067}00067\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00068}00068\ }
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00069}00069\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00070}00070\ }
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00071}00071\ \};}
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00072}00072\ }
+\DoxyCodeLine{\Hypertarget{_a_r_r_a_y_8h_source_l00073}00073\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ !\_ARRAY}}
+
+\end{DoxyCode}

@@ -46,7 +46,7 @@
 #include "tracy/TracyOpenGL.hpp"
 #include "D_MAT4.h"
 #include "MISC.h"
-#include "Smart_ptr.h"
+//#include "Smart_ptr.h"
 
 //#include "C_SMART_POINTER.h"
 //#include "HeaderE/CORE/C_BEHAVIOUR.h"
@@ -252,37 +252,37 @@ int main() {
 
 
 	}
-	bool* prerer;
-	bool testbool = false;
-	std::vector< utills::Smart_ptr<bool>> TTESTVEC;
-	utills::Smart_ptr< std::vector< utills::Smart_ptr<bool>>> TESTTEST = utills::make_shared < std::vector< utills::Smart_ptr<bool>>>(TTESTVEC);
-	{
-		utills::Smart_ptr<bool> testsmrt = utills::make_shared<bool>(testbool);
-		TTESTVEC.push_back(testsmrt);
-		prerer = testsmrt.ptr;
-		{
-			utills::Smart_ptr<bool> testsmrtwe = testsmrt;
-			testsmrt.Ref->Decrem();
-			testsmrt.Ref->Decrem();
-			//*testsmrtwe.ptr = true;
-		}
-	}
-	std::shared_ptr<bool> Object = std::make_shared<bool>(testbool);
-	auto Objecttwo = Object;
-	long* reftoobj = (long*)&Object;
-	//delete (bool*)reftoobj;
-	long* ptrtocntrblck = *(long**)reftoobj-4;
-	_Ref_count_base* refbasecaster = (_Ref_count_base*)ptrtocntrblck;
-	long long null = (long long)0b0000000000000000000000000000000000000000000000000000000000000000;
-	auto uses = ((unsigned long*)((long long*)refbasecaster)+1)+1;
-	auto refs = ((unsigned long*)((long long*)refbasecaster)+1)+2;
-	*uses = null;
-	*refs = null;
-	_Destroy_in_place(*Object.get());
-	
+	//bool* prerer;
+	//bool testbool = false;
+	//std::vector< utills::Smart_ptr<bool>> TTESTVEC;
+	//utills::Smart_ptr< std::vector< utills::Smart_ptr<bool>>> TESTTEST = utills::make_shared < std::vector< utills::Smart_ptr<bool>>>(TTESTVEC);
+	//{
+	//	utills::Smart_ptr<bool> testsmrt = utills::make_shared<bool>(testbool);
+	//	TTESTVEC.push_back(testsmrt);
+	//	prerer = testsmrt.ptr;
+	//	{
+	//		utills::Smart_ptr<bool> testsmrtwe = testsmrt;
+	//		testsmrt.Ref->Decrem();
+	//		testsmrt.Ref->Decrem();
+	//		//*testsmrtwe.ptr = true;
+	//	}
+	//}
+	//std::shared_ptr<bool> Object = std::make_shared<bool>(testbool);
+	//auto Objecttwo = Object;
+	//long* reftoobj = (long*)&Object;
+	////delete (bool*)reftoobj;
+	//long* ptrtocntrblck = *(long**)reftoobj-4;
+	//_Ref_count_base* refbasecaster = (_Ref_count_base*)ptrtocntrblck;
+	//long long null = (long long)0b0000000000000000000000000000000000000000000000000000000000000000;
+	//auto uses = ((unsigned long*)((long long*)refbasecaster)+1)+1;
+	//auto refs = ((unsigned long*)((long long*)refbasecaster)+1)+2;
+	//*uses = null;
+	//*refs = null;
+	//_Destroy_in_place(*Object.get());
+	//
 
-	auto ptrtouses = ((unsigned long*)(((long*)(((long*)&Object)[1]))[1]));
-	*ptrtouses = 1;
+	//auto ptrtouses = ((unsigned long*)(((long*)(((long*)&Object)[1]))[1]));
+	//*ptrtouses = 1;
 	IMPORTANT::LINK = new DATALINK();
 
 	IMPORTANT::mode = GameMode::GameMode_Stoped;

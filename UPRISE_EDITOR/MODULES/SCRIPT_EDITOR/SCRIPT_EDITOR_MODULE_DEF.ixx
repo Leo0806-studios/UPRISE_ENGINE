@@ -48,13 +48,13 @@ export namespace SCRIPT_EDITOR {
 
 				}
 				ImGui::EndChild();
-				ImGui::BeginChild(scripts[current_doc].name.c_str());
-				
-				//ImGuiInputTextCallback ret = callback;
-				//ImGui::InputTextMultiline("Code", &scripts[current_doc].Lines,ImVec2(500,500), ImGuiInputTextFlags_::ImGuiInputTextFlags_CallbackResize, ret,(void*) & i);
-				ImGui::InputTextMultiline("Code", &scripts[current_doc].Lines);
+				//ImGui::BeginChild(scripts[current_doc].name.c_str());
+				//
+				////ImGuiInputTextCallback ret = callback;
+				////ImGui::InputTextMultiline("Code", &scripts[current_doc].Lines,ImVec2(500,500), ImGuiInputTextFlags_::ImGuiInputTextFlags_CallbackResize, ret,(void*) & i);
+				//ImGui::InputTextMultiline("Code", &scripts[current_doc].Lines);
 
-
+				//ImGui::EndChild();
 
 				ImGui::End();
 
