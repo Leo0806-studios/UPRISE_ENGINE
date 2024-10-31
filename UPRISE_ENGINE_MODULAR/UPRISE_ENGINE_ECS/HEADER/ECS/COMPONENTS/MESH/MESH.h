@@ -1,12 +1,21 @@
 #pragma once
 #ifndef _Mesh_
 #define _Mesh_
-#include "BEHAVIOUR/BEHAVIOUR.h"
+#include "CORE/BEHAVIOUR/BEHAVIOUR.h";
+
+/// <summary>
+/// class for Mesh Component
+/// </summary>
 class Mesh :public CORE::Behaviour{
 private:
 public:
+	/// <summary>
+    /// UUID for the Mesh Component
+	/// </summary>
 	static UUID uid;
-
+	/// <summary>
+    /// default constructor
+	/// </summary>
 	Mesh() = default;
 	~Mesh(){}
 #pragma region Funcs

@@ -1,5 +1,5 @@
-#include "TERRAINDATA/TerrainData.h"
-#include "HEIGHTMAP/HEIGHTMAP.h"
+#include  "DATATYPES/TERRAINDATA/TerrainData.h";
+#include "DATATYPES/HEIGHTMAP/HEIGHTMAP.h";
 #include "Windows.h"
 
 inline UPRISE_ECS_API float TerrainData::GetHeight(int x, int y) { return Heightmap->GetHeight(x, y); }

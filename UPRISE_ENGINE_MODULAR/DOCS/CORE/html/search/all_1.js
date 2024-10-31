@@ -1,9 +1,18 @@
 var searchData=
 [
-  ['addtoawake_0',['AddToAwake',['../class_c_o_r_e_1_1_behaviour.html#a30f40bd724c13035d2a6d9cd5bda21f4',1,'CORE::Behaviour']]],
-  ['addtostart_1',['AddToStart',['../class_c_o_r_e_1_1_behaviour.html#a93d4542e5ddc8e1996a54446c4fb6e51',1,'CORE::Behaviour']]],
-  ['addtoupdate_2',['AddToUpdate',['../class_c_o_r_e_1_1_behaviour.html#a9bbf6fb6093063c2cb6dc013149693fc',1,'CORE::Behaviour']]],
-  ['array_3',['Array',['../class_array.html',1,'Array&lt; T, i, t &gt;'],['../class_array.html#a29189a121803a4ebd81ed35c0ea00d74',1,'Array::Array()']]],
-  ['array_2eh_4',['ARRAY.h',['../_a_r_r_a_y_8h.html',1,'']]],
-  ['awake_5',['Awake',['../class_c_o_r_e_1_1_behaviour.html#a856a5df0491dfa77fb612e942749b371',1,'CORE::Behaviour']]]
+  ['abm_0',['ABM',['../class_c_o_r_e_1_1_instruction_set.html#a7384c3e3a24530794fd7218fbba7ea2e',1,'CORE::InstructionSet']]],
+  ['addtoawake_1',['AddToAwake',['../class_c_o_r_e_1_1_behaviour.html#a946f7f9d14224093a81e13247e0d80a5',1,'CORE::Behaviour']]],
+  ['addtostart_2',['AddToStart',['../class_c_o_r_e_1_1_behaviour.html#af8e21c96af12325b7dffa54e7ed8fef9',1,'CORE::Behaviour']]],
+  ['addtoupdate_3',['AddToUpdate',['../class_c_o_r_e_1_1_behaviour.html#a76059d4db458c7c1279dbdd03c629c65',1,'CORE::Behaviour']]],
+  ['adx_4',['ADX',['../class_c_o_r_e_1_1_instruction_set.html#a9e6d577133147a032753744955afe1d8',1,'CORE::InstructionSet']]],
+  ['aes_5',['AES',['../class_c_o_r_e_1_1_instruction_set.html#a2f2c80aeffc246f4611b57ed49088a4f',1,'CORE::InstructionSet']]],
+  ['array_6',['Array',['../class_array.html',1,'Array&lt; T, i, t &gt;'],['../class_array.html#a62bd3ee72d3b828bbba6d69376bfadc6',1,'Array::Array()']]],
+  ['array_2eh_7',['ARRAY.h',['../_a_r_r_a_y_8h.html',1,'']]],
+  ['avx_8',['AVX',['../class_c_o_r_e_1_1_instruction_set.html#a1f764aec7e8e5e4bc97e85a41c3bbef2',1,'CORE::InstructionSet']]],
+  ['avx2_9',['AVX2',['../class_c_o_r_e_1_1_instruction_set.html#a5d592d8d57f9451d783f8b222619055e',1,'CORE::InstructionSet']]],
+  ['avx512cd_10',['AVX512CD',['../class_c_o_r_e_1_1_instruction_set.html#a101eadda4d1d025cfeebff878a987040',1,'CORE::InstructionSet']]],
+  ['avx512er_11',['AVX512ER',['../class_c_o_r_e_1_1_instruction_set.html#a7c4744341d4ccc567066e4e55d6af9cc',1,'CORE::InstructionSet']]],
+  ['avx512f_12',['AVX512F',['../class_c_o_r_e_1_1_instruction_set.html#ac9ddc43609e83fa9a8df3fcc786827b6',1,'CORE::InstructionSet']]],
+  ['avx512pf_13',['AVX512PF',['../class_c_o_r_e_1_1_instruction_set.html#a55838019bb1ee4dd60e8f67f1f5c86b6',1,'CORE::InstructionSet']]],
+  ['awake_14',['Awake',['../class_c_o_r_e_1_1_behaviour.html#a856a5df0491dfa77fb612e942749b371',1,'CORE::Behaviour']]]
 ];

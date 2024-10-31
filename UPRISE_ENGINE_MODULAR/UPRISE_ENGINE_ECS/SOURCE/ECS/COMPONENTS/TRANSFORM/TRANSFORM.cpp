@@ -1,4 +1,4 @@
-#include "COMPONENTS/TRANSFORM/TRANSFORM.h"
+#include  "ECS/COMPONENTS/TRANSFORM/TRANSFORM.h";
 void Transform::SetRotation(Vector3 vec)
 {
     TrPr(ctx, __func__)
@@ -34,3 +34,20 @@ void Transform::UpdateDirections()
     up = rotation * Vector3(0, 1, 0); 
     TrPrE(ctx);
 }
+
+UPRISE_ECS_API RefWrapper<CORE::Behaviour, true> Transform::Copy()
+{
+    return  RefWrapper<CORE::Behaviour, true>();
+}
+
+UPRISE_ECS_API RefWrapper<CORE::Behaviour, true> Transform::DeepCopy()
+{
+    return  RefWrapper<CORE::Behaviour, true>();
+}
+
+UPRISE_ECS_API void Transform::EditorWindow()
+{
+}
+UPRISE_ECS_API void Transform::Update(){}
+UPRISE_ECS_API void Transform::Awake(){}
+UPRISE_ECS_API void Transform::Start(){}

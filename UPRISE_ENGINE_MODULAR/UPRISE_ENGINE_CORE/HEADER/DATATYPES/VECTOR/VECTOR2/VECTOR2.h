@@ -1,32 +1,64 @@
 #pragma once
 #ifndef _VECTOR2_
 #define _VECTOR2_
+#if (_CORE_EXPORT_ !=1) 
 #include "GLOBAL/GLINCLUDES.h"
 
 #include <intrin.h>
-class Vector2 {
+#endif // !UPRISE_CORE_API_EXPORTS
+/// <summary>
+/// vector 2 class
+/// </summary>
+ class Vector2 {
 private:
+	/// <summary>
+	/// data
+	/// </summary>
 	__m128 Data;
 public:
 #pragma region constructor
 #pragma region NonConst
+	/// <summary>
+    /// default constructor
+	/// </summary>
 	Vector2() = default;
+	/// <summary>
+    /// cosntructor with x and y values
+	/// </summary>
+	/// <param name="x"></param>
+	/// <param name="y"></param>
 	Vector2(float x, float y) {
 		Data = _mm_setr_ps(x, y, x, y);
 	}
+    /// <summary>
+    /// constructor with __m128 ref
+    /// </summary>
+    /// <param name="other"></param>
 	Vector2(__m128& other) :Data(other) {	}
+	/// <summary>
+    /// constructor that accepts a __m128
+	/// </summary>
+	/// <param name="other"></param>
 	Vector2(__m128 other) :Data(other) {	}
+	/// <summary>
+    /// constructor tha accepts a Vector2 ref
+	/// </summary>
+	/// <param name="other"></param>
 	Vector2(Vector2& other) :Data(other.Data) {}
+	/// <summary>
+    /// constructor that accepts a glm::vec2 ref
+	/// </summary>
+	/// <param name="other"></param>
 	Vector2(glm::vec2& other) { Data = _mm_setr_ps(other.x, other.y, other.x, other.y); }
 
 #pragma endregion
 #pragma region const
-	Vector2(const float x, const float y) {
-		Data = _mm_setr_ps(x, y, x, y);
-	}
-	Vector2(const __m128& other) :Data(other) {	}
-	Vector2(const Vector2& other) :Data(other.Data) {}
-	Vector2(const glm::vec2& other) { Data = _mm_setr_ps(other.x, other.y, other.x, other.y); }
+	//Vector2(const float x, const float y) {
+	//	Data = _mm_setr_ps(x, y, x, y);
+	//}
+	//Vector2(const __m128& other) :Data(other) {	}
+	//Vector2(const Vector2& other) :Data(other.Data) {}
+	//Vector2(const glm::vec2& other) { Data = _mm_setr_ps(other.x, other.y, other.x, other.y); }
 
 #pragma endregion
 
@@ -35,17 +67,39 @@ public:
 
 
 #pragma region getter
+	/// <summary>
+	/// geter for x
+    /// returns a non const ref to x
+	/// </summary>
+	/// <returns></returns>
 	__inline UPRISE_CORE_API float& x() const {
 		return ((float*)&Data)[0];
 	}
+	/// <summary>
+    /// getter for y
+    /// returns a non const ref to y
+	/// </summary>
+	/// <returns></returns>
 	__inline UPRISE_CORE_API float& y() const {
 		return ((float*)&Data)[1];
 
 	}
+    /// <summary>
+    /// getter for xx
+    /// returns a non const ref to xx
+    /// xx is a usualy a mirror of x
+    /// </summary>
+    /// returns></returns>
 	__inline UPRISE_CORE_API float& xx() const {
 		return ((float*)&Data)[2];
 
 	}
+    /// <summary>
+/// getter for yy
+/// returns a non const ref to yy
+/// yy is a usualy a mirror of y
+/// </summary>
+///     <returns></returns>
 	__inline UPRISE_CORE_API float& yy() const {
 		return ((float*)&Data)[3];
 
@@ -53,66 +107,158 @@ public:
 #pragma endregion
 #pragma region setter
 	//set vals
+    
+	/// <summary>
+	/// setter for x
+    /// returns a non const ref to x
+    /// sets x to x
+    /// returns the new val of x
+	/// </summary>
+	/// <param name="x"></param>
+	/// <returns></returns>
 	__inline UPRISE_CORE_API float& x(const float& x) {
 		return (((float*)&Data)[0] = x);
 
 	}
+    /// <summary>
+    /// setter for y
+    /// returns a non const ref to y
+    /// sets y to y
+    /// returns the new val of y
+    /// </summary>
+    /// <param name="y"></param>
+    /// <returns></returns>
 	__inline UPRISE_CORE_API float& y(const float& y) {
 		return (((float*)&Data)[1] = y);
 
-	}
-	__inline UPRISE_CORE_API float& xx(const float& z) {
-		return (((float*)&Data)[2] = z);
+    }
+    /// <summary>
+    /// setter for xx
+    /// returns a non const ref to xx
+    /// sets xx to xx
+    /// returns the new val of xx
+    /// </summary>
+    /// <param name="xx"></param>
+    /// <returns></returns>
+	__inline UPRISE_CORE_API float& xx(const float& xx) {
+		return (((float*)&Data)[2] = xx);
 
 
 	}
-	__inline UPRISE_CORE_API float& yy(const float& pad) {
-		return (((float*)this)[3] = pad);
+    /// <summary>
+    /// setter for yy
+    /// returns a non const ref to yy
+    /// sets yy to yy
+    /// returns the new val of yy
+    /// </summary>
+    /// <param name="yy"></param>
+    /// <returns></returns>
+	__inline UPRISE_CORE_API float& yy(const float& yy) {
+		return (((float*)this)[3] = yy);
 
 	}
 #pragma endregion
 #pragma region Operator
 #pragma region NonConst
+	/// <summary>
+    /// assingmet operator that accepts a vector2
+	/// </summary>
+	/// <param name="other"></param>
+	/// <returns></returns>
 	__inline UPRISE_CORE_API Vector2 operator=(const Vector2& other) {
 		this->Data = other.Data;
 		return *this;
 	}
+    /// <summary>
+    /// assingmet operator that accepts a __m128
+    /// </summary>
+    /// <param name="other"></param>
+    /// <returns></returns>
 	__inline UPRISE_CORE_API Vector2 operator=(const __m128& other) {
 		this->Data = other;
 		return *this;
 	}
+	/// <summary>
+    /// addition operator that accepts a vector2
+	/// </summary>
+	/// <param name="other"></param>
+	/// <returns></returns>
 	__inline UPRISE_CORE_API Vector2 operator+(Vector2 other) {
 		other.Data = _mm_add_ps(this->Data, other.Data);
 		return other;
 	}
-
+	/// <summary>
+    /// addition operator that accepts a __m128
+	/// </summary>
+	/// <param name="other"></param>
+	/// <returns></returns>
 	__inline UPRISE_CORE_API Vector2 operator+(__m128 other) {
 		return Vector2(_mm_add_ps(this->Data, other));
 	}
+	/// <summary>
+    /// subtraction operator that accepts a vector2
+	/// </summary>
+	/// <param name="other"></param>
+	/// <returns></returns>
 	__inline UPRISE_CORE_API Vector2 operator-(Vector2 other) {
 		other.Data = _mm_sub_ps(this->Data, other.Data);
 		return other;
 	}
+    /// <summary>
+    /// subtraction operator that accepts a __m128
+    /// </summary>
+    /// <param name="other"></param>
+    /// <returns></returns>
 	__inline UPRISE_CORE_API Vector2 operator-(__m128 other) {
 		return Vector2(_mm_sub_ps(this->Data, other));
 	}
+	/// <summary>
+    /// multiplication operator that accepts a vector2
+	/// </summary>
+	/// <param name="other"></param>
+	/// <returns></returns>
 	__inline UPRISE_CORE_API Vector2 operator*(Vector2 other) {
 		other.Data = _mm_mul_ps(this->Data, other.Data);
 		return  other;
 	}
+    /// <summary>
+/// multiplication operator that accepts a __m128
+/// </summary>
+/// <param name="other"></param>
+/// <returns></returns>
 	__inline UPRISE_CORE_API Vector2 operator*(__m128 other) {
 		return  Vector2(_mm_mul_ps(this->Data, other));
 	}
+    /// <summary>
+    /// multiplication operator that accepts a float
+    /// </summary>
+    /// <param name="f"></param>
+    /// <returns></returns>
 	__inline UPRISE_CORE_API Vector2 operator*(float f) {
 		return Vector2(_mm_mul_ps(this->Data, _mm_set_ps1(f)));
 	}
+    /// <summary>
+    /// division operator that accepts a vector2
+    /// </summary>
+    /// <param name="other"></param>
+    /// <returns></returns>
 	__inline UPRISE_CORE_API Vector2 operator/(Vector2 other) {
 		other.Data = _mm_div_ps(this->Data, other.Data);
 		return  other;
-	}
+    }
+    /// <summary>
+    /// division operator that accepts a __m128
+    /// </summary>
+    /// <param name="other"></param>
+    /// <returns></returns>
 	__inline UPRISE_CORE_API Vector2 operator/(__m128 other) {
 		return  Vector2(_mm_div_ps(this->Data, other));
-	}
+    }
+    /// <summary>
+    /// division operator that accepts a float
+    /// </summary>
+    /// <param name="f"></param>
+    /// <returns></returns>
 	__inline UPRISE_CORE_API Vector2 operator/(float f) {
 		return Vector2(_mm_div_ps(this->Data, _mm_set_ps1(f)));
 	}
@@ -132,38 +278,38 @@ public:
 	}
 #pragma endregion
 #pragma region  Const
-	__inline UPRISE_CORE_API Vector2 operator+(const Vector2& other) const {
+	//__inline UPRISE_CORE_API Vector2 operator+(const Vector2& other) const {
 
-		return Vector2(_mm_add_ps(this->Data, other.Data));
-	}
-	__inline UPRISE_CORE_API Vector2 operator+(const __m128& other) const {
-		return Vector2(_mm_add_ps(this->Data, other));
-	}
-	__inline UPRISE_CORE_API Vector2 operator-(const Vector2& other)const {
+	//	return Vector2(_mm_add_ps(this->Data, other.Data));
+	//}
+	//__inline UPRISE_CORE_API Vector2 operator+(const __m128& other) const {
+	//	return Vector2(_mm_add_ps(this->Data, other));
+	//}
+	//__inline UPRISE_CORE_API Vector2 operator-(const Vector2& other)const {
 
-		return Vector2(_mm_sub_ps(this->Data, other.Data));
-	}
-	__inline UPRISE_CORE_API Vector2 operator-(const __m128& other)const {
-		return Vector2(_mm_sub_ps(this->Data, other));
-	}
-	__inline UPRISE_CORE_API Vector2 operator*(const Vector2& other)const {
-		return  Vector2(_mm_mul_ps(this->Data, other.Data));
-	}
-	__inline UPRISE_CORE_API Vector2 operator*(const __m128& other) const {
-		return  Vector2(_mm_mul_ps(this->Data, other));
-	}
-	__inline UPRISE_CORE_API Vector2 operator*(const float f) const {
-		return Vector2(_mm_mul_ps(this->Data, _mm_set_ps1(f)));
-	}
-	__inline UPRISE_CORE_API Vector2 operator/(const Vector2& other)const {
-		return  Vector2(_mm_div_ps(this->Data, other.Data));
-	}
-	__inline UPRISE_CORE_API Vector2 operator/(const __m128& other) const {
-		return  Vector2(_mm_div_ps(this->Data, other));
-	}
-	__inline UPRISE_CORE_API Vector2 operator/(const float f) const {
-		return Vector2(_mm_div_ps(this->Data, _mm_set_ps1(f)));
-	}
+	//	return Vector2(_mm_sub_ps(this->Data, other.Data));
+	//}
+	//__inline UPRISE_CORE_API Vector2 operator-(const __m128& other)const {
+	//	return Vector2(_mm_sub_ps(this->Data, other));
+	//}
+	//__inline UPRISE_CORE_API Vector2 operator*(const Vector2& other)const {
+	//	return  Vector2(_mm_mul_ps(this->Data, other.Data));
+	//}
+	//__inline UPRISE_CORE_API Vector2 operator*(const __m128& other) const {
+	//	return  Vector2(_mm_mul_ps(this->Data, other));
+	//}
+	//__inline UPRISE_CORE_API Vector2 operator*(const float f) const {
+	//	return Vector2(_mm_mul_ps(this->Data, _mm_set_ps1(f)));
+	//}
+	//__inline UPRISE_CORE_API Vector2 operator/(const Vector2& other)const {
+	//	return  Vector2(_mm_div_ps(this->Data, other.Data));
+	//}
+	//__inline UPRISE_CORE_API Vector2 operator/(const __m128& other) const {
+	//	return  Vector2(_mm_div_ps(this->Data, other));
+	//}
+	//__inline UPRISE_CORE_API Vector2 operator/(const float f) const {
+	//	return Vector2(_mm_div_ps(this->Data, _mm_set_ps1(f)));
+	//}
 #pragma endregion
 
 

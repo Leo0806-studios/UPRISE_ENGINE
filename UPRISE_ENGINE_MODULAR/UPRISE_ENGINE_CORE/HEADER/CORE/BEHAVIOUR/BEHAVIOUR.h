@@ -1,15 +1,24 @@
+
 #pragma once
 #ifndef _BEHAVIOUR_
 #define _BEHAVIOUR_
+
 #include "Windows.h"
+#include "OBJECT/OBJECT.h";
+
+
+
+
+
+
+
 //#include "DATATYPES/VECTOR/VECTOR3/FAST/VECTOR3_F.h"
-#include "OBJECT/OBJECT.h"
 import std;
 import REF_WRAPPER;
 
 class GameOject;
 class Transform;
-namespace CORE {
+ namespace CORE {
 	class Behaviour:public CORE::Object {
 	private:
 #pragma region NonStaticVars
@@ -18,13 +27,14 @@ namespace CORE {
 		UUID uuid;
 		int id;
 		bool toBeRemoved;
-		bool enabled;
+		//bool enabled;
 
 #pragma endregion
 #pragma region StaticVars
 		static std::vector<RefWrapper<CORE::Behaviour,true>> behaviours;
 		static std::vector<RefWrapper<CORE::Behaviour,true>> awakes;
 		static std::vector<RefWrapper<CORE::Behaviour,true>> starts;
+        static int currentUpdate;
 #pragma endregion
 
 
@@ -46,11 +56,14 @@ namespace CORE {
 #pragma endregion
 #pragma region destructor
 		virtual ~Behaviour() {
-
+            toBeRemoved = true;
+            Enabled() = false;
 		}
 #pragma endregion
 		//following region contains all functions
 #pragma region funcs
+        UPRISE_CORE_API void OnDestroyInt(RefWrapper<CORE::Object,true> obj) override;
+
 
 		//following region contains all virtual member functions
 #pragma region Virtual
@@ -93,19 +106,21 @@ namespace CORE {
 		/// internal function to called to remove this obj from updates
 		/// </summary>
 		/// <returns></returns>
-		virtual UPRISE_CORE_API bool RemoveFromUpdate();
+		 UPRISE_CORE_API bool RemoveFromUpdate();
 		/// <summary>
 		/// internal function to call to remove this obj from start 
 		/// </summary>
 		/// <returns></returns>
-		virtual UPRISE_CORE_API bool RemoveFromStart();
+		 UPRISE_CORE_API bool RemoveFromStart();
 		/// <summary>
 		/// internal function to call to remove this obj from awake 
 		/// </summary>
 		/// <returns></returns>
-		virtual UPRISE_CORE_API bool RemoveFromAwake();
-
-
+		 UPRISE_CORE_API bool RemoveFromAwake();
+         /// <summary>
+         /// fujction to call when the object is destroyed
+         /// </summary>
+         virtual UPRISE_CORE_API void OnDestroy();
 
 #pragma endregion
 		//following region contains all static Member functions
@@ -161,5 +176,8 @@ namespace CORE {
 
 	};
 }
+
+
+
 
 #endif // !1

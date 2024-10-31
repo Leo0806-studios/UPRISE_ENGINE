@@ -4,6 +4,5 @@ var searchData=
   ['updateall_1',['UpdateAll',['../class_c_o_r_e_1_1_behaviour.html#a27e2dbb14495da4a25ac6073f8bf63f5',1,'CORE::Behaviour']]],
   ['updateallawake_2',['UpdateAllAWAKE',['../class_c_o_r_e_1_1_behaviour.html#aa2716c815e1371c153642dfc6276a5cc',1,'CORE::Behaviour']]],
   ['updateallparallel_3',['UpdateallParallel',['../class_c_o_r_e_1_1_behaviour.html#a74f5622eeb63d1230f677489cc82e247',1,'CORE::Behaviour']]],
-  ['updateallstart_4',['UpdateAllSTART',['../class_c_o_r_e_1_1_behaviour.html#ab9e52786a63973fae2ba8b619d0018bd',1,'CORE::Behaviour']]],
-  ['uprise_5fcore_5fapi_5',['UPRISE_CORE_API',['../_g_l_o_b_a_l_8h.html#ac6d392ab5cdba371ed298324be0a9ae1',1,'GLOBAL.h']]]
+  ['updateallstart_4',['UpdateAllSTART',['../class_c_o_r_e_1_1_behaviour.html#ab9e52786a63973fae2ba8b619d0018bd',1,'CORE::Behaviour']]]
 ];

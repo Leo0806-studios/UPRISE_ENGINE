@@ -5,32 +5,77 @@
 
 #ifndef _VECTOR3_
 #define _VECTOR3_
+
 #include "GLOBAL/GLINCLUDES.h"
 
 #include <intrin.h>
 
-class Vector3 {
+
+/// <summary>
+/// Vector3
+/// stores data in a __m128
+/// </summary>
+ class Vector3 {
 private:
+	/// <summary>
+	/// Data
+	/// </summary>
 	__m128 Data;
 public:
 #pragma region constructor
 #pragma region NonConst
+	/// <summary>
+    /// default constructor
+	/// </summary>
 	Vector3() = default;
 
-
+	/// <summary>
+    /// copy consturctor that accepts a Vector3
+	/// </summary>
+	/// <param name="other"></param>
 	Vector3(Vector3& other) :Data(other.Data) {}
+	/// <summary>
+    /// constructor that accepts a glm::vec3
+	/// </summary>
+	/// <param name="other"></param>
 	Vector3(glm::vec3& other) { Data = _mm_setr_ps(other.x, other.y, other.z, 0); }
+	/// <summary>
+    /// constructor that accepts a aiVector3D
+	/// </summary>
+	/// <param name="other"></param>
 	Vector3(aiVector3D& other) {
 		Data=_mm_setr_ps(other.x, other.y, other.z, 0);
 	}
 #pragma endregion
 #pragma region const
+	/// <summary>
+	/// constructor that accepts 3 floats
+	/// </summary>
+	/// <param name="x"></param>
+	/// <param name="y"></param>
+	/// <param name="z"></param>
 	Vector3(const float x, const float y, const float z) {
 		Data = _mm_setr_ps(x, y, z, 0);
 	}
+	/// <summary>
+    /// constructor that accepts a __m128
+	/// </summary>
+	/// <param name="other"></param>
 	Vector3(const __m128& other) :Data(other) {	}
+	/// <summary>
+    /// constructor that accepts a Vector3
+	/// </summary>
+	/// <param name="other"></param>
 	Vector3(const Vector3& other) :Data(other.Data) {}
+	/// <summary>
+    /// constructor that accepts a glm::vec3
+	/// </summary>
+	/// <param name="other"></param>
 	Vector3(const glm::vec3& other) { Data = _mm_setr_ps(other.x, other.y, other.z, 0); }
+	/// <summary>
+    /// constructor that accepts a aiVector3D
+	/// </summary>
+	/// <param name="other"></param>
 	Vector3(const aiVector3D& other) {
 		Data = _mm_setr_ps(other.x, other.y, other.z, 0);
 	}
@@ -41,17 +86,37 @@ public:
 
 
 #pragma region getter
+	/// <summary>
+	/// getter for x
+    /// returns a non const reference to the x value
+	/// </summary>
+	/// <returns></returns>
 	__inline UPRISE_CORE_API float& x() const{
 		return ((float*)&Data)[0];
 	}
+	/// <summary>
+    /// getter for y
+    /// returns a non const reference to the y value
+	/// </summary>
+	/// <returns></returns>
 	__inline UPRISE_CORE_API float& y() const {
 		return ((float*)&Data)[1];
 
 	}
+    /// <summary>
+    /// getter for z
+    /// returns a non const reference to the z value
+    ///<summary>
+    /// <returns></returns>
 	__inline UPRISE_CORE_API float& z() const {
 		return ((float*)&Data)[2];
 
 	}
+	/// <summary>
+    /// getter for pad  
+    /// returns a non const reference to the pad value
+	/// </summary>
+	/// <returns></returns>
 	__inline UPRISE_CORE_API float& pad() const {
 		return ((float*)&Data)[3];
 
@@ -59,19 +124,52 @@ public:
 #pragma endregion
 #pragma region setter
 	//set vals
+
+	/// <summary>
+	/// setter for x
+    /// returns a non const reference to the x value
+    /// sets x to the value of x
+    /// retruns the new value of x
+	/// </summary>
+	/// <param name="x"></param>
+	/// <returns></returns>
 	__inline UPRISE_CORE_API float& x(const float& x) {
 		return (((float*)&Data)[0] = x);
 
 	}
+	/// <summary>
+    /// setter for y
+    /// returns a non const reference to the y value
+    /// sets y to the value of y
+    /// retruns the new value of y
+	/// </summary>
+	/// <param name="y"></param>
+	/// <returns></returns>
 	__inline UPRISE_CORE_API float& y(const float& y) {
 		return (((float*)&Data)[1]=y);
 
 	}
+	/// <summary>
+    /// setter for z
+    /// returns a non const reference to the z value
+    /// sets z to the value of z
+    /// retruns the new value of z
+	/// </summary>
+	/// <param name="z"></param>
+	/// <returns></returns>
 	__inline UPRISE_CORE_API float& z(const float& z) {
 		return (((float*)&Data)[2]=z);
 
 
 	}
+    /// <summary>
+    /// setter for pad
+    /// returns a non const reference to the pad value
+    /// sets pad to the value of pad
+    /// retruns the new value of pad
+    /// </summary>
+    /// <param name="pad"></param>
+    /// <returns></returns>
 	__inline UPRISE_CORE_API float& pad(const float& pad) {
 		return (((float*)this)[3]=pad);
 
@@ -79,49 +177,113 @@ public:
 #pragma endregion
 #pragma region Operator
 #pragma region NonConst
+	/// <summary>
+    /// assingment operator 
+    /// accepts a Vector3
+	/// </summary>
+	/// <param name="other"></param>
+	/// <returns></returns>
 	__inline UPRISE_CORE_API Vector3 operator=(const Vector3& other) {
 		this->Data = other.Data;
 		return *this;
 	}
+	/// <summary>
+    /// assingment operator 
+    /// accepts a __m128
+	/// </summary>
+	/// <param name="other"></param>
+	/// <returns></returns>
 	__inline UPRISE_CORE_API Vector3 operator=(const __m128& other) {
 		this->Data = other;
 		return *this;
 	}
+	/// <summary>
+    /// addition operator of twot vector3
+	/// </summary>
+	/// <param name="other"></param>
+	/// <returns></returns>
 	__inline UPRISE_CORE_API Vector3 operator+(Vector3 other) {
 		other.Data = _mm_add_ps(this->Data, other.Data);
 		return other;
 	}
-
+	/// <summary>
+	/// addition opperator of a vector 3 and a __m128
+	/// </summary>
+	/// <param name="other"></param>
+	/// <returns></returns>
 	__inline UPRISE_CORE_API Vector3 operator+(__m128 other) {
 		return Vector3(_mm_add_ps(this->Data, other));
 	}
+	/// <summary>
+	/// substraction opperator of two vector3
+	/// </summary>
+	/// <param name="other"></param>
+	/// <returns></returns>
 	__inline UPRISE_CORE_API Vector3 operator-(Vector3 other) {
 		other.Data = _mm_sub_ps(this->Data, other.Data);
 		return other;
 	}
+	/// <summary>
+	/// substaraction opperator of a vector 3 and a __m128
+	/// </summary>
+	/// <param name="other"></param>
+	/// <returns></returns>
 	__inline UPRISE_CORE_API Vector3 operator-(__m128 other) {
 		return Vector3(_mm_sub_ps(this->Data, other));
 	}
+	/// <summary>
+    /// multiplication opperator of two vector3
+	/// </summary>
+	/// <param name="other"></param>
+	/// <returns></returns>
 	__inline UPRISE_CORE_API Vector3 operator*(Vector3 other) {
 		other.Data = _mm_mul_ps(this->Data, other.Data);
 		return  other;
 	}
+	/// <summary>
+    /// multiplication opperator of a vector 3 and a __m128
+	/// </summary>
+	/// <param name="other"></param>
+	/// <returns></returns>
 	__inline UPRISE_CORE_API Vector3 operator*(__m128 other) {
 		return  Vector3(_mm_mul_ps(this->Data, other));
 	}
+    /// <summary>
+    /// multiplication opperator of a vector 3 and a float
+    /// </summary>
+    /// <param name="f"></param>
+    /// <returns></returns>
 	__inline UPRISE_CORE_API Vector3 operator*(float f) {
 		return Vector3(_mm_mul_ps(this->Data, _mm_set_ps1(f)));
-	}
+    }
+    /// <summary>
+    /// division opperator of two vector3
+    /// </summary>
+    /// <param name="other"></param>
+    /// <returns></returns>
 	__inline UPRISE_CORE_API Vector3 operator/(Vector3 other) {
 		other.Data = _mm_div_ps(this->Data, other.Data);
 		return  other;
-	}
+    }
+    /// <summary>
+    /// division opperator of a vector 3 and a __m128
+    /// </summary>
+    /// <param name="other"></param>
+    /// <returns></returns>
 	__inline UPRISE_CORE_API Vector3 operator/(__m128 other) {
 		return  Vector3(_mm_div_ps(this->Data, other));
-	}
+    }
+    /// <summary>
+    /// division opperator of a vector 3 and a float
+    /// </summary>
+    /// <param name="f"></param>
+    /// <returns></returns>
 	__inline UPRISE_CORE_API Vector3 operator/(float f) {
 		return Vector3(_mm_div_ps(this->Data, _mm_set_ps1(f)));
 	}
+	/// <summary>
+    /// opperator for casting to __m128
+	/// </summary>
 	__inline UPRISE_CORE_API operator __m128() {
 		return this->Data;
 	}

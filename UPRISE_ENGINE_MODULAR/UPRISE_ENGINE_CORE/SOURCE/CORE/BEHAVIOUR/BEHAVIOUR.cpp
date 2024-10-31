@@ -1,5 +1,6 @@
-#include "BEHAVIOUR/BEHAVIOUR.h"
-
+#include "CORE/BEHAVIOUR/BEHAVIOUR.h";
+#include <DEBUG/LOG/LOG.h>
+import std;
 
 
  std::vector<RefWrapper<CORE::Behaviour,true>> CORE::Behaviour::behaviours;
@@ -7,23 +8,9 @@
  std::vector<RefWrapper<CORE::Behaviour,true>> CORE::Behaviour::starts;
 
 
- UPRISE_CORE_API bool CORE::Behaviour::RemoveFromUpdate()
- {
-	 return true;
 
- }
 
- UPRISE_CORE_API bool CORE::Behaviour::RemoveFromStart()
- {
-	 return true;
- }
- UPRISE_CORE_API bool CORE::Behaviour::RemoveFromAwake()
- {
-	 return true;
-
- }
-
- /// <summary>
+/// <summary>
 /// updates all Scripts 
 /// </summary>
 /// <returns>void</returns>
@@ -65,6 +52,7 @@ UPRISE_CORE_API void CORE::Behaviour::UpdateAllSTART()
 		for (int i = starts.size() - 1; i >= 0; i--) {
 
 			starts[i]->Start();
+            CORE::Behaviour::AddToUpdate(starts[i]);
 			starts.erase(starts.begin() + i);
 
 		}
@@ -92,4 +80,38 @@ UPRISE_CORE_API bool CORE::Behaviour::AddToAwake(RefWrapper<CORE::Behaviour,true
 {
 	starts.push_back(behaviour);
 	return true;
+}
+UPRISE_CORE_API bool CORE::Behaviour::RemoveFromUpdate()
+{
+    //behaviours.erase(behaviours.begin());
+    //TODO: implement
+	return true;
+
+}
+
+UPRISE_CORE_API bool CORE::Behaviour::RemoveFromStart()
+{
+    //TODO: implement
+
+	return true;
+}
+UPRISE_CORE_API bool CORE::Behaviour::RemoveFromAwake()
+{
+    //TODO: implement
+
+	return true;
+
+}
+void CORE::Behaviour::OnDestroy()
+{
+    
+}
+int CORE::Behaviour::currentUpdate = 0;
+
+void CORE::Behaviour::OnDestroyInt(RefWrapper<Object, true> obj)
+{
+    Log << "Calling OnDestroy\n";
+    OnDestroy();
+    obj.Destroy();
+    
 }

@@ -1,18 +1,36 @@
 #pragma once
 #ifndef _Mat4_
 #define _Mat4_
+
 #include "GLOBAL/GLINCLUDES.h"
-#include "VECTOR/VECTOR4/VECTOR4.h"
+import "DATATYPES/VECTOR/VECTOR4/VECTOR4.h";
 #include "intrin.h"
-#include <QUTERION/QUATERION.h>
+import "DATATYPES/QUTERION/QUATERION.h";
+
 import REF_WRAPPER;
 import std;
-class Mat4 {
+/// <summary>
+/// Mat4 is a 4x4 matrix class that is used for transformations in 3D space
+/// strores its data in 4 __m128 vectors
+/// as rows
+/// </summary>
+ class Mat4 {
 
 public:
+	/// <summary>
+    /// data of the matrix
+	/// </summary>
 	__m128 row0, row1, row2, row3;
-	__inline Mat4(float s) :row0(_mm_setr_ps(s, 0, 0, 0)), row1(_mm_setr_ps(0, s, 0, 0)), row2(_mm_setr_ps(0, 0, s, 0)), row3(_mm_setr_ps(0, 0, 0, s)) {}
-	__forceinline Mat4(Quaternion quat) {
+	/// <summary>
+    /// constructor that sets all values to 0 exept a diagonal that is s
+	/// </summary>
+	/// <param name="s"></param>
+    UPRISE_CORE_API __inline Mat4(float s) :row0(_mm_setr_ps(s, 0, 0, 0)), row1(_mm_setr_ps(0, s, 0, 0)), row2(_mm_setr_ps(0, 0, s, 0)), row3(_mm_setr_ps(0, 0, 0, s)) {}
+    /// <summary>
+    /// constructor that accsepts a quaterion and creates a MAt4 from it
+    /// </summary>
+    /// <param name="quat"></param>
+    UPRISE_CORE_API __inline Mat4(Quaternion quat) {
 		__m128 One = _mm_load_ps(&quat.x());
 
 
@@ -80,9 +98,18 @@ public:
 
 		row3 = _mm_setr_ps(0, 0, 0, 1);
 	}
+    /// <summary>
+    /// static function that computes a look at matrix from the given parameters
+    /// eye is the position of the camera
+    /// center is the point the camera is looking at
+    /// up is the up vector of the camera
+    /// </summary>
+    /// <param name="eye"></param>
+    /// <param name="center"></param>
+    /// <param name="up"></param>
+    /// <returns></returns>
 
-	//__inline operator glm::mat4() { return glm::mat4(TSPVector4(row0), TSPVector4(row1), TSPVector4(row2), TSPVector4(row3)); }
-	__forceinline static  Mat4 Look_At(Vector3 eye, Vector3 center, Vector3 up) {
+    UPRISE_CORE_API __inline static  Mat4 Look_At(Vector3 eye, Vector3 center, Vector3 up) {
 		//TrPr(ctx,__func__)
 		center = (center - eye).Normalized();
 		center.pad() = -(center.Point(eye));
@@ -97,7 +124,19 @@ public:
 
 		//TrPrE(ctx)
 		return result;
-	}
+    }
+    /// <summary>
+    /// static function that computes a look at matrix from the given parameters
+    /// eye is the position of the camera
+    /// center is the point the camera is looking at
+    /// up is the up vector of the camera
+    /// directly returns a glm::mat4
+    /// </summary>
+    /// <param name="eye"></param>
+    /// <param name="center"></param>
+    /// <param name="up"></param>
+    /// <returns></returns>
+    UPRISE_CORE_API
 	__forceinline static  glm::mat4 Look_At_GLM(Vector3 eye, Vector3 center, Vector3 up) {
 		//TrPr(ctx,__func__)
 		center = (center - eye).Normalized();
@@ -132,8 +171,19 @@ public:
 	}
 
 
-
-	__inline static Mat4 Perspective(float fov, float aspect, float zNear, float zFar) {
+	/// <summary>
+    /// creates a perspective matrix from the given parameters
+    /// fov is the field of view in degrees
+    /// aspect is the aspect ratio of the screen
+    /// zNear is the near clipping plane
+    /// zFar is the far clipping plane
+	/// </summary>
+	/// <param name="fov"></param>
+	/// <param name="aspect"></param>
+	/// <param name="zNear"></param>
+	/// <param name="zFar"></param>
+	/// <returns></returns>
+    UPRISE_CORE_API __inline static Mat4 Perspective(float fov, float aspect, float zNear, float zFar) {
 		TrPr(ctx, __func__)
 			Mat4 result(0);
 
@@ -153,7 +203,11 @@ public:
 			return result;
 
 	}
-	__inline glm::mat4 ToMat4glm() {
+	/// <summary>
+    /// transposes the Mat4 to a glm::mat4 using _MM_TRANSPOSE4_PS and then returns the glm::mat4
+	/// </summary>
+	/// <returns></returns>
+    UPRISE_CORE_API __inline glm::mat4 ToMat4glm() {
 		_MM_TRANSPOSE4_PS(row0, row1, row2, row3);
 		
 
@@ -162,7 +216,11 @@ public:
 			Vector4(row1).operator glm::vec<4, float, glm::packed_highp>(),
 			Vector4(row1).operator glm::vec<4, float, glm::packed_highp>());
 	}
-	__forceinline operator glm::mat4() {
+    /// <summary>
+    /// opperator that implicitly converts a Mat4 to a glm::mat4
+    /// usis a slitgtly differebt method than ToMat4glm
+    /// </summary>
+    UPRISE_CORE_API __inline operator glm::mat4() {
 		TrPr(ctx, __func__)
 
 			__m128 tmp0 = _mm_unpacklo_ps(row0, row1); // [r0.x, r1.x, r0.y, r1.y]
@@ -183,7 +241,14 @@ public:
 
 			return glm::mat4(col0, col1, col2, col3);
 	}
-	__inline __m128& operator[](int i) {
+
+	/// <summary>
+    /// operator tj accses the rows of the matrix
+    /// provides (bad)  bounds checking
+	/// </summary>
+	/// <param name="i"></param>
+	/// <returns></returns>
+    UPRISE_CORE_API __inline __m128& operator[](int i) {
 
 		if (i > 3)
 		{
@@ -193,7 +258,16 @@ public:
 		}
 		return (((__m128*)this)[i]);
 	}
-	__inline float& operator()(int r, int c) {
+    /// <summary>
+    /// operator that accses the elements of the matrix
+    /// provides (bad) bounds checking
+    /// r is the row
+    /// c is the collumn
+    /// </summary>
+    /// <param name="r"></param>
+    /// <param name="c"></param>
+    /// <returns></returns>
+    UPRISE_CORE_API __inline float& operator()(int r, int c) {
 		return (this->operator[](r)).m128_f32[c];
 
 	}

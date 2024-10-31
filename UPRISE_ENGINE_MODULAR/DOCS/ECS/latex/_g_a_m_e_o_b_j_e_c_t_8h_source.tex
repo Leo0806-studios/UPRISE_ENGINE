@@ -1,0 +1,64 @@
+\doxysection{GAMEOBJECT.\+h}
+\hypertarget{_g_a_m_e_o_b_j_e_c_t_8h_source}{}\label{_g_a_m_e_o_b_j_e_c_t_8h_source}\index{HEADER/ECS/GAMEOBJECT/GAMEOBJECT.h@{HEADER/ECS/GAMEOBJECT/GAMEOBJECT.h}}
+\mbox{\hyperlink{_g_a_m_e_o_b_j_e_c_t_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8h_source_l00001}00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8h_source_l00002}00002\ \textcolor{preprocessor}{\#ifndef\ \_GameObject\_}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8h_source_l00003}\mbox{\hyperlink{_g_a_m_e_o_b_j_e_c_t_8h_a44e495bfee670e9071118af8789388e8}{00003}}\ \textcolor{preprocessor}{\#define\ \_GameObject\_}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8h_source_l00004}00004\ \textcolor{preprocessor}{\#include\ "{}GLOBAL.h"{}}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8h_source_l00005}00005\ \textcolor{preprocessor}{\#include\ "{}GLOBAL/GLINCLUDES.h"{}}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8h_source_l00006}00006\ \textcolor{preprocessor}{\#include\ "{}CORE/OBJECT/OBJECT.h"{}};}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8h_source_l00007}00007\ \textcolor{preprocessor}{\#include\ "{}DATATYPES/TAG/TAG.h"{}};}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8h_source_l00008}00008\ \textcolor{preprocessor}{\#include\ "{}DATATYPES/LAYER/LAYER.h"{}};}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8h_source_l00009}00009\ \textcolor{preprocessor}{\#include\ "{}DATATYPES/VECTOR/VECTOR3/FAST/VECTOR3\_F.h"{}};}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8h_source_l00010}00010\ \textcolor{preprocessor}{\#include\ "{}DATATYPES/QUTERION/QUATERION.h"{}};}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8h_source_l00011}00011\ \textcolor{keyword}{import}\ std;}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8h_source_l00012}00012\ \textcolor{keyword}{import}\ REF\_WRAPPER;}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8h_source_l00013}\mbox{\hyperlink{namespace_c_o_r_e}{00013}}\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespace_c_o_r_e}{CORE}}\ \{}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8h_source_l00014}00014\ \ \ \ \ \textcolor{keyword}{class\ }Behaviour;}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8h_source_l00015}00015\ \}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8h_source_l00016}00016\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_transform}{Transform}};}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8h_source_l00017}00017\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_mesh}{Mesh}};}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8h_source_l00023}\mbox{\hyperlink{class_game_object}{00023}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_game_object}{GameObject}}\ :\textcolor{keyword}{public}\ CORE::Object\{}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8h_source_l00024}00024\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8h_source_l00028}00028\ \ \ \ \ Tag\ tag;}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8h_source_l00032}00032\ \ \ \ \ Layer\ layer;}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8h_source_l00036}00036\ \ \ \ \ RefWrapper<Transform,\ true>\ transform;}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8h_source_l00041}00041\ \ \ \ \ RefWrapper<Mesh,\ true>\ mesh;}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8h_source_l00045}00045\ \ \ \ \ std::vector\ <\ RefWrapper\ <\ CORE::Behaviour,\ true>>\ behaviours;}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8h_source_l00046}00046\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8h_source_l00047}00047\ \textcolor{preprocessor}{\#pragma\ region\ Constructors}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8h_source_l00048}00048\ \ \ \ \ \textcolor{comment}{//default\ }}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8h_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8h_source_l00053}\mbox{\hyperlink{class_game_object_a49f0fc91c3048ec583044e7a1b9c2518}{00053}}\ \ \ \ \ \mbox{\hyperlink{class_game_object_a49f0fc91c3048ec583044e7a1b9c2518}{GameObject}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8h_source_l00058}\mbox{\hyperlink{class_game_object_ab13374d070cfe6a1459539d54c671eba}{00058}}\ \ \ \ \ \mbox{\hyperlink{class_game_object_ab13374d070cfe6a1459539d54c671eba}{GameObject}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_game_object}{GameObject}}\&\ other)}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8h_source_l00059}00059\ \ \ \ \ \ \ \ \ :\ }
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8h_source_l00060}00060\ \ \ \ \ \ \ \ \ behaviours(other.behaviours)}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8h_source_l00061}00061\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8h_source_l00062}00062\ \ \ \ \ \ \ \ \ this-\/>Enabled()=(other.EnabledC());}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8h_source_l00063}00063\ \ \ \ \ \ \ \ \ mesh\ =\ other.mesh;}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8h_source_l00064}00064\ \ \ \ \ \ \ \ \ transform\ =\ other.transform;}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8h_source_l00065}00065\ \ \ \ \ \ \ \ \ Name()\ =\ other.NameC();}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8h_source_l00066}00066\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8h_source_l00067}00067\ }
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8h_source_l00068}00068\ }
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8h_source_l00069}00069\ }
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8h_source_l00070}00070\ \textcolor{preprocessor}{\#pragma\ endregion}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8h_source_l00071}00071\ \textcolor{preprocessor}{\#pragma\ region\ \ Destructors}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8h_source_l00072}\mbox{\hyperlink{class_game_object_ab82dfdb656f9051c0587e6593b2dda97}{00072}}\ \ \ \ \ \mbox{\hyperlink{class_game_object_ab82dfdb656f9051c0587e6593b2dda97}{\string~GameObject}}()\ \{\}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8h_source_l00073}00073\ }
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8h_source_l00074}00074\ \textcolor{preprocessor}{\#pragma\ endregion}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8h_source_l00075}00075\ \textcolor{preprocessor}{\#pragma\ region\ Funcs}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8h_source_l00076}00076\ \textcolor{preprocessor}{\#pragma\ region\ Statics}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8h_source_l00086}00086\ \ \ \ \ UPRISE\_ECS\_API\ \textcolor{keyword}{static}\ RefWrapper<GameObject,\ true>\ \mbox{\hyperlink{class_game_object_a543921e893d047d5742e25a24ad430ad}{Create}}(Vector3\ position,Quaternion\ Rotation,RefWrapper<Mesh,true>\ mesh,\ \textcolor{keywordtype}{int}\ materialID);}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8h_source_l00087}00087\ }
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8h_source_l00088}00088\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8h_source_l00089}00089\ \textcolor{preprocessor}{\#pragma\ endregion}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8h_source_l00090}00090\ }
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8h_source_l00091}00091\ \textcolor{preprocessor}{\#pragma\ endregion}}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8h_source_l00092}00092\ }
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8h_source_l00093}00093\ }
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8h_source_l00094}00094\ \};}
+\DoxyCodeLine{\Hypertarget{_g_a_m_e_o_b_j_e_c_t_8h_source_l00095}00095\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ !\_GameObject\_}}
+
+\end{DoxyCode}

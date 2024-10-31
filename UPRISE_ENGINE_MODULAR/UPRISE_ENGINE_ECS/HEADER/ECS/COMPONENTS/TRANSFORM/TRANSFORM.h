@@ -6,17 +6,45 @@
 #include "VECTOR/VECTOR3/FAST/VECTOR3_F.h"
 
 #include "QUTERION/QUATERION.h"
+/// <summary>
+/// Transform component on Gameobjects
+/// </summary>
 class Transform :public CORE::Behaviour {
 private:
+	/// <summary>
+    /// position of the gameobject
+	/// </summary>
 	Vector3 position;
+	/// <summary>
+    /// rotation as quaterion
+	/// </summary>
 	Quaternion rotation;
+	/// <summary>
+    /// rotation as vector3
+	/// </summary>
 	Vector3 vec3rot;
+	/// <summary>
+    /// local forwar vector
+	/// </summary>
 	Vector3 forward;
+    /// <summary>
+    /// local up vector
+    /// </summary>
 	Vector3 up;
+    /// <summary>
+/// local right vector
+/// </summary>
+/// 
 	Vector3 right;
 public:
+	/// <summary>
+	/// uuid of component
+	/// </summary>
 	static UUID uid;
 #pragma region Constructor
+	/// <summary>
+    /// default constructor
+	/// </summary>
 	Transform() = default;
 
 #pragma endregion
@@ -64,10 +92,13 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	UPRISE_ECS_API void UpdateDirections();
-
+    UPRISE_CORE_API void OnDestroy()override;
 	UPRISE_ECS_API void Update()override;
 	UPRISE_ECS_API void Awake()override;
 	UPRISE_ECS_API void Start()override;
+    UPRISE_ECS_API RefWrapper<CORE::Behaviour, true> Copy()override;
+    UPRISE_ECS_API RefWrapper<CORE::Behaviour, true> DeepCopy()override;
+    UPRISE_ECS_API void EditorWindow()override;
 #pragma endregion
 
 

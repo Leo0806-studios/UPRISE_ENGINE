@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['layer_0',['Layer',['../class_layer.html#afe03e6832be1b3af70377768e8945064',1,'Layer::Layer()=default'],['../class_layer.html#a8ca9972d1e877f3154c109b85ad13000',1,'Layer::Layer(int id, std::string name)']]]
+  ['hle_0',['HLE',['../class_c_o_r_e_1_1_instruction_set.html#ae10f1e3b94e1d702cfcb146db51dfb80',1,'CORE::InstructionSet']]]
 ];

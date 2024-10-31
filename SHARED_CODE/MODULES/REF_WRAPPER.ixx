@@ -2,10 +2,14 @@ module;
 #include "atomic"
 export module REF_WRAPPER;
 import std;
-
+template<class T, bool NC>  class Controll_Block;
+template <class T, bool NC> class RefWrapper;;
 class controll_Base {
 private:
 	bool null;
+     template<class T,bool NC> friend class Controll_Block;
+     template<class T, bool NC> friend class RefWrapper;
+
 	unsigned long long _Refs = 1;
 	virtual void Incref() {
 
@@ -14,9 +18,9 @@ private:
 
 	}
 public:
-	virtual void* get() {};
+    virtual void* get() { return nullptr; };
 	private:
-	virtual void DeleteManualy(){}
+        virtual void DeleteManualy() = 0;
 
 public:
 };
@@ -36,8 +40,10 @@ template<class T>
 class Controll_Block<T, true> :public controll_Base {
 private:
 	T* Obj{ nullptr };
+    template<class T, bool NC> friend class RefWrapper;
+
 public:
-	T* get()override {
+	void* get()override {
 		if (Obj == nullptr) {
 			return Obj;
 
@@ -85,6 +91,7 @@ template<class T>
 class Controll_Block<T, false> :public controll_Base {
 private:
 	T* Obj{ nullptr };
+    template<class T, bool NC> friend class RefWrapper;
 public:
 	T* get()override {
 		return Obj;
@@ -117,13 +124,40 @@ public:
 		Obj = new T;
 	}
 };
-template<class T, bool NullChk>
-RefWrapper<T, NullChk> WrapRef() {}
-void Activate() {
 
-}
 export {
-	
+    template<class T, bool NullChk>
+    RefWrapper<T, NullChk> WrapRef(const T&& __val) {
+        controll_Base* base = new Controll_Block<T, NullChk>();
+        RefWrapper<T, NullChk> ret;
+        *ret.Get() = __val;
+        ret.contrl = base;
+        return ret;
+    }
+    template<class T, bool NullChk>
+    RefWrapper<T, NullChk> WrapRef() {
+        controll_Base* base = new Controll_Block<T, NullChk>();
+        RefWrapper<T, NullChk> ret;
+       
+        ret.contrl = base;
+        return ret;
+    }
+    //template<class T>
+    //RefWrapper<T, true> WrapRef<T, false>() {
+    //    controll_Base* base = new Controll_Block<T, true>();
+    //    RefWrapper<T, true> ret;
+    //    ret.contrl = base;
+    //}
+    //template<class T>
+    //RefWrapper<T, false> WrapRef<T, true>() {
+    //    controll_Base* base = new Controll_Block<T, true>();
+    //    RefWrapper<T, false> ret;
+    //    ret.contrl = base;
+    //}
+
+    void Activate() {
+
+    }
 	template<class T>
 	class RefWrapper<T, true> {
 	private:
@@ -134,6 +168,11 @@ export {
 		RefWrapper() {
 
 		}
+        template<class T2>
+        RefWrapper(const RefWrapper<T2, true>& other) {
+            contrl = other.contrl;
+            contrl->Incref();
+        }
 		void Destroy() {
 			contrl->DeleteManualy();
 		}
@@ -144,6 +183,9 @@ export {
 			contrl->Incref();
 
 		}
+        RefWrapper<T, true> operator=(const T& other) {
+            *(T*)contrl->get() = other;
+        }
 		T* Get() {
 			return (T*)contrl->get();
 		}
@@ -178,6 +220,9 @@ export {
 			contrl = other.contrl;
 			contrl->Incref();
 		}
+        RefWrapper<T, true> operator=(const T& other) {
+            *(T*)contrl->get() = other;
+        }
 		T* Get() {
 			return (T*)contrl->get();
 		}
@@ -185,17 +230,5 @@ export {
 			return (T*)contrl->get();
 		}
 	};
-	template<class T>
-	RefWrapper<T, true> WrapRef() {
-		controll_Base* base = new Controll_Block<T, true>();
-		RefWrapper<T, true> ret;
-		ret.contrl = base;
-	}
-	template<class T>
-	RefWrapper<T, false> WrapRef() {
-		controll_Base* base = new Controll_Block<T, true>();
-		RefWrapper<T, false> ret;
-		ret.contrl = base;
-	}
 
 }

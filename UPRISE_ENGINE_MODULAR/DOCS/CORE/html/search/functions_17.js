@@ -1,7 +1,5 @@
 var searchData=
 [
-  ['_7earray_0',['~Array',['../class_array.html#af2fbbf7f28bfd68216483fe0d11b5d1c',1,'Array']]],
-  ['_7ebehaviour_1',['~Behaviour',['../class_c_o_r_e_1_1_behaviour.html#acea9df022f2eff61f28a5b3bde92c9dd',1,'CORE::Behaviour']]],
-  ['_7ecomponent_2',['~Component',['../class_c_o_r_e_1_1_component.html#a509edbb466177eedf388e8f687b0c7cb',1,'CORE::Component']]],
-  ['_7eobject_3',['~Object',['../class_c_o_r_e_1_1_object.html#ac6e13ce625b83c5a2876910e267f3bb0',1,'CORE::Object']]]
+  ['y_0',['y',['../class_quaternion.html#a36037719070575db321bb71e3b2dc919',1,'Quaternion::y() const'],['../class_quaternion.html#a7b9e6952a5c156deee5aa0bfd9fa36c5',1,'Quaternion::y(const float &amp;y)'],['../class_vector2.html#a7080e5293e9e2afb5cb6dfc118774c78',1,'Vector2::y() const'],['../class_vector2.html#ae665d26e62609b525085c43cfa80d1c6',1,'Vector2::y(const float &amp;y)'],['../class_vector3.html#a7b0b47c22fbae3bcfd31052f57ad92b5',1,'Vector3::y() const'],['../class_vector3.html#af3b51744814e7080e82baaf8a10e1c77',1,'Vector3::y(const float &amp;y)'],['../class_vector4.html#a5919a98536df3e702c5f21f0521c64b9',1,'Vector4::y() const'],['../class_vector4.html#ada22bb808844b674d8b877a3a8885982',1,'Vector4::y(const float &amp;y)']]],
+  ['yy_1',['yy',['../class_vector2.html#a60b34c67b3fd170563c8f52cb379eb00',1,'Vector2::yy() const'],['../class_vector2.html#a5da2f88924f01e2622da5768f3d02dac',1,'Vector2::yy(const float &amp;yy)']]]
 ];
