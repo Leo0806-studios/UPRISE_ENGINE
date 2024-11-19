@@ -17,7 +17,7 @@ import std;
 /// <typeparam name="i"></typeparam>
 /// <typeparam name="t"></typeparam>
  template<class T, int i, type t>
-class Array {
+class UPRISE_CORE_API Array {
 private:
 	/// <summary>
 	/// the arry or pointer to array
@@ -36,7 +36,7 @@ public:
 	/// <summary>
     /// consturctor that allocates the array on the heap if t==heap
 	/// </summary>
-    UPRISE_CORE_API __inline Array() {
+     __inline Array() {
 		if constexpr (t == heap) {
 			data = new T[i];
 		}
@@ -47,7 +47,7 @@ public:
 	/// <summary>
     /// destructor that deletes the array if t==heap
 	/// </summary>
-    UPRISE_CORE_API __inline ~Array() {
+     __inline ~Array() {
 		if constexpr (t == heap) {
 			delete[]data;
 		}
@@ -60,7 +60,7 @@ public:
 	/// </summary>
 	/// <param name="index"></param>
 	/// <returns></returns>
-    UPRISE_CORE_API __inline const T& operator[](const long long index) {
+     __inline const T& operator[](const long long index) {
 		if constexpr (index > size|| index<0) {
 			throw std::out_of_range("Index out of bounds");
 		}
@@ -80,7 +80,7 @@ public:
 	/// <typeparam name="ind"></typeparam>
 	/// <returns></returns>
 	template<long long ind>
-    UPRISE_CORE_API __inline const T& get() {
+     __inline const T& get() {
 		if constexpr (ind > size || ind < 0) {
 			throw std::out_of_range("Index out of bounds");
 		}

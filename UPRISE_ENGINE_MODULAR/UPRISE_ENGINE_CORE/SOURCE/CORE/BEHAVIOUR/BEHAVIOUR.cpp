@@ -14,7 +14,7 @@ import std;
 /// updates all Scripts 
 /// </summary>
 /// <returns>void</returns>
-UPRISE_CORE_API void CORE::Behaviour::UpdateAll()
+ void CORE::Behaviour::UpdateAll()
 {
 	TrPr(ctx, __func__)
 		//Log << "test HotReload";
@@ -34,7 +34,7 @@ UPRISE_CORE_API void CORE::Behaviour::UpdateAll()
 /// 
 /// </summary>
 /// <returns></returns>
-UPRISE_CORE_API void CORE::Behaviour::UpdateAllAWAKE()
+ void CORE::Behaviour::UpdateAllAWAKE()
 {
 	TrPr(ctx, __func__)
 		for (int i = awakes.size() - 1; i >= 0; i--) {
@@ -46,7 +46,7 @@ UPRISE_CORE_API void CORE::Behaviour::UpdateAllAWAKE()
 	TrPrE(ctx);
 }
 
-UPRISE_CORE_API void CORE::Behaviour::UpdateAllSTART()
+ void CORE::Behaviour::UpdateAllSTART()
 {
 	TrPr(ctx, __func__)
 		for (int i = starts.size() - 1; i >= 0; i--) {
@@ -59,29 +59,29 @@ UPRISE_CORE_API void CORE::Behaviour::UpdateAllSTART()
 	TrPrE(ctx);
 }
 
-UPRISE_CORE_API void CORE::Behaviour::UpdateallParallel()
+ void CORE::Behaviour::UpdateallParallel()
 {
    
 }
 
-UPRISE_CORE_API bool CORE::Behaviour::AddToUpdate(RefWrapper<CORE::Behaviour,true> behaviour)
+ bool CORE::Behaviour::AddToUpdate(RefWrapper<CORE::Behaviour,true> behaviour)
 {
 	behaviours.push_back(behaviour);
 	return  true;
 }
 
-UPRISE_CORE_API bool CORE::Behaviour::AddToStart(RefWrapper<CORE::Behaviour,true> behaviour)
+ bool CORE::Behaviour::AddToStart(RefWrapper<CORE::Behaviour,true> behaviour)
 {
 	awakes.push_back(behaviour);
 	return true;
 }
 
-UPRISE_CORE_API bool CORE::Behaviour::AddToAwake(RefWrapper<CORE::Behaviour,true> behaviour)
+ bool CORE::Behaviour::AddToAwake(RefWrapper<CORE::Behaviour,true> behaviour)
 {
 	starts.push_back(behaviour);
 	return true;
 }
-UPRISE_CORE_API bool CORE::Behaviour::RemoveFromUpdate()
+ bool CORE::Behaviour::RemoveFromUpdate()
 {
     //behaviours.erase(behaviours.begin());
     //TODO: implement
@@ -89,13 +89,13 @@ UPRISE_CORE_API bool CORE::Behaviour::RemoveFromUpdate()
 
 }
 
-UPRISE_CORE_API bool CORE::Behaviour::RemoveFromStart()
+ bool CORE::Behaviour::RemoveFromStart()
 {
     //TODO: implement
 
 	return true;
 }
-UPRISE_CORE_API bool CORE::Behaviour::RemoveFromAwake()
+ bool CORE::Behaviour::RemoveFromAwake()
 {
     //TODO: implement
 
@@ -104,7 +104,7 @@ UPRISE_CORE_API bool CORE::Behaviour::RemoveFromAwake()
 }
 void CORE::Behaviour::OnDestroy()
 {
-    
+    //TODO: implement
 }
 int CORE::Behaviour::currentUpdate = 0;
 

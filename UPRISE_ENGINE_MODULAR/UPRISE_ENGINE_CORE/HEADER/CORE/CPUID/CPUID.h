@@ -13,80 +13,80 @@ import std;
     /// <summary>
     /// contains cpu secs
     /// </summary>
-    class InstructionSet
+       class  UPRISE_CORE_API InstructionSet
     {
         // forward declarations
         class InstructionSet_Internal;
 
     public:
         // getters
-        static UPRISE_CORE_API std::string Vendor(void);
-        static UPRISE_CORE_API std::string Brand(void);
+        static  std::string Vendor(void);
+        static  std::string Brand(void);
 
-        static UPRISE_CORE_API bool SSE3(void) { return CPU_Rep.f_1_ECX_[0]; }
-        static UPRISE_CORE_API bool PCLMULQDQ(void);
-        static UPRISE_CORE_API bool MONITOR(void);
-        static UPRISE_CORE_API bool SSSE3(void);
-        static UPRISE_CORE_API bool FMA(void);
-        static UPRISE_CORE_API bool CMPXCHG16B(void);
-        static UPRISE_CORE_API bool SSE41(void);
-        static UPRISE_CORE_API bool SSE42(void);
-        static UPRISE_CORE_API bool MOVBE(void);
-        static UPRISE_CORE_API bool POPCNT(void);
-        static UPRISE_CORE_API bool AES(void);
-        static UPRISE_CORE_API bool XSAVE(void);
-        static UPRISE_CORE_API bool OSXSAVE(void);
-        static UPRISE_CORE_API bool AVX(void);
-        static UPRISE_CORE_API bool F16C(void);
-        static UPRISE_CORE_API bool RDRAND(void);
+        static  bool SSE3(void) { return CPU_Rep.f_1_ECX_[0]; }
+        static  bool PCLMULQDQ(void);
+        static  bool MONITOR(void);
+        static  bool SSSE3(void);
+        static  bool FMA(void);
+        static  bool CMPXCHG16B(void);
+        static  bool SSE41(void);
+        static  bool SSE42(void);
+        static  bool MOVBE(void);
+        static  bool POPCNT(void);
+        static  bool AES(void);
+        static  bool XSAVE(void);
+        static  bool OSXSAVE(void);
+        static  bool AVX(void);
+        static  bool F16C(void);
+        static  bool RDRAND(void);
 
-        static UPRISE_CORE_API bool MSR(void);
-        static UPRISE_CORE_API bool CX8(void);
-        static UPRISE_CORE_API bool SEP(void);
-        static UPRISE_CORE_API bool CMOV(void);
-        static UPRISE_CORE_API bool CLFSH(void);
-        static UPRISE_CORE_API bool MMX(void);
-        static UPRISE_CORE_API bool FXSR(void);
-        static UPRISE_CORE_API bool SSE(void);
-        static UPRISE_CORE_API bool SSE2(void);
+        static  bool MSR(void);
+        static  bool CX8(void);
+        static  bool SEP(void);
+        static  bool CMOV(void);
+        static  bool CLFSH(void);
+        static  bool MMX(void);
+        static  bool FXSR(void);
+        static  bool SSE(void);
+        static  bool SSE2(void);
 
-        static UPRISE_CORE_API bool FSGSBASE(void);
-        static UPRISE_CORE_API bool BMI1(void);
-        static UPRISE_CORE_API bool HLE(void);
-        static UPRISE_CORE_API bool AVX2(void);
-        static UPRISE_CORE_API bool BMI2(void);
-        static UPRISE_CORE_API bool ERMS(void);
-        static UPRISE_CORE_API bool INVPCID(void);
-        static UPRISE_CORE_API bool RTM(void);
-        static UPRISE_CORE_API bool AVX512F(void);
-        static UPRISE_CORE_API bool RDSEED(void);
-        static UPRISE_CORE_API bool ADX(void);
-        static UPRISE_CORE_API bool AVX512PF(void);
-        static UPRISE_CORE_API bool AVX512ER(void);
-        static UPRISE_CORE_API bool AVX512CD(void);
-        static UPRISE_CORE_API bool SHA(void);
+        static  bool FSGSBASE(void);
+        static  bool BMI1(void);
+        static  bool HLE(void);
+        static  bool AVX2(void);
+        static bool BMI2(void);
+        static  bool ERMS(void);
+        static  bool INVPCID(void);
+        static  bool RTM(void);
+        static  bool AVX512F(void);
+        static  bool RDSEED(void);
+        static  bool ADX(void);
+        static  bool AVX512PF(void);
+        static  bool AVX512ER(void);
+        static  bool AVX512CD(void);
+        static  bool SHA(void);
 
-        static UPRISE_CORE_API bool PREFETCHWT1(void);
+        static  bool PREFETCHWT1(void);
 
-        static UPRISE_CORE_API bool LAHF(void);
-        static UPRISE_CORE_API bool LZCNT(void);
-        static UPRISE_CORE_API bool ABM(void);
-        static UPRISE_CORE_API bool SSE4a(void);
-        static UPRISE_CORE_API bool XOP(void);
-        static UPRISE_CORE_API bool TBM(void);
+        static  bool LAHF(void);
+        static  bool LZCNT(void);
+        static  bool ABM(void);
+        static  bool SSE4a(void);
+        static  bool XOP(void);
+        static  bool TBM(void);
 
-        static UPRISE_CORE_API bool SYSCALL(void);
-        static UPRISE_CORE_API bool MMXEXT(void);
-        static UPRISE_CORE_API bool RDTSCP(void);
-        static UPRISE_CORE_API bool _3DNOWEXT(void);
-        static UPRISE_CORE_API bool _3DNOW(void);
+        static  bool SYSCALL(void);
+        static  bool MMXEXT(void);
+        static  bool RDTSCP(void);
+        static  bool _3DNOWEXT(void);
+        static  bool _3DNOW(void);
 
         static const InstructionSet_Internal CPU_Rep;
 
         class InstructionSet_Internal
         {
         public:
-          UPRISE_CORE_API InstructionSet_Internal() : nIds_{ 0 },
+           InstructionSet_Internal() : nIds_{ 0 },
               nExIds_{ 0 },
               isIntel_{ false },
               isAMD_{ false },

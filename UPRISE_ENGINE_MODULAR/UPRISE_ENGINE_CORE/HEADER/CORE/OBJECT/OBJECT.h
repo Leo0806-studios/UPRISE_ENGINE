@@ -15,14 +15,20 @@ import std;
 /// <summary>
 /// Namespace for core functionality
 /// </summary>
- namespace CORE {
+namespace CORE {
+    class Behaviour;
+    class Component;
     /// <summary>
 /// Baseclass For nearly everything object related in the engine
 /// </summary>
-    class Object {
+      class UPRISE_CORE_API Object {
     private:
         std::string name;
         bool enabled = true;
+          static  void destroyBehaviour(RefWrapper<CORE::Behaviour, true> Object);
+          static  void destroyComponent(RefWrapper<CORE::Component, true> Object);
+          static void destroyObject(RefWrapper<CORE::Object, true> Object);
+
     public:
 #pragma region Constuctors
         /// <summary>
@@ -45,8 +51,21 @@ import std;
         /// <typeparam name="T"></typeparam>
         /// <param name="Object"></param>
         /// <returns></returns>
-        template<class T>
-        UPRISE_CORE_API	__inline static bool Destroy(RefWrapper<T, true> Object);
+        template<class T, typename = std::enable_if_t<std::is_same_v<T, CORE::Behaviour> || std::is_same_v<T, CORE::Component> || std::is_same_v<T, CORE::Object>>>
+        __inline static bool Destroy(RefWrapper<T, true> Object) {
+            if constexpr(std::is_same_v<T, CORE::Behaviour>) {
+                destroyBehaviour(Object);
+                return true;
+            }
+            else if constexpr (std::is_same_v<T, CORE::Component>) {
+                destroyComponent(Object);
+                return true;
+            }
+            else {
+                destroyObject(Object);
+                return true;
+            }
+        }
 
 
 #pragma endregion
@@ -54,14 +73,14 @@ import std;
         /// <summary>
         /// internal base virtual function for object destruction
         /// </summary>
-        
-        virtual UPRISE_CORE_API void OnDestroyInt(RefWrapper<CORE::Object,true> obj) = 0;
+
+        virtual  void OnDestroyInt(RefWrapper<CORE::Object, true> obj) = 0;
         /// <summary>
         /// getter for the name of the object
         /// returns the name of the object as a non const reference
         /// </summary>
         /// <returns></returns>
-        UPRISE_CORE_API __inline std::string& Name() {
+         __inline std::string& Name() {
             return name;
         }
         /// <summary>
@@ -69,7 +88,7 @@ import std;
         /// returns a non const reference to the enabled state of the object
         /// </summary>
         /// <returns></returns>
-        UPRISE_CORE_API __inline  bool& Enabled() {
+         __inline  bool& Enabled() {
             return enabled;
         }
         __inline bool& SetEnabled(bool value) {
@@ -82,7 +101,7 @@ import std;
         /// returns the name of the object as a  const reference
         /// </summary>
         /// <returns></returns>
-        UPRISE_CORE_API __inline const std::string& NameC()const {
+         __inline const std::string& NameC()const {
             return name;
         }
         /// <summary>
@@ -90,7 +109,7 @@ import std;
     /// returns a  const reference to the enabled state of the object
     /// </summary>
     /// <returns></returns>
-        UPRISE_CORE_API __inline const bool& EnabledC() const {
+         __inline const bool& EnabledC() const {
             return enabled;
         }
 #pragma endregion
@@ -104,6 +123,7 @@ import std;
 
 
     };
-}
-
-#endif // !_OBJECT_
+};
+ 
+#endif // !_OBJECT_ 
+ 

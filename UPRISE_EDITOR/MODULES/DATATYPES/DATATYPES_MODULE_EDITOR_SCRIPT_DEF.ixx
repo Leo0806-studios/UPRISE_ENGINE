@@ -77,10 +77,10 @@ export namespace EDITOR {
 			size_t Size;
 
 
-			template<typename _Tn, class _Obj>
-			static Serialized_Ref Create_Serialized_Ref(void* ptr) {
-				return Serialized_Ref<_Tn>(ptr);
-			}
+			//template<typename _Tn, class _Obj>
+			//static Serialized_Ref Create_Serialized_Ref(void* ptr) {
+			//	return Serialized_Ref<_Tn>(ptr);
+			//}
 
 
 		};

@@ -12,7 +12,7 @@
 /// <summary>
 /// stores a quaternion in a __m128
 /// </summary>
- class Quaternion {
+ class  UPRISE_CORE_API Quaternion {
 	/// <summary>
 	/// data
 	/// </summary>
@@ -24,7 +24,7 @@ public:
     /// returns a non const reference to the x value
 	/// </summary>
 	/// <returns></returns>
-	__inline UPRISE_CORE_API float& x() const {
+	__inline  float& x() const {
 		return ((float*)&Data)[0];
 	}
 	/// <summary>
@@ -32,7 +32,7 @@ public:
     /// returns a non const reference to the y value
 	/// </summary>
 	/// <returns></returns>
-	__inline UPRISE_CORE_API float& y() const {
+	__inline  float& y() const {
 		return ((float*)&Data)[1];
 
 	}
@@ -41,7 +41,7 @@ public:
     /// returns a non const reference to the z value
     /// /// </summary>
 	/// <returns></returns>
-	__inline UPRISE_CORE_API float& z() const {
+	__inline  float& z() const {
 		return ((float*)&Data)[2];
 
 	}
@@ -50,7 +50,7 @@ public:
     /// returns a non const reference to the w value
     /// </summary>
     /// <returns></returns>
-	__inline UPRISE_CORE_API float& w() const {
+	__inline  float& w() const {
 		return ((float*)&Data)[3];
 
 	}
@@ -66,7 +66,7 @@ public:
 	/// </summary>
 	/// <param name="x"></param>
 	/// <returns></returns>
-	__inline UPRISE_CORE_API float& x(const float& x) {
+	__inline  float& x(const float& x) {
 		return (((float*)&Data)[0] = x);
 
 	}
@@ -78,7 +78,7 @@ public:
     /// </summary>
     /// /// <param name="y"></param>
 	/// <returns></returns>
-	__inline UPRISE_CORE_API float& y(const float& y) {
+	__inline  float& y(const float& y) {
 		return (((float*)&Data)[1] = y);
 
 	}
@@ -91,7 +91,7 @@ public:
     /// <param name="z"></param>
     /// <returns></returns>
     /// 
-	__inline UPRISE_CORE_API float& z(const float& z) {
+	__inline  float& z(const float& z) {
 		return (((float*)&Data)[2] = z);
 
 
@@ -104,7 +104,7 @@ public:
 /// </summary>
 /// <param name="w"></param>
 /// <returns></returns>
-	__inline UPRISE_CORE_API float& w(const float& w) {
+	__inline  float& w(const float& w) {
 		return (((float*)this)[3] = w);
 
 	}
@@ -168,7 +168,7 @@ public:
 	/// </summary>
 	/// <param name="vec"></param>
 	/// <returns></returns>
-	static __inline UPRISE_CORE_API Quaternion FromEulerAngles(Vector3 vec) {
+	static __inline  Quaternion FromEulerAngles(Vector3 vec) {
 
 		__m128 coss = _mm_cos_ps(_mm_mul_ps(vec, _mm_set_ps1(0.5)));
 		__m128 sinn = _mm_sin_ps(_mm_mul_ps(vec, _mm_set_ps1(0.5)));
@@ -197,7 +197,7 @@ public:
 	/// </summary>
 	/// <param name="other"></param>
 	/// <returns></returns>
-	__inline UPRISE_CORE_API Quaternion operator*(const Quaternion& other) const {
+	__inline  Quaternion operator*(const Quaternion& other) const {
 		return Quaternion(
 			w() * other.w() - x() * other.x() - y() * other.y() - z() * other.z(),
 			w() * other.x() + x() * other.w() + y() * other.z() - z() * other.y(),
@@ -210,7 +210,7 @@ public:
     /// transforms a quaternion to a vector3 
 	/// </summary>
 	/// <returns></returns>
-	__inline UPRISE_CORE_API Vector3 ToRotationVector() const {
+	__inline  Vector3 ToRotationVector() const {
 
 
 
@@ -240,7 +240,7 @@ public:
 /// </summary>
 /// <param name="vec"></param>
 /// <returns></returns>
-__inline UPRISE_CORE_API	Vector3 operator*(Vector3 vec) {
+__inline 	Vector3 operator*(Vector3 vec) {
 		float num = x() * 2;
 		float num2 = y() * 2;
 		float num3 = z() * 2;
@@ -265,7 +265,7 @@ __inline UPRISE_CORE_API	Vector3 operator*(Vector3 vec) {
 	/// </summary>
 	/// <param name="v"></param>
 	/// <returns></returns>
-	__inline UPRISE_CORE_API Vector3 Rotate(const Vector3& v) const {
+	__inline  Vector3 Rotate(const Vector3& v) const {
 		Quaternion qv(0, v.x(), v.y(), v.z());
 		Quaternion qconj(w(), -x(), -y(), -z());
 		Quaternion result = (*this) * qv * qconj;
@@ -276,7 +276,7 @@ __inline UPRISE_CORE_API	Vector3 operator*(Vector3 vec) {
     /// casts the quaternion to a mat4 with glm::mat4_cast(glm::quat(w(), x(), y(), z()));
 	/// </summary>
 	/// <returns></returns>
-	__inline UPRISE_CORE_API glm::mat4 ToMat4() const {
+	__inline  glm::mat4 ToMat4() const {
 		return glm::mat4_cast(glm::quat(w(), x(), y(), z()));
 	}
 

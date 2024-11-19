@@ -15,7 +15,7 @@
 /// Vector3
 /// stores data in a __m128
 /// </summary>
- class Vector3 {
+ class UPRISE_CORE_API Vector3 {
 private:
 	/// <summary>
 	/// Data
@@ -91,7 +91,7 @@ public:
     /// returns a non const reference to the x value
 	/// </summary>
 	/// <returns></returns>
-	__inline UPRISE_CORE_API float& x() const{
+	__inline  float& x() const{
 		return ((float*)&Data)[0];
 	}
 	/// <summary>
@@ -99,7 +99,7 @@ public:
     /// returns a non const reference to the y value
 	/// </summary>
 	/// <returns></returns>
-	__inline UPRISE_CORE_API float& y() const {
+	__inline  float& y() const {
 		return ((float*)&Data)[1];
 
 	}
@@ -108,7 +108,7 @@ public:
     /// returns a non const reference to the z value
     ///<summary>
     /// <returns></returns>
-	__inline UPRISE_CORE_API float& z() const {
+	__inline  float& z() const {
 		return ((float*)&Data)[2];
 
 	}
@@ -117,7 +117,7 @@ public:
     /// returns a non const reference to the pad value
 	/// </summary>
 	/// <returns></returns>
-	__inline UPRISE_CORE_API float& pad() const {
+	__inline  float& pad() const {
 		return ((float*)&Data)[3];
 
 	}
@@ -133,7 +133,7 @@ public:
 	/// </summary>
 	/// <param name="x"></param>
 	/// <returns></returns>
-	__inline UPRISE_CORE_API float& x(const float& x) {
+	__inline  float& x(const float& x) {
 		return (((float*)&Data)[0] = x);
 
 	}
@@ -145,7 +145,7 @@ public:
 	/// </summary>
 	/// <param name="y"></param>
 	/// <returns></returns>
-	__inline UPRISE_CORE_API float& y(const float& y) {
+	__inline  float& y(const float& y) {
 		return (((float*)&Data)[1]=y);
 
 	}
@@ -157,7 +157,7 @@ public:
 	/// </summary>
 	/// <param name="z"></param>
 	/// <returns></returns>
-	__inline UPRISE_CORE_API float& z(const float& z) {
+	__inline  float& z(const float& z) {
 		return (((float*)&Data)[2]=z);
 
 
@@ -170,7 +170,7 @@ public:
     /// </summary>
     /// <param name="pad"></param>
     /// <returns></returns>
-	__inline UPRISE_CORE_API float& pad(const float& pad) {
+	__inline  float& pad(const float& pad) {
 		return (((float*)this)[3]=pad);
 
 	}
@@ -183,7 +183,7 @@ public:
 	/// </summary>
 	/// <param name="other"></param>
 	/// <returns></returns>
-	__inline UPRISE_CORE_API Vector3 operator=(const Vector3& other) {
+	__inline  Vector3 operator=(const Vector3& other) {
 		this->Data = other.Data;
 		return *this;
 	}
@@ -193,7 +193,7 @@ public:
 	/// </summary>
 	/// <param name="other"></param>
 	/// <returns></returns>
-	__inline UPRISE_CORE_API Vector3 operator=(const __m128& other) {
+	__inline  Vector3 operator=(const __m128& other) {
 		this->Data = other;
 		return *this;
 	}
@@ -202,7 +202,7 @@ public:
 	/// </summary>
 	/// <param name="other"></param>
 	/// <returns></returns>
-	__inline UPRISE_CORE_API Vector3 operator+(Vector3 other) {
+	__inline  Vector3 operator+(Vector3 other) {
 		other.Data = _mm_add_ps(this->Data, other.Data);
 		return other;
 	}
@@ -211,7 +211,7 @@ public:
 	/// </summary>
 	/// <param name="other"></param>
 	/// <returns></returns>
-	__inline UPRISE_CORE_API Vector3 operator+(__m128 other) {
+	__inline  Vector3 operator+(__m128 other) {
 		return Vector3(_mm_add_ps(this->Data, other));
 	}
 	/// <summary>
@@ -219,7 +219,7 @@ public:
 	/// </summary>
 	/// <param name="other"></param>
 	/// <returns></returns>
-	__inline UPRISE_CORE_API Vector3 operator-(Vector3 other) {
+	__inline  Vector3 operator-(Vector3 other) {
 		other.Data = _mm_sub_ps(this->Data, other.Data);
 		return other;
 	}
@@ -228,7 +228,7 @@ public:
 	/// </summary>
 	/// <param name="other"></param>
 	/// <returns></returns>
-	__inline UPRISE_CORE_API Vector3 operator-(__m128 other) {
+	__inline  Vector3 operator-(__m128 other) {
 		return Vector3(_mm_sub_ps(this->Data, other));
 	}
 	/// <summary>
@@ -236,7 +236,7 @@ public:
 	/// </summary>
 	/// <param name="other"></param>
 	/// <returns></returns>
-	__inline UPRISE_CORE_API Vector3 operator*(Vector3 other) {
+	__inline  Vector3 operator*(Vector3 other) {
 		other.Data = _mm_mul_ps(this->Data, other.Data);
 		return  other;
 	}
@@ -245,7 +245,7 @@ public:
 	/// </summary>
 	/// <param name="other"></param>
 	/// <returns></returns>
-	__inline UPRISE_CORE_API Vector3 operator*(__m128 other) {
+	__inline  Vector3 operator*(__m128 other) {
 		return  Vector3(_mm_mul_ps(this->Data, other));
 	}
     /// <summary>
@@ -253,7 +253,7 @@ public:
     /// </summary>
     /// <param name="f"></param>
     /// <returns></returns>
-	__inline UPRISE_CORE_API Vector3 operator*(float f) {
+	__inline  Vector3 operator*(float f) {
 		return Vector3(_mm_mul_ps(this->Data, _mm_set_ps1(f)));
     }
     /// <summary>
@@ -261,7 +261,7 @@ public:
     /// </summary>
     /// <param name="other"></param>
     /// <returns></returns>
-	__inline UPRISE_CORE_API Vector3 operator/(Vector3 other) {
+	__inline  Vector3 operator/(Vector3 other) {
 		other.Data = _mm_div_ps(this->Data, other.Data);
 		return  other;
     }
@@ -270,7 +270,7 @@ public:
     /// </summary>
     /// <param name="other"></param>
     /// <returns></returns>
-	__inline UPRISE_CORE_API Vector3 operator/(__m128 other) {
+	__inline  Vector3 operator/(__m128 other) {
 		return  Vector3(_mm_div_ps(this->Data, other));
     }
     /// <summary>
@@ -278,13 +278,13 @@ public:
     /// </summary>
     /// <param name="f"></param>
     /// <returns></returns>
-	__inline UPRISE_CORE_API Vector3 operator/(float f) {
+	__inline  Vector3 operator/(float f) {
 		return Vector3(_mm_div_ps(this->Data, _mm_set_ps1(f)));
 	}
 	/// <summary>
     /// opperator for casting to __m128
 	/// </summary>
-	__inline UPRISE_CORE_API operator __m128() {
+	__inline  operator __m128() {
 		return this->Data;
 	}
 
@@ -296,42 +296,42 @@ public:
 /// </summary>
 /// <param name="b"></param>
 /// <returns>Cross Product</returns>
-	__forceinline UPRISE_CORE_API Vector3 operator^(Vector3 b) {
+	__forceinline  Vector3 operator^(Vector3 b) {
 		return _mm_fnmadd_ps(_mm_shuffle_ps(Data, Data, _MM_SHUFFLE(3, 1, 0, 2)), _mm_shuffle_ps(b.Data, b.Data, _MM_SHUFFLE(3, 0, 2, 1)), _mm_mul_ps(_mm_shuffle_ps(Data, Data, _MM_SHUFFLE(3, 0, 2, 1)), _mm_shuffle_ps(b.Data, b.Data, _MM_SHUFFLE(3, 1, 0, 2))));
 		// b;
 	}
 #pragma endregion
 #pragma region  Const
-	__inline UPRISE_CORE_API Vector3 operator+(const Vector3& other) const {
+	__inline  Vector3 operator+(const Vector3& other) const {
 
 		return Vector3(_mm_add_ps(this->Data, other.Data));
 	}
-	__inline UPRISE_CORE_API Vector3 operator+(const __m128& other) const {
+	__inline  Vector3 operator+(const __m128& other) const {
 		return Vector3(_mm_add_ps(this->Data, other));
 	}
-	__inline UPRISE_CORE_API Vector3 operator-(const Vector3& other)const {
+	__inline  Vector3 operator-(const Vector3& other)const {
 		
 		return Vector3(_mm_sub_ps(this->Data, other.Data));
 	}
-	__inline UPRISE_CORE_API Vector3 operator-(const __m128& other)const {
+	__inline  Vector3 operator-(const __m128& other)const {
 		return Vector3(_mm_sub_ps(this->Data, other));
 	}
-	__inline UPRISE_CORE_API Vector3 operator*(const Vector3& other)const {
+	__inline  Vector3 operator*(const Vector3& other)const {
 		return  Vector3(_mm_mul_ps(this->Data, other.Data));
 	}
-	__inline UPRISE_CORE_API Vector3 operator*(const __m128& other) const{
+	__inline  Vector3 operator*(const __m128& other) const{
 		return  Vector3(_mm_mul_ps(this->Data, other));
 	}
-	__inline UPRISE_CORE_API Vector3 operator*(const float f) const{
+	__inline  Vector3 operator*(const float f) const{
 		return Vector3(_mm_mul_ps(this->Data, _mm_set_ps1(f)));
 	}
-	__inline UPRISE_CORE_API Vector3 operator/(const Vector3& other)const {
+	__inline  Vector3 operator/(const Vector3& other)const {
 		return  Vector3(_mm_div_ps(this->Data, other.Data));
 	}
-	__inline UPRISE_CORE_API Vector3 operator/(const __m128& other) const {
+	__inline  Vector3 operator/(const __m128& other) const {
 		return  Vector3(_mm_div_ps(this->Data, other));
 	}
-	__inline UPRISE_CORE_API Vector3 operator/(const float f) const {
+	__inline  Vector3 operator/(const float f) const {
 		return Vector3(_mm_div_ps(this->Data, _mm_set_ps1(f)));
 	}
 #pragma endregion
@@ -345,7 +345,7 @@ public:
 	/// computes the magnitude (length) of the vector
 	/// </summary>
 	/// <returns></returns>
-	__forceinline UPRISE_CORE_API float Magnitude() {
+	__forceinline  float Magnitude() {
 		__m128 val2 = Data;
 		val2 = _mm_mul_ps(val2, val2);
 		__m128 shuf = _mm_movehdup_ps(val2);        // broadcast elements 3,1 to 2,0
@@ -362,7 +362,7 @@ public:
 	/// returns the normalized version of the vector
 	/// </summary>
 	/// <returns></returns>
-	__forceinline UPRISE_CORE_API Vector3 Normalized() {
+	__forceinline  Vector3 Normalized() {
 		float mag = this->Magnitude();
 		Vector3 tmp;
 		_mm_store_ps(&tmp.x(), _mm_div_ps(Data, _mm_load_ps1(&mag)));
@@ -373,7 +373,7 @@ public:
 	/// </summary>
 	/// <param name="a"></param>
 	/// <returns></returns>
-	__inline UPRISE_CORE_API float Point(Vector3 a) {
+	__inline  float Point(Vector3 a) {
 		__m128 val = Data;
 
 		val = _mm_mul_ps(val, a.Data);

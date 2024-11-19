@@ -38,6 +38,13 @@
 
 #endif // UPRISEENGINEDEBUG_EXPORTS
 
+#ifdef UPRISEENGINEPHYSICS_EXPORTS
+#define UPRISE_PHYSICS_API __declspec(dllexport)
+#define UPRISE_PHYSICS_API_EXPORTS
+#else
+#define UPRISE_PHYSICS_API __declspec(dllimport)
+#define UPRISE_PHYSICS_API_EXPORTS
+#endif // UPRISEENGINEPHYSICS_EXPORTS
 
 #include "tracy/Tracy.hpp"
 #include "tracy/TracyC.h"

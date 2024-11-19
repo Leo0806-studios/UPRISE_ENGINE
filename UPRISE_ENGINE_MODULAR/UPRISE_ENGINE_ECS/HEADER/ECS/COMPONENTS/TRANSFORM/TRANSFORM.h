@@ -92,7 +92,7 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	UPRISE_ECS_API void UpdateDirections();
-    UPRISE_CORE_API void OnDestroy()override;
+    UPRISE_ECS_API void OnDestroy()override;
 	UPRISE_ECS_API void Update()override;
 	UPRISE_ECS_API void Awake()override;
 	UPRISE_ECS_API void Start()override;

@@ -12,14 +12,14 @@
 
 
 
-//#include "DATATYPES/VECTOR/VECTOR3/FAST/VECTOR3_F.h"
+
 import std;
 import REF_WRAPPER;
 
 class GameOject;
 class Transform;
  namespace CORE {
-	class Behaviour:public CORE::Object {
+      class UPRISE_CORE_API Behaviour:public CORE::Object {
 	private:
 #pragma region NonStaticVars
 		RefWrapper<GameOject,true> gameObj;
@@ -31,10 +31,10 @@ class Transform;
 
 #pragma endregion
 #pragma region StaticVars
-		static std::vector<RefWrapper<CORE::Behaviour,true>> behaviours;
-		static std::vector<RefWrapper<CORE::Behaviour,true>> awakes;
-		static std::vector<RefWrapper<CORE::Behaviour,true>> starts;
-        static int currentUpdate;
+         static std::vector<RefWrapper<CORE::Behaviour,true>> behaviours;
+         static std::vector<RefWrapper<CORE::Behaviour,true>> awakes;
+         static std::vector<RefWrapper<CORE::Behaviour,true>> starts;
+          static int currentUpdate;
 #pragma endregion
 
 
@@ -45,24 +45,24 @@ class Transform;
 		/// constuctor that sets toBeRemoved(false)
 		/// </summary>
 		/// <returns></returns>
-		UPRISE_CORE_API Behaviour() :toBeRemoved(false) {};
+         Behaviour() :toBeRemoved(false) {};
 		/// <summary>
 		/// constuctor that sets toBeRemoved(true)
 		/// </summary>
 		/// <param name="remove"></param>
 		/// <returns></returns>
-		UPRISE_CORE_API Behaviour(int remove) :toBeRemoved(true) {};
+         Behaviour(int remove) :toBeRemoved(true) {};
 
 #pragma endregion
 #pragma region destructor
-		virtual ~Behaviour() {
+         virtual ~Behaviour() {
             toBeRemoved = true;
             Enabled() = false;
 		}
 #pragma endregion
 		//following region contains all functions
 #pragma region funcs
-        UPRISE_CORE_API void OnDestroyInt(RefWrapper<CORE::Object,true> obj) override;
+          void OnDestroyInt(RefWrapper<CORE::Object,true> obj) override;
 
 
 		//following region contains all virtual member functions
@@ -71,56 +71,56 @@ class Transform;
 		/// performs a shallow copy of the object
 		/// </summary>
 		/// <returns></returns>
-		virtual UPRISE_CORE_API RefWrapper<CORE::Behaviour,true> Copy() = 0;
+          virtual  RefWrapper<CORE::Behaviour,true> Copy() = 0;
 		/// <summary>
 		/// performs a deepcopy of the object
 		/// </summary>
 		/// <returns></returns>
-		virtual UPRISE_CORE_API RefWrapper<CORE::Behaviour,true> DeepCopy() = 0;
+         	virtual  RefWrapper<CORE::Behaviour,true> DeepCopy() = 0;
 		/// <summary>
 		/// function for drawing the editor wiget
 		/// will be removed later
 		/// </summary>
 		/// <returns></returns>
-		virtual UPRISE_CORE_API void EditorWindow() = 0;
+          virtual  void EditorWindow() = 0;
 		/// <summary>
 		/// main update function
 		/// will be executet on every frame
 		/// </summary>
 		/// <returns></returns>
-		virtual UPRISE_CORE_API void Update() =0;
+          virtual  void Update() =0;
 		/// <summary>
 		/// awake function
 		/// will be executet before the first update and start after the object is instantiated
 		/// will be exectued immidiatly after instatiation
 		/// </summary>
 		/// <returns></returns>
-		virtual UPRISE_CORE_API void Awake() =0;
+		virtual  void Awake() =0;
 		/// <summary>
 		/// replaces the first update of the object.
 		/// is run on the next frame after awake
 		/// </summary>
 		/// <returns></returns>
-		virtual UPRISE_CORE_API void Start() =0;
+		virtual  void Start() =0;
 		/// <summary>
 		/// internal function to called to remove this obj from updates
 		/// </summary>
 		/// <returns></returns>
-		 UPRISE_CORE_API bool RemoveFromUpdate();
+		  bool RemoveFromUpdate();
 		/// <summary>
 		/// internal function to call to remove this obj from start 
 		/// </summary>
 		/// <returns></returns>
-		 UPRISE_CORE_API bool RemoveFromStart();
+		  bool RemoveFromStart();
 		/// <summary>
 		/// internal function to call to remove this obj from awake 
 		/// </summary>
 		/// <returns></returns>
-		 UPRISE_CORE_API bool RemoveFromAwake();
+		  bool RemoveFromAwake();
          /// <summary>
          /// fujction to call when the object is destroyed
          /// </summary>
-         virtual UPRISE_CORE_API void OnDestroy();
+         virtual  void OnDestroy();
 
 #pragma endregion
 		//following region contains all static Member functions
@@ -129,43 +129,43 @@ class Transform;
 		/// loops trough all scripts and calls Update()
 		/// </summary>
 		/// <returns></returns>
-		static UPRISE_CORE_API void UpdateAll();
+		static  void UpdateAll();
 		/// <summary>
 		/// loops trough all scripts and calls Awake()
 		/// removes the script from the vector after call
 		/// </summary>
 		/// <returns></returns>
-		static UPRISE_CORE_API void UpdateAllAWAKE();
+		static  void UpdateAllAWAKE();
 		/// <summary>
 		/// loops trough scripts and calls Start()
 		///  removes the script from the vector after call
 		/// </summary>
 		/// <returns></returns>
-		static UPRISE_CORE_API void UpdateAllSTART();
+		static  void UpdateAllSTART();
 		/// <summary>
 		/// calls all update Parralel instances to update the scripts that derive from it
 		/// </summary>
 		/// <returns></returns>
-		static UPRISE_CORE_API void UpdateallParallel();
+		static  void UpdateallParallel();
 		/// <summary>
 		/// internal function to add script to update loop
 		/// </summary>
 		/// <param name="behaviour"></param>
 		/// <returns></returns>
-		static UPRISE_CORE_API bool AddToUpdate(RefWrapper<CORE::Behaviour,true> behaviour);
+		static  bool AddToUpdate(RefWrapper<CORE::Behaviour,true> behaviour);
 		/// <summary>
 		/// internal function to add script to start
 		/// </summary>
 		/// <param name="behaviour"></param>
 		/// <returns></returns>
-		static UPRISE_CORE_API bool AddToStart(RefWrapper<CORE::Behaviour,true> behaviour);
+		static  bool AddToStart(RefWrapper<CORE::Behaviour,true> behaviour);
 		/// <summary>
 		/// internal function to add script to Awake 
 		/// will be removed later/moved to intended behaviour
 		/// </summary>
 		/// <param name="behaviour"></param>
 		/// <returns></returns>
-		static UPRISE_CORE_API bool AddToAwake(RefWrapper<CORE::Behaviour,true> behaviour);
+		static  bool AddToAwake(RefWrapper<CORE::Behaviour,true> behaviour);
 
 
 #pragma endregion

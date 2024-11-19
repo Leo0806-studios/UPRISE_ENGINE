@@ -46,6 +46,7 @@
 #include "tracy/TracyOpenGL.hpp"
 #include "D_MAT4.h"
 #include "MISC.h"
+import REF_WRAPPER;
 //#include "Smart_ptr.h"
 
 //#include "C_SMART_POINTER.h"
@@ -186,6 +187,48 @@ void Termination_Handler() {
 
 
 
+
+
+class TestClass {
+public:
+    int value;
+    TestClass() : value(0) {}
+    TestClass(int val) : value(val) {}
+};
+
+void testWrapRefTrue() {
+    auto ref = WrapRef<TestClass, true>(TestClass(10));
+    assert(ref.Get()->value == 10);
+   // ref.Destroy();
+}
+
+void testWrapRefFalse() {
+    auto ref = WrapRef<TestClass, false>(TestClass(20));
+    assert(ref.Get()->value == 20);
+    //ref.Destroy();
+}
+
+void testRefWrapperGet() {
+    auto ref = WrapRef<TestClass, false>(TestClass(30));
+    assert(ref.Get()->value == 30);
+    //ref.Destroy();
+}
+
+void testRefWrapperOperatorArrow() {
+    auto ref = WrapRef<TestClass, false>(TestClass(40));
+    assert(ref->value == 40);
+    //ref.Destroy();
+}
+
+void testRefWrapperAssignment() {
+    auto ref1 = WrapRef<TestClass, true>(TestClass(50));
+    auto ref2 = WrapRef<TestClass, true>();
+    ref2 = ref1;
+    assert(ref2.Get()->value == 50);
+   // ref1.Destroy();
+   // ref2.Destroy();
+}
+
 /// <summary>
 /// Main Function
 /// </summary>
@@ -196,6 +239,14 @@ int main() {
 	// Force an uncaught exception to test the handler
 	//throw std::runtime_error("Test uncaught exception");
 
+
+    testWrapRefTrue();
+    testWrapRefFalse();
+    testRefWrapperGet();
+    testRefWrapperOperatorArrow();
+    testRefWrapperAssignment();
+    std::cout << "All tests passed\n";
+    std::cout << "\a";
 	float aW[] = { 1.0, 2.0, 3.0 };
 	float bW[] = { 4.0, 5.0, 6.0 };
 	int nW = 3;

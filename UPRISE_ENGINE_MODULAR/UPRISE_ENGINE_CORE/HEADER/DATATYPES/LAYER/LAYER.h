@@ -5,7 +5,7 @@ import std;
 /// <summary>
 /// layer for GameObjects
 /// </summary>
- class Layer {
+ class UPRISE_CORE_API Layer {
 private:
 	/// <summary>
 	/// layer id
@@ -20,7 +20,7 @@ public:
 	/// <summary>
     /// default cosntructor
 	/// </summary>
-	Layer() = default;
+    Layer() {};
 	/// <summary>
     /// constructor that accsepts an id and name
 	/// </summary>
@@ -33,12 +33,12 @@ public:
     /// returns the name of the layer as a non const reference
 	/// </summary>
 	/// <returns></returns>
-	__inline UPRISE_CORE_API std::string& Name() { return name; }
+	__inline  std::string& Name() { return name; }
 
     /// <summary>
     /// getter for the id of the layer
     /// returns the id of the layer
     /// <summary>
-	__inline UPRISE_CORE_API int ID() { return id; }
+	__inline  int ID() { return id; }
 };
 #endif // !1

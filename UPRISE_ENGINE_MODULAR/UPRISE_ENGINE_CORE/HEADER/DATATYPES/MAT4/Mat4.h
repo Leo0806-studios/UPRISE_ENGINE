@@ -14,7 +14,7 @@ import std;
 /// strores its data in 4 __m128 vectors
 /// as rows
 /// </summary>
- class Mat4 {
+ class UPRISE_CORE_API Mat4 {
 
 public:
 	/// <summary>
@@ -25,12 +25,12 @@ public:
     /// constructor that sets all values to 0 exept a diagonal that is s
 	/// </summary>
 	/// <param name="s"></param>
-    UPRISE_CORE_API __inline Mat4(float s) :row0(_mm_setr_ps(s, 0, 0, 0)), row1(_mm_setr_ps(0, s, 0, 0)), row2(_mm_setr_ps(0, 0, s, 0)), row3(_mm_setr_ps(0, 0, 0, s)) {}
+     __inline Mat4(float s) :row0(_mm_setr_ps(s, 0, 0, 0)), row1(_mm_setr_ps(0, s, 0, 0)), row2(_mm_setr_ps(0, 0, s, 0)), row3(_mm_setr_ps(0, 0, 0, s)) {}
     /// <summary>
     /// constructor that accsepts a quaterion and creates a MAt4 from it
     /// </summary>
     /// <param name="quat"></param>
-    UPRISE_CORE_API __inline Mat4(Quaternion quat) {
+     __inline Mat4(Quaternion quat) {
 		__m128 One = _mm_load_ps(&quat.x());
 
 
@@ -109,7 +109,7 @@ public:
     /// <param name="up"></param>
     /// <returns></returns>
 
-    UPRISE_CORE_API __inline static  Mat4 Look_At(Vector3 eye, Vector3 center, Vector3 up) {
+     __inline static  Mat4 Look_At(Vector3 eye, Vector3 center, Vector3 up) {
 		//TrPr(ctx,__func__)
 		center = (center - eye).Normalized();
 		center.pad() = -(center.Point(eye));
@@ -136,7 +136,7 @@ public:
     /// <param name="center"></param>
     /// <param name="up"></param>
     /// <returns></returns>
-    UPRISE_CORE_API
+    
 	__forceinline static  glm::mat4 Look_At_GLM(Vector3 eye, Vector3 center, Vector3 up) {
 		//TrPr(ctx,__func__)
 		center = (center - eye).Normalized();
@@ -183,7 +183,7 @@ public:
 	/// <param name="zNear"></param>
 	/// <param name="zFar"></param>
 	/// <returns></returns>
-    UPRISE_CORE_API __inline static Mat4 Perspective(float fov, float aspect, float zNear, float zFar) {
+     __inline static Mat4 Perspective(float fov, float aspect, float zNear, float zFar) {
 		TrPr(ctx, __func__)
 			Mat4 result(0);
 
@@ -207,7 +207,7 @@ public:
     /// transposes the Mat4 to a glm::mat4 using _MM_TRANSPOSE4_PS and then returns the glm::mat4
 	/// </summary>
 	/// <returns></returns>
-    UPRISE_CORE_API __inline glm::mat4 ToMat4glm() {
+     __inline glm::mat4 ToMat4glm() {
 		_MM_TRANSPOSE4_PS(row0, row1, row2, row3);
 		
 
@@ -220,7 +220,7 @@ public:
     /// opperator that implicitly converts a Mat4 to a glm::mat4
     /// usis a slitgtly differebt method than ToMat4glm
     /// </summary>
-    UPRISE_CORE_API __inline operator glm::mat4() {
+     __inline operator glm::mat4() {
 		TrPr(ctx, __func__)
 
 			__m128 tmp0 = _mm_unpacklo_ps(row0, row1); // [r0.x, r1.x, r0.y, r1.y]
@@ -248,7 +248,7 @@ public:
 	/// </summary>
 	/// <param name="i"></param>
 	/// <returns></returns>
-    UPRISE_CORE_API __inline __m128& operator[](int i) {
+     __inline __m128& operator[](int i) {
 
 		if (i > 3)
 		{
@@ -267,7 +267,7 @@ public:
     /// <param name="r"></param>
     /// <param name="c"></param>
     /// <returns></returns>
-    UPRISE_CORE_API __inline float& operator()(int r, int c) {
+     __inline float& operator()(int r, int c) {
 		return (this->operator[](r)).m128_f32[c];
 
 	}

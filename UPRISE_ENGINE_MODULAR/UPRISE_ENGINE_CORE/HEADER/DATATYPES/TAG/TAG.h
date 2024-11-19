@@ -5,7 +5,7 @@ import std;
 /// <summary>
 /// class that represents the tag of a gameobject
 /// </summary>
- class Tag {
+ class UPRISE_CORE_API Tag {
 private:
 	/// <summary>
     /// id of the tag
@@ -32,11 +32,11 @@ public:
     /// getter that returns a non const reference to the name of the tag
 	/// </summary>
 	/// <returns></returns>
-	UPRISE_CORE_API __inline std::string& Name() { return name; }
+	 __inline std::string& Name() { return name; }
 	/// <summary>
     /// returns the id of the tag
 	/// </summary>
 	/// <returns></returns>
-	UPRISE_CORE_API __inline int ID() { return id; }
+	 __inline int ID() { return id; }
 };
 #endif // !1

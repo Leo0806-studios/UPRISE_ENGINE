@@ -35,6 +35,11 @@ void Transform::UpdateDirections()
     TrPrE(ctx);
 }
 
+UPRISE_ECS_API void Transform::OnDestroy()
+{
+    return  void();
+}
+
 UPRISE_ECS_API RefWrapper<CORE::Behaviour, true> Transform::Copy()
 {
     return  RefWrapper<CORE::Behaviour, true>();
