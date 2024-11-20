@@ -22,6 +22,11 @@ private:
     static RefWrapper<RENDER_BACKEND, true> backend;
     friend class Render;
     friend class RenderSetup;
+    friend class OPENGL_BACKEND;
+    friend class DIRECTX11_BACKEND;
+    friend class DIRECTX12_BACKEND;
+    friend class VULKAN_BACKEND;
+
    // template<class T>
     template<class T, typename std::enable_if<
         std::is_same<T, OPENGL_BACKEND>::value ||
