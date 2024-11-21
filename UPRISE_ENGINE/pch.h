@@ -87,11 +87,11 @@ using namespace Microsoft::WRL;
 #include "imgui_stdlib.h"
 
 
-#include "boost/compute.hpp"
-#include <boost/compute/algorithm/transform.hpp>
-#include <boost/compute/container/vector.hpp>
-#include <boost/compute/functional/math.hpp>
-#include <boost/compute/types/complex.hpp>
+//#include "boost/compute.hpp"
+//#include <boost/compute/algorithm/transform.hpp>
+//#include <boost/compute/container/vector.hpp>
+//#include <boost/compute/functional/math.hpp>
+//#include <boost/compute/types/complex.hpp>
 //import BOOST_COMPUTE;
 //#include "imgui_impl_opengl3_loader.h"
 //#include "RENDER.h"
