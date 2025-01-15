@@ -2,6 +2,6 @@
 float& Camera::Fov() {
 	//TODO finish Reimplementing
 
-	float f;
+	float f=1;
 	return f;
 }

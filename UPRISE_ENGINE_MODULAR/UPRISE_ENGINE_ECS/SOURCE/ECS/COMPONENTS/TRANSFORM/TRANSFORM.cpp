@@ -1,3 +1,4 @@
+#include "VECTOR/VECTOR3/FAST/VECTOR3_F.h"
 #include  "ECS/COMPONENTS/TRANSFORM/TRANSFORM.h";
 void Transform::SetRotation(Vector3 vec)
 {

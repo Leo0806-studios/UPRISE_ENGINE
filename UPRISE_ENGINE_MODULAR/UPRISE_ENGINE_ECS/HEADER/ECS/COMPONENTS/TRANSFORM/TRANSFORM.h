@@ -1,7 +1,7 @@
 #pragma once
 #ifndef _Transform_
 #define _Transform_
-#include "GLOBAL/GLINCLUDES.h"
+//#include "GLOBAL/GLINCLUDES.h"
 #include "BEHAVIOUR/BEHAVIOUR.h"
 #include "VECTOR/VECTOR3/FAST/VECTOR3_F.h"
 

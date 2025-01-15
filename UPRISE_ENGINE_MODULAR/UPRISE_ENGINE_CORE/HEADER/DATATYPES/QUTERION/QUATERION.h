@@ -253,11 +253,14 @@ __inline 	Vector3 operator*(Vector3 vec) {
 		float num10 = w() * num;
 		float num11 = w() * num2;
 		float num12 = w() * num3;
-		Vector3 result;
-		result.x() = (1 - (num5 + num6)) * vec.x() + (num7 - num12) * vec.y() + (num8 + num11) * vec.z();
-		result.y() = (num7 + num12) * vec.x() + (1 - (num4 + num6)) * vec.y() + (num9 - num10) * vec.z();
-		result.z() = (num8 - num11) * vec.x() + (num9 + num10) * vec.y() + (1 - (num4 + num5)) * vec.z();
-		return result;
+       return Vector3 { (1 - (num5 + num6)) * vec.x() + (num7 - num12) * vec.y() + (num8 + num11) * vec.z() ,
+            (num7 + num12) * vec.x() + (1 - (num4 + num6)) * vec.y() + (num9 - num10) * vec.z() ,
+        (num8 - num11)* vec.x() + (num9 + num10) * vec.y() + (1 - (num4 + num5)) * vec.z()
+        };
+		//result.x() = (1 - (num5 + num6)) * vec.x() + (num7 - num12) * vec.y() + (num8 + num11) * vec.z();
+		//result.y() = (num7 + num12) * vec.x() + (1 - (num4 + num6)) * vec.y() + (num9 - num10) * vec.z();
+		//result.z() = (num8 - num11) * vec.x() + (num9 + num10) * vec.y() + (1 - (num4 + num5)) * vec.z();
+		//return result;
 	}
 
 	/// <summary>

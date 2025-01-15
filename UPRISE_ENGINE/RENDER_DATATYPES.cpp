@@ -195,10 +195,10 @@ namespace PAIN {
 			vertex.Normal = mesh->mNormals[i];
 			if (mesh->mTextureCoords[0]) // does the mesh contain texture coordinates?
 			{
-				glm::vec2 vec;
-				vec.x = mesh->mTextureCoords[0][i].x;
-				vec.y = mesh->mTextureCoords[0][i].y;
-				vertex.TexCoords = vec;
+                // vec{  };
+				//vec.x = ;
+				//vec.y = ;
+				vertex.TexCoords = glm::vec2(mesh->mTextureCoords[0][i].x, mesh->mTextureCoords[0][i].y);
 			}
 			else
 			{

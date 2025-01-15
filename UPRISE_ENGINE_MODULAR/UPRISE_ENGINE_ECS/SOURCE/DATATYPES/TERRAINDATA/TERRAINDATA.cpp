@@ -15,7 +15,7 @@ _Ty CallCSharpFunction(const WCHAR* patrh, char* functionName, _Arg argument) {
 }
 bool TerrainData::LoadHeightmap(const char* filename)
 {
-    int imgWidth, imgHeight, nrChannels;
+    //int imgWidth, imgHeight, nrChannels;
     //unsigned char* data = stbi_load(filename.c_str(), &imgWidth, &imgHeight, &nrChannels, 0);
    // auto oooo = CallCSharpFunction(filename.c_str());
     const WCHAR* addrs = L"C:\\Users\\leo08\\source\\repos\\Neuer Ordner (2)\\NativeLibrary\\bin\\release\\net8.0-windows\\win-x64\\native\\NativeLibrary.dll";

@@ -3,7 +3,7 @@
 #ifndef _OBJECT_
 #define _OBJECT_
 
-#include <string>
+//#include <string>
 
 import REF_WRAPPER;
 

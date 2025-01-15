@@ -53,6 +53,7 @@ public:
 	}
 private:
 	void Destroy() {
+        std::cout << "destroying " <<Obj<<"\n";
 		if (!null) {
 			delete Obj;
 			delete this;
@@ -62,7 +63,7 @@ private:
 		delete this;
 	}
 	void Incref()override{
-		//std::cout << "incref\n";
+		std::cout << "incref\n";
 	  //  std::cout << "old" << _Refs << "\n";
 		_MT_INCR(_Refs);
 	  //  std::cout << "new" << _Refs << "\n";

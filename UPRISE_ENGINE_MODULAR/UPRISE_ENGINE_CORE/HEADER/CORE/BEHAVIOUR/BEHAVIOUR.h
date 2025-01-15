@@ -3,11 +3,17 @@
 #ifndef _BEHAVIOUR_
 #define _BEHAVIOUR_
 
-#include "Windows.h"
+//#include "Windows.h"
+#include "UUID/UUID.h"
 #include "OBJECT/OBJECT.h";
 
 
-
+//struct UUID {
+//    int data1;
+//    short data2;
+//    short data3;
+//    char data4[8];
+//};
 
 
 

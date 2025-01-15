@@ -3,9 +3,9 @@
 #define _Mat4_
 
 #include "GLOBAL/GLINCLUDES.h"
-import "DATATYPES/VECTOR/VECTOR4/VECTOR4.h";
+#include "DATATYPES/VECTOR/VECTOR4/VECTOR4.h";
 #include "intrin.h"
-import "DATATYPES/QUTERION/QUATERION.h";
+#include "DATATYPES/QUTERION/QUATERION.h";
 
 import REF_WRAPPER;
 import std;
