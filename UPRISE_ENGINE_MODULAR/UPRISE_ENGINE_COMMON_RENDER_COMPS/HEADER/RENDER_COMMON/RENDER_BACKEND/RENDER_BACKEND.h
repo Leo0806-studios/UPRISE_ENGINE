@@ -9,13 +9,17 @@ class OPENGL_BACKEND;
 class DIRECTX11_BACKEND;
 class DIRECTX12_BACKEND;
 class VULKAN_BACKEND;
-class WINDOW_BASE;
-class CONTEXT_BASE;
-class SHADER_BASE;
-class MATERIAL_BASE;
-class SHADER_PROGRAM_BASE;
+
+namespace RENDER {
+    class Render;
+}
 namespace RENDER_COMMON
 {
+    class WINDOW_BASE;
+    class CONTEXT_BASE;
+    class SHADER_BASE;
+    class MATERIAL_BASE;
+    class SHADER_PROGRAM_BASE;
     enum Backend {
         B_OPENGL,
         B_VULKAN,
@@ -34,28 +38,29 @@ namespace RENDER_COMMON
         friend  DIRECTX11_BACKEND;
         friend DIRECTX12_BACKEND;
         friend VULKAN_BACKEND;
+        friend RENDER::Render;
+        typedef RefWrapper<RENDER_BACKEND, true>(*_Create_Backend_FUNC)();
+        static _Create_Backend_FUNC _Create_Backend;
 
-       static RefWrapper<RENDER_BACKEND, true>(*_Create_Backend)(RENDER_COMMON::Backend backend);
-
-        virtual void _internal_setup() = 0;
-        virtual RefWrapper<WINDOW_BASE, true> _internal_create_window() = 0;
-        virtual RefWrapper<CONTEXT_BASE, true> _internal_Get_Context() = 0;
-        virtual RefWrapper<SHADER_BASE, true> _internal_Create_Shader(const std::string& ShaderCode) = 0;
-        virtual RefWrapper<SHADER_BASE, true> _internal_Create_Shader(const std::filesystem::path& ShaderCode_Path) = 0;
-        virtual RefWrapper<SHADER_PROGRAM_BASE, true> _internal_CreateShaderProgram(RefWrapper<SHADER_BASE, true> Shader0) = 0;
-        virtual RefWrapper<SHADER_PROGRAM_BASE, true> _internal_CreateShaderProgram(RefWrapper<SHADER_BASE, true> Shader0, RefWrapper<SHADER_BASE, true> Shader1) = 0;
-        virtual RefWrapper<SHADER_PROGRAM_BASE, true> _internal_CreateShaderProgram(RefWrapper<SHADER_BASE, true> Shader0, RefWrapper<SHADER_BASE, true> Shader1, RefWrapper<SHADER_BASE, true> Shader2) = 0;
-        virtual void _internal_DestroyBackend() = 0;
-        virtual RefWrapper<WINDOW_BASE, true> _internal_CreateWindow(int w, int h, const char* Title) = 0;
-        virtual void _internal_CreateMaterial() = 0;
-        virtual int _internal_Create_Buffer() = 0;
-        virtual void _internal_DestroyBuffer(int Buffer) = 0;
-        virtual void _internal_BindBuffer(int Buffer, void* _Data, size_t length, size_t Type_Size) = 0;
+        virtual void _internal_setup() {};
+        virtual RefWrapper<WINDOW_BASE, true> _internal_create_window() {};
+        virtual RefWrapper<CONTEXT_BASE, true> _internal_Get_Context()  {};
+        virtual RefWrapper<SHADER_BASE, true> _internal_Create_Shader(const std::string& ShaderCode)  {};
+        virtual RefWrapper<SHADER_BASE, true> _internal_Create_Shader(const std::filesystem::path& ShaderCode_Path)  {};
+        virtual RefWrapper<SHADER_PROGRAM_BASE, true> _internal_CreateShaderProgram(RefWrapper<SHADER_BASE, true> Shader0)  {};
+        virtual RefWrapper<SHADER_PROGRAM_BASE, true> _internal_CreateShaderProgram(RefWrapper<SHADER_BASE, true> Shader0, RefWrapper<SHADER_BASE, true> Shader1) {};
+        virtual RefWrapper<SHADER_PROGRAM_BASE, true> _internal_CreateShaderProgram(RefWrapper<SHADER_BASE, true> Shader0, RefWrapper<SHADER_BASE, true> Shader1, RefWrapper<SHADER_BASE, true> Shader2) {};
+        virtual void _internal_DestroyBackend() {};
+        virtual RefWrapper<WINDOW_BASE, true> _internal_CreateWindow(int w, int h, const char* Title) {};
+        virtual void _internal_CreateMaterial() {};
+        virtual int _internal_Create_Buffer() {};
+        virtual void _internal_DestroyBuffer(int Buffer) {};
+        virtual void _internal_BindBuffer(int Buffer, void* _Data, size_t length, size_t Type_Size) {};
 
 
 
     public:
-        static RefWrapper<RENDER_BACKEND, true> CreateBackend(Backend Backend);
+        static RefWrapper<RENDER_BACKEND, true> CreateBackend();
         static void DestroyBackend();
         static RefWrapper<WINDOW_BASE, true> CreateWindow(int w, int h, const char* Title);
         static const RefWrapper<RENDER_BACKEND, true>& GetBackend();

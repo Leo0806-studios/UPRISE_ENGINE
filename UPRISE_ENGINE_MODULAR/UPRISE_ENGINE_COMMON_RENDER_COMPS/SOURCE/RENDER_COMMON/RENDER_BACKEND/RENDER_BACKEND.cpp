@@ -1,6 +1,9 @@
 #include "RENDER_COMMON/RENDER_BACKEND/RENDER_BACKEND.h"
 
 namespace RENDER_COMMON {
+
+    
+
     void RENDER_BACKEND::DestroyBackend()
     {
         RENDER_BACKEND::_internal_backend->_internal_DestroyBackend();
@@ -11,9 +14,9 @@ namespace RENDER_COMMON {
         return RENDER_BACKEND::_internal_backend->_internal_CreateWindow(w, h, Title);
     }
     class DIRECTX12_BACKEND;
-    RefWrapper<RENDER_BACKEND, true> RENDER_BACKEND::CreateBackend(Backend Backend)
-    {
-       return _Create_Backend(Backend);
+    RefWrapper<RENDER_BACKEND, true> RENDER_BACKEND::CreateBackend()
+    { 
+       return _Create_Backend();
 
     }
 

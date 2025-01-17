@@ -3,9 +3,13 @@
 
 #include <iostream>
 #include "RENDER/MAINRENDER/Render.h"
+#include "DEBUG/LOG/LOG.h"
 
 int main()
 {
+    Log << "Editor Application startup";
+    RENDER::Render::RenderSetup::SetRenderBackend(RENDER::Render_Backend::RB_OPENGL);
+    RENDER::Render::RenderSetup::CreateBackend();
     //startup
 
     //load all modules

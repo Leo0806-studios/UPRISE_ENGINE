@@ -199,8 +199,10 @@ export {
 		}
 		~RefWrapper() {
 		  //  std::cout << "deleting with nullchk\n";
-
-			contrl->Decref();
+            if (contrl != nullptr) {
+                contrl->Decref();
+            }
+			//contrl->Decref();
 		}
 		void Destroy() {
 			contrl->DeleteManualy();
