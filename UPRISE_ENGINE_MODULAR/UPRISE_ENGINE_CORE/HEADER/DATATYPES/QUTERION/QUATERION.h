@@ -68,7 +68,7 @@ public:
 	/// </summary>
 	/// <param name="x"></param>
 	/// <returns></returns>
-	__inline  float& x(const float& x) {
+	__inline  float& x(const float x) {
 		return (((float*)&Data)[0] = x);
 
 	}
@@ -80,7 +80,7 @@ public:
     /// </summary>
     /// /// <param name="y"></param>
 	/// <returns></returns>
-	__inline  float& y(const float& y) {
+	__inline  float& y(const float y) {
 		return (((float*)&Data)[1] = y);
 
 	}
@@ -93,7 +93,7 @@ public:
     /// <param name="z"></param>
     /// <returns></returns>
     /// 
-	__inline  float& z(const float& z) {
+	__inline  float& z(const float z) {
 		return (((float*)&Data)[2] = z);
 
 
@@ -106,7 +106,7 @@ public:
 /// </summary>
 /// <param name="w"></param>
 /// <returns></returns>
-	__inline  float& w(const float& w) {
+	__inline  float& w(const float w) {
 		return (((float*)this)[3] = w);
 
 	}
@@ -121,8 +121,10 @@ public:
     /// z = 0
     /// w = 1
 	/// </summary>
-	Quaternion() {
-		w(1); x(0); y(0); z(0);
+
+    Quaternion() {
+        Data=_mm_setr_ps(0, 0, 0, 1);
+	//	w(1); x(0); y(0); z(0);
 	}
 	/// <summary>
     /// constructor for quaterion with values
@@ -135,7 +137,11 @@ public:
 	/// <param name="x"></param>
 	/// <param name="y"></param>
 	/// <param name="z"></param>
-	Quaternion(float w, float x, float y, float z) { this->w(w); this->x(x); this->y(y); this->z(z); }
+	Quaternion(float w, float x, float y, float z) { 
+        Data = _mm_setr_ps(x, y, z, w);
+       /// this->w(w); this->x(x); this->y(y); this->z(z); 
+    
+    }
 	/// <summary>
     /// constructor that takes a __m128
 	/// </summary>

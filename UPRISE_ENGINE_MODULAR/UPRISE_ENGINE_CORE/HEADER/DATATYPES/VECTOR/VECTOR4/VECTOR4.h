@@ -89,7 +89,7 @@ public:
     /// </summary>
     /// <param name="x"></param>
     /// <returns></returns>
-    __inline   float& x(const float& x) {
+    __inline   float& x(const float x) {
         return (((float*)&Data)[0] = x);
 
     }
@@ -101,7 +101,7 @@ public:
 /// </summary>
 /// <param name="y"></param>
 /// <returns></returns>
-    __inline   float& y(const float& y) {
+    __inline   float& y(const float y) {
         return (((float*)&Data)[1] = y);
 
     }
@@ -113,7 +113,7 @@ public:
 /// </summary>
 /// <param name="z"></param>
 /// <returns></returns>
-    __inline   float& z(const float& z) {
+    __inline   float& z(const float z) {
         return (((float*)&Data)[2] = z);
 
 
@@ -126,7 +126,7 @@ public:
 /// </summary>
 /// <param name="w"></param>
 /// <returns></returns>
-    __inline   float& w(const float& w) {
+    __inline   float& w(const float w) {
         return (((float*)this)[3] = w);
 
     }

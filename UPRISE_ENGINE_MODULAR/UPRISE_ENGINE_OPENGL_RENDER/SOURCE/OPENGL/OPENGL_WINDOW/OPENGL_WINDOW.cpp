@@ -80,7 +80,7 @@ namespace OPENGL_RENDER {
             DestroyWindow(handle);
         }
         WINDOW_Win32() = default;
-        ~WINDOW_Win32() {};
+        ~WINDOW_Win32() = default;
     };
 
 

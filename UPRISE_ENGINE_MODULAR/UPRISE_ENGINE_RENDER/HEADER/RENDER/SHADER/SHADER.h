@@ -15,7 +15,7 @@ class Shader {
 private:
 public:
 public:
-	unsigned int ID;
+	unsigned int ID=INT_MAX;
 	std::unordered_map< std::string, GLint> VarLocationsU;
 	std::unordered_map< std::string, GLint> VarLocationsL;
 	// constructor generates the shader on the fly

@@ -46,7 +46,7 @@ namespace OPENGL_RENDER {
         char keys[256];
     public:
         OPENGL_WINDOW() = default;
-        ~OPENGL_WINDOW() {}
+        ~OPENGL_WINDOW() = default;
         UPRISE_OPENGL_RENDER_API static RefWrapper<RENDER_COMMON::WINDOW_BASE, true> _CreateWindow(int w, int h, const char* Title);
 
 

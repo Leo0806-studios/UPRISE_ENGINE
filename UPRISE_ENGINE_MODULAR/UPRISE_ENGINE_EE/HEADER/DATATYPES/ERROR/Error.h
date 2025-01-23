@@ -21,6 +21,6 @@ public:
 	/// </summary>
 /// <param name="errorCode"></param>
 	Error(ErrorCode code);
-	~Error(){}
+    ~Error() = default;
 };
 #endif // !_Error_

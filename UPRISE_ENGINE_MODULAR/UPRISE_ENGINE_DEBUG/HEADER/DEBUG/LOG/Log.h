@@ -5,8 +5,12 @@
 #define _Log_
 #include "../pch.h"
 import std;
+ 
 namespace DEBUG{
+    class LOG_STREAM;
+    
     class Debug {
+        static UPRISE_DEBUG_API LOG_STREAM _internal_Stream;
     public:
 
         UPRISE_DEBUG_API static void Log(std::string message);
@@ -28,8 +32,8 @@ namespace DEBUG{
             stream << "Log Started\n";
             length += strlen("Log Started\n");
             char buffer[MAX_PATH];
-            DWORD length = GetModuleFileNameA(NULL, buffer, MAX_PATH);
-            LogPath = std::string(buffer, length );
+            DWORD length_ = GetModuleFileNameA(NULL, buffer, MAX_PATH);
+            LogPath = std::string(buffer, length_ );
             
             std::string tmp = LogPath.string();//+= "Log.txt";
 

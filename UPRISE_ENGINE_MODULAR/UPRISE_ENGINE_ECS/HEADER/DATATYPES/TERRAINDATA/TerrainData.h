@@ -39,7 +39,7 @@ public:
     /// default constructor
 	/// </summary>
 	TerrainData() = default;
-	~TerrainData(){}
+    ~TerrainData() = default;
 	/// <summary>
     /// load heightmap
     /// uses a call to c# to load the heightmap

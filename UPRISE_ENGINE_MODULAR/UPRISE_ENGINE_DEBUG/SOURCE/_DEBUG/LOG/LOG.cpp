@@ -66,6 +66,9 @@ void DEBUG::Logger::LogWarning()
         //		White
        // TrPrE(ctx)
 }
+namespace DEBUG {
+    DEBUG::LOG_STREAM   Debug::_internal_Stream;
+}
 
 void DEBUG::LOG_STREAM::Flush()
 {
@@ -76,4 +79,10 @@ void DEBUG::LOG_STREAM::Flush()
         LogFile.close();
 }
 
-
+ void DEBUG::Debug::Log(std::string message)
+{
+     std::time_t a = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+     unsigned long long aaa= a;
+     std::string s = std::to_string(a);
+     _internal_Stream << "[" << s << "]" << message << "\n";
+}

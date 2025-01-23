@@ -116,7 +116,7 @@ import std;
               }
 
               // Capture vendor string
-              char vendor[0x20];
+             alignas(alignof(int)) char vendor[0x20];
               memset(vendor, 0, sizeof(vendor));
               *reinterpret_cast<int*>(vendor) = data_[0][1];
               *reinterpret_cast<int*>(vendor + 4) = data_[0][3];

@@ -73,7 +73,7 @@ template <class T, bool NC> class RefWrapper;
 /// </summary>
 class controll_Base {
 private:
-    bool null;//might not be neccesary if i do the nullckeck with nullptr
+   // bool null;//might not be neccesary if i do the nullckeck with nullptr
     template<class T, bool NC> friend class Controll_Block; //friend to the controll block
     template<class T, bool NC> friend class RefWrapper; //friend to the RefWrapper
 
@@ -585,10 +585,7 @@ private:
         public:
             controll_Base* contrl{ nullptr };
 
-            RefWrapper() {
-                // std::cout << "creating illegaly wo nullchk\n";
-               // // contrl->Incref();
-            }
+            RefWrapper() = default;
             ~RefWrapper() {
                 // std::cout << "deleting wtihuout nullchk\n";
                 contrl->Decref();

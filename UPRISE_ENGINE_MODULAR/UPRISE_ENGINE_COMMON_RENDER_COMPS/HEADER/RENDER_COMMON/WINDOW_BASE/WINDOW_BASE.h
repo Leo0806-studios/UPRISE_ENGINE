@@ -26,7 +26,7 @@ namespace RENDER_COMMON {
 
     public:
         WINDOW_BASE() = default;
-        ~WINDOW_BASE() {}
+        ~WINDOW_BASE() = default;
         
 #pragma region Virtual funcs
 

@@ -19,7 +19,7 @@ public:
     /// default constructor
 	/// </summary>
 	HeightMap() = default;
-	~HeightMap(){}
+    ~HeightMap() = default;
 	/// <summary>
     /// get heigfht at x,y
 	/// </summary>

@@ -63,7 +63,7 @@ public:
     /// constructor that accepts a __m128
 	/// </summary>
 	/// <param name="other"></param>
-	Vector3(const __m128& other) :Data(other) {	}
+	Vector3(const __m128 other) :Data(other) {	}
 	/// <summary>
     /// constructor that accepts a Vector3
 	/// </summary>
@@ -135,7 +135,7 @@ public:
 	/// </summary>
 	/// <param name="x"></param>
 	/// <returns></returns>
-	__inline  float& x(const float& x) {
+	__inline  float& x(const float x) {
 		return (((float*)&Data)[0] = x);
 
 	}
@@ -147,7 +147,7 @@ public:
 	/// </summary>
 	/// <param name="y"></param>
 	/// <returns></returns>
-	__inline  float& y(const float& y) {
+	__inline  float& y(const float y) {
 		return (((float*)&Data)[1]=y);
 
 	}
@@ -159,7 +159,7 @@ public:
 	/// </summary>
 	/// <param name="z"></param>
 	/// <returns></returns>
-	__inline  float& z(const float& z) {
+	__inline  float& z(const float z) {
 		return (((float*)&Data)[2]=z);
 
 
@@ -172,7 +172,7 @@ public:
     /// </summary>
     /// <param name="pad"></param>
     /// <returns></returns>
-	__inline  float& pad(const float& pad) {
+	__inline  float& pad(const float pad) {
 		return (((float*)this)[3]=pad);
 
 	}
@@ -195,7 +195,7 @@ public:
 	/// </summary>
 	/// <param name="other"></param>
 	/// <returns></returns>
-	__inline  Vector3 operator=(const __m128& other) {
+	__inline  Vector3 operator=( __m128 other) {
 		this->Data = other;
 		return *this;
 	}
@@ -308,20 +308,20 @@ public:
 
 		return Vector3(_mm_add_ps(this->Data, other.Data));
 	}
-	__inline  Vector3 operator+(const __m128& other) const {
+	__inline  Vector3 operator+( __m128 other) const {
 		return Vector3(_mm_add_ps(this->Data, other));
 	}
 	__inline  Vector3 operator-(const Vector3& other)const {
 		
 		return Vector3(_mm_sub_ps(this->Data, other.Data));
 	}
-	__inline  Vector3 operator-(const __m128& other)const {
+	__inline  Vector3 operator-(const __m128 other)const {
 		return Vector3(_mm_sub_ps(this->Data, other));
 	}
 	__inline  Vector3 operator*(const Vector3& other)const {
 		return  Vector3(_mm_mul_ps(this->Data, other.Data));
 	}
-	__inline  Vector3 operator*(const __m128& other) const{
+	__inline  Vector3 operator*(const __m128 other) const{
 		return  Vector3(_mm_mul_ps(this->Data, other));
 	}
 	__inline  Vector3 operator*(const float f) const{
@@ -330,7 +330,7 @@ public:
 	__inline  Vector3 operator/(const Vector3& other)const {
 		return  Vector3(_mm_div_ps(this->Data, other.Data));
 	}
-	__inline  Vector3 operator/(const __m128& other) const {
+	__inline  Vector3 operator/(const __m128 other) const {
 		return  Vector3(_mm_div_ps(this->Data, other));
 	}
 	__inline  Vector3 operator/(const float f) const {

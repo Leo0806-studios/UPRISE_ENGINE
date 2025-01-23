@@ -32,7 +32,7 @@ class Transform;
 		RefWrapper<GameOject,true> gameObj;
 		RefWrapper<Transform,true> transf;
 		UUID uuid;
-		int id;
+        int id = 0;
 		bool toBeRemoved;
 		//bool enabled;
 
