@@ -1,15 +1,18 @@
+// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 #include "RENDER_COMMON/RENDER_BACKEND/RENDER_BACKEND.h"
 
 namespace RENDER_COMMON {
 
     
-
+    RefWrapper<RENDER_BACKEND, true> RENDER_BACKEND::_internal_backend;
+    RENDER_BACKEND::_Create_Backend_FUNC RENDER_BACKEND::_Create_Backend = nullptr;
     void RENDER_BACKEND::DestroyBackend()
     {
         RENDER_BACKEND::_internal_backend->_internal_DestroyBackend();
     }
 
-    RefWrapper<WINDOW_BASE, true> RENDER_BACKEND::CreateWindow(int w, int h, const char* Title)
+    RefWrapper<WINDOW_BASE, true> RENDER_BACKEND::_CreateWindow(int w, int h, const char* Title)
     {
         return RENDER_BACKEND::_internal_backend->_internal_CreateWindow(w, h, Title);
     }
@@ -58,6 +61,10 @@ namespace RENDER_COMMON {
     void RENDER_BACKEND::CreateMaterial()
     {
         _internal_backend->_internal_CreateMaterial();
+    }
+     void RENDER_BACKEND::DestroyWindow(RefWrapper<RENDER_COMMON::WINDOW_BASE, true> Window)
+    {
+         _internal_backend->_internal_Destroy_Window(Window);
     }
 }
 

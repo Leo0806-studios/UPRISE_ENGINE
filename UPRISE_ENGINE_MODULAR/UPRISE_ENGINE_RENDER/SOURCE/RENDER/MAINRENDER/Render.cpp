@@ -1,9 +1,10 @@
-#include "Render.h"
+// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
+#include "RENDER/MAINRENDER/Render.h"
 #include "RENDER_COMMON/RENDER_BACKEND/RENDER_BACKEND.h"
 #include "OPENGL/OPENGL_BACKEND/OPENGL_BACKEND.h"
 namespace RENDER_COMMON {
-    RefWrapper<RENDER_BACKEND, true> RENDER_BACKEND::_internal_backend;
-    RENDER_BACKEND::_Create_Backend_FUNC RENDER_BACKEND::_Create_Backend = nullptr;
+
 }
 void RENDER::Render::SetRenderCamera(RefWrapper<GameObject, true> cam)
 {
@@ -37,8 +38,13 @@ void RENDER::Render::RenderSetup::SetRenderBackend(Render_Backend backend)
  void RENDER::Render::RenderSetup::CreateBackend()
 {
      auto a = RENDER_COMMON::RENDER_BACKEND::CreateBackend;
-     RENDER_COMMON::RENDER_BACKEND::CreateBackend();
+    RENDER_COMMON::RENDER_BACKEND::_internal_backend= RENDER_COMMON::RENDER_BACKEND::CreateBackend();
 }
+  RefWrapper<RENDER_COMMON::WINDOW_BASE, true> RENDER::Render::RenderSetup::Window(int w, int h, const char* Title)
+ {
+      RefWrapper<RENDER_COMMON::WINDOW_BASE, true>windw = RENDER_COMMON::RENDER_BACKEND::_CreateWindow(w, h, Title);
+      return  windw;
+ }
 RefWrapper<RENDER_COMMON::WINDOW_BASE, true> RENDER::Render::GetWindow()
 {
     return Windowvar;

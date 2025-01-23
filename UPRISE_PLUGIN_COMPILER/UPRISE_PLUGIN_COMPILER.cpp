@@ -1,3 +1,5 @@
+// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 // UPRISE_PLUGIN_COMPILER.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 

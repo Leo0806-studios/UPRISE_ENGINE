@@ -1,3 +1,5 @@
+// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 #include "Header/DATATYPES/D_TS_P_VECTOR3.h"
 #include "GLINCLUDES.h"
 #include "pch.h"

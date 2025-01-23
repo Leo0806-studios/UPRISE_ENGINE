@@ -1,3 +1,5 @@
+// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 #pragma once
 #ifndef _OPENGL_WINDOW_
 #define _OPENGL_WINDOW_
@@ -19,17 +21,17 @@ namespace OPENGL_RENDER {
 #define APPLE_PLATFORM
 #define UNIX_PLATFORM
 #ifdef _WIN32
-#define WIN__32_PLATFORM WINDOW_Win32*
+#define WIN__32_PLATFORM WINDOW_Win32
 
 #endif // _WIN32
 #ifdef __linux__
-#define LINUX_PLATFORM WINDOW_Linux*
+#define LINUX_PLATFORM WINDOW_Linux
 #endif // __linux__
 #ifdef __APPLE__
-#define APPLE_PLATFORM WINDOW_APPLE*
+#define APPLE_PLATFORM WINDOW_APPLE
 #endif // __APPLE__
 #ifdef __unix__
-#define UNIX_PLATFORM WINDOW_UNIX*
+#define UNIX_PLATFORM WINDOW_UNIX
 #endif // __unix__
 
 
@@ -45,13 +47,17 @@ namespace OPENGL_RENDER {
     public:
         OPENGL_WINDOW() = default;
         ~OPENGL_WINDOW() {}
+        UPRISE_OPENGL_RENDER_API static RefWrapper<RENDER_COMMON::WINDOW_BASE, true> _CreateWindow(int w, int h, const char* Title);
 
 
-        RefWrapper<RENDER_COMMON::WINDOW_BASE, true> CreateWindow(int w, int h, const char* Title) override;
+         void CreateWindow(int w, int h, const char* Title) override;
+         void DestroyWindow() override;
+         void SetWindowShouldClose() override;
+
     private:
 
 
-        WINDOWW_PLATFORM window;
+        WINDOWW_PLATFORM * window;
     };
 
 }

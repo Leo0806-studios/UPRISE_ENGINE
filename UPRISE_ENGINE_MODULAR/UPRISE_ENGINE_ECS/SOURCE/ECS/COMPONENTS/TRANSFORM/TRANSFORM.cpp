@@ -1,3 +1,5 @@
+// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 #include "VECTOR/VECTOR3/FAST/VECTOR3_F.h"
 #include  "ECS/COMPONENTS/TRANSFORM/TRANSFORM.h";
 void Transform::SetRotation(Vector3 vec)

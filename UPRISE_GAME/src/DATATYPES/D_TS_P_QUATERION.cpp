@@ -1,3 +1,5 @@
+// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 #include "pch.h"
 #include "Header/DATATYPES/D_TS_P_QUATERION.h"
 #define _USE_MATH_DEFINES

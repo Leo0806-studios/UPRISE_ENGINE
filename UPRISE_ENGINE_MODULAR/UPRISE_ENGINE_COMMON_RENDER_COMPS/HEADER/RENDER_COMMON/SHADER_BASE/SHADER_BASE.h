@@ -1,3 +1,5 @@
+// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 #pragma once
 #ifndef _SHADER_BASE_
 #define _SHADER_BASE_
@@ -26,9 +28,9 @@ namespace RENDER_COMMON {
         ShaderType shadertype = ShaderType::S_null;
 
     public:
-        virtual void* Compile() = 0;
-        virtual void Delete() = 0;
-        virtual void Load();
+        UPRISE_COMMON_RENDER_COMPS_API  virtual void* Compile() = 0;
+        UPRISE_COMMON_RENDER_COMPS_API  virtual void Delete() = 0;
+        UPRISE_COMMON_RENDER_COMPS_API  virtual void Load()=0;
 
 
 

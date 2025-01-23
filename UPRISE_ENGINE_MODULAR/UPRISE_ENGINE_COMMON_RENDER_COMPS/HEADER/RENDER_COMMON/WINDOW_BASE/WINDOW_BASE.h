@@ -1,3 +1,5 @@
+// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 #pragma once
 #ifndef _WINDOW_BASE_
 #define _WINDOW_BASE_
@@ -25,12 +27,12 @@ namespace RENDER_COMMON {
     public:
         WINDOW_BASE() = default;
         ~WINDOW_BASE() {}
-
+        
 #pragma region Virtual funcs
 
-        virtual RefWrapper<WINDOW_BASE, true> CreateWindow(int w, int h, const char* Title) = 0;
-        virtual void DestroyWindow() = 0;
-        virtual void SetWindowShouldClose() = 0;
+        UPRISE_COMMON_RENDER_COMPS_API  virtual void CreateWindow(int w, int h, const char* Title) = 0;
+        UPRISE_COMMON_RENDER_COMPS_API  virtual void DestroyWindow() = 0;
+        UPRISE_COMMON_RENDER_COMPS_API  virtual void SetWindowShouldClose() = 0;
         void SetKeyInputCallback(KeyInputCallback callback) { Callbacks.keyinput = callback; }
         void SetMouseButtonCallback(MouseButtonCallback callback) { Callbacks.mousebutton = callback; }
         void SetCursorPosCallback(CursorPosCallback callback) { Callbacks.cursorpos = callback; }

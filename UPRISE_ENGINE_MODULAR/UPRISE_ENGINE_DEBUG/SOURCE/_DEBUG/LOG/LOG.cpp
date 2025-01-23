@@ -1,8 +1,12 @@
+// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 #include "../HEADER/DEBUG/LOG/LOG.h"
 
 //DEBUG::Error::Error(ErrorCode)
 //{
 //}
+
+
 
 void DEBUG::Logger::log(std::string  message)
 {
@@ -62,3 +66,14 @@ void DEBUG::Logger::LogWarning()
         //		White
        // TrPrE(ctx)
 }
+
+void DEBUG::LOG_STREAM::Flush()
+{
+    LogFile.open(LogPath, std::ios::app);
+       LogFile << stream.str();
+        stream.str("");
+        length = 0;
+        LogFile.close();
+}
+
+

@@ -1,9 +1,12 @@
+// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 #pragma once
 #ifndef _RENDER_BACKEND_
 #define _RENDER_BACKEND_
 //#include "..\WINDOW_BASE\WINDOW_BASE.h"
-import REF_WRAPPER;
 import std;
+
+import REF_WRAPPER;
 
 class OPENGL_BACKEND;
 class DIRECTX11_BACKEND;
@@ -28,10 +31,11 @@ namespace RENDER_COMMON
 
     };
     class RENDER_BACKEND {
-    private:
+    public:
         RENDER_BACKEND() = default;
         virtual  ~RENDER_BACKEND() {}
-        static RefWrapper<RENDER_BACKEND, true> _internal_backend;
+    private:
+        UPRISE_COMMON_RENDER_COMPS_API  static RefWrapper<RENDER_BACKEND, true> _internal_backend;
         friend class Render;
         friend class RenderSetup;
         friend  OPENGL_BACKEND;
@@ -40,40 +44,42 @@ namespace RENDER_COMMON
         friend VULKAN_BACKEND;
         friend RENDER::Render;
         typedef RefWrapper<RENDER_BACKEND, true>(*_Create_Backend_FUNC)();
-        static _Create_Backend_FUNC _Create_Backend;
+        UPRISE_COMMON_RENDER_COMPS_API  static _Create_Backend_FUNC _Create_Backend;
 
-        virtual void _internal_setup() {};
-        virtual RefWrapper<WINDOW_BASE, true> _internal_create_window() {};
-        virtual RefWrapper<CONTEXT_BASE, true> _internal_Get_Context()  {};
-        virtual RefWrapper<SHADER_BASE, true> _internal_Create_Shader(const std::string& ShaderCode)  {};
-        virtual RefWrapper<SHADER_BASE, true> _internal_Create_Shader(const std::filesystem::path& ShaderCode_Path)  {};
-        virtual RefWrapper<SHADER_PROGRAM_BASE, true> _internal_CreateShaderProgram(RefWrapper<SHADER_BASE, true> Shader0)  {};
-        virtual RefWrapper<SHADER_PROGRAM_BASE, true> _internal_CreateShaderProgram(RefWrapper<SHADER_BASE, true> Shader0, RefWrapper<SHADER_BASE, true> Shader1) {};
-        virtual RefWrapper<SHADER_PROGRAM_BASE, true> _internal_CreateShaderProgram(RefWrapper<SHADER_BASE, true> Shader0, RefWrapper<SHADER_BASE, true> Shader1, RefWrapper<SHADER_BASE, true> Shader2) {};
-        virtual void _internal_DestroyBackend() {};
-        virtual RefWrapper<WINDOW_BASE, true> _internal_CreateWindow(int w, int h, const char* Title) {};
-        virtual void _internal_CreateMaterial() {};
-        virtual int _internal_Create_Buffer() {};
-        virtual void _internal_DestroyBuffer(int Buffer) {};
-        virtual void _internal_BindBuffer(int Buffer, void* _Data, size_t length, size_t Type_Size) {};
+        UPRISE_COMMON_RENDER_COMPS_API  virtual void _internal_setup() = 0;
+        UPRISE_COMMON_RENDER_COMPS_API  virtual   RefWrapper<CONTEXT_BASE, true> _internal_Get_Context() = 0;
+        UPRISE_COMMON_RENDER_COMPS_API  virtual   RefWrapper<SHADER_BASE, true> _internal_Create_Shader(const std::string& ShaderCode) = 0;
+        UPRISE_COMMON_RENDER_COMPS_API  virtual   RefWrapper<SHADER_BASE, true> _internal_Create_Shader(const std::filesystem::path& ShaderCode_Path) = 0;
+        UPRISE_COMMON_RENDER_COMPS_API  virtual   RefWrapper<SHADER_PROGRAM_BASE, true> _internal_CreateShaderProgram(RefWrapper<SHADER_BASE, true> Shader0) = 0;
+        UPRISE_COMMON_RENDER_COMPS_API  virtual    RefWrapper<SHADER_PROGRAM_BASE, true> _internal_CreateShaderProgram(RefWrapper<SHADER_BASE, true> Shader0, RefWrapper<SHADER_BASE, true> Shader1) = 0;
+        UPRISE_COMMON_RENDER_COMPS_API  virtual   RefWrapper<SHADER_PROGRAM_BASE, true> _internal_CreateShaderProgram(RefWrapper<SHADER_BASE, true> Shader0, RefWrapper<SHADER_BASE, true> Shader1, RefWrapper<SHADER_BASE, true> Shader2) = 0;
+        UPRISE_COMMON_RENDER_COMPS_API  virtual   void _internal_DestroyBackend() = 0;
+        UPRISE_COMMON_RENDER_COMPS_API  virtual   RefWrapper<WINDOW_BASE, true> _internal_CreateWindow(int w, int h, const char* Title) = 0;
+        UPRISE_COMMON_RENDER_COMPS_API  virtual   void _internal_CreateMaterial() = 0;
+        UPRISE_COMMON_RENDER_COMPS_API  virtual   int _internal_Create_Buffer() = 0;
+        UPRISE_COMMON_RENDER_COMPS_API  virtual   void _internal_Destroy_Window(RefWrapper<RENDER_COMMON::WINDOW_BASE, true> Window) = 0;
+        UPRISE_COMMON_RENDER_COMPS_API  virtual  void _internal_DestroyBuffer(int Buffer) = 0;
+        UPRISE_COMMON_RENDER_COMPS_API  virtual  void _internal_BindBuffer(int Buffer, void* _Data, size_t length, size_t Type_Size) = 0;
+
 
 
 
     public:
-        static RefWrapper<RENDER_BACKEND, true> CreateBackend();
-        static void DestroyBackend();
-        static RefWrapper<WINDOW_BASE, true> CreateWindow(int w, int h, const char* Title);
-        static const RefWrapper<RENDER_BACKEND, true>& GetBackend();
-        static RefWrapper<CONTEXT_BASE, true> GetContext();
-        static RefWrapper<SHADER_BASE, true> CreateShader(const std::string& ShaderCode);
-        static RefWrapper<SHADER_BASE, true> CreateShader(const std::filesystem::path& ShaderCode_Path);
-        static RefWrapper<SHADER_PROGRAM_BASE, true> CreateShaderProgram(RefWrapper<SHADER_BASE, true> Shader0);
-        static RefWrapper<SHADER_PROGRAM_BASE, true> CreateShaderProgram(RefWrapper<SHADER_BASE, true> Shader0, RefWrapper<SHADER_BASE, true> Shader1);
-        static RefWrapper<SHADER_PROGRAM_BASE, true> CreateShaderProgram(RefWrapper<SHADER_BASE, true> Shader0, RefWrapper<SHADER_BASE, true> Shader1, RefWrapper<SHADER_BASE, true> Shader2);
-        static void CreateMaterial();///TODO find parameterss+
-        static int CreateBuffer();
-        static void DestroyBuffer(int Buffer);
-        static void BindBuffer(int Buffer, void* _Data, size_t length, size_t Type_size);
+        UPRISE_COMMON_RENDER_COMPS_API  static RefWrapper<RENDER_BACKEND, true> CreateBackend();
+        UPRISE_COMMON_RENDER_COMPS_API  static void DestroyBackend();
+        UPRISE_COMMON_RENDER_COMPS_API  static RefWrapper<WINDOW_BASE, true> _CreateWindow(int w, int h, const char* Title);
+        UPRISE_COMMON_RENDER_COMPS_API  static const RefWrapper<RENDER_BACKEND, true>& GetBackend();
+        UPRISE_COMMON_RENDER_COMPS_API  static RefWrapper<CONTEXT_BASE, true> GetContext();
+        UPRISE_COMMON_RENDER_COMPS_API  static RefWrapper<SHADER_BASE, true> CreateShader(const std::string& ShaderCode);
+        UPRISE_COMMON_RENDER_COMPS_API  static RefWrapper<SHADER_BASE, true> CreateShader(const std::filesystem::path& ShaderCode_Path);
+        UPRISE_COMMON_RENDER_COMPS_API  static RefWrapper<SHADER_PROGRAM_BASE, true> CreateShaderProgram(RefWrapper<SHADER_BASE, true> Shader0);
+        UPRISE_COMMON_RENDER_COMPS_API  static RefWrapper<SHADER_PROGRAM_BASE, true> CreateShaderProgram(RefWrapper<SHADER_BASE, true> Shader0, RefWrapper<SHADER_BASE, true> Shader1);
+        UPRISE_COMMON_RENDER_COMPS_API  static RefWrapper<SHADER_PROGRAM_BASE, true> CreateShaderProgram(RefWrapper<SHADER_BASE, true> Shader0, RefWrapper<SHADER_BASE, true> Shader1, RefWrapper<SHADER_BASE, true> Shader2);
+        UPRISE_COMMON_RENDER_COMPS_API  static void CreateMaterial();///TODO find parameterss+
+        UPRISE_COMMON_RENDER_COMPS_API  static int CreateBuffer();
+        UPRISE_COMMON_RENDER_COMPS_API  static void DestroyWindow(RefWrapper<RENDER_COMMON::WINDOW_BASE,true> Window);
+        UPRISE_COMMON_RENDER_COMPS_API  static void DestroyBuffer(int Buffer);
+        UPRISE_COMMON_RENDER_COMPS_API  static void BindBuffer(int Buffer, void* _Data, size_t length, size_t Type_size);
 
 
     };
