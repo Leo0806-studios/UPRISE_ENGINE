@@ -152,6 +152,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
+      <AdditionalDependencies>UPRISE_ENGINE_PROFILER.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -182,10 +183,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\SHARED_CODE\MODULES\REF_WRAPPER.ixx" />
+    <ClCompile Include="..\UPRISE_ENGINE_PROFILER\OPERATORS\PROFILER\OPERATOR_NEW\OPERATOR_NEW.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="SOURCE\OPENGL\GLAD\glad.c">
       <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
       </ForcedIncludeFiles>
+      <ScanSourceForModuleDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ScanSourceForModuleDependencies>
     </ClCompile>
     <ClCompile Include="SOURCE\OPENGL\OPENGL_BACKEND\OPENGL_BACKEND.cpp" />
     <ClCompile Include="SOURCE\OPENGL\OPENGL_WINDOW\OPENGL_WINDOW.cpp" />

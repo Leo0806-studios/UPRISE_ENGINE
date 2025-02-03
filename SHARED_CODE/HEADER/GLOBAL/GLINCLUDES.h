@@ -1,6 +1,6 @@
 #pragma once
-#ifndef _GLINCLUDE_
-#define _GLINCLUDE_
+#ifndef UE_GLINCLUDE_
+#define UE_GLINCLUDE_
 
 //#define GLFW_INCLUDE_NONE
 #define GLM_FORCE_SSE2 

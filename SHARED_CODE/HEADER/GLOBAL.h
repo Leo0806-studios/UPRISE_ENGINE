@@ -1,8 +1,8 @@
 // This is a personal academic project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 #pragma once
-#ifndef ___GLOBAL___
-#define ___GLOBAL___
+#ifndef UE_GLOBAL_
+#define UE_GLOBAL_
 #ifdef UPRISEENGINECORE_EXPORTS
 
 #define UPRISE_CORE_API __declspec(dllexport)
@@ -94,14 +94,43 @@
 #define UPRISE_PHYSICS_API_EXPORTS
 #endif // UPRISEENGINEPHYSICS_EXPORTS
 
+#ifdef UPRISEENGINEPROFILER_EXPORTS
+#define UPRISE_PROFILER_API __declspec(dllexport)
+#define UPRISE_PROFILER_API_EXPORTS export
+#else
+#define UPRISE_PROFILER_API __declspec(dllimport)
+#define UPRISE_PROFILER_API_EXPORTS
+#endif // UPRISEENGINEPROFILER_EXPORTS
+
 #include "tracy/Tracy.hpp"
 #include "tracy/TracyC.h"
 
 
 
-
 #define symLoad GetProcAddress 
+namespace UPRISE_ENGINE {
+    namespace  PROFILER {
+        constexpr size_t maxFrames = 64;
 
+    }
+}
+
+
+#define UE_NODISCARD [[nodiscard]]
+typedef  long long huge;; //-V2575 //-V3549
+typedef unsigned long long uhuge; //-V2575 //-V3549
+typedef size_t  Index; //-V2575 //-V3549
+
+namespace UPRISE_ENGINE {
+    consteval size_t constevalstrlen(const char* str) {
+        Index len = 0;
+        while (str[len] != '\0') { //-V2563 //-V3539
+            len++;
+        }
+
+        return len;
+    }
+}
 #ifdef _DEBUG
 #define TrPr(V,N)   TracyCZoneN(V, N, true); 
 #define TrPrE(V) TracyCZoneEnd(V);
@@ -110,4 +139,4 @@
 #define TrPrE(V) ;
 #endif // DEBUG
 
-#endif // !___GLOBAL___
+#endif // !UE_GLOBAL_

@@ -3,49 +3,58 @@
 #include "RENDER/MAINRENDER/Render.h"
 #include "RENDER_COMMON/RENDER_BACKEND/RENDER_BACKEND.h"
 #include "OPENGL/OPENGL_BACKEND/OPENGL_BACKEND.h"
-namespace RENDER_COMMON {
+#include "PROFILER/PROFILER_OBJECTS/TIMERS/SCOPED/SCOPED_TIME.h"
+namespace UPRISE_ENGINE {
+    namespace RENDER_COMMON {
 
-}
-void RENDER::Render::SetRenderCamera(RefWrapper<GameObject, true> cam)
-{
-}
-namespace RENDER {
-    RefWrapper<RENDER_COMMON::WINDOW_BASE,true> Render::Windowvar ;
-
-}
-
-void RENDER::Render::RenderSetup::SetRenderBackend(Render_Backend backend)
-{
-    switch (backend)
+    }
+    void RENDER::Render::SetRenderCamera(RefWrapper<GameObject, true> cam)
     {
-    case Render_Backend::RB_OPENGL:
-        RENDER_COMMON::RENDER_BACKEND::_Create_Backend = OPENGL_BACKEND::GL_Create_Backend;
-       // RENDER_BACKEND::OPENGL::OpenGLBackend::SetBackend();
-        break;
-    case Render_Backend::RB_VULKAN:
-        RENDER_COMMON::RENDER_BACKEND::_Create_Backend = nullptr;
-        break;
-    case Render_Backend::RB_DIRECTX11:
-        RENDER_COMMON::RENDER_BACKEND::_Create_Backend = nullptr;
-        break;
-    case Render_Backend::RB_DIRECTX12:
-        RENDER_COMMON::RENDER_BACKEND::_Create_Backend = nullptr;
-        break;
-    default:
-        break;
+    }
+    namespace RENDER {
+        RefWrapper<RENDER_COMMON::WINDOW_BASE, true> Render::Windowvar;
+
+    }
+
+    void RENDER::Render::RenderSetup::SetRenderBackend(Render_Backend backend)
+    {
+        PROFILER::TIMERS::SCOPED_TIME time("SetRenderBackend", __FILE__, __FUNCTION__, __LINE__);
+        switch (backend)
+        {
+        case Render_Backend::RB_OPENGL:
+            RENDER_COMMON::RENDER_BACKEND::_Create_Backend = OPENGL_BACKEND::GL_Create_Backend;
+            // RENDER_BACKEND::OPENGL::OpenGLBackend::SetBackend();
+            break;
+        case Render_Backend::RB_VULKAN:
+            RENDER_COMMON::RENDER_BACKEND::_Create_Backend = nullptr;
+            break;
+        case Render_Backend::RB_DIRECTX11:
+            RENDER_COMMON::RENDER_BACKEND::_Create_Backend = nullptr;
+            break;
+        case Render_Backend::RB_DIRECTX12:
+            RENDER_COMMON::RENDER_BACKEND::_Create_Backend = nullptr;
+            break;
+        default:
+            throw std::exception("Backend not supported");
+            break;
+        }
+    }
+    void RENDER::Render::RenderSetup::CreateBackend()
+    {
+        PROFILER::TIMERS::SCOPED_TIME time("CreateBackend", __FILE__, __FUNCTION__, __LINE__);
+        auto a = RENDER_COMMON::RENDER_BACKEND::CreateBackend;
+        RENDER_COMMON::RENDER_BACKEND::_internal_backend = RENDER_COMMON::RENDER_BACKEND::CreateBackend();
+    }
+    RefWrapper<RENDER_COMMON::WINDOW_BASE, true> RENDER::Render::RenderSetup::Window(int w, int h, std::string Title)
+    {
+        PROFILER::TIMERS::SCOPED_TIME time("Window", __FILE__, __FUNCTION__, __LINE__);
+        RefWrapper<RENDER_COMMON::WINDOW_BASE, true>windw = RENDER_COMMON::RENDER_BACKEND::_CreateWindow(w, h, Title.c_str());
+        return  windw;
+    }
+    RefWrapper<RENDER_COMMON::WINDOW_BASE, true> RENDER::Render::GetWindow()
+    {
+        PROFILER::TIMERS::SCOPED_TIME time("GetWindow", __FILE__, __FUNCTION__, __LINE__);
+        return Windowvar;
     }
 }
- void RENDER::Render::RenderSetup::CreateBackend()
-{
-     auto a = RENDER_COMMON::RENDER_BACKEND::CreateBackend;
-    RENDER_COMMON::RENDER_BACKEND::_internal_backend= RENDER_COMMON::RENDER_BACKEND::CreateBackend();
-}
-  RefWrapper<RENDER_COMMON::WINDOW_BASE, true> RENDER::Render::RenderSetup::Window(int w, int h, const char* Title)
- {
-      RefWrapper<RENDER_COMMON::WINDOW_BASE, true>windw = RENDER_COMMON::RENDER_BACKEND::_CreateWindow(w, h, Title);
-      return  windw;
- }
-RefWrapper<RENDER_COMMON::WINDOW_BASE, true> RENDER::Render::GetWindow()
-{
-    return Windowvar;
-}
+

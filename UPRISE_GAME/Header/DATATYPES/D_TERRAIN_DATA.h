@@ -20,7 +20,7 @@ public:
 		if (x >= 0 && x < 512 && z >= 0 && z < 512) {
 			return heightMap[x][z];
 		}
-		return 0.0f;
+		return 0.0F;
 	}
 	void SetHeight(int x, int z, float height) {
 		if (x >= 0 && x < 512 && z >= 0 && z < 512) {

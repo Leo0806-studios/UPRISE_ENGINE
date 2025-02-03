@@ -32,7 +32,7 @@ TS_P_Vector2 TS_P_Vector2::Normalized()
 
 float TS_P_Vector2::point(TS_P_Vector2 a)
 {
-    return 0.0f;
+    return 0.0F;
 }
 
 TS_P_Vector2 TS_P_Vector2::operator/(const float b)

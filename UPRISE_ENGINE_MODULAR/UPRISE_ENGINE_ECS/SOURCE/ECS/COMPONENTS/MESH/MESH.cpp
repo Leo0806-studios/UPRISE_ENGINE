@@ -2,16 +2,19 @@
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 #include  "ECS/COMPONENTS/MESH/MESH.h";
 //TODO Finish reimplementing
+namespace UPRISE_ENGINE {
+    UPRISE_ECS_API void Mesh::Update()
+    {
 
-UPRISE_ECS_API void Mesh::Update()
-{
-     
+    }
+
+    UPRISE_ECS_API void Mesh::Awake()
+    {
+    }
+
+    UPRISE_ECS_API void Mesh::Start()
+    {
+    }
+
 }
 
-UPRISE_ECS_API void Mesh::Awake()
-{
-}
-
-UPRISE_ECS_API void Mesh::Start()
-{
-}

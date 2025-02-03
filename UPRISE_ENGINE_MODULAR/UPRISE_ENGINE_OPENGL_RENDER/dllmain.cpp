@@ -2,8 +2,8 @@
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 // dllmain.cpp : Defines the entry point for the DLL application.
 #include "Windows.h"
-import std;
-BOOL APIENTRY DllMain( HMODULE hModule,
+import std; //-V2575 //-V3549
+BOOL APIENTRY DllMain( HMODULE hModule, //-V2575 //-V2537 //-V3523 //-V3549
                        DWORD  ul_reason_for_call,
                        LPVOID lpReserved
                      )

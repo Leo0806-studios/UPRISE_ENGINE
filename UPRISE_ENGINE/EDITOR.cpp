@@ -145,7 +145,7 @@ void EDITOR::Editor::DrawEditor()
 
 			// Highlight the selected item
 			if (isSelected) {
-				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 0.0f, 1.0f)); // Yellow for selected
+				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0F, 1.0F, 0.0F, 1.0F)); // Yellow for selected
 			}
 
 			// Display the game object name and detect selection

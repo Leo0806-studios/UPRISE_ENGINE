@@ -6,10 +6,10 @@
 #include "HEADER/DATATYPES/VECTOR/VECTOR3/FAST/VECTOR3_F.h"
 #include "HEADER/DATATYPES/QUTERION/QUATERION.h"
 #include "HEADER/CORE/OBJECT/OBJECT.h"
-import std;
+import std; //-V2575 //-V3549
 
 
-BOOL APIENTRY DllMain( HMODULE hModule,
+BOOL APIENTRY DllMain( HMODULE hModule, //-V2537 //-V2575 //-V3549
                        DWORD  ul_reason_for_call,
                        LPVOID lpReserved
                      )

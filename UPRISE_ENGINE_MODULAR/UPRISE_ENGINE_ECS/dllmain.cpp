@@ -3,7 +3,7 @@
 // dllmain.cpp : Defines the entry point for the DLL application.
 #include "pch.h"
 
-BOOL APIENTRY DllMain( HMODULE hModule,
+BOOL APIENTRY DllMain( HMODULE hModule, //-V2575 //-V2537 //-V3549 //-V3523
                        DWORD  ul_reason_for_call,
                        LPVOID lpReserved
                      )

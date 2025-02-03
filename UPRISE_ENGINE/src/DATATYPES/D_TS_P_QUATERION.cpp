@@ -63,10 +63,10 @@ DATATYPES:: Quaternion DATATYPES::Quaternion::operator*(const Quaternion& other)
 	 float nz = z / length;
 
 	 // Compute the angle
-	 float angle = 2.0f * std::acos(nw);
+	 float angle = 2.0F * std::acos(nw);
 
 	 // Compute the axis
-	 float s = std::sqrt(1.0f - nw * nw);
+	 float s = std::sqrt(1.0F - nw * nw);
 	 if (s < 0.0001f) {
 		 // If s is close to zero, return the axis as (1, 0, 0)
 		 return DATATYPES::TSPVector3(1, 0, 0) * angle;
