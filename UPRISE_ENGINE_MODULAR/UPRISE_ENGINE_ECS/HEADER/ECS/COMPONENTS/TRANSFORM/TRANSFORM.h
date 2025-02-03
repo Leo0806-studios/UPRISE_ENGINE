@@ -14,6 +14,8 @@ namespace UPRISE_ENGINE {
 /// </summary>
     class Transform :public CORE::Behaviour {
     private:
+        template<class T,bool e>
+        friend RefWrapper<T, e> WrapRef(const T&& __val);
         /// <summary>
         /// position of the gameobject
         /// </summary>
