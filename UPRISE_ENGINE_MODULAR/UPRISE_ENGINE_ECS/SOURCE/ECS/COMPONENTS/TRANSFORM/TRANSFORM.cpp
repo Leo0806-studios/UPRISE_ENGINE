@@ -46,7 +46,8 @@ namespace UPRISE_ENGINE {
 
     UPRISE_ECS_API RefWrapper<CORE::Object, true> Transform::Copy()
     {
-        return  WrapRef<Transform, true>(Transform(*this));
+        auto a =WrapRef<Transform, true>(Transform(*this));
+        return a;
     }
 
 

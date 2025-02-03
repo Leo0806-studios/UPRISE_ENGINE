@@ -8,14 +8,19 @@
 #include "VECTOR/VECTOR3/FAST/VECTOR3_F.h"
 
 #include "QUTERION/QUATERION.h"
+import REF_WRAPPER;
+
 namespace UPRISE_ENGINE {
+    class Transform;
+    
     /// <summary>
 /// Transform component on Gameobjects
 /// </summary>
     class Transform :public CORE::Behaviour {
     private:
-        template<class T,bool e>
-        friend RefWrapper<T, e> WrapRef(const T&& __val);
+        template<class T,bool r>
+        friend RefWrapper<T, r> UPRISE_ENGINE::WrapRef( const T&& __val);
+
         /// <summary>
         /// position of the gameobject
         /// </summary>
@@ -49,7 +54,7 @@ namespace UPRISE_ENGINE {
             up = other.up;
             right = other.right;
         }
-        Transform operator=(const Transform& other) {
+         Transform operator=(const Transform& other) {
             position = other.position;
             rotation = other.rotation;
             vec3rot = other.vec3rot;

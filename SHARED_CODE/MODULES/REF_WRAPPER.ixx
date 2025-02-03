@@ -372,7 +372,14 @@ import std; //-V2575 //-V3549
             RefWrapper<T, NullChk> ret;
             ret.contrl = base;
             //memcpy(ret.Get(), &__val, sizeof(T));
-            *((T*)passer::IGet(ret)) = __val;
+            if constexpr (std::is_move_constructible<T>::value) {
+                *((T*)passer::IGet(ret)) = __val;
+
+            }
+            else {
+                *((T*)passer::IGet(ret)) = std::move(__val);
+
+            }
             //ret.Get() = __val;
             return ret;
         }
@@ -442,7 +449,7 @@ import std; //-V2575 //-V3549
             /// <typeparam name="T2"></typeparam>
             /// <typeparam name="type"></typeparam>
             /// <param name="other"></param>
-            template<class T2, typename std::enable_if<std::is_convertible<T2*, T*>::value, int>::type = 0>
+            template<class T2>
             RefWrapper(const RefWrapper<T2, true>& other) {
                 contrl = other.contrl;
                 if (contrl && (((uintptr_t)contrl) != 1)) {

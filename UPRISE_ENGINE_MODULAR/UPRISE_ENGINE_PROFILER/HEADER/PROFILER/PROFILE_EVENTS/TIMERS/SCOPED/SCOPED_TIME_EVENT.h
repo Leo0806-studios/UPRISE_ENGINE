@@ -37,7 +37,7 @@ namespace UPRISE_ENGINE {
 
                     }
                     else {
-                        size_t dur = duration / 1000;
+                        long double dur = duration / 1000;
                         if (dur < 1000) {
                             s << std::to_string(dur) << " microseconds"<< "\n";
 
