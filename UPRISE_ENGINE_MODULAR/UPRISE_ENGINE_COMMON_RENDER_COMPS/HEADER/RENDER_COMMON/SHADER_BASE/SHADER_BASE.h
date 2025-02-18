@@ -35,7 +35,12 @@ namespace UPRISE_ENGINE {
             UPRISE_COMMON_RENDER_COMPS_API  virtual void Compile() = 0;
             UPRISE_COMMON_RENDER_COMPS_API  virtual void Delete() = 0;
             UPRISE_COMMON_RENDER_COMPS_API  virtual void Load() = 0;
+            UPRISE_COMMON_RENDER_COMPS_API SHADER_BASE(const SHADER_BASE& other);
+            UPRISE_COMMON_RENDER_COMPS_API SHADER_BASE(const std::string& code);
+            UPRISE_COMMON_RENDER_COMPS_API SHADER_BASE(const std::filesystem::path& path);
+            UPRISE_COMMON_RENDER_COMPS_API SHADER_BASE() = default;
             virtual ~SHADER_BASE() {};
+            UPRISE_COMMON_RENDER_COMPS_API SHADER_BASE& operator=(const SHADER_BASE& other);
 
 
         };

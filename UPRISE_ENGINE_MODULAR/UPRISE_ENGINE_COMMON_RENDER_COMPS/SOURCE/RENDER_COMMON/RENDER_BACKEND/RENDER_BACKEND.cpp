@@ -65,10 +65,9 @@ namespace UPRISE_ENGINE {
         {
             _internal_backend->_internal_CreateMaterial();
         }
-         int RENDER_BACKEND::CreateBuffer()
+        unsigned int RENDER_BACKEND::CreateBuffer()
         {
-             ///TODO implement CreateBuffer
-             return 0;
+            return _internal_backend->_internal_Create_Buffer();
         }
         void RENDER_BACKEND::DestroyWindow(SharedRef<RENDER_COMMON::WINDOW_BASE, true> Window)
         {
@@ -80,7 +79,7 @@ namespace UPRISE_ENGINE {
         {
              _internal_backend->_internal_DestroyBuffer(Buffer);
         }
-         void RENDER_BACKEND::BindBuffer(int Buffer, void* _Data, size_t length, size_t Type_size, unsigned long bufferType)
+         void RENDER_BACKEND::BindBuffer(unsigned int Buffer, void* _Data, size_t length, size_t Type_size, unsigned long bufferType)
         {
              _internal_backend->_internal_BindBuffer(Buffer, _Data, length, Type_size,bufferType);
         }

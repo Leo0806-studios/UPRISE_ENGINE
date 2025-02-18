@@ -74,9 +74,12 @@ namespace UPRISE_ENGINE {
     {
     }
 
-    int OPENGL_BACKEND::_internal_Create_Buffer()
+   unsigned int OPENGL_BACKEND::_internal_Create_Buffer()
     {
-        return 0;
+        SCOPED_TIME_
+            unsigned int buffer;
+        glGenBuffers(1, &buffer);
+        return buffer;
     }
 
     void OPENGL_BACKEND::_internal_Destroy_Window(SharedRef<RENDER_COMMON::WINDOW_BASE, true> Window)
@@ -90,15 +93,21 @@ namespace UPRISE_ENGINE {
     {
         SCOPED_TIME_
         glDeleteBuffers(1, &Buffer);
+        
     }
 
-    void OPENGL_BACKEND::_internal_BindBuffer(int Buffer, void* _Data, size_t length, size_t Type_Size, unsigned long bufferType)
+    void OPENGL_BACKEND::_internal_BindBuffer(unsigned int Buffer, void* _Data, size_t length, size_t Type_Size, unsigned long bufferType)
     {
         SCOPED_TIME_
 
         
+
+            if (length * Type_Size > static_cast<size_t>(std::numeric_limits<GLsizeiptr>::max()))
+            {
+                throw std::runtime_error("Buffer too large");
+            }
         glBindBuffer(bufferType, Buffer);
-        glBufferData(bufferType, length * Type_Size, _Data, _GL_STATIC_DRAW);
+        glBufferData(bufferType, static_cast<signed long long>(length * Type_Size), _Data, _GL_STATIC_DRAW);
     }
 }
 

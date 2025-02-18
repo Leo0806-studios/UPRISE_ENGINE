@@ -57,10 +57,10 @@ namespace UPRISE_ENGINE {
             UPRISE_COMMON_RENDER_COMPS_API  virtual   void _internal_DestroyBackend() = 0;
             UPRISE_COMMON_RENDER_COMPS_API  virtual   SharedRef<WINDOW_BASE, true> _internal_CreateWindow(int w, int h, const char* Title) = 0;
             UPRISE_COMMON_RENDER_COMPS_API  virtual   void _internal_CreateMaterial() = 0;
-            UPRISE_COMMON_RENDER_COMPS_API  virtual   int _internal_Create_Buffer() = 0;
+            UPRISE_COMMON_RENDER_COMPS_API  virtual unsigned  int _internal_Create_Buffer() = 0;
             UPRISE_COMMON_RENDER_COMPS_API  virtual   void _internal_Destroy_Window(SharedRef<RENDER_COMMON::WINDOW_BASE, true> Window) = 0;
             UPRISE_COMMON_RENDER_COMPS_API  virtual  void _internal_DestroyBuffer(const unsigned int Buffer) = 0;
-            UPRISE_COMMON_RENDER_COMPS_API  virtual  void _internal_BindBuffer(int Buffer, void* _Data, size_t length, size_t Type_Size,unsigned long  bufferType) = 0;
+            UPRISE_COMMON_RENDER_COMPS_API  virtual  void _internal_BindBuffer(unsigned int Buffer, void* _Data, size_t length, size_t Type_Size,unsigned long  bufferType) = 0;
 
 
 
@@ -77,10 +77,10 @@ namespace UPRISE_ENGINE {
             UPRISE_COMMON_RENDER_COMPS_API  static SharedRef<SHADER_PROGRAM_BASE, true> CreateShaderProgram(SharedRef<SHADER_BASE, true> Shader0, SharedRef<SHADER_BASE, true> Shader1);
             UPRISE_COMMON_RENDER_COMPS_API  static SharedRef<SHADER_PROGRAM_BASE, true> CreateShaderProgram(SharedRef<SHADER_BASE, true> Shader0, SharedRef<SHADER_BASE, true> Shader1, SharedRef<SHADER_BASE, true> Shader2);
             UPRISE_COMMON_RENDER_COMPS_API  static void CreateMaterial();///TODO find parameterss+
-            UPRISE_COMMON_RENDER_COMPS_API  static int CreateBuffer();
+            UPRISE_COMMON_RENDER_COMPS_API  static unsigned int CreateBuffer();
             UPRISE_COMMON_RENDER_COMPS_API  static void DestroyWindow(SharedRef<RENDER_COMMON::WINDOW_BASE, true> Window);
             UPRISE_COMMON_RENDER_COMPS_API  static void DestroyBuffer(unsigned int Buffer);
-            UPRISE_COMMON_RENDER_COMPS_API  static void BindBuffer(int Buffer, void* _Data, size_t length, size_t Type_size, unsigned long bufferType);
+            UPRISE_COMMON_RENDER_COMPS_API  static void BindBuffer(unsigned int Buffer, void* _Data, size_t length, size_t Type_size, unsigned long bufferType);
 
 
         };

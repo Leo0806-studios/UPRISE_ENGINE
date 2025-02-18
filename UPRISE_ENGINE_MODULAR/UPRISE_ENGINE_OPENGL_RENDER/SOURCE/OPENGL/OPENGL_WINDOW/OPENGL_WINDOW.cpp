@@ -104,6 +104,7 @@ namespace UPRISE_ENGINE {
             bool maximized;
             bool transparent;
             bool scaleToMonitor;
+            char PAD[3]{};//TODO find a better way to align this or put data here
             void WIN32_CREATE_WINDOW(int w, int h, const char* name) {
                 SCOPED_TIME_
 
@@ -111,7 +112,7 @@ namespace UPRISE_ENGINE {
                 wc.lpfnWndProc = DefWindowProc;  // Basic default message handler
                 wc.hInstance = GetModuleHandle(nullptr); // Use current module instance //-V2001
                 int nameLength = MultiByteToWideChar(CP_UTF8, 0, name, -1, nullptr, 0);
-                std::wstring wideName(nameLength, 0);
+                std::wstring wideName(static_cast<uhuge>(nameLength), 0);
                 MultiByteToWideChar(CP_UTF8, 0, name, -1, &wideName[0], nameLength); //-V2547 //-V3527
 
                 wc.lpszClassName = wideName.c_str();
@@ -132,7 +133,7 @@ namespace UPRISE_ENGINE {
                 }
 
             }
-            void CLOSE_Window() {
+            void CLOSE_Window() const{
                 SCOPED_TIME_
 
                 auto widwDestroyed =DestroyWindow(handle);

@@ -24,14 +24,18 @@ namespace UPRISE_ENGINE {
         UPRISE_OPENGL_RENDER_API void _internal_DestroyBackend() override;
         UPRISE_OPENGL_RENDER_API SharedRef<RENDER_COMMON::WINDOW_BASE, true> _internal_CreateWindow(int w, int h, const char* Title) override;
         UPRISE_OPENGL_RENDER_API void _internal_CreateMaterial() override;
-        UPRISE_OPENGL_RENDER_API int _internal_Create_Buffer() override;
+        UPRISE_OPENGL_RENDER_API unsigned int _internal_Create_Buffer() override;
         UPRISE_OPENGL_RENDER_API void _internal_Destroy_Window(SharedRef<RENDER_COMMON::WINDOW_BASE, true> Window) override;
         UPRISE_OPENGL_RENDER_API void _internal_DestroyBuffer(const unsigned int Buffer) override;
-        UPRISE_OPENGL_RENDER_API void _internal_BindBuffer(int Buffer, void* _Data, size_t length, size_t Type_Size, unsigned long bufferType) override;
+        UPRISE_OPENGL_RENDER_API void _internal_BindBuffer(unsigned int Buffer, void* _Data, size_t length, size_t Type_Size, unsigned long bufferType) override;
     public:
     public:
         OPENGL_BACKEND() = default;
-        ~OPENGL_BACKEND() {}
+        ~OPENGL_BACKEND() = default;
+        OPENGL_BACKEND(const OPENGL_BACKEND& other) = default;
+        OPENGL_BACKEND(OPENGL_BACKEND&& other) = default;
+        OPENGL_BACKEND& operator=(const OPENGL_BACKEND& other) = default;
+        OPENGL_BACKEND& operator=(OPENGL_BACKEND&& other) = default;
     };
 }
 

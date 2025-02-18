@@ -672,17 +672,15 @@ consteval void Check_None() {
 #define GL_LEFT 0x0406
 #define GL_RIGHT 0x0407
 #define GL_FRONT_AND_BACK 0x0408
-export{
-    constexpr int _GL_FRONT_LEFT = 0x0400;
-    constexpr int _GL_FRONT_RIGHT = 0x0401;
-    constexpr int _GL_BACK_LEFT = 0x0402;
-    constexpr int _GL_BACK_RIGHT = 0x0403;
-    constexpr int _GL_FRONT = 0x0404;
-    constexpr int _GL_BACK = 0x0405;
-    constexpr int _GL_LEFT = 0x0406;
-    constexpr int _GL_RIGHT = 0x0407;
-    constexpr int _GL_FRONT_AND_BACK = 0x0408;
-}
+    export constexpr int _GL_FRONT_LEFT = 0x0400;
+    export constexpr int _GL_FRONT_RIGHT = 0x0401;
+    export constexpr int _GL_BACK_LEFT = 0x0402;
+    export constexpr int _GL_BACK_RIGHT = 0x0403;
+    export constexpr int _GL_FRONT = 0x0404;
+    export constexpr int _GL_BACK = 0x0405;
+    export constexpr int _GL_LEFT = 0x0406;
+    export constexpr int _GL_RIGHT = 0x0407;
+    export constexpr int _GL_FRONT_AND_BACK = 0x0408;
 consteval void Check_Directions() {
     static_assert(GL_FRONT_LEFT == _GL_FRONT_LEFT, "GL_FRONT_LEFT is not equal to _GL_FRONT_LEFT");
     static_assert(GL_FRONT_RIGHT == _GL_FRONT_RIGHT, "GL_FRONT_RIGHT is not equal to _GL_FRONT_RIGHT");
@@ -1614,13 +1612,13 @@ consteval void Check_Unpack_Stuff2() {
 #define GL_TEXTURE_DEPTH 0x8071
 #define GL_TEXTURE_WRAP_R 0x8072
 #define GL_MAX_3D_TEXTURE_SIZE 0x8073
-export{
-    constexpr int _GL_TEXTURE_3D = 0x806F;
-    constexpr int _GL_PROXY_TEXTURE_3D = 0x8070;
-    constexpr int _GL_TEXTURE_DEPTH = 0x8071;
-    constexpr int _GL_TEXTURE_WRAP_R = 0x8072;
-    constexpr int _GL_MAX_3D_TEXTURE_SIZE = 0x8073;
-}
+
+    export constexpr int _GL_TEXTURE_3D = 0x806F;
+    export constexpr int _GL_PROXY_TEXTURE_3D = 0x8070;
+    export constexpr int _GL_TEXTURE_DEPTH = 0x8071;
+    export constexpr int _GL_TEXTURE_WRAP_R = 0x8072;
+    export constexpr int _GL_MAX_3D_TEXTURE_SIZE = 0x8073;
+
 consteval void Check_Texture_Stuff8() {
     static_assert(GL_TEXTURE_3D == _GL_TEXTURE_3D, "GL_TEXTURE_3D is not equal to _GL_TEXTURE_3D");
     static_assert(GL_PROXY_TEXTURE_3D == _GL_PROXY_TEXTURE_3D, "GL_PROXY_TEXTURE_3D is not equal to _GL_PROXY_TEXTURE_3D");
@@ -1639,15 +1637,15 @@ consteval void Check_Texture_Stuff8() {
 #define GL_UNSIGNED_SHORT_1_5_5_5_REV 0x8366
 #define GL_UNSIGNED_INT_8_8_8_8_REV 0x8367
 #define GL_UNSIGNED_INT_2_10_10_10_REV 0x8368
-export{
-    constexpr int _GL_UNSIGNED_BYTE_2_3_3_REV = 0x8362;
-    constexpr int _GL_UNSIGNED_SHORT_5_6_5 = 0x8363;
-    constexpr int _GL_UNSIGNED_SHORT_5_6_5_REV = 0x8364;
-    constexpr int _GL_UNSIGNED_SHORT_4_4_4_4_REV = 0x8365;
-    constexpr int _GL_UNSIGNED_SHORT_1_5_5_5_REV = 0x8366;
-    constexpr int _GL_UNSIGNED_INT_8_8_8_8_REV = 0x8367;
-    constexpr int _GL_UNSIGNED_INT_2_10_10_10_REV = 0x8368;
-}
+
+    export constexpr int _GL_UNSIGNED_BYTE_2_3_3_REV = 0x8362;
+    export constexpr int _GL_UNSIGNED_SHORT_5_6_5 = 0x8363;
+    export constexpr int _GL_UNSIGNED_SHORT_5_6_5_REV = 0x8364;
+    export constexpr int _GL_UNSIGNED_SHORT_4_4_4_4_REV = 0x8365;
+    export constexpr int _GL_UNSIGNED_SHORT_1_5_5_5_REV = 0x8366;
+    export constexpr int _GL_UNSIGNED_INT_8_8_8_8_REV = 0x8367;
+    export constexpr int _GL_UNSIGNED_INT_2_10_10_10_REV = 0x8368;
+
 consteval void Check_Unsigned_DataTypes4() {
     static_assert(GL_UNSIGNED_BYTE_2_3_3_REV == _GL_UNSIGNED_BYTE_2_3_3_REV, "GL_UNSIGNED_BYTE_2_3_3_REV is not equal to _GL_UNSIGNED_BYTE_2_3_3_REV");
     static_assert(GL_UNSIGNED_SHORT_5_6_5 == _GL_UNSIGNED_SHORT_5_6_5, "GL_UNSIGNED_SHORT_5_6_5 is not equal to _GL_UNSIGNED_SHORT_5_6_5");
@@ -1963,35 +1961,35 @@ consteval void Check_Texture_Stuff11() {
 #define GL_TEXTURE_DEPTH_SIZE 0x884A
 #define GL_TEXTURE_COMPARE_MODE 0x884C
 #define GL_TEXTURE_COMPARE_FUNC 0x884D
-export{
-    constexpr int _GL_PROXY_TEXTURE_CUBE_MAP = 0x851B;
-    constexpr int _GL_MAX_CUBE_MAP_TEXTURE_SIZE = 0x851C;
-    constexpr int _GL_COMPRESSED_RGB = 0x84ED;
-    constexpr int _GL_COMPRESSED_RGBA = 0x84EE;
-    constexpr int _GL_TEXTURE_COMPRESSION_HINT = 0x84EF;
-    constexpr int _GL_TEXTURE_COMPRESSED_IMAGE_SIZE = 0x86A0;
-    constexpr int _GL_TEXTURE_COMPRESSED = 0x86A1;
-    constexpr int _GL_NUM_COMPRESSED_TEXTURE_FORMATS = 0x86A2;
-    constexpr int _GL_COMPRESSED_TEXTURE_FORMATS = 0x86A3;
-    constexpr int _GL_CLAMP_TO_BORDER = 0x812D;
-    constexpr int _GL_BLEND_DST_RGB = 0x80C8;
-    constexpr int _GL_BLEND_SRC_RGB = 0x80C9;
-    constexpr int _GL_BLEND_DST_ALPHA = 0x80CA;
-    constexpr int _GL_BLEND_SRC_ALPHA = 0x80CB;
-    constexpr int _GL_POINT_FADE_THRESHOLD_SIZE = 0x8128;
-    constexpr int _GL_DEPTH_COMPONENT16 = 0x81A5;
-    constexpr int _GL_DEPTH_COMPONENT24 = 0x81A6;
-    constexpr int _GL_DEPTH_COMPONENT32 = 0x81A7;
-    constexpr int _GL_MIRRORED_REPEAT = 0x8370;
-    constexpr int _GL_MAX_TEXTURE_LOD_BIAS = 0x84FD;
-    constexpr int _GL_TEXTURE_LOD_BIAS = 0x8501;
-    constexpr int _GL_INCR_WRAP = 0x8507;
-    constexpr int _GL_DECR_WRAP = 0x8508;
-    constexpr int _GL_TEXTURE_DEPTH_SIZE = 0x884A;
-    constexpr int _GL_TEXTURE_COMPARE_MODE = 0x884C;
-    constexpr int _GL_TEXTURE_COMPARE_FUNC = 0x884D;
 
-}
+    export constexpr int _GL_PROXY_TEXTURE_CUBE_MAP = 0x851B;
+    export constexpr int _GL_MAX_CUBE_MAP_TEXTURE_SIZE = 0x851C;
+    export constexpr int _GL_COMPRESSED_RGB = 0x84ED;
+    export constexpr int _GL_COMPRESSED_RGBA = 0x84EE;
+    export constexpr int _GL_TEXTURE_COMPRESSION_HINT = 0x84EF;
+    export constexpr int _GL_TEXTURE_COMPRESSED_IMAGE_SIZE = 0x86A0;
+    export constexpr int _GL_TEXTURE_COMPRESSED = 0x86A1;
+    export constexpr int _GL_NUM_COMPRESSED_TEXTURE_FORMATS = 0x86A2;
+    export constexpr int _GL_COMPRESSED_TEXTURE_FORMATS = 0x86A3;
+    export constexpr int _GL_CLAMP_TO_BORDER = 0x812D;
+    export constexpr int _GL_BLEND_DST_RGB = 0x80C8;
+    export constexpr int _GL_BLEND_SRC_RGB = 0x80C9;
+    export constexpr int _GL_BLEND_DST_ALPHA = 0x80CA;
+    export constexpr int _GL_BLEND_SRC_ALPHA = 0x80CB;
+    export constexpr int _GL_POINT_FADE_THRESHOLD_SIZE = 0x8128;
+    export constexpr int _GL_DEPTH_COMPONENT16 = 0x81A5;
+    export constexpr int _GL_DEPTH_COMPONENT24 = 0x81A6;
+    export constexpr int _GL_DEPTH_COMPONENT32 = 0x81A7;
+    export constexpr int _GL_MIRRORED_REPEAT = 0x8370;
+    export constexpr int _GL_MAX_TEXTURE_LOD_BIAS = 0x84FD;
+    export constexpr int _GL_TEXTURE_LOD_BIAS = 0x8501;
+    export constexpr int _GL_INCR_WRAP = 0x8507;
+    export constexpr int _GL_DECR_WRAP = 0x8508;
+    export constexpr int _GL_TEXTURE_DEPTH_SIZE = 0x884A;
+    export constexpr int _GL_TEXTURE_COMPARE_MODE = 0x884C;
+    export constexpr int _GL_TEXTURE_COMPARE_FUNC = 0x884D;
+
+
 consteval void Check_Random_Stuff10() {
     static_assert(GL_PROXY_TEXTURE_CUBE_MAP == _GL_PROXY_TEXTURE_CUBE_MAP, "GL_PROXY_TEXTURE_CUBE_MAP is not equal to _GL_PROXY_TEXTURE_CUBE_MAP");
     static_assert(GL_MAX_CUBE_MAP_TEXTURE_SIZE == _GL_MAX_CUBE_MAP_TEXTURE_SIZE, "GL_MAX_CUBE_MAP_TEXTURE_SIZE is not equal to _GL_MAX_CUBE_MAP_TEXTURE_SIZE");
@@ -2058,39 +2056,39 @@ consteval void Check_Random_Stuff10() {
 #define GL_STREAM_DRAW 0x88E0
 #define GL_STREAM_READ 0x88E1
 #define GL_STREAM_COPY 0x88E2
-export{
-    constexpr int _GL_BLEND_COLOR = 0x8005;
-    constexpr int _GL_BLEND_EQUATION = 0x8009;
-    constexpr int _GL_CONSTANT_COLOR = 0x8001;
-    constexpr int _GL_ONE_MINUS_CONSTANT_COLOR = 0x8002;
-    constexpr int _GL_CONSTANT_ALPHA = 0x8003;
-    constexpr int _GL_ONE_MINUS_CONSTANT_ALPHA = 0x8004;
-    constexpr int _GL_FUNC_ADD = 0x8006;
-    constexpr int _GL_FUNC_REVERSE_SUBTRACT = 0x800B;
-    constexpr int _GL_FUNC_SUBTRACT = 0x800A;
-    constexpr int _GL_MIN = 0x8007;
-    constexpr int _GL_MAX = 0x8008;
-    constexpr int _GL_BUFFER_SIZE = 0x8764;
-    constexpr int _GL_BUFFER_USAGE = 0x8765;
-    constexpr int _GL_QUERY_COUNTER_BITS = 0x8864;
-    constexpr int _GL_CURRENT_QUERY = 0x8865;
-    constexpr int _GL_QUERY_RESULT = 0x8866;
-    constexpr int _GL_QUERY_RESULT_AVAILABLE = 0x8867;
-    constexpr int _GL_ARRAY_BUFFER = 0x8892;
-    constexpr int _GL_ELEMENT_ARRAY_BUFFER = 0x8893;
-    constexpr int _GL_ARRAY_BUFFER_BINDING = 0x8894;
-    constexpr int _GL_ELEMENT_ARRAY_BUFFER_BINDING = 0x8895;
-    constexpr int _GL_VERTEX_ATTRIB_ARRAY_BUFFER_BINDING = 0x889F;
-    constexpr int _GL_READ_ONLY = 0x88B8;
-    constexpr int _GL_WRITE_ONLY = 0x88B9;
-    constexpr int _GL_READ_WRITE = 0x88BA;
-    constexpr int _GL_BUFFER_ACCESS = 0x88BB;
-    constexpr int _GL_BUFFER_MAPPED = 0x88BC;
-    constexpr int _GL_BUFFER_MAP_POINTER = 0x88BD;
-    constexpr int _GL_STREAM_DRAW = 0x88E0;
-    constexpr int _GL_STREAM_READ = 0x88E1;
-    constexpr int _GL_STREAM_COPY = 0x88E2;
-}
+
+    export constexpr int _GL_BLEND_COLOR = 0x8005;
+    export constexpr int _GL_BLEND_EQUATION = 0x8009;
+    export constexpr int _GL_CONSTANT_COLOR = 0x8001;
+    export constexpr int _GL_ONE_MINUS_CONSTANT_COLOR = 0x8002;
+    export constexpr int _GL_CONSTANT_ALPHA = 0x8003;
+    export constexpr int _GL_ONE_MINUS_CONSTANT_ALPHA = 0x8004;
+    export constexpr int _GL_FUNC_ADD = 0x8006;
+    export constexpr int _GL_FUNC_REVERSE_SUBTRACT = 0x800B;
+    export constexpr int _GL_FUNC_SUBTRACT = 0x800A;
+    export constexpr int _GL_MIN = 0x8007;
+    export constexpr int _GL_MAX = 0x8008;
+    export constexpr int _GL_BUFFER_SIZE = 0x8764;
+    export constexpr int _GL_BUFFER_USAGE = 0x8765;
+    export constexpr int _GL_QUERY_COUNTER_BITS = 0x8864;
+    export constexpr int _GL_CURRENT_QUERY = 0x8865;
+    export constexpr int _GL_QUERY_RESULT = 0x8866;
+    export constexpr int _GL_QUERY_RESULT_AVAILABLE = 0x8867;
+    export constexpr int _GL_ARRAY_BUFFER = 0x8892;
+    export constexpr int _GL_ELEMENT_ARRAY_BUFFER = 0x8893;
+    export constexpr int _GL_ARRAY_BUFFER_BINDING = 0x8894;
+    export constexpr int _GL_ELEMENT_ARRAY_BUFFER_BINDING = 0x8895;
+    export constexpr int _GL_VERTEX_ATTRIB_ARRAY_BUFFER_BINDING = 0x889F;
+    export constexpr int _GL_READ_ONLY = 0x88B8;
+    export constexpr int _GL_WRITE_ONLY = 0x88B9;
+    export constexpr int _GL_READ_WRITE = 0x88BA;
+    export constexpr int _GL_BUFFER_ACCESS = 0x88BB;
+    export constexpr int _GL_BUFFER_MAPPED = 0x88BC;
+    export constexpr int _GL_BUFFER_MAP_POINTER = 0x88BD;
+    export constexpr int _GL_STREAM_DRAW = 0x88E0;
+    export constexpr int _GL_STREAM_READ = 0x88E1;
+    export constexpr int _GL_STREAM_COPY = 0x88E2;
+
 consteval void Check_Random_Stuff11() {
     static_assert(GL_BLEND_COLOR == _GL_BLEND_COLOR, "GL_BLEND_COLOR is not equal to _GL_BLEND_COLOR");
     static_assert(GL_BLEND_EQUATION == _GL_BLEND_EQUATION, "GL_BLEND_EQUATION is not equal to _GL_BLEND_EQUATION");
@@ -2148,29 +2146,29 @@ consteval void Check_Random_Stuff11() {
 #define GL_STENCIL_BACK_PASS_DEPTH_FAIL 0x8802
 #define GL_STENCIL_BACK_PASS_DEPTH_PASS 0x8803
 #define GL_MAX_DRAW_BUFFERS 0x8824
-export{
-    constexpr int _GL_STATIC_DRAW = 0x88E4;
-    constexpr int _GL_STATIC_READ = 0x88E5;
-    constexpr int _GL_STATIC_COPY = 0x88E6;
-    constexpr int _GL_DYNAMIC_DRAW = 0x88E8;
-    constexpr int _GL_DYNAMIC_READ = 0x88E9;
-    constexpr int _GL_DYNAMIC_COPY = 0x88EA;
-    constexpr int _GL_SAMPLES_PASSED = 0x8914;
-    constexpr int _GL_SRC1_ALPHA = 0x8589;
-    constexpr int _GL_BLEND_EQUATION_RGB = 0x8009;
-    constexpr int _GL_VERTEX_ATTRIB_ARRAY_ENABLED = 0x8622;
-    constexpr int _GL_VERTEX_ATTRIB_ARRAY_SIZE = 0x8623;
-    constexpr int _GL_VERTEX_ATTRIB_ARRAY_STRIDE = 0x8624;
-    constexpr int _GL_VERTEX_ATTRIB_ARRAY_TYPE = 0x8625;
-    constexpr int _GL_CURRENT_VERTEX_ATTRIB = 0x8626;
-    constexpr int _GL_VERTEX_PROGRAM_POINT_SIZE = 0x8642;
-    constexpr int _GL_VERTEX_ATTRIB_ARRAY_POINTER = 0x8645;
-    constexpr int _GL_STENCIL_BACK_FUNC = 0x8800;
-    constexpr int _GL_STENCIL_BACK_FAIL = 0x8801;
-    constexpr int _GL_STENCIL_BACK_PASS_DEPTH_FAIL = 0x8802;
-    constexpr int _GL_STENCIL_BACK_PASS_DEPTH_PASS = 0x8803;
-    constexpr int _GL_MAX_DRAW_BUFFERS = 0x8824;
-}
+
+    export constexpr int _GL_STATIC_DRAW = 0x88E4;
+    export constexpr int _GL_STATIC_READ = 0x88E5;
+    export constexpr int _GL_STATIC_COPY = 0x88E6;
+    export constexpr int _GL_DYNAMIC_DRAW = 0x88E8;
+    export constexpr int _GL_DYNAMIC_READ = 0x88E9;
+    export constexpr int _GL_DYNAMIC_COPY = 0x88EA;
+    export constexpr int _GL_SAMPLES_PASSED = 0x8914;
+    export constexpr int _GL_SRC1_ALPHA = 0x8589;
+    export constexpr int _GL_BLEND_EQUATION_RGB = 0x8009;
+    export constexpr int _GL_VERTEX_ATTRIB_ARRAY_ENABLED = 0x8622;
+    export constexpr int _GL_VERTEX_ATTRIB_ARRAY_SIZE = 0x8623;
+    export constexpr int _GL_VERTEX_ATTRIB_ARRAY_STRIDE = 0x8624;
+    export constexpr int _GL_VERTEX_ATTRIB_ARRAY_TYPE = 0x8625;
+    export constexpr int _GL_CURRENT_VERTEX_ATTRIB = 0x8626;
+    export constexpr int _GL_VERTEX_PROGRAM_POINT_SIZE = 0x8642;
+    export constexpr int _GL_VERTEX_ATTRIB_ARRAY_POINTER = 0x8645;
+    export constexpr int _GL_STENCIL_BACK_FUNC = 0x8800;
+    export constexpr int _GL_STENCIL_BACK_FAIL = 0x8801;
+    export constexpr int _GL_STENCIL_BACK_PASS_DEPTH_FAIL = 0x8802;
+    export constexpr int _GL_STENCIL_BACK_PASS_DEPTH_PASS = 0x8803;
+    export constexpr int _GL_MAX_DRAW_BUFFERS = 0x8824;
+
 consteval void Check_Random_Stuff12() {
     static_assert(GL_STATIC_DRAW == _GL_STATIC_DRAW, "GL_STATIC_DRAW is not equal to _GL_STATIC_DRAW");
     static_assert(GL_STATIC_READ == _GL_STATIC_READ, "GL_STATIC_READ is not equal to _GL_STATIC_READ");
@@ -2225,36 +2223,36 @@ consteval void Check_Random_Stuff12() {
 #define GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS 0x8B4C
 #define GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS 0x8B4D
 #define GL_SHADER_TYPE 0x8B4F
-export{
-    constexpr int _GL_DRAW_BUFFER0 = 0x8825;
-    constexpr int _GL_DRAW_BUFFER1 = 0x8826;
-    constexpr int _GL_DRAW_BUFFER2 = 0x8827;
-    constexpr int _GL_DRAW_BUFFER3 = 0x8828;
-    constexpr int _GL_DRAW_BUFFER4 = 0x8829;
-    constexpr int _GL_DRAW_BUFFER5 = 0x882A;
-    constexpr int _GL_DRAW_BUFFER6 = 0x882B;
-    constexpr int _GL_DRAW_BUFFER7 = 0x882C;
-    constexpr int _GL_DRAW_BUFFER8 = 0x882D;
-    constexpr int _GL_DRAW_BUFFER9 = 0x882E;
-    constexpr int _GL_DRAW_BUFFER10 = 0x882F;
-    constexpr int _GL_DRAW_BUFFER11 = 0x8830;
-    constexpr int _GL_DRAW_BUFFER12 = 0x8831;
-    constexpr int _GL_DRAW_BUFFER13 = 0x8832;
-    constexpr int _GL_DRAW_BUFFER14 = 0x8833;
-    constexpr int _GL_DRAW_BUFFER15 = 0x8834;
-    constexpr int _GL_BLEND_EQUATION_ALPHA = 0x883D;
-    constexpr int _GL_MAX_VERTEX_ATTRIBS = 0x8869;
-    constexpr int _GL_VERTEX_ATTRIB_ARRAY_NORMALIZED = 0x886A;
-    constexpr int _GL_MAX_TEXTURE_IMAGE_UNITS = 0x8872;
-    constexpr int _GL_FRAGMENT_SHADER = 0x8B30;
-    constexpr int _GL_VERTEX_SHADER = 0x8B31;
-    constexpr int _GL_MAX_FRAGMENT_UNIFORM_COMPONENTS = 0x8B49;
-    constexpr int _GL_MAX_VERTEX_UNIFORM_COMPONENTS = 0x8B4A;
-    constexpr int _GL_MAX_VARYING_FLOATS = 0x8B4B;
-    constexpr int _GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS = 0x8B4C;
-    constexpr int _GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS = 0x8B4D;
-    constexpr int _GL_SHADER_TYPE = 0x8B4F;
-}
+
+    export constexpr int _GL_DRAW_BUFFER0 = 0x8825;
+    export constexpr int _GL_DRAW_BUFFER1 = 0x8826;
+    export constexpr int _GL_DRAW_BUFFER2 = 0x8827;
+    export constexpr int _GL_DRAW_BUFFER3 = 0x8828;
+    export constexpr int _GL_DRAW_BUFFER4 = 0x8829;
+    export constexpr int _GL_DRAW_BUFFER5 = 0x882A;
+    export constexpr int _GL_DRAW_BUFFER6 = 0x882B;
+    export constexpr int _GL_DRAW_BUFFER7 = 0x882C;
+    export constexpr int _GL_DRAW_BUFFER8 = 0x882D;
+    export constexpr int _GL_DRAW_BUFFER9 = 0x882E;
+    export constexpr int _GL_DRAW_BUFFER10 = 0x882F;
+    export constexpr int _GL_DRAW_BUFFER11 = 0x8830;
+    export constexpr int _GL_DRAW_BUFFER12 = 0x8831;
+    export constexpr int _GL_DRAW_BUFFER13 = 0x8832;
+    export constexpr int _GL_DRAW_BUFFER14 = 0x8833;
+    export constexpr int _GL_DRAW_BUFFER15 = 0x8834;
+    export constexpr int _GL_BLEND_EQUATION_ALPHA = 0x883D;
+    export constexpr int _GL_MAX_VERTEX_ATTRIBS = 0x8869;
+    export constexpr int _GL_VERTEX_ATTRIB_ARRAY_NORMALIZED = 0x886A;
+    export constexpr int _GL_MAX_TEXTURE_IMAGE_UNITS = 0x8872;
+    export constexpr int _GL_FRAGMENT_SHADER = 0x8B30;
+    export constexpr int _GL_VERTEX_SHADER = 0x8B31;
+    export constexpr int _GL_MAX_FRAGMENT_UNIFORM_COMPONENTS = 0x8B49;
+    export constexpr int _GL_MAX_VERTEX_UNIFORM_COMPONENTS = 0x8B4A;
+    export constexpr int _GL_MAX_VARYING_FLOATS = 0x8B4B;
+    export constexpr int _GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS = 0x8B4C;
+    export constexpr int _GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS = 0x8B4D;
+    export constexpr int _GL_SHADER_TYPE = 0x8B4F;
+
 consteval void Check_Random_Stuff13() {
     static_assert(GL_DRAW_BUFFER0 == _GL_DRAW_BUFFER0, "GL_DRAW_BUFFER0 is not equal to _GL_DRAW_BUFFER0");
     static_assert(GL_DRAW_BUFFER1 == _GL_DRAW_BUFFER1, "GL_DRAW_BUFFER1 is not equal to _GL_DRAW_BUFFER1");
@@ -2308,27 +2306,27 @@ consteval void Check_Random_Stuff13() {
 #define GL_SAMPLER_CUBE 0x8B60
 #define GL_SAMPLER_1D_SHADOW 0x8B61
 #define GL_SAMPLER_2D_SHADOW 0x8B62
-export{
-    constexpr int _GL_FLOAT_VEC2 = 0x8B50;
-    constexpr int _GL_FLOAT_VEC3 = 0x8B51;
-    constexpr int _GL_FLOAT_VEC4 = 0x8B52;
-    constexpr int _GL_INT_VEC2 = 0x8B53;
-    constexpr int _GL_INT_VEC3 = 0x8B54;
-    constexpr int _GL_INT_VEC4 = 0x8B55;
-    constexpr int _GL_BOOL = 0x8B56;
-    constexpr int _GL_BOOL_VEC2 = 0x8B57;
-    constexpr int _GL_BOOL_VEC3 = 0x8B58;
-    constexpr int _GL_BOOL_VEC4 = 0x8B59;
-    constexpr int _GL_FLOAT_MAT2 = 0x8B5A;
-    constexpr int _GL_FLOAT_MAT3 = 0x8B5B;
-    constexpr int _GL_FLOAT_MAT4 = 0x8B5C;
-    constexpr int _GL_SAMPLER_1D = 0x8B5D;
-    constexpr int _GL_SAMPLER_2D = 0x8B5E;
-    constexpr int _GL_SAMPLER_3D = 0x8B5F;
-    constexpr int _GL_SAMPLER_CUBE = 0x8B60;
-    constexpr int _GL_SAMPLER_1D_SHADOW = 0x8B61;
-    constexpr int _GL_SAMPLER_2D_SHADOW = 0x8B62;
-}
+
+    export constexpr int _GL_FLOAT_VEC2 = 0x8B50;
+    export constexpr int _GL_FLOAT_VEC3 = 0x8B51;
+    export constexpr int _GL_FLOAT_VEC4 = 0x8B52;
+    export constexpr int _GL_INT_VEC2 = 0x8B53;
+    export constexpr int _GL_INT_VEC3 = 0x8B54;
+    export constexpr int _GL_INT_VEC4 = 0x8B55;
+    export constexpr int _GL_BOOL = 0x8B56;
+    export constexpr int _GL_BOOL_VEC2 = 0x8B57;
+    export constexpr int _GL_BOOL_VEC3 = 0x8B58;
+    export constexpr int _GL_BOOL_VEC4 = 0x8B59;
+    export constexpr int _GL_FLOAT_MAT2 = 0x8B5A;
+    export constexpr int _GL_FLOAT_MAT3 = 0x8B5B;
+    export constexpr int _GL_FLOAT_MAT4 = 0x8B5C;
+    export constexpr int _GL_SAMPLER_1D = 0x8B5D;
+    export constexpr int _GL_SAMPLER_2D = 0x8B5E;
+    export constexpr int _GL_SAMPLER_3D = 0x8B5F;
+    export constexpr int _GL_SAMPLER_CUBE = 0x8B60;
+    export constexpr int _GL_SAMPLER_1D_SHADOW = 0x8B61;
+    export constexpr int _GL_SAMPLER_2D_SHADOW = 0x8B62;
+
 consteval void Check_Random_Stuff14() {
     static_assert(GL_FLOAT_VEC2 == _GL_FLOAT_VEC2, "GL_FLOAT_VEC2 is not equal to _GL_FLOAT_VEC2");
     static_assert(GL_FLOAT_VEC3 == _GL_FLOAT_VEC3, "GL_FLOAT_VEC3 is not equal to _GL_FLOAT_VEC3");
@@ -2377,32 +2375,32 @@ consteval void Check_Random_Stuff14() {
 #define GL_PIXEL_UNPACK_BUFFER 0x88EC
 #define GL_PIXEL_PACK_BUFFER_BINDING 0x88ED
 #define GL_PIXEL_UNPACK_BUFFER_BINDING 0x88EF
-export{
-    constexpr int _GL_DELETE_STATUS = 0x8B80;
-    constexpr int _GL_COMPILE_STATUS = 0x8B81;
-    constexpr int _GL_LINK_STATUS = 0x8B82;
-    constexpr int _GL_VALIDATE_STATUS = 0x8B83;
-    constexpr int _GL_INFO_LOG_LENGTH = 0x8B84;
-    constexpr int _GL_ATTACHED_SHADERS = 0x8B85;
-    constexpr int _GL_ACTIVE_UNIFORMS = 0x8B86;
-    constexpr int _GL_ACTIVE_UNIFORM_MAX_LENGTH = 0x8B87;
-    constexpr int _GL_SHADER_SOURCE_LENGTH = 0x8B88;
-    constexpr int _GL_ACTIVE_ATTRIBUTES = 0x8B89;
-    constexpr int _GL_ACTIVE_ATTRIBUTE_MAX_LENGTH = 0x8B8A;
-    constexpr int _GL_FRAGMENT_SHADER_DERIVATIVE_HINT = 0x8B8B;
-    constexpr int _GL_SHADING_LANGUAGE_VERSION = 0x8B8C;
-    constexpr int _GL_CURRENT_PROGRAM = 0x8B8D;
-    constexpr int _GL_POINT_SPRITE_COORD_ORIGIN = 0x8CA0;
-    constexpr int _GL_LOWER_LEFT = 0x8CA1;
-    constexpr int _GL_UPPER_LEFT = 0x8CA2;
-    constexpr int _GL_STENCIL_BACK_REF = 0x8CA3;
-    constexpr int _GL_STENCIL_BACK_VALUE_MASK = 0x8CA4;
-    constexpr int _GL_STENCIL_BACK_WRITEMASK = 0x8CA5;
-    constexpr int _GL_PIXEL_PACK_BUFFER = 0x88EB;
-    constexpr int _GL_PIXEL_UNPACK_BUFFER = 0x88EC;
-    constexpr int _GL_PIXEL_PACK_BUFFER_BINDING = 0x88ED;
-    constexpr int _GL_PIXEL_UNPACK_BUFFER_BINDING = 0x88EF;
-}
+
+    export constexpr int _GL_DELETE_STATUS = 0x8B80;
+    export constexpr int _GL_COMPILE_STATUS = 0x8B81;
+    export constexpr int _GL_LINK_STATUS = 0x8B82;
+    export constexpr int _GL_VALIDATE_STATUS = 0x8B83;
+    export constexpr int _GL_INFO_LOG_LENGTH = 0x8B84;
+    export constexpr int _GL_ATTACHED_SHADERS = 0x8B85;
+    export constexpr int _GL_ACTIVE_UNIFORMS = 0x8B86;
+    export constexpr int _GL_ACTIVE_UNIFORM_MAX_LENGTH = 0x8B87;
+    export constexpr int _GL_SHADER_SOURCE_LENGTH = 0x8B88;
+    export constexpr int _GL_ACTIVE_ATTRIBUTES = 0x8B89;
+    export constexpr int _GL_ACTIVE_ATTRIBUTE_MAX_LENGTH = 0x8B8A;
+    export constexpr int _GL_FRAGMENT_SHADER_DERIVATIVE_HINT = 0x8B8B;
+    export constexpr int _GL_SHADING_LANGUAGE_VERSION = 0x8B8C;
+    export constexpr int _GL_CURRENT_PROGRAM = 0x8B8D;
+    export constexpr int _GL_POINT_SPRITE_COORD_ORIGIN = 0x8CA0;
+    export constexpr int _GL_LOWER_LEFT = 0x8CA1;
+    export constexpr int _GL_UPPER_LEFT = 0x8CA2;
+    export constexpr int _GL_STENCIL_BACK_REF = 0x8CA3;
+    export constexpr int _GL_STENCIL_BACK_VALUE_MASK = 0x8CA4;
+    export constexpr int _GL_STENCIL_BACK_WRITEMASK = 0x8CA5;
+    export constexpr int _GL_PIXEL_PACK_BUFFER = 0x88EB;
+    export constexpr int _GL_PIXEL_UNPACK_BUFFER = 0x88EC;
+    export constexpr int _GL_PIXEL_PACK_BUFFER_BINDING = 0x88ED;
+    export constexpr int _GL_PIXEL_UNPACK_BUFFER_BINDING = 0x88EF;
+
 consteval void Check_Random_Stuff15() {
     static_assert(GL_DELETE_STATUS == _GL_DELETE_STATUS, "GL_DELETE_STATUS is not equal to _GL_DELETE_STATUS");
     static_assert(GL_COMPILE_STATUS == _GL_COMPILE_STATUS, "GL_COMPILE_STATUS is not equal to _GL_COMPILE_STATUS");
@@ -2461,37 +2459,37 @@ consteval void Check_Random_Stuff15() {
 #define GL_COMPRESSED_RED 0x8225
 #define GL_COMPRESSED_RG 0x8226
 #define GL_CONTEXT_FLAG_FORWARD_COMPATIBLE_BIT 0x00000001
-export{
-    constexpr int _GL_FLOAT_MAT2x3 = 0x8B65;
-    constexpr int _GL_FLOAT_MAT2x4 = 0x8B66;
-    constexpr int _GL_FLOAT_MAT3x2 = 0x8B67;
-    constexpr int _GL_FLOAT_MAT3x4 = 0x8B68;
-    constexpr int _GL_FLOAT_MAT4x2 = 0x8B69;
-    constexpr int _GL_FLOAT_MAT4x3 = 0x8B6A;
-    constexpr int _GL_SRGB = 0x8C40;
-    constexpr int _GL_SRGB8 = 0x8C41;
-    constexpr int _GL_SRGB_ALPHA = 0x8C42;
-    constexpr int _GL_SRGB8_ALPHA8 = 0x8C43;
-    constexpr int _GL_COMPRESSED_SRGB = 0x8C48;
-    constexpr int _GL_COMPRESSED_SRGB_ALPHA = 0x8C49;
-    constexpr int _GL_COMPARE_REF_TO_TEXTURE = 0x884E;
-    constexpr int _GL_CLIP_DISTANCE0 = 0x3000;
-    constexpr int _GL_CLIP_DISTANCE1 = 0x3001;
-    constexpr int _GL_CLIP_DISTANCE2 = 0x3002;
-    constexpr int _GL_CLIP_DISTANCE3 = 0x3003;
-    constexpr int _GL_CLIP_DISTANCE4 = 0x3004;
-    constexpr int _GL_CLIP_DISTANCE5 = 0x3005;
-    constexpr int _GL_CLIP_DISTANCE6 = 0x3006;
-    constexpr int _GL_CLIP_DISTANCE7 = 0x3007;
-    constexpr int _GL_MAX_CLIP_DISTANCES = 0x0D32;
-    constexpr int _GL_MAJOR_VERSION = 0x821B;
-    constexpr int _GL_MINOR_VERSION = 0x821C;
-    constexpr int _GL_NUM_EXTENSIONS = 0x821D;
-    constexpr int _GL_CONTEXT_FLAGS = 0x821E;
-    constexpr int _GL_COMPRESSED_RED = 0x8225;
-    constexpr int _GL_COMPRESSED_RG = 0x8226;
-    constexpr int _GL_CONTEXT_FLAG_FORWARD_COMPATIBLE_BIT = 0x00000001;
-}
+
+    export constexpr int _GL_FLOAT_MAT2x3 = 0x8B65;
+    export constexpr int _GL_FLOAT_MAT2x4 = 0x8B66;
+    export constexpr int _GL_FLOAT_MAT3x2 = 0x8B67;
+    export constexpr int _GL_FLOAT_MAT3x4 = 0x8B68;
+    export constexpr int _GL_FLOAT_MAT4x2 = 0x8B69;
+    export constexpr int _GL_FLOAT_MAT4x3 = 0x8B6A;
+    export constexpr int _GL_SRGB = 0x8C40;
+    export constexpr int _GL_SRGB8 = 0x8C41;
+    export constexpr int _GL_SRGB_ALPHA = 0x8C42;
+    export constexpr int _GL_SRGB8_ALPHA8 = 0x8C43;
+    export constexpr int _GL_COMPRESSED_SRGB = 0x8C48;
+    export constexpr int _GL_COMPRESSED_SRGB_ALPHA = 0x8C49;
+    export constexpr int _GL_COMPARE_REF_TO_TEXTURE = 0x884E;
+    export constexpr int _GL_CLIP_DISTANCE0 = 0x3000;
+    export constexpr int _GL_CLIP_DISTANCE1 = 0x3001;
+    export constexpr int _GL_CLIP_DISTANCE2 = 0x3002;
+    export constexpr int _GL_CLIP_DISTANCE3 = 0x3003;
+    export constexpr int _GL_CLIP_DISTANCE4 = 0x3004;
+    export constexpr int _GL_CLIP_DISTANCE5 = 0x3005;
+    export constexpr int _GL_CLIP_DISTANCE6 = 0x3006;
+    export constexpr int _GL_CLIP_DISTANCE7 = 0x3007;
+    export constexpr int _GL_MAX_CLIP_DISTANCES = 0x0D32;
+    export constexpr int _GL_MAJOR_VERSION = 0x821B;
+    export constexpr int _GL_MINOR_VERSION = 0x821C;
+    export constexpr int _GL_NUM_EXTENSIONS = 0x821D;
+    export constexpr int _GL_CONTEXT_FLAGS = 0x821E;
+    export constexpr int _GL_COMPRESSED_RED = 0x8225;
+    export constexpr int _GL_COMPRESSED_RG = 0x8226;
+    export constexpr int _GL_CONTEXT_FLAG_FORWARD_COMPATIBLE_BIT = 0x00000001;
+
 consteval void Check_Random_Stuff16() {
     static_assert(GL_FLOAT_MAT2x3 == _GL_FLOAT_MAT2x3, "GL_FLOAT_MAT2x3 is not equal to _GL_FLOAT_MAT2x3");
     static_assert(GL_FLOAT_MAT2x4 == _GL_FLOAT_MAT2x4, "GL_FLOAT_MAT2x4 is not equal to _GL_FLOAT_MAT2x4");
@@ -2563,45 +2561,45 @@ consteval void Check_Random_Stuff16() {
 #define GL_SEPARATE_ATTRIBS 0x8C8D
 #define GL_TRANSFORM_FEEDBACK_BUFFER 0x8C8E
 #define GL_TRANSFORM_FEEDBACK_BUFFER_BINDING 0x8C8F
-export{
-    constexpr int _GL_RGBA32F = 0x8814;
-    constexpr int _GL_RGB32F = 0x8815;
-    constexpr int _GL_RGBA16F = 0x881A;
-    constexpr int _GL_RGB16F = 0x881B;
-    constexpr int _GL_VERTEX_ATTRIB_ARRAY_INTEGER = 0x88FD;
-    constexpr int _GL_MAX_ARRAY_TEXTURE_LAYERS = 0x88FF;
-    constexpr int _GL_MIN_PROGRAM_TEXEL_OFFSET = 0x8904;
-    constexpr int _GL_MAX_PROGRAM_TEXEL_OFFSET = 0x8905;
-    constexpr int _GL_CLAMP_READ_COLOR = 0x891C;
-    constexpr int _GL_FIXED_ONLY = 0x891D;
-    constexpr int _GL_MAX_VARYING_COMPONENTS = 0x8B4B;
-    constexpr int _GL_TEXTURE_1D_ARRAY = 0x8C18;
-    constexpr int _GL_PROXY_TEXTURE_1D_ARRAY = 0x8C19;
-    constexpr int _GL_TEXTURE_2D_ARRAY = 0x8C1A;
-    constexpr int _GL_PROXY_TEXTURE_2D_ARRAY = 0x8C1B;
-    constexpr int _GL_TEXTURE_BINDING_1D_ARRAY = 0x8C1C;
-    constexpr int _GL_TEXTURE_BINDING_2D_ARRAY = 0x8C1D;
-    constexpr int _GL_R11F_G11F_B10F = 0x8C3A;
-    constexpr int _GL_UNSIGNED_INT_10F_11F_11F_REV = 0x8C3B;
-    constexpr int _GL_RGB9_E5 = 0x8C3D;
-    constexpr int _GL_UNSIGNED_INT_5_9_9_9_REV = 0x8C3E;
-    constexpr int _GL_TEXTURE_SHARED_SIZE = 0x8C3F;
-    constexpr int _GL_TRANSFORM_FEEDBACK_VARYING_MAX_LENGTH = 0x8C76;
-    constexpr int _GL_TRANSFORM_FEEDBACK_BUFFER_MODE = 0x8C7F;
-    constexpr int _GL_MAX_TRANSFORM_FEEDBACK_SEPARATE_COMPONENTS = 0x8C80;
-    constexpr int _GL_TRANSFORM_FEEDBACK_VARYINGS = 0x8C83;
-    constexpr int _GL_TRANSFORM_FEEDBACK_BUFFER_START = 0x8C84;
-    constexpr int _GL_TRANSFORM_FEEDBACK_BUFFER_SIZE = 0x8C85;
-    constexpr int _GL_PRIMITIVES_GENERATED = 0x8C87;
-    constexpr int _GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN = 0x8C88;
-    constexpr int _GL_RASTERIZER_DISCARD = 0x8C89;
-    constexpr int _GL_MAX_TRANSFORM_FEEDBACK_INTERLEAVED_COMPONENTS = 0x8C8A;
-    constexpr int _GL_MAX_TRANSFORM_FEEDBACK_SEPARATE_ATTRIBS = 0x8C8B;
-    constexpr int _GL_INTERLEAVED_ATTRIBS = 0x8C8C;
-    constexpr int _GL_SEPARATE_ATTRIBS = 0x8C8D;
-    constexpr int _GL_TRANSFORM_FEEDBACK_BUFFER = 0x8C8E;
-    constexpr int _GL_TRANSFORM_FEEDBACK_BUFFER_BINDING = 0x8C8F;
-}
+
+    export constexpr int _GL_RGBA32F = 0x8814;
+    export constexpr int _GL_RGB32F = 0x8815;
+    export constexpr int _GL_RGBA16F = 0x881A;
+    export constexpr int _GL_RGB16F = 0x881B;
+    export constexpr int _GL_VERTEX_ATTRIB_ARRAY_INTEGER = 0x88FD;
+    export constexpr int _GL_MAX_ARRAY_TEXTURE_LAYERS = 0x88FF;
+    export constexpr int _GL_MIN_PROGRAM_TEXEL_OFFSET = 0x8904;
+    export constexpr int _GL_MAX_PROGRAM_TEXEL_OFFSET = 0x8905;
+    export constexpr int _GL_CLAMP_READ_COLOR = 0x891C;
+    export constexpr int _GL_FIXED_ONLY = 0x891D;
+    export constexpr int _GL_MAX_VARYING_COMPONENTS = 0x8B4B;
+    export constexpr int _GL_TEXTURE_1D_ARRAY = 0x8C18;
+    export constexpr int _GL_PROXY_TEXTURE_1D_ARRAY = 0x8C19;
+    export constexpr int _GL_TEXTURE_2D_ARRAY = 0x8C1A;
+    export constexpr int _GL_PROXY_TEXTURE_2D_ARRAY = 0x8C1B;
+    export constexpr int _GL_TEXTURE_BINDING_1D_ARRAY = 0x8C1C;
+    export constexpr int _GL_TEXTURE_BINDING_2D_ARRAY = 0x8C1D;
+    export constexpr int _GL_R11F_G11F_B10F = 0x8C3A;
+    export constexpr int _GL_UNSIGNED_INT_10F_11F_11F_REV = 0x8C3B;
+    export constexpr int _GL_RGB9_E5 = 0x8C3D;
+    export constexpr int _GL_UNSIGNED_INT_5_9_9_9_REV = 0x8C3E;
+    export constexpr int _GL_TEXTURE_SHARED_SIZE = 0x8C3F;
+    export constexpr int _GL_TRANSFORM_FEEDBACK_VARYING_MAX_LENGTH = 0x8C76;
+    export constexpr int _GL_TRANSFORM_FEEDBACK_BUFFER_MODE = 0x8C7F;
+    export constexpr int _GL_MAX_TRANSFORM_FEEDBACK_SEPARATE_COMPONENTS = 0x8C80;
+    export constexpr int _GL_TRANSFORM_FEEDBACK_VARYINGS = 0x8C83;
+    export constexpr int _GL_TRANSFORM_FEEDBACK_BUFFER_START = 0x8C84;
+    export constexpr int _GL_TRANSFORM_FEEDBACK_BUFFER_SIZE = 0x8C85;
+    export constexpr int _GL_PRIMITIVES_GENERATED = 0x8C87;
+    export constexpr int _GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN = 0x8C88;
+    export constexpr int _GL_RASTERIZER_DISCARD = 0x8C89;
+    export constexpr int _GL_MAX_TRANSFORM_FEEDBACK_INTERLEAVED_COMPONENTS = 0x8C8A;
+    export constexpr int _GL_MAX_TRANSFORM_FEEDBACK_SEPARATE_ATTRIBS = 0x8C8B;
+    export constexpr int _GL_INTERLEAVED_ATTRIBS = 0x8C8C;
+    export constexpr int _GL_SEPARATE_ATTRIBS = 0x8C8D;
+    export constexpr int _GL_TRANSFORM_FEEDBACK_BUFFER = 0x8C8E;
+    export constexpr int _GL_TRANSFORM_FEEDBACK_BUFFER_BINDING = 0x8C8F;
+
 consteval void Check_Random_Stuff17() {
     static_assert(GL_RGBA32F == _GL_RGBA32F, "GL_RGBA32F is not equal to _GL_RGBA32F");
     static_assert(GL_RGB32F == _GL_RGB32F, "GL_RGB32F is not equal to _GL_RGB32F");
@@ -2668,32 +2666,32 @@ consteval void Check_Random_Stuff17() {
 #define GL_SAMPLER_1D_ARRAY_SHADOW 0x8DC3
 #define GL_SAMPLER_2D_ARRAY_SHADOW 0x8DC4
 #define GL_SAMPLER_CUBE_SHADOW 0x8DC5
-export{
-    constexpr int _GL_RGBA32UI = 0x8D70;
-    constexpr int _GL_RGB32UI = 0x8D71;
-    constexpr int _GL_RGBA16UI = 0x8D76;
-    constexpr int _GL_RGB16UI = 0x8D77;
-    constexpr int _GL_RGBA8UI = 0x8D7C;
-    constexpr int _GL_RGB8UI = 0x8D7D;
-    constexpr int _GL_RGBA32I = 0x8D82;
-    constexpr int _GL_RGB32I = 0x8D83;
-    constexpr int _GL_RGBA16I = 0x8D88;
-    constexpr int _GL_RGB16I = 0x8D89;
-    constexpr int _GL_RGBA8I = 0x8D8E;
-    constexpr int _GL_RGB8I = 0x8D8F;
-    constexpr int _GL_RED_INTEGER = 0x8D94;
-    constexpr int _GL_GREEN_INTEGER = 0x8D95;
-    constexpr int _GL_BLUE_INTEGER = 0x8D96;
-    constexpr int _GL_RGB_INTEGER = 0x8D98;
-    constexpr int _GL_RGBA_INTEGER = 0x8D99;
-    constexpr int _GL_BGR_INTEGER = 0x8D9A;
-    constexpr int _GL_BGRA_INTEGER = 0x8D9B;
-    constexpr int _GL_SAMPLER_1D_ARRAY = 0x8DC0;
-    constexpr int _GL_SAMPLER_2D_ARRAY = 0x8DC1;
-    constexpr int _GL_SAMPLER_1D_ARRAY_SHADOW = 0x8DC3;
-    constexpr int _GL_SAMPLER_2D_ARRAY_SHADOW = 0x8DC4;
-    constexpr int _GL_SAMPLER_CUBE_SHADOW = 0x8DC5;
-}
+
+    export constexpr int _GL_RGBA32UI = 0x8D70;
+    export constexpr int _GL_RGB32UI = 0x8D71;
+    export constexpr int _GL_RGBA16UI = 0x8D76;
+    export constexpr int _GL_RGB16UI = 0x8D77;
+    export constexpr int _GL_RGBA8UI = 0x8D7C;
+    export constexpr int _GL_RGB8UI = 0x8D7D;
+    export constexpr int _GL_RGBA32I = 0x8D82;
+    export constexpr int _GL_RGB32I = 0x8D83;
+    export constexpr int _GL_RGBA16I = 0x8D88;
+    export constexpr int _GL_RGB16I = 0x8D89;
+    export constexpr int _GL_RGBA8I = 0x8D8E;
+    export constexpr int _GL_RGB8I = 0x8D8F;
+    export constexpr int _GL_RED_INTEGER = 0x8D94;
+    export constexpr int _GL_GREEN_INTEGER = 0x8D95;
+    export constexpr int _GL_BLUE_INTEGER = 0x8D96;
+    export constexpr int _GL_RGB_INTEGER = 0x8D98;
+    export constexpr int _GL_RGBA_INTEGER = 0x8D99;
+    export constexpr int _GL_BGR_INTEGER = 0x8D9A;
+    export constexpr int _GL_BGRA_INTEGER = 0x8D9B;
+    export constexpr int _GL_SAMPLER_1D_ARRAY = 0x8DC0;
+    export constexpr int _GL_SAMPLER_2D_ARRAY = 0x8DC1;
+    export constexpr int _GL_SAMPLER_1D_ARRAY_SHADOW = 0x8DC3;
+    export constexpr int _GL_SAMPLER_2D_ARRAY_SHADOW = 0x8DC4;
+    export constexpr int _GL_SAMPLER_CUBE_SHADOW = 0x8DC5;
+
 consteval void Check_Random_Stuff18() {
     static_assert(GL_RGBA32UI == _GL_RGBA32UI, "GL_RGBA32UI is not equal to _GL_RGBA32UI");
     static_assert(GL_RGB32UI == _GL_RGB32UI, "GL_RGB32UI is not equal to _GL_RGB32UI");
@@ -2749,34 +2747,34 @@ consteval void Check_Random_Stuff18() {
 #define GL_DEPTH32F_STENCIL8 0x8CAD
 #define GL_FLOAT_32_UNSIGNED_INT_24_8_REV 0x8DAD
 #define GL_INVALID_FRAMEBUFFER_OPERATION 0x0506
-export {
-    constexpr int _GL_UNSIGNED_INT_VEC2 = 0x8DC6;
-    constexpr int _GL_UNSIGNED_INT_VEC3 = 0x8DC7;
-    constexpr int _GL_UNSIGNED_INT_VEC4 = 0x8DC8;
-    constexpr int _GL_INT_SAMPLER_1D = 0x8DC9;
-    constexpr int _GL_INT_SAMPLER_2D = 0x8DCA;
-    constexpr int _GL_INT_SAMPLER_3D = 0x8DCB;
-    constexpr int _GL_INT_SAMPLER_CUBE = 0x8DCC;
-    constexpr int _GL_INT_SAMPLER_1D_ARRAY = 0x8DCE;
-    constexpr int _GL_INT_SAMPLER_2D_ARRAY = 0x8DCF;
-    constexpr int _GL_UNSIGNED_INT_SAMPLER_1D = 0x8DD1;
-    constexpr int _GL_UNSIGNED_INT_SAMPLER_2D = 0x8DD2;
-    constexpr int _GL_UNSIGNED_INT_SAMPLER_3D = 0x8DD3;
-    constexpr int _GL_UNSIGNED_INT_SAMPLER_CUBE = 0x8DD4;
-    constexpr int _GL_UNSIGNED_INT_SAMPLER_1D_ARRAY = 0x8DD6;
-    constexpr int _GL_UNSIGNED_INT_SAMPLER_2D_ARRAY = 0x8DD7;
-    constexpr int _GL_QUERY_WAIT = 0x8E13;
-    constexpr int _GL_QUERY_NO_WAIT = 0x8E14;
-    constexpr int _GL_QUERY_BY_REGION_WAIT = 0x8E15;
-    constexpr int _GL_QUERY_BY_REGION_NO_WAIT = 0x8E16;
-    constexpr int _GL_BUFFER_ACCESS_FLAGS = 0x911F;
-    constexpr int _GL_BUFFER_MAP_LENGTH = 0x9120;
-    constexpr int _GL_BUFFER_MAP_OFFSET = 0x9121;
-    constexpr int _GL_DEPTH_COMPONENT32F = 0x8CAC;
-    constexpr int _GL_DEPTH32F_STENCIL8 = 0x8CAD;
-    constexpr int _GL_FLOAT_32_UNSIGNED_INT_24_8_REV = 0x8DAD;
-    constexpr int _GL_INVALID_FRAMEBUFFER_OPERATION = 0x0506;
-}
+
+    export constexpr int _GL_UNSIGNED_INT_VEC2 = 0x8DC6;
+    export constexpr int _GL_UNSIGNED_INT_VEC3 = 0x8DC7;
+    export constexpr int _GL_UNSIGNED_INT_VEC4 = 0x8DC8;
+    export constexpr int _GL_INT_SAMPLER_1D = 0x8DC9;
+    export constexpr int _GL_INT_SAMPLER_2D = 0x8DCA;
+    export constexpr int _GL_INT_SAMPLER_3D = 0x8DCB;
+    export constexpr int _GL_INT_SAMPLER_CUBE = 0x8DCC;
+    export constexpr int _GL_INT_SAMPLER_1D_ARRAY = 0x8DCE;
+    export constexpr int _GL_INT_SAMPLER_2D_ARRAY = 0x8DCF;
+    export constexpr int _GL_UNSIGNED_INT_SAMPLER_1D = 0x8DD1;
+    export constexpr int _GL_UNSIGNED_INT_SAMPLER_2D = 0x8DD2;
+    export constexpr int _GL_UNSIGNED_INT_SAMPLER_3D = 0x8DD3;
+    export constexpr int _GL_UNSIGNED_INT_SAMPLER_CUBE = 0x8DD4;
+    export constexpr int _GL_UNSIGNED_INT_SAMPLER_1D_ARRAY = 0x8DD6;
+    export constexpr int _GL_UNSIGNED_INT_SAMPLER_2D_ARRAY = 0x8DD7;
+    export constexpr int _GL_QUERY_WAIT = 0x8E13;
+    export constexpr int _GL_QUERY_NO_WAIT = 0x8E14;
+    export constexpr int _GL_QUERY_BY_REGION_WAIT = 0x8E15;
+    export constexpr int _GL_QUERY_BY_REGION_NO_WAIT = 0x8E16;
+    export constexpr int _GL_BUFFER_ACCESS_FLAGS = 0x911F;
+    export constexpr int _GL_BUFFER_MAP_LENGTH = 0x9120;
+    export constexpr int _GL_BUFFER_MAP_OFFSET = 0x9121;
+    export constexpr int _GL_DEPTH_COMPONENT32F = 0x8CAC;
+    export constexpr int _GL_DEPTH32F_STENCIL8 = 0x8CAD;
+    export constexpr int _GL_FLOAT_32_UNSIGNED_INT_24_8_REV = 0x8DAD;
+    export constexpr int _GL_INVALID_FRAMEBUFFER_OPERATION = 0x0506;
+
 consteval void Check_Random_Stuff19() {
     static_assert(GL_UNSIGNED_INT_VEC2 == _GL_UNSIGNED_INT_VEC2, "GL_UNSIGNED_INT_VEC2 is not equal to _GL_UNSIGNED_INT_VEC2");
     static_assert(GL_UNSIGNED_INT_VEC3 == _GL_UNSIGNED_INT_VEC3, "GL_UNSIGNED_INT_VEC3 is not equal to _GL_UNSIGNED_INT_VEC3");
@@ -2830,29 +2828,29 @@ consteval void Check_Random_Stuff19() {
 #define GL_TEXTURE_BLUE_TYPE 0x8C12
 #define GL_TEXTURE_ALPHA_TYPE 0x8C13
 #define GL_TEXTURE_DEPTH_TYPE 0x8C16
-export{
-    constexpr int _GL_FRAMEBUFFER_ATTACHMENT_COLOR_ENCODING = 0x8210;
-    constexpr int _GL_FRAMEBUFFER_ATTACHMENT_COMPONENT_TYPE = 0x8211;
-    constexpr int _GL_FRAMEBUFFER_ATTACHMENT_RED_SIZE = 0x8212;
-    constexpr int _GL_FRAMEBUFFER_ATTACHMENT_GREEN_SIZE = 0x8213;
-    constexpr int _GL_FRAMEBUFFER_ATTACHMENT_BLUE_SIZE = 0x8214;
-    constexpr int _GL_FRAMEBUFFER_ATTACHMENT_ALPHA_SIZE = 0x8215;
-    constexpr int _GL_FRAMEBUFFER_ATTACHMENT_DEPTH_SIZE = 0x8216;
-    constexpr int _GL_FRAMEBUFFER_ATTACHMENT_STENCIL_SIZE = 0x8217;
-    constexpr int _GL_FRAMEBUFFER_DEFAULT = 0x8218;
-    constexpr int _GL_FRAMEBUFFER_UNDEFINED = 0x8219;
-    constexpr int _GL_DEPTH_STENCIL_ATTACHMENT = 0x821A;
-    constexpr int _GL_MAX_RENDERBUFFER_SIZE = 0x84E8;
-    constexpr int _GL_DEPTH_STENCIL = 0x84F9;
-    constexpr int _GL_UNSIGNED_INT_24_8 = 0x84FA;
-    constexpr int _GL_DEPTH24_STENCIL8 = 0x88F0;
-    constexpr int _GL_TEXTURE_STENCIL_SIZE = 0x88F1;
-    constexpr int _GL_TEXTURE_RED_TYPE = 0x8C10;
-    constexpr int _GL_TEXTURE_GREEN_TYPE = 0x8C11;
-    constexpr int _GL_TEXTURE_BLUE_TYPE = 0x8C12;
-    constexpr int _GL_TEXTURE_ALPHA_TYPE = 0x8C13;
-    constexpr int _GL_TEXTURE_DEPTH_TYPE = 0x8C16;
-}
+
+    export constexpr int _GL_FRAMEBUFFER_ATTACHMENT_COLOR_ENCODING = 0x8210;
+    export constexpr int _GL_FRAMEBUFFER_ATTACHMENT_COMPONENT_TYPE = 0x8211;
+    export constexpr int _GL_FRAMEBUFFER_ATTACHMENT_RED_SIZE = 0x8212;
+    export constexpr int _GL_FRAMEBUFFER_ATTACHMENT_GREEN_SIZE = 0x8213;
+    export constexpr int _GL_FRAMEBUFFER_ATTACHMENT_BLUE_SIZE = 0x8214;
+    export constexpr int _GL_FRAMEBUFFER_ATTACHMENT_ALPHA_SIZE = 0x8215;
+    export constexpr int _GL_FRAMEBUFFER_ATTACHMENT_DEPTH_SIZE = 0x8216;
+    export constexpr int _GL_FRAMEBUFFER_ATTACHMENT_STENCIL_SIZE = 0x8217;
+    export constexpr int _GL_FRAMEBUFFER_DEFAULT = 0x8218;
+    export constexpr int _GL_FRAMEBUFFER_UNDEFINED = 0x8219;
+    export constexpr int _GL_DEPTH_STENCIL_ATTACHMENT = 0x821A;
+    export constexpr int _GL_MAX_RENDERBUFFER_SIZE = 0x84E8;
+    export constexpr int _GL_DEPTH_STENCIL = 0x84F9;
+    export constexpr int _GL_UNSIGNED_INT_24_8 = 0x84FA;
+    export constexpr int _GL_DEPTH24_STENCIL8 = 0x88F0;
+    export constexpr int _GL_TEXTURE_STENCIL_SIZE = 0x88F1;
+    export constexpr int _GL_TEXTURE_RED_TYPE = 0x8C10;
+    export constexpr int _GL_TEXTURE_GREEN_TYPE = 0x8C11;
+    export constexpr int _GL_TEXTURE_BLUE_TYPE = 0x8C12;
+    export constexpr int _GL_TEXTURE_ALPHA_TYPE = 0x8C13;
+    export constexpr int _GL_TEXTURE_DEPTH_TYPE = 0x8C16;
+
 consteval void Check_Random_stuff20() {
     static_assert(GL_FRAMEBUFFER_ATTACHMENT_COLOR_ENCODING == _GL_FRAMEBUFFER_ATTACHMENT_COLOR_ENCODING, "GL_FRAMEBUFFER_ATTACHMENT_COLOR_ENCODING is not equal to _GL_FRAMEBUFFER_ATTACHMENT_COLOR_ENCODING");
     static_assert(GL_FRAMEBUFFER_ATTACHMENT_COMPONENT_TYPE == _GL_FRAMEBUFFER_ATTACHMENT_COMPONENT_TYPE, "GL_FRAMEBUFFER_ATTACHMENT_COMPONENT_TYPE is not equal to _GL_FRAMEBUFFER_ATTACHMENT_COMPONENT_TYPE");
@@ -2899,28 +2897,28 @@ consteval void Check_Random_stuff20() {
 #define GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER 0x8CDC
 #define GL_FRAMEBUFFER_UNSUPPORTED 0x8CDD
 #define GL_MAX_COLOR_ATTACHMENTS 0x8CDF
-export{
-    constexpr int _GL_UNSIGNED_NORMALIZED = 0x8C17;
-    constexpr int _GL_FRAMEBUFFER_BINDING = 0x8CA6;
-    constexpr int _GL_DRAW_FRAMEBUFFER_BINDING = 0x8CA6;
-    constexpr int _GL_RENDERBUFFER_BINDING = 0x8CA7;
-    constexpr int _GL_READ_FRAMEBUFFER = 0x8CA8;
-    constexpr int _GL_DRAW_FRAMEBUFFER = 0x8CA9;
-    constexpr int _GL_READ_FRAMEBUFFER_BINDING = 0x8CAA;
-    constexpr int _GL_RENDERBUFFER_SAMPLES = 0x8CAB;
-    constexpr int _GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE = 0x8CD0;
-    constexpr int _GL_FRAMEBUFFER_ATTACHMENT_OBJECT_NAME = 0x8CD1;
-    constexpr int _GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_LEVEL = 0x8CD2;
-    constexpr int _GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_CUBE_MAP_FACE = 0x8CD3;
-    constexpr int _GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_LAYER = 0x8CD4;
-    constexpr int _GL_FRAMEBUFFER_COMPLETE = 0x8CD5;
-    constexpr int _GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT = 0x8CD6;
-    constexpr int _GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT = 0x8CD7;
-    constexpr int _GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER = 0x8CDB;
-    constexpr int _GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER = 0x8CDC;
-    constexpr int _GL_FRAMEBUFFER_UNSUPPORTED = 0x8CDD;
-    constexpr int _GL_MAX_COLOR_ATTACHMENTS = 0x8CDF;
-}
+
+    export constexpr int _GL_UNSIGNED_NORMALIZED = 0x8C17;
+    export constexpr int _GL_FRAMEBUFFER_BINDING = 0x8CA6;
+    export constexpr int _GL_DRAW_FRAMEBUFFER_BINDING = 0x8CA6;
+    export constexpr int _GL_RENDERBUFFER_BINDING = 0x8CA7;
+    export constexpr int _GL_READ_FRAMEBUFFER = 0x8CA8;
+    export constexpr int _GL_DRAW_FRAMEBUFFER = 0x8CA9;
+    export constexpr int _GL_READ_FRAMEBUFFER_BINDING = 0x8CAA;
+    export constexpr int _GL_RENDERBUFFER_SAMPLES = 0x8CAB;
+    export constexpr int _GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE = 0x8CD0;
+    export constexpr int _GL_FRAMEBUFFER_ATTACHMENT_OBJECT_NAME = 0x8CD1;
+    export constexpr int _GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_LEVEL = 0x8CD2;
+    export constexpr int _GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_CUBE_MAP_FACE = 0x8CD3;
+    export constexpr int _GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_LAYER = 0x8CD4;
+    export constexpr int _GL_FRAMEBUFFER_COMPLETE = 0x8CD5;
+    export constexpr int _GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT = 0x8CD6;
+    export constexpr int _GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT = 0x8CD7;
+    export constexpr int _GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER = 0x8CDB;
+    export constexpr int _GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER = 0x8CDC;
+    export constexpr int _GL_FRAMEBUFFER_UNSUPPORTED = 0x8CDD;
+    export constexpr int _GL_MAX_COLOR_ATTACHMENTS = 0x8CDF;
+
 consteval void Check_Random_Stuff21() {
     static_assert(GL_UNSIGNED_NORMALIZED == _GL_UNSIGNED_NORMALIZED, "GL_UNSIGNED_NORMALIZED is not equal to _GL_UNSIGNED_NORMALIZED");
     static_assert(GL_FRAMEBUFFER_BINDING == _GL_FRAMEBUFFER_BINDING, "GL_FRAMEBUFFER_BINDING is not equal to _GL_FRAMEBUFFER_BINDING");
@@ -2981,43 +2979,43 @@ consteval void Check_Random_Stuff21() {
 #define GL_DEPTH_ATTACHMENT 0x8D00
 #define GL_STENCIL_ATTACHMENT 0x8D20
 #define GL_FRAMEBUFFER 0x8D40
-export{
-    constexpr int _GL_COLOR_ATTACHMENT0 = 0x8CE0;
-    constexpr int _GL_COLOR_ATTACHMENT1 = 0x8CE1;
-    constexpr int _GL_COLOR_ATTACHMENT2 = 0x8CE2;
-    constexpr int _GL_COLOR_ATTACHMENT3 = 0x8CE3;
-    constexpr int _GL_COLOR_ATTACHMENT4 = 0x8CE4;
-    constexpr int _GL_COLOR_ATTACHMENT5 = 0x8CE5;
-    constexpr int _GL_COLOR_ATTACHMENT6 = 0x8CE6;
-    constexpr int _GL_COLOR_ATTACHMENT7 = 0x8CE7;
-    constexpr int _GL_COLOR_ATTACHMENT8 = 0x8CE8;
-    constexpr int _GL_COLOR_ATTACHMENT9 = 0x8CE9;
-    constexpr int _GL_COLOR_ATTACHMENT10 = 0x8CEA;
-    constexpr int _GL_COLOR_ATTACHMENT11 = 0x8CEB;
-    constexpr int _GL_COLOR_ATTACHMENT12 = 0x8CEC;
-    constexpr int _GL_COLOR_ATTACHMENT13 = 0x8CED;
-    constexpr int _GL_COLOR_ATTACHMENT14 = 0x8CEE;
-    constexpr int _GL_COLOR_ATTACHMENT15 = 0x8CEF;
-    constexpr int _GL_COLOR_ATTACHMENT16 = 0x8CF0;
-    constexpr int _GL_COLOR_ATTACHMENT17 = 0x8CF1;
-    constexpr int _GL_COLOR_ATTACHMENT18 = 0x8CF2;
-    constexpr int _GL_COLOR_ATTACHMENT19 = 0x8CF3;
-    constexpr int _GL_COLOR_ATTACHMENT20 = 0x8CF4;
-    constexpr int _GL_COLOR_ATTACHMENT21 = 0x8CF5;
-    constexpr int _GL_COLOR_ATTACHMENT22 = 0x8CF6;
-    constexpr int _GL_COLOR_ATTACHMENT23 = 0x8CF7;
-    constexpr int _GL_COLOR_ATTACHMENT24 = 0x8CF8;
-    constexpr int _GL_COLOR_ATTACHMENT25 = 0x8CF9;
-    constexpr int _GL_COLOR_ATTACHMENT26 = 0x8CFA;
-    constexpr int _GL_COLOR_ATTACHMENT27 = 0x8CFB;
-    constexpr int _GL_COLOR_ATTACHMENT28 = 0x8CFC;
-    constexpr int _GL_COLOR_ATTACHMENT29 = 0x8CFD;
-    constexpr int _GL_COLOR_ATTACHMENT30 = 0x8CFE;
-    constexpr int _GL_COLOR_ATTACHMENT31 = 0x8CFF;
-    constexpr int _GL_DEPTH_ATTACHMENT = 0x8D00;
-    constexpr int _GL_STENCIL_ATTACHMENT = 0x8D20;
-    constexpr int _GL_FRAMEBUFFER = 0x8D40;
-}
+
+    export constexpr int _GL_COLOR_ATTACHMENT0 = 0x8CE0;
+    export constexpr int _GL_COLOR_ATTACHMENT1 = 0x8CE1;
+    export constexpr int _GL_COLOR_ATTACHMENT2 = 0x8CE2;
+    export constexpr int _GL_COLOR_ATTACHMENT3 = 0x8CE3;
+    export constexpr int _GL_COLOR_ATTACHMENT4 = 0x8CE4;
+    export constexpr int _GL_COLOR_ATTACHMENT5 = 0x8CE5;
+    export constexpr int _GL_COLOR_ATTACHMENT6 = 0x8CE6;
+    export constexpr int _GL_COLOR_ATTACHMENT7 = 0x8CE7;
+    export constexpr int _GL_COLOR_ATTACHMENT8 = 0x8CE8;
+    export constexpr int _GL_COLOR_ATTACHMENT9 = 0x8CE9;
+    export constexpr int _GL_COLOR_ATTACHMENT10 = 0x8CEA;
+    export constexpr int _GL_COLOR_ATTACHMENT11 = 0x8CEB;
+    export constexpr int _GL_COLOR_ATTACHMENT12 = 0x8CEC;
+    export constexpr int _GL_COLOR_ATTACHMENT13 = 0x8CED;
+    export constexpr int _GL_COLOR_ATTACHMENT14 = 0x8CEE;
+    export constexpr int _GL_COLOR_ATTACHMENT15 = 0x8CEF;
+    export constexpr int _GL_COLOR_ATTACHMENT16 = 0x8CF0;
+    export constexpr int _GL_COLOR_ATTACHMENT17 = 0x8CF1;
+    export constexpr int _GL_COLOR_ATTACHMENT18 = 0x8CF2;
+    export constexpr int _GL_COLOR_ATTACHMENT19 = 0x8CF3;
+    export constexpr int _GL_COLOR_ATTACHMENT20 = 0x8CF4;
+    export constexpr int _GL_COLOR_ATTACHMENT21 = 0x8CF5;
+    export constexpr int _GL_COLOR_ATTACHMENT22 = 0x8CF6;
+    export constexpr int _GL_COLOR_ATTACHMENT23 = 0x8CF7;
+    export constexpr int _GL_COLOR_ATTACHMENT24 = 0x8CF8;
+    export constexpr int _GL_COLOR_ATTACHMENT25 = 0x8CF9;
+    export constexpr int _GL_COLOR_ATTACHMENT26 = 0x8CFA;
+    export constexpr int _GL_COLOR_ATTACHMENT27 = 0x8CFB;
+    export constexpr int _GL_COLOR_ATTACHMENT28 = 0x8CFC;
+    export constexpr int _GL_COLOR_ATTACHMENT29 = 0x8CFD;
+    export constexpr int _GL_COLOR_ATTACHMENT30 = 0x8CFE;
+    export constexpr int _GL_COLOR_ATTACHMENT31 = 0x8CFF;
+    export constexpr int _GL_DEPTH_ATTACHMENT = 0x8D00;
+    export constexpr int _GL_STENCIL_ATTACHMENT = 0x8D20;
+    export constexpr int _GL_FRAMEBUFFER = 0x8D40;
+
 consteval void Check_Random_Stuff22() {
     static_assert(GL_COLOR_ATTACHMENT0 == _GL_COLOR_ATTACHMENT0, "GL_COLOR_ATTACHMENT0 is not equal to _GL_COLOR_ATTACHMENT0");
     static_assert(GL_COLOR_ATTACHMENT1 == _GL_COLOR_ATTACHMENT1, "GL_COLOR_ATTACHMENT1 is not equal to _GL_COLOR_ATTACHMENT1");
@@ -3076,26 +3074,24 @@ consteval void Check_Random_Stuff22() {
 #define GL_MAX_SAMPLES 0x8D57
 #define GL_FRAMEBUFFER_SRGB 0x8DB9
 #define GL_HALF_FLOAT 0x140B
-export{
-    constexpr int _GL_RENDERBUFFER = 0x8D41;
-    constexpr int _GL_RENDERBUFFER_WIDTH = 0x8D42;
-    constexpr int _GL_RENDERBUFFER_HEIGHT = 0x8D43;
-    constexpr int _GL_RENDERBUFFER_INTERNAL_FORMAT = 0x8D44;
-    constexpr int _GL_STENCIL_INDEX1 = 0x8D46;
-    constexpr int _GL_STENCIL_INDEX4 = 0x8D47;
-    constexpr int _GL_STENCIL_INDEX8 = 0x8D48;
-    constexpr int _GL_STENCIL_INDEX16 = 0x8D49;
-    constexpr int _GL_RENDERBUFFER_RED_SIZE = 0x8D50;
-    constexpr int _GL_RENDERBUFFER_GREEN_SIZE = 0x8D51;
-    constexpr int _GL_RENDERBUFFER_BLUE_SIZE = 0x8D52;
-    constexpr int _GL_RENDERBUFFER_ALPHA_SIZE = 0x8D53;
-    constexpr int _GL_RENDERBUFFER_DEPTH_SIZE = 0x8D54;
-    constexpr int _GL_RENDERBUFFER_STENCIL_SIZE = 0x8D55;
-    constexpr int _GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE = 0x8D56;
-    constexpr int _GL_MAX_SAMPLES = 0x8D57;
-    constexpr int _GL_FRAMEBUFFER_SRGB = 0x8DB9;
-    constexpr int _GL_HALF_FLOAT = 0x140B;
-}
+    export constexpr int _GL_RENDERBUFFER = 0x8D41;
+    export constexpr int _GL_RENDERBUFFER_WIDTH = 0x8D42;
+    export constexpr int _GL_RENDERBUFFER_HEIGHT = 0x8D43;
+    export constexpr int _GL_RENDERBUFFER_INTERNAL_FORMAT = 0x8D44;
+    export constexpr int _GL_STENCIL_INDEX1 = 0x8D46;
+    export constexpr int _GL_STENCIL_INDEX4 = 0x8D47;
+    export constexpr int _GL_STENCIL_INDEX8 = 0x8D48;
+    export constexpr int _GL_STENCIL_INDEX16 = 0x8D49;
+    export constexpr int _GL_RENDERBUFFER_RED_SIZE = 0x8D50;
+    export constexpr int _GL_RENDERBUFFER_GREEN_SIZE = 0x8D51;
+    export constexpr int _GL_RENDERBUFFER_BLUE_SIZE = 0x8D52;
+    export constexpr int _GL_RENDERBUFFER_ALPHA_SIZE = 0x8D53;
+    export constexpr int _GL_RENDERBUFFER_DEPTH_SIZE = 0x8D54;
+    export constexpr int _GL_RENDERBUFFER_STENCIL_SIZE = 0x8D55;
+    export constexpr int _GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE = 0x8D56;
+    export constexpr int _GL_MAX_SAMPLES = 0x8D57;
+    export constexpr int _GL_FRAMEBUFFER_SRGB = 0x8DB9;
+    export constexpr int _GL_HALF_FLOAT = 0x140B;
 consteval void Check_Random_Stuff23() {
     static_assert(GL_RENDERBUFFER == _GL_RENDERBUFFER, "GL_RENDERBUFFER is not equal to _GL_RENDERBUFFER");
     static_assert(GL_RENDERBUFFER_WIDTH == _GL_RENDERBUFFER_WIDTH, "GL_RENDERBUFFER_WIDTH is not equal to _GL_RENDERBUFFER_WIDTH");
@@ -3151,40 +3147,38 @@ consteval void Check_Random_Stuff23() {
 #define GL_RG16UI 0x823A
 #define GL_RG32I 0x823B
 #define GL_RG32UI 0x823C
-export{
-    constexpr int _GL_MAP_READ_BIT = 0x0001;
-    constexpr int _GL_MAP_WRITE_BIT = 0x0002;
-    constexpr int _GL_MAP_INVALIDATE_RANGE_BIT = 0x0004;
-    constexpr int _GL_MAP_INVALIDATE_BUFFER_BIT = 0x0008;
-    constexpr int _GL_MAP_FLUSH_EXPLICIT_BIT = 0x0010;
-    constexpr int _GL_MAP_UNSYNCHRONIZED_BIT = 0x0020;
-    constexpr int _GL_COMPRESSED_RED_RGTC1 = 0x8DBB;
-    constexpr int _GL_COMPRESSED_SIGNED_RED_RGTC1 = 0x8DBC;
-    constexpr int _GL_COMPRESSED_RG_RGTC2 = 0x8DBD;
-    constexpr int _GL_COMPRESSED_SIGNED_RG_RGTC2 = 0x8DBE;
-    constexpr int _GL_RG = 0x8227;
-    constexpr int _GL_RG_INTEGER = 0x8228;
-    constexpr int _GL_R8 = 0x8229;
-    constexpr int _GL_R16 = 0x822A;
-    constexpr int _GL_RG8 = 0x822B;
-    constexpr int _GL_RG16 = 0x822C;
-    constexpr int _GL_R16F = 0x822D;
-    constexpr int _GL_R32F = 0x822E;
-    constexpr int _GL_RG16F = 0x822F;
-    constexpr int _GL_RG32F = 0x8230;
-    constexpr int _GL_R8I = 0x8231;
-    constexpr int _GL_R8UI = 0x8232;
-    constexpr int _GL_R16I = 0x8233;
-    constexpr int _GL_R16UI = 0x8234;
-    constexpr int _GL_R32I = 0x8235;
-    constexpr int _GL_R32UI = 0x8236;
-    constexpr int _GL_RG8I = 0x8237;
-    constexpr int _GL_RG8UI = 0x8238;
-    constexpr int _GL_RG16I = 0x8239;
-    constexpr int _GL_RG16UI = 0x823A;
-    constexpr int _GL_RG32I = 0x823B;
-    constexpr int _GL_RG32UI = 0x823C;
-}
+    export constexpr int _GL_MAP_READ_BIT = 0x0001;
+    export constexpr int _GL_MAP_WRITE_BIT = 0x0002;
+    export constexpr int _GL_MAP_INVALIDATE_RANGE_BIT = 0x0004;
+    export constexpr int _GL_MAP_INVALIDATE_BUFFER_BIT = 0x0008;
+    export constexpr int _GL_MAP_FLUSH_EXPLICIT_BIT = 0x0010;
+    export constexpr int _GL_MAP_UNSYNCHRONIZED_BIT = 0x0020;
+    export constexpr int _GL_COMPRESSED_RED_RGTC1 = 0x8DBB;
+    export constexpr int _GL_COMPRESSED_SIGNED_RED_RGTC1 = 0x8DBC;
+    export constexpr int _GL_COMPRESSED_RG_RGTC2 = 0x8DBD;
+    export constexpr int _GL_COMPRESSED_SIGNED_RG_RGTC2 = 0x8DBE;
+    export constexpr int _GL_RG = 0x8227;
+    export constexpr int _GL_RG_INTEGER = 0x8228;
+    export constexpr int _GL_R8 = 0x8229;
+    export constexpr int _GL_R16 = 0x822A;
+    export constexpr int _GL_RG8 = 0x822B;
+    export constexpr int _GL_RG16 = 0x822C;
+    export constexpr int _GL_R16F = 0x822D;
+    export constexpr int _GL_R32F = 0x822E;
+    export constexpr int _GL_RG16F = 0x822F;
+    export constexpr int _GL_RG32F = 0x8230;
+    export constexpr int _GL_R8I = 0x8231;
+    export constexpr int _GL_R8UI = 0x8232;
+    export constexpr int _GL_R16I = 0x8233;
+    export constexpr int _GL_R16UI = 0x8234;
+    export constexpr int _GL_R32I = 0x8235;
+    export constexpr int _GL_R32UI = 0x8236;
+    export constexpr int _GL_RG8I = 0x8237;
+    export constexpr int _GL_RG8UI = 0x8238;
+    export constexpr int _GL_RG16I = 0x8239;
+    export constexpr int _GL_RG16UI = 0x823A;
+    export constexpr int _GL_RG32I = 0x823B;
+    export constexpr int _GL_RG32UI = 0x823C;
 consteval void Check_Random_Stuff24() {
     static_assert(GL_MAP_READ_BIT == _GL_MAP_READ_BIT, "GL_MAP_READ_BIT is not equal to _GL_MAP_READ_BIT");
     static_assert(GL_MAP_WRITE_BIT == _GL_MAP_WRITE_BIT, "GL_MAP_WRITE_BIT is not equal to _GL_MAP_WRITE_BIT");
@@ -3246,32 +3240,30 @@ consteval void Check_Random_Stuff24() {
 #define GL_RG16_SNORM 0x8F99
 #define GL_RGB16_SNORM 0x8F9A
 #define GL_RGBA16_SNORM 0x8F9B
-export{
-    constexpr int _GL_VERTEX_ARRAY_BINDING = 0x85B5;
-    constexpr int _GL_SAMPLER_2D_RECT = 0x8B63;
-    constexpr int _GL_SAMPLER_2D_RECT_SHADOW = 0x8B64;
-    constexpr int _GL_SAMPLER_BUFFER = 0x8DC2;
-    constexpr int _GL_INT_SAMPLER_2D_RECT = 0x8DCD;
-    constexpr int _GL_INT_SAMPLER_BUFFER = 0x8DD0;
-    constexpr int _GL_UNSIGNED_INT_SAMPLER_2D_RECT = 0x8DD5;
-    constexpr int _GL_UNSIGNED_INT_SAMPLER_BUFFER = 0x8DD8;
-    constexpr int _GL_TEXTURE_BUFFER = 0x8C2A;
-    constexpr int _GL_MAX_TEXTURE_BUFFER_SIZE = 0x8C2B;
-    constexpr int _GL_TEXTURE_BINDING_BUFFER = 0x8C2C;
-    constexpr int _GL_TEXTURE_BUFFER_DATA_STORE_BINDING = 0x8C2D;
-    constexpr int _GL_TEXTURE_RECTANGLE = 0x84F5;
-    constexpr int _GL_TEXTURE_BINDING_RECTANGLE = 0x84F6;
-    constexpr int _GL_PROXY_TEXTURE_RECTANGLE = 0x84F7;
-    constexpr int _GL_MAX_RECTANGLE_TEXTURE_SIZE = 0x84F8;
-    constexpr int _GL_R8_SNORM = 0x8F94;
-    constexpr int _GL_RG8_SNORM = 0x8F95;
-    constexpr int _GL_RGB8_SNORM = 0x8F96;
-    constexpr int _GL_RGBA8_SNORM = 0x8F97;
-    constexpr int _GL_R16_SNORM = 0x8F98;
-    constexpr int _GL_RG16_SNORM = 0x8F99;
-    constexpr int _GL_RGB16_SNORM = 0x8F9A;
-    constexpr int _GL_RGBA16_SNORM = 0x8F9B;
-}
+    export constexpr int _GL_VERTEX_ARRAY_BINDING = 0x85B5;
+    export constexpr int _GL_SAMPLER_2D_RECT = 0x8B63;
+    export constexpr int _GL_SAMPLER_2D_RECT_SHADOW = 0x8B64;
+    export constexpr int _GL_SAMPLER_BUFFER = 0x8DC2;
+    export constexpr int _GL_INT_SAMPLER_2D_RECT = 0x8DCD;
+    export constexpr int _GL_INT_SAMPLER_BUFFER = 0x8DD0;
+    export constexpr int _GL_UNSIGNED_INT_SAMPLER_2D_RECT = 0x8DD5;
+    export constexpr int _GL_UNSIGNED_INT_SAMPLER_BUFFER = 0x8DD8;
+    export constexpr int _GL_TEXTURE_BUFFER = 0x8C2A;
+    export constexpr int _GL_MAX_TEXTURE_BUFFER_SIZE = 0x8C2B;
+    export constexpr int _GL_TEXTURE_BINDING_BUFFER = 0x8C2C;
+    export constexpr int _GL_TEXTURE_BUFFER_DATA_STORE_BINDING = 0x8C2D;
+    export constexpr int _GL_TEXTURE_RECTANGLE = 0x84F5;
+    export constexpr int _GL_TEXTURE_BINDING_RECTANGLE = 0x84F6;
+    export constexpr int _GL_PROXY_TEXTURE_RECTANGLE = 0x84F7;
+    export constexpr int _GL_MAX_RECTANGLE_TEXTURE_SIZE = 0x84F8;
+    export constexpr int _GL_R8_SNORM = 0x8F94;
+    export constexpr int _GL_RG8_SNORM = 0x8F95;
+    export constexpr int _GL_RGB8_SNORM = 0x8F96;
+    export constexpr int _GL_RGBA8_SNORM = 0x8F97;
+    export constexpr int _GL_R16_SNORM = 0x8F98;
+    export constexpr int _GL_RG16_SNORM = 0x8F99;
+    export constexpr int _GL_RGB16_SNORM = 0x8F9A;
+    export constexpr int _GL_RGBA16_SNORM = 0x8F9B;
 consteval void Check_Random_Stuff25() {
     static_assert(GL_VERTEX_ARRAY_BINDING == _GL_VERTEX_ARRAY_BINDING, "GL_VERTEX_ARRAY_BINDING is not equal to _GL_VERTEX_ARRAY_BINDING");
     static_assert(GL_SAMPLER_2D_RECT == _GL_SAMPLER_2D_RECT, "GL_SAMPLER_2D_RECT is not equal to _GL_SAMPLER_2D_RECT");
@@ -3338,46 +3330,44 @@ consteval void Check_Random_Stuff25() {
 #define GL_UNIFORM_BLOCK_REFERENCED_BY_VERTEX_SHADER 0x8A44
 #define GL_UNIFORM_BLOCK_REFERENCED_BY_GEOMETRY_SHADER 0x8A45
 #define GL_UNIFORM_BLOCK_REFERENCED_BY_FRAGMENT_SHADER 0x8A46
-export{
-    constexpr int _GL_SIGNED_NORMALIZED = 0x8F9C;
-    constexpr int _GL_PRIMITIVE_RESTART = 0x8F9D;
-    constexpr int _GL_PRIMITIVE_RESTART_INDEX = 0x8F9E;
-    constexpr int _GL_COPY_READ_BUFFER = 0x8F36;
-    constexpr int _GL_COPY_WRITE_BUFFER = 0x8F37;
-    constexpr int _GL_UNIFORM_BUFFER = 0x8A11;
-    constexpr int _GL_UNIFORM_BUFFER_BINDING = 0x8A28;
-    constexpr int _GL_UNIFORM_BUFFER_START = 0x8A29;
-    constexpr int _GL_UNIFORM_BUFFER_SIZE = 0x8A2A;
-    constexpr int _GL_MAX_VERTEX_UNIFORM_BLOCKS = 0x8A2B;
-    constexpr int _GL_MAX_GEOMETRY_UNIFORM_BLOCKS = 0x8A2C;
-    constexpr int _GL_MAX_FRAGMENT_UNIFORM_BLOCKS = 0x8A2D;
-    constexpr int _GL_MAX_COMBINED_UNIFORM_BLOCKS = 0x8A2E;
-    constexpr int _GL_MAX_UNIFORM_BUFFER_BINDINGS = 0x8A2F;
-    constexpr int _GL_MAX_UNIFORM_BLOCK_SIZE = 0x8A30;
-    constexpr int _GL_MAX_COMBINED_VERTEX_UNIFORM_COMPONENTS = 0x8A31;
-    constexpr int _GL_MAX_COMBINED_GEOMETRY_UNIFORM_COMPONENTS = 0x8A32;
-    constexpr int _GL_MAX_COMBINED_FRAGMENT_UNIFORM_COMPONENTS = 0x8A33;
-    constexpr int _GL_UNIFORM_BUFFER_OFFSET_ALIGNMENT = 0x8A34;
-    constexpr int _GL_ACTIVE_UNIFORM_BLOCK_MAX_NAME_LENGTH = 0x8A35;
-    constexpr int _GL_ACTIVE_UNIFORM_BLOCKS = 0x8A36;
-    constexpr int _GL_UNIFORM_TYPE = 0x8A37;
-    constexpr int _GL_UNIFORM_SIZE = 0x8A38;
-    constexpr int _GL_UNIFORM_NAME_LENGTH = 0x8A39;
-    constexpr int _GL_UNIFORM_BLOCK_INDEX = 0x8A3A;
-    constexpr int _GL_UNIFORM_OFFSET = 0x8A3B;
-    constexpr int _GL_UNIFORM_ARRAY_STRIDE = 0x8A3C;
-    constexpr int _GL_UNIFORM_MATRIX_STRIDE = 0x8A3D;
-    constexpr int _GL_UNIFORM_IS_ROW_MAJOR = 0x8A3E;
-    constexpr int _GL_UNIFORM_BLOCK_BINDING = 0x8A3F;
-    constexpr int _GL_UNIFORM_BLOCK_DATA_SIZE = 0x8A40;
-    constexpr int _GL_UNIFORM_BLOCK_NAME_LENGTH = 0x8A41;
-    constexpr int _GL_UNIFORM_BLOCK_ACTIVE_UNIFORMS = 0x8A42;
-    constexpr int _GL_UNIFORM_BLOCK_ACTIVE_UNIFORM_INDICES = 0x8A43;
-    constexpr int _GL_UNIFORM_BLOCK_REFERENCED_BY_VERTEX_SHADER = 0x8A44;
-    constexpr int _GL_UNIFORM_BLOCK_REFERENCED_BY_GEOMETRY_SHADER = 0x8A45;
-    constexpr int _GL_UNIFORM_BLOCK_REFERENCED_BY_FRAGMENT_SHADER = 0x8A46;
+    export constexpr int _GL_SIGNED_NORMALIZED = 0x8F9C;
+    export constexpr int _GL_PRIMITIVE_RESTART = 0x8F9D;
+    export constexpr int _GL_PRIMITIVE_RESTART_INDEX = 0x8F9E;
+    export constexpr int _GL_COPY_READ_BUFFER = 0x8F36;
+    export constexpr int _GL_COPY_WRITE_BUFFER = 0x8F37;
+    export constexpr int _GL_UNIFORM_BUFFER = 0x8A11;
+    export constexpr int _GL_UNIFORM_BUFFER_BINDING = 0x8A28;
+    export constexpr int _GL_UNIFORM_BUFFER_START = 0x8A29;
+    export constexpr int _GL_UNIFORM_BUFFER_SIZE = 0x8A2A;
+    export constexpr int _GL_MAX_VERTEX_UNIFORM_BLOCKS = 0x8A2B;
+    export constexpr int _GL_MAX_GEOMETRY_UNIFORM_BLOCKS = 0x8A2C;
+    export constexpr int _GL_MAX_FRAGMENT_UNIFORM_BLOCKS = 0x8A2D;
+    export constexpr int _GL_MAX_COMBINED_UNIFORM_BLOCKS = 0x8A2E;
+    export constexpr int _GL_MAX_UNIFORM_BUFFER_BINDINGS = 0x8A2F;
+    export constexpr int _GL_MAX_UNIFORM_BLOCK_SIZE = 0x8A30;
+    export constexpr int _GL_MAX_COMBINED_VERTEX_UNIFORM_COMPONENTS = 0x8A31;
+    export constexpr int _GL_MAX_COMBINED_GEOMETRY_UNIFORM_COMPONENTS = 0x8A32;
+    export constexpr int _GL_MAX_COMBINED_FRAGMENT_UNIFORM_COMPONENTS = 0x8A33;
+    export constexpr int _GL_UNIFORM_BUFFER_OFFSET_ALIGNMENT = 0x8A34;
+    export constexpr int _GL_ACTIVE_UNIFORM_BLOCK_MAX_NAME_LENGTH = 0x8A35;
+    export constexpr int _GL_ACTIVE_UNIFORM_BLOCKS = 0x8A36;
+    export constexpr int _GL_UNIFORM_TYPE = 0x8A37;
+    export constexpr int _GL_UNIFORM_SIZE = 0x8A38;
+    export constexpr int _GL_UNIFORM_NAME_LENGTH = 0x8A39;
+    export constexpr int _GL_UNIFORM_BLOCK_INDEX = 0x8A3A;
+    export constexpr int _GL_UNIFORM_OFFSET = 0x8A3B;
+    export constexpr int _GL_UNIFORM_ARRAY_STRIDE = 0x8A3C;
+    export constexpr int _GL_UNIFORM_MATRIX_STRIDE = 0x8A3D;
+    export constexpr int _GL_UNIFORM_IS_ROW_MAJOR = 0x8A3E;
+    export constexpr int _GL_UNIFORM_BLOCK_BINDING = 0x8A3F;
+    export constexpr int _GL_UNIFORM_BLOCK_DATA_SIZE = 0x8A40;
+    export constexpr int _GL_UNIFORM_BLOCK_NAME_LENGTH = 0x8A41;
+    export constexpr int _GL_UNIFORM_BLOCK_ACTIVE_UNIFORMS = 0x8A42;
+    export constexpr int _GL_UNIFORM_BLOCK_ACTIVE_UNIFORM_INDICES = 0x8A43;
+    export constexpr int _GL_UNIFORM_BLOCK_REFERENCED_BY_VERTEX_SHADER = 0x8A44;
+    export constexpr int _GL_UNIFORM_BLOCK_REFERENCED_BY_GEOMETRY_SHADER = 0x8A45;
+    export constexpr int _GL_UNIFORM_BLOCK_REFERENCED_BY_FRAGMENT_SHADER = 0x8A46;
 
-}
 consteval void Check_Random_Stuff26() {
     static_assert(GL_SIGNED_NORMALIZED == _GL_SIGNED_NORMALIZED, "GL_SIGNED_NORMALIZED is not equal to _GL_SIGNED_NORMALIZED");
     static_assert(GL_PRIMITIVE_RESTART == _GL_PRIMITIVE_RESTART, "GL_PRIMITIVE_RESTART is not equal to _GL_PRIMITIVE_RESTART");
@@ -3453,41 +3443,39 @@ consteval void Check_Random_Stuff26() {
 #define GL_OBJECT_TYPE 0x9112
 #define GL_SYNC_CONDITION 0x9113
 #define GL_SYNC_STATUS 0x9114
-export{
-    constexpr int _GL_INVALID_INDEX = 0xFFFFFFFF;
-    constexpr int _GL_CONTEXT_CORE_PROFILE_BIT = 0x00000001;
-    constexpr int _GL_CONTEXT_COMPATIBILITY_PROFILE_BIT = 0x00000002;
-    constexpr int _GL_LINES_ADJACENCY = 0x000A;
-    constexpr int _GL_LINE_STRIP_ADJACENCY = 0x000B;
-    constexpr int _GL_TRIANGLES_ADJACENCY = 0x000C;
-    constexpr int _GL_TRIANGLE_STRIP_ADJACENCY = 0x000D;
-    constexpr int _GL_PROGRAM_POINT_SIZE = 0x8642;
-    constexpr int _GL_MAX_GEOMETRY_TEXTURE_IMAGE_UNITS = 0x8C29;
-    constexpr int _GL_FRAMEBUFFER_ATTACHMENT_LAYERED = 0x8DA7;
-    constexpr int _GL_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS = 0x8DA8;
-    constexpr int _GL_GEOMETRY_SHADER = 0x8DD9;
-    constexpr int _GL_GEOMETRY_VERTICES_OUT = 0x8916;
-    constexpr int _GL_GEOMETRY_INPUT_TYPE = 0x8917;
-    constexpr int _GL_GEOMETRY_OUTPUT_TYPE = 0x8918;
-    constexpr int _GL_MAX_GEOMETRY_UNIFORM_COMPONENTS = 0x8DDF;
-    constexpr int _GL_MAX_GEOMETRY_OUTPUT_VERTICES = 0x8DE0;
-    constexpr int _GL_MAX_GEOMETRY_TOTAL_OUTPUT_COMPONENTS = 0x8DE1;
-    constexpr int _GL_MAX_VERTEX_OUTPUT_COMPONENTS = 0x9122;
-    constexpr int _GL_MAX_GEOMETRY_INPUT_COMPONENTS = 0x9123;
-    constexpr int _GL_MAX_GEOMETRY_OUTPUT_COMPONENTS = 0x9124;
-    constexpr int _GL_MAX_FRAGMENT_INPUT_COMPONENTS = 0x9125;
-    constexpr int _GL_CONTEXT_PROFILE_MASK = 0x9126;
-    constexpr int _GL_DEPTH_CLAMP = 0x864F;
-    constexpr int _GL_QUADS_FOLLOW_PROVOKING_VERTEX_CONVENTION = 0x8E4C;
-    constexpr int _GL_FIRST_VERTEX_CONVENTION = 0x8E4D;
-    constexpr int _GL_LAST_VERTEX_CONVENTION = 0x8E4E;
-    constexpr int _GL_PROVOKING_VERTEX = 0x8E4F;
-    constexpr int _GL_TEXTURE_CUBE_MAP_SEAMLESS = 0x884F;
-    constexpr int _GL_MAX_SERVER_WAIT_TIMEOUT = 0x9111;
-    constexpr int _GL_OBJECT_TYPE = 0x9112;
-    constexpr int _GL_SYNC_CONDITION = 0x9113;
-    constexpr int _GL_SYNC_STATUS = 0x9114;
-}
+    export constexpr int _GL_INVALID_INDEX = 0xFFFFFFFF;
+    export constexpr int _GL_CONTEXT_CORE_PROFILE_BIT = 0x00000001;
+    export constexpr int _GL_CONTEXT_COMPATIBILITY_PROFILE_BIT = 0x00000002;
+    export constexpr int _GL_LINES_ADJACENCY = 0x000A;
+    export constexpr int _GL_LINE_STRIP_ADJACENCY = 0x000B;
+    export constexpr int _GL_TRIANGLES_ADJACENCY = 0x000C;
+    export constexpr int _GL_TRIANGLE_STRIP_ADJACENCY = 0x000D;
+    export constexpr int _GL_PROGRAM_POINT_SIZE = 0x8642;
+    export constexpr int _GL_MAX_GEOMETRY_TEXTURE_IMAGE_UNITS = 0x8C29;
+    export constexpr int _GL_FRAMEBUFFER_ATTACHMENT_LAYERED = 0x8DA7;
+    export constexpr int _GL_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS = 0x8DA8;
+    export constexpr int _GL_GEOMETRY_SHADER = 0x8DD9;
+    export constexpr int _GL_GEOMETRY_VERTICES_OUT = 0x8916;
+    export constexpr int _GL_GEOMETRY_INPUT_TYPE = 0x8917;
+    export constexpr int _GL_GEOMETRY_OUTPUT_TYPE = 0x8918;
+    export constexpr int _GL_MAX_GEOMETRY_UNIFORM_COMPONENTS = 0x8DDF;
+    export constexpr int _GL_MAX_GEOMETRY_OUTPUT_VERTICES = 0x8DE0;
+    export constexpr int _GL_MAX_GEOMETRY_TOTAL_OUTPUT_COMPONENTS = 0x8DE1;
+    export constexpr int _GL_MAX_VERTEX_OUTPUT_COMPONENTS = 0x9122;
+    export constexpr int _GL_MAX_GEOMETRY_INPUT_COMPONENTS = 0x9123;
+    export constexpr int _GL_MAX_GEOMETRY_OUTPUT_COMPONENTS = 0x9124;
+    export constexpr int _GL_MAX_FRAGMENT_INPUT_COMPONENTS = 0x9125;
+    export constexpr int _GL_CONTEXT_PROFILE_MASK = 0x9126;
+    export constexpr int _GL_DEPTH_CLAMP = 0x864F;
+    export constexpr int _GL_QUADS_FOLLOW_PROVOKING_VERTEX_CONVENTION = 0x8E4C;
+    export constexpr int _GL_FIRST_VERTEX_CONVENTION = 0x8E4D;
+    export constexpr int _GL_LAST_VERTEX_CONVENTION = 0x8E4E;
+    export constexpr int _GL_PROVOKING_VERTEX = 0x8E4F;
+    export constexpr int _GL_TEXTURE_CUBE_MAP_SEAMLESS = 0x884F;
+    export constexpr int _GL_MAX_SERVER_WAIT_TIMEOUT = 0x9111;
+    export constexpr int _GL_OBJECT_TYPE = 0x9112;
+    export constexpr int _GL_SYNC_CONDITION = 0x9113;
+    export constexpr int _GL_SYNC_STATUS = 0x9114;
 consteval void Check_Random_Stuff27() {
     static_assert(GL_INVALID_INDEX == _GL_INVALID_INDEX, "GL_INVALID_INDEX is not equal to _GL_INVALID_INDEX");
     static_assert(GL_CONTEXT_CORE_PROFILE_BIT == _GL_CONTEXT_CORE_PROFILE_BIT, "GL_CONTEXT_CORE_PROFILE_BIT is not equal to _GL_CONTEXT_CORE_PROFILE_BIT");
@@ -3555,37 +3543,35 @@ consteval void Check_Random_Stuff27() {
 #define GL_SAMPLER_2D_MULTISAMPLE_ARRAY 0x910B
 #define GL_INT_SAMPLER_2D_MULTISAMPLE_ARRAY 0x910C
 #define GL_UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE_ARRAY 0x910D
-export{
-    constexpr int _GL_SYNC_FLAGS = 0x9115;
-    constexpr int _GL_SYNC_FENCE = 0x9116;
-    constexpr int _GL_SYNC_GPU_COMMANDS_COMPLETE = 0x9117;
-    constexpr int _GL_UNSIGNALED = 0x9118;
-    constexpr int _GL_SIGNALED = 0x9119;
-    constexpr int _GL_ALREADY_SIGNALED = 0x911A;
-    constexpr int _GL_TIMEOUT_EXPIRED = 0x911B;
-    constexpr int _GL_CONDITION_SATISFIED = 0x911C;
-    constexpr int _GL_WAIT_FAILED = 0x911D;
-    constexpr unsigned long long _GL_TIMEOUT_IGNORED = 0xFFFFFFFFFFFFFFFF;
-    constexpr int _GL_SYNC_FLUSH_COMMANDS_BIT = 0x00000001;
-    constexpr int _GL_SAMPLE_POSITION = 0x8E50;
-    constexpr int _GL_SAMPLE_MASK = 0x8E51;
-    constexpr int _GL_SAMPLE_MASK_VALUE = 0x8E52;
-    constexpr int _GL_MAX_SAMPLE_MASK_WORDS = 0x8E59;
-    constexpr int _GL_TEXTURE_2D_MULTISAMPLE = 0x9100;
-    constexpr int _GL_PROXY_TEXTURE_2D_MULTISAMPLE = 0x9101;
-    constexpr int _GL_TEXTURE_2D_MULTISAMPLE_ARRAY = 0x9102;
-    constexpr int _GL_PROXY_TEXTURE_2D_MULTISAMPLE_ARRAY = 0x9103;
-    constexpr int _GL_TEXTURE_BINDING_2D_MULTISAMPLE = 0x9104;
-    constexpr int _GL_TEXTURE_BINDING_2D_MULTISAMPLE_ARRAY = 0x9105;
-    constexpr int _GL_TEXTURE_SAMPLES = 0x9106;
-    constexpr int _GL_TEXTURE_FIXED_SAMPLE_LOCATIONS = 0x9107;
-    constexpr int _GL_SAMPLER_2D_MULTISAMPLE = 0x9108;
-    constexpr int _GL_INT_SAMPLER_2D_MULTISAMPLE = 0x9109;
-    constexpr int _GL_UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE = 0x910A;
-    constexpr int _GL_SAMPLER_2D_MULTISAMPLE_ARRAY = 0x910B;
-    constexpr int _GL_INT_SAMPLER_2D_MULTISAMPLE_ARRAY = 0x910C;
-    constexpr int _GL_UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE_ARRAY = 0x910D;
-}
+    export constexpr int _GL_SYNC_FLAGS = 0x9115;
+    export constexpr int _GL_SYNC_FENCE = 0x9116;
+    export constexpr int _GL_SYNC_GPU_COMMANDS_COMPLETE = 0x9117;
+    export constexpr int _GL_UNSIGNALED = 0x9118;
+    export constexpr int _GL_SIGNALED = 0x9119;
+    export constexpr int _GL_ALREADY_SIGNALED = 0x911A;
+    export constexpr int _GL_TIMEOUT_EXPIRED = 0x911B;
+    export constexpr int _GL_CONDITION_SATISFIED = 0x911C;
+    export constexpr int _GL_WAIT_FAILED = 0x911D;
+    export constexpr unsigned long long _GL_TIMEOUT_IGNORED = 0xFFFFFFFFFFFFFFFF;
+    export constexpr int _GL_SYNC_FLUSH_COMMANDS_BIT = 0x00000001;
+    export constexpr int _GL_SAMPLE_POSITION = 0x8E50;
+    export constexpr int _GL_SAMPLE_MASK = 0x8E51;
+    export constexpr int _GL_SAMPLE_MASK_VALUE = 0x8E52;
+    export constexpr int _GL_MAX_SAMPLE_MASK_WORDS = 0x8E59;
+    export constexpr int _GL_TEXTURE_2D_MULTISAMPLE = 0x9100;
+    export constexpr int _GL_PROXY_TEXTURE_2D_MULTISAMPLE = 0x9101;
+    export constexpr int _GL_TEXTURE_2D_MULTISAMPLE_ARRAY = 0x9102;
+    export constexpr int _GL_PROXY_TEXTURE_2D_MULTISAMPLE_ARRAY = 0x9103;
+    export constexpr int _GL_TEXTURE_BINDING_2D_MULTISAMPLE = 0x9104;
+    export constexpr int _GL_TEXTURE_BINDING_2D_MULTISAMPLE_ARRAY = 0x9105;
+    export constexpr int _GL_TEXTURE_SAMPLES = 0x9106;
+    export constexpr int _GL_TEXTURE_FIXED_SAMPLE_LOCATIONS = 0x9107;
+    export constexpr int _GL_SAMPLER_2D_MULTISAMPLE = 0x9108;
+    export constexpr int _GL_INT_SAMPLER_2D_MULTISAMPLE = 0x9109;
+    export constexpr int _GL_UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE = 0x910A;
+    export constexpr int _GL_SAMPLER_2D_MULTISAMPLE_ARRAY = 0x910B;
+    export constexpr int _GL_INT_SAMPLER_2D_MULTISAMPLE_ARRAY = 0x910C;
+    export constexpr int _GL_UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE_ARRAY = 0x910D;
 consteval void Check_Random_Stuff28() {
     static_assert(GL_SYNC_FLAGS == _GL_SYNC_FLAGS, "GL_SYNC_FLAGS is not equal to _GL_SYNC_FLAGS");
     static_assert(GL_SYNC_FENCE == _GL_SYNC_FENCE, "GL_SYNC_FENCE is not equal to _GL_SYNC_FENCE");
@@ -3650,37 +3636,35 @@ consteval void Check_Random_Stuff28() {
 #define GL_SAMPLER_CUBE_MAP_ARRAY_SHADOW 0x900D
 #define GL_INT_SAMPLER_CUBE_MAP_ARRAY 0x900E
 
-export{
-    constexpr int _GL_MAX_COLOR_TEXTURE_SAMPLES = 0x910E;
-    constexpr int _GL_MAX_DEPTH_TEXTURE_SAMPLES = 0x910F;
-    constexpr int _GL_MAX_INTEGER_SAMPLES = 0x9110;
-    constexpr int _GL_VERTEX_ATTRIB_ARRAY_DIVISOR = 0x88FE;
-    constexpr int _GL_SRC1_COLOR = 0x88F9;
-    constexpr int _GL_ONE_MINUS_SRC1_COLOR = 0x88FA;
-    constexpr int _GL_ONE_MINUS_SRC1_ALPHA = 0x88FB;
-    constexpr int _GL_MAX_DUAL_SOURCE_DRAW_BUFFERS = 0x88FC;
-    constexpr int _GL_ANY_SAMPLES_PASSED = 0x8C2F;
-    constexpr int _GL_SAMPLER_BINDING = 0x8919;
-    constexpr int _GL_RGB10_A2UI = 0x906F;
-    constexpr int _GL_TEXTURE_SWIZZLE_R = 0x8E42;
-    constexpr int _GL_TEXTURE_SWIZZLE_G = 0x8E43;
-    constexpr int _GL_TEXTURE_SWIZZLE_B = 0x8E44;
-    constexpr int _GL_TEXTURE_SWIZZLE_A = 0x8E45;
-    constexpr int _GL_TEXTURE_SWIZZLE_RGBA = 0x8E46;
-    constexpr int _GL_TIME_ELAPSED = 0x88BF;
-    constexpr int _GL_TIMESTAMP = 0x8E28;
-    constexpr int _GL_INT_2_10_10_10_REV = 0x8D9F;
-    constexpr int _GL_SAMPLE_SHADING = 0x8C36;
-    constexpr int _GL_MIN_SAMPLE_SHADING_VALUE = 0x8C37;
-    constexpr int _GL_MIN_PROGRAM_TEXTURE_GATHER_OFFSET = 0x8E5E;
-    constexpr int _GL_MAX_PROGRAM_TEXTURE_GATHER_OFFSET = 0x8E5F;
-    constexpr int _GL_TEXTURE_CUBE_MAP_ARRAY = 0x9009;
-    constexpr int _GL_TEXTURE_BINDING_CUBE_MAP_ARRAY = 0x900A;
-    constexpr int _GL_PROXY_TEXTURE_CUBE_MAP_ARRAY = 0x900B;
-    constexpr int _GL_SAMPLER_CUBE_MAP_ARRAY = 0x900C;
-    constexpr int _GL_SAMPLER_CUBE_MAP_ARRAY_SHADOW = 0x900D;
-    constexpr int _GL_INT_SAMPLER_CUBE_MAP_ARRAY = 0x900E;
-}
+    export constexpr int _GL_MAX_COLOR_TEXTURE_SAMPLES = 0x910E;
+    export constexpr int _GL_MAX_DEPTH_TEXTURE_SAMPLES = 0x910F;
+    export constexpr int _GL_MAX_INTEGER_SAMPLES = 0x9110;
+    export constexpr int _GL_VERTEX_ATTRIB_ARRAY_DIVISOR = 0x88FE;
+    export constexpr int _GL_SRC1_COLOR = 0x88F9;
+    export constexpr int _GL_ONE_MINUS_SRC1_COLOR = 0x88FA;
+    export constexpr int _GL_ONE_MINUS_SRC1_ALPHA = 0x88FB;
+    export constexpr int _GL_MAX_DUAL_SOURCE_DRAW_BUFFERS = 0x88FC;
+    export constexpr int _GL_ANY_SAMPLES_PASSED = 0x8C2F;
+    export constexpr int _GL_SAMPLER_BINDING = 0x8919;
+    export constexpr int _GL_RGB10_A2UI = 0x906F;
+    export constexpr int _GL_TEXTURE_SWIZZLE_R = 0x8E42;
+    export constexpr int _GL_TEXTURE_SWIZZLE_G = 0x8E43;
+    export constexpr int _GL_TEXTURE_SWIZZLE_B = 0x8E44;
+    export constexpr int _GL_TEXTURE_SWIZZLE_A = 0x8E45;
+    export constexpr int _GL_TEXTURE_SWIZZLE_RGBA = 0x8E46;
+    export constexpr int _GL_TIME_ELAPSED = 0x88BF;
+    export constexpr int _GL_TIMESTAMP = 0x8E28;
+    export constexpr int _GL_INT_2_10_10_10_REV = 0x8D9F;
+    export constexpr int _GL_SAMPLE_SHADING = 0x8C36;
+    export constexpr int _GL_MIN_SAMPLE_SHADING_VALUE = 0x8C37;
+    export constexpr int _GL_MIN_PROGRAM_TEXTURE_GATHER_OFFSET = 0x8E5E;
+    export constexpr int _GL_MAX_PROGRAM_TEXTURE_GATHER_OFFSET = 0x8E5F;
+    export constexpr int _GL_TEXTURE_CUBE_MAP_ARRAY = 0x9009;
+    export constexpr int _GL_TEXTURE_BINDING_CUBE_MAP_ARRAY = 0x900A;
+    export constexpr int _GL_PROXY_TEXTURE_CUBE_MAP_ARRAY = 0x900B;
+    export constexpr int _GL_SAMPLER_CUBE_MAP_ARRAY = 0x900C;
+    export constexpr int _GL_SAMPLER_CUBE_MAP_ARRAY_SHADOW = 0x900D;
+    export constexpr int _GL_INT_SAMPLER_CUBE_MAP_ARRAY = 0x900E;
 consteval void Check_Random_Stuff29() {
     static_assert(GL_MAX_COLOR_TEXTURE_SAMPLES == _GL_MAX_COLOR_TEXTURE_SAMPLES, "GL_MAX_COLOR_TEXTURE_SAMPLES is not equal to _GL_MAX_COLOR_TEXTURE_SAMPLES");
     static_assert(GL_MAX_DEPTH_TEXTURE_SAMPLES == _GL_MAX_DEPTH_TEXTURE_SAMPLES, "GL_MAX_DEPTH_TEXTURE_SAMPLES is not equal to _GL_MAX_DEPTH_TEXTURE_SAMPLES");
@@ -3745,38 +3729,36 @@ consteval void Check_Random_Stuff29() {
 #define GL_MAX_SUBROUTINE_UNIFORM_LOCATIONS 0x8DE8
 #define GL_NUM_COMPATIBLE_SUBROUTINES 0x8E4A
 #define GL_COMPATIBLE_SUBROUTINES 0x8E4B
-export{
-    constexpr int _GL_UNSIGNED_INT_SAMPLER_CUBE_MAP_ARRAY = 0x900F;
-    constexpr int _GL_DRAW_INDIRECT_BUFFER = 0x8F3F;
-    constexpr int _GL_DRAW_INDIRECT_BUFFER_BINDING = 0x8F43;
-    constexpr int _GL_GEOMETRY_SHADER_INVOCATIONS = 0x887F;
-    constexpr int _GL_MAX_GEOMETRY_SHADER_INVOCATIONS = 0x8E5A;
-    constexpr int _GL_MIN_FRAGMENT_INTERPOLATION_OFFSET = 0x8E5B;
-    constexpr int _GL_MAX_FRAGMENT_INTERPOLATION_OFFSET = 0x8E5C;
-    constexpr int _GL_FRAGMENT_INTERPOLATION_OFFSET_BITS = 0x8E5D;
-    constexpr int _GL_MAX_VERTEX_STREAMS = 0x8E71;
-    constexpr int _GL_DOUBLE_VEC2 = 0x8FFC;
-    constexpr int _GL_DOUBLE_VEC3 = 0x8FFD;
-    constexpr int _GL_DOUBLE_VEC4 = 0x8FFE;
-    constexpr int _GL_DOUBLE_MAT2 = 0x8F46;
-    constexpr int _GL_DOUBLE_MAT3 = 0x8F47;
-    constexpr int _GL_DOUBLE_MAT4 = 0x8F48;
-    constexpr int _GL_DOUBLE_MAT2x3 = 0x8F49;
-    constexpr int _GL_DOUBLE_MAT2x4 = 0x8F4A;
-    constexpr int _GL_DOUBLE_MAT3x2 = 0x8F4B;
-    constexpr int _GL_DOUBLE_MAT3x4 = 0x8F4C;
-    constexpr int _GL_DOUBLE_MAT4x2 = 0x8F4D;
-    constexpr int _GL_DOUBLE_MAT4x3 = 0x8F4E;
-    constexpr int _GL_ACTIVE_SUBROUTINES = 0x8DE5;
-    constexpr int _GL_ACTIVE_SUBROUTINE_UNIFORMS = 0x8DE6;
-    constexpr int _GL_ACTIVE_SUBROUTINE_UNIFORM_LOCATIONS = 0x8E47;
-    constexpr int _GL_ACTIVE_SUBROUTINE_MAX_LENGTH = 0x8E48;
-    constexpr int _GL_ACTIVE_SUBROUTINE_UNIFORM_MAX_LENGTH = 0x8E49;
-    constexpr int _GL_MAX_SUBROUTINES = 0x8DE7;
-    constexpr int _GL_MAX_SUBROUTINE_UNIFORM_LOCATIONS = 0x8DE8;
-    constexpr int _GL_NUM_COMPATIBLE_SUBROUTINES = 0x8E4A;
-    constexpr int _GL_COMPATIBLE_SUBROUTINES = 0x8E4B;
-}
+    export constexpr int _GL_UNSIGNED_INT_SAMPLER_CUBE_MAP_ARRAY = 0x900F;
+    export constexpr int _GL_DRAW_INDIRECT_BUFFER = 0x8F3F;
+    export constexpr int _GL_DRAW_INDIRECT_BUFFER_BINDING = 0x8F43;
+    export constexpr int _GL_GEOMETRY_SHADER_INVOCATIONS = 0x887F;
+    export constexpr int _GL_MAX_GEOMETRY_SHADER_INVOCATIONS = 0x8E5A;
+    export constexpr int _GL_MIN_FRAGMENT_INTERPOLATION_OFFSET = 0x8E5B;
+    export constexpr int _GL_MAX_FRAGMENT_INTERPOLATION_OFFSET = 0x8E5C;
+    export constexpr int _GL_FRAGMENT_INTERPOLATION_OFFSET_BITS = 0x8E5D;
+    export constexpr int _GL_MAX_VERTEX_STREAMS = 0x8E71;
+    export constexpr int _GL_DOUBLE_VEC2 = 0x8FFC;
+    export constexpr int _GL_DOUBLE_VEC3 = 0x8FFD;
+    export constexpr int _GL_DOUBLE_VEC4 = 0x8FFE;
+    export constexpr int _GL_DOUBLE_MAT2 = 0x8F46;
+    export constexpr int _GL_DOUBLE_MAT3 = 0x8F47;
+    export constexpr int _GL_DOUBLE_MAT4 = 0x8F48;
+    export constexpr int _GL_DOUBLE_MAT2x3 = 0x8F49;
+    export constexpr int _GL_DOUBLE_MAT2x4 = 0x8F4A;
+    export constexpr int _GL_DOUBLE_MAT3x2 = 0x8F4B;
+    export constexpr int _GL_DOUBLE_MAT3x4 = 0x8F4C;
+    export constexpr int _GL_DOUBLE_MAT4x2 = 0x8F4D;
+    export constexpr int _GL_DOUBLE_MAT4x3 = 0x8F4E;
+    export constexpr int _GL_ACTIVE_SUBROUTINES = 0x8DE5;
+    export constexpr int _GL_ACTIVE_SUBROUTINE_UNIFORMS = 0x8DE6;
+    export constexpr int _GL_ACTIVE_SUBROUTINE_UNIFORM_LOCATIONS = 0x8E47;
+    export constexpr int _GL_ACTIVE_SUBROUTINE_MAX_LENGTH = 0x8E48;
+    export constexpr int _GL_ACTIVE_SUBROUTINE_UNIFORM_MAX_LENGTH = 0x8E49;
+    export constexpr int _GL_MAX_SUBROUTINES = 0x8DE7;
+    export constexpr int _GL_MAX_SUBROUTINE_UNIFORM_LOCATIONS = 0x8DE8;
+    export constexpr int _GL_NUM_COMPATIBLE_SUBROUTINES = 0x8E4A;
+    export constexpr int _GL_COMPATIBLE_SUBROUTINES = 0x8E4B;
 consteval void Check_Random_Stuff30() {
     static_assert(GL_UNSIGNED_INT_SAMPLER_CUBE_MAP_ARRAY == _GL_UNSIGNED_INT_SAMPLER_CUBE_MAP_ARRAY, "GL_UNSIGNED_INT_SAMPLER_CUBE_MAP_ARRAY is not equal to _GL_UNSIGNED_INT_SAMPLER_CUBE_MAP_ARRAY");
     static_assert(GL_DRAW_INDIRECT_BUFFER == _GL_DRAW_INDIRECT_BUFFER, "GL_DRAW_INDIRECT_BUFFER is not equal to _GL_DRAW_INDIRECT_BUFFER");
@@ -3842,38 +3824,36 @@ consteval void Check_Random_Stuff30() {
 #define GL_MAX_COMBINED_TESS_CONTROL_UNIFORM_COMPONENTS 0x8E1E
 #define GL_MAX_COMBINED_TESS_EVALUATION_UNIFORM_COMPONENTS 0x8E1F
 #define GL_UNIFORM_BLOCK_REFERENCED_BY_TESS_CONTROL_SHADER 0x84F0
-export{
-    constexpr int _GL_PATCHES = 0x000E;
-    constexpr int _GL_PATCH_VERTICES = 0x8E72;
-    constexpr int _GL_PATCH_DEFAULT_INNER_LEVEL = 0x8E73;
-    constexpr int _GL_PATCH_DEFAULT_OUTER_LEVEL = 0x8E74;
-    constexpr int _GL_TESS_CONTROL_OUTPUT_VERTICES = 0x8E75;
-    constexpr int _GL_TESS_GEN_MODE = 0x8E76;
-    constexpr int _GL_TESS_GEN_SPACING = 0x8E77;
-    constexpr int _GL_TESS_GEN_VERTEX_ORDER = 0x8E78;
-    constexpr int _GL_TESS_GEN_POINT_MODE = 0x8E79;
-    constexpr int _GL_ISOLINES = 0x8E7A;
-    constexpr int _GL_QUADS = 0x0007;
-    constexpr int _GL_FRACTIONAL_ODD = 0x8E7B;
-    constexpr int _GL_FRACTIONAL_EVEN = 0x8E7C;
-    constexpr int _GL_MAX_PATCH_VERTICES = 0x8E7D;
-    constexpr int _GL_MAX_TESS_GEN_LEVEL = 0x8E7E;
-    constexpr int _GL_MAX_TESS_CONTROL_UNIFORM_COMPONENTS = 0x8E7F;
-    constexpr int _GL_MAX_TESS_EVALUATION_UNIFORM_COMPONENTS = 0x8E80;
-    constexpr int _GL_MAX_TESS_CONTROL_TEXTURE_IMAGE_UNITS = 0x8E81;
-    constexpr int _GL_MAX_TESS_EVALUATION_TEXTURE_IMAGE_UNITS = 0x8E82;
-    constexpr int _GL_MAX_TESS_CONTROL_OUTPUT_COMPONENTS = 0x8E83;
-    constexpr int _GL_MAX_TESS_PATCH_COMPONENTS = 0x8E84;
-    constexpr int _GL_MAX_TESS_CONTROL_TOTAL_OUTPUT_COMPONENTS = 0x8E85;
-    constexpr int _GL_MAX_TESS_EVALUATION_OUTPUT_COMPONENTS = 0x8E86;
-    constexpr int _GL_MAX_TESS_CONTROL_UNIFORM_BLOCKS = 0x8E89;
-    constexpr int _GL_MAX_TESS_EVALUATION_UNIFORM_BLOCKS = 0x8E8A;
-    constexpr int _GL_MAX_TESS_CONTROL_INPUT_COMPONENTS = 0x886C;
-    constexpr int _GL_MAX_TESS_EVALUATION_INPUT_COMPONENTS = 0x886D;
-    constexpr int _GL_MAX_COMBINED_TESS_CONTROL_UNIFORM_COMPONENTS = 0x8E1E;
-    constexpr int _GL_MAX_COMBINED_TESS_EVALUATION_UNIFORM_COMPONENTS = 0x8E1F;
-    constexpr int _GL_UNIFORM_BLOCK_REFERENCED_BY_TESS_CONTROL_SHADER = 0x84F0;
-}
+    export constexpr int _GL_PATCHES = 0x000E;
+    export constexpr int _GL_PATCH_VERTICES = 0x8E72;
+    export constexpr int _GL_PATCH_DEFAULT_INNER_LEVEL = 0x8E73;
+    export constexpr int _GL_PATCH_DEFAULT_OUTER_LEVEL = 0x8E74;
+    export constexpr int _GL_TESS_CONTROL_OUTPUT_VERTICES = 0x8E75;
+    export constexpr int _GL_TESS_GEN_MODE = 0x8E76;
+    export constexpr int _GL_TESS_GEN_SPACING = 0x8E77;
+    export constexpr int _GL_TESS_GEN_VERTEX_ORDER = 0x8E78;
+    export constexpr int _GL_TESS_GEN_POINT_MODE = 0x8E79;
+    export constexpr int _GL_ISOLINES = 0x8E7A;
+    export constexpr int _GL_QUADS = 0x0007;
+    export constexpr int _GL_FRACTIONAL_ODD = 0x8E7B;
+    export constexpr int _GL_FRACTIONAL_EVEN = 0x8E7C;
+    export constexpr int _GL_MAX_PATCH_VERTICES = 0x8E7D;
+    export constexpr int _GL_MAX_TESS_GEN_LEVEL = 0x8E7E;
+    export constexpr int _GL_MAX_TESS_CONTROL_UNIFORM_COMPONENTS = 0x8E7F;
+    export constexpr int _GL_MAX_TESS_EVALUATION_UNIFORM_COMPONENTS = 0x8E80;
+    export constexpr int _GL_MAX_TESS_CONTROL_TEXTURE_IMAGE_UNITS = 0x8E81;
+    export constexpr int _GL_MAX_TESS_EVALUATION_TEXTURE_IMAGE_UNITS = 0x8E82;
+    export constexpr int _GL_MAX_TESS_CONTROL_OUTPUT_COMPONENTS = 0x8E83;
+    export constexpr int _GL_MAX_TESS_PATCH_COMPONENTS = 0x8E84;
+    export constexpr int _GL_MAX_TESS_CONTROL_TOTAL_OUTPUT_COMPONENTS = 0x8E85;
+    export constexpr int _GL_MAX_TESS_EVALUATION_OUTPUT_COMPONENTS = 0x8E86;
+    export constexpr int _GL_MAX_TESS_CONTROL_UNIFORM_BLOCKS = 0x8E89;
+    export constexpr int _GL_MAX_TESS_EVALUATION_UNIFORM_BLOCKS = 0x8E8A;
+    export constexpr int _GL_MAX_TESS_CONTROL_INPUT_COMPONENTS = 0x886C;
+    export constexpr int _GL_MAX_TESS_EVALUATION_INPUT_COMPONENTS = 0x886D;
+    export constexpr int _GL_MAX_COMBINED_TESS_CONTROL_UNIFORM_COMPONENTS = 0x8E1E;
+    export constexpr int _GL_MAX_COMBINED_TESS_EVALUATION_UNIFORM_COMPONENTS = 0x8E1F;
+    export constexpr int _GL_UNIFORM_BLOCK_REFERENCED_BY_TESS_CONTROL_SHADER = 0x84F0;
 consteval void Check_Random_Stuff31() {
     static_assert(GL_PATCHES == _GL_PATCHES, "GL_PATCHES is not equal to _GL_PATCHES");
     static_assert(GL_PATCH_VERTICES == _GL_PATCH_VERTICES, "GL_PATCH_VERTICES is not equal to _GL_PATCH_VERTICES");
@@ -4645,6 +4625,11 @@ export inline void glBindBuffer(GLenum target, GLuint buffer) { glad_glBindBuffe
 
 export typedef void (APIENTRYP PFNGLDELETEBUFFERSPROC)(GLsizei n, const GLuint* buffers);
 GLAPI PFNGLDELETEBUFFERSPROC glad_glDeleteBuffers;
+/// <summary>
+/// Deletes the buffers (count n) specified by the buffers array. the array contains the ids of the buffers to be deleted.
+/// </summary>
+/// <param name="n"></param>
+/// <param name="buffers"></param>
 export inline void glDeleteBuffers(GLsizei n, const GLuint* buffers) { glad_glDeleteBuffers(n, buffers); }
 #define glDeleteBuffers glad_glDeleteBuffers
 
@@ -4652,6 +4637,11 @@ export inline void glDeleteBuffers(GLsizei n, const GLuint* buffers) { glad_glDe
 
 export typedef void (APIENTRYP PFNGLGENBUFFERSPROC)(GLsizei n, GLuint* buffers);
 GLAPI PFNGLGENBUFFERSPROC glad_glGenBuffers;
+/// <summary>
+/// generates n buffers and stores their ids in the buffers array.
+/// </summary>
+/// <param name="n"></param>
+/// <param name="buffers"></param>
 export inline void glGenBuffers(GLsizei n, GLuint* buffers) { glad_glGenBuffers(n, buffers); }
 #define glGenBuffers glad_glGenBuffers
 
@@ -7086,3 +7076,6 @@ export inline void glGetQueryIndexediv(GLenum target, GLuint index, GLenum pname
 
 #endif
 #pragma endregion
+
+
+

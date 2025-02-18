@@ -2,19 +2,29 @@
 import GLAD;
 namespace UPRISE_ENGINE {
     namespace OPENGL_RENDER {
-        OPENGL_SHADER::OPENGL_SHADER(std::string code)
+        OPENGL_SHADER::OPENGL_SHADER(std::string code) :SHADER_BASE(code)
         {
-            Code = code;
         }
 
-        OPENGL_SHADER::OPENGL_SHADER(std::filesystem::path path)
+        OPENGL_SHADER::OPENGL_SHADER(std::filesystem::path path) :SHADER_BASE(path)
         {
-            Path = path.string();
         }
 
         void OPENGL_SHADER::Compile()
         {
         }
+
+        OPENGL_SHADER::OPENGL_SHADER(const OPENGL_SHADER& other) :SHADER_BASE(other)
+        {
+        }
+
+        OPENGL_SHADER& OPENGL_SHADER::operator=(const OPENGL_SHADER& other)
+        {
+            SHADER_BASE::operator=(other);
+            return *this;
+        }
+        
+        
 
          void OPENGL_SHADER::Delete()
         {
@@ -31,7 +41,7 @@ namespace UPRISE_ENGINE {
              else {
                  std::cerr << "Failed to load shader file: " << Path << std::endl;
              }
-         }
+         
         }
         
     }

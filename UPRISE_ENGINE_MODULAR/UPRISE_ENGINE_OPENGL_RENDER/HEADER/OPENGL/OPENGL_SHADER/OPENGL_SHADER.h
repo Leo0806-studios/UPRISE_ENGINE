@@ -12,11 +12,14 @@ namespace UPRISE_ENGINE {
             OPENGL_SHADER() = default;
             UPRISE_OPENGL_RENDER_API OPENGL_SHADER(std::string code);
             UPRISE_OPENGL_RENDER_API OPENGL_SHADER(std::filesystem::path path);
-            UPRISE_OPENGL_RENDER_API void Compile() override;
-            ~OPENGL_SHADER() {}
+            ~OPENGL_SHADER() = default;
+           UPRISE_OPENGL_RENDER_API OPENGL_SHADER(const OPENGL_SHADER& other);
 
-            UPRISE_COMMON_RENDER_COMPS_API void Delete() override;
-            UPRISE_COMMON_RENDER_COMPS_API void Load() override;
+           OPENGL_SHADER& operator=(const OPENGL_SHADER& other);
+
+           UPRISE_OPENGL_RENDER_API void Compile() override;
+            UPRISE_OPENGL_RENDER_API void Delete() override;
+            UPRISE_OPENGL_RENDER_API void Load() override;
         };
     }
 }
