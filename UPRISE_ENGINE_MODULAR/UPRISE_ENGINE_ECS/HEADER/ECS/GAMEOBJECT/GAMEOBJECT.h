@@ -3,15 +3,15 @@
 #pragma once
 #ifndef UE_GameObject_
 #define UE_GameObject_
-#include "GLOBAL.h"
-#include "GLOBAL/GLINCLUDES.h"
-#include "CORE/OBJECT/OBJECT.h";
-#include "DATATYPES/TAG/TAG.h";
-#include "DATATYPES/LAYER/LAYER.h";
-#include "DATATYPES/VECTOR/VECTOR3/FAST/VECTOR3_F.h";
-#include "DATATYPES/QUTERION/QUATERION.h";
+#include <GLOBAL/GLINCLUDES.h>
+#include "CORE/OBJECT/OBJECT.h"
+#include "DATATYPES/TAG/TAG.h"
+#include "DATATYPES/LAYER/LAYER.h"
+#include "DATATYPES/VECTOR/VECTOR3/FAST/VECTOR3_F.h"
+#include "DATATYPES/QUTERION/QUATERION.h"
 import std;
 import REF_WRAPPER;
+#pragma warning(disable: 4514)
 namespace UPRISE_ENGINE {
     namespace CORE {
         class Behaviour;
@@ -36,16 +36,16 @@ namespace UPRISE_ENGINE {
         /// <summary>
         /// tha gameobjects transform
         /// </summary>
-        RefWrapper<Transform, true> transform;
+        SharedRef<Transform, true> transform;
         /// <summary>
         /// mesh of the gameobject
         /// cn be null
         /// </summary>
-        RefWrapper<Mesh, true> mesh;
+        SharedRef<Mesh, true> mesh;
         /// <summary>
         /// vector of all scripts attatched to the gameobject
         /// </summary>
-        std::vector < RefWrapper < CORE::Behaviour, true>> behaviours;
+        std::vector < SharedRef < CORE::Behaviour, true>> behaviours;
 
         GameObject(const GameObject& other) {
             tag = other.tag;
@@ -53,10 +53,10 @@ namespace UPRISE_ENGINE {
             transform = other.transform;
             mesh = other.mesh;
             behaviours = other.behaviours;       
-                this->Enabled() = (other.EnabledC());
+            this->SetEnabled(other.Enabled());
                 mesh = other.mesh;
                 transform = other.transform;
-                Name() = other.NameC();
+                this->SetName(other.Name());
             
         }
         GameObject operator=(const GameObject& other) {
@@ -65,10 +65,12 @@ namespace UPRISE_ENGINE {
             transform = other.transform;
             mesh = other.mesh;
             behaviours = other.behaviours;
-            this->Enabled() = (other.EnabledC());
+            this->SetEnabled(other.Enabled());
+
             mesh = other.mesh;
             transform = other.transform;
-            Name() = other.NameC();
+            this->SetName(other.Name());
+
             return *this;
         }
     public:
@@ -93,8 +95,9 @@ namespace UPRISE_ENGINE {
 
 #pragma endregion
 #pragma region Funcs
-        UPRISE_ECS_API void OnDestroyInt(RefWrapper<CORE::Object, true> obj) override;
-        UPRISE_ECS_API RefWrapper<CORE::Object,true> Copy() override;
+        UPRISE_ECS_API void OnDestroyInt(SharedRef<CORE::Object, true> obj) override;
+        UPRISE_ECS_API SharedRef<CORE::Object,true> Copy() override;
+        UPRISE_ECS_API SharedRef<CORE::Object, true> DeepCopy() override;
 #pragma region Statics
         /// <summary>
         /// function to create a new gameobject from scratch
@@ -105,7 +108,7 @@ namespace UPRISE_ENGINE {
         /// <param name="mesh"></param>
         /// <param name="materialID"></param>
         /// <returns></returns>
-        UPRISE_ECS_API static RefWrapper<GameObject, true> Create(Vector3 position, Quaternion Rotation, RefWrapper<Mesh, true> mesh, int materialID);
+        UPRISE_ECS_API static SharedRef<GameObject, true> Create(Vector3 position, Quaternion Rotation, SharedRef<Mesh, true> mesh);
 
 
 #pragma endregion
@@ -115,5 +118,5 @@ namespace UPRISE_ENGINE {
 
     };
 }
-
+#pragma warning(default:4514)
 #endif // !_GameObject_

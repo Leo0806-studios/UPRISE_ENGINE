@@ -18,9 +18,9 @@ namespace UPRISE_ENGINE {
             friend class DIRECTX12_CONTEXT;
             friend class DIRECTX11_CONTEXT;
             friend class VULKAN_CONTEXT;
-            UPRISE_COMMON_RENDER_COMPS_API virtual RefWrapper<CONTEXT_BASE, true> _internal_create_context() = 0;
+            UPRISE_COMMON_RENDER_COMPS_API virtual SharedRef<CONTEXT_BASE, true> _internal_create_context() = 0;
         public:
-
+           UPRISE_COMMON_RENDER_COMPS_API virtual ~CONTEXT_BASE();
 
 
         };

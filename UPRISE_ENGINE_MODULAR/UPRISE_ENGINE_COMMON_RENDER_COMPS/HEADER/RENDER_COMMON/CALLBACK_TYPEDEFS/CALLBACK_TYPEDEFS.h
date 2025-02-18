@@ -11,59 +11,59 @@ namespace UPRISE_ENGINE {
         /// <summary>
     /// 
     /// </summary>
-        typedef int(*KeyInputCallback)(RefWrapper<WINDOW_BASE, true> Windopw, int key, int scancode, int action, int mods);
+        typedef int(*KeyInputCallback)(SharedRef<WINDOW_BASE, true> Windopw, int key, int scancode, int action, int mods);
         /// <summary>
         /// 
         /// </summary>
-        typedef int(*MouseButtonCallback)(RefWrapper<WINDOW_BASE, true> Windopw, int button, int action, int mods);
+        typedef int(*MouseButtonCallback)(SharedRef<WINDOW_BASE, true> Windopw, int button, int action, int mods);
         /// <summary>
         /// 
         /// </summary>
-        typedef int(*CursorPosCallback)(RefWrapper<WINDOW_BASE, true> Windopw, double xpos, double ypos);
+        typedef int(*CursorPosCallback)(SharedRef<WINDOW_BASE, true> Windopw, double xpos, double ypos);
         /// <summary>
         /// 
         /// </summary>
-        typedef int(*ResizeCallback)(RefWrapper<WINDOW_BASE, true> Windopw, int width, int height);
+        typedef int(*ResizeCallback)(SharedRef<WINDOW_BASE, true> Windopw, int width, int height);
         /// <summary>
         /// 
         /// </summary>
-        typedef int (*CursorEnterCallback)(RefWrapper<WINDOW_BASE, true> Windopw, int entered);
+        typedef int (*CursorEnterCallback)(SharedRef<WINDOW_BASE, true> Windopw, int entered);
         /// <summary>
         /// 
         /// </summary>
-        typedef int (*ScrollCallback)(RefWrapper<WINDOW_BASE, true> Windopw, double xoffset, double yoffset);
+        typedef int (*ScrollCallback)(SharedRef<WINDOW_BASE, true> Windopw, double xoffset, double yoffset);
         /// <summary>
         /// 
         /// </summary>
-        typedef int(*WindowCloseCallback)(RefWrapper<WINDOW_BASE, true> Windopw);
+        typedef int(*WindowCloseCallback)(SharedRef<WINDOW_BASE, true> Windopw);
         /// <summary>
         /// 
         /// </summary>
-        typedef int(*WindowRefreshCallback)(RefWrapper<WINDOW_BASE, true> Windopw);
+        typedef int(*WindowRefreshCallback)(SharedRef<WINDOW_BASE, true> Windopw);
         /// <summary>
         /// 
         /// </summary>
-        typedef int(*WindowFocusCallback)(RefWrapper<WINDOW_BASE, true> Windopw, int focused);
+        typedef int(*WindowFocusCallback)(SharedRef<WINDOW_BASE, true> Windopw, int focused);
         /// <summary>
         /// 
         /// </summary>
-        typedef int(*WindowIconifyCallback)(RefWrapper<WINDOW_BASE, true> Windopw, int iconified);
+        typedef int(*WindowIconifyCallback)(SharedRef<WINDOW_BASE, true> Windopw, int iconified);
         /// <summary>
         /// 
         /// </summary>
-        typedef int(*FramebufferSizeCallback)(RefWrapper<WINDOW_BASE, true> Windopw, int width, int height);
+        typedef int(*FramebufferSizeCallback)(SharedRef<WINDOW_BASE, true> Windopw, int width, int height);
         /// <summary>
         /// 
         /// </summary>
-        typedef int(*WindowMaximizeCallback)(RefWrapper<WINDOW_BASE, true> Windopw, int maximized);
+        typedef int(*WindowMaximizeCallback)(SharedRef<WINDOW_BASE, true> Windopw, int maximized);
         /// <summary>
         /// 
         /// </summary>
-        typedef int(*WindowContentScaleCallback)(RefWrapper<WINDOW_BASE, true> Windopw, float xscale, float yscale);
+        typedef int(*WindowContentScaleCallback)(SharedRef<WINDOW_BASE, true> Windopw, float xscale, float yscale);
         /// <summary>
         /// 
         /// </summary>
-        typedef int(*WindowPosCallback)(RefWrapper<WINDOW_BASE, true> Windopw, int xpos, int ypos);
+        typedef int(*WindowPosCallback)(SharedRef<WINDOW_BASE, true> Windopw, int xpos, int ypos);
     }
 
 }

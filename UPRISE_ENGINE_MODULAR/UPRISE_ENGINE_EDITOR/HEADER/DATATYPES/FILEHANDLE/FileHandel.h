@@ -7,22 +7,22 @@ namespace UPRISE_EDITOR {
     class FileHandel {
     private:
         std::filesystem::path path;
-        RefWrapper<std::ifstream, true> file;
-        RefWrapper<std::string, true> data;
+        SharedRef<std::ifstream, true> file;
+        SharedRef<std::string, true> data;
     public:
         FileHandel() = default;
         ~FileHandel() {}
-        RefWrapper<std::ifstream, true> LoadFile(std::filesystem::path path) {
-            file = WrapRef < std::ifstream, true>();
+        SharedRef<std::ifstream, true> LoadFile(std::filesystem::path path) {
+            file = CreateSharedRef < std::ifstream, true>();
             file->open(path);
             path = path;
             return file;
         }
-        RefWrapper<std::string, true> ToString() {
+        SharedRef<std::string, true> ToString() {
             std::stringstream ss;
             ss << file->rdbuf();
 
-            data = WrapRef<std::string, true>(ss.str());
+            data = CreateSharedRef<std::string, true>(ss.str());
             //data = ss.str();
             return data;
         }

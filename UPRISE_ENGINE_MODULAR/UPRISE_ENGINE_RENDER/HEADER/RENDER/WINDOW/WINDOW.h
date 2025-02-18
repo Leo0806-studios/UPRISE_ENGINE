@@ -14,15 +14,15 @@ namespace UPRISE_ENGINE {
     namespace RENDER {
         class Window {
         private:
-            RefWrapper<RENDER_COMMON::WINDOW_BASE, true> Windowvar;
+            SharedRef<RENDER_COMMON::WINDOW_BASE, true> Windowvar;
         public:
-            UPRISE_RENDER_API  inline void SetWindow(RefWrapper<RENDER_COMMON::WINDOW_BASE, true> window) {
+            UPRISE_RENDER_API  inline void SetWindow(SharedRef<RENDER_COMMON::WINDOW_BASE, true> window) {
 
                 SCOPED_TIME_
                 Windowvar = window;
             }
-            UPRISE_RENDER_API static inline RefWrapper<RENDER_COMMON::WINDOW_BASE, true> _CreateWindow(int w, int h, const char* title);
-            UPRISE_RENDER_API static inline void DestroyWindow(RefWrapper<Window, true> window);
+            UPRISE_RENDER_API static  SharedRef<RENDER_COMMON::WINDOW_BASE, true> _CreateWindow(int w, int h, const char* title);
+            UPRISE_RENDER_API static  void DestroyWindow(SharedRef<Window, true> window);
         };
     }
 

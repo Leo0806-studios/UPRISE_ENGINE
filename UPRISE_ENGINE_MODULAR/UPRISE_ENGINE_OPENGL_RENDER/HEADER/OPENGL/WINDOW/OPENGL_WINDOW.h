@@ -14,30 +14,57 @@ class WINDOW_Linux; //-V3549 //-V2575
 class WINDOW_APPLE; //-V3549 //-V2575
 class WINDOW_UNIX; //-V3549 //-V2575
 
-#define UE_GL_WIN_32_PLATFORM 
-#define LINUX_PLATFORM
+
+
+
+#ifdef _WIN32
+
+#define UE_GL_WIN_32_PLATFORM WINDOW_Win32
+#define UE_GL_LINUX_PLATFORM
 #define APPLE_PLATFORM
 #define UNIX_PLATFORM
-#ifdef _WIN32
-#define UE_GL_WIN_32_PLATFORM WINDOW_Win32
 
 #endif // _WIN32
+
+
+
 #ifdef __linux__
-#define LINUX_PLATFORM WINDOW_Linux
+
+#define UE_GL_WIN_32_PLATFORM 
+#define UE_GL_LINUX_PLATFORM WINDOW_Linux
+#define APPLE_PLATFORM
+#define UNIX_PLATFORM
+
 #endif // __linux__
+
+
 #ifdef __APPLE__
+
+#define UE_GL_WIN_32_PLATFORM 
+#define UE_GL_LINUX_PLATFORM
 #define APPLE_PLATFORM WINDOW_APPLE
+#define UNIX_PLATFORM
+
 #endif // __APPLE__
+
+
 #ifdef __unix__
+
+#define UE_GL_WIN_32_PLATFORM 
+#define UE_GL_LINUX_PLATFORM
+#define APPLE_PLATFORM
 #define UNIX_PLATFORM WINDOW_UNIX
+
 #endif // __unix__
+
+
 namespace UPRISE_ENGINE {
     namespace OPENGL_RENDER {
 
 
 
 
-#define WINDOWW_PLATFORM UE_GL_WIN_32_PLATFORM  LINUX_PLATFORM  APPLE_PLATFORM  UNIX_PLATFORM
+#define WINDOWW_PLATFORM UE_GL_WIN_32_PLATFORM  UE_GL_LINUX_PLATFORM  APPLE_PLATFORM  UNIX_PLATFORM
 
         /// <summary>
         /// OpenGL specific window class
@@ -49,7 +76,7 @@ namespace UPRISE_ENGINE {
         public:
             OPENGL_WINDOW() = default;
             ~OPENGL_WINDOW() = default;
-            UPRISE_OPENGL_RENDER_API static RefWrapper<RENDER_COMMON::WINDOW_BASE, true> _CreateWindow(int w, int h, const char* Title);
+            UPRISE_OPENGL_RENDER_API static SharedRef<RENDER_COMMON::WINDOW_BASE, true> _CreateWindow(int w, int h, const char* Title);
 
 
             void CreateWindow(int w, int h, const char* Title) override;

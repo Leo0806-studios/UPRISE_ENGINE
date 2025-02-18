@@ -1,8 +1,8 @@
 // This is a personal academic project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 #pragma once
-#ifndef _SHADERPROGRAM_BASE_
-#define _SHADERPROGRAM_BASE_
+#ifndef UE_SHADERPROGRAM_BASE_
+#define UE_SHADERPROGRAM_BASE_
 import REF_WRAPPER;
 import std;
 namespace UPRISE_ENGINE {
@@ -17,7 +17,7 @@ namespace UPRISE_ENGINE {
             std::string name = "";
         public:
 
-            UPRISE_COMMON_RENDER_COMPS_API  virtual  void* Create(const std::vector<RefWrapper<SHADER_BASE, true>>& Shaders) = 0;
+            UPRISE_COMMON_RENDER_COMPS_API  virtual  void* Create(const std::vector<SharedRef<SHADER_BASE, true>>& Shaders) = 0;
             UPRISE_COMMON_RENDER_COMPS_API  virtual void Use() = 0;
             UPRISE_COMMON_RENDER_COMPS_API  virtual void Delete() = 0;
 

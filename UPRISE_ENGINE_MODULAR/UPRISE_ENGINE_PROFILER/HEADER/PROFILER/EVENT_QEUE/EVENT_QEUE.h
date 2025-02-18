@@ -5,8 +5,7 @@
 #define UE_EVENT_QEUE_
 import std; //-V3549 //-V2575
 import REF_WRAPPER; //-V3549 //-V2575
-#include "PROFILER/PROFILE_EVENTS/EVENT_BASE/EVENT_BASE.h"
-
+#include "PROFILER/PROFILE_EVENTS/PROF_EVENT/PROF_EVENT.h"
 namespace UPRISE_ENGINE {
     namespace PROFILER {
         class EVENT_QEUE {
@@ -34,7 +33,7 @@ namespace UPRISE_ENGINE {
             /// </summary>
             /// <returns></returns>
             UPRISE_PROFILER_API static std::unique_ptr<EVENT_BASE> Get_Last_Event();
-            static rsize_t Get_Qeue_Size() {
+            static size_t Get_Qeue_Size() {
                 std::unique_lock<std::mutex> lock(GetMutex());
                 return qeue.size();
             }

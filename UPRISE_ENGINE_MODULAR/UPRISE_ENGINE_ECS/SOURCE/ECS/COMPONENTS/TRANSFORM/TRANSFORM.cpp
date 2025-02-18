@@ -1,28 +1,40 @@
 // This is a personal academic project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 #include "VECTOR/VECTOR3/FAST/VECTOR3_F.h"
-#include  "ECS/COMPONENTS/TRANSFORM/TRANSFORM.h";
+#include  "ECS/COMPONENTS/TRANSFORM/TRANSFORM.h"
 namespace UPRISE_ENGINE {
+    Vector3& Transform::Position()
+    {
+        return this->position;
+    }
+    const Vector3& Transform::Forward()
+    {
+        return this->forward;
+    }
+    const Vector3& Transform::Up()
+    {
+        return this->up;
+    }
+    const Vector3& Transform::Right()
+    {
+        return this->right;
+    }
     void Transform::SetRotation(Vector3 vec)
     {
-        TrPr(ctx, __func__)
             vec3rot = vec;
         rotation = Quaternion::FromEulerAngles(vec);
         forward = rotation * Vector3(0.0F, 0.0F, 1.0F);
         right = rotation * Vector3(1.0F, 0.0F, 0.0F);
         up = rotation * Vector3(0.0F, 1.0F, 0.0F);
-        TrPrE(ctx);
     }
 
     void Transform::SetRotation(Quaternion quat)
     {
-        TrPr(ctx, __func__)
             rotation = quat;
         auto o = quat.ToRotationVector();
         forward = rotation * Vector3(0.0F, 0.0F, 1.0F);
         right = rotation * Vector3(1.0F, 0.0F, 0.0F);
         up = rotation * Vector3(0.0F, 1.0F, 0.0F);
-        TrPrE(ctx);
 
     }
 
@@ -32,11 +44,9 @@ namespace UPRISE_ENGINE {
     }
     void Transform::UpdateDirections()
     {
-        TrPr(ctx, __func__)
             forward = rotation * Vector3(0.0F, 0.0F, 1.0F);
         right = rotation * Vector3(1.0F, 0.0F, 0.0F);
         up = rotation * Vector3(0.0F, 1.0F, 0.0F);
-        TrPrE(ctx);
     }
 
     UPRISE_ECS_API void Transform::OnDestroy()
@@ -44,10 +54,16 @@ namespace UPRISE_ENGINE {
         return  void();
     }
 
-    UPRISE_ECS_API RefWrapper<CORE::Object, true> Transform::Copy()
+    UPRISE_ECS_API SharedRef<CORE::Object, true> Transform::Copy()
     {
-        auto a =WrapRef<Transform, true>(Transform(*this));
-        return a;
+        auto ret =CreateSharedRef<Transform, true>(Transform(*this));
+        return ret;
+    }
+
+    SharedRef<CORE::Object, true> Transform::DeepCopy()
+    {
+        auto ret = CreateSharedRef<Transform, true>(Transform(*this,true));
+        return ret;
     }
 
 

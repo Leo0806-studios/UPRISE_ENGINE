@@ -4,9 +4,9 @@
 #ifndef UE_Mat4_
 #define UE_Mat4_
 
-#include "GLOBAL/GLINCLUDES.h"
+#include <GLOBAL/GLINCLUDES.h>
 #include "DATATYPES/VECTOR/VECTOR4/VECTOR4.h";
-#include "intrin.h"
+#include <intrin.h>
 #include "DATATYPES/QUTERION/QUATERION.h";
 
 import REF_WRAPPER; //-V3549 //-V2575
@@ -45,7 +45,7 @@ namespace UPRISE_ENGINE {
             __m128 Five = _mm_setr_ps(-1.0F, 1.0F, 1.0F, 1.0F);
 
             __m256 Six = _mm256_set_m128(Three, Two);
-            Six = _mm256_permutevar8x32_ps(Six, _mm256_setr_epi32(1, 2, 3, 4, 5, 6, 7, 0));
+            Six = _mm256_permutevar8x32_ps(Six, _mm256_setr_epi32(1, 2, 3, 4, 5, 6, 7, 0)); //-V112
 
 
 
@@ -68,7 +68,7 @@ namespace UPRISE_ENGINE {
                 _mm_setr_ps(0.0F, 1.0F, 0.0F, 0.0F),
                 _mm_mul_ps(
                     _mm_add_ps(
-                        _mm256_extractf128_ps(_mm256_permutevar8x32_ps(Four, _mm256_setr_epi32(4, 0, 5, 0, 0, 0, 0, 0)), 0),
+                        _mm256_extractf128_ps(_mm256_permutevar8x32_ps(Four, _mm256_setr_epi32(4, 0, 5, 0, 0, 0, 0, 0)), 0), //-V112
                         _mm_mul_ps(
                             _mm256_extractf128_ps(_mm256_permutevar8x32_ps(Six, _mm256_setr_epi32(7, 1, 5, 0, 0, 0, 0, 0)), 0),
                             //_mm_shuffle_ps(Five, Five, _MM_SHUFFLE(3, 0, 2, 1))
@@ -148,10 +148,10 @@ namespace UPRISE_ENGINE {
             up.pad(-(up.Point(eye)))  ;
             Vector3 u((center ^ up));
             u.pad(-(u.Point(eye)))  ;
-            __m256i suffle = _mm256_setr_epi32(0, 1, 4, 5, 2, 3, 6, 7);
-            __m256 mlti = _mm256_set_ps(1.0F, -1.0F, 1.0F, -1.0F, 1.0F, -1.0F, 1.0F, -1.0F);
+            const __m256i suffle = _mm256_setr_epi32(0, 1, 4, 5, 2, 3, 6, 7); //-V112
+            const __m256 mlti = _mm256_set_ps(1.0F, -1.0F, 1.0F, -1.0F, 1.0F, -1.0F, 1.0F, -1.0F);
 
-            __m128 row3(_mm_setr_ps(0.0F, 0.0F, 0.0F, 1.0F));
+            const __m128 row3(_mm_setr_ps(0.0F, 0.0F, 0.0F, 1.0F));
 
             __m256 One = _mm256_set_m128(_mm_unpacklo_ps(center, row3), _mm_unpacklo_ps(up, u));
 
@@ -187,7 +187,6 @@ namespace UPRISE_ENGINE {
         /// <param name="zFar"></param>
         /// <returns></returns>
         __inline static Mat4 Perspective(float fov, float aspect, float zNear, float zFar) {
-            TrPr(ctx, __func__)
                 Mat4 result(0);
 
             float zMz = zFar - zNear;
@@ -202,7 +201,6 @@ namespace UPRISE_ENGINE {
             result(2, 2) = bottom3.m128_f32[1];
             result(3, 2) = bottom3.m128_f32[2];
             result(2, 3) = bottom3.m128_f32[3];
-            TrPrE(ctx)
                 return result;
 
         }
@@ -224,7 +222,6 @@ namespace UPRISE_ENGINE {
         /// usis a slitgtly differebt method than ToMat4glm
         /// </summary>
         __inline operator glm::mat4() {
-            TrPr(ctx, __func__)
 
                 __m128 tmp0 = _mm_unpacklo_ps(row0, row1); // [r0.x, r1.x, r0.y, r1.y]
             __m128 tmp1 = _mm_unpackhi_ps(row0, row1); // [r0.z, r1.z, r0.w, r1.w]
@@ -232,15 +229,16 @@ namespace UPRISE_ENGINE {
             __m128 tmp3 = _mm_unpackhi_ps(row2, row3); // [r2.z, r3.z, r2.w, r3.w]
 
             // Step 2: Unpack and interleave to get the final column vectors
-            glm::vec4 col0;
-            glm::vec4 col1;
-            glm::vec4 col2;
-            glm::vec4 col3;
+#pragma warning(disable: 26451)
+            glm::vec4 col0{};
+            glm::vec4 col1{};
+            glm::vec4 col2{};
+            glm::vec4 col3{};
+#pragma warning(default: 26451)
             _mm_store_ps(&col0.x, _mm_movelh_ps(tmp0, tmp2)); // [r0.x, r1.x	 r2.x, r3.x]
             _mm_store_ps(&col1.x, _mm_movehl_ps(tmp2, tmp0)); // [r0.y, r1.y, r2.y, r3.y]
             _mm_store_ps(&col2.x, _mm_movelh_ps(tmp1, tmp3)); // [r0.z, r1.z, r2.z, r3.z]
             _mm_store_ps(&col3.x, _mm_movehl_ps(tmp3, tmp1)); // [r0.w, r1.w, r2.w, r3.w]
-            TrPrE(ctx)
 
                 return glm::mat4(col0, col1, col2, col3);
         }
@@ -256,7 +254,7 @@ namespace UPRISE_ENGINE {
             if (i > 3)
             {
                 //Log << "OUT Of RANGE!\n" << "trying to accses memory at: " << &(((__m128*)this)[i]) << "wich is outside the bounds of the mat4" << "\n";
-                int i = *static_cast<int*>(nullptr); //throw error
+                int crash = *static_cast<int*>(nullptr); //throw error
 
             }
           return  reinterpret_cast<__m128*>(this)[i];

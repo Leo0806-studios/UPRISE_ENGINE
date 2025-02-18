@@ -1,0 +1,4 @@
+// Hint files help the Visual Studio IDE interpret Visual C++ identifiers
+// such as names of functions and macros.
+// For more information see https://go.microsoft.com/fwlink/?linkid=865984
+#define NullChkFail(ExceptionText, LogText) if constexpr (RW_USE_CPP_EXCEPTIONS_) { throw std::exception(##ExceptionText); } else { std::cout <<##LogText << std::stacktrace::current() << "\n"; }

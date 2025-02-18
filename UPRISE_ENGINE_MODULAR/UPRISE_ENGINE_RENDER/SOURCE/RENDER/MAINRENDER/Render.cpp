@@ -8,11 +8,11 @@ namespace UPRISE_ENGINE {
     namespace RENDER_COMMON {
 
     }
-    void RENDER::Render::SetRenderCamera(RefWrapper<GameObject, true> cam)
+    void RENDER::Render::SetRenderCamera(SharedRef<GameObject, true> cam)
     {
     }
     namespace RENDER {
-        RefWrapper<RENDER_COMMON::WINDOW_BASE, true> Render::Windowvar;
+        SharedRef<RENDER_COMMON::WINDOW_BASE, true> Render::Windowvar;
 
     }
 
@@ -45,13 +45,19 @@ namespace UPRISE_ENGINE {
         auto a = RENDER_COMMON::RENDER_BACKEND::CreateBackend;
         RENDER_COMMON::RENDER_BACKEND::_internal_backend = RENDER_COMMON::RENDER_BACKEND::CreateBackend();
     }
-    RefWrapper<RENDER_COMMON::WINDOW_BASE, true> RENDER::Render::RenderSetup::Window(int w, int h, std::string Title)
+     SharedRef<RENDER_COMMON::CONTEXT_BASE, true> RENDER::Render::RenderSetup::CreateContext()
+     {
+         PROFILER::TIMERS::SCOPED_TIME time("CreateContext", __FILE__, __FUNCTION__, __LINE__);
+         SharedRef<RENDER_COMMON::CONTEXT_BASE, true> cont = RENDER_COMMON::RENDER_BACKEND::CreateContext();
+         return cont;
+    }
+    SharedRef<RENDER_COMMON::WINDOW_BASE, true> RENDER::Render::RenderSetup::Window(int w, int h, std::string Title)
     {
         PROFILER::TIMERS::SCOPED_TIME time("Window", __FILE__, __FUNCTION__, __LINE__);
-        RefWrapper<RENDER_COMMON::WINDOW_BASE, true>windw = RENDER_COMMON::RENDER_BACKEND::_CreateWindow(w, h, Title.c_str());
+        SharedRef<RENDER_COMMON::WINDOW_BASE, true>windw = RENDER_COMMON::RENDER_BACKEND::_CreateWindow(w, h, Title.c_str());
         return  windw;
     }
-    RefWrapper<RENDER_COMMON::WINDOW_BASE, true> RENDER::Render::GetWindow()
+    SharedRef<RENDER_COMMON::WINDOW_BASE, true> RENDER::Render::GetWindow()
     {
         PROFILER::TIMERS::SCOPED_TIME time("GetWindow", __FILE__, __FUNCTION__, __LINE__);
         return Windowvar;

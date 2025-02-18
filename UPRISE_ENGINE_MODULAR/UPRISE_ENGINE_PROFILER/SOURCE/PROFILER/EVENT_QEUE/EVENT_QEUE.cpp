@@ -1,7 +1,7 @@
 // This is a personal academic project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 #include "PROFILER/EVENT_QEUE/EVENT_QEUE.h"
-#include "cassert"
+#include <cassert>
 namespace UPRISE_ENGINE {
     namespace PROFILER {
         std::vector<std::unique_ptr<EVENT_BASE>> EVENT_QEUE::qeue;
@@ -58,7 +58,7 @@ namespace UPRISE_ENGINE {
         {
             std::unique_lock<std::mutex> lock(GetMutex());
             qeue.push_back(std::move(event));
-            assert(event.get() == nullptr); //-V2570 //-V2528 //-V2578
+            assert(event.get() == nullptr); //-V2570 //-V2528 //-V2578 //-V3545 //-V3519 //-V3551
 
         }
         void UPRISE_ENGINE::PROFILER::EVENT_QEUE::UseCurrentQeue()

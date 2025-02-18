@@ -6,8 +6,8 @@
 
 //#include <glm/fwd.hpp>
 #include "intrin.h"
-#include "GLOBAL/GLINCLUDES.h"
-#
+#include <GLOBAL/GLINCLUDES.h>
+
 import std;
 
 namespace UPRISE_ENGINE {

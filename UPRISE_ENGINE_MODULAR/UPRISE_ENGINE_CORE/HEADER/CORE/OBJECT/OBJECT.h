@@ -23,32 +23,43 @@ namespace UPRISE_ENGINE {
     namespace CORE {
         class Behaviour;
         class Component;
+#pragma warning(disable:4514)
         /// <summary>
     /// Baseclass For nearly everything object related in the engine
     /// </summary>
-        class UPRISE_CORE_API Object {
+        class  Object {
+        private:
+        protected:
+            UPRISE_CORE_API Object(const Object& other);
+            UPRISE_CORE_API Object(const Object& other, bool);
+            UPRISE_CORE_API Object& operator=(const Object& other);
         private:
             std::string name;
-            bool enabled = true;
-            static  void destroyBehaviour(RefWrapper<CORE::Behaviour, true> Object);
-            static  void destroyComponent(RefWrapper<CORE::Component, true> Object);
-            static void destroyObject(RefWrapper<CORE::Object, true> Object);
+            std::atomic<bool> enabled = true;
+         
+            char PAD[7];   //TODO find a better way to align this or find data to put here
+            UPRISE_CORE_API  static   void destroyBehaviour(SharedRef<CORE::Behaviour, true> Object);
+            UPRISE_CORE_API   static  void destroyComponent(SharedRef<CORE::Component, true> Object);
+            UPRISE_CORE_API  static void destroyObject(SharedRef<CORE::Object, true> Object);
 
         public:
 #pragma region Constuctors
             /// <summary>
             /// default constructor
             /// </summary>
-            Object() = default;
+            UPRISE_CORE_API   Object() = default;
 
 #pragma endregion
 #pragma region destructors
             /// <summary>
             /// virtual destructor to handle object destruction
             /// </summary>
-            virtual ~Object() {}
+            UPRISE_CORE_API   virtual ~Object() {}
 #pragma endregion
 #pragma region Functions
+#pragma region OPERATORS
+#pragma endregion
+
 #pragma region statics
             /// <summary>
             /// function to destroy a CORE::Object or any derived class
@@ -57,7 +68,7 @@ namespace UPRISE_ENGINE {
             /// <param name="Object"></param>
             /// <returns></returns>
             template<class T, typename = std::enable_if_t<std::is_same_v<T, CORE::Behaviour> || std::is_same_v<T, CORE::Component> || std::is_same_v<T, CORE::Object>>>
-            __inline static bool Destroy(RefWrapper<T, true> Object) {
+            __inline static bool Destroy(SharedRef<T, true> Object) {
                 if constexpr (std::is_same_v<T, CORE::Behaviour>) {
                     destroyBehaviour(Object);
                     return true;
@@ -78,28 +89,20 @@ namespace UPRISE_ENGINE {
             /// <summary>
             /// internal base virtual function for object destruction
             /// </summary>
-            virtual  void OnDestroyInt(RefWrapper<CORE::Object, true> obj) = 0;
+            UPRISE_CORE_API   virtual  void OnDestroyInt(SharedRef<CORE::Object, true> obj) = 0;
             /// <summary>
             /// pure virtual base for copying the object
             /// </summary>
-            virtual RefWrapper<CORE::Object,true> Copy() = 0;
-            /// <summary>
-            /// getter for the name of the object
-            /// returns the name of the object as a non const reference
-            /// </summary>
-            /// <returns></returns>
-            __inline std::string& Name() {
-                return name;
-            }
+            UPRISE_CORE_API    virtual SharedRef<CORE::Object,true> Copy() = 0;
+            UPRISE_CORE_API     virtual SharedRef<CORE::Object, true> DeepCopy() = 0;
             /// <summary>
             /// getter for the enable state of the object
-            /// returns a non const reference to the enabled state of the object
             /// </summary>
             /// <returns></returns>
-            __inline  bool& Enabled() {
+            __inline  bool Enabled() const{
                 return enabled;
             }
-            __inline bool& SetEnabled(bool value) {
+            __inline bool SetEnabled(bool value) {
                 enabled = value;
                 return enabled;
             }
@@ -109,17 +112,14 @@ namespace UPRISE_ENGINE {
             /// returns the name of the object as a  const reference
             /// </summary>
             /// <returns></returns>
-            __inline const std::string& NameC()const {
+            __inline const std::string& Name()const {
                 return name;
             }
-            /// <summary>
-        /// getter for the enable state of the object
-        /// returns a  const reference to the enabled state of the object
-        /// </summary>
-        /// <returns></returns>
-            __inline const bool& EnabledC() const {
-                return enabled;
+            __inline  const std::string& SetName(const std::string& _name) {
+                this->name = _name;
+                return this->name;
             }
+
 #pragma endregion
 
 #pragma endregion
@@ -131,6 +131,7 @@ namespace UPRISE_ENGINE {
 
 
         };
+#pragma warning(default:4514)
     };
 }
 

@@ -484,7 +484,6 @@ export{
 }
 
 
-#pragma warning(disable : 169)
 
 #pragma region CONSTEXPR
 #pragma region BUFFER_BIT
@@ -3944,7 +3943,6 @@ consteval void Check_Random_Stuff32() {
 
 
 #pragma endregion
-#pragma warning(default : 169)
 
 
 #pragma region GL_VERSION_1_0

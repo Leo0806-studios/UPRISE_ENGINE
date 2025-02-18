@@ -27,7 +27,7 @@ namespace UPRISE_ENGINE {
 
         public:
             WINDOW_BASE() = default;
-            ~WINDOW_BASE() = default;
+            virtual ~WINDOW_BASE() = default;
 
 #pragma region Virtual funcs
 

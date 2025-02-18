@@ -54,8 +54,9 @@ int open_gl(void) {
     libGL = LoadLibraryW(L"opengl32.dll");
     if (libGL != NULL) {
         void (*tmp)(void);
-        tmp = (void(*)(void)) GetProcAddress(libGL, "wglGetProcAddress");
-        gladGetProcAddressPtr = (PFNWGLGETPROCADDRESSPROC_PRIVATE)tmp;
+        typedef void(*funci)(void);
+        tmp = static_cast<funci> (static_cast<void*>(GetProcAddress(libGL, "wglGetProcAddress")));
+        gladGetProcAddressPtr =static_cast<PFNWGLGETPROCADDRESSPROC_PRIVATE>(static_cast<void*>(tmp));
         return gladGetProcAddressPtr != NULL;
     }
 #endif
@@ -202,11 +203,16 @@ static int get_exts(void) {
 static void free_exts(void) {
     if (exts_i != NULL) {
         int index;
+#pragma warning(disable:5045)
+
         for (index = 0; index < num_exts_i; index++) {
+            if (index >= num_exts_i) break;
             free((char*)exts_i[index]);
         }
         free((void*)exts_i);
         exts_i = NULL;
+#pragma warning(default:5045)
+
     }
 }
 

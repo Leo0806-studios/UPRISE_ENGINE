@@ -26,7 +26,7 @@
 
 
 
-#ifdef UPRISEENGINERENDER_EXPORTS ||  || UPRISEENGINEDX11RENDER_EXPORTS || UPRISEENGINEDX12RENDER_EXPORTS || UPRISEENGINEOPENGLRENDER_EXPORTS || UPRISEENGINEVULKANRENDER_EXPORTS
+#ifdef UPRISEENGINERENDER_EXPORTS
 #define UPRISE_RENDER_API __declspec(dllexport)
 #define UPRISE_RENDER_API_EXPORTS export
 #else
@@ -102,8 +102,8 @@
 #define UPRISE_PROFILER_API_EXPORTS
 #endif // UPRISEENGINEPROFILER_EXPORTS
 
-#include "tracy/Tracy.hpp"
-#include "tracy/TracyC.h"
+//#include "tracy/Tracy.hpp"
+//#include "tracy/TracyC.h"
 
 
 
@@ -119,7 +119,8 @@ namespace UPRISE_ENGINE {
 #define UE_NODISCARD [[nodiscard]]
 typedef  long long huge;; //-V2575 //-V3549
 typedef unsigned long long uhuge; //-V2575 //-V3549
-typedef size_t  Index; //-V2575 //-V3549
+
+typedef size_t  Index; // alias for size_t/unsigned long long, used for indexing //-V2575 //-V3549
 
 namespace UPRISE_ENGINE {
     consteval size_t constevalstrlen(const char* str) {
@@ -132,8 +133,8 @@ namespace UPRISE_ENGINE {
     }
 }
 #ifdef _DEBUG
-#define TrPr(V,N)   TracyCZoneN(V, N, true); 
-#define TrPrE(V) TracyCZoneEnd(V);
+#define TrPr(V,N)   ;
+#define TrPrE(V) ;
 #else
 #define TrPr(V,N)    ;
 #define TrPrE(V) ;

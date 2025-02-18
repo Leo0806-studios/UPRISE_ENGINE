@@ -4,15 +4,17 @@
 
 #include "OPENGL/WINDOW/OPENGL_WINDOW.h"
 #include "PROFILER/PROFILER_OBJECTS/TIMERS/SCOPED/SCOPED_TIME.h"
+#include "OPENGL/OPENGL_SHADER/OPENGL_SHADER.h"
+import GLAD;
 namespace UPRISE_ENGINE {
     namespace OPENGL_RENDER {
         class OPENGL_WINDOW;
 
     }
-    RefWrapper<RENDER_COMMON::RENDER_BACKEND, true> OPENGL_BACKEND::GL_Create_Backend()
+    SharedRef<RENDER_COMMON::RENDER_BACKEND, true> OPENGL_BACKEND::GL_Create_Backend()
     {
         SCOPED_TIME_
-        RefWrapper<RENDER_COMMON::RENDER_BACKEND, true> a = WrapRef<OPENGL_BACKEND, true>(OPENGL_BACKEND());
+        SharedRef<RENDER_COMMON::RENDER_BACKEND, true> a = CreateSharedRef<OPENGL_BACKEND, true>(OPENGL_BACKEND());
         return a;
 
     }
@@ -23,44 +25,47 @@ namespace UPRISE_ENGINE {
 
 
 
-    RefWrapper<RENDER_COMMON::CONTEXT_BASE, true> OPENGL_BACKEND::_internal_Get_Context()
+    SharedRef<RENDER_COMMON::CONTEXT_BASE, true> OPENGL_BACKEND::_internal_Create_Context()
     {
-        return RefWrapper<RENDER_COMMON::CONTEXT_BASE, true>();
+        return SharedRef<RENDER_COMMON::CONTEXT_BASE, true>();
     }
 
-    RefWrapper<RENDER_COMMON::SHADER_BASE, true> OPENGL_BACKEND::_internal_Create_Shader(const std::string& ShaderCode)
+    SharedRef<RENDER_COMMON::SHADER_BASE, true> OPENGL_BACKEND::_internal_Create_Shader(const std::string& ShaderCode)
     {
-        return RefWrapper<RENDER_COMMON::SHADER_BASE, true>();
+        auto ret = CreateSharedRef<OPENGL_RENDER::OPENGL_SHADER, true>(OPENGL_RENDER::OPENGL_SHADER(ShaderCode));
+        return ret;
     }
 
-    RefWrapper<RENDER_COMMON::SHADER_BASE, true> OPENGL_BACKEND::_internal_Create_Shader(const std::filesystem::path& ShaderCode_Path)
+    SharedRef<RENDER_COMMON::SHADER_BASE, true> OPENGL_BACKEND::_internal_Create_Shader(const std::filesystem::path& ShaderCode_Path)
     {
-        return RefWrapper<RENDER_COMMON::SHADER_BASE, true>();
+        auto ret = CreateSharedRef<OPENGL_RENDER::OPENGL_SHADER, true>(OPENGL_RENDER::OPENGL_SHADER(ShaderCode_Path));
+        ret->Load();
+            return ret;
     }
 
-    RefWrapper<RENDER_COMMON::SHADER_PROGRAM_BASE, true> OPENGL_BACKEND::_internal_CreateShaderProgram(RefWrapper<RENDER_COMMON::SHADER_BASE, true> Shader0)
+    SharedRef<RENDER_COMMON::SHADER_PROGRAM_BASE, true> OPENGL_BACKEND::_internal_CreateShaderProgram(SharedRef<RENDER_COMMON::SHADER_BASE, true> Shader0)
     {
-        return RefWrapper<RENDER_COMMON::SHADER_PROGRAM_BASE, true>();
+        return SharedRef<RENDER_COMMON::SHADER_PROGRAM_BASE, true>();
     }
 
-    RefWrapper<RENDER_COMMON::SHADER_PROGRAM_BASE, true> OPENGL_BACKEND::_internal_CreateShaderProgram(RefWrapper<RENDER_COMMON::SHADER_BASE, true> Shader0, RefWrapper<RENDER_COMMON::SHADER_BASE, true> Shader1)
+    SharedRef<RENDER_COMMON::SHADER_PROGRAM_BASE, true> OPENGL_BACKEND::_internal_CreateShaderProgram(SharedRef<RENDER_COMMON::SHADER_BASE, true> Shader0, SharedRef<RENDER_COMMON::SHADER_BASE, true> Shader1)
     {
-        return RefWrapper<RENDER_COMMON::SHADER_PROGRAM_BASE, true>();
+        return SharedRef<RENDER_COMMON::SHADER_PROGRAM_BASE, true>();
     }
 
-    RefWrapper<RENDER_COMMON::SHADER_PROGRAM_BASE, true> OPENGL_BACKEND::_internal_CreateShaderProgram(RefWrapper<RENDER_COMMON::SHADER_BASE, true> Shader0, RefWrapper<RENDER_COMMON::SHADER_BASE, true> Shader1, RefWrapper<RENDER_COMMON::SHADER_BASE, true> Shader2)
+    SharedRef<RENDER_COMMON::SHADER_PROGRAM_BASE, true> OPENGL_BACKEND::_internal_CreateShaderProgram(SharedRef<RENDER_COMMON::SHADER_BASE, true> Shader0, SharedRef<RENDER_COMMON::SHADER_BASE, true> Shader1, SharedRef<RENDER_COMMON::SHADER_BASE, true> Shader2)
     {
-        return RefWrapper<RENDER_COMMON::SHADER_PROGRAM_BASE, true>();
+        return SharedRef<RENDER_COMMON::SHADER_PROGRAM_BASE, true>();
     }
 
     void OPENGL_BACKEND::_internal_DestroyBackend()
     {
     }
 
-    RefWrapper<RENDER_COMMON::WINDOW_BASE, true> OPENGL_BACKEND::_internal_CreateWindow(int w, int h, const char* Title)
+    SharedRef<RENDER_COMMON::WINDOW_BASE, true> OPENGL_BACKEND::_internal_CreateWindow(int w, int h, const char* Title)
     {
         SCOPED_TIME_
-        RefWrapper<OPENGL_RENDER::OPENGL_WINDOW, true> a = WrapRef<OPENGL_RENDER::OPENGL_WINDOW, true>(OPENGL_RENDER::OPENGL_WINDOW());
+        SharedRef<OPENGL_RENDER::OPENGL_WINDOW, true> a = CreateSharedRef<OPENGL_RENDER::OPENGL_WINDOW, true>(OPENGL_RENDER::OPENGL_WINDOW());
         a->CreateWindow(w, h, Title);
         return a;
     }
@@ -74,19 +79,26 @@ namespace UPRISE_ENGINE {
         return 0;
     }
 
-    void OPENGL_BACKEND::_internal_Destroy_Window(RefWrapper<RENDER_COMMON::WINDOW_BASE, true> Window)
+    void OPENGL_BACKEND::_internal_Destroy_Window(SharedRef<RENDER_COMMON::WINDOW_BASE, true> Window)
     {
         SCOPED_TIME_
 
         Window->DestroyWindow();
     }
 
-    void OPENGL_BACKEND::_internal_DestroyBuffer(int Buffer)
+    void OPENGL_BACKEND::_internal_DestroyBuffer(const unsigned int Buffer)
     {
+        SCOPED_TIME_
+        glDeleteBuffers(1, &Buffer);
     }
 
-    void OPENGL_BACKEND::_internal_BindBuffer(int Buffer, void* _Data, size_t length, size_t Type_Size)
+    void OPENGL_BACKEND::_internal_BindBuffer(int Buffer, void* _Data, size_t length, size_t Type_Size, unsigned long bufferType)
     {
+        SCOPED_TIME_
+
+        
+        glBindBuffer(bufferType, Buffer);
+        glBufferData(bufferType, length * Type_Size, _Data, _GL_STATIC_DRAW);
     }
 }
 

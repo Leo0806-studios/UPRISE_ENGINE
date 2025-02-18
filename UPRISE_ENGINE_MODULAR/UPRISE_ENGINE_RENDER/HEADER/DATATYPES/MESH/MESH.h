@@ -13,11 +13,11 @@ namespace UPRISE_ENGINE {
         class Mesh {
         public:
             // mesh data
-            std::vector<RefWrapper<Vertex, true>> vertices;
+            std::vector<SharedRef<Vertex, true>> vertices;
             std::vector<unsigned int> indices;
-            std::vector<RefWrapper<Texture, true>> textures;
-            Mesh(std::vector<RefWrapper<Vertex, true>> vertices, std::vector<unsigned int> indices,
-                std::vector<RefWrapper<Texture, true>> textures);
+            std::vector<SharedRef<Texture, true>> textures;
+            Mesh(std::vector<SharedRef<Vertex, true>> vertices, std::vector<unsigned int> indices,
+                std::vector<SharedRef<Texture, true>> textures);
             void Draw(Shader& shader);
             //void Draw(ShaderU& shader);
         private:

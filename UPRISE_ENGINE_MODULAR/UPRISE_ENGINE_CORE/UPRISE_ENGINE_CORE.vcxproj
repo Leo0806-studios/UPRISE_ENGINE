@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Build|Win32">
+      <Configuration>Build</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Build|x64">
+      <Configuration>Build</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
       <Platform>Win32</Platform>
@@ -32,6 +40,12 @@
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Build|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
@@ -40,6 +54,12 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Build|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
@@ -66,6 +86,15 @@
     <Import Project="..\PROPERTYS\GENERAL\FORCED_INCLUDE.props" />
     <Import Project="..\PROPERTYS\GENERAL\BASEPROPS.props" />
   </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Build|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\PROPERTYS\GENERAL\BUILDOUT.props" />
+    <Import Project="..\PROPERTYS\GENERAL\includes.props" />
+    <Import Project="..\PROPERTYS\GENERAL\LIB_DIRS_INCLUDES.props" />
+    <Import Project="..\PROPERTYS\GENERAL\COPY_DLL.props" />
+    <Import Project="..\PROPERTYS\GENERAL\FORCED_INCLUDE.props" />
+    <Import Project="..\PROPERTYS\GENERAL\BASEPROPS.props" />
+  </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\PROPERTYS\GENERAL\BUILDOUT.props" />
@@ -84,6 +113,16 @@
     <Import Project="..\PROPERTYS\GENERAL\FORCED_INCLUDE.props" />
     <Import Project="..\PROPERTYS\GENERAL\BASEPROPS.props" />
   </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Build|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\PROPERTYS\GENERAL\BUILDOUT.props" />
+    <Import Project="..\PROPERTYS\GENERAL\includes.props" />
+    <Import Project="..\PROPERTYS\GENERAL\LIB_DIRS_INCLUDES.props" />
+    <Import Project="..\PROPERTYS\GENERAL\COPY_DLL.props" />
+    <Import Project="..\PROPERTYS\GENERAL\FORCED_INCLUDE.props" />
+    <Import Project="..\PROPERTYS\GENERAL\BASEPROPS.props" />
+    <Import Project="..\PROPERTYS\GENERAL\BUILD\BUILD_OPTIMIZED.props" />
+  </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\PROPERTYS\GENERAL\BUILDOUT.props" />
@@ -95,7 +134,24 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Build|x64'" />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;UPRISEENGINECORE_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>$(SolutionDir)UPRISE_ENGINE_MODULAR\UPRISE_ENGINE_CORE\HEADER;$(SolutionDir)UPRISE_ENGINE_MODULAR\UPRISE_ENGINE_RENDER\HEADER;$(SolutionDir)UPRISE_ENGINE_MODULAR\UPRISE_ENGINE_PHYSICS\HEADER;$(SolutionDir)UPRISE_ENGINE_MODULAR\UPRISE_ENGINE_EE\HEADER;$(SolutionDir)UPRISE_ENGINE_MODULAR\UPRISE_ENGINE_ECS\HEADER;$(SolutionDir)UPRISE_ENGINE_MODULAR\UPRISE_ENGINE_DEBUG\HEADER;C:\Users\leo08\source\repos\UPRISE_ENGINE\SHARED_CODE\HEADER;C:\Users\leo08\source\repos\UPRISE_ENGINE\adhed;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableUAC>false</EnableUAC>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Build|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
@@ -132,16 +188,15 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;UPRISEENGINECORE_EXPORTS;_WINDOWS;_USRDLL;_EXPORT_CORE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpplatest</LanguageStandard>
-      <EnableModules>true</EnableModules>
+      <EnableModules>false</EnableModules>
       <BuildStlModules>true</BuildStlModules>
-      <PreprocessKeepComments>true</PreprocessKeepComments>
+      <PreprocessKeepComments>false</PreprocessKeepComments>
       <AdditionalIncludeDirectories>C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_ENGINE_MODULAR\UPRISE_ENGINE_CORE\HEADER;C:\Users\leo08\source\repos\UPRISE_ENGINE\SHARED_CODE\HEADER;C:\Users\leo08\source\repos\UPRISE_ENGINE\adhed;C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_ENGINE_MODULAR\UPRISE_ENGINE_CORE\HEADER\CORE;C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_ENGINE_MODULAR\UPRISE_ENGINE_CORE\HEADER\DATATYPES;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <ForcedIncludeFiles>$(SolutionDir)SHARED_CODE\HEADER\GLOBAL.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
@@ -149,7 +204,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <ScanSourceForModuleDependencies>true</ScanSourceForModuleDependencies>
       <AdditionalBMIDirectories>C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_ENGINE_MODULAR\UPRISE_ENGINE_CORE\HEADER;C:\Users\leo08\source\repos\UPRISE_ENGINE\SHARED_CODE\HEADER;C:\Users\leo08\source\repos\UPRISE_ENGINE\SHARED_CODE;C:\Users\leo08\source\repos\UPRISE_ENGINE\SHARED_CODE\MODULES;%(AdditionalBMIDirectories)</AdditionalBMIDirectories>
-      <GenerateXMLDocumentationFiles>true</GenerateXMLDocumentationFiles>
+      <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
       <Optimization>MaxSpeed</Optimization>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -169,6 +224,52 @@
       <OptimizeReferences>false</OptimizeReferences>
       <Profile>true</Profile>
     </Link>
+    <Xdcmake>
+      <DocumentLibraryDependencies>false</DocumentLibraryDependencies>
+    </Xdcmake>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Build|x64'">
+    <ClCompile>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;UPRISEENGINECORE_EXPORTS;_WINDOWS;_USRDLL;_EXPORT_CORE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <EnableModules>false</EnableModules>
+      <BuildStlModules>true</BuildStlModules>
+      <PreprocessKeepComments>false</PreprocessKeepComments>
+      <AdditionalIncludeDirectories>C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_ENGINE_MODULAR\UPRISE_ENGINE_CORE\HEADER;C:\Users\leo08\source\repos\UPRISE_ENGINE\SHARED_CODE\HEADER;C:\Users\leo08\source\repos\UPRISE_ENGINE\adhed;C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_ENGINE_MODULAR\UPRISE_ENGINE_CORE\HEADER\CORE;C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_ENGINE_MODULAR\UPRISE_ENGINE_CORE\HEADER\DATATYPES;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <ForcedIncludeFiles>$(SolutionDir)SHARED_CODE\HEADER\GLOBAL.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ScanSourceForModuleDependencies>true</ScanSourceForModuleDependencies>
+      <AdditionalBMIDirectories>C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_ENGINE_MODULAR\UPRISE_ENGINE_CORE\HEADER;C:\Users\leo08\source\repos\UPRISE_ENGINE\SHARED_CODE\HEADER;C:\Users\leo08\source\repos\UPRISE_ENGINE\SHARED_CODE;C:\Users\leo08\source\repos\UPRISE_ENGINE\SHARED_CODE\MODULES;%(AdditionalBMIDirectories)</AdditionalBMIDirectories>
+      <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
+      <Optimization>MaxSpeed</Optimization>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <ExternalWarningLevel>InheritWarningLevel</ExternalWarningLevel>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableUAC>false</EnableUAC>
+      <AdditionalLibraryDirectories>C:\Users\leo08\source\repos\UPRISE_ENGINE\adhed;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp-vc143-mt.lib;glfw3.lib;glfw3_mt.lib;glfw3dll.lib;ifmodintr.lib;UPRISE_PROFILER.lib;UPRISE_ENGINE_DEBUG.lib;UPRISE_ENGINE_PROFILER.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateMapFile>true</GenerateMapFile>
+      <MapExports>true</MapExports>
+      <ShowProgress>LinkVerbose</ShowProgress>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <OptimizeReferences>false</OptimizeReferences>
+      <Profile>true</Profile>
+    </Link>
+    <Xdcmake>
+      <DocumentLibraryDependencies>false</DocumentLibraryDependencies>
+    </Xdcmake>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -178,7 +279,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;UPRISEENGINECORE_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
@@ -229,7 +330,19 @@
     <ClInclude Include="HEADER\DATATYPES\VECTOR\VECTOR3\FAST\VECTOR3_F.h" />
     <ClInclude Include="HEADER\DATATYPES\VECTOR\VECTOR4\VECTOR4.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="SOURCE\DATATYPES\UUID\UUID_INT\UUID_INT.h">
+    <ClInclude Include="HEADER\DATATYPES\MUTEXES\MUTEX\MUTEX.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="HEADER\DATATYPES\MUTEXES\SPINLOCK\FAIR_LOCK\FAIR_LOCK.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="HEADER\DATATYPES\MUTEXES\SPINLOCK\UNFAIR_LOCK\UNFAIR_LOCK.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="SOURCE\DATATYPES\STRING\STRING.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -242,7 +355,9 @@
     <ClCompile Include="SOURCE\CORE\BEHAVIOUR\BEHAVIOUR.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Build|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Build|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
@@ -251,7 +366,6 @@
     <ClCompile Include="SOURCE\CORE\OBJECT\Object.cpp" />
     <ClCompile Include="SOURCE\DATATYPES\LAYER\LAYER.cpp" />
     <ClCompile Include="SOURCE\DATATYPES\TAG\TAG.cpp" />
-    <ClCompile Include="SOURCE\DATATYPES\UUID\UUID_INT\UUID_INT.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

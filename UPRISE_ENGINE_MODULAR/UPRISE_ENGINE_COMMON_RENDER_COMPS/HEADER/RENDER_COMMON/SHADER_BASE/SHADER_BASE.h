@@ -6,12 +6,14 @@
 import std;
 import REF_WRAPPER;
 namespace UPRISE_ENGINE {
-    class OPENGL_SHADER;
+    namespace OPENGL_RENDER {
+        class OPENGL_SHADER;
+    }
     class VULKAN_SHADER;
     class DIRECTX11_SHADER;
     class DIRECTX12_SHADER;
     namespace RENDER_COMMON {
-        enum ShaderType {
+        enum class ShaderType {
             S_null,
             S_Vertex,
             S_Fragment,
@@ -19,20 +21,21 @@ namespace UPRISE_ENGINE {
             S_Compute
         };
         class SHADER_BASE {
-        private:
-            friend OPENGL_SHADER;
+        protected:
+            friend OPENGL_RENDER::OPENGL_SHADER;
             friend VULKAN_SHADER;
             friend DIRECTX11_SHADER;
             friend DIRECTX12_SHADER;
             std::string Code;
             std::string Path;
             ShaderType shadertype = ShaderType::S_null;
+            char PAD[4]; //TODO find a better way to align this or put data here
 
         public:
-            UPRISE_COMMON_RENDER_COMPS_API  virtual void* Compile() = 0;
+            UPRISE_COMMON_RENDER_COMPS_API  virtual void Compile() = 0;
             UPRISE_COMMON_RENDER_COMPS_API  virtual void Delete() = 0;
             UPRISE_COMMON_RENDER_COMPS_API  virtual void Load() = 0;
-
+            virtual ~SHADER_BASE() {};
 
 
         };

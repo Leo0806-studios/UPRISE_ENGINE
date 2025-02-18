@@ -22,9 +22,9 @@ namespace UPRISE_ENGINE {
             // constructor generates the shader on the fly
             // ------------------------------------------------------------------------
             Shader(const char* vertexPath, const char* fragmentPath);
-            //Shader(RefWrapper<VertexShader, true> vertexshader, RefWrapper<FragmentShader, true> frgmentshader);
+            //Shader(SharedRef<VertexShader, true> vertexshader, SharedRef<FragmentShader, true> frgmentshader);
             //Shader(VertexShader vertexshader, FragmentShader frgmentshader, GeometryShader geometryshader);
-            Shader();
+            Shader() = default;
             // activate the shader
             // ------------------------------------------------------------------------
             void use() const;

@@ -3,7 +3,6 @@
 #define UE_PROF_EVENT_
 import std; //-V3549 //-V2575
 import REF_WRAPPER; //-V3549 //-V2575
-#include "PROFILER/STACK_FRAMES/STACK_FRAMES.h"
 namespace UPRISE_ENGINE {
     namespace PROFILER {
         
@@ -12,9 +11,14 @@ namespace UPRISE_ENGINE {
         public:
             EVENT_BASE() =default;
             virtual ~EVENT_BASE() =default;
+            EVENT_BASE(const EVENT_BASE& other) = default;
             virtual std::string What() {
-                return "atd::string what() is not overriden";
+                return "std::string what() is not overriden";
+
+
             }
+
+
         };
     }
 }

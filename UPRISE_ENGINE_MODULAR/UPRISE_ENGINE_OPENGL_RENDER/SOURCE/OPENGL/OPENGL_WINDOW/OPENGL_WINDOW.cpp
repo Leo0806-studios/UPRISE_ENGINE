@@ -26,6 +26,7 @@ class WINDOW_Apple; //-V2575 //-V3549
 extern "C" WIDW_PTR NEW_WIN32_WINDOW();
 extern "C" void CoseWindow(WIDW_PTR window);
 
+
 extern "C" void WIN32_CREATE_WINDOW_G(WIDW_PTR window, int with, int height, const char* title);
 namespace UPRISE_ENGINE {
     namespace OPENGL_RENDER {
@@ -39,10 +40,7 @@ namespace UPRISE_ENGINE {
 
     namespace OPENGL_RENDER {
 
-        RefWrapper<RENDER_COMMON::WINDOW_BASE, true> OPENGL_WINDOW::_CreateWindow(int w, int h, const char* Title)
-        {
-            return  RefWrapper<RENDER_COMMON::WINDOW_BASE, true>();
-        }
+
         void OPENGL_WINDOW::CreateWindow(int w, int h, const char* Title)
         {
             PROFILER::TIMERS::SCOPED_TIME time("SetWindow", __FILE__, __FUNCTION__, __LINE__);
@@ -111,13 +109,13 @@ namespace UPRISE_ENGINE {
 
                 WNDCLASS wc = {  };
                 wc.lpfnWndProc = DefWindowProc;  // Basic default message handler
-                wc.hInstance = GetModuleHandle(nullptr); // Use current module instance
+                wc.hInstance = GetModuleHandle(nullptr); // Use current module instance //-V2001
                 int nameLength = MultiByteToWideChar(CP_UTF8, 0, name, -1, nullptr, 0);
                 std::wstring wideName(nameLength, 0);
-                MultiByteToWideChar(CP_UTF8, 0, name, -1, &wideName[0], nameLength); //-V2547
+                MultiByteToWideChar(CP_UTF8, 0, name, -1, &wideName[0], nameLength); //-V2547 //-V3527
 
                 wc.lpszClassName = wideName.c_str();
-                if (!static_cast<bool>(RegisterClassW(&wc))) {
+                if (!static_cast<bool>(RegisterClassW(&wc))) { //-V2001
                     throw std::exception("Failed to register window class");
                 }
                 with = w;

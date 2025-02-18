@@ -3,7 +3,7 @@
 #pragma once
 #ifndef UE_PhysicsObject_
 #define UE_PhysicsObject_
-#include "CORE/BEHAVIOUR/BEHAVIOUR.h";
+#include "CORE/BEHAVIOUR/BEHAVIOUR.h"
 import REF_WRAPPER; //-V2575 //-V3549
 namespace UPRISE_ENGINE {
     namespace PHYSICS {
@@ -18,7 +18,7 @@ namespace UPRISE_ENGINE {
         /// <summary>
         /// internal object
         /// </summary>
-        RefWrapper< PHYSICS::PhysicsObjectInternal, true> object;
+        SharedRef< PHYSICS::PhysicsObjectInternal, true> object;
     public:
         /// <summary>
         /// default constructor

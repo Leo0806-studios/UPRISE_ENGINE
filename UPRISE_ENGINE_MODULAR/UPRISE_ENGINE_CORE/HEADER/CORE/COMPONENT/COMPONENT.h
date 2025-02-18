@@ -3,8 +3,7 @@
 #pragma once
 #ifndef UE_Component_
 #define UE_Component_
-#include "OBJECT/OBJECT.h";
-
+#include "OBJECT/OBJECT.h"
 
 
 namespace UPRISE_ENGINE {
@@ -13,12 +12,14 @@ namespace UPRISE_ENGINE {
     /// base Class for components on GameObjects that are just for storing Data
     /// very low runntime cost
     /// </summary>
-        class UPRISE_CORE_API Component :public CORE::Object {
+        class  Component :public CORE::Object {
         private:
         public:
-            Component() = default;
-            ~Component() {}
-            void OnDestroyInt(RefWrapper<CORE::Object, true> obj)override {}
+            UPRISE_CORE_API   Component() = default;
+            UPRISE_CORE_API    Component(const Component& other) = delete;
+            UPRISE_CORE_API  Component operator=(const Component& other) = delete;
+            UPRISE_CORE_API  ~Component() {}
+            UPRISE_CORE_API  void OnDestroyInt(SharedRef<CORE::Object, true> obj)override {}
         };
     }
 }

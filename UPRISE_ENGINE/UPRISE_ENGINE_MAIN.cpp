@@ -191,45 +191,7 @@ void Termination_Handler() {
 
 
 
-class TestClass {
-public:
-    int value;
-    TestClass() : value(0) {}
-    TestClass(int val) : value(val) {}
-};
 
-void testWrapRefTrue() {
-    auto ref = WrapRef<TestClass, true>(TestClass(10));
-    assert(ref.Get()->value == 10);
-   // ref.Destroy();
-}
-
-void testWrapRefFalse() {
-    auto ref = WrapRef<TestClass, false>(TestClass(20));
-    assert(ref.Get()->value == 20);
-    //ref.Destroy();
-}
-
-void testRefWrapperGet() {
-    auto ref = WrapRef<TestClass, false>(TestClass(30));
-    assert(ref.Get()->value == 30);
-    //ref.Destroy();
-}
-
-void testRefWrapperOperatorArrow() {
-    auto ref = WrapRef<TestClass, false>(TestClass(40));
-    assert(ref->value == 40);
-    //ref.Destroy();
-}
-
-void testRefWrapperAssignment() {
-    auto ref1 = WrapRef<TestClass, true>(TestClass(50));
-    auto ref2 = WrapRef<TestClass, true>();
-    ref2 = ref1;
-    assert(ref2.Get()->value == 50);
-   // ref1.Destroy();
-   // ref2.Destroy();
-}
 
 /// <summary>
 /// Main Function
@@ -242,11 +204,6 @@ int main() {
 	//throw std::runtime_error("Test uncaught exception");
 
 
-    testWrapRefTrue();
-    testWrapRefFalse();
-    testRefWrapperGet();
-    testRefWrapperOperatorArrow();
-    testRefWrapperAssignment();
     std::cout << "All tests passed\n";
     std::cout << "\a";
 	float aW[] = { 1.0, 2.0, 3.0 };

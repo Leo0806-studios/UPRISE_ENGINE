@@ -7,7 +7,6 @@
 #include <MAT4/Mat4.h>
 namespace UPRISE_ENGINE {
     inline glm::mat4 RENDER::RenderCamera::GetViewMatrix() {
-        ZoneScoped;
         //TrPr(ctx, __func__)
         //	TrPrE(ctx);
         //return Mat4::Look_At(transf->Position, (transf->Position + transf->forward), transf->up).operator glm::mat<4, 4, float, glm::packed_highp>();

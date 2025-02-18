@@ -1,31 +1,43 @@
 // This is a personal academic project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
-#include "CORE/OBJECT/OBJECT.h";
-#include "CORE/BEHAVIOUR/BEHAVIOUR.h";
+#include "CORE/OBJECT/OBJECT.h"
+#include "CORE/BEHAVIOUR/BEHAVIOUR.h"
 
-#include "CORE/COMPONENT/COMPONENT.h";
+#include "CORE/COMPONENT/COMPONENT.h"
 namespace UPRISE_ENGINE {
-    void CORE::Object::destroyBehaviour(RefWrapper<CORE::Behaviour, true> Object)
-    {
-        Object->OnDestroyInt(Object);
+    namespace CORE {
+        Object::Object(const Object& other)
+        {
+            this->enabled.store(other.enabled) ;
+            this->name = other.name;
+
+        }
+        Object::Object(const Object& other, bool)
+        {
+            this->enabled.store(other.enabled);
+            this->name =std::string( other.name);
+        }
+        Object& CORE::Object::operator=(const Object& other)
+        {
+            this->enabled.store(other.enabled);
+            this->name = other.name;
+            return *this;
+        }
+        void CORE::Object::destroyBehaviour(SharedRef<CORE::Behaviour, true> Object)
+        {
+            Object->OnDestroyInt(Object);
+
+        }
+
+        void CORE::Object::destroyComponent(SharedRef<CORE::Component, true> Object)
+        {
+            Object->OnDestroyInt(Object);
+        }
+        void CORE::Object::destroyObject(SharedRef<CORE::Object, true> Object)
+        {
+            ///TODO: implement object destruction
+        }
 
     }
-
-    void CORE::Object::destroyComponent(RefWrapper<CORE::Component, true> Object)
-    {
-        Object->OnDestroyInt(Object);
-    }
-    //template<> bool CORE::Object::Destroy(RefWrapper<CORE::Behaviour, true> Object) {
-    //    destroyBehaviour(Object);
-    //    return true;
-    //}
-    //template<> bool CORE::Object::Destroy(RefWrapper<CORE::Component, true> Object) {
-    //    destroyComponent(Object);
-    //    return true;
-    //}
-    //template<> bool CORE::Object::Destroy(RefWrapper<CORE::Object, true> Object) {
-    //    Object->OnDestroyInt(Object);
-    //    return true;
-    //}
 }
 

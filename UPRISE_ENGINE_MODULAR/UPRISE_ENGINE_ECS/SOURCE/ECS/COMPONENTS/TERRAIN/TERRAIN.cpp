@@ -1,6 +1,6 @@
 // This is a personal academic project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
-#include  "ECS/COMPONENTS/TERRAIN/TERRAIN.h";
+#include  "ECS/COMPONENTS/TERRAIN/TERRAIN.h"
 namespace UPRISE_ENGINE {
     void Terrain::GenerateData()
     {

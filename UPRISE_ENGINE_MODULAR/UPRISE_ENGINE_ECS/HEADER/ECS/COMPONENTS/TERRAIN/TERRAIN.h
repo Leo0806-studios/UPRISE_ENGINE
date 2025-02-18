@@ -4,7 +4,7 @@
 #ifndef UE_Terrain_
 #define UE_Terrain_
 import REF_WRAPPER; //-V2575 //-V3549
-#include "BEHAVIOUR/BEHAVIOUR.h";
+#include "BEHAVIOUR/BEHAVIOUR.h"
 namespace UPRISE_ENGINE {
     //#include "Windows.h";
     class TerrainData;
@@ -16,7 +16,7 @@ namespace UPRISE_ENGINE {
         /// <summary>
         /// internal Data   
         /// </summary>
-        RefWrapper<TerrainData, true> data;
+        SharedRef<TerrainData, true> data;
     public:
         /// <summary>
         /// UUID of component

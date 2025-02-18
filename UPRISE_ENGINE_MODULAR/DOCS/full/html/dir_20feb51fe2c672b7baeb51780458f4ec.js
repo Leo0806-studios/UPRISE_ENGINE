@@ -1,6 +1,0 @@
-var dir_20feb51fe2c672b7baeb51780458f4ec =
-[
-    [ "VECTOR2", "dir_48606e178372a751916562d5d3dc3196.html", "dir_48606e178372a751916562d5d3dc3196" ],
-    [ "VECTOR3", "dir_735008a60d50b20c8fc2010311bfeb78.html", "dir_735008a60d50b20c8fc2010311bfeb78" ],
-    [ "VECTOR4", "dir_1d6bad314f05fd15898a47560077c157.html", "dir_1d6bad314f05fd15898a47560077c157" ]
-];

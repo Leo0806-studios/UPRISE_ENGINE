@@ -5,9 +5,10 @@
 #ifndef UE_QUATERION_
 #define UE_QUATERION_
 
-#include "GLOBAL/GLINCLUDES.h"
+#include <GLOBAL/GLINCLUDES.h>
 #include <intrin.h>
-#include "DATATYPES/VECTOR/VECTOR3/FAST/VECTOR3_F.h";
+#include "DATATYPES/VECTOR/VECTOR3/FAST/VECTOR3_F.h"
+#pragma warning(disable: 4514)
 
 namespace UPRISE_ENGINE {
 #pragma region Quaterion
@@ -292,6 +293,7 @@ namespace UPRISE_ENGINE {
     };
 #pragma endregion
 }
+#pragma warning(default: 4514)
 
 #endif // !_QUATERION_
 

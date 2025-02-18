@@ -3,12 +3,12 @@
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com#pragma once
 #ifndef UE_Transform_
 #define UE_Transform_
-//#include "GLOBAL/GLINCLUDES.h"
 #include "BEHAVIOUR/BEHAVIOUR.h"
 #include "VECTOR/VECTOR3/FAST/VECTOR3_F.h"
 
 #include "QUTERION/QUATERION.h"
 import REF_WRAPPER;
+#pragma warning(disable: 4514)
 
 namespace UPRISE_ENGINE {
     class Transform;
@@ -19,7 +19,7 @@ namespace UPRISE_ENGINE {
     class Transform :public CORE::Behaviour {
     private:
         template<class T,bool r>
-        friend RefWrapper<T, r> UPRISE_ENGINE::WrapRef( const T&& __val);
+        friend SharedRef<T, r> UPRISE_ENGINE::CreateSharedRef( const T&& __val);
 
         /// <summary>
         /// position of the gameobject
@@ -46,6 +46,14 @@ namespace UPRISE_ENGINE {
     /// </summary>
     /// 
         Vector3 right;
+        explicit Transform(const Transform& other, bool) {
+            position = other.position;
+            rotation = other.rotation;
+            vec3rot = other.vec3rot;
+            forward = other.forward;
+            up = other.up;
+            right = other.right;
+        }
         explicit Transform(const Transform& other) {
             position = other.position;
             rotation = other.rotation;
@@ -123,12 +131,14 @@ namespace UPRISE_ENGINE {
         UPRISE_ECS_API void Update()override;
         UPRISE_ECS_API void Awake()override;
         UPRISE_ECS_API void Start()override;
-        UPRISE_ECS_API RefWrapper<CORE::Object, true> Copy()override;
+        UPRISE_ECS_API SharedRef<CORE::Object, true> Copy()override;
+        UPRISE_ECS_API SharedRef<CORE::Object, true> DeepCopy()override;
         UPRISE_ECS_API void EditorWindow()override;
 #pragma endregion
 
 
     };
 }
+#pragma warning(default: 4514)
 
 #endif // !_Transform_

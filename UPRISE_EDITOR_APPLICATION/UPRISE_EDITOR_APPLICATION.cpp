@@ -9,7 +9,7 @@
 #include <RENDER_COMMON/RENDER_BACKEND/RENDER_BACKEND.h>
 #include <RENDER/WINDOW/WINDOW.h>
 #include <PROFILER/PROFILER/PROFILER.h>
-#include "Windows.h"
+#include <Windows.h>
 #include <PROFILER/PROFILER_OBJECTS/ALLOC/ALLOC_OBJECT.h>
 #include <PROFILER/PROFILER_OBJECTS/TIMERS/SCOPED/SCOPED_TIME.h>
 #pragma comment(lib, "UPRISE_ENGINE_PROFILER.lib")
@@ -40,7 +40,7 @@ public:
 // ...
 void takeslongandteststimer() { //-V2575 //-V3549
     UPRISE_ENGINE::PROFILER::TIMERS::SCOPED_TIME a(__FUNCSIG__, __FILE__, __FUNCTION__, __LINE__);
-    for (Index i = 0; i < 100000; i++) {
+    for (Index i = 0; i < 10000; i++) {
         Index aa = 0;
         aa++;
     }
@@ -75,9 +75,9 @@ int main()
     //InstallHeapCallback();
     UPRISE_ENGINE::PROFILER::PROFILER::Start_Profiler();
     UPRISE_ENGINE::PROFILER::TIMERS::SCOPED_TIME a(__FUNCSIG__, __FILE__, __FUNCTION__, __LINE__);
-    takeslongandteststimer();
+    takeslongandteststimere();
     try {
-        throw Testexcp("erewsrfsefsefsefvefregjmriwsgvjmserioaugvjumteriaosvm jaeioövrumre"); //-V2578
+        throw Testexcp("erewsrfsefsefsefvefregjmriwsgvjmserioaugvjumteriaosvm jaeioövrumre"); //-V2578 //-V3551
     }
     catch(Testexcp& e){
         std::cout << e.What();
@@ -103,7 +103,7 @@ int main()
 
     std::string s;
     std::cin >> s; 
-    UPRISE_ENGINE::RefWrapper<UPRISE_ENGINE::RENDER::Window, true>wind = UPRISE_ENGINE::WrapRef<UPRISE_ENGINE::RENDER::Window, true>();
+    UPRISE_ENGINE::SharedRef<UPRISE_ENGINE::RENDER::Window, true>wind = UPRISE_ENGINE::CreateSharedRef<UPRISE_ENGINE::RENDER::Window, true>();
     wind->SetWindow(window);
     std::cout << "destroying window";
     UPRISE_ENGINE::RENDER::Window::DestroyWindow(wind);

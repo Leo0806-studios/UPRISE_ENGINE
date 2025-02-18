@@ -5,7 +5,7 @@
 #define UE_Camera_
 import REF_WRAPPER; //-V2575 //-V3549
 
-#include "CORE/BEHAVIOUR/BEHAVIOUR.h";
+#include "CORE/BEHAVIOUR/BEHAVIOUR.h"
 namespace UPRISE_ENGINE {
     namespace RENDER {
         class RenderCam;
@@ -15,19 +15,21 @@ namespace UPRISE_ENGINE {
     /// </summary>
     class Camera :public CORE::Behaviour {
     private:
-        /// <summary>
-        /// FOV of the camera
-        /// </summary>
-        float fov;
+
         /// <summary>
         /// Wrapper pointer to the RenderCam
         /// </summary>
-        RefWrapper<RENDER::RenderCam, true> rendercam;
+        SharedRef<RENDER::RenderCam, true> rendercam;
     public:
         /// <summary>
         /// Component UUID
         /// </summary>
         static UUID uid;
+        /// <summary>
+/// FOV of the camera
+/// </summary>
+        float fov;
+        char PAD[4];   //TODO find a better way to align this or find data to put here
         /// <summary>
         /// default constructor
         /// </summary>

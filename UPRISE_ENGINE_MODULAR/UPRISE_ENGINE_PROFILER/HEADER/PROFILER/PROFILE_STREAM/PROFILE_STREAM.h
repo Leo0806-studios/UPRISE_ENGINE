@@ -3,11 +3,13 @@
 #define UE_PROFILE_STREAM_
 import std; //-V3549 //-V2575
 import REF_WRAPPER; //-V3549 //-V2575
-#include "cstring"
+#include <cstring>
 namespace UPRISE_ENGINE {
     namespace PROFILER {
         class PROFILE_STREAM;
         class PROFILE_EVENT;
+#pragma warning(disable: 4820)
+
         class PROFILE_STREAM {
 
         private:
@@ -20,6 +22,8 @@ namespace UPRISE_ENGINE {
             std::ofstream LogFile;
 
         public:
+            PROFILE_STREAM(const PROFILE_STREAM&) = delete;
+            PROFILE_STREAM& operator=(const PROFILE_STREAM&) = delete;
             void Flush();
             bool toggleAutoFlush();
             PROFILE_STREAM(bool init);
@@ -74,6 +78,7 @@ namespace UPRISE_ENGINE {
 
 
         };
+#pragma warning(default:4820)
     }
 }
 

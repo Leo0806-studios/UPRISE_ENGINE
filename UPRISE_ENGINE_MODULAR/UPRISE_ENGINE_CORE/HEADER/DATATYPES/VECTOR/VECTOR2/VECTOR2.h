@@ -4,7 +4,7 @@
 #ifndef _VECTOR2_
 #define _VECTOR2_
 #if (_CORE_EXPORT_ !=1) 
-#include "GLOBAL/GLINCLUDES.h"
+#include <GLOBAL/GLINCLUDES.h>
 
 #include <intrin.h>
 #endif // !UPRISE_CORE_API_EXPORTS
@@ -324,7 +324,7 @@ namespace UPRISE_ENGINE {
     /// computes the magnitude (length) of the vector
     /// </summary>
     /// <returns></returns>
-        __forceinline  float Magnitude() {
+        __forceinline  float Magnitude() const {
             __m128 val2 = Data;
             val2 = _mm_mul_ps(val2, val2);
             __m128 shuf = _mm_movehdup_ps(val2);        // broadcast elements 3,1 to 2,0
@@ -341,9 +341,9 @@ namespace UPRISE_ENGINE {
         /// returns the normalized version of the vector
         /// </summary>
         /// <returns></returns>
-        __forceinline  Vector2 Normalized() {
+        __forceinline  Vector2 Normalized() const {
             float mag = this->Magnitude();
-            Vector2 tmp;
+            Vector2 tmp{};
             _mm_store_ps(&tmp.x(), _mm_div_ps(Data, _mm_load_ps1(&mag)));
             return tmp;
         }
@@ -352,7 +352,7 @@ namespace UPRISE_ENGINE {
         /// </summary>
         /// <param name="a"></param>
         /// <returns></returns>
-        __inline  float Point(Vector2 a) {
+        __inline  float Point(Vector2 a) const {
             __m128 val = Data;
 
             val = _mm_mul_ps(val, a.Data);

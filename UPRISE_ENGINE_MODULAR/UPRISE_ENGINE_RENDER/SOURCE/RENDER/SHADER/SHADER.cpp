@@ -60,7 +60,7 @@ namespace UPRISE_ENGINE {
 
         }
 
-        //Shader::Shader(RefWrapper<VertexShader,true> vertexshader, RefWrapper<FragmentShader,true> frgmentshader)
+        //Shader::Shader(SharedRef<VertexShader,true> vertexshader, SharedRef<FragmentShader,true> frgmentshader)
         //{
            // const char* vShaderCode = vertexshader->ShaderCode.c_str();
            // const char* fShaderCode = frgmentshader->ShaderCode.c_str();
@@ -141,10 +141,6 @@ namespace UPRISE_ENGINE {
            //  glDeleteShader(fragment);
            //  glDeleteShader(geometry);
         // }
-
-        Shader::Shader()
-        {
-        }
 
         // activate the shader
         // ------------------------------------------------------------------------

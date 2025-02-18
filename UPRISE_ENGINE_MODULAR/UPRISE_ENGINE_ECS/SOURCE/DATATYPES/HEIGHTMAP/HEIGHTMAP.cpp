@@ -9,8 +9,8 @@ namespace UPRISE_ENGINE {
 
     UPRISE_ECS_API float HeightMap::SetHeight(Index x, Index y, float height)
     {
-        float temp = Data[x][y];
-        return temp;
+        Data[x][y] = height;
+        return Data[x][y];
     }
 
 }

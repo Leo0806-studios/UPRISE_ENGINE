@@ -4,17 +4,11 @@
 #ifndef UE_BEHAVIOUR_
 #define UE_BEHAVIOUR_
 
-//#include "Windows.h"
 #include "UUID/UUID.h"
-#include "OBJECT/OBJECT.h";
+#include "OBJECT/OBJECT.h"
 
 
-//struct UUID {
-//    int data1;
-//    short data2;
-//    short data3;
-//    char data4[8];
-//};
+
 
 
 
@@ -26,22 +20,29 @@ namespace UPRISE_ENGINE {
     class GameOject;
     class Transform;
     namespace CORE {
-        class UPRISE_CORE_API Behaviour :public CORE::Object {
+        
+        class  Behaviour :public CORE::Object {
+        private:
+        protected:
+           UPRISE_CORE_API explicit Behaviour(const Behaviour& other);
+           UPRISE_CORE_API explicit Behaviour(const Behaviour& other,bool);
+           UPRISE_CORE_API Behaviour& operator=(const Behaviour& other);
         private:
 #pragma region NonStaticVars
-            RefWrapper<GameOject, true> gameObj;
-            RefWrapper<Transform, true> transf;
-            UUID uuid;
-            int id = 0;
-            bool toBeRemoved;
-            //bool enabled;
 
+
+            SharedRef<GameOject, true> gameObj;
+            SharedRef<Transform, true> transf;
+            UUID uuid;
+
+            int id = 0;
+            char PAD[4];   //TODO find a better way to align this or find data to put here
 #pragma endregion
 #pragma region StaticVars
-            static std::vector<RefWrapper<CORE::Behaviour, true>> behaviours;
-            static std::vector<RefWrapper<CORE::Behaviour, true>> awakes;
-            static std::vector<RefWrapper<CORE::Behaviour, true>> starts;
-            static int currentUpdate;
+            UPRISE_CORE_API   static std::vector<SharedRef<CORE::Behaviour, true>> behaviours;
+            UPRISE_CORE_API  static std::vector<SharedRef<CORE::Behaviour, true>> awakes;
+            UPRISE_CORE_API static std::vector<SharedRef<CORE::Behaviour, true>> starts;
+            UPRISE_CORE_API  static int currentUpdate;
 #pragma endregion
 
 
@@ -52,24 +53,24 @@ namespace UPRISE_ENGINE {
             /// constuctor that sets toBeRemoved(false)
             /// </summary>
             /// <returns></returns>
-            Behaviour() :toBeRemoved(false) {};
-            /// <summary>
-            /// constuctor that sets toBeRemoved(true)
-            /// </summary>
-            /// <param name="remove"></param>
-            /// <returns></returns>
-            Behaviour(int remove) :toBeRemoved(true) {};
+            Behaviour()=default;
+
+
+
 
 #pragma endregion
 #pragma region destructor
             virtual ~Behaviour() {
-                toBeRemoved = true;
-                Enabled() = false;
+                SetEnabled(false);
             }
 #pragma endregion
             //following region contains all functions
 #pragma region funcs
-            void OnDestroyInt(RefWrapper<CORE::Object, true> obj) override;
+#pragma region OPREATORS
+
+#pragma endregion
+
+            UPRISE_CORE_API   void OnDestroyInt(SharedRef<CORE::Object, true> obj) override;
 
 
             //following region contains all virtual member functions
@@ -104,21 +105,21 @@ namespace UPRISE_ENGINE {
             /// internal function to called to remove this obj from updates
             /// </summary>
             /// <returns></returns>
-            bool RemoveFromUpdate();
+            UPRISE_CORE_API  bool RemoveFromUpdate();
             /// <summary>
             /// internal function to call to remove this obj from start 
             /// </summary>
             /// <returns></returns>
-            bool RemoveFromStart();
+            UPRISE_CORE_API  bool RemoveFromStart();
             /// <summary>
             /// internal function to call to remove this obj from awake 
             /// </summary>
             /// <returns></returns>
-            bool RemoveFromAwake();
+            UPRISE_CORE_API   bool RemoveFromAwake();
             /// <summary>
             /// fujction to call when the object is destroyed
             /// </summary>
-            virtual  void OnDestroy();
+            UPRISE_CORE_API     virtual  void OnDestroy();
 
 #pragma endregion
             //following region contains all static Member functions
@@ -127,43 +128,43 @@ namespace UPRISE_ENGINE {
         /// loops trough all scripts and calls Update()
         /// </summary>
         /// <returns></returns>
-            static  void UpdateAll();
+            UPRISE_CORE_API     static  void UpdateAll();
             /// <summary>
             /// loops trough all scripts and calls Awake()
             /// removes the script from the vector after call
             /// </summary>
             /// <returns></returns>
-            static  void UpdateAllAWAKE();
+            UPRISE_CORE_API     static  void UpdateAllAWAKE();
             /// <summary>
             /// loops trough scripts and calls Start()
             ///  removes the script from the vector after call
             /// </summary>
             /// <returns></returns>
-            static  void UpdateAllSTART();
+            UPRISE_CORE_API     static  void UpdateAllSTART();
             /// <summary>
             /// calls all update Parralel instances to update the scripts that derive from it
             /// </summary>
             /// <returns></returns>
-            static  void UpdateallParallel();
+            UPRISE_CORE_API     static  void UpdateallParallel();
             /// <summary>
             /// internal function to add script to update loop
             /// </summary>
             /// <param name="behaviour"></param>
             /// <returns></returns>
-            static  bool AddToUpdate(RefWrapper<CORE::Behaviour, true> behaviour);
+            UPRISE_CORE_API   static  bool AddToUpdate(SharedRef<CORE::Behaviour, true> behaviour);
             /// <summary>
             /// internal function to add script to start
             /// </summary>
             /// <param name="behaviour"></param>
             /// <returns></returns>
-            static  bool AddToStart(RefWrapper<CORE::Behaviour, true> behaviour);
+            UPRISE_CORE_API   static  bool AddToStart(SharedRef<CORE::Behaviour, true> behaviour);
             /// <summary>
             /// internal function to add script to Awake 
             /// will be removed later/moved to intended behaviour
             /// </summary>
             /// <param name="behaviour"></param>
             /// <returns></returns>
-            static  bool AddToAwake(RefWrapper<CORE::Behaviour, true> behaviour);
+            UPRISE_CORE_API static  bool AddToAwake(SharedRef<CORE::Behaviour, true> behaviour);
 
 
 #pragma endregion

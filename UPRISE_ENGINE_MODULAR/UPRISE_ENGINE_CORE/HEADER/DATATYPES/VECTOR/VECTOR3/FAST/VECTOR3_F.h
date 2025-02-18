@@ -8,9 +8,10 @@
 #ifndef UE_VECTOR3_
 #define UE_VECTOR3_
 
-#include "GLOBAL/GLINCLUDES.h"
+#include <GLOBAL/GLINCLUDES.h>
 
 #include <intrin.h>
+#pragma warning(disable: 4514)
 
 namespace UPRISE_ENGINE {
     /// <summary>
@@ -92,7 +93,7 @@ namespace UPRISE_ENGINE {
         /// getter for x
         /// </summary>
         /// <returns></returns>
-        __inline  const float x() const {
+        __inline   float x() const {
             return Data.m128_f32[0];
             //return ((float*)&Data)[0];
         }
@@ -100,7 +101,7 @@ namespace UPRISE_ENGINE {
         /// getter for y
         /// </summary>
         /// <returns></returns>
-        __inline  const float y() const {
+        __inline   float y() const {
             return Data.m128_f32[1];
           //  return ((float*)&Data)[1];
 
@@ -109,7 +110,7 @@ namespace UPRISE_ENGINE {
         /// getter for z
         ///<summary>
         /// <returns></returns>
-        __inline  const float z() const {
+        __inline   float z() const {
             return Data.m128_f32[2];
             //return ((float*)&Data)[2];
 
@@ -118,7 +119,7 @@ namespace UPRISE_ENGINE {
         /// getter for pad  
         /// </summary>
         /// <returns></returns>
-        __inline  const float pad() const {
+        __inline   float pad() const {
             return Data.m128_f32[3];
            // return ((float*)&Data)[3];
 
@@ -222,15 +223,8 @@ namespace UPRISE_ENGINE {
             return other;
         }
 
-        /// <summary>
-        /// multiplication opperator of two vector3
-        /// </summary>
-        /// <param name="other"></param>
-        /// <returns></returns>
-        __inline  Vector3 operator*(Vector3 other) {
-            other.Data = _mm_mul_ps(this->Data, other.Data);
-            return  other;
-        }
+
+
         /// <summary>
         /// multiplication opperator of a vector 3 and a __m128
         /// </summary>
@@ -247,15 +241,7 @@ namespace UPRISE_ENGINE {
         __inline  Vector3 operator*(float f) {
             return Vector3(_mm_mul_ps(this->Data, _mm_set_ps1(f)));
         }
-        /// <summary>
-        /// division opperator of two vector3
-        /// </summary>
-        /// <param name="other"></param>
-        /// <returns></returns>
-        __inline  Vector3 operator/(Vector3 other) {
-            other.Data = _mm_div_ps(this->Data, other.Data);
-            return  other;
-        }
+
         /// <summary>
         /// division opperator of a vector 3 and a __m128
         /// </summary>
@@ -320,6 +306,11 @@ namespace UPRISE_ENGINE {
         __inline  Vector3 operator-(const __m128 other)const noexcept {
             return Vector3(_mm_sub_ps(this->Data, other));
         }
+        /// <summary>
+/// multiplication opperator of two vector3
+/// </summary>
+/// <param name="other"></param>
+/// <returns></returns>
         __inline  Vector3 operator*(const Vector3& other)const {
             return  Vector3(_mm_mul_ps(this->Data, other.Data));
         }
@@ -349,7 +340,7 @@ namespace UPRISE_ENGINE {
         /// computes the magnitude (length) of the vector
         /// </summary>
         /// <returns></returns>
-        __forceinline  float Magnitude() {
+        __forceinline  float Magnitude() const {
             __m128 val2 = Data;
             val2 = _mm_mul_ps(val2, val2);
             __m128 shuf = _mm_movehdup_ps(val2);        // broadcast elements 3,1 to 2,0
@@ -366,9 +357,9 @@ namespace UPRISE_ENGINE {
         /// returns the normalized version of the vector
         /// </summary>
         /// <returns></returns>
-        __forceinline  Vector3 Normalized() {
+        __forceinline  Vector3 Normalized() const {
             float mag = this->Magnitude();
-            Vector3 tmp;
+            Vector3 tmp{};
             _mm_store_ps(reinterpret_cast<float*>(&tmp), _mm_div_ps(Data, _mm_load_ps1(&mag)));
             return tmp;
         }
@@ -377,7 +368,7 @@ namespace UPRISE_ENGINE {
         /// </summary>
         /// <param name="a"></param>
         /// <returns></returns>
-        __inline  float Point(Vector3 a) {
+        __inline  float Point(Vector3 a) const {
             __m128 val = Data;
 
             val = _mm_mul_ps(val, a.Data);
@@ -394,6 +385,6 @@ namespace UPRISE_ENGINE {
 
     };
 }
-
+#pragma warning(default: 4514)
 #endif
 

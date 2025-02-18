@@ -3,7 +3,7 @@
 #pragma once
 #ifndef UE_Mesh_
 #define UE_Mesh_
-#include "CORE/BEHAVIOUR/BEHAVIOUR.h";
+#include "CORE/BEHAVIOUR/BEHAVIOUR.h"
 namespace UPRISE_ENGINE {
     /// <summary>
 /// class for Mesh Component

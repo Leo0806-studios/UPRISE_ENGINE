@@ -17,9 +17,9 @@ namespace UPRISE_ENGINE {
             float FOV;
 
 
-            RefWrapper<Transform, true> transf;
+            SharedRef<Transform, true> transf;
             RenderCamera();
-            static RenderCamera Create(RefWrapper<Transform, true> tr);
+            static RenderCamera Create(SharedRef<Transform, true> tr);
 
             __inline glm::mat4 GetViewMatrix();
             //{
