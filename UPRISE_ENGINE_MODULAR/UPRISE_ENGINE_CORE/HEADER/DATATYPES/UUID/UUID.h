@@ -6,10 +6,15 @@
 import std;
 namespace UPRISE_ENGINE {
     struct  UUID  {
+#ifdef UPRISE_TESTS
+    public:
+#else
     private:
-        struct  {
-            unsigned char data[16]{0};
-        } Data;
+#endif
+        unsigned int Data1;
+        unsigned short Data2;
+        unsigned short Data3;
+        unsigned char Data4[8];
     public:
 
         UUID() = default;
@@ -18,6 +23,9 @@ namespace UPRISE_ENGINE {
        UPRISE_CORE_API  UUID(UUID&& other) noexcept;;
        UPRISE_CORE_API UUID& operator=(const UUID& other)noexcept;
        UPRISE_CORE_API UUID& operator=(UUID&& other) noexcept;
+       UPRISE_CORE_API bool operator==(const UUID& other)noexcept;
+       UPRISE_CORE_API bool operator!=(const UUID& other)noexcept;
+
         static UUID Create();
     };
 }

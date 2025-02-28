@@ -3,7 +3,7 @@
 #pragma once
 #ifndef UE_Shader_
 #define UE_Shader_
-#include "GLOBAL/GLINCLUDES.h"
+#include <GLOBAL/GLINCLUDES.h>
 
 import std; //-V3549 //-V2575
 import REF_WRAPPER; //-V3549 //-V2575
@@ -17,6 +17,8 @@ namespace UPRISE_ENGINE {
         public:
         public:
             unsigned int ID = INT_MAX;
+            char PAD[4]{};//TODO find a way to aling this better or put data here //-V112
+
             std::unordered_map< std::string, GLint> VarLocationsU;
             std::unordered_map< std::string, GLint> VarLocationsL;
             // constructor generates the shader on the fly

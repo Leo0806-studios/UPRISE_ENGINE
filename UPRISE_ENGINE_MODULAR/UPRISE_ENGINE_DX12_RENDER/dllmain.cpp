@@ -2,6 +2,7 @@
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 // dllmain.cpp : Defines the entry point for the DLL application.
 #include <Windows.h>
+#pragma warning(push)
 #pragma warning(disable: 4100)
 
 BOOL APIENTRY DllMain( HMODULE hModule, //-V2575 //-V2537 //-V3523 //-V3549
@@ -19,6 +20,6 @@ BOOL APIENTRY DllMain( HMODULE hModule, //-V2575 //-V2537 //-V3523 //-V3549
     }
     return TRUE;
 }
-#pragma warning(default: 4100)
 
+#pragma warning(pop)
 UPRISE_DX12_RENDER_API void eee() {} //-V2575 //-V3549

@@ -13,7 +13,7 @@ namespace UPRISE_ENGINE {
         typedef _Ty((*externFuction)(_Arg));
         FARPROC func = symLoad(handle, functionName);
         static_assert(sizeof(FARPROC) == sizeof(externFuction));
-        externFuction Function = static_cast<externFuction>(static_cast<void*>(func)); //-V2597
+        externFuction Function = static_cast<externFuction>(static_cast<void*>(func)); //-V2597 //-V206
         _Ty result = Function(argument);
         return result;
     }
@@ -52,7 +52,7 @@ namespace UPRISE_ENGINE {
 
     SharedRef<TerrainData, true> TerrainData::Create(const char* path, int w, int d, float mh, SharedRef<RENDER::Shader, true> shader)
     {
-        SharedRef<TerrainData, true> tmp = CreateSharedRef<TerrainData, true>();
+        SharedRef<TerrainData, true> tmp = CreateRefs::CreateSharedRef<TerrainData, true>();
         tmp->Maxheight = mh;
         tmp->depth = d;
         tmp->witdh = w;

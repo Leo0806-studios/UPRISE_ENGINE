@@ -23,6 +23,7 @@ namespace UPRISE_ENGINE {
     namespace CORE {
         class Behaviour;
         class Component;
+#pragma warning(push)
 #pragma warning(disable:4514)
         /// <summary>
     /// Baseclass For nearly everything object related in the engine
@@ -35,7 +36,7 @@ namespace UPRISE_ENGINE {
             UPRISE_CORE_API Object& operator=(const Object& other);
         private:
             std::string name;
-            std::atomic<bool> enabled = true;
+            std::atomic<bool> enabled;
          
             char PAD[7];   //TODO find a better way to align this or find data to put here
             UPRISE_CORE_API  static   void destroyBehaviour(SharedRef<CORE::Behaviour, true> Object);
@@ -47,7 +48,7 @@ namespace UPRISE_ENGINE {
             /// <summary>
             /// default constructor
             /// </summary>
-            UPRISE_CORE_API   Object() = default;
+            UPRISE_CORE_API   Object() :name(), enabled(true), PAD{DEBUG_PAD_BITS_ZEROED} {}
 
 #pragma endregion
 #pragma region destructors
@@ -58,6 +59,12 @@ namespace UPRISE_ENGINE {
 #pragma endregion
 #pragma region Functions
 #pragma region OPERATORS
+            UPRISE_CORE_API virtual bool operator== (const Object& other) const {
+                return this->enabled == other.enabled && this->name == other.name;
+            }
+            UPRISE_CORE_API virtual bool operator!=(const Object& other) const {
+                return this->enabled != other.enabled || this->name != other.name;
+            }
 #pragma endregion
 
 #pragma region statics
@@ -131,8 +138,10 @@ namespace UPRISE_ENGINE {
 
 
         };
-#pragma warning(default:4514)
+#pragma warning(pop)
+
     };
+
 }
 
  

@@ -3,11 +3,13 @@
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com#pragma once
 #ifndef UE_Transform_
 #define UE_Transform_
-#include "BEHAVIOUR/BEHAVIOUR.h"
-#include "VECTOR/VECTOR3/FAST/VECTOR3_F.h"
+#include "CORE/BEHAVIOUR/BEHAVIOUR.h"
+#include "DATATYPES/VECTOR/VECTOR3/FAST/VECTOR3_F.h"
 
-#include "QUTERION/QUATERION.h"
+#include "DATATYPES/QUTERION/QUATERION.h"
+#include "DATATYPES//UUID/UUID.h"
 import REF_WRAPPER;
+#pragma warning(push)
 #pragma warning(disable: 4514)
 
 namespace UPRISE_ENGINE {
@@ -18,9 +20,12 @@ namespace UPRISE_ENGINE {
 /// </summary>
     class Transform :public CORE::Behaviour {
     private:
-        template<class T,bool r>
-        friend SharedRef<T, r> UPRISE_ENGINE::CreateSharedRef( const T&& __val);
+        friend CreateRefs;
 
+        //template<class T, bool r>
+
+        //friend SharedRef<T, r> CreateSharedRef<T, r>();
+        char PAD[8]; //TODO find a better way to align this or find data to put here
         /// <summary>
         /// position of the gameobject
         /// </summary>
@@ -46,31 +51,51 @@ namespace UPRISE_ENGINE {
     /// </summary>
     /// 
         Vector3 right;
-        explicit Transform(const Transform& other, bool) {
+        explicit Transform(const Transform& other, bool):
+            Behaviour(other, true),
+            PAD{ DEBUG_PAD_BITS_ZEROED },
+            position(other.position),
+            rotation(other.rotation),
+            vec3rot(other.vec3rot),
+            forward(other.forward),
+            up(other.up),
+            right(other.right)
+        {
+  
+        }
+        explicit Transform(const Transform& other):
+            Behaviour(other),
+            PAD{ DEBUG_PAD_BITS_ZEROED },
+            position(other.position),
+            rotation(other.rotation),
+            vec3rot(other.vec3rot),
+            forward(other.forward),
+            up(other.up),
+            right(other.right)
+        {
+
+        }
+
+         Transform& operator=(const Transform& other) {
             position = other.position;
             rotation = other.rotation;
             vec3rot = other.vec3rot;
             forward = other.forward;
             up = other.up;
             right = other.right;
+            return *this;
         }
-        explicit Transform(const Transform& other) {
-            position = other.position;
-            rotation = other.rotation;
-            vec3rot = other.vec3rot;
-            forward = other.forward;
-            up = other.up;
-            right = other.right;
-        }
-         Transform operator=(const Transform& other) {
-            position = other.position;
-            rotation = other.rotation;
-            vec3rot = other.vec3rot;
-            forward = other.forward;
-            up = other.up;
-            right = other.right;
-            return Transform(*this);
-        }
+         
+         Transform& operator=(Transform&& other) {
+             position = std::move(other.position);
+             rotation = std::move(other.rotation);
+             vec3rot = std::move(other.vec3rot);
+             forward = std::move(other.forward);
+             up = std::move(other.up);
+             right = std::move(other.right);
+             return *this;
+         }
+
     public:
         /// <summary>
         /// uuid of component
@@ -139,6 +164,5 @@ namespace UPRISE_ENGINE {
 
     };
 }
-#pragma warning(default: 4514)
-
+#pragma warning(pop)
 #endif // !_Transform_

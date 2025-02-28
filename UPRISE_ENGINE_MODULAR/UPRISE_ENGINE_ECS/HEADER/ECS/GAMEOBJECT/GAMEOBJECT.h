@@ -11,6 +11,7 @@
 #include "DATATYPES/QUTERION/QUATERION.h"
 import std;
 import REF_WRAPPER;
+#pragma warning(push)
 #pragma warning(disable: 4514)
 namespace UPRISE_ENGINE {
     namespace CORE {
@@ -118,5 +119,5 @@ namespace UPRISE_ENGINE {
 
     };
 }
-#pragma warning(default:4514)
+#pragma warning(pop)
 #endif // !_GameObject_

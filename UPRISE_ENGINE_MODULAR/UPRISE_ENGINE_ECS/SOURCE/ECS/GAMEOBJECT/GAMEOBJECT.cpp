@@ -12,14 +12,15 @@ namespace UPRISE_ENGINE {
             if (static_cast<long long>(i-1) < 0) {
                 throw std::exception("Index out of range");
             }
-            if(!CORE::Object::Destroy(behaviours[i-1])){
+            if (!CallMockableMethod(CORE::Object::Destroy(behaviours[i - 1]))) {
                 DEBUG::Debug::Log("Failed to destroy behaviour");
             }
         }
     }
+    
      SharedRef<CORE::Object, true> GameObject::Copy()
     {
-         SharedRef<GameObject, true> tmp = CreateSharedRef<GameObject, true>();
+         SharedRef<GameObject, true> tmp = CreateRefs::CreateSharedRef<GameObject, true>();
          tmp->tag = tag;
          tmp->layer = layer;
          tmp->transform = transform->Copy();
@@ -39,8 +40,8 @@ namespace UPRISE_ENGINE {
      }
     UPRISE_ECS_API SharedRef<GameObject, true> GameObject::Create(Vector3 Position, Quaternion Rotation, SharedRef<Mesh, true> mesh)
     {
-        SharedRef<GameObject, true> tmp = CreateSharedRef<GameObject, true>();;
-        SharedRef<Transform, true> transf = CreateSharedRef<Transform, true>();
+        SharedRef<GameObject, true> tmp = CreateRefs::CreateSharedRef<GameObject, true>();;
+        SharedRef<Transform, true> transf = CreateRefs::CreateSharedRef<Transform, true>();
         transf->SetRotation(Rotation);
         transf->SetPosition(Position);
         tmp->transform = transf;

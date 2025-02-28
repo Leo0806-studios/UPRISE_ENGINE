@@ -217,7 +217,7 @@ namespace UPRISE_PROFILER_APPLICATION
             Globals._functionStructure_main = FunctionStructure.WalkStructure(Globals._profilingTimerEvents_Main);
 
             treeViewProfiler.Nodes.Clear();
-            if (Globals._functionStructure_main != null)
+            if (Globals._functionStructure_main != null) //-V3022
             {
                 TreeNode rootNode = ConvertToTreeNode(Globals._functionStructure_main);
                 treeViewProfiler.Nodes.Add(rootNode);
@@ -228,12 +228,19 @@ namespace UPRISE_PROFILER_APPLICATION
         private void treeViewProfiler_AfterSelect(object sender, TreeViewEventArgs e)
         {
 
-            TimerTreeNode local = e.Node as TimerTreeNode;
+            TimerTreeNode? local = e.Node as TimerTreeNode;
+            if(local == null)
+            {
+                throw new Exception("Node is not a TimerTreeNode ");
+                
+            }
             double childTime = local.GetAlltimeOfChildren();
             int childCount = local.Nodes.Count; // Direct child count
    
-                    childTime = childTime;
-
+            if(local.ProfilingEvent == null)
+            {
+                throw new Exception("Node is not a TimerTreeNode ");
+            }
 
             string function = "Function: " + local.ProfilingEvent.Details.Function.ToString();
             string duration = "";
@@ -318,19 +325,17 @@ namespace UPRISE_PROFILER_APPLICATION
         {
             if(progressStep == 0)
             {
-                progressStep =100/ treeViewProfiler.Nodes.Count;
+                progressStep =100F/ treeViewProfiler.Nodes.Count;
             }
             e.Graphics.FillRectangle(Brushes.White, e.Bounds); // Clear background
             e.Graphics.DrawRectangle(Pens.Black, new Rectangle(e.Bounds.X + (30 * e.Node.Level), e.Bounds.Y, 20, 20)); // Draw rectangle
             int i = e.Node.Text.Length;
             double dur = ((TimerTreeNode)e.Node).ProfilingEvent.Details.Duration.Value;
 
-                    dur = dur ;
 
             switch (Currnet_Sacele)
             {
                 case Scale_Enum.NS:
-                    dur = dur;
                     break;
                 case Scale_Enum.US:
                     dur = dur / 1000;
@@ -347,9 +352,9 @@ namespace UPRISE_PROFILER_APPLICATION
             {
                 dur = Math.Round(dur);
             }
-            if (dur > int.MaxValue/2)
+            if (dur > ((float)int.MaxValue)/2F)
             {
-                dur = int.MaxValue/2;
+                dur = ((float)int.MaxValue)/2F;
             }
             Rectangle rectangle = new Rectangle(e.Bounds.X + 25 + (30 * e.Node.Level), e.Bounds.Y, 0 + (int)dur, 20);
             e.Graphics.FillRectangle(Brushes.Teal, rectangle); // Fill rectangle

@@ -102,18 +102,64 @@
 #define UPRISE_PROFILER_API_EXPORTS
 #endif // UPRISEENGINEPROFILER_EXPORTS
 
+
+
+
+
+#ifdef UPRISE_TESTS
+#define MockableGlobalVar(Type,Name) __inline Type& Name(){\
+static Type InternalMockReplacement{};\
+return InternalMockReplacement;\
+}
+#define MockableStaticVar(Type,Name) static __inline Type& Name(){\
+static Type InternalMockReplacement{};\
+return InternalMockReplacement;\
+}
+#define AccsesGlobalVar(FullName) FullName ()
+#define AccsesStaticVar(FullName) FullName ()
+#define CallMockableMethod(FullName)  FullName
+#else
+#define MockableGlobalVar(Type,Name)  Type Name ;
+
+#define MockableStaticVar(Type,Name) static Type Name ; 
+#define AccsesGlobalVar(x)  x
+#define AccsesStaticVar(x)  x
+#define CallMockableMethod(FullName) FullName
+#endif
+
+
+
+#pragma warning(push)
+
+#pragma warning(disable :4005)
+#ifdef UPRISE_TESTS
+#define UPRISE_PROFILER_API
+#define UPRISE_PHYSICS_API
+#define UPRISE_DEBUG_API
+#define UPRISE_VULKAN_RENDER_API
+#define UPRISE_OPENGL_RENDER_API
+#define UPRISE_DX12_RENDER_API
+#define UPRISE_DX11_RENDER_API
+#define UPRISE_COMMON_RENDER_COMPS_API
+#define UPRISE_ECS_API
+#define UPRISE_CORE_API
+#define UPRISE_RENDER_API
+
+#endif
+#pragma warning(pop)
 //#include "tracy/Tracy.hpp"
 //#include "tracy/TracyC.h"
-
 
 
 #define symLoad GetProcAddress 
 namespace UPRISE_ENGINE {
     namespace  PROFILER {
+
         constexpr size_t maxFrames = 64;
 
     }
 }
+#pragma warning(disable : 4514)
 
 
 #define UE_NODISCARD [[nodiscard]]
@@ -133,9 +179,11 @@ namespace UPRISE_ENGINE {
     }
 }
 #ifdef _DEBUG
+#define DEBUG_PAD_BITS_ZEROED 0
 #define TrPr(V,N)   ;
 #define TrPrE(V) ;
 #else
+#define DEBUG_PAD_BITS_ZEROED 
 #define TrPr(V,N)    ;
 #define TrPrE(V) ;
 #endif // DEBUG

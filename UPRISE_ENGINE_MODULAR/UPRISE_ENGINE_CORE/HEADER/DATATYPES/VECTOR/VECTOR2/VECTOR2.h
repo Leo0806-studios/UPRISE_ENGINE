@@ -3,11 +3,9 @@
 #pragma once
 #ifndef _VECTOR2_
 #define _VECTOR2_
-#if (_CORE_EXPORT_ !=1) 
 #include <GLOBAL/GLINCLUDES.h>
 
 #include <intrin.h>
-#endif // !UPRISE_CORE_API_EXPORTS
 namespace UPRISE_ENGINE {
     /// <summary>
 /// vector 2 class

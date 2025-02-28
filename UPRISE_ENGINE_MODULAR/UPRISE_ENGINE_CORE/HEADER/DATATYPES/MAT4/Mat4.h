@@ -5,21 +5,29 @@
 #define UE_Mat4_
 
 #include <GLOBAL/GLINCLUDES.h>
-#include "DATATYPES/VECTOR/VECTOR4/VECTOR4.h";
+#include "DATATYPES/VECTOR/VECTOR4/VECTOR4.h"
 #include <intrin.h>
-#include "DATATYPES/QUTERION/QUATERION.h";
+#include "DATATYPES/QUTERION/QUATERION.h"
 
 import REF_WRAPPER; //-V3549 //-V2575
 import std; //-V3549 //-V2575
+#pragma warning(push)
+#pragma warning(disable:4514)
 namespace UPRISE_ENGINE {
     /// <summary>
 /// Mat4 is a 4x4 matrix class that is used for transformations in 3D space
 /// strores its data in 4 __m128 vectors
 /// as rows
 /// </summary>
-    class UPRISE_CORE_API Mat4 {
+    class  Mat4 {
 
     public:
+        Mat4()noexcept {
+            row0 = _mm_setr_ps(1.0F, 0.0F, 0.0F, 0.0F);
+            row1 = _mm_setr_ps(0.0F, 1.0F, 0.0F, 0.0F);
+            row2 = _mm_setr_ps(0.0F, 0.0F, 1.0F, 0.0F);
+            row3 = _mm_setr_ps(0.0F, 0.0F, 0.0F, 1.0F);
+        }
         /// <summary>
         /// data of the matrix
         /// </summary>
@@ -153,15 +161,15 @@ namespace UPRISE_ENGINE {
 
             const __m128 row3(_mm_setr_ps(0.0F, 0.0F, 0.0F, 1.0F));
 
-            __m256 One = _mm256_set_m128(_mm_unpacklo_ps(center, row3), _mm_unpacklo_ps(up, u));
+            __m256 One = _mm256_set_m128(_mm_unpacklo_ps(center.operator __m128(), row3), _mm_unpacklo_ps(up.operator __m128(), u.operator __m128()));
 
-            __m256 Two = _mm256_set_m128(_mm_unpackhi_ps(center, row3), _mm_unpackhi_ps(up, u));
+            __m256 Two = _mm256_set_m128(_mm_unpackhi_ps(center.operator __m128(), row3), _mm_unpackhi_ps(up.operator __m128(), u.operator __m128()));
             One = _mm256_mul_ps(One, mlti);
             Two = _mm256_mul_ps(Two, mlti);
             One = _mm256_permutevar8x32_ps(One, suffle);
             Two = _mm256_permutevar8x32_ps(Two, suffle);
             glm::mat4 ret{};
-            ret;
+            
             _mm256_store_ps(&ret[0].x, One);
             _mm256_store_ps(&ret[2].x, Two);
 
@@ -191,7 +199,7 @@ namespace UPRISE_ENGINE {
 
             float zMz = zFar - zNear;
 
-            float tanhalffov = tan(((fov * 0.01745329251994329576923690768489)) / 2.0F);
+            float tanhalffov = static_cast<float>(tan(((fov * 0.01745329251994329576923690768489)) / 2.0F));
             __m128 tst = _mm_setr_ps(tanhalffov, zMz, 1.0F, zMz);
 
 
@@ -209,13 +217,10 @@ namespace UPRISE_ENGINE {
         /// </summary>
         /// <returns></returns>
         __inline glm::mat4 ToMat4glm() {
-            _MM_TRANSPOSE4_PS(row0, row1, row2, row3);
+            return *this;
 
 
-            return glm::mat4(Vector4(row0).operator glm::vec<4, float, glm::packed_highp>(),
-                Vector4(row1).operator glm::vec<4, float, glm::packed_highp>(),
-                Vector4(row1).operator glm::vec<4, float, glm::packed_highp>(),
-                Vector4(row1).operator glm::vec<4, float, glm::packed_highp>());
+
         }
         /// <summary>
         /// opperator that implicitly converts a Mat4 to a glm::mat4
@@ -229,14 +234,15 @@ namespace UPRISE_ENGINE {
             __m128 tmp3 = _mm_unpackhi_ps(row2, row3); // [r2.z, r3.z, r2.w, r3.w]
 
             // Step 2: Unpack and interleave to get the final column vectors
+#pragma warning(push)
 #pragma warning(disable: 26451)
             glm::vec4 col0{};
             glm::vec4 col1{};
             glm::vec4 col2{};
             glm::vec4 col3{};
-#pragma warning(default: 26451)
+#pragma warning(pop)
             _mm_store_ps(&col0.x, _mm_movelh_ps(tmp0, tmp2)); // [r0.x, r1.x	 r2.x, r3.x]
-            _mm_store_ps(&col1.x, _mm_movehl_ps(tmp2, tmp0)); // [r0.y, r1.y, r2.y, r3.y]
+            _mm_store_ps(&col1.x, _mm_movehl_ps(tmp2, tmp0)); // [r0.y, r1.y, r2.y, r3.y] //-V525
             _mm_store_ps(&col2.x, _mm_movelh_ps(tmp1, tmp3)); // [r0.z, r1.z, r2.z, r3.z]
             _mm_store_ps(&col3.x, _mm_movehl_ps(tmp3, tmp1)); // [r0.w, r1.w, r2.w, r3.w]
 
@@ -251,14 +257,20 @@ namespace UPRISE_ENGINE {
         /// <returns></returns>
         __inline __m128& operator[](Index i) {
 
-            if (i > 3)
+            switch (i)
             {
-                //Log << "OUT Of RANGE!\n" << "trying to accses memory at: " << &(((__m128*)this)[i]) << "wich is outside the bounds of the mat4" << "\n";
-                int crash = *static_cast<int*>(nullptr); //throw error
-
+            case 0:
+                return row0;
+            case 1:
+                return row1;
+            case 2:
+                return row2;
+            case 3:
+                return row3;
+            default:
+                throw std::out_of_range("index out of range. must be smaler than 4");
             }
-          return  reinterpret_cast<__m128*>(this)[i];
-            //return (((__m128*)this)[i]);
+
         }
         /// <summary>
         /// operator that accses the elements of the matrix
@@ -266,7 +278,7 @@ namespace UPRISE_ENGINE {
         /// r is the row
         /// c is the collumn
         /// </summary>
-        /// <param name="r"></param>
+        /// <param   name="r"></param>
         /// <param name="c"></param>
         /// <returns></returns>
         __inline float& operator()(Index r, int c) {
@@ -275,5 +287,5 @@ namespace UPRISE_ENGINE {
         }
     };
 }
-
+#pragma warning(pop)
 #endif // !_Mat4_

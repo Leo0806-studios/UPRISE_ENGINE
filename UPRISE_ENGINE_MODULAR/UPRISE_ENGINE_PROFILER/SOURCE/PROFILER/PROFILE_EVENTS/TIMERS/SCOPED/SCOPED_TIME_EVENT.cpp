@@ -1,3 +1,5 @@
+// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 #include <tracy/Tracy.hpp>
 #include <tracy/TracyC.h>
 #include "PROFILER/PROFILE_EVENTS/TIMERS/SCOPED/SCOPED_TIME_EVENT.h"
@@ -51,11 +53,12 @@ namespace UPRISE_ENGINE {
         std::string result;
         static bool symInitialized = false;
         if (!symInitialized) {
-            SymInitialize(getHandle(), NULL, TRUE);
+            SymInitialize(getHandle(), NULL, TRUE); //-V2547
             symInitialized = true;
         }
-        static char symbolBuffer[sizeof(SYMBOL_INFO) + MAX_SYM_NAME * sizeof(TCHAR)];
-        PSYMBOL_INFO symbol = reinterpret_cast<PSYMBOL_INFO>(symbolBuffer);
+        static char symbolBuffer[sizeof(SYMBOL_INFO) + MAX_SYM_NAME * sizeof(TCHAR)]; //-V119
+        char* symbolBufferPtr = symbolBuffer;
+        PSYMBOL_INFO symbol = reinterpret_cast<PSYMBOL_INFO>(symbolBufferPtr);
         symbol->SizeOfStruct = sizeof(SYMBOL_INFO);
         symbol->MaxNameLen = MAX_SYM_NAME;
         static std::unordered_map<void*, std::string> symbolCache;
@@ -63,6 +66,7 @@ namespace UPRISE_ENGINE {
             if (symbolCache.find(frames[i]) != symbolCache.end()) {
                 result += symbolCache[frames[i]];
                 continue;
+                
             }
             DWORD64 displacement = 0;
             if (SymFromAddr(getHandle(), reinterpret_cast<DWORD64>(frames[i]), &displacement, symbol)) {
@@ -91,7 +95,7 @@ namespace UPRISE_ENGINE {
         std::ostringstream s;
         s << "Stacktrace:\n";
         for (size_t i = 0; i < maxFrames && frames[i] != nullptr; i++) {
-            s << i << ": " << reinterpret_cast<size_t>(frames[i]) << "\n";
+            s << i << ": " << reinterpret_cast<size_t>(frames[i]) << "\n"; //-V128
         }
         return s.str();
     }
@@ -134,7 +138,7 @@ namespace UPRISE_ENGINE {
 
         for (size_t i = 0; i < countFrames; i++) {
 
-            this->frames[i] = frames[i];
+            this->frames[i] = frames[i]; //-V2563
         }
     }
 

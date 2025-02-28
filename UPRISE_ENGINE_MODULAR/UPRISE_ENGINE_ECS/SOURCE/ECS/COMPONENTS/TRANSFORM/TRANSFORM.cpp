@@ -1,6 +1,7 @@
 // This is a personal academic project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
-#include "VECTOR/VECTOR3/FAST/VECTOR3_F.h"
+#include "DATATYPES/VECTOR/VECTOR3/FAST/VECTOR3_F.h"
+#include "DATATYPES/QUTERION/QUATERION.h"
 #include  "ECS/COMPONENTS/TRANSFORM/TRANSFORM.h"
 namespace UPRISE_ENGINE {
     Vector3& Transform::Position()
@@ -56,13 +57,14 @@ namespace UPRISE_ENGINE {
 
     UPRISE_ECS_API SharedRef<CORE::Object, true> Transform::Copy()
     {
-        auto ret =CreateSharedRef<Transform, true>(Transform(*this));
+
+        SharedRef<CORE::Object,true> ret = CreateRefs::CreateSharedRef<Transform, true>((Transform(*this)));
         return ret;
     }
 
     SharedRef<CORE::Object, true> Transform::DeepCopy()
     {
-        auto ret = CreateSharedRef<Transform, true>(Transform(*this,true));
+        auto ret = CreateRefs::CreateSharedRef<Transform, true>(Transform(*this,true));
         return ret;
     }
 

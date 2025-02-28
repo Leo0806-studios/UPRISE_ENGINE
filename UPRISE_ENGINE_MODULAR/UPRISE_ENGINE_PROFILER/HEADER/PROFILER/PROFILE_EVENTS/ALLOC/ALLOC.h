@@ -5,6 +5,7 @@ import std;
 #include "PROFILER/PROFILE_EVENTS/PROF_EVENT/PROF_EVENT.h"
 namespace UPRISE_ENGINE {
     namespace PROFILER {
+#pragma warning(push)
 #pragma warning(disable: 4820)
         class ALLOC:public PROFILER::EVENT_BASE {
         private:
@@ -34,7 +35,7 @@ namespace UPRISE_ENGINE {
                 this->message = message;
             }
         };
-#pragma warning(default: 4820)
+#pragma warning(pop)
     }
 }
 

@@ -1,3 +1,5 @@
+// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 #include <tracy/Tracy.hpp>
 #include <tracy/TracyC.h>
 #include "PROFILER/PROFILE_EVENTS/PROF_EVENT/PROF_EVENT.h"
@@ -14,7 +16,7 @@ inline UPRISE_ENGINE::PROFILER::TIMERS::SCOPED_TIME::SCOPED_TIME(const char* nam
     line(line)
 
 {
-    CaptureStackBackTrace(1, maxFrames, frames, nullptr);
+    CaptureStackBackTrace(1, maxFrames, frames, nullptr); //-V2547 //-V2578
 }
 
 inline UPRISE_ENGINE::PROFILER::TIMERS::SCOPED_TIME::~SCOPED_TIME() {
@@ -25,5 +27,5 @@ inline UPRISE_ENGINE::PROFILER::TIMERS::SCOPED_TIME::~SCOPED_TIME() {
     SCOPED_TIME_EVENT a(name, file, function, line, static_cast<unsigned long long>(duration.count()), frames, maxFrames, id, static_cast<unsigned long long>(start.time_since_epoch().count()));
     std::unique_ptr<EVENT_BASE> aa = std::make_unique<SCOPED_TIME_EVENT>(a);
      EVENT_QEUE::Add_to_Qeue(std::move(aa));
-     assert(aa.get() == nullptr);
+     assert(aa.get() == nullptr); //-V2570 //-V2528 //-V2578
 }

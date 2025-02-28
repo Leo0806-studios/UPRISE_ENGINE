@@ -5,7 +5,9 @@
 #define UE_TAG_
 import std; //-V2575 //-V3549
 namespace UPRISE_ENGINE {
+#pragma warning(push)
 #pragma warning(disable:4820)
+#pragma warning(push)
 #pragma warning(disable: 4514)
 
     /// <summary>
@@ -16,11 +18,11 @@ namespace UPRISE_ENGINE {
 /// <summary>
 /// name of the tag
 /// </summary>
-        std::string name;
+        std::string name{""};
         /// <summary>
         /// id of the tag
         /// </summary>
-        int id;
+        int Id{ 0 };
 
     public:
 #pragma region constructor
@@ -33,7 +35,7 @@ namespace UPRISE_ENGINE {
         /// </summary>
         /// <param name="id"></param>
         /// <param name="name"></param>
-        UPRISE_CORE_API  Tag(int id, std::string name) : name(name), id(id) {};
+        UPRISE_CORE_API  Tag(int id, std::string name) : name(name), Id(id) {};
 #pragma endregion
         /// <summary>
         /// getter that returns a non const reference to the name of the tag
@@ -44,10 +46,12 @@ namespace UPRISE_ENGINE {
         /// returns the id of the tag
         /// </summary>
         /// <returns></returns>
-        UPRISE_CORE_API __inline int ID() const { return id; }
+        UPRISE_CORE_API __inline int ID() const { return Id; }
+        UPRISE_CORE_API __inline void SetID(int id) { this->Id = id; }
     };
-#pragma warning(default:4820)
-#pragma warning(default: 4514)
+#pragma warning(pop)
+    #pragma warning(pop)
+
 }
 
 #endif // !1

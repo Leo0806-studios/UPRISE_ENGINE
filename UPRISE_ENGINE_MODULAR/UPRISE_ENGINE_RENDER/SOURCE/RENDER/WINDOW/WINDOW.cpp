@@ -3,17 +3,17 @@
 #include "RENDER/WINDOW/WINDOW.h"
 #include "RENDER_COMMON/RENDER_BACKEND/RENDER_BACKEND.h"
 namespace UPRISE_ENGINE {
-    SharedRef<RENDER_COMMON::WINDOW_BASE, true> RENDER::Window::_CreateWindow(int w, int h, const char* title)
+    OwnedRef<RENDER_COMMON::WINDOW_BASE> RENDER::Window::_CreateWindow(int w, int h, const char* title)
     {
 
         return  RENDER_COMMON::RENDER_BACKEND::_CreateWindow(w, h, title);
     }
 
-    void RENDER::Window::DestroyWindow(SharedRef<Window, true> window)
+    void RENDER::Window::DestroyWindow(WeakRef<Window,true> window)
     {
         SCOPED_TIME_
 
-        RENDER_COMMON::RENDER_BACKEND::DestroyWindow(window->Windowvar);
+        RENDER_COMMON::RENDER_BACKEND::DestroyWindow(window->Windowvar.GetWeakRef());
     }
 
 }

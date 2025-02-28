@@ -8,6 +8,7 @@ namespace UPRISE_ENGINE {
     namespace PROFILER {
         class PROFILE_STREAM;
         class PROFILE_EVENT;
+#pragma warning(push)
 #pragma warning(disable: 4820)
 
         class PROFILE_STREAM {
@@ -62,7 +63,7 @@ namespace UPRISE_ENGINE {
             PROFILE_STREAM& operator<<(const char* value) {
                 std::lock_guard<std::mutex> lock(mutex);
                 stream << value;
-                length += strlen(value);
+                length += strlen(value); //-V2513
                 if (length >= autoFlushLength) {
                     Flush();
                 }
@@ -78,7 +79,7 @@ namespace UPRISE_ENGINE {
 
 
         };
-#pragma warning(default:4820)
+#pragma warning(pop)
     }
 }
 

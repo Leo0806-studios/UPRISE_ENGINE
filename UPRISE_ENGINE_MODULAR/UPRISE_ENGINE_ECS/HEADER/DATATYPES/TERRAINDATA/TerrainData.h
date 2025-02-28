@@ -36,7 +36,7 @@ namespace UPRISE_ENGINE {
 /// max height of the terrain
 /// </summary>
         float Maxheight;
-        char PAD[4];//TODO find a better way to align this or put data here
+        char PAD[4];//TODO find a better way to align this or put data here //-V112
     public:
         /// <summary>
         /// default constructor

@@ -3,14 +3,15 @@
 // UPRISE_EDITOR_APPLICATION.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
+import REF_WRAPPER;
 #include <iostream>
 #include "RENDER/MAINRENDER/Render.h"
 #include "DEBUG/LOG/LOG.h"
-#include <RENDER_COMMON/RENDER_BACKEND/RENDER_BACKEND.h>
-#include <RENDER/WINDOW/WINDOW.h>
-#include <PROFILER/PROFILER/PROFILER.h>
+#include "RENDER_COMMON/RENDER_BACKEND/RENDER_BACKEND.h"
+#include "RENDER/WINDOW/WINDOW.h"
+#include "PROFILER/PROFILER/PROFILER.h"
 #include <Windows.h>
-#include <PROFILER/PROFILER_OBJECTS/ALLOC/ALLOC_OBJECT.h>
+#include "PROFILER/PROFILER_OBJECTS/ALLOC/ALLOC_OBJECT.h"
 #include <PROFILER/PROFILER_OBJECTS/TIMERS/SCOPED/SCOPED_TIME.h>
 #pragma comment(lib, "UPRISE_ENGINE_PROFILER.lib")
 #pragma comment(lib, "UPRISE_ENGINE_DEBUG.lib")
@@ -23,7 +24,7 @@
 #pragma comment(lib, "UPRISE_ENGINE_VULKAN_RENDER.lib")
 #pragma comment(lib, "UPRISE_ENGINE_DX12_RENDER.lib")
 class Testexcp { //-V2575 //-V3549
-    const char* data;
+    const char* data; //-V122
 public:
     Testexcp(const char* msg) {
         data = msg;
@@ -50,7 +51,7 @@ void inner() { //-V2575 //-V3549
 }
 void takeslongandteststimere() { //-V2575 //-V3549
     UPRISE_ENGINE::PROFILER::TIMERS::SCOPED_TIME a(__FUNCSIG__, __FILE__, __FUNCTION__, __LINE__);
-    for (Index i = 0; i < 10000; i++) {
+    for (Index i = 0; i < 100000; i++) {
         inner();
         Index aaa = 0;
         aaa++;
@@ -75,38 +76,35 @@ int main()
     //InstallHeapCallback();
     UPRISE_ENGINE::PROFILER::PROFILER::Start_Profiler();
     UPRISE_ENGINE::PROFILER::TIMERS::SCOPED_TIME a(__FUNCSIG__, __FILE__, __FUNCTION__, __LINE__);
-    takeslongandteststimere();
-    try {
-        throw Testexcp("erewsrfsefsefsefvefregjmriwsgvjmserioaugvjumteriaosvm jaeioövrumre"); //-V2578 //-V3551
-    }
-    catch(Testexcp& e){
-        std::cout << e.What();
-    }
-    std::thread t(takeslongandteststimere);
-    //std::vector<std::string> vec(100);
-    //for (int i = 0; i < 100; i++) {
-    //    std::cout << "sadfwdawd";
-    //    auto a = new std::string ( "fiujeheuihvfiurghiurehgiosdgjweoijrspofjsdiogjeroithspofjsdlökgfjedrlikgheriot");
-    //    delete a;
-    //    ;
-    //}
+
+
     UPRISE_ENGINE::DEBUG::Debug::Log("rjghaijfoaifjiogdjiuvioiijijijjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj");
     UPRISE_ENGINE::DEBUG::Log << "Editor Application startup";
     UPRISE_ENGINE::DEBUG::Log << "difiwreugjoeifjerowgewriofuoidiogjuopergksporefkiwrop5fikw9vtiaeopceriojoöerfjtrugwopgujoqwfujq49fujot";
     UPRISE_ENGINE::DEBUG::Log << "Editor Application startup";
-    UPRISE_ENGINE::RENDER::Render::RenderSetup::SetRenderBackend(UPRISE_ENGINE::RENDER::Render_Backend::RB_OPENGL);
-    t.join();
 
-    UPRISE_ENGINE:: RENDER::Render::RenderSetup::CreateBackend();
-   auto window= UPRISE_ENGINE:: RENDER::Render::RenderSetup::Window(800, 600, "UPRISE_EDITOR"); //-V2578
-   std::cout << "Window created";
+    UPRISE_ENGINE::RENDER::Render::RenderSetup::Setup(800, 600, "UPRISE_EDITOR", UPRISE_ENGINE::RENDER::Render_Backend::RB_OPENGL);
+
 
     std::string s;
+
+    while (true) {
+        
+        UPRISE_ENGINE::RENDER_COMMON::RENDER_BACKEND::PreFrameWork();
+        Sleep(10);
+        UPRISE_ENGINE::RENDER_COMMON::RENDER_BACKEND::PostFrameWork();
+
+    }
     std::cin >> s; 
-    UPRISE_ENGINE::SharedRef<UPRISE_ENGINE::RENDER::Window, true>wind = UPRISE_ENGINE::CreateSharedRef<UPRISE_ENGINE::RENDER::Window, true>();
-    wind->SetWindow(window);
+  /*  OwnedRef<UPRISE_ENGINE::RENDER::Window>wind = CreateRefs::CreateOwnedRef<UPRISE_ENGINE::RENDER::Window>();
+    WeakRef<UPRISE_ENGINE::RENDER::Window, true> weakwind = wind.GetWeakRef();*/
+
+    /*wind->SetWindow(std::move(window));*/
+    
     std::cout << "destroying window";
-    UPRISE_ENGINE::RENDER::Window::DestroyWindow(wind);
+   /* UPRISE_ENGINE::RENDER::Window::DestroyWindow(std::move(wind));*/
+
+    UPRISE_ENGINE::RENDER::Render::RenderShutdown::Shutdown();
 
     std::cin >> s;
     //startup

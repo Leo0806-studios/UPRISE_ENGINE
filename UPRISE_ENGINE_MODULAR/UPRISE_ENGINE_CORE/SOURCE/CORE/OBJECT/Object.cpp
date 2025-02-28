@@ -6,13 +6,15 @@
 #include "CORE/COMPONENT/COMPONENT.h"
 namespace UPRISE_ENGINE {
     namespace CORE {
-        Object::Object(const Object& other)
-        {
-            this->enabled.store(other.enabled) ;
-            this->name = other.name;
+        Object::Object(const Object& other):
+            name(other.name),
+            enabled(other.enabled.load()),
+            PAD{ DEBUG_PAD_BITS_ZEROED }
 
+        {
         }
-        Object::Object(const Object& other, bool)
+
+        Object::Object(const Object& other, bool) //-V2537
         {
             this->enabled.store(other.enabled);
             this->name =std::string( other.name);
@@ -35,6 +37,7 @@ namespace UPRISE_ENGINE {
         }
         void CORE::Object::destroyObject(SharedRef<CORE::Object, true> Object)
         {
+            Object->OnDestroyInt(Object);
             ///TODO: implement object destruction
         }
 

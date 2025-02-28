@@ -14,6 +14,7 @@ namespace UPRISE_ENGINE {
     }
     class GameObject;
     namespace RENDER {
+        class Window;
         enum class Render_Backend {
             RB_OPENGL,
             RB_VULKAN,
@@ -26,6 +27,12 @@ namespace UPRISE_ENGINE {
             UPRISE_RENDER_API static std::unordered_map<std::string, int> materialIDlinkdict;
             UPRISE_RENDER_API static SharedRef<GameObject, true> renderCamera;
             UPRISE_RENDER_API static SharedRef<RENDER_COMMON::WINDOW_BASE, true> Windowvar;
+
+            /// <summary>
+            /// WindowDict is a unordert map with a std::string as a key and a ownedRef<Window> as a value
+            /// </summary>
+            using WindowDict = std::unordered_map<std::string, OwnedRef<Window>>;
+            UPRISE_RENDER_API MockableStaticVar(WindowDict,Windows)
 
         public:
 
@@ -43,12 +50,20 @@ namespace UPRISE_ENGINE {
             private:
                 UPRISE_RENDER_API static bool setup_call;
             public:
+                RenderSetup() = delete;
                 UPRISE_RENDER_API  static void SetRenderBackend(Render_Backend backend);
                 UPRISE_RENDER_API   static void CreateBackend();
-                UPRISE_RENDER_API static SharedRef<RENDER_COMMON::CONTEXT_BASE, true> CreateContext();
-                UPRISE_RENDER_API static SharedRef<RENDER_COMMON::WINDOW_BASE, true> Window(int w, int h, std::string Title);
+                UPRISE_RENDER_API static WeakRef<RENDER_COMMON::CONTEXT_BASE, true>  CreateContext(WeakRef<RENDER_COMMON::WINDOW_BASE, true> window);
+                static UPRISE_RENDER_API OwnedRef<RENDER_COMMON::WINDOW_BASE> Window(int w, int h, std::string Title);
                 UPRISE_RENDER_API static void framebuffer_size_callback(SharedRef<RENDER_COMMON::WINDOW_BASE, true> window, int width, int height);
-                UPRISE_RENDER_API static void Setup(int w, int h, const char* Title);
+                UPRISE_RENDER_API static void Setup(int w, int h, const char* Title, UPRISE_ENGINE::RENDER::Render_Backend backend);
+            };
+            class RenderShutdown {
+
+            public:
+                
+                UPRISE_RENDER_API static void Shutdown();
+
             };
         };
     }

@@ -7,6 +7,7 @@ import std; //-V2575
 namespace  UPRISE_ENGINE {
     namespace PROFILER {
         namespace TIMERS {
+#pragma warning(push)
 #pragma warning(disable: 4820)
             class SCOPED_TIME {
             private:
@@ -22,7 +23,7 @@ namespace  UPRISE_ENGINE {
                UPRISE_PROFILER_API SCOPED_TIME(const char* name, const char* file, const char* function, int line);
                UPRISE_PROFILER_API  ~SCOPED_TIME();
             };
-#pragma warning(default: 4820)
+#pragma warning(pop)
         }
     }
     using ScopedTimer = PROFILER::TIMERS::SCOPED_TIME;

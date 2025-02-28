@@ -8,6 +8,7 @@
 #include <GLOBAL/GLINCLUDES.h>
 #include <intrin.h>
 #include "DATATYPES/VECTOR/VECTOR3/FAST/VECTOR3_F.h"
+#pragma warning(push)
 #pragma warning(disable: 4514)
 
 namespace UPRISE_ENGINE {
@@ -174,8 +175,8 @@ namespace UPRISE_ENGINE {
         /// <returns></returns>
         static __inline  Quaternion FromEulerAngles(Vector3 vec) {
 
-            __m128 coss = _mm_cos_ps(_mm_mul_ps(vec, _mm_set_ps1(0.5)));
-            __m128 sinn = _mm_sin_ps(_mm_mul_ps(vec, _mm_set_ps1(0.5)));
+            __m128 coss = _mm_cos_ps(_mm_mul_ps(vec.operator __m128(), _mm_set_ps1(0.5)));
+            __m128 sinn = _mm_sin_ps(_mm_mul_ps(vec.operator __m128(), _mm_set_ps1(0.5)));
             __m128 vals = _mm_addsub_ps(
                 _mm_mul_ps(
                     _mm_insert_ps(_mm_broadcastss_ps(coss), sinn, 0b01100000),
@@ -209,6 +210,8 @@ namespace UPRISE_ENGINE {
                 w() * other.z() + x() * other.y() - y() * other.x() + z() * other.w()
             );
         }
+#pragma warning (push)
+#pragma warning (disable:5045)
 
         /// <summary>
         /// transforms a quaternion to a vector3 
@@ -228,10 +231,12 @@ namespace UPRISE_ENGINE {
             // Compute the axis
             float s = std::sqrt(1.0F - nw * nw);
             Vector3 result{};
+
             if (s < 0.0001F) {
                 // If s is close to zero, return the axis as (1, 0, 0)
                 result= Vector3(1.0F, 0.0F, 0.0F) * angle;
             }
+
             else {
                 float nx = x() / length;
                 float ny = y() / length;
@@ -241,6 +246,7 @@ namespace UPRISE_ENGINE {
             return result;
         }
 
+#pragma warning (pop)
 
         /// <summary>
         /// multiply a quaternion with a vector3
@@ -293,7 +299,6 @@ namespace UPRISE_ENGINE {
     };
 #pragma endregion
 }
-#pragma warning(default: 4514)
-
+#pragma warning(pop)
 #endif // !_QUATERION_
 

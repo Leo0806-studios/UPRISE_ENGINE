@@ -11,6 +11,7 @@ namespace UPRISE_ENGINE {
     class VULKAN_CONTEXT;
 
     namespace RENDER_COMMON {
+        class WINDOW_BASE;
         class CONTEXT_BASE {
         private:
 
@@ -18,9 +19,15 @@ namespace UPRISE_ENGINE {
             friend class DIRECTX12_CONTEXT;
             friend class DIRECTX11_CONTEXT;
             friend class VULKAN_CONTEXT;
-            UPRISE_COMMON_RENDER_COMPS_API virtual SharedRef<CONTEXT_BASE, true> _internal_create_context() = 0;
+            virtual OwnedRef<CONTEXT_BASE> _internal_create_context(WeakRef<RENDER_COMMON::WINDOW_BASE, true> Window) = 0;
+            UPRISE_COMMON_RENDER_COMPS_API virtual void _internal_destroy_context() = 0;
         public:
+            CONTEXT_BASE(const CONTEXT_BASE&) = delete;
+            CONTEXT_BASE(CONTEXT_BASE&&)noexcept = default;
+            CONTEXT_BASE& operator=(const CONTEXT_BASE&) = delete;
+            CONTEXT_BASE& operator=(CONTEXT_BASE&&)noexcept = default;
            UPRISE_COMMON_RENDER_COMPS_API virtual ~CONTEXT_BASE();
+           CONTEXT_BASE()noexcept = default;
 
 
         };

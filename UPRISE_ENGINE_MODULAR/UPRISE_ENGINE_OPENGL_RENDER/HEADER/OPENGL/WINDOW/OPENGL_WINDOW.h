@@ -9,17 +9,23 @@
     /// FORWARD DECLARATIONS
     /// </summary>
 
-class WINDOW_Win32; //-V3549 //-V2575
-class WINDOW_Linux; //-V3549 //-V2575
-class WINDOW_APPLE; //-V3549 //-V2575
-class WINDOW_UNIX; //-V3549 //-V2575
 
 
 
 
+
+
+
+namespace UPRISE_ENGINE {
+    namespace OPENGL_RENDER {
+        class OPENGL_CONTEXT;
+        class WINDOW_Win32;
+        class WINDOW_Linux;
+        class WINDOW_APPLE;
+        class WINDOW_UNIX;
 #ifdef _WIN32
 
-#define UE_GL_WIN_32_PLATFORM WINDOW_Win32
+#define UE_GL_WIN_32_PLATFORM UPRISE_ENGINE::OPENGL_RENDER::WINDOW_Win32
 #define UE_GL_LINUX_PLATFORM
 #define APPLE_PLATFORM
 #define UNIX_PLATFORM
@@ -58,11 +64,6 @@ class WINDOW_UNIX; //-V3549 //-V2575
 #endif // __unix__
 
 
-namespace UPRISE_ENGINE {
-    namespace OPENGL_RENDER {
-
-
-
 
 #define WINDOWW_PLATFORM UE_GL_WIN_32_PLATFORM  UE_GL_LINUX_PLATFORM  APPLE_PLATFORM  UNIX_PLATFORM
 
@@ -71,22 +72,30 @@ namespace UPRISE_ENGINE {
         /// </summary>
         class OPENGL_WINDOW :public RENDER_COMMON::WINDOW_BASE {
         private:
-            char MouseButtons[8];
-            char keys[256];
+            OwnedRef<OPENGL_CONTEXT> context;
+
+            char MouseButtons[8]{};
+            char keys[256]{};
         public:
             OPENGL_WINDOW() = default;
-            ~OPENGL_WINDOW() = default;
+            UPRISE_OPENGL_RENDER_API ~OPENGL_WINDOW();
             UPRISE_OPENGL_RENDER_API static SharedRef<RENDER_COMMON::WINDOW_BASE, true> _CreateWindow(int w, int h, const char* Title);
+            UPRISE_OPENGL_RENDER_API OPENGL_WINDOW(const OPENGL_WINDOW& other);
+            UPRISE_OPENGL_RENDER_API OPENGL_WINDOW& operator=(const OPENGL_WINDOW& other);
+            UPRISE_OPENGL_RENDER_API RENDER_COMMON::OSWindowHandle OSGetWindowHandle() override;
 
+            UPRISE_OPENGL_RENDER_API  void CreateWindow(int w, int h, const char* Title) override;
+            UPRISE_OPENGL_RENDER_API  void DestroyWindow() override;
+            UPRISE_OPENGL_RENDER_API  void SetWindowShouldClose() override;
 
-            void CreateWindow(int w, int h, const char* Title) override;
-            void DestroyWindow() override;
-            void SetWindowShouldClose() override;
-
+            // Inherited via WINDOW_BASE
+            UPRISE_OPENGL_RENDER_API void SetContext(OwnedRef<RENDER_COMMON::CONTEXT_BASE> Context) override;
+            UPRISE_OPENGL_RENDER_API void UnsetContext(bool ShouldDestroyContext) override;
         private:
 
 
-            WINDOWW_PLATFORM* window;
+            WINDOWW_PLATFORM* window{ nullptr };
+
         };
 
     }

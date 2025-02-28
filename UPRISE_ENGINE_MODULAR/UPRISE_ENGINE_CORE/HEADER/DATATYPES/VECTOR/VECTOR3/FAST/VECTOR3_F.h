@@ -11,6 +11,7 @@
 #include <GLOBAL/GLINCLUDES.h>
 
 #include <intrin.h>
+#pragma warning(push)
 #pragma warning(disable: 4514)
 
 namespace UPRISE_ENGINE {
@@ -18,7 +19,7 @@ namespace UPRISE_ENGINE {
 /// Vector3
 /// stores data in a __m128
 /// </summary>
-    class UPRISE_CORE_API Vector3 {
+    class  Vector3 {
     private:
         /// <summary>
         /// Data
@@ -64,7 +65,7 @@ namespace UPRISE_ENGINE {
         /// constructor that accepts a __m128
         /// </summary>
         /// <param name="other"></param>
-        constexpr Vector3(const __m128 other)noexcept :Data(other) {}
+       explicit constexpr Vector3(const __m128 other)noexcept :Data(other) {}
         /// <summary>
         /// constructor that accepts a Vector3
         /// </summary>
@@ -194,6 +195,9 @@ namespace UPRISE_ENGINE {
             this->Data = other.Data;
             return *this;
         }
+
+
+
         /// <summary>
         /// assingment operator 
         /// accepts a __m128
@@ -261,7 +265,7 @@ namespace UPRISE_ENGINE {
         /// <summary>
         /// opperator for casting to __m128
         /// </summary>
-        __inline  operator __m128() { //-V3547 //-V2573
+        __inline explicit operator __m128() { //-V3547 //-V2573
             return this->Data;
         }
 
@@ -274,7 +278,7 @@ namespace UPRISE_ENGINE {
     /// <param name="b"></param>
     /// <returns>Cross Product</returns>
         __forceinline  Vector3 operator^(Vector3 b) {
-            return _mm_fnmadd_ps(_mm_shuffle_ps(Data, Data, _MM_SHUFFLE(3, 1, 0, 2)), _mm_shuffle_ps(b.Data, b.Data, _MM_SHUFFLE(3, 0, 2, 1)), _mm_mul_ps(_mm_shuffle_ps(Data, Data, _MM_SHUFFLE(3, 0, 2, 1)), _mm_shuffle_ps(b.Data, b.Data, _MM_SHUFFLE(3, 1, 0, 2))));
+            return Vector3(_mm_fnmadd_ps(_mm_shuffle_ps(Data, Data, _MM_SHUFFLE(3, 1, 0, 2)), _mm_shuffle_ps(b.Data, b.Data, _MM_SHUFFLE(3, 0, 2, 1)), _mm_mul_ps(_mm_shuffle_ps(Data, Data, _MM_SHUFFLE(3, 0, 2, 1)), _mm_shuffle_ps(b.Data, b.Data, _MM_SHUFFLE(3, 1, 0, 2)))));
             // b;
         }
 #pragma endregion
@@ -385,6 +389,6 @@ namespace UPRISE_ENGINE {
 
     };
 }
-#pragma warning(default: 4514)
+#pragma warning(pop)
 #endif
 

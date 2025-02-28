@@ -1,0 +1,62 @@
+;
+; UPRISE_ENGINE_PROFLER_DRIVER.inf
+;
+
+[Version]
+Signature   = "$WINDOWS NT$"
+Class       = System ; TODO: specify appropriate Class
+ClassGuid   = {4d36e97d-e325-11ce-bfc1-08002be10318} ; TODO: specify appropriate ClassGuid
+Provider    = %ManufacturerName%
+CatalogFile = UPRISE_ENGINE_PROFLER_DRIVER.cat
+DriverVer   = ; TODO: set DriverVer in stampinf property pages
+PnpLockdown = 1
+
+[DestinationDirs]
+DefaultDestDir = 13
+
+[SourceDisksNames]
+1 = %DiskName%,,,""
+
+[SourceDisksFiles]
+UPRISE_ENGINE_PROFLER_DRIVER.sys  = 1,,
+
+;*****************************************
+; Install Section
+;*****************************************
+
+[Manufacturer]
+%ManufacturerName% = Standard,NT$ARCH$.10.0...16299 ; %13% support introduced in build 16299
+
+[Standard.NT$ARCH$.10.0...16299]
+%UPRISE_ENGINE_PROFLER_DRIVER.DeviceDesc% = UPRISE_ENGINE_PROFLER_DRIVER_Device, Root\UPRISE_ENGINE_PROFLER_DRIVER ; TODO: edit hw-id
+
+[UPRISE_ENGINE_PROFLER_DRIVER_Device.NT]
+CopyFiles = File_Copy
+
+[File_Copy]
+UPRISE_ENGINE_PROFLER_DRIVER.sys
+
+;-------------- Service installation
+[UPRISE_ENGINE_PROFLER_DRIVER_Device.NT.Services]
+AddService = UPRISE_ENGINE_PROFLER_DRIVER,%SPSVCINST_ASSOCSERVICE%, UPRISE_ENGINE_PROFLER_DRIVER_Service_Inst
+
+; -------------- UPRISE_ENGINE_PROFLER_DRIVER driver install sections
+[UPRISE_ENGINE_PROFLER_DRIVER_Service_Inst]
+DisplayName    = %UPRISE_ENGINE_PROFLER_DRIVER.SVCDESC%
+ServiceType    = 1               ; SERVICE_KERNEL_DRIVER
+StartType      = 3               ; SERVICE_DEMAND_START
+ErrorControl   = 1               ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %13%\UPRISE_ENGINE_PROFLER_DRIVER.sys
+
+[UPRISE_ENGINE_PROFLER_DRIVER_Device.NT.Wdf]
+KmdfService = UPRISE_ENGINE_PROFLER_DRIVER, UPRISE_ENGINE_PROFLER_DRIVER_wdfsect
+
+[UPRISE_ENGINE_PROFLER_DRIVER_wdfsect]
+KmdfLibraryVersion = $KMDFVERSION$
+
+[Strings]
+SPSVCINST_ASSOCSERVICE = 0x00000002
+ManufacturerName = "<Your manufacturer name>" ;TODO: Replace with your manufacturer name
+DiskName = "UPRISE_ENGINE_PROFLER_DRIVER Installation Disk"
+UPRISE_ENGINE_PROFLER_DRIVER.DeviceDesc = "UPRISE_ENGINE_PROFLER_DRIVER Device"
+UPRISE_ENGINE_PROFLER_DRIVER.SVCDESC = "UPRISE_ENGINE_PROFLER_DRIVER Service"

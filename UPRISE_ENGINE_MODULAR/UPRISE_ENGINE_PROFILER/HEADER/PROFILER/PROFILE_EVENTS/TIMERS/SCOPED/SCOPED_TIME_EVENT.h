@@ -30,7 +30,7 @@ namespace UPRISE_ENGINE {
                     const char* file;
                     const char* function;
                     int line;
-                    char PAD[4]{};//TODO: find a better way to align the struct or put data here
+                    char PAD[4]{};//TODO: find a better way to align the struct or put data here //-V112
                     Internal_Data() = default;
                     Internal_Data(unsigned long long max, unsigned long long min, unsigned long long avg, size_t count, const char* name, const char* file, const char* function, int line) :
                         MaxDuration(max),
@@ -128,13 +128,13 @@ namespace UPRISE_ENGINE {
 
                             }
                             else {
-                                long double dur = static_cast<long double>(val.MaxDuration) / 1000;
-                                if (dur < 1000) {
+                                long double dur = static_cast<long double>(val.MaxDuration) / 1000.0;
+                                if (dur < 1000.0F) {
                                     s << std::to_string(dur) << " microseconds" << "\n";
 
                                 }
                                 else {
-                                    s << std::to_string(dur / 1000) << " milliseconds" << "\n";
+                                    s << std::to_string(dur / 1000.0F) << " milliseconds" << "\n";
 
 
                                 }
@@ -155,13 +155,13 @@ namespace UPRISE_ENGINE {
 
                             }
                             else {
-                                long double dur = static_cast<long double> (val.MinDuration) / 1000;
-                                if (dur < 1000) {
+                                long double dur = static_cast<long double> (val.MinDuration) / 1000.0F;
+                                if (dur < 1000.0F) {
                                     s << std::to_string(dur) << " microseconds" << "\n";
 
                                 }
                                 else {
-                                    s << std::to_string(dur / 1000) << " milliseconds" << "\n";
+                                    s << std::to_string(dur / 1000.0F) << " milliseconds" << "\n";
 
 
                                 }
@@ -182,13 +182,13 @@ namespace UPRISE_ENGINE {
 
                             }
                             else {
-                                long double dur = static_cast<long double>(val.AvgDuration) / 1000;
-                                if (dur < 1000) {
+                                long double dur = static_cast<long double>(val.AvgDuration) / 1000.0;
+                                if (dur < 1000.0) {
                                     s << std::to_string(dur) << " microseconds" << "\n";
 
                                 }
                                 else {
-                                    s << std::to_string(dur / 1000) << " milliseconds" << "\n";
+                                    s << std::to_string(dur / 1000.0) << " milliseconds" << "\n";
 
 
                                 }

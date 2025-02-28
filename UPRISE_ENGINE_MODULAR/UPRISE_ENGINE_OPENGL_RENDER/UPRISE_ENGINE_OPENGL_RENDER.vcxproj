@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Build|Win32">
@@ -209,7 +209,8 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>UPRISE_ENGINE_PROFILER.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>UPRISE_ENGINE_PROFILER.lib;UPRISE_ENGINE_COMMON_RENDER_COMPS.lib;OpenGL32.Lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\leo08\source\repos\UPRISE_ENGINE\BUILD\x64\Debug\.dll\UPRISE_ENGINE_COMMON_RENDER_COMPS;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Build|x64'">
@@ -260,23 +261,19 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="HEADER\OPENGL\WINDOW\OPENGL_WINDOW.h" />
+    <ClInclude Include="SOURCE\OPENGL\OPENGL_CONTEXT\GL_CONTEXT_WIN32\GL_CONTEXT_WIN32.h" />
+    <ClInclude Include="SOURCE\OPENGL\OPENGL_WINDOW\GL_WINDOW_WIN32\GL_WINDOW_WIN32.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\SHARED_CODE\MODULES\REF_WRAPPER.ixx" />
     <ClCompile Include="..\UPRISE_ENGINE_PROFILER\OPERATORS\PROFILER\OPERATOR_NEW\OPERATOR_NEW.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="HEADER\OPENGL\GLAD\GLAD.ixx" />
+    <ClCompile Include="SOURCE\OPENGL\OPENGL_CONTEXT\OPENGL_CONTEXT.cpp" />
     <ClCompile Include="SOURCE\OPENGL\GLAD\GLAD.cpp" />
     <ClCompile Include="SOURCE\OPENGL\OPENGL_SHADER\OPENGL_SHADER.cpp" />
-    <ClCompile Include="SOURCE\OPENGL\GLAD\glad.c">
-      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-      </ForcedIncludeFiles>
-      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Build|x64'">
-      </ForcedIncludeFiles>
-      <ScanSourceForModuleDependencies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ScanSourceForModuleDependencies>
-      <ScanSourceForModuleDependencies Condition="'$(Configuration)|$(Platform)'=='Build|x64'">false</ScanSourceForModuleDependencies>
-    </ClCompile>
     <ClCompile Include="SOURCE\OPENGL\OPENGL_BACKEND\OPENGL_BACKEND.cpp" />
+    <ClCompile Include="SOURCE\OPENGL\OPENGL_WINDOW\GL_WINDOW_WIN32\GL_WINDOW_WIN32.cpp" />
     <ClCompile Include="SOURCE\OPENGL\OPENGL_WINDOW\OPENGL_WINDOW.cpp" />
   </ItemGroup>
   <ItemGroup>

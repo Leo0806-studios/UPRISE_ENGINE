@@ -29,7 +29,7 @@ namespace UPRISE_ENGINE {
 /// FOV of the camera
 /// </summary>
         float fov;
-        char PAD[4];   //TODO find a better way to align this or find data to put here
+        char PAD[4];   //TODO find a better way to align this or find data to put here //-V112
         /// <summary>
         /// default constructor
         /// </summary>

@@ -14,15 +14,27 @@ namespace UPRISE_ENGINE {
     namespace RENDER {
         class Window {
         private:
-            SharedRef<RENDER_COMMON::WINDOW_BASE, true> Windowvar;
+            OwnedRef<RENDER_COMMON::WINDOW_BASE> Windowvar;
         public:
-            UPRISE_RENDER_API  inline void SetWindow(SharedRef<RENDER_COMMON::WINDOW_BASE, true> window) {
+            Window() = default;
+            Window(const Window&) = delete;
+            Window(Window&& other) :Windowvar(std::move(other.Windowvar)) {
+            }
+            Window& operator=(const Window&) = delete;
+            Window& operator=(Window&& other) {
+                Windowvar = std::move(other.Windowvar);
+                return *this ;
+            }
+            UPRISE_RENDER_API  inline void SetWindow(OwnedRef<RENDER_COMMON::WINDOW_BASE> window) {
 
                 SCOPED_TIME_
-                Windowvar = window;
+                    Windowvar = std::move(window);
             }
-            UPRISE_RENDER_API static  SharedRef<RENDER_COMMON::WINDOW_BASE, true> _CreateWindow(int w, int h, const char* title);
-            UPRISE_RENDER_API static  void DestroyWindow(SharedRef<Window, true> window);
+            UPRISE_RENDER_API inline WeakRef<RENDER_COMMON::WINDOW_BASE, true> GetInternalWeakRef() {
+                return Windowvar.GetWeakRef();
+            }
+            UPRISE_RENDER_API static  OwnedRef<RENDER_COMMON::WINDOW_BASE> _CreateWindow(int w, int h, const char* title);
+            UPRISE_RENDER_API static  void DestroyWindow(WeakRef<Window,true> window);
         };
     }
 

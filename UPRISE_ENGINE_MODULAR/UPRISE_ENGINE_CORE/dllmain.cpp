@@ -7,7 +7,7 @@
 #include "HEADER/DATATYPES/QUTERION/QUATERION.h"
 #include "HEADER/CORE/OBJECT/OBJECT.h"
 import std; //-V2575 //-V3549
-
+#pragma warning(push)
 #pragma warning(disable:4100)
 BOOL APIENTRY DllMain( HMODULE hModule, //-V2537 //-V2575 //-V3549
                        DWORD  ul_reason_for_call,
@@ -24,7 +24,7 @@ BOOL APIENTRY DllMain( HMODULE hModule, //-V2537 //-V2575 //-V3549
     }
     return TRUE;
 }
-#pragma warning(default:4100)
+#pragma warning(pop)
 int main() {
    
 

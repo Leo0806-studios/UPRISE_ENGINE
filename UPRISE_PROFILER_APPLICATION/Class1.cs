@@ -1,4 +1,6 @@
-﻿using System;
+﻿// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,7 +17,7 @@ namespace UPRISE_PROFILER_APPLICATION
         public FunctionStructure? Parent;
         public static FunctionStructure WalkStructure( List<ProfilingTimerEvent> _Events)
         {
-            float proggresStepp = 100/ _Events.Count;
+            float proggresStepp = 100F/ _Events.Count;
             float progress = 0; 
             List<ProfilingTimerEvent> LocalEvents = new List<ProfilingTimerEvent>();
             LocalEvents.AddRange(_Events);

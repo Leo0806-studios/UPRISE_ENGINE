@@ -5,18 +5,12 @@
 #define UE_Log_
 //#include "../pch.h"
 #include <cstring>
+#pragma warning (push)
+#pragma warning (disable:4514)
 import std; //-V3549 //-V2575
 namespace UPRISE_ENGINE {
     namespace DEBUG {
         class LOG_STREAM;
-
-        class Debug {
-            static UPRISE_DEBUG_API LOG_STREAM _internal_Stream;
-        public:
-
-            UPRISE_DEBUG_API static void Log(std::string message);
-            UPRISE_DEBUG_API static void LogException(std::exception Exception);
-        };
         class LOG_STREAM {
         private:
             std::mutex mutex;
@@ -35,21 +29,33 @@ namespace UPRISE_ENGINE {
             bool toggleAutoFlush();
             UPRISE_DEBUG_API LOG_STREAM();
             UPRISE_DEBUG_API ~LOG_STREAM();
-           UPRISE_DEBUG_API LOG_STREAM& operator<<(const std::string& value);
-           UPRISE_DEBUG_API LOG_STREAM& operator<<(const char* value);
-            
+            UPRISE_DEBUG_API LOG_STREAM& operator<<(const std::string& value);
+            UPRISE_DEBUG_API LOG_STREAM& operator<<(const char* value);
+
 
 
         };
-        UPRISE_DEBUG_API LOG_STREAM Log;
-        UPRISE_DEBUG_API LOG_STREAM LogExeption;
-        UPRISE_DEBUG_API LOG_STREAM LogWarning;
+        class Debug {
+            MockableStaticVar(LOG_STREAM, _internal_Stream); //-V1096
+            //static UPRISE_DEBUG_API LOG_STREAM _internal_Stream;
+        public:
+
+            UPRISE_DEBUG_API static void Log(std::string message);
+            UPRISE_DEBUG_API static void LogException(std::exception Exception);
+        };
+        
+        UPRISE_DEBUG_API MockableGlobalVar(LOG_STREAM, Log);
+        UPRISE_DEBUG_API MockableGlobalVar(LOG_STREAM, LogExeption);
+        UPRISE_DEBUG_API MockableGlobalVar(LOG_STREAM, LogWarning);
+        //UPRISE_DEBUG_API LOG_STREAM Log;
+        //UPRISE_DEBUG_API LOG_STREAM LogExeption;
+        //UPRISE_DEBUG_API LOG_STREAM LogWarning;
 
     }
     ;
     using Debug = UPRISE_ENGINE::DEBUG::Debug;
 }
  
-
+#pragma warning (pop)
 
 #endif // !_Log_

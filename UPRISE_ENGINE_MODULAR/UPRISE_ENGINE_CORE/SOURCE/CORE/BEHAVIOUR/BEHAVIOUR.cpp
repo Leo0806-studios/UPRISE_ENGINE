@@ -1,32 +1,44 @@
 // This is a personal academic project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 #include "CORE/BEHAVIOUR/BEHAVIOUR.h"
+
+#ifndef UPRISE_TESTS
 #include "DEBUG/LOG/LOG.h"
+#endif
 import std; //-V2575 //-V3549
 namespace UPRISE_ENGINE {
+#ifndef UPRISE_TESTS
     std::vector<SharedRef<CORE::Behaviour, true>> CORE::Behaviour::behaviours;
     std::vector<SharedRef<CORE::Behaviour, true>> CORE::Behaviour::awakes;
     std::vector<SharedRef<CORE::Behaviour, true>> CORE::Behaviour::starts;
+    int CORE::Behaviour::currentUpdate = 0;
+
+#endif
 
 
 
     namespace CORE {
-        Behaviour::Behaviour(const Behaviour& other, bool) :Object(other, true)
+        Behaviour::Behaviour(const Behaviour& other, bool) : //-V2537
+            Object(other, true) ,
+            gameObj(),//default construct the sahred ref so it doesnt complain and so that initialiaztion is done
+            uuid(other.uuid),
+            id(other.id),
+            PAD{ DEBUG_PAD_BITS_ZEROED }
         {
-            gameObj = other.gameObj;
-            transf = other.transf;
-            uuid = other.uuid;
-            id = other.id;
+            ///  gameObj = other.gameObj;we should not coppy the gameobject bc of recursive coppying
+
         }
    
 
 
-        CORE::Behaviour::Behaviour(const Behaviour& other) :Object(other)
+        CORE::Behaviour::Behaviour(const Behaviour& other) :
+            Object(other),
+            gameObj(other.gameObj),//assignment in a shallow copy is not a problem
+            uuid(other.uuid),
+            id(other.id),
+            PAD{ DEBUG_PAD_BITS_ZEROED }
         {
-            gameObj = other.gameObj;
-            transf = other.transf;
-            uuid = other.uuid;
-            id = other.id;
+
         }
         /// <summary>
         /// updates all Scripts 
@@ -34,9 +46,13 @@ namespace UPRISE_ENGINE {
         /// <returns>void</returns>
         void CORE::Behaviour::UpdateAll()
         {
-            for (Index i = behaviours.size(); i > 0; i--) {
-
-                behaviours[i - 1]->Update();
+            
+            Index size = AccsesStaticVar(behaviours).size();
+            for (Index i = size; i > 0; i--) {
+                if (i >= size) {
+                    throw std::out_of_range("Index out of range");
+                }
+                AccsesStaticVar(behaviours)[i - 1]->Update();
 
 
 
@@ -50,20 +66,31 @@ namespace UPRISE_ENGINE {
         /// <returns></returns>
         void CORE::Behaviour::UpdateAllAWAKE()
         {
-            for (Index i = awakes.size(); i > 0; i--) {
-                awakes[i - 1]->Awake();
-                awakes.erase(awakes.begin() + static_cast<long long>(i - 1ULL));
+            Index size = AccsesStaticVar(awakes).size();
+            for (Index i = AccsesStaticVar(awakes).size(); i > 0; i--) {
+                if (i >= size) {
+                    throw std::out_of_range("Index out of range");
+                }
+                AccsesStaticVar(awakes)[i - 1]->Awake();
+                AccsesStaticVar(awakes).erase(AccsesStaticVar(awakes).begin() + static_cast<long long>(i - 1ULL));
 
             }
         }
 
         void CORE::Behaviour::UpdateAllSTART()
         {
-            for (Index i = starts.size(); i > 0; i--) {
-                starts[i - 1]->Start();
-                CORE::Behaviour::AddToUpdate(starts[i - 1]);
+            Index size = AccsesStaticVar(starts).size();
+            for (Index i = AccsesStaticVar(starts).size(); i > 0; i--) {
+                if (i >= size) {
+                    throw std::out_of_range("Index out of range");
+                }
+                AccsesStaticVar(starts)[i - 1]->Start();
+               const bool succsesfull= CORE::Behaviour::AddToUpdate(AccsesStaticVar(starts)[i - 1]);
+               if (!succsesfull) {
+                   throw std::exception("Failed to add to update");
+               }
 
-                starts.erase((starts.begin() + static_cast<long long>(i - 1ULL)));
+                AccsesStaticVar(starts).erase((AccsesStaticVar(starts).begin() + static_cast<long long>(i - 1ULL)));
 
             }
         }
@@ -75,19 +102,19 @@ namespace UPRISE_ENGINE {
 
         bool CORE::Behaviour::AddToUpdate(SharedRef<CORE::Behaviour, true> behaviour)
         {
-            behaviours.push_back(behaviour);
+            AccsesStaticVar(behaviours).push_back(behaviour);
             return  true;
         }
 
         bool CORE::Behaviour::AddToStart(SharedRef<CORE::Behaviour, true> behaviour)
         {
-            awakes.push_back(behaviour);
+            AccsesStaticVar(awakes).push_back(behaviour);
             return true;
         }
 
         bool CORE::Behaviour::AddToAwake(SharedRef<CORE::Behaviour, true> behaviour)
         {
-            starts.push_back(behaviour);
+            AccsesStaticVar(starts).push_back(behaviour);
             return true;
         }
         bool CORE::Behaviour::RemoveFromUpdate()
@@ -115,11 +142,11 @@ namespace UPRISE_ENGINE {
         {
             //TODO: implement
         }
-        int CORE::Behaviour::currentUpdate = 0;
+
 
         void CORE::Behaviour::OnDestroyInt(SharedRef<Object, true> obj)
         {
-            UPRISE_ENGINE::DEBUG::Debug::Log("Calling OnDestroy\n");
+            CallMockableMethod(UPRISE_ENGINE::DEBUG::Debug::Log("Calling OnDestroy\n")); //-V2578
             OnDestroy();
             obj.Destroy();
 

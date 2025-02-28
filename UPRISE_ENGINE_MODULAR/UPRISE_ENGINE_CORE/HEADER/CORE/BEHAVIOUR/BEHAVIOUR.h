@@ -4,8 +4,9 @@
 #ifndef UE_BEHAVIOUR_
 #define UE_BEHAVIOUR_
 
-#include "UUID/UUID.h"
-#include "OBJECT/OBJECT.h"
+#include "DATATYPES/UUID/UUID.h"
+
+#include "CORE/OBJECT/OBJECT.h"
 
 
 
@@ -13,10 +14,12 @@
 
 
 
+#pragma warning(disable : 4514)
 
 import std; //-V2575 //-V3549
 import REF_WRAPPER; //-V2575 //-V3549
 namespace UPRISE_ENGINE {
+    using SR_Behaviour = SharedRef<CORE::Behaviour, true>;
     class GameOject;
     class Transform;
     namespace CORE {
@@ -26,23 +29,35 @@ namespace UPRISE_ENGINE {
         protected:
            UPRISE_CORE_API explicit Behaviour(const Behaviour& other);
            UPRISE_CORE_API explicit Behaviour(const Behaviour& other,bool);
-           UPRISE_CORE_API Behaviour& operator=(const Behaviour& other);
-        private:
+           UPRISE_CORE_API Behaviour& operator=(const Behaviour& other) {
+               Object::operator=(other); //-V2547
+               this->gameObj = other.gameObj;
+               this->uuid = other.uuid;
+               this->id = other.id;
+
+               return *this;
+           };
+        protected:
 #pragma region NonStaticVars
 
 
             SharedRef<GameOject, true> gameObj;
-            SharedRef<Transform, true> transf;
+            ///SharedRef<Behaviour, true> transf; MOVED TO GAMEOBJECT
             UUID uuid;
 
-            int id = 0;
-            char PAD[4];   //TODO find a better way to align this or find data to put here
+            int id;
+        private:
+            char PAD[4];   //TODO find a better way to align this or find data to put here //-V112
 #pragma endregion
 #pragma region StaticVars
-            UPRISE_CORE_API   static std::vector<SharedRef<CORE::Behaviour, true>> behaviours;
-            UPRISE_CORE_API  static std::vector<SharedRef<CORE::Behaviour, true>> awakes;
-            UPRISE_CORE_API static std::vector<SharedRef<CORE::Behaviour, true>> starts;
-            UPRISE_CORE_API  static int currentUpdate;
+            MockableStaticVar(std::vector<SR_Behaviour>, behaviours) //-V1096
+                MockableStaticVar(std::vector<SR_Behaviour>, awakes) //-V1096
+                MockableStaticVar(std::vector<SR_Behaviour>, starts) //-V1096
+                MockableStaticVar(int, currentUpdate); //-V1096
+            //UPRISE_CORE_API   static std::vector<SharedRef<CORE::Behaviour, true>> behaviours;
+           // UPRISE_CORE_API  static std::vector<SharedRef<CORE::Behaviour, true>> awakes;
+            //UPRISE_CORE_API static std::vector<SharedRef<CORE::Behaviour, true>> starts;
+            //UPRISE_CORE_API  static int currentUpdate;
 #pragma endregion
 
 
@@ -53,7 +68,7 @@ namespace UPRISE_ENGINE {
             /// constuctor that sets toBeRemoved(false)
             /// </summary>
             /// <returns></returns>
-            Behaviour()=default;
+            inline   Behaviour() :CORE::Object(), gameObj(), uuid(), id(0), PAD{ DEBUG_PAD_BITS_ZEROED } {};
 
 
 
@@ -61,12 +76,17 @@ namespace UPRISE_ENGINE {
 #pragma endregion
 #pragma region destructor
             virtual ~Behaviour() {
-                SetEnabled(false);
+                SetEnabled(false); //-V2547
             }
 #pragma endregion
             //following region contains all functions
 #pragma region funcs
 #pragma region OPREATORS
+            bool operator==(const Object& other) const {
+                const Behaviour& otherBehaviour = static_cast<const  Behaviour&>(other);
+                bool base = Object::operator==(otherBehaviour);
+                return base;//&& this->gameObj == other.gameObj && this->transf == other.transf && this->uuid == other.uuid && this->id == other.id;
+            }
 
 #pragma endregion
 

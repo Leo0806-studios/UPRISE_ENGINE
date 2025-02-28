@@ -7,7 +7,9 @@ import std; //-V2575 //-V3549
 namespace UPRISE_ENGINE {
     //cant prvent padding. 
     //disabeling warning for this class
+#pragma warning(push)
 #pragma warning(disable: 4820)
+#pragma warning (push)
 #pragma warning(disable: 4514)
     /// <summary>
 /// layer for GameObjects
@@ -17,11 +19,11 @@ namespace UPRISE_ENGINE {
         /// <summary>
 /// layer id
 /// </summary>
-        int id;
+        int id=-1;
         /// <summary>
 /// layer name
 /// </summary>
-        std::string name;
+        std::string name{};
 
 
     public:
@@ -50,8 +52,9 @@ namespace UPRISE_ENGINE {
         /// returns the id of the layer
         /// <summary>
         __inline UPRISE_CORE_API int ID() const { return id; }
+        __inline UPRISE_CORE_API int SetID(int i) { id = i; return id; }
     };
 }
-#pragma warning(default: 4820)
-#pragma warning(default: 4514)
+#pragma warning(pop)
+#pragma warning(pop)
 #endif // !1

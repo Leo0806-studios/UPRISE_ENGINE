@@ -5,7 +5,10 @@
 #define _ARRAY_
 import std;
 
-namespace UPRISE_ENGINE {/// <summary>
+namespace UPRISE_ENGINE {
+#pragma warning(push)
+#pragma warning(disable:4820)
+/// <summary>
 /// array type 
 /// stack or heap
 /// </summary>
@@ -47,6 +50,19 @@ namespace UPRISE_ENGINE {/// <summary>
 
             }
         }
+        __inline Array(const Array& other) {
+            if constexpr (t == heap) {
+                data = new T[i];
+                for (size_t j = 0; j < i; j++) {
+                    data[j] = other.data[j];
+                }
+            }
+            else {
+                for (size_t j = 0; j < i; j++) {
+                    data[j] = other.data[j];
+                }
+            }
+        }
         /// <summary>
         /// destructor that deletes the array if t==heap
         /// </summary>
@@ -58,13 +74,28 @@ namespace UPRISE_ENGINE {/// <summary>
 
             }
         }
+
+        Array& operator=(const Array& other) {
+            if constexpr (t == heap) {
+                data = new T[i];
+                for (size_t j = 0; j < i; j++) {
+                    data[j] = other.data[j];
+                }
+            }
+            else {
+                for (size_t j = 0; j < i; j++) {
+                    data[j] = other.data[j];
+                }
+            }
+            return *this;
+        }
         /// <summary>
         /// runtime index access with runtime bounds checking
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
-        __inline const T& operator[](const long long index) {
-            if constexpr (index > size || index < 0) {
+        __inline  T& operator[](const long long index) {
+            if  (index >= size && index>= 0) {
                 throw std::out_of_range("Index out of bounds");
             }
             if constexpr (t == heap) {
@@ -79,12 +110,14 @@ namespace UPRISE_ENGINE {/// <summary>
         }
         /// <summary>
         /// compile time index access with compile time bounds checking
+        /// apparaenty this is not working. will make it a runtime check
         /// </summary>
         /// <typeparam name="ind"></typeparam>
         /// <returns></returns>
         template<long long ind>
-        __inline const T& get() {
-            if constexpr (ind > size || ind < 0) {
+        __inline constexpr T& get() {
+            if  (ind >= size && ind >= 0) {
+                //static_assert(ind>=size&&ind>=0,"Array out of bounds");
                 throw std::out_of_range("Index out of bounds");
             }
             if constexpr (t == heap) {
@@ -99,6 +132,7 @@ namespace UPRISE_ENGINE {/// <summary>
         }
 
     };
+#pragma warning(pop)
 }
 
 

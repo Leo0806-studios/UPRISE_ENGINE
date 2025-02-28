@@ -3,7 +3,7 @@
 #pragma once
 #ifndef _Model_
 #define _Model_
-#include "GLOBAL/GLINCLUDES.h"
+#include <GLOBAL/GLINCLUDES.h>
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>

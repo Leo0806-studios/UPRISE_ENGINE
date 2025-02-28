@@ -5,11 +5,12 @@
 #define UE_T_S_P_VECTOR4
 
 //#include <glm/fwd.hpp>
-#include "intrin.h"
+#include <intrin.h>
 #include <GLOBAL/GLINCLUDES.h>
 
 import std;
-
+#pragma warning(push)
+#pragma warning (disable :4514)
 namespace UPRISE_ENGINE {
     /// <summary>
 /// Vector 4
@@ -133,9 +134,21 @@ namespace UPRISE_ENGINE {
         /// uses the getters of x,y,z,w
         /// </summary>
         __inline   operator glm::vec4() { return glm::vec4(x(), y(), z(), w()); }
+        __inline Vector4 operator+(Vector4 other)const noexcept {
+            return Vector4(_mm_add_ps(Data, other.Data));
+        }
+        __inline Vector4 operator-(Vector4 other)const noexcept {
+            return Vector4(_mm_sub_ps(Data, other.Data));
+        }
+        __inline Vector4 operator*(Vector4 other)const noexcept {
+            return Vector4(_mm_mul_ps(Data, other.Data));
+        }
+        __inline Vector4 operator/(Vector4 other)const noexcept {
+            return Vector4(_mm_div_ps(Data, other.Data));
+        }
     };
 }
 
 
-
+#pragma warning(pop)
 #endif // !_T_S_P_VECTOR4

@@ -12,8 +12,6 @@ namespace UPRISE_ENGINE {
         private:
             SharedRef<RENDER_COMMON::CONTEXT_BASE, true> context;
         public:
-            Context() = default;
-            ~Context() {}
             void SetContext(SharedRef<RENDER_COMMON::CONTEXT_BASE, true> cont) {
                 context = cont;
             }

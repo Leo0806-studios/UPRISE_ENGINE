@@ -10,7 +10,11 @@
 namespace UPRISE_ENGINE {
     
     namespace DEBUG {
+#ifndef UPRISE_TESTS
         DEBUG::LOG_STREAM   Debug::_internal_Stream;
+
+#endif // !UPRISE_TESTS
+
     }
 
     void DEBUG::LOG_STREAM::Flush()
@@ -67,7 +71,7 @@ namespace UPRISE_ENGINE {
     UPRISE_ENGINE::DEBUG::LOG_STREAM& DEBUG::LOG_STREAM::operator<<(const char* value) {
         std::lock_guard<std::mutex> lock(mutex);
         stream << value;
-        length += strlen(value);
+        length += strlen(value); //-V2513
         if (length >= autoFlushLength) {
             Flush();
         }
@@ -79,7 +83,7 @@ namespace UPRISE_ENGINE {
     {
         std::time_t a = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
         std::string s = std::to_string(a);
-        _internal_Stream << "[" << s << "]" << message << "\n";
+        AccsesStaticVar(_internal_Stream) << "[" << s << "]" << message << "\n";
     }
 
      void DEBUG::Debug::LogException(std::exception Exception)
@@ -88,3 +92,5 @@ namespace UPRISE_ENGINE {
     }
 
 }
+
+

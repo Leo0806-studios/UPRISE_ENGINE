@@ -7,7 +7,6 @@
 #include "PROFILER/PROFILER_OBJECTS/DEALLOC/DEALLOC_OBJECT.h"
 void* operator new(size_t count) //-V3549 //-V2575
 {
-    std::cout << "new\n";
   
         void* ptr = malloc(count); //-V2511
         if (UPRISE_ENGINE::PROFILER::Profiler_started()) {
@@ -19,7 +18,6 @@ void* operator new(size_t count) //-V3549 //-V2575
 }
 void operator delete(void* ptr) //-V3549 //-V2575
 {
-    std::cout << "delete\n";
     if (UPRISE_ENGINE::PROFILER::Profiler_started()) {
         ;
         UPRISE_ENGINE::PROFILER::DEALLOC_OBJECT(_msize(ptr), ptr, "delete", __FILE__, __LINE__, "delete"); //-V3551 //-V3527 //-V2578 //-V2547

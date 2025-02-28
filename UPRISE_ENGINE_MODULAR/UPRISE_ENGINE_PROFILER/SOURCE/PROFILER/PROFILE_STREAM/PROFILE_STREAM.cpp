@@ -1,5 +1,6 @@
 // This is a personal academic project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
+#pragma warning(push)
 #pragma warning(disable: 4100)
 #include "PROFILER/PROFILE_STREAM/PROFILE_STREAM.h"
 #include <Windows.h>
@@ -33,8 +34,7 @@ namespace UPRISE_ENGINE {
              stream.str("");
              length = 0;
          }
-#pragma warning(default: 4100)
-
+#pragma warning(pop)
          bool PROFILE_STREAM::toggleAutoFlush()
          {
              autoFlush = !autoFlush;

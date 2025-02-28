@@ -30,10 +30,10 @@ namespace UPRISE_PROFILER_APPLICATION
             
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
-            string path = "C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\BUILD\\x64\\Debug\\.exe\\UPRISE_EDITOR_APPLICATION";
+            const string path = "C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\BUILD\\x64\\Debug\\.exe\\UPRISE_EDITOR_APPLICATION";
             {
                 List<string> events = new List<string>();
-                string profilerLog = File.ReadAllText(path + "\\Profiling.txt");
+                string profilerLog = File.ReadAllText(path + "\\Profiling.txt"); //-V3039
                 var a = profilerLog.Split("|%|").ToList();
                 List<ProfilingTimerEvent> s = new List<ProfilingTimerEvent>();
                 foreach(var sdfnmgrtblueiahwiv in a)

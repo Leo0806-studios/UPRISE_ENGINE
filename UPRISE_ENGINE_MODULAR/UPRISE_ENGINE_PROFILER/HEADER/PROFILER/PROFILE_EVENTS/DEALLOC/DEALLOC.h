@@ -6,6 +6,7 @@ import std; //-V3549 //-V2575
 
 namespace UPRISE_ENGINE {
     namespace PROFILER {
+#pragma warning(push)
 #pragma warning(disable: 4820)
 
         class DEALLOC:public EVENT_BASE {
@@ -37,7 +38,7 @@ namespace UPRISE_ENGINE {
             }
             
         };
-#pragma warning(default: 4820)
+#pragma warning(pop)
     }
 }
 

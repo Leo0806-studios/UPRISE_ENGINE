@@ -29,7 +29,7 @@ namespace UPRISE_ENGINE {
             std::string Code;
             std::string Path;
             ShaderType shadertype = ShaderType::S_null;
-            char PAD[4]; //TODO find a better way to align this or put data here
+            char PAD[4]; //TODO find a better way to align this or put data here //-V112
 
         public:
             UPRISE_COMMON_RENDER_COMPS_API  virtual void Compile() = 0;
