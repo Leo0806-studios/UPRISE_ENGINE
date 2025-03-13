@@ -126,12 +126,16 @@ namespace UPRISE_ENGINE {
     }
     void OPENGL_BACKEND::_internal_PreFrameWork()
     {
+        //SCOPED_TIME_
+
         for (auto& context : ContextList_) {
             context->PreFrameWork();
         }
     }
     void OPENGL_BACKEND::_internal_PostFrameWork()
     {
+       // SCOPED_TIME_
+
         for (auto& context : ContextList_) {
             context->PostFrameWork();
         }

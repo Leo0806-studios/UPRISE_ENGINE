@@ -1,13 +1,31 @@
 #include "GL_WINDOW_WIN32.h"
 #include "PROFILER/PROFILER_OBJECTS/TIMERS/SCOPED/SCOPED_TIME.h"
 #include "Windows.h"
+
+
+LRESULT CALLBACK DEFAULT_UE_WINDOW_MSG_CALLBACK(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
+    switch (uMsg)
+    {
+    case WM_CLOSE:
+        PostQuitMessage(0);
+        return 0;
+
+    case WM_DESTROY:
+        PostQuitMessage(0);
+        return 0;
+
+    default:
+        return DefWindowProc(hwnd, uMsg, wParam, lParam);
+    }
+}
+
 namespace UPRISE_ENGINE {
     namespace OPENGL_RENDER {
         void WINDOW_Win32::GL_CREATE_WINDOW(int w, int h, const char* name) {
             SCOPED_TIME_
 
                 WNDCLASS wc = {};
-            wc.lpfnWndProc = DefWindowProc;  // Basic default message handler
+            wc.lpfnWndProc = DEFAULT_UE_WINDOW_MSG_CALLBACK;  // Basic default message handler
             wc.hInstance = GetModuleHandle(nullptr); // Use current module instance //-V2001
             int nameLength = MultiByteToWideChar(CP_UTF8, 0, name, -1, nullptr, 0);
             std::wstring wideName(static_cast<uhuge>(nameLength), 0);
@@ -37,6 +55,10 @@ namespace UPRISE_ENGINE {
             if (!static_cast<bool>(widwDestroyed)) {
                 throw std::exception("Failed to close window");
             }
+        }
+        void UPRISE_ENGINE::OPENGL_RENDER::WINDOW_Win32::ChangeWindowTitle(const std::string& title) const
+        {
+            SetWindowTextA(reinterpret_cast<HWND>(this->handle), title.c_str());
         }
     }
 }

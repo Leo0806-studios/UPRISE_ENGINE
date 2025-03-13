@@ -7,6 +7,7 @@ namespace UPRISE_ENGINE {
         std::vector<std::unique_ptr<EVENT_BASE>> EVENT_QEUE::qeue;
       //  std::mutex EVENT_QEUE::m;
         std::vector<std::unique_ptr<EVENT_BASE>> EVENT_QEUE::UsedQeue;
+        std::atomic<size_t> EVENT_QEUE::atomic_qeue_size = 0;
        // PROFILE_EVENT* EVENT_QEUE::ptr_qeue = nullptr;
 
         std::unique_ptr<EVENT_BASE> UPRISE_ENGINE::PROFILER::EVENT_QEUE::Get_Last_Event()
@@ -58,6 +59,7 @@ namespace UPRISE_ENGINE {
         {
             std::unique_lock<std::mutex> lock(GetMutex());
             qeue.push_back(std::move(event));
+            atomic_qeue_size.fetch_add(1, std::memory_order_relaxed);
             assert(event.get() == nullptr); //-V2570 //-V2528 //-V2578 //-V3545 //-V3519 //-V3551
 
         }
@@ -73,6 +75,7 @@ namespace UPRISE_ENGINE {
                 }
                 qeue.clear();
                 qeue.shrink_to_fit();
+                atomic_qeue_size.store(0,std::memory_order_relaxed);
             }
         }
         /*void UPRISE_ENGINE::PROFILER::EVENT_QEUE::UseCurrentQeue()

@@ -98,12 +98,16 @@ namespace UPRISE_ENGINE {
          }
          UPRISE_COMMON_RENDER_COMPS_API void RENDER_BACKEND::PostFrameWork()
          {
+            // SCOPED_TIME_
+
              _internal_backend->_internal_PostFrameWork();
          }
          UPRISE_COMMON_RENDER_COMPS_API void RENDER_BACKEND::PreFrameWork()
          {
+            // SCOPED_TIME_
              _internal_backend->_internal_PreFrameWork();
          }
+
     }
 }
 

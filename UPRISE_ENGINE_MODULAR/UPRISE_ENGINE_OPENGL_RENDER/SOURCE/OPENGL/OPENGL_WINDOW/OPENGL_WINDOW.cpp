@@ -120,6 +120,12 @@ namespace UPRISE_ENGINE {
              }
         }
 
+         void OPENGL_WINDOW::DisplayFpsInWindowTitle(double Fps, std::string BaseTitle)
+         {
+             const std::string NewTitle = [&]() {std::string retr = BaseTitle; retr.append(" FPS: "); retr.append(std::to_string(Fps)); return retr; }();
+             window->ChangeWindowTitle(NewTitle);
+         }
+
     }
 }
 

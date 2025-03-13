@@ -14,6 +14,7 @@ namespace UPRISE_ENGINE {
 
             UPRISE_PROFILER_API static  std::vector<std::unique_ptr<EVENT_BASE>> qeue;
             UPRISE_PROFILER_API static std::vector<std::unique_ptr<EVENT_BASE>> UsedQeue;
+            UPRISE_PROFILER_API static std::atomic<size_t> atomic_qeue_size;
         public:
             static inline size_t getUsedQeueSize() {
                 return UsedQeue.size();
@@ -34,8 +35,9 @@ namespace UPRISE_ENGINE {
             /// <returns></returns>
             UPRISE_PROFILER_API static std::unique_ptr<EVENT_BASE> Get_Last_Event();
             static size_t Get_Qeue_Size() {
-                std::unique_lock<std::mutex> lock(GetMutex());
-                return qeue.size();
+                return atomic_qeue_size.load(std::memory_order_relaxed);
+                //std::unique_lock<std::mutex> lock(GetMutex());
+                //return qeue.size();
             }
             EVENT_QEUE();
             ~EVENT_QEUE();

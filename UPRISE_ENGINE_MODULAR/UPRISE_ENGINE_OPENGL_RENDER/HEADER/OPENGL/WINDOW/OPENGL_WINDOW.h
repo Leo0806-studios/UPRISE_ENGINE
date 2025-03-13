@@ -91,6 +91,7 @@ namespace UPRISE_ENGINE {
             // Inherited via WINDOW_BASE
             UPRISE_OPENGL_RENDER_API void SetContext(OwnedRef<RENDER_COMMON::CONTEXT_BASE> Context) override;
             UPRISE_OPENGL_RENDER_API void UnsetContext(bool ShouldDestroyContext) override;
+            UPRISE_OPENGL_RENDER_API void DisplayFpsInWindowTitle(double Fps, std::string BaseTitle) override;
         private:
 
 

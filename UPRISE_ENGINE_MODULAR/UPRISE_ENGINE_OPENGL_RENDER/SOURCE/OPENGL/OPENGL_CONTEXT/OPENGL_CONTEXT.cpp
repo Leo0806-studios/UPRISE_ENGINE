@@ -4,6 +4,7 @@ import REF_WRAPPER;
 #define WIN_32_LEAN_AND_MEAN
 #include "Windows.h"
 #include "gl/GL.h"
+#include <PROFILER/PROFILER_OBJECTS/TIMERS/SCOPED/SCOPED_TIME.h>
 
 
 typedef HGLRC(WINAPI* wglCreateContextAttribsARB_t)(HDC, HGLRC, const int*);
@@ -94,27 +95,31 @@ namespace UPRISE_ENGINE {
         }
         void OPENGL_CONTEXT::PostFrameWork() const
         {
+            //SCOPED_TIME_
+
             SwapBuffers(reinterpret_cast<HDC>(this->HDC_ptr));
         }
         void OPENGL_CONTEXT::PreFrameWork()
         {
+            //SCOPED_TIME_
+
             static float sss = 0.0F;
             static float adsub = 1.0F;
               if (sss > 1.0F) {
-                adsub = -0.01F;
+                adsub = -0.001F;
             }
             if(sss<0.0F){
-                adsub = 0.01F;
+                adsub = 0.001F;
             }
 
 
             static float ssss = 1.0F;
             static float adsubs = 1.0F;
             if (ssss > 1.0F) {
-                adsubs = -0.01F;
+                adsubs = -0.001F;
             }
             if (ssss < 0.0F) {
-                adsubs = 0.01F;
+                adsubs = 0.001F;
             }
 
 

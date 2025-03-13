@@ -35,7 +35,7 @@ namespace UPRISE_ENGINE {
             UPRISE_RENDER_API MockableStaticVar(WindowDict,Windows)
 
         public:
-
+            UPRISE_RENDER_API static void DisplayFpsInMainWindowTitle(double Fps);
             Render() = default;
             ~Render() {}
 

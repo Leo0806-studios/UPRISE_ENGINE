@@ -35,6 +35,7 @@ namespace UPRISE_ENGINE {
             }
             UPRISE_RENDER_API static  OwnedRef<RENDER_COMMON::WINDOW_BASE> _CreateWindow(int w, int h, const char* title);
             UPRISE_RENDER_API static  void DestroyWindow(WeakRef<Window,true> window);
+            UPRISE_RENDER_API void DisplayFpsInWindowTitle(double Fps, std::string BaseTitle);
         };
     }
 

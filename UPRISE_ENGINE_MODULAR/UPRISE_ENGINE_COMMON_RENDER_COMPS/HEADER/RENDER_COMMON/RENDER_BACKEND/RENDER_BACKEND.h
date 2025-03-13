@@ -65,7 +65,6 @@ namespace UPRISE_ENGINE {
             UPRISE_COMMON_RENDER_COMPS_API virtual void _internal_PostFrameWork() = 0;
 
 
-
         public:
             UPRISE_COMMON_RENDER_COMPS_API  static OwnedRef<RENDER_BACKEND> CreateBackend();
             UPRISE_COMMON_RENDER_COMPS_API  static void DestroyBackend();
@@ -84,7 +83,6 @@ namespace UPRISE_ENGINE {
             UPRISE_COMMON_RENDER_COMPS_API  static void BindBuffer(unsigned int Buffer, void* _Data, size_t length, size_t Type_size, unsigned long long bufferType);
             UPRISE_COMMON_RENDER_COMPS_API static void PostFrameWork();
             UPRISE_COMMON_RENDER_COMPS_API static void PreFrameWork();
-
 
             UPRISE_COMMON_RENDER_COMPS_API RENDER_BACKEND(const RENDER_BACKEND& other) = delete;
             UPRISE_COMMON_RENDER_COMPS_API RENDER_BACKEND( RENDER_BACKEND&& other);

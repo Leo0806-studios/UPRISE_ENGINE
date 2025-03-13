@@ -22,7 +22,7 @@ namespace UPRISE_ENGINE {
             LogPath = tmp;
             LogFile.open(LogPath);
             LogFile.close();
-            autoFlushLength = 10000000;
+            autoFlushLength = 10000;
 
         }
 

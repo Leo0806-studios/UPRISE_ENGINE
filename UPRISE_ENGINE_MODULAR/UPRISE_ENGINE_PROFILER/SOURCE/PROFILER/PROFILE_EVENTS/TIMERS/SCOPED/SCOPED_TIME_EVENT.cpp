@@ -87,8 +87,12 @@ namespace UPRISE_ENGINE {
                 result += "Failed to get symbol\n";
             }
         }
-       auto lastcomma= result.find_last_of(',');
-       result.erase(lastcomma);
+        if (result.contains(","))
+        {
+            auto lastcomma = result.find_last_of(',');
+            result.erase(lastcomma);
+        }
+
         return result;
     }
     inline UPRISE_PROFILER_API std::string UPRISE_ENGINE::PROFILER::TIMERS::SCOPED_TIME_EVENT::GetStacktrace() const {

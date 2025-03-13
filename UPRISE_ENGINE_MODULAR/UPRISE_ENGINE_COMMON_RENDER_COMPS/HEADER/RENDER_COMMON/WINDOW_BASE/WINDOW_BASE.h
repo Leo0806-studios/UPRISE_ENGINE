@@ -5,6 +5,7 @@
 #define UE_WINDOW_BASE_
 #include "RENDER_COMMON/CALLBACK_TYPEDEFS/CALLBACK_TYPEDEFS.h"
 import REF_WRAPPER; //-V3549 //-V2575
+import std;
 namespace UPRISE_ENGINE {
     namespace RENDER_COMMON {
         class CONTEXT_BASE;
@@ -68,7 +69,7 @@ namespace UPRISE_ENGINE {
             /// </summary>
             /// <returns></returns>
             UPRISE_COMMON_RENDER_COMPS_API virtual void UnsetContext(bool ShouldDestroyContext) = 0;
-
+            UPRISE_COMMON_RENDER_COMPS_API virtual void DisplayFpsInWindowTitle(double Fps, std::string BaseName) = 0;
 #pragma endregion
         private:
         };

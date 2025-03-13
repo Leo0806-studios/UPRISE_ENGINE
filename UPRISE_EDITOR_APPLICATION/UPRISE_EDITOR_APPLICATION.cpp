@@ -13,6 +13,7 @@ import REF_WRAPPER;
 #include <Windows.h>
 #include "PROFILER/PROFILER_OBJECTS/ALLOC/ALLOC_OBJECT.h"
 #include <PROFILER/PROFILER_OBJECTS/TIMERS/SCOPED/SCOPED_TIME.h>
+#include <Windows.h>
 #pragma comment(lib, "UPRISE_ENGINE_PROFILER.lib")
 #pragma comment(lib, "UPRISE_ENGINE_DEBUG.lib")
 #pragma comment(lib, "UPRISE_ENGINE_ECS.lib")
@@ -23,40 +24,52 @@ import REF_WRAPPER;
 #pragma comment(lib, "UPRISE_ENGINE_DX11_RENDER.lib")
 #pragma comment(lib, "UPRISE_ENGINE_VULKAN_RENDER.lib")
 #pragma comment(lib, "UPRISE_ENGINE_DX12_RENDER.lib")
-class Testexcp { //-V2575 //-V3549
-    const char* data; //-V122
+class FrameTimer {
 public:
-    Testexcp(const char* msg) {
-        data = msg;
+    FrameTimer(size_t bufferSize = 100) : maxSamples(bufferSize) {}
+
+    void recordFrame() {
+        // Get current time
+        auto now = std::chrono::high_resolution_clock::now();
+
+        // Calculate frame time if we have a previous timestamp
+        if (lastFrameTime.time_since_epoch().count() != 0) {
+            double frameTime = std::chrono::duration<double, std::milli>(now - lastFrameTime).count();
+            frameTimes.push_back(frameTime);
+            auto a = frameTimes.size();
+            if (a >= maxSamples) {
+                frameTimes.pop_front();
+
+            }
+        }
+
+        // Update last frame time
+        lastFrameTime = now;
     }
-    const char* What() {
-        return data;
+
+    double getAverageFPS() const {
+        if (frameTimes.empty()) return 0.0;
+
+        double avgFrameTime = std::accumulate(frameTimes.begin(), frameTimes.end(), 0.0) / static_cast<double>(frameTimes.size());
+        return 1000.0 / avgFrameTime; // Convert ms to FPS
     }
+
+private:
+    std::deque<double> frameTimes;
+    size_t maxSamples;
+    std::chrono::high_resolution_clock::time_point lastFrameTime;
 };
-//#include <heapapi.h>
-
-// ...
 
 
-// ...
-void takeslongandteststimer() { //-V2575 //-V3549
-    UPRISE_ENGINE::PROFILER::TIMERS::SCOPED_TIME a(__FUNCSIG__, __FILE__, __FUNCTION__, __LINE__);
-    for (Index i = 0; i < 10000; i++) {
-        Index aa = 0;
-        aa++;
-    }
-}
-void inner() { //-V2575 //-V3549
-    UPRISE_ENGINE::PROFILER::TIMERS::SCOPED_TIME a(__FUNCSIG__, __FILE__, __FUNCTION__, __LINE__);
-}
-void takeslongandteststimere() { //-V2575 //-V3549
-    UPRISE_ENGINE::PROFILER::TIMERS::SCOPED_TIME a(__FUNCSIG__, __FILE__, __FUNCTION__, __LINE__);
-    for (Index i = 0; i < 100000; i++) {
-        inner();
-        Index aaa = 0;
-        aaa++;
-    }
-    return void();
+
+
+
+
+
+void Frame() {
+    SCOPED_TIME_
+    UPRISE_ENGINE::RENDER_COMMON::RENDER_BACKEND::PreFrameWork();
+    UPRISE_ENGINE::RENDER_COMMON::RENDER_BACKEND::PostFrameWork();
 }
 int main()
 {
@@ -84,15 +97,20 @@ int main()
     UPRISE_ENGINE::DEBUG::Log << "Editor Application startup";
 
     UPRISE_ENGINE::RENDER::Render::RenderSetup::Setup(800, 600, "UPRISE_EDITOR", UPRISE_ENGINE::RENDER::Render_Backend::RB_OPENGL);
-
+    FrameTimer frameTimer(10000);
 
     std::string s;
-
-    while (true) {
-        
-        UPRISE_ENGINE::RENDER_COMMON::RENDER_BACKEND::PreFrameWork();
-        Sleep(10);
-        UPRISE_ENGINE::RENDER_COMMON::RENDER_BACKEND::PostFrameWork();
+    int conter = 0;
+    MSG msg = { 0 };
+    while (msg.message != WM_QUIT) {
+        frameTimer.recordFrame();
+        if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+        {
+            TranslateMessage(&msg);
+            DispatchMessage(&msg);
+        }
+        Frame();
+        UPRISE_ENGINE::RENDER::Render::DisplayFpsInMainWindowTitle(frameTimer.getAverageFPS());
 
     }
     std::cin >> s; 

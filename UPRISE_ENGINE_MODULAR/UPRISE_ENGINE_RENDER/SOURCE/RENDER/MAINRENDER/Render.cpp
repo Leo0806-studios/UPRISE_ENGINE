@@ -10,6 +10,11 @@ namespace UPRISE_ENGINE {
     namespace RENDER_COMMON { 
 
     }
+    UPRISE_RENDER_API void UPRISE_ENGINE::RENDER::Render::DisplayFpsInMainWindowTitle(double Fps)
+    {
+        auto window = Windows.begin();
+        window->second->DisplayFpsInWindowTitle(Fps, std::string(window->first));
+    }
     void RENDER::Render::SetRenderCamera(SharedRef<GameObject, true> cam)
     {
     }

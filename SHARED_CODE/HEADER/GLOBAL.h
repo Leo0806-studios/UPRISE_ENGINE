@@ -111,7 +111,7 @@
 static Type InternalMockReplacement{};\
 return InternalMockReplacement;\
 }
-#define MockableStaticVar(Type,Name) static __inline Type& Name(){\
+#define MockableStaticVar(Name,...) static __inline __VA_ARGS__& Name(){\
 static Type InternalMockReplacement{};\
 return InternalMockReplacement;\
 }
@@ -121,7 +121,7 @@ return InternalMockReplacement;\
 #else
 #define MockableGlobalVar(Type,Name)  Type Name ;
 
-#define MockableStaticVar(Type,Name) static Type Name ; 
+#define MockableStaticVar(Name,...) static __VA_ARGS__ Name ; 
 #define AccsesGlobalVar(x)  x
 #define AccsesStaticVar(x)  x
 #define CallMockableMethod(FullName) FullName
@@ -163,6 +163,18 @@ namespace UPRISE_ENGINE {
 
 
 #define UE_NODISCARD [[nodiscard]]
+#define UE_FINLINE __forceinline
+#define UE_INLINE __inline
+#define UE_DEFAUL(TypeName) TypeName() noexept = default;
+#define UE_VEC_CALL __vectorcall
+#define UE_FINLINE_VEC_CALL __forceinline __vectorcall
+#define UE_INLINE_VEC_CALL __inline __vectorcall
+#define UE_CONST_NOEXCEPT const noexcept
+#define UE_SIMD_ALIGN__M128 alignas(16)
+#define UE_SIMD_ALIGN__M256 alignas(32)
+#define UE_SIMD_ALIGN__M512 alignas(64)
+#define UE_CONST_PTR(Name,...)  __VA_ARGS__* const Name
+#define UE_PTR_TO_CONST(Name,...)  const __VA_ARGS__* Name
 typedef  long long huge;; //-V2575 //-V3549
 typedef unsigned long long uhuge; //-V2575 //-V3549
 

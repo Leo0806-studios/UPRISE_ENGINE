@@ -1,6 +1,7 @@
 #pragma once
 #ifndef UE_GL_WINDOW_WIN32_
 #define UE_GL_WINDOW_WIN32_
+import std;
 namespace UPRISE_ENGINE {
 
     namespace  OPENGL_RENDER {
@@ -40,8 +41,11 @@ namespace UPRISE_ENGINE {
             }
             UPRISE_OPENGL_RENDER_API  void GL_CREATE_WINDOW(int w, int h, const char* name);
            UPRISE_OPENGL_RENDER_API void CLOSE_Window() const;
+           void ChangeWindowTitle(const std::string & title) const;
         };
 
     }
 }
+
+
 #endif // !UE_GL_WINDOW_WIN32_
