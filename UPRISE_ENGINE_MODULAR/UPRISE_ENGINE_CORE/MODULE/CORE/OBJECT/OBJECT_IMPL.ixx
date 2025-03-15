@@ -5,7 +5,10 @@ import :OBJECT;
 import :BEHAVIOUR;
 import :COMPONENT;
 export namespace UPRISE_ENGINE {
+    FunctionTransporter::RemoveComponent FunctionTransporter::RemoveBehaviourFromGameobject__internal = nullptr;
+
     namespace CORE {
+
 
 
 #ifndef UPRISE_TESTS
@@ -15,7 +18,7 @@ export namespace UPRISE_ENGINE {
             name(other.name),
             enabled(other.enabled.load()),
             PAD{ DEBUG_PAD_BITS_ZEROED }
-
+            
         {
         }
 

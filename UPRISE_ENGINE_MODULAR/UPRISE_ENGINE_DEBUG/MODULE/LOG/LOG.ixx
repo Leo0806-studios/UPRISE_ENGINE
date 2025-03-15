@@ -4,7 +4,7 @@ import :LOG_STREAM;
 export namespace UPRISE_ENGINE {
     namespace DEBUG {
         class Debug {
-            MockableStaticVar(LOG_STREAM, _internal_Stream); //-V1096
+            MockableStaticVar( _internal_Stream, LOG_STREAM); //-V1096
             //static UPRISE_DEBUG_API LOG_STREAM _internal_Stream;
         public:
 

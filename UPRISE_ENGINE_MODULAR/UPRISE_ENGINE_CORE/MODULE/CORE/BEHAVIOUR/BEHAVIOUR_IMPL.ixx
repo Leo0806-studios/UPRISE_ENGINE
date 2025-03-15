@@ -11,6 +11,7 @@ export namespace UPRISE_ENGINE {
         std::vector<WeakRef<CORE::Behaviour, true>> CORE::Behaviour::awakes;
         std::vector<WeakRef<CORE::Behaviour, true>> CORE::Behaviour::starts;
         std::unordered_map<__m128, std::unordered_map<unsigned long long, WeakRef<CORE::Behaviour, true>>> CORE::Behaviour::behaviours_;
+        std::vector<WeakRef<CORE::Behaviour, true>> CORE::Behaviour::toBeRemovedAtEndoOfFrame;
         int CORE::Behaviour::currentUpdate = 0;
 
 #endif
@@ -29,7 +30,7 @@ export namespace UPRISE_ENGINE {
             for (; i > 0; i--) {
                 WeakRef Obj = std::move(toBeRemovedAtEndoOfFrame[i - 1]);
                 WeakRef GamObj = Obj->gameObj;
-                CORE::Object::RemoveBehaviourFromGameobject__internal(GamObj.Get(), Obj);
+                FunctionTransporter::RemoveBehaviourFromGameobject__internal(GamObj.Get(), Obj);
 
             }
         }

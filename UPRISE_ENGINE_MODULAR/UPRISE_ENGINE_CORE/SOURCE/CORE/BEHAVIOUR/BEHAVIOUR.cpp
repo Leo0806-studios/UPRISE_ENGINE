@@ -3,7 +3,8 @@
 #include "CORE/BEHAVIOUR/BEHAVIOUR.h"
 
 #ifndef UPRISE_TESTS
-#include "DEBUG/LOG/LOG.h"
+import UPRISE_ENGINE_DEBUG;
+//#include "DEBUG/LOG/LOG.h"
 #endif
 import std; //-V2575 //-V3549
 namespace UPRISE_ENGINE {

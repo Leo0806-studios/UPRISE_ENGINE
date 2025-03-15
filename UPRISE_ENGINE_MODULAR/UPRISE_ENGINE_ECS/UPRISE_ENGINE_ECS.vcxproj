@@ -191,7 +191,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalBMIDirectories>C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_ENGINE_MODULAR\UPRISE_ENGINE_CORE;C:\Users\leo08\source\repos\UPRISE_ENGINE\SHARED_CODE\MODULES;%(AdditionalBMIDirectories)</AdditionalBMIDirectories>
+      <AdditionalBMIDirectories>C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_ENGINE_MODULAR\UPRISE_ENGINE_CORE\x64\Debug;C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_ENGINE_MODULAR\UPRISE_ENGINE_CORE\MODULE;C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_ENGINE_MODULAR\UPRISE_ENGINE_CORE;C:\Users\leo08\source\repos\UPRISE_ENGINE\SHARED_CODE\MODULES;%(AdditionalBMIDirectories)</AdditionalBMIDirectories>
       <ScanSourceForModuleDependencies>true</ScanSourceForModuleDependencies>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <EnableModules>false</EnableModules>
@@ -253,34 +253,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="framework.h" />
-    <ClInclude Include="HEADER\DATATYPES\HEIGHTMAP\HEIGHTMAP.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="HEADER\DATATYPES\TERRAINDATA\TerrainData.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="HEADER\ECS\COMPONENTS\CAMERA\CAMERA.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="HEADER\ECS\COMPONENTS\MESH\MESH.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="HEADER\ECS\COMPONENTS\PHYSICSOBJECT\PHYSICSOBJECT.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="HEADER\ECS\COMPONENTS\TERRAIN\TERRAIN.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="HEADER\ECS\COMPONENTS\TRANSFORM\TRANSFORM.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
+    <ClInclude Include="HEADER\DATATYPES\HEIGHTMAP\HEIGHTMAP.h" />
+    <ClInclude Include="HEADER\DATATYPES\TERRAINDATA\TerrainData.h" />
+    <ClInclude Include="HEADER\ECS\COMPONENTS\CAMERA\CAMERA.h" />
+    <ClInclude Include="HEADER\ECS\COMPONENTS\MESH\MESH.h" />
+    <ClInclude Include="HEADER\ECS\COMPONENTS\PHYSICSOBJECT\PHYSICSOBJECT.h" />
+    <ClInclude Include="HEADER\ECS\COMPONENTS\TERRAIN\TERRAIN.h" />
+    <ClInclude Include="HEADER\ECS\COMPONENTS\TRANSFORM\TRANSFORM.h" />
     <ClInclude Include="HEADER\ECS\GAMEOBJECT\GAMEOBJECT.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
@@ -288,7 +267,13 @@
     <ClCompile Include="..\..\SHARED_CODE\MODULES\REF_WRAPPER.ixx" />
     <ClCompile Include="..\UPRISE_ENGINE_PROFILER\OPERATORS\PROFILER\OPERATOR_NEW\OPERATOR_NEW.cpp" />
     <ClCompile Include="dllmain.cpp" />
-    <ClCompile Include="SOURCE\DATATYPES\HEIGHTMAP\HEIGHTMAP.cpp" />
+    <ClCompile Include="MODULE\BUILD_MODULE.cpp" />
+    <ClCompile Include="MODULE\DATATYPES\HEIGHTMAP\HEIGHTMAP.ixx" />
+    <ClCompile Include="MODULE\DATATYPES\HEIGHTMAP\HEIGHTMAP_IMPL.ixx" />
+    <ClCompile Include="MODULE\DATATYPES\TERRAINDATA\TERRAINDATA.ixx" />
+    <ClCompile Include="MODULE\DATATYPES\TERRAINDATA\TERRAINDATA_IMPL.ixx" />
+    <ClCompile Include="MODULE\ECS\COMPONENTS\CAMERA\CAMERA.ixx" />
+    <ClCompile Include="MODULE\UPRISE_ENGINE_ECS.ixx" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Build|x64'">Create</PrecompiledHeader>
@@ -297,6 +282,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="SOURCE\DATATYPES\HEIGHTMAP\HEIGHTMAP.cpp" />
     <ClCompile Include="SOURCE\DATATYPES\TERRAINDATA\TERRAINDATA.cpp" />
     <ClCompile Include="SOURCE\ECS\COMPONENTS\CAMERA\CAMERA.cpp" />
     <ClCompile Include="SOURCE\ECS\COMPONENTS\MESH\MESH.cpp" />

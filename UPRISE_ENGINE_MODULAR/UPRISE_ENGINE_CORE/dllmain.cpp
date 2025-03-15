@@ -3,9 +3,7 @@
 // dllmain.cpp : Defines the entry point for the DLL application.
 #include "pch.h"
 //#include "GLOBAL/GLINCLUDES.h"
-#include "HEADER/DATATYPES/VECTOR/VECTOR3/FAST/VECTOR3_F.h"
-#include "HEADER/DATATYPES/QUTERION/QUATERION.h"
-#include "HEADER/CORE/OBJECT/OBJECT.h"
+
 import std; //-V2575 //-V3549
 #pragma warning(push)
 #pragma warning(disable:4100)

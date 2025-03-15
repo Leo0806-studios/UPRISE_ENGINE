@@ -50,7 +50,7 @@ namespace UPRISE_ENGINE {
             char PAD[4];   //TODO find a better way to align this or find data to put here //-V112
 #pragma endregion
 #pragma region StaticVars
-            MockableStaticVar(std::vector<SR_Behaviour>, behaviours) //-V1096
+            MockableStaticVar( behaviours,std::vector<SR_Behaviour>) //-V1096
                 MockableStaticVar(std::vector<SR_Behaviour>, awakes) //-V1096
                 MockableStaticVar(std::vector<SR_Behaviour>, starts) //-V1096
                 MockableStaticVar(int, currentUpdate); //-V1096

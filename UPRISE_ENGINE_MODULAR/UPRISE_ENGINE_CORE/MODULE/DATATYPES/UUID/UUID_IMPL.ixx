@@ -1,5 +1,7 @@
 module;
 #include "Windows.h"
+#pragma comment(lib, "Rpcrt4.lib")
+
 export module UPRISE_ENGINE_CORE:UUID_IMPL;
 import std;
 import :UUID;

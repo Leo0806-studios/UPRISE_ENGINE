@@ -6,7 +6,19 @@ import REF_WRAPPER;
 export namespace UPRISE_ENGINE {
     
         class GameObject;
-    
+        namespace CORE {
+            class Object;
+            class Behaviour;
+        }
+        class FunctionTransporter {
+            friend class GameObject;
+            friend class CORE::Object;
+            friend class CORE::Behaviour;
+        public:
+            typedef void(*RemoveComponent)(UPRISE_ENGINE::GameObject*, WeakRef<CORE::Object, true> comp);
+        private:
+            UPRISE_CORE_API MockableStaticVar(RemoveBehaviourFromGameobject__internal, RemoveComponent)
+    };
     namespace CORE {
         class Behaviour;
         class Component;
@@ -31,8 +43,7 @@ export namespace UPRISE_ENGINE {
             /// </summary>
             UPRISE_CORE_API virtual void Gamobject_Internal_Component_Remove() = 0;
                  */       
-            typedef void(* RemoveComponent)(UPRISE_ENGINE::GameObject*,WeakRef<CORE::Object, true> comp);
-            UPRISE_CORE_API MockableStaticVar(RemoveBehaviourFromGameobject__internal, RemoveComponent)
+
         private:
             std::string name;
             std::atomic<bool> enabled;

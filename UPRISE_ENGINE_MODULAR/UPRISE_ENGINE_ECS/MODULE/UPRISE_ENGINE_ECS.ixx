@@ -1,0 +1,9 @@
+export module UPRISE_ENGINE_ECS;
+
+export import :HEIGHTMAP;
+export import :TERRAINDATA;
+
+#ifdef UPRISEENGINEECS_EXPORTS
+import :HEIGHTMAP_IMPL;
+import :TERRAINDATA_IMPL;
+#endif // UPRISEENGINEECS_EXPORTS
