@@ -3,9 +3,11 @@
 #pragma once
 #ifndef UE_UUID_
 #define UE_UUID_
+#ifndef CORE_MODULE_BUILD
 import std;
+#endif
 namespace UPRISE_ENGINE {
-    struct  UUID  {
+    struct UE_SIMD_ALIGN__M128 UUID {
 #ifdef UPRISE_TESTS
     public:
 #else
@@ -14,20 +16,50 @@ namespace UPRISE_ENGINE {
         unsigned int Data1;
         unsigned short Data2;
         unsigned short Data3;
-        unsigned char Data4[8];
+        alignas(alignof(unsigned int)) unsigned char Data4[8];
     public:
 
-        UUID() = default;
-        ~UUID() = default;
-       UPRISE_CORE_API UUID(const UUID& other)noexcept;;
-       UPRISE_CORE_API  UUID(UUID&& other) noexcept;;
-       UPRISE_CORE_API UUID& operator=(const UUID& other)noexcept;
-       UPRISE_CORE_API UUID& operator=(UUID&& other) noexcept;
-       UPRISE_CORE_API bool operator==(const UUID& other)noexcept;
-       UPRISE_CORE_API bool operator!=(const UUID& other)noexcept;
+        UUID()noexcept :Data1(0), Data2(0), Data3(0) {
+            for (auto& a : Data4) {
+                a = 0;
+            }
+        }
+        UPRISE_CORE_API UUID(const UUID& other)noexcept;;
+        UPRISE_CORE_API  UUID(UUID&& other) noexcept;;
+        UPRISE_CORE_API UUID& operator=(const UUID& other)noexcept;
+        UPRISE_CORE_API UUID& operator=(UUID&& other) noexcept;
+        UPRISE_CORE_API bool operator==(const UUID& other)noexcept;
+        UPRISE_CORE_API bool operator!=(const UUID& other)noexcept;
+        UPRISE_CORE_API __m128 __vectorcall StoreinM128()const noexcept {
+            float data1 = std::bit_cast<float>(Data1);
+            unsigned TmpData2AndData3 = static_cast<unsigned int>(Data2);
+            TmpData2AndData3 = TmpData2AndData3 << 16;
+            TmpData2AndData3 = TmpData2AndData3 | Data3;
+            float data2 = std::bit_cast<float>(TmpData2AndData3);
+            const unsigned int* Data4ptr = reinterpret_cast<const unsigned int*>(Data4);
+
+            float Data4Part1 = std::bit_cast<float>(Data4ptr[0]);
+            float Data4Part2 = std::bit_cast<float>(Data4ptr[1]);
+            return _mm_setr_ps(data1, data2, Data4Part1, Data4Part2);
+        }
+
 
         static UUID Create();
     };
 }
 
+
+
+
+
+namespace std {
+    template<>
+    struct hash<__m128>
+    {
+        std::size_t _vectorcall operator()(const __m128 other) const
+        {
+            return std::hash<float>{}(other.m128_f32[0]) ^ std::hash<float>{}(other.m128_f32[1]) ^ std::hash<float>{}(other.m128_f32[2]) ^ std::hash<float>{}(other.m128_f32[3]);
+        }
+    };
+}
 #endif // !_UUID_

@@ -6,119 +6,81 @@
 #define UE_OBJECT_
 
 //#include <string>
-
+#ifndef CORE_MODULE_BUILD
 import REF_WRAPPER; //-V3549 //-V2575
 
 import std; //-V3549 //-V2575
+#endif // !CORE_MODULE_BUILD
+
+
 
 
 namespace UPRISE_ENGINE {
-    //UPRISE_CORE_API_EXPORTS namespace CORE {
-//    class Behaviour;
-//    class Component;
-//};
-/// <summary>
-/// Namespace for core functionality
-/// </summary>
+
+    class GameObject;
+    namespace CORE {
+        class Object;
+        class Behaviour;
+    }
+    class FunctionTransporter {
+        friend class GameObject;
+        friend class CORE::Object;
+        friend class CORE::Behaviour;
+    public:
+        typedef void(*RemoveComponent)(UPRISE_ENGINE::GameObject*, WeakRef<CORE::Object, true> comp);
+    private:
+        UPRISE_CORE_API MockableStaticVar(RemoveBehaviourFromGameobject__internal, RemoveComponent)
+    };
     namespace CORE {
         class Behaviour;
         class Component;
-#pragma warning(push)
-#pragma warning(disable:4514)
-        /// <summary>
-    /// Baseclass For nearly everything object related in the engine
-    /// </summary>
+        class Object;
+        using SR_Object = SharedRef<CORE::Object, true>;
+        using OR_Object = OwnedRef<CORE::Object>;
+        using WR_Object = WeakRef<CORE::Object, true>;
         class  Object {
         private:
+            /// <summary>
+            /// wss
+            /// </summary>
+            UPRISE_CORE_API  MockableStaticVar(ObjectsToBeDestroyedAtEndOfFrame, std::vector<WeakRef<CORE::Object, true>>)
         protected:
             UPRISE_CORE_API Object(const Object& other);
             UPRISE_CORE_API Object(const Object& other, bool);
             UPRISE_CORE_API Object& operator=(const Object& other);
+            UPRISE_CORE_API   virtual  void OnDestroyInt(WeakRef<CORE::Object, true> obj) = 0;
+            /*            /// <summary>
+                        /// DO NOT OVERRIDE EXCEPT IN class GameObject
+                        /// its only here as a solution to a architectural problem
+                        /// </summary>
+                        UPRISE_CORE_API virtual void Gamobject_Internal_Component_Remove() = 0;
+                             */
+
         private:
             std::string name;
             std::atomic<bool> enabled;
-         
             char PAD[7];   //TODO find a better way to align this or find data to put here
-            UPRISE_CORE_API  static   void destroyBehaviour(SharedRef<CORE::Behaviour, true> Object);
-            UPRISE_CORE_API   static  void destroyComponent(SharedRef<CORE::Component, true> Object);
-            UPRISE_CORE_API  static void destroyObject(SharedRef<CORE::Object, true> Object);
-
+            UPRISE_CORE_API  static   void destroyBehaviour(WeakRef<CORE::Behaviour, true> Object);
+            UPRISE_CORE_API   static  void destroyComponent(WeakRef<CORE::Component, true> Object);
+            UPRISE_CORE_API  static void destroyObject(WeakRef<CORE::Object, true> Object);
         public:
-#pragma region Constuctors
-            /// <summary>
-            /// default constructor
-            /// </summary>
-            UPRISE_CORE_API   Object() :name(), enabled(true), PAD{DEBUG_PAD_BITS_ZEROED} {}
-
-#pragma endregion
-#pragma region destructors
-            /// <summary>
-            /// virtual destructor to handle object destruction
-            /// </summary>
+            UPRISE_CORE_API   Object() :name(), enabled(true), PAD{ DEBUG_PAD_BITS_ZEROED } {}
             UPRISE_CORE_API   virtual ~Object() {}
-#pragma endregion
-#pragma region Functions
-#pragma region OPERATORS
             UPRISE_CORE_API virtual bool operator== (const Object& other) const {
                 return this->enabled == other.enabled && this->name == other.name;
             }
             UPRISE_CORE_API virtual bool operator!=(const Object& other) const {
                 return this->enabled != other.enabled || this->name != other.name;
             }
-#pragma endregion
-
-#pragma region statics
-            /// <summary>
-            /// function to destroy a CORE::Object or any derived class
-            /// </summary>
-            /// <typeparam name="T"></typeparam>
-            /// <param name="Object"></param>
-            /// <returns></returns>
-            template<class T, typename = std::enable_if_t<std::is_same_v<T, CORE::Behaviour> || std::is_same_v<T, CORE::Component> || std::is_same_v<T, CORE::Object>>>
-            __inline static bool Destroy(SharedRef<T, true> Object) {
-                if constexpr (std::is_same_v<T, CORE::Behaviour>) {
-                    destroyBehaviour(Object);
-                    return true;
-                }
-                else if constexpr (std::is_same_v<T, CORE::Component>) {
-                    destroyComponent(Object);
-                    return true;
-                }
-                else {
-                    destroyObject(Object);
-                    return true;
-                }
-            }
-
-
-#pragma endregion
-#pragma region Members
-            /// <summary>
-            /// internal base virtual function for object destruction
-            /// </summary>
-            UPRISE_CORE_API   virtual  void OnDestroyInt(SharedRef<CORE::Object, true> obj) = 0;
-            /// <summary>
-            /// pure virtual base for copying the object
-            /// </summary>
-            UPRISE_CORE_API    virtual SharedRef<CORE::Object,true> Copy() = 0;
+            UPRISE_CORE_API    virtual SharedRef<CORE::Object, true> Copy() = 0;
             UPRISE_CORE_API     virtual SharedRef<CORE::Object, true> DeepCopy() = 0;
-            /// <summary>
-            /// getter for the enable state of the object
-            /// </summary>
-            /// <returns></returns>
-            __inline  bool Enabled() const{
+            __inline  bool Enabled() const {
                 return enabled;
             }
             __inline bool SetEnabled(bool value) {
                 enabled = value;
                 return enabled;
             }
-#pragma region  const
-            /// <summary>
-            /// getter for the name of the object
-            /// returns the name of the object as a  const reference
-            /// </summary>
-            /// <returns></returns>
             __inline const std::string& Name()const {
                 return name;
             }
@@ -126,22 +88,31 @@ namespace UPRISE_ENGINE {
                 this->name = _name;
                 return this->name;
             }
-
-#pragma endregion
-
-#pragma endregion
-#pragma region virtuals
-#pragma endregion
-
-#pragma endregion
-
-
-
+            /// <summary>
+            /// Dont Call in user code
+            /// </summary>
+            UPRISE_CORE_API static void AfterFrameDestroy();
+            template<typename T>
+             static void Destroy(WeakRef<T, true> Obj) {
+                if constexpr (std::is_same_v<T, CORE::Behaviour> ||
+                    std::is_convertible_v<T, CORE::Behaviour>
+                    ) {
+                    WeakRef<CORE::Behaviour, true> AsBehaviour = Obj;
+                    destroyBehaviour(AsBehaviour);
+                }
+                else if constexpr (std::is_same_v<T, CORE::Component> ||
+                    std::is_convertible_v<T, CORE::Component>
+                    ) {
+                    WeakRef<CORE::Component, true> AsComponent = Obj;
+                    destroyComponent(AsComponent);
+                }
+                else if constexpr (std::is_same_v<T, CORE::Object>) {
+                    WeakRef<CORE::Object, true> AsObject = Obj;
+                    destroyObject(AsObject);
+                }
+            }
         };
-#pragma warning(pop)
-
-    };
-
+    }
 }
 
  

@@ -3,7 +3,11 @@
 #pragma once
 #ifndef UE_TerrainData_
 #define UE_TerrainData_
+#ifndef ECS_MODULE_BUILD
 import REF_WRAPPER; //-V2575
+
+#endif // !ECS_MODULE_BUILD
+
 namespace UPRISE_ENGINE {
     class HeightMap;
     namespace RENDER {
@@ -27,11 +31,11 @@ namespace UPRISE_ENGINE {
         /// <summary>
         /// Heightmap
         /// </summary>
-        SharedRef<HeightMap, true> Heightmap;
+        OwnedRef<HeightMap> Heightmap;
         /// <summary>
         /// model of the terrain
         /// </summary>
-        SharedRef<RENDER::TerrainModel, true> data;
+        OwnedRef<RENDER::TerrainModel> data;
         /// <summary>
 /// max height of the terrain
 /// </summary>
@@ -43,6 +47,9 @@ namespace UPRISE_ENGINE {
         /// </summary>
         TerrainData() = default;
         ~TerrainData() = default;
+        UPRISE_ECS_API TerrainData(const TerrainData& other) = delete;
+        UPRISE_ECS_API TerrainData& operator=(const TerrainData& other) = delete;
+        UPRISE_ECS_API TerrainData(TerrainData&& other);
         /// <summary>
         /// load heightmap
         /// uses a call to c# to load the heightmap
@@ -74,7 +81,7 @@ namespace UPRISE_ENGINE {
         /// <param name="mh"></param>
         /// <param name="shader"></param>
         /// <returns></returns>
-        UPRISE_ECS_API static SharedRef<TerrainData, true> Create(const char* path, int w, int d, float mh, SharedRef<RENDER::Shader, true> shader);
+        UPRISE_ECS_API static OwnedRef<TerrainData> Create(const char* path, int w, int d, float mh, WeakRef<RENDER::Shader, true> shader);
     };
 }
 

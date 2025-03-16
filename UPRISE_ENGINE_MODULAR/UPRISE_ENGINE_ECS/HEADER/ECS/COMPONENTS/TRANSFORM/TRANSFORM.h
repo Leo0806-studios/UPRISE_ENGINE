@@ -3,11 +3,7 @@
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com#pragma once
 #ifndef UE_Transform_
 #define UE_Transform_
-#include "CORE/BEHAVIOUR/BEHAVIOUR.h"
-#include "DATATYPES/VECTOR/VECTOR3/FAST/VECTOR3_F.h"
-
-#include "DATATYPES/QUTERION/QUATERION.h"
-#include "DATATYPES//UUID/UUID.h"
+import UPRISE_ENGINE_CORE;
 import REF_WRAPPER;
 #pragma warning(push)
 #pragma warning(disable: 4514)
@@ -33,7 +29,7 @@ namespace UPRISE_ENGINE {
         /// <summary>
         /// rotation as quaterion
         /// </summary>
-        Quaternion rotation;
+        Quaterion rotation;
         /// <summary>
         /// rotation as vector3
         /// </summary>
@@ -145,7 +141,7 @@ namespace UPRISE_ENGINE {
         /// </summary>
         /// <param name="vec"></param>
         /// <returns></returns>
-        UPRISE_ECS_API void SetRotation(Quaternion quat);
+        UPRISE_ECS_API void SetRotation(Quaterion quat);
         UPRISE_ECS_API void SetPosition(Vector3 pos);
         /// <summary>
         /// updates the direction vectors of the gameobject (ip forward right)

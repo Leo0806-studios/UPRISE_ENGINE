@@ -3,8 +3,15 @@
 #pragma once
 #ifndef UE_Mesh_
 #define UE_Mesh_
-#include "CORE/BEHAVIOUR/BEHAVIOUR.h"
+#ifndef ECS_MODULE_BUILD
+import UPRISE_ENGINE_CORE;
+
+#endif // !ECS_MODULE_BUILD;
+
 namespace UPRISE_ENGINE {
+    namespace RENDER {
+        class Model;
+    }
     /// <summary>
 /// class for Mesh Component
 /// </summary>
@@ -14,7 +21,9 @@ namespace UPRISE_ENGINE {
         /// <summary>
         /// UUID for the Mesh Component
         /// </summary>
-        static UUID uid;
+        
+
+        UE_InClassBoilerplate(UPRISE_ECS_API)
         /// <summary>
         /// default constructor
         /// </summary>

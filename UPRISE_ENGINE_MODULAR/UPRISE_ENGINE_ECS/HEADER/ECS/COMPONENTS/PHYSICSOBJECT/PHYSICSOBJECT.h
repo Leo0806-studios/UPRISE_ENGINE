@@ -3,8 +3,12 @@
 #pragma once
 #ifndef UE_PhysicsObject_
 #define UE_PhysicsObject_
-#include "CORE/BEHAVIOUR/BEHAVIOUR.h"
+#ifndef ECS_MODULE_BUILD
+import UPRISE_ENGINE_CORE;
 import REF_WRAPPER; //-V2575 //-V3549
+
+#endif // !ECS_MODULE_BUILD
+
 namespace UPRISE_ENGINE {
     namespace PHYSICS {
         class PhysicsObjectInternal;
@@ -15,10 +19,16 @@ namespace UPRISE_ENGINE {
     /// </summary>
     class PhysicsObject : public CORE::Behaviour {
     private:
+        UE_InClassBoilerplate(UPRISE_ECS_API)
         /// <summary>
         /// internal object
         /// </summary>
-        SharedRef< PHYSICS::PhysicsObjectInternal, true> object;
+        WeakRef< PHYSICS::PhysicsObjectInternal,true> object;
+        bool isRigidBody,
+            hasCollision,
+            isStatic,
+            hasMoved;
+        char PAD[4]; //TODO find a way to better allign or but data here
     public:
         /// <summary>
         /// default constructor

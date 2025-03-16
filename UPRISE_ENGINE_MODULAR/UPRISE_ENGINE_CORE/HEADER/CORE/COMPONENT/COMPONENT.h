@@ -19,7 +19,7 @@ namespace UPRISE_ENGINE {
             UPRISE_CORE_API    Component(const Component& other) = delete;
             UPRISE_CORE_API  Component operator=(const Component& other) = delete;
             UPRISE_CORE_API  ~Component() {}
-            UPRISE_CORE_API  void OnDestroyInt(SharedRef<CORE::Object, true> obj)override {}
+            UPRISE_CORE_API  void OnDestroyInt(WeakRef<CORE::Object, true> obj)override {}
         };
     }
 }

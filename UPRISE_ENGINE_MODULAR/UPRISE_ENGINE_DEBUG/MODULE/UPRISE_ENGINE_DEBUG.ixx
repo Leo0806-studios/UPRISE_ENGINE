@@ -1,9 +1,10 @@
+module;
+#include <cstring>
 export module UPRISE_ENGINE_DEBUG;
+#define DEBUG_MODULE_BUILD
+import std;
+export{
 
-export import :LOG;
-export import :LOG_STREAM;
-
-#ifdef UPRISEENGINEDEBUG_EXPORTS
-import :LOG_IMPL;
-import :LOG_STREAM_IMPL;
-#endif // UPRISEENGINEDEBUG_EXPORTS
+#include "DATATYPES/LOG_STREAM/LOG_STREAM.h"
+#include "DEBUG/LOG/Log.h"
+}

@@ -3,9 +3,10 @@
 #pragma once
 #ifndef UE_Camera_
 #define UE_Camera_
+#ifndef ECS_MODULE_BUILD
 import REF_WRAPPER; //-V2575 //-V3549
-
-#include "CORE/BEHAVIOUR/BEHAVIOUR.h"
+import  UPRISE_ENGINE_CORE;
+#endif 
 namespace UPRISE_ENGINE {
     namespace RENDER {
         class RenderCam;
@@ -19,7 +20,7 @@ namespace UPRISE_ENGINE {
         /// <summary>
         /// Wrapper pointer to the RenderCam
         /// </summary>
-        SharedRef<RENDER::RenderCam, true> rendercam;
+        WeakRef<RENDER::RenderCam, true> rendercam;
     public:
         /// <summary>
         /// Component UUID

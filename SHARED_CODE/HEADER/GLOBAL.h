@@ -175,6 +175,11 @@ namespace UPRISE_ENGINE {
 #define UE_SIMD_ALIGN__M512 alignas(64)
 #define UE_CONST_PTR(Name,...)  __VA_ARGS__* const Name
 #define UE_PTR_TO_CONST(Name,...)  const __VA_ARGS__* Name
+#define UE_IMPORT(Name) import Name;
+#define UE_UNLIKELY _UNLIKELY
+
+#define UE_InClassBoilerplate(API) API MockableStaticVar(uid,UUID);
+#define UE_OutClassBoilerplate(Type)  ::UPRISE_ENGINE::UUID Type::uid = UUID::Create();
 typedef  long long huge;; //-V2575 //-V3549
 typedef unsigned long long uhuge; //-V2575 //-V3549
 

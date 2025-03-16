@@ -3,7 +3,11 @@
 #pragma once
 #ifndef UE_TAG_
 #define UE_TAG_
+#ifndef CORE_MODULE_BUILD
 import std; //-V2575 //-V3549
+
+#endif // !CORE_MODULE_BUILD
+
 namespace UPRISE_ENGINE {
 #pragma warning(push)
 #pragma warning(disable:4820)
@@ -15,10 +19,10 @@ namespace UPRISE_ENGINE {
 /// </summary>
     class  Tag {
     private:
-/// <summary>
-/// name of the tag
-/// </summary>
-        std::string name{""};
+        /// <summary>
+        /// name of the tag
+        /// </summary>
+        std::string name{ "" };
         /// <summary>
         /// id of the tag
         /// </summary>
@@ -50,7 +54,7 @@ namespace UPRISE_ENGINE {
         UPRISE_CORE_API __inline void SetID(int id) { this->Id = id; }
     };
 #pragma warning(pop)
-    #pragma warning(pop)
+#pragma warning(pop)
 
 }
 

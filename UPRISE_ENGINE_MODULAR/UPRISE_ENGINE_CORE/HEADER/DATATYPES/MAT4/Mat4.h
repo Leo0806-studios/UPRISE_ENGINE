@@ -4,21 +4,19 @@
 #ifndef UE_Mat4_
 #define UE_Mat4_
 
-#include <GLOBAL/GLINCLUDES.h>
+//#include <GLOBAL/GLINCLUDES.h>
 #include "DATATYPES/VECTOR/VECTOR4/VECTOR4.h"
 #include <intrin.h>
 #include "DATATYPES/QUTERION/QUATERION.h"
 
+#ifndef CORE_MODULE_BUILD
 import REF_WRAPPER; //-V3549 //-V2575
 import std; //-V3549 //-V2575
+#endif 
 #pragma warning(push)
 #pragma warning(disable:4514)
 namespace UPRISE_ENGINE {
-    /// <summary>
-/// Mat4 is a 4x4 matrix class that is used for transformations in 3D space
-/// strores its data in 4 __m128 vectors
-/// as rows
-/// </summary>
+
     class  Mat4 {
 
     public:
@@ -41,7 +39,7 @@ namespace UPRISE_ENGINE {
         /// constructor that accsepts a quaterion and creates a MAt4 from it
         /// </summary>
         /// <param name="quat"></param>
-        __inline Mat4(Quaternion quat) {
+        __inline Mat4(Quaterion quat) {
             __m128 One = _mm_load_ps(reinterpret_cast<float*>(&quat));
 
 
@@ -109,6 +107,9 @@ namespace UPRISE_ENGINE {
 
             row3 = _mm_setr_ps(0.0F, 0.0F, 0.0F, 1.0F);
         }
+
+
+        __inline Mat4(__m128 row1, __m128 row2, __m128 row3, __m128 row4)noexcept :row0(row1), row1(row2), row2(row3), row3(row4) {}
         /// <summary>
         /// static function that computes a look at matrix from the given parameters
         /// eye is the position of the camera
@@ -120,66 +121,66 @@ namespace UPRISE_ENGINE {
         /// <param name="up"></param>
         /// <returns></returns>
 
-        __inline static  Mat4 Look_At(Vector3 eye, Vector3 center, Vector3 up) {
+        __inline static  Mat4 __vectorcall Look_At(Vector3 eye, Vector3 center, Vector3 up) {
             //TrPr(ctx,__func__)
-            center = (center - eye).Normalized();
-            center.pad(-(center.Point(eye))) ;
-            up = (up ^ center).Normalized();
-            up.pad(-(up.Point(eye)));
-            Vector3 u((center ^ up));
-            u.pad(-(u.Point(eye))) ;
+            center = (center - eye).Normalize();
+            center.pad() = -(center.DotProduct(eye));
+            up = (up.CrossProduct(center)).Normalize();
+            up.pad() = -(up.DotProduct(eye));
+            Vector3 u((center.CrossProduct(up)));
+            u.pad() = -(u.DotProduct(eye));
             Mat4 result(1);
-            result[0] = _mm_load_ps(reinterpret_cast<float*>( & up));
+            result[0] = _mm_load_ps(reinterpret_cast<float*>(&up));
             result[1] = _mm_load_ps(reinterpret_cast<float*>(&u));
             result[2] = _mm_load_ps(reinterpret_cast<float*>(&center));
 
             //TrPrE(ctx)
             return result;
         }
-        /// <summary>
-        /// static function that computes a look at matrix from the given parameters
-        /// eye is the position of the camera
-        /// center is the point the camera is looking at
-        /// up is the up vector of the camera
-        /// directly returns a glm::mat4
-        /// </summary>
-        /// <param name="eye"></param>
-        /// <param name="center"></param>
-        /// <param name="up"></param>
-        /// <returns></returns>
+        ///// <summary>
+        ///// static function that computes a look at matrix from the given parameters
+        ///// eye is the position of the camera
+        ///// center is the point the camera is looking at
+        ///// up is the up vector of the camera
+        ///// directly returns a glm::mat4
+        ///// </summary>
+        ///// <param name="eye"></param>
+        ///// <param name="center"></param>
+        ///// <param name="up"></param>
+        ///// <returns></returns>
 
-        __forceinline static  glm::mat4 Look_At_GLM(Vector3 eye, Vector3 center, Vector3 up) {
-            //TrPr(ctx,__func__)
-            center = (center - eye).Normalized();
-            center.pad(-(center.Point(eye)))  ;
-            up = (up ^ center).Normalized();
-            up.pad(-(up.Point(eye)))  ;
-            Vector3 u((center ^ up));
-            u.pad(-(u.Point(eye)))  ;
-            const __m256i suffle = _mm256_setr_epi32(0, 1, 4, 5, 2, 3, 6, 7); //-V112
-            const __m256 mlti = _mm256_set_ps(1.0F, -1.0F, 1.0F, -1.0F, 1.0F, -1.0F, 1.0F, -1.0F);
+        //__forceinline static  glm::mat4 Look_At_GLM(Vector3 eye, Vector3 center, Vector3 up) {
+        //    //TrPr(ctx,__func__)
+        //    center = (center - eye).Normalize();
+        //    center.pad()=-(center.DotProduct(eye));
+        //    up = (up.CrossProduct( center)).Normalize();
+        //    up.pad()=-(up.DotProduct(eye));
+        //    Vector3 u((center.CrossProduct( up)));
+        //    u.pad()=-(u.DotProduct(eye));
+        //    const __m256i suffle = _mm256_setr_epi32(0, 1, 4, 5, 2, 3, 6, 7); //-V112
+        //    const __m256 mlti = _mm256_set_ps(1.0F, -1.0F, 1.0F, -1.0F, 1.0F, -1.0F, 1.0F, -1.0F);
 
-            const __m128 row3(_mm_setr_ps(0.0F, 0.0F, 0.0F, 1.0F));
+        //    const __m128 row3(_mm_setr_ps(0.0F, 0.0F, 0.0F, 1.0F));
 
-            __m256 One = _mm256_set_m128(_mm_unpacklo_ps(center.operator __m128(), row3), _mm_unpacklo_ps(up.operator __m128(), u.operator __m128()));
+        //    __m256 One = _mm256_set_m128(_mm_unpacklo_ps(center.operator __m128(), row3), _mm_unpacklo_ps(up.operator __m128(), u.operator __m128()));
 
-            __m256 Two = _mm256_set_m128(_mm_unpackhi_ps(center.operator __m128(), row3), _mm_unpackhi_ps(up.operator __m128(), u.operator __m128()));
-            One = _mm256_mul_ps(One, mlti);
-            Two = _mm256_mul_ps(Two, mlti);
-            One = _mm256_permutevar8x32_ps(One, suffle);
-            Two = _mm256_permutevar8x32_ps(Two, suffle);
-            glm::mat4 ret{};
-            
-            _mm256_store_ps(&ret[0].x, One);
-            _mm256_store_ps(&ret[2].x, Two);
+        //    __m256 Two = _mm256_set_m128(_mm_unpackhi_ps(center.operator __m128(), row3), _mm_unpackhi_ps(up.operator __m128(), u.operator __m128()));
+        //    One = _mm256_mul_ps(One, mlti);
+        //    Two = _mm256_mul_ps(Two, mlti);
+        //    One = _mm256_permutevar8x32_ps(One, suffle);
+        //    Two = _mm256_permutevar8x32_ps(Two, suffle);
+        //    glm::mat4 ret{};
 
-            //alignas(32) glm::vec4 col0[2];
-            //alignas(32) glm::vec4 col1[2];
-            //_mm256_store_ps(&col0[0].x, One);
-            //_mm256_store_ps(&col1[0].x, Two);
+        //    _mm256_store_ps(&ret[0].x, One);
+        //    _mm256_store_ps(&ret[2].x, Two);
 
-            return ret;//glm::mat4(col0[0], col0[1], col1[0], col1[1]);;
-        }
+        //    //alignas(32) glm::vec4 col0[2];
+        //    //alignas(32) glm::vec4 col1[2];
+        //    //_mm256_store_ps(&col0[0].x, One);
+        //    //_mm256_store_ps(&col1[0].x, Two);
+
+        //    return ret;//glm::mat4(col0[0], col0[1], col1[0], col1[1]);;
+        //}
 
 
         /// <summary>
@@ -194,14 +195,13 @@ namespace UPRISE_ENGINE {
         /// <param name="zNear"></param>
         /// <param name="zFar"></param>
         /// <returns></returns>
-        __inline static Mat4 Perspective(float fov, float aspect, float zNear, float zFar) {
-                Mat4 result(0);
+        __inline static Mat4 __vectorcall Perspective(float fov, float aspect, float zNear, float zFar) {
+            Mat4 result(0);
 
             float zMz = zFar - zNear;
 
-            float tanhalffov = static_cast<float>(tan(((fov * 0.01745329251994329576923690768489)) / 2.0F));
+            float tanhalffov = static_cast<float>(std::tan(((fov * 0.01745329251994329576923690768489)) / 2.0F));
             __m128 tst = _mm_setr_ps(tanhalffov, zMz, 1.0F, zMz);
-
 
             __m128 bottom3 = _mm_mul_ps(_mm_setr_ps(1.0F, -1.0F, -1.0F, -1.0F), (_mm_div_ps(_mm_setr_ps(1.0F, zFar + zNear, 1.0F, 2.0F * zFar * zNear), tst)));
             result(0, 0) = 1.0F / (aspect * tanhalffov);
@@ -209,44 +209,25 @@ namespace UPRISE_ENGINE {
             result(2, 2) = bottom3.m128_f32[1];
             result(3, 2) = bottom3.m128_f32[2];
             result(2, 3) = bottom3.m128_f32[3];
-                return result;
+            return result;
 
         }
+
         /// <summary>
-        /// transposes the Mat4 to a glm::mat4 using _MM_TRANSPOSE4_PS and then returns the glm::mat4
+        /// retruns a mat4 whos datamebers contains the collums insted of the rows
+        /// row0 is coll0 and such
         /// </summary>
-        /// <returns></returns>
-        __inline glm::mat4 ToMat4glm() {
-            return *this;
+        __inline Mat4 __vectorcall RowsToCols() const {
 
-
-
-        }
-        /// <summary>
-        /// opperator that implicitly converts a Mat4 to a glm::mat4
-        /// usis a slitgtly differebt method than ToMat4glm
-        /// </summary>
-        __inline operator glm::mat4() {
-
-                __m128 tmp0 = _mm_unpacklo_ps(row0, row1); // [r0.x, r1.x, r0.y, r1.y]
+            __m128 tmp0 = _mm_unpacklo_ps(row0, row1); // [r0.x, r1.x, r0.y, r1.y]
             __m128 tmp1 = _mm_unpackhi_ps(row0, row1); // [r0.z, r1.z, r0.w, r1.w]
             __m128 tmp2 = _mm_unpacklo_ps(row2, row3); // [r2.x, r3.x, r2.y, r3.y]
             __m128 tmp3 = _mm_unpackhi_ps(row2, row3); // [r2.z, r3.z, r2.w, r3.w]
 
-            // Step 2: Unpack and interleave to get the final column vectors
-#pragma warning(push)
-#pragma warning(disable: 26451)
-            glm::vec4 col0{};
-            glm::vec4 col1{};
-            glm::vec4 col2{};
-            glm::vec4 col3{};
-#pragma warning(pop)
-            _mm_store_ps(&col0.x, _mm_movelh_ps(tmp0, tmp2)); // [r0.x, r1.x	 r2.x, r3.x]
-            _mm_store_ps(&col1.x, _mm_movehl_ps(tmp2, tmp0)); // [r0.y, r1.y, r2.y, r3.y] //-V525
-            _mm_store_ps(&col2.x, _mm_movelh_ps(tmp1, tmp3)); // [r0.z, r1.z, r2.z, r3.z]
-            _mm_store_ps(&col3.x, _mm_movehl_ps(tmp3, tmp1)); // [r0.w, r1.w, r2.w, r3.w]
 
-                return glm::mat4(col0, col1, col2, col3);
+
+
+            return Mat4(_mm_movelh_ps(tmp0, tmp2), _mm_movehl_ps(tmp2, tmp0), _mm_movelh_ps(tmp1, tmp3), _mm_movehl_ps(tmp3, tmp1));
         }
 
         /// <summary>
@@ -286,6 +267,7 @@ namespace UPRISE_ENGINE {
 
         }
     };
+
 }
 #pragma warning(pop)
 #endif // !_Mat4_

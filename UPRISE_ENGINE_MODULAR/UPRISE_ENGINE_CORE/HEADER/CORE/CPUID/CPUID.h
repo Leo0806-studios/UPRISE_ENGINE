@@ -4,12 +4,14 @@
 #ifndef UE_CPUFEATURES_
 #define UE_CPUFEATURES_
 
-#include <intrin.h>
-#include <string.h>
 
 
 
+#ifndef CORE_MODULE_BUILD
 import std; //-V2575
+
+#endif // !CORE_MODULE_BUILD
+
 namespace UPRISE_ENGINE {
     namespace CORE {
         /// <summary>

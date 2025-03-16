@@ -3,7 +3,11 @@
 #pragma once
 #ifndef UE_LAYER_
 #define UE_LAYER_
+#ifndef CORE_MODULE_BUILD
 import std; //-V2575 //-V3549
+
+#endif // !CORE_MODULE_BUILD
+
 namespace UPRISE_ENGINE {
     //cant prvent padding. 
     //disabeling warning for this class
@@ -19,7 +23,7 @@ namespace UPRISE_ENGINE {
         /// <summary>
 /// layer id
 /// </summary>
-        int id=-1;
+        int id = -1;
         /// <summary>
 /// layer name
 /// </summary>

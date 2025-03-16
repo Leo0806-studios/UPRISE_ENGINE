@@ -1,1 +1,2 @@
 import UPRISE_ENGINE_ECS;
+import UPRISE_ENGINE_CORE;

@@ -3,8 +3,12 @@
 #pragma once
 #ifndef UE_HeightMap_
 #define UE_HeightMap_
+#ifndef ECS_MODULE_BUILD
+
 import REF_WRAPPER; //-V2575 //-V3549
 import std; //-V2575 //-V3549
+#endif // !ECS_MODULE_BUILD
+
 namespace UPRISE_ENGINE {
     /// <summary>
 /// storage class for terain heightmap

@@ -23,13 +23,13 @@ namespace UPRISE_ENGINE {
     void Transform::SetRotation(Vector3 vec)
     {
             vec3rot = vec;
-        rotation = Quaternion::FromEulerAngles(vec);
+        rotation = Quaterion::FromEulerAngles(vec);
         forward = rotation * Vector3(0.0F, 0.0F, 1.0F);
         right = rotation * Vector3(1.0F, 0.0F, 0.0F);
         up = rotation * Vector3(0.0F, 1.0F, 0.0F);
     }
 
-    void Transform::SetRotation(Quaternion quat)
+    void Transform::SetRotation(Quaterion quat)
     {
             rotation = quat;
         auto o = quat.ToRotationVector();

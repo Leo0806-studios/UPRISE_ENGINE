@@ -3,8 +3,7 @@
 // dllmain.cpp : Defines the entry point for the DLL application.
 #include <Windows.h>
 
-#include "DEBUG/LOG/Log.h"
-
+import UPRISE_ENGINE_DEBUG;
 
 #pragma warning(disable: 4100)
 
@@ -18,21 +17,21 @@ BOOL APIENTRY DllMain( HMODULE hModule, //-V2575 //-V2537 //-V3523 //-V3549
     {
     case DLL_PROCESS_ATTACH:
         UPRISE_ENGINE::DEBUG::Debug::Log( "Attatching Render Module to procces\n");
-        UPRISE_ENGINE::Debug::Log(std::string("\nreason: " + std::to_string(ul_reason_for_call)));
+        UPRISE_ENGINE::DEBUG::Debug::Log(std::string("\nreason: " + std::to_string(ul_reason_for_call)));
         break;
     case DLL_THREAD_ATTACH:
         UPRISE_ENGINE::DEBUG::Debug::Log("Attatching Render Module to thread\n");
-        UPRISE_ENGINE::Debug::Log(std::string("\nreason: " + std::to_string(ul_reason_for_call)));
+        UPRISE_ENGINE::DEBUG::Debug::Log(std::string("\nreason: " + std::to_string(ul_reason_for_call)));
 
         break;
     case DLL_THREAD_DETACH:
         UPRISE_ENGINE::DEBUG::Debug::Log("Detatching Render Module from thread\n");
-        UPRISE_ENGINE::Debug::Log(std::string("\n reason: " + std::to_string(ul_reason_for_call)));
+        UPRISE_ENGINE::DEBUG::Debug::Log(std::string("\n reason: " + std::to_string(ul_reason_for_call)));
 
         break;
     case DLL_PROCESS_DETACH:
         UPRISE_ENGINE::DEBUG::Debug::Log("Detatching Render Module\n");
-        UPRISE_ENGINE::Debug::Log(std::string("\n reason: " + std::to_string(ul_reason_for_call)));
+        UPRISE_ENGINE::DEBUG::Debug::Log(std::string("\n reason: " + std::to_string(ul_reason_for_call)));
 
         break;
     }

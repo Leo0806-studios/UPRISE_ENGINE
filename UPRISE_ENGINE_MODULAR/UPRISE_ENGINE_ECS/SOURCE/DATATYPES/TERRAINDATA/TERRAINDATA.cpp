@@ -1,14 +1,15 @@
 // This is a personal academic project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
-#include  "DATATYPES/TERRAINDATA/TerrainData.h"
-#include "DATATYPES/HEIGHTMAP/HEIGHTMAP.h"
+import UPRISE_ENGINE_ECS;
 #include <Windows.h>
 namespace UPRISE_ENGINE {
-    inline UPRISE_ECS_API float TerrainData::GetHeight(size_t x, size_t y) { return Heightmap->GetHeight(x, y); }
+    inline UPRISE_ECS_API float TerrainData::GetHeight(size_t x, size_t y) {
+        return Heightmap->GetHeight(x, y);
+    }
     inline UPRISE_ECS_API float TerrainData::SetHeight(size_t x, size_t y, float height) { return Heightmap->SetHeight(x, y, height); }
     template<class _Ty, class _Arg>
     _Ty CallCSharpFunction(const WCHAR* patrh, char* functionName, _Arg argument) {
-       // const WCHAR* addrs = L"C:\\Users\\leo08\\source\\repos\\Neuer Ordner(2)\\NativeLibrary\\bin\\release\\net8.0\\win - x64\\publish";
+        // const WCHAR* addrs = L"C:\\Users\\leo08\\source\\repos\\Neuer Ordner(2)\\NativeLibrary\\bin\\release\\net8.0\\win - x64\\publish";
         HINSTANCE handle = LoadLibrary(patrh); //-V2001
         typedef _Ty((*externFuction)(_Arg));
         FARPROC func = symLoad(handle, functionName);
@@ -17,6 +18,17 @@ namespace UPRISE_ENGINE {
         _Ty result = Function(argument);
         return result;
     }
+
+    TerrainData::TerrainData(TerrainData&& other) :
+        witdh(other.witdh),
+        depth(other.depth),
+        Heightmap(std::move(other.Heightmap)),
+        data(std::move(other.data)),
+        Maxheight(other.Maxheight)
+
+    {
+    }
+
     bool TerrainData::LoadHeightmap(const char* filename)
     {
         //int imgWidth, imgHeight, nrChannels;
@@ -50,9 +62,9 @@ namespace UPRISE_ENGINE {
         return true;
     }
 
-    SharedRef<TerrainData, true> TerrainData::Create(const char* path, int w, int d, float mh, SharedRef<RENDER::Shader, true> shader)
+    OwnedRef<TerrainData> TerrainData::Create(const char* path, int w, int d, float mh, WeakRef<RENDER::Shader, true> shader)
     {
-        SharedRef<TerrainData, true> tmp = CreateRefs::CreateSharedRef<TerrainData, true>();
+        OwnedRef<TerrainData> tmp = CreateRefs::CreateOwnedRef<TerrainData>();
         tmp->Maxheight = mh;
         tmp->depth = d;
         tmp->witdh = w;

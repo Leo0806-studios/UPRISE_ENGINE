@@ -3,6 +3,9 @@
 #pragma once
 #ifndef UE_BEHAVIOUR_
 #define UE_BEHAVIOUR_
+//non engine includes
+
+#include  <intrin.h>
 
 #include "DATATYPES/UUID/UUID.h"
 
@@ -15,51 +18,56 @@
 
 
 #pragma warning(disable : 4514)
-
+#ifndef  CORE_MODULE_BUILD
 import std; //-V2575 //-V3549
 import REF_WRAPPER; //-V2575 //-V3549
+#endif // ! CORE_MODULE_BUILD
+
+
 namespace UPRISE_ENGINE {
     using SR_Behaviour = SharedRef<CORE::Behaviour, true>;
-    class GameOject;
+    using OR_Behaviour = OwnedRef<CORE::Behaviour>;
+    using WR_Behaviour = WeakRef<CORE::Behaviour, true>;
+    class GameObject;
     class Transform;
     namespace CORE {
-        
-        class  Behaviour :public CORE::Object {
+        class Behaviour : public CORE::Object {
         private:
         protected:
-           UPRISE_CORE_API explicit Behaviour(const Behaviour& other);
-           UPRISE_CORE_API explicit Behaviour(const Behaviour& other,bool);
-           UPRISE_CORE_API Behaviour& operator=(const Behaviour& other) {
-               Object::operator=(other); //-V2547
-               this->gameObj = other.gameObj;
-               this->uuid = other.uuid;
-               this->id = other.id;
+            UPRISE_CORE_API explicit Behaviour(const Behaviour& other);
+            UPRISE_CORE_API explicit Behaviour(const Behaviour& other, bool);
+            UPRISE_CORE_API Behaviour& operator=(const Behaviour& other) {
+                Object::operator=(other); //-V2547
+                this->gameObj = other.gameObj;
+                this->uuid = other.uuid;
+                this->id = other.id;
 
-               return *this;
-           };
+                return *this;
+            };
         protected:
 #pragma region NonStaticVars
 
 
-            SharedRef<GameOject, true> gameObj;
+            WeakRef<GameObject, true> gameObj;
             ///SharedRef<Behaviour, true> transf; MOVED TO GAMEOBJECT
-            UUID uuid;
+            UE_SIMD_ALIGN__M128 UUID uuid;
 
             int id;
         private:
-            char PAD[4];   //TODO find a better way to align this or find data to put here //-V112
+            char PAD[12];   //TODO find a better way to align this or find data to put here //-V112
 #pragma endregion
 #pragma region StaticVars
-            MockableStaticVar( behaviours,std::vector<SR_Behaviour>) //-V1096
-                MockableStaticVar(std::vector<SR_Behaviour>, awakes) //-V1096
-                MockableStaticVar(std::vector<SR_Behaviour>, starts) //-V1096
-                MockableStaticVar(int, currentUpdate); //-V1096
-            //UPRISE_CORE_API   static std::vector<SharedRef<CORE::Behaviour, true>> behaviours;
-           // UPRISE_CORE_API  static std::vector<SharedRef<CORE::Behaviour, true>> awakes;
-            //UPRISE_CORE_API static std::vector<SharedRef<CORE::Behaviour, true>> starts;
-            //UPRISE_CORE_API  static int currentUpdate;
-#pragma endregion
 
+            MockableStaticVar(behaviours_, std::unordered_map<__m128, std::unordered_map<unsigned long long, WeakRef<CORE::Behaviour, true>>>) //-V1096
+
+
+                MockableStaticVar(behaviours, std::vector<WR_Behaviour>) //-V1096
+                MockableStaticVar(awakes, std::vector<WR_Behaviour>) //-V1096
+                MockableStaticVar(starts, std::vector<WR_Behaviour>) //-V1096
+                MockableStaticVar(currentUpdate, int) //-V1096
+                MockableStaticVar(toBeRemovedAtEndoOfFrame, std::vector<WR_Behaviour>) //-V1096
+
+#pragma endregion
 
 
         public:
@@ -90,7 +98,7 @@ namespace UPRISE_ENGINE {
 
 #pragma endregion
 
-            UPRISE_CORE_API   void OnDestroyInt(SharedRef<CORE::Object, true> obj) override;
+            UPRISE_CORE_API   void OnDestroyInt(WeakRef<CORE::Object, true> obj)  override;
 
 
             //following region contains all virtual member functions
@@ -186,17 +194,19 @@ namespace UPRISE_ENGINE {
             /// <returns></returns>
             UPRISE_CORE_API static  bool AddToAwake(SharedRef<CORE::Behaviour, true> behaviour);
 
+            /// <summary>
+            /// Dont Call in user code
+            /// </summary>
+            UPRISE_CORE_API static  void AfterFrameDestroyBehaviours();
+
 
 #pragma endregion
 
 
 #pragma endregion
-
-
         };
     }
 }
-
 
 
 

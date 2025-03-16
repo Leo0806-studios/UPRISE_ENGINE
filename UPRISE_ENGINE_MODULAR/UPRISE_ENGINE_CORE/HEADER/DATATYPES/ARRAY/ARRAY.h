@@ -3,16 +3,21 @@
 #pragma once
 #ifndef _ARRAY_
 #define _ARRAY_
+#ifndef CORE_MODULE_BUILD
 import std;
+
+
+#endif // !CORE_MODULE_BUILD
+
 
 namespace UPRISE_ENGINE {
 #pragma warning(push)
 #pragma warning(disable:4820)
-/// <summary>
-/// array type 
-/// stack or heap
-/// </summary>
-    enum type { stack, heap };
+    /// <summary>
+    /// array type 
+    /// stack or heap
+    /// </summary>
+    enum Array_Type { stack, heap };
     /// <summary>
     /// class wrapper for arrays
     /// provides a compile time way to create arrays on the stack or heap
@@ -22,29 +27,29 @@ namespace UPRISE_ENGINE {
     /// <typeparam name="T"></typeparam>
     /// <typeparam name="i"></typeparam>
     /// <typeparam name="t"></typeparam>
-    template<class T, int i, type t>
+    template<class Type, int Size, Array_Type t>
     class UPRISE_CORE_API Array {
     private:
         /// <summary>
         /// the arry or pointer to array
         /// </summary>
-        typename std::conditional<t == stack, T[i], T*>::type data;
+        typename std::conditional<t == stack, Type[Size], Type*>::type data;
         /// <summary>
         /// lengt of array
         /// </summary>
-        long long size = i;
+        const long long size = Size;
     public:
         /// <summary>
         /// the type
         /// stack or heap
         /// </summary>
-        const type SoH = t;
+        const Array_Type SoH = t;
         /// <summary>
         /// consturctor that allocates the array on the heap if t==heap
         /// </summary>
         __inline Array() {
             if constexpr (t == heap) {
-                data = new T[i];
+                data = new Type[Size];
             }
             else {
 
@@ -52,13 +57,13 @@ namespace UPRISE_ENGINE {
         }
         __inline Array(const Array& other) {
             if constexpr (t == heap) {
-                data = new T[i];
-                for (size_t j = 0; j < i; j++) {
+                data = new Type[Size];
+                for (size_t j = 0; j < Size; j++) {
                     data[j] = other.data[j];
                 }
             }
             else {
-                for (size_t j = 0; j < i; j++) {
+                for (size_t j = 0; j < Size; j++) {
                     data[j] = other.data[j];
                 }
             }
@@ -77,13 +82,13 @@ namespace UPRISE_ENGINE {
 
         Array& operator=(const Array& other) {
             if constexpr (t == heap) {
-                data = new T[i];
-                for (size_t j = 0; j < i; j++) {
+                data = new Type[Size];
+                for (size_t j = 0; j < Size; j++) {
                     data[j] = other.data[j];
                 }
             }
             else {
-                for (size_t j = 0; j < i; j++) {
+                for (size_t j = 0; j < Size; j++) {
                     data[j] = other.data[j];
                 }
             }
@@ -94,8 +99,8 @@ namespace UPRISE_ENGINE {
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
-        __inline  T& operator[](const long long index) {
-            if  (index >= size && index>= 0) {
+        __inline  Type& operator[](const long long index) {
+            if (index >= size && index >= 0) {
                 throw std::out_of_range("Index out of bounds");
             }
             if constexpr (t == heap) {
@@ -115,8 +120,8 @@ namespace UPRISE_ENGINE {
         /// <typeparam name="ind"></typeparam>
         /// <returns></returns>
         template<long long ind>
-        __inline constexpr T& get() {
-            if  (ind >= size && ind >= 0) {
+        __inline constexpr Type& get() {
+            if (ind >= size && ind >= 0) {
                 //static_assert(ind>=size&&ind>=0,"Array out of bounds");
                 throw std::out_of_range("Index out of bounds");
             }

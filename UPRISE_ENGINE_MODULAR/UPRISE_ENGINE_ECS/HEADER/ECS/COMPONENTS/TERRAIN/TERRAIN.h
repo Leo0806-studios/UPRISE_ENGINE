@@ -3,8 +3,12 @@
 #pragma once
 #ifndef UE_Terrain_
 #define UE_Terrain_
+#ifndef ECS_MODULE_BUILD
+import UPRISE_ENGINE_CORE;
 import REF_WRAPPER; //-V2575 //-V3549
-#include "CORE/BEHAVIOUR/BEHAVIOUR.h"
+
+#endif // !ECS_MODULE_BUILD
+
 namespace UPRISE_ENGINE {
     //#include "Windows.h";
     class TerrainData;
@@ -13,15 +17,15 @@ namespace UPRISE_ENGINE {
     /// </summary>
     class Terrain :public CORE::Behaviour {
     private:
+
         /// <summary>
         /// internal Data   
         /// </summary>
-        SharedRef<TerrainData, true> data;
+        WeakRef<TerrainData, true> data;
+        char PAD[8];//TODO Find a way to better align this or put data here
     public:
-        /// <summary>
-        /// UUID of component
-        /// </summary>
-        static UUID uid;
+        UE_InClassBoilerplate(UPRISE_ECS_API)
+
         /// <summary>
         /// default constructor
         /// </summary>

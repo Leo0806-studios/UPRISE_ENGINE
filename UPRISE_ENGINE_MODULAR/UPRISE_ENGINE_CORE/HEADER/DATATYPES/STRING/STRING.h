@@ -6,10 +6,9 @@ namespace UPRISE_ENGINE {
     private:
         unsigned long long size;
         unsigned long long capacity;
-        union 
-        {
+
             const char* data;
-        };
+        
 
     public:
     };
