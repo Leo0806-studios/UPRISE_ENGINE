@@ -133,7 +133,10 @@
     <Import Project="..\PROPERTYS\GENERAL\BASEPROPS.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <PublicModuleDirectories>C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_ENGINE_MODULAR\UPRISE_ENGINE_CORE\MODULE;$(PublicModuleDirectories)</PublicModuleDirectories>
+    <AllProjectBMIsArePublic>true</AllProjectBMIsArePublic>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Build|x64'" />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -189,7 +192,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;UPRISEENGINECORE_EXPORTS;_WINDOWS;_USRDLL;_EXPORT_CORE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;UPRISEENGINECORE_EXPORTS;_WINDOWS;_USRDLL;_EXPORT_CORE;%(WarningLevel);%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -210,6 +213,9 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -300,6 +306,14 @@
     <ClInclude Include="HEADER\CORE\COMPONENT\COMPONENT.h" />
     <ClInclude Include="HEADER\CORE\CPUID\CPUID.h" />
     <ClInclude Include="HEADER\CORE\OBJECT\OBJECT.h" />
+    <ClInclude Include="HEADER\CORE\REF_WRAPPERS\OWNED_REF\OWNED_REF.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="HEADER\CORE\REF_WRAPPERS\WRAPPER_BASE\WRAPPER_BASE.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="HEADER\CORE\THREADING\THREAD\THREAD.h" />
     <ClInclude Include="HEADER\DATATYPES\ARRAY\ARRAY.h" />
     <ClInclude Include="HEADER\DATATYPES\LAYER\LAYER.h" />
@@ -315,6 +329,12 @@
     <ClInclude Include="HEADER\DATATYPES\VECTOR\VECTOR2\VECTOR2.h" />
     <ClInclude Include="HEADER\DATATYPES\VECTOR\VECTOR3\FAST\VECTOR3_F.h" />
     <ClInclude Include="HEADER\DATATYPES\VECTOR\VECTOR4\VECTOR4.h" />
+    <ClInclude Include="HEADER\CORE\REF_WRAPPERS\CONTROLL_BLOCKS\CONTROL_BASE\CONTROL_BASE.h" />
+    <ClInclude Include="HEADER\CORE\REF_WRAPPERS\CONTROLL_BLOCKS\GC_CONTROLBLOCK\GC_CONTROL_BLOCK.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="HEADER\CORE\REF_WRAPPERS\WEAK_REF\WEAK_REF.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="HEADER\DATATYPES\STRING\STRING.h" />
   </ItemGroup>

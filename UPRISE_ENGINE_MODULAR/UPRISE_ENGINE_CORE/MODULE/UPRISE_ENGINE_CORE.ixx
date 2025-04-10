@@ -5,6 +5,8 @@ module;
 export module UPRISE_ENGINE_CORE;
 import std;
 import REF_WRAPPER;
+import UPRISE_ENGINE_DEBUG;
+
 #define CORE_MODULE_BUILD
 #pragma warning (push)
 #pragma warning(disable:4005)
@@ -18,6 +20,9 @@ export{
 #include "CORE/CPUID/CPUID.h"
 #include "CORE/OBJECT/OBJECT.h"
 #include "CORE/THREADING/THREAD/THREAD.h"
+#include "CORE/REF_WRAPPERS/CONTROLL_BLOCKS/CONTROL_BASE/CONTROL_BASE.h"
+#include "CORE/REF_WRAPPERS/WRAPPER_BASE/WRAPPER_BASE.h"
+#include "CORE/REF_WRAPPERS/WEAK_REF/WEAK_REF.h"
 
 }
 
@@ -28,7 +33,7 @@ export{
 #include "DATATYPES/LAYER/LAYER.h"
 #include "DATATYPES/MAT4/Mat4.h"
 #include "DATATYPES/QUTERION/QUATERION.h"
-#include "DATATYPES/STRING/SMALL/SMALL_STRING.h"
+#include "DATATYPES/STRING/STRING.h"
 #include "DATATYPES/TAG/TAG.h"
 #include "DATATYPES/UUID/UUID.h"
 #include "DATATYPES/VECTOR/VECTOR2/VECTOR2.h"

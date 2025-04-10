@@ -3,6 +3,10 @@
 #pragma once
 #ifndef UE_GLOBAL_
 #define UE_GLOBAL_
+
+#pragma region EXPORTIMPORT_DEFINES
+
+
 #ifdef UPRISEENGINECORE_EXPORTS
 
 #define UPRISE_CORE_API __declspec(dllexport)
@@ -103,7 +107,11 @@
 #endif // UPRISEENGINEPROFILER_EXPORTS
 
 
+#pragma endregion
 
+
+
+#pragma region TestInfrastructure
 
 
 #ifdef UPRISE_TESTS
@@ -128,7 +136,6 @@ return InternalMockReplacement;\
 #endif
 
 
-
 #pragma warning(push)
 
 #pragma warning(disable :4005)
@@ -147,11 +154,42 @@ return InternalMockReplacement;\
 
 #endif
 #pragma warning(pop)
+#pragma endregion
+
+
+
+
+#pragma region GetWarningLevel
+#ifdef EnableAllWarnings
+constexpr int WarningLevel = 5;
+#else //notEnableAllWarnings
+#ifdef Level4
+constexpr int WarningLevel = 4
+#else//notLevel4
+#ifdef Level3
+constexpr int WarningLevel = 3;
+#else//notLevel3
+#ifdef Level2
+constexpr int WarningLevel = 2;
+#else //notLevel2
+#ifdef Level1
+constexpr int WarningLevel = 1;
+#endif //Level1
+#endif // Level2
+#endif // Level3
+#endif // Level4
+#endif // EnableAllWarnings
+
+#pragma endregion
+
+
 //#include "tracy/Tracy.hpp"
 //#include "tracy/TracyC.h"
 
 
 #define symLoad GetProcAddress 
+
+#pragma region PRofiler_Specxific
 namespace UPRISE_ENGINE {
     namespace  PROFILER {
 
@@ -159,7 +197,13 @@ namespace UPRISE_ENGINE {
 
     }
 }
+#pragma endregion
+
+
 #pragma warning(disable : 4514)
+
+#pragma region UE_DEFINES
+
 
 
 #define UE_NODISCARD [[nodiscard]]
@@ -173,17 +217,32 @@ namespace UPRISE_ENGINE {
 #define UE_SIMD_ALIGN__M128 alignas(16)
 #define UE_SIMD_ALIGN__M256 alignas(32)
 #define UE_SIMD_ALIGN__M512 alignas(64)
+#define UE_ALIGN_PTR alignas(alignof(void*))
+#define UE_ALIGN_SHORT alignas(alignof(short))
 #define UE_CONST_PTR(Name,...)  __VA_ARGS__* const Name
 #define UE_PTR_TO_CONST(Name,...)  const __VA_ARGS__* Name
 #define UE_IMPORT(Name) import Name;
 #define UE_UNLIKELY _UNLIKELY
+#define UE_LIKELY _LIKELY
+#define UE_THROW_NOT_IMPLEMENTED __debugbreak();
 
+#define UE_THROW_NOT_FULLY_IMPLEMENTED __debugbreak();
 #define UE_InClassBoilerplate(API) API MockableStaticVar(uid,UUID);
 #define UE_OutClassBoilerplate(Type)  ::UPRISE_ENGINE::UUID Type::uid = UUID::Create();
+
+#pragma endregion
+
+#pragma region Typedefs
+
+
 typedef  long long huge;; //-V2575 //-V3549
 typedef unsigned long long uhuge; //-V2575 //-V3549
 
 typedef size_t  Index; // alias for size_t/unsigned long long, used for indexing //-V2575 //-V3549
+#pragma endregion
+
+#pragma region Global_ConstevalFuncs
+
 
 namespace UPRISE_ENGINE {
     consteval size_t constevalstrlen(const char* str) {
@@ -195,14 +254,34 @@ namespace UPRISE_ENGINE {
         return len;
     }
 }
+#pragma endregion
+
+
+
+#pragma region DEBUG_NO_DEBUG
 #ifdef _DEBUG
 #define DEBUG_PAD_BITS_ZEROED 0
 #define TrPr(V,N)   ;
 #define TrPrE(V) ;
+#define UE_DEBUG_FIND_INFINITE_LOOP(MaxLoop, InitialValue) \
+ static int __loopCounter = 0; \
+if(__loopCounter == InitialValue) {__loopCounter = 0;}\
+if(__loopCounter++ > MaxLoop) { \
+__debugbreak(); \
+} 
+#define UE_DEBUG_FIND_INFINITE_LOOP_MAX 1000000
 #else
 #define DEBUG_PAD_BITS_ZEROED 
 #define TrPr(V,N)    ;
 #define TrPrE(V) ;
+#define UE_DEBUG_FIND_INFINITE_LOOP(MaxLoop) ;
+#define UE_DEBUG_FIND_INFINITE_LOOP_MAX 1000000
 #endif // DEBUG
+#pragma endregion
+
+#pragma region FORCE_INCLUDES
+#include <intrin.h>
+#pragma endregion
+
 
 #endif // !UE_GLOBAL_

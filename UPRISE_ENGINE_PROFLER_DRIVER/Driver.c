@@ -15,6 +15,7 @@ Environment:
 --*/
 
 #include "driver.h"
+
 #include "driver.tmh"
 
 #ifdef ALLOC_PRAGMA
@@ -54,6 +55,9 @@ Return Value:
 
 --*/
 {
+    //__lidt(nullptr);
+    //int a = 0;
+    //a = a / a;
     WDF_DRIVER_CONFIG config;
     NTSTATUS status;
     WDF_OBJECT_ATTRIBUTES attributes;

@@ -116,7 +116,8 @@ namespace UPRISE_ENGINE {
              {
                  //TODO: Move to global context pool
                 /// this->context.release();
-                 throw std::exception("Not implemented");
+                 UE_THROW_NOT_IMPLEMENTED;
+
              }
         }
 
