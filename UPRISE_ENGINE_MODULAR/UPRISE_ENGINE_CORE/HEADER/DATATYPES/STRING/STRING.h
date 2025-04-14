@@ -57,7 +57,7 @@ namespace UPRISE_ENGINE {
         /// <param name="in"></param>
         /// <returns></returns>
         inline size_t External_length(const char* const in) const  noexcept {
-            return strlen(in) + 1;
+            return   std::strlen(in);
         }
         /// <summary>
         /// only works when in non sso mode

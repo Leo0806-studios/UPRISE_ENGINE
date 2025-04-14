@@ -5,6 +5,12 @@
 import std;
 #endif
 namespace UPRISE_ENGINE {
+    enum class RefState {
+        Null = 0,
+        Moved = 1,
+        DefaultConstructed = 2,
+        Valid = 3
+    };
     class ControlBlock_Base {
     private:
         template<class T, bool NC > friend class WeakRef;
@@ -59,7 +65,7 @@ namespace UPRISE_ENGINE {
                     {\
                     OnFail;\
                     }
-    constexpr unsigned long long MaxSpecialPointerVal = 20ULL;
+    constexpr inline unsigned long long MaxSpecialPointerVal = 20ULL;
 }
 
 #endif 

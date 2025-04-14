@@ -19,7 +19,9 @@ namespace UPRISE_ENGINE {
 /// </summary>
         ControlBlock_Base* ControlBlock = reinterpret_cast<ControlBlock_Base*>(2ull);
 
-
+        void NullSelf() {
+            this->ControlBlock = nullptr;
+        }
         void CaseMoved(const char* msg) {
             if constexpr (RW_USE_CPP_EXCEPTIONS_) {
                 std::string out = msg;
@@ -142,13 +144,24 @@ namespace UPRISE_ENGINE {
             }
             }
         }
-
-        template<bool null = true,
-            bool mooved = true,
-            bool defaultConstructed = true,
-            typename SucsessFunction,
-            typename = std::enable_if<std::is_function_v<SucsessFunction>>>
-        void ControlBlockPostAssignCheck() {
+        /// <summary>
+        /// only fopr use in non nullchecked versions
+        /// </summary>
+        /// <param name="msg"></param>
+        void CaseInvalid(const char* msg) {
+            if constexpr (RW_USE_CPP_EXCEPTIONS_) {
+                std::string out = msg;
+                out += std::move(std::to_string(std::stacktrace::current()));
+                out += '\n';
+                throw std::exception(out.c_str());
+            }
+            else {
+                std::string out = msg;
+                out += std::move(std::to_string(std::stacktrace::current()));
+                out += '\n';
+                std::cout << out;
+                DEBUG::Debug::Log(std::move(out));
+            }
         }
 
 

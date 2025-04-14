@@ -161,7 +161,7 @@ return InternalMockReplacement;\
 
 #pragma region GetWarningLevel
 #ifdef EnableAllWarnings
-constexpr int WarningLevel = 5;
+constexpr inline int WarningLevel = 5;
 #else //notEnableAllWarnings
 #ifdef Level4
 constexpr int WarningLevel = 4
@@ -193,7 +193,7 @@ constexpr int WarningLevel = 1;
 namespace UPRISE_ENGINE {
     namespace  PROFILER {
 
-        constexpr size_t maxFrames = 64;
+        constexpr inline size_t maxFrames = 64;
 
     }
 }
@@ -222,15 +222,28 @@ namespace UPRISE_ENGINE {
 #define UE_CONST_PTR(Name,...)  __VA_ARGS__* const Name
 #define UE_PTR_TO_CONST(Name,...)  const __VA_ARGS__* Name
 #define UE_IMPORT(Name) import Name;
-#define UE_UNLIKELY _UNLIKELY
-#define UE_LIKELY _LIKELY
+#define UE_UNLIKELY [[unlikely]]
+#define UE_LIKELY [[likely]]
+#define UE_FALLTHROUGH [[fallthrough]]
+
+void __cdecl __debugbreak(void);
 #define UE_THROW_NOT_IMPLEMENTED __debugbreak();
 
 #define UE_THROW_NOT_FULLY_IMPLEMENTED __debugbreak();
 #define UE_InClassBoilerplate(API) API MockableStaticVar(uid,UUID);
 #define UE_OutClassBoilerplate(Type)  ::UPRISE_ENGINE::UUID Type::uid = UUID::Create();
 
+#define UE_NOEXCEPT_IF(condition) noexcept(condition)
+#define UE_UNSAFE_MODE false
+#define UE_SAFE_MODE true
 #pragma endregion
+#ifndef UE_UNSAFE_REFS
+#define UE_REF_SAFETY_MODE UE_UNSAFE_MODE
+
+#else
+#define UE_REF_SAFETY_MODE UE_SAFE_MODE
+
+#endif
 
 #pragma region Typedefs
 
@@ -264,11 +277,13 @@ namespace UPRISE_ENGINE {
 #define TrPr(V,N)   ;
 #define TrPrE(V) ;
 #define UE_DEBUG_FIND_INFINITE_LOOP(MaxLoop, InitialValue) \
- static int __loopCounter = 0; \
+ static thread_local int __loopCounter = 0; \
 if(__loopCounter == InitialValue) {__loopCounter = 0;}\
 if(__loopCounter++ > MaxLoop) { \
 __debugbreak(); \
 } 
+
+constexpr inline bool DebugMode = true;
 #define UE_DEBUG_FIND_INFINITE_LOOP_MAX 1000000
 #else
 #define DEBUG_PAD_BITS_ZEROED 
@@ -276,12 +291,31 @@ __debugbreak(); \
 #define TrPrE(V) ;
 #define UE_DEBUG_FIND_INFINITE_LOOP(MaxLoop) ;
 #define UE_DEBUG_FIND_INFINITE_LOOP_MAX 1000000
+constexpr inline bool DebugMode = false;
 #endif // DEBUG
 #pragma endregion
 
 #pragma region FORCE_INCLUDES
-#include <intrin.h>
+//#include <intrin.h>
 #pragma endregion
 
+
+
+
+
+#pragma region UE_ANOTATIONS
+
+
+#define UE_IN_PARAMETER(X) X
+#define UE_OUT_PARAMETER(X) X
+#define UE_IN_OUT_PARAMETER(X) X
+#define UE_TAKES_OWNERSHIP_OF_POINTER(X) X
+#define UE_IO_REF_TO_PTR_PTR_WILL_BE_REALLOCATED(X) X
+
+
+#define UE_USE_CONSTEXPR_VAR(X) X
+
+
+#pragma endregion
 
 #endif // !UE_GLOBAL_

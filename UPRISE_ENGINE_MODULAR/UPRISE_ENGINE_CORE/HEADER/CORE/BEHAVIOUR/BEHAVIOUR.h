@@ -5,8 +5,10 @@
 #define UE_BEHAVIOUR_
 //non engine includes
 
-#include  <intrin.h>
+//#include  <intrin.h>
 
+//import "DATATYPES/UUID/UUID.h";
+//import "CORE/OBJECT/OBJECT.h";
 #include "DATATYPES/UUID/UUID.h"
 
 #include "CORE/OBJECT/OBJECT.h"

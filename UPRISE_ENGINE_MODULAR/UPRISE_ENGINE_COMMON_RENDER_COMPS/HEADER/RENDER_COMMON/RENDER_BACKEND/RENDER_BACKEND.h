@@ -92,10 +92,7 @@ namespace UPRISE_ENGINE {
         };
 
     }
-    //template<> SharedRef<RENDER_COMMON::RENDER_BACKEND, true> RENDER_COMMON::RENDER_BACKEND::createBackend<DIRECTX12_BACKEND>();
-    //template<> SharedRef<RENDER_COMMON::RENDER_BACKEND, true> RENDER_COMMON::RENDER_BACKEND::createBackend<DIRECTX11_BACKEND>();
-    //template<> SharedRef<RENDER_COMMON::RENDER_BACKEND, true> RENDER_COMMON::RENDER_BACKEND::createBackend<OPENGL_BACKEND>();
-    //template<> SharedRef<RENDER_COMMON::RENDER_BACKEND, true> RENDER_COMMON::RENDER_BACKEND::createBackend<VULKAN_BACKEND>();
+
 }
 
 #endif // !_RENDER_BACKEND_

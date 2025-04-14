@@ -1,7 +1,7 @@
 module;
 #include <intrin.h>
 #include <string.h>
-#include <GLOBAL/GLINCLUDES.h>
+//#include <GLOBAL/GLINCLUDES.h>
 export module UPRISE_ENGINE_CORE;
 import std;
 import REF_WRAPPER;
@@ -13,6 +13,20 @@ import UPRISE_ENGINE_DEBUG;
 #define UE_IMPORT(Name)
 #pragma warning(pop)
 //CORE
+
+
+
+
+//export import "CORE/BEHAVIOUR/BEHAVIOUR.h";
+//export import "CORE/COMPONENT/COMPONENT.h";
+//export import "CORE/CPUID/CPUID.h";
+//export import "CORE/OBJECT/OBJECT.h";
+//export import "CORE/THREADING/THREAD/THREAD.h";
+//export import "CORE/REF_WRAPPERS/CONTROLL_BLOCKS/CONTROL_BASE/CONTROL_BASE.h";
+//export import "CORE/REF_WRAPPERS/WRAPPER_BASE/WRAPPER_BASE.h";
+//export import "CORE/REF_WRAPPERS/WEAK_REF/WEAK_REF.h";
+
+
 
 export{
 #include "CORE/BEHAVIOUR/BEHAVIOUR.h"
