@@ -2,9 +2,8 @@
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 #include "OPERATOR_NEW.h"
 #include <corecrt_malloc.h>
-#include "PROFILER/PROFILER_OBJECTS/ALLOC/ALLOC_OBJECT.h"
-#include "PROFILER/PROFILER_INIT/PROFILER_INIT.h"
-#include "PROFILER/PROFILER_OBJECTS/DEALLOC/DEALLOC_OBJECT.h"
+import UPRISE_ENGINE_PROFILER;
+
 void* operator new(size_t count) //-V3549 //-V2575
 {
   

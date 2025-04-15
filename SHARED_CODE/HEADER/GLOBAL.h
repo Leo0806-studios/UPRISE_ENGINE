@@ -105,6 +105,13 @@
 #define UPRISE_PROFILER_API __declspec(dllimport)
 #define UPRISE_PROFILER_API_EXPORTS
 #endif // UPRISEENGINEPROFILER_EXPORTS
+#ifdef UPRISEENGINEEE_EXPORTS
+#define UPRISE_ENGINE_EE_API __declspec(dllexport)
+#define UPRISE_ENGINE_EE_API_EXPORTS export
+#else
+#define UPRISE_ENGINE_EE_API __declspec(dllimport)
+#define UPRISE_ENGINE_EE_API_EXPORTS
+#endif // UPRISEENGINEEE_EXPORTS
 
 
 #pragma endregion
@@ -317,5 +324,6 @@ constexpr inline bool DebugMode = false;
 
 
 #pragma endregion
-
+//import UPRISE_ENGINE_PROFILER requiret to use this macro
+#define SCOPED_TIME_  UPRISE_ENGINE::PROFILER::TIMERS::SCOPED_TIME scoped_time(__FUNCSIG__,__FILE__,__FUNCTION__,__LINE__);
 #endif // !UE_GLOBAL_

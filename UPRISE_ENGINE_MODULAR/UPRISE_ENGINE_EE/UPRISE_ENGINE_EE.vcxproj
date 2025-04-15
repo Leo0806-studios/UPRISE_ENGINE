@@ -191,7 +191,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalBMIDirectories>C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_ENGINE_MODULAR\UPRISE_ENGINE_EE\MODULE\DATATYPES;%(AdditionalBMIDirectories)</AdditionalBMIDirectories>
+      <AdditionalBMIDirectories>C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_ENGINE_MODULAR\UPRISE_ENGINE_EE\MODULE\DATATYPES;C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_ENGINE_MODULAR\UPRISE_ENGINE_EE\MODULE;%(AdditionalBMIDirectories)</AdditionalBMIDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -237,23 +237,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="framework.h" />
-    <ClInclude Include="HEADER\DATATYPES\ERROR\Error.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="HEADER\DATATYPES\EXCEPTIONS\UPRISE_EXCEPTION\UPRISE_EXCEPTION.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\UPRISE_ENGINE_PROFILER\OPERATORS\PROFILER\OPERATOR_NEW\OPERATOR_NEW.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="MODULE\DATATYPES\ERRORS\ERROR_BASE\ERROR_BASE.ixx" />
-    <ClCompile Include="MODULE\DATATYPES\ERRORS\ERROR_BASE\ERROR_BASE_IMPL.ixx" />
     <ClCompile Include="MODULE\DATATYPES\EXCEPTIONS\UPRISE_BASE_EXCEPTION\UPRISE_BASE_EXCEPTION.ixx" />
     <ClCompile Include="MODULE\EPRISE_ENGINE_EE.ixx" />
-    <ClCompile Include="SOURCE\DATATYPES\ERROR\ERROR.cpp" />
+    <ClCompile Include="SOURCE\DATATYPES\EXCEPTIONS\UPRISE_BASE_EXCEPTION\UPRISE_BASE_EXCEPTION.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\UPRISE_ENGINE_PROFILER\UPRISE_ENGINE_PROFILER.vcxproj">
+      <Project>{374b5b71-eb13-4b4b-aba4-cd7a88ca290d}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

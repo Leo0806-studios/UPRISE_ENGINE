@@ -2,7 +2,10 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup>
+    <PublicModuleDirectories>$(ProjectDir)MODULES;$(PublicModuleDirectories)</PublicModuleDirectories>
+    <AllProjectBMIsArePublic>true</AllProjectBMIsArePublic>
+  </PropertyGroup>
   <PropertyGroup Label="Configuration">
     <EnableASAN>false</EnableASAN>
   </PropertyGroup>
@@ -20,6 +23,9 @@
       <TreatWarningAsError>true</TreatWarningAsError>
       <TreatAngleIncludeAsExternal>true</TreatAngleIncludeAsExternal>
       <DisableSpecificWarnings>4514;4710;4711;</DisableSpecificWarnings>
+      <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
+      <OpenMPSupport>false</OpenMPSupport>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <HeapReserveSize>104857600</HeapReserveSize>

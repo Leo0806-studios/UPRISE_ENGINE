@@ -1,7 +1,7 @@
 // This is a personal academic project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 // dllmain.cpp : Defines the entry point for the DLL application.
-#include "pch.h"
+import <Windows.h>;
 #pragma warning(disable: 4100)
 
 BOOL APIENTRY DllMain( HMODULE hModule, //-V3523 //-V3549 //-V2575 //-V2537

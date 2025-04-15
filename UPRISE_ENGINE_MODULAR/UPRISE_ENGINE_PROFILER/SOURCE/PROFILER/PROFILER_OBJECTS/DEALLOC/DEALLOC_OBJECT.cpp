@@ -1,9 +1,7 @@
 // This is a personal academic project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
-#include "PROFILER/PROFILER_OBJECTS/DEALLOC/DEALLOC_OBJECT.h"
-#include "PROFILER/PROFILE_EVENTS/DEALLOC/DEALLOC.h"
-#include <PROFILER/PROFILE_EVENTS/PROF_EVENT/PROF_EVENT.h>
-#include <PROFILER/EVENT_QEUE/EVENT_QEUE.h>
+import <memory>;
+import UPRISE_ENGINE_PROFILER;
 
 
 UPRISE_ENGINE::PROFILER::DEALLOC_OBJECT::DEALLOC_OBJECT(size_t size, void* ptr, const char* Type, const char* File, int Line, const char* message)

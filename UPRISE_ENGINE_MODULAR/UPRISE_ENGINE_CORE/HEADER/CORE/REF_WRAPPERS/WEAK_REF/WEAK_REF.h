@@ -580,7 +580,7 @@ namespace UPRISE_ENGINE {
                         this->ControlBlock = other.ControlBlock;
                     }//other.ControlBlock
                     else {
-                        CaseInvalid("invalid value for other Controlblock. this will only show up in debug mode. in release mode it will just crash or leak")
+                        CaseInvalid("invalid value for other Controlblock. this will only show up in debug mode. in release mode it will just crash or leak");
                     }//other.ControlBlock!=2
                 }//other.ControlBlock<=2
             }//DebugMode==true
@@ -666,7 +666,7 @@ namespace UPRISE_ENGINE {
 
                     }//other.ControlBlock
                     else {
-                        CaseInvalid("invalid value for other Controlblock. this will only show up in debug mode. in release mode it will just crash or leak")
+                        CaseInvalid("invalid value for other Controlblock. this will only show up in debug mode. in release mode it will just crash or leak");
                     }//other.ControlBlock!=2
                 }//other.ControlBlock<=2
             }//DebugMode==true
@@ -691,11 +691,156 @@ namespace UPRISE_ENGINE {
             std::is_convertible_v<OtherType,Type>>>
             WeakRef(const WeakRef<OtherType, false>& other) {
             if constexpr (DebugMode) {
+                if (ControlBlock > 2) {
+                    ControlBlock = other.ControlBlock;
+                    ControlBlock->IncrementWeakRefs();
+                }//other.ControlBlock>2
+                else {
+                    if (other.ControlBlock == 2) {
+                        ControlBlock = other.ControlBlock;
+                    }//other.ControlBlock==2
+                    else {
+                        CaseInvalid("invalid value for Controlblock. this will only show up in debug mode. in release mode it will just crash or leak");
 
+                    }//other.ControlBlock!=2
+                }//other.ControlBlock<=2
             }//DebugMode==true
             else {
+                if (ControlBlock > 2) {
+                    this->ControlBlock = other.ControlBlock;
+                    this->ControlBlock->IncrementWeakRefs();
+                }//other.ControlBlock>2
+                else {
+                    this->ControlBlock = other.ControlBlock;
+                }//other.ControlBlock<=2
 
             }//DebugMode==false
+        }//WeakRef(const WeakRef<OtherType,false>& other)
+
+        template<
+            typename OtherType,
+            typename = std::enable_if<
+            std::is_convertible_v<OtherType, Type>>>
+            WeakRef& operator=(const WeakRef<OtherType, false>& other) {
+            if constexpr(DebugMode){
+                if (this->ControlBlock > 2) {
+                    this->ControlBlock->DecrementWeakrefs();
+                }//ControlBlock>2<=2
+                else {
+                    if (ControlBlock == 2) {
+                        //do Nothing
+                    }//ControlBlock==2
+                    else {
+                        CaseInvalid("invalid value for own Controlblock. this will only show up in debug mode. in release mode it will just crash or leak");
+                    }//ControlBlock!=2
+                }//ControBlock
+            }//DebugMode==true
+            else {
+                if (ControlBlock > 2) {
+                    this->ControlBlock->DecrementWeakrefs();
+                }//ControlBlock>2
+                else {}
+            }//DebugMode==false
+            //other Check
+            if constexpr (DebugMode) {
+                if (other.ControlBlock > 2) {
+                    this->ControlBlock = other.ControlBlock;
+                    this->ControlBlock->IncrementWeakRefs();
+                }//other.ControlBlock>2
+                else {
+                    if (other.ControlBlock == 2) {
+                        this->ControlBlock = other.ControlBlock;
+                    }//other.ControlBlock
+                    else {
+                        CaseInvalid("invalid value for other Controlblock. this will only show up in debug mode. in release mode it will just crash or leak");
+                    }//other.ControlBlock!=2
+                }//other.ControlBlock<=2
+            }//DebugMode==true
+            else {
+                if (other.ControlBlock > 2) {
+                    this->ControlBlock = other.ControlBlock;
+                    this->ControlBlock->IncrementWeakRefs();
+                }//other.ControlBlock>2
+                else {}
+            }//DebugMode==false;
+        }//WeakRef& operator=(const WeakRef<OtherType,false>& other)
+        template<
+            typename OtherType,
+            typename = std::enable_if <
+            std::is_convertible_v<OtherType, Type>>>
+            WeakRef(WeakRef<OtherType, false>&& other) {
+            if constexpr (DebugMode) {
+                if (reinterpret_cast<uintptr_t>(other.ControlBlock) > 2) {
+                    ControlBlock = std::exchange(other.ControlBlock, reinterpret_cast<ControlBlock_Base*>(1ULL));
+                    ControlBlock->IncrementWeakRefs();
+                }//other.ControlBlock>2
+                else {
+                    if (other.ControlBlock == 2) {
+                        ControlBlock = std::exchange(other.ControlBlock, reinterpret_cast<ControlBlock_Base*>(1ULL));
+                    }//other.ControlBlock==2
+                    else {
+                        CaseInvalid("invalid value for Controlblock. this will only show up in debug mode. in release mode it will just crash or leak");
+                    }//other.ControlBlock!=2
+                }//other.ControlBlock<=2
+            }//DebugMode==true
+            else {
+                if (reinterpret_cast<uintptr_t>(other.ControlBlock) > 2) {
+                    ControlBlock = std::exchange(other.ControlBlock, reinterpret_cast<ControlBlock_Base*>(1ULL));
+                    this->ControlBlock->IncrementWeakRefs();
+                }//other.ControlBlock>2
+                else {
+                    ControlBlock = std::exchange(other.ControlBlock, reinterpret_cast<ControlBlock_Base*>(1ULL));
+                }//other.ControlBlock<=2
+            }//DebugMode==false
+        }//WeakRef(WeakRef<Type,false>&& other)
+        template<
+            typename OtherType,
+            typename = std::enable_if <
+            std::is_convertible_v<OtherType, Type>>>
+            WeakRef& operator=(WeakRef<OtherType, false>&& other) {
+            if constexpr (DebugMode) {
+                if (this->ControlBlock > 2) {
+                    this->ControlBlock->DecrementWeakrefs();
+                }//ControlBlock>2<=2
+                else {
+                    if (ControlBlock == 2) {
+                        //do Nothing
+                    }//ControlBlock==2
+                    else {
+                        CaseInvalid("invalid value for own Controlblock. this will only show up in debug mode. in release mode it will just crash or leak");
+                    }//ControlBlock!=2
+                }//ControBlock
+            }//DebugMode==true
+            else {
+                if (ControlBlock > 2) {
+                    this->ControlBlock->DecrementWeakrefs();
+                }//ControlBlock>2
+                else {
+                    //Do Nothing
+                }//ControlBlock<=2
+            }//DebugMode==false
+            //other Check
+            if constexpr (DebugMode) {
+                if (other.ControlBlock > 2) {
+                    ControlBlock = std::exchange(other.ControlBlock, reinterpret_cast<ControlBlock_Base*>(1ULL));
+                    this->ControlBlock->IncrementWeakRefs();
+                }//other.ControlBlock>2
+                else {
+                    if (other.ControlBlock == 2) {
+                        ControlBlock = std::exchange(other.ControlBlock, reinterpret_cast<ControlBlock_Base*>(1ULL));
+                    }//other.ControlBlock
+                    else {
+                        CaseInvalid("invalid value for other Controlblock. this will only show up in debug mode. in release mode it will just crash or leak");
+                    }//other.ControlBlock!=2
+                }//other.ControlBlock<=2
+            }//DebugMode==true
+            else {
+                if (other.ControlBlock > 2) {
+                    ControlBlock = std::exchange(other.ControlBlock, reinterpret_cast<ControlBlock_Base*>(1ULL));
+                    this->ControlBlock->IncrementWeakRefs();
+                }//other.ControlBlock>2
+                else {}
+            }//DebugMode==false;
         }
 
 

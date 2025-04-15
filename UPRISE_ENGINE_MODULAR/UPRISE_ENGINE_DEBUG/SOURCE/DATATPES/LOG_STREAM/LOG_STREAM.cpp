@@ -2,7 +2,7 @@ import UPRISE_ENGINE_DEBUG;
 
 
 
-#include <Windows.h>
+import <Windows.h>;
 import std;
 
 

@@ -2,8 +2,9 @@
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 #pragma warning(push)
 #pragma warning(disable: 4100)
-#include "PROFILER/PROFILE_STREAM/PROFILE_STREAM.h"
-#include <Windows.h>
+import UPRISE_ENGINE_PROFILER;
+import <Windows.h>;
+
 namespace UPRISE_ENGINE {
     namespace PROFILER {
 
@@ -11,8 +12,8 @@ namespace UPRISE_ENGINE {
             
             stream << "#Profiling started\n";
             length += constevalstrlen("#Profiling started\n"); //-V2578 //-V3551
-            char buffer[MAX_PATH]{};
-            DWORD length_ = GetModuleFileNameA(NULL, static_cast<char*>(buffer), MAX_PATH);
+            char buffer[260]{};
+            DWORD length_ = GetModuleFileNameA(NULL, static_cast<char*>(buffer), 260);
             LogPath = std::string(buffer, length_);
 
             std::string tmp = LogPath.string();//+= "Log.txt";

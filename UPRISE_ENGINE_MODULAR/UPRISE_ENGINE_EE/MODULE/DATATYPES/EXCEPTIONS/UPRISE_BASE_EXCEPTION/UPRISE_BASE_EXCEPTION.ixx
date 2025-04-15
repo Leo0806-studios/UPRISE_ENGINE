@@ -9,10 +9,7 @@ export namespace UPRISE_ENGINE {
             public:
                 UPRISE_BASE_EXCEPTION(const char* msg) :std::exception(msg), _msg(msg) {}
                 virtual  ~UPRISE_BASE_EXCEPTION() {}
-                virtual const char* What_UE() {
-                    return _msg;
-
-                };
+                UPRISE_ENGINE_EE_API virtual const char* What_UE();
             };
         }
     }

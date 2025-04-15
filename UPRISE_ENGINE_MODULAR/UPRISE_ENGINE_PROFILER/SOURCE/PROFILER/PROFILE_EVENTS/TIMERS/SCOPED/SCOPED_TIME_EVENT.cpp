@@ -1,10 +1,12 @@
 // This is a personal academic project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
-#include <tracy/Tracy.hpp>
-#include <tracy/TracyC.h>
-#include "PROFILER/PROFILE_EVENTS/TIMERS/SCOPED/SCOPED_TIME_EVENT.h"
+//#include <tracy/Tracy.hpp>
+//#include <tracy/TracyC.h>
+import UPRISE_ENGINE_PROFILER;
 #define NOMINMAX
-#include <Windows.h>
+import <Windows.h>;
+import std;
+
 #include <DbgHelp.h>
 
 
@@ -135,8 +137,8 @@ namespace UPRISE_ENGINE {
                 auto& Item = data[name];
                Item.count++;
                Item.AvgDuration = ((Item.AvgDuration * (Item.count-1)) + duration) / Item.count /*(data[name].AvgDuration + duration) / data[name].count*/;
-               Item.MaxDuration = std::max(Item.MaxDuration, duration);
-               Item.MinDuration = std::min(Item.MinDuration, duration);
+               Item.MaxDuration = (std::max)(Item.MaxDuration, duration);
+               Item.MinDuration = (std::min)(Item.MinDuration, duration);
             }
         }
 

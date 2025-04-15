@@ -1,10 +1,8 @@
 // This is a personal academic project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
-#include "PROFILER/PROFILER/PROFILER.h"
-#include "PROFILER/EVENT_QEUE/EVENT_QEUE.h"
-#include "PROFILER/PROFILE_STREAM/PROFILE_STREAM.h"
-#include "PROFILER/PROFILER_INIT/PROFILER_INIT.h"
-#include "PROFILER/PROFILE_EVENTS/TIMERS/SCOPED/SCOPED_TIME_EVENT.h"
+import std;
+
+import UPRISE_ENGINE_PROFILER;
 namespace  UPRISE_ENGINE {
     namespace PROFILER {
         PROFILE_STREAM ProfilerStream;
