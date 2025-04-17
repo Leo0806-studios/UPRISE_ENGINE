@@ -3,7 +3,6 @@ module;
 export module UPRISE_ENGINE_CORE:__M128_UTILLS;
 import std;
 import :CONCEPT_SIZE;
-import :UUID;
 export namespace UPRISE_ENGINE {
     namespace CORE {
         class  M128_UTILLS {

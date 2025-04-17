@@ -215,6 +215,7 @@
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <OpenMPSupport>false</OpenMPSupport>
+      <DisableSpecificWarnings>4005;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -338,16 +339,21 @@
     <ClInclude Include="HEADER\DATATYPES\STRING\STRING.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\SHARED_CODE\MODULES\REF_WRAPPER.ixx" />
     <ClCompile Include="..\UPRISE_ENGINE_PROFILER\OPERATORS\PROFILER\OPERATOR_NEW\OPERATOR_NEW.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="MODULE\BUILD_MODULE.cpp" />
     <ClCompile Include="MODULE\CORE\BEHAVIOUR\BEHAVIOUR.ixx" />
+    <ClCompile Include="MODULE\CORE\CONCEPTS\ALIGN\CONCEPT_ALIGN.ixx" />
+    <ClCompile Include="MODULE\CORE\CONCEPTS\SIZE\CONCEPT_SIZE.ixx" />
+    <ClCompile Include="MODULE\CORE\OBJECT\OBJECT.ixx" />
     <ClCompile Include="MODULE\CORE\REF_WRAPPERS\CONTROLL_BLOCKS\CONTROL_BASE\CONTROL_BASE.ixx" />
     <ClCompile Include="MODULE\CORE\REF_WRAPPERS\CONTROLL_BLOCKS\GC_CONTROLBLOCK\GC_CONTROLBLOCK.ixx" />
     <ClCompile Include="MODULE\CORE\REF_WRAPPERS\OWNED_REF\OWNED_REF.ixx" />
+    <ClCompile Include="MODULE\CORE\REF_WRAPPERS\SHARED_REF\SHARED_REF.ixx" />
     <ClCompile Include="MODULE\CORE\REF_WRAPPERS\WEAK_REF\WEAK_REF.ixx" />
     <ClCompile Include="MODULE\CORE\REF_WRAPPERS\WRAPPER_BASE\WRAPPER_BASE.ixx" />
+    <ClCompile Include="MODULE\CORE\SIMD_UTILLS\__M128\__M128_UTILLS.ixx" />
+    <ClCompile Include="MODULE\DATATYPES\UUID\UUID.ixx" />
     <ClCompile Include="MODULE\UPRISE_ENGINE_CORE.ixx">
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>

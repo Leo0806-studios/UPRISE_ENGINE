@@ -5,9 +5,12 @@ export namespace UPRISE_ENGINE {
         class GC_CONTROL_BLOCK:public ControlBlock_Base {
         private:
         public:
-            GC_CONTROL_BLOCK() = default;
-            ~GC_CONTROL_BLOCK() {
-            }
+            GC_CONTROL_BLOCK()noexcept = default;
+            ~GC_CONTROL_BLOCK()noexcept = default;
+            GC_CONTROL_BLOCK(const GC_CONTROL_BLOCK& other) = delete;
+            GC_CONTROL_BLOCK(GC_CONTROL_BLOCK&& other) = delete;
+            GC_CONTROL_BLOCK& operator=(const GC_CONTROL_BLOCK& other) = delete;
+            GC_CONTROL_BLOCK& operator=(GC_CONTROL_BLOCK&& other) = delete;
         };
     }
 }

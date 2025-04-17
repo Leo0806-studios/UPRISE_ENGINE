@@ -1,3 +1,5 @@
+// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 export module UPRISE_ENGINE_CORE:WEAK_REF;
 import :WRAPPER_BASE;
 import :CONTROL_BASE;
@@ -18,11 +20,8 @@ export namespace UPRISE_ENGINE {
         template<typename T, bool NC> friend class WeakRef;
         friend class WeakRef<Type, true>;
         friend class CreateRefs;
-        //#ifdef __INTELLISENSE__
-           // public:
-        //#else
+
     private:
-        //#endif
 
 
     public:
@@ -42,6 +41,7 @@ export namespace UPRISE_ENGINE {
             }
             default: {
                 ControlBlock->DecrementWeakrefs();
+                break;
             }
             }
         }
@@ -59,6 +59,7 @@ export namespace UPRISE_ENGINE {
             case 1: {
                 CaseMoved("it is not legal to copy construct from a moved from ref");
                 NullSelf();
+                break;
             }
             case 2: {
                 if constexpr (WarningLevel >= 3) {
@@ -71,6 +72,7 @@ export namespace UPRISE_ENGINE {
             UE_LIKELY default: {
                 ///assume that all other values are valid
                 ControlBlock->IncrementWeakRefs();
+                break;
 
             }
             }
@@ -81,9 +83,10 @@ export namespace UPRISE_ENGINE {
                 CaseSelfAsign("while it is legal to self asign it is very likely an error in the program or at the very least a performance loss");
             }
                 ///check if ControlBlock contains one of the special signal values or not
-                switch (ControlBlock) {
+                switch (reinterpret_cast<uintptr_t>(ControlBlock)) {
                 case 0: {
                     CaseNull("controll block of \" this\" was null (0) while trying to move assign from other. (function sig: WeakRef& operator=(WeakRef<Type, true>&& other) ");
+                    break;
                 }
                 case 1: {
                     ///perfectly legal to asign to moved from object
@@ -101,7 +104,7 @@ export namespace UPRISE_ENGINE {
                 }
 
 
-            switch (reinterpret_cast<unsigned long long>(other.ControlBlock)) {
+            switch (reinterpret_cast<uintptr_t>(other.ControlBlock)) {
             case 0: {
                 CaseNull("it is not legal to copy (asign) a null ref");
                 break;
@@ -135,7 +138,7 @@ export namespace UPRISE_ENGINE {
         /// <param name="other"></param>
         WeakRef(WeakRef<Type, true>&& other)noexcept(RW_USE_CPP_EXCEPTIONS_ == false)
         {
-            switch (reinterpret_cast<unsigned long long>(ControlBlock)) {
+            switch (reinterpret_cast<uintptr_t>(ControlBlock)) {
             case 0: {
                 CaseNull("Control Block of \"this\" was null (0, nullptr). ");
                 NullSelf();
@@ -147,6 +150,7 @@ export namespace UPRISE_ENGINE {
             }
             case 2: {
                 ///iz is perfectly legal to move into a default constructed object
+                break;
             }
             default: {
                 ///assume all other values are valid
@@ -155,7 +159,7 @@ export namespace UPRISE_ENGINE {
             }
             }
 
-            switch (reinterpret_cast<unsigned long long>(other.ControlBlock)) {
+            switch (reinterpret_cast<uintptr_t>(other.ControlBlock)) {
 
             case 0: {
                 CaseNull("it is not legal to move (asign) a null ref ");
@@ -173,22 +177,25 @@ export namespace UPRISE_ENGINE {
                     CaseDefaultConstructed("while it is legal move in a default construted object it may indicate a error in the program");
 
                 }
-                UE_FALLTHROUGH;
+                ControlBlock = std::exchange(other.ControlBlock, reinterpret_cast<UPRISE_ENGINE::ControlBlock_Base*>(1ULL)); //-V566 //-V3546 //-V2571
+                break;
             }
             default: {
-                ControlBlock = std::exchange(other.ControlBlock, reinterpret_cast<UPRISE_ENGINE::ControlBlock_Base*>(1ULL));
+                ControlBlock = std::exchange(other.ControlBlock, reinterpret_cast<UPRISE_ENGINE::ControlBlock_Base*>(1ULL)); //-V566 //-V3546 //-V2571
+                break;
             }
             }
         }
-        WeakRef& operator=(WeakRef<Type, true>&& other) {
+        WeakRef& operator=(WeakRef<Type, true>&& other)noexcept(RW_USE_CPP_EXCEPTIONS_==false) {
             if (this == &other) UE_UNLIKELY{
                 CaseSelfAsign("while it is legal to self asign (or in this case self move asign because there are protections aganínst that) it very likely indicates an error in the program or at the very least a performance loss");
-                return *this;
             }
+            else {
                 ///check if ControlBlock contains one of the special signal values or not
                 switch (ControlBlock) {
                 case 0: {
                     CaseNull("controll block of \" this\" was null (0) while trying to move assign from other. (function sig: WeakRef& operator=(WeakRef<Type, true>&& other) ");
+                    break;
                 }
                 case 1: {
                     ///perfectly legal to move asign to moved from object
@@ -208,29 +215,34 @@ export namespace UPRISE_ENGINE {
                 }
                 }
 
-            switch (reinterpret_cast<unsigned long long>(other.ControlBlock)) {
-            UE_UNLIKELY case 0: {
-                CaseNull("while it is legal to move asign a null ref it deffinetly is an error in the program");
-                NullSelf();
-                break;
-            }
-            UE_UNLIKELY case 1: {
-                CaseMoved("it is not legal to move asign a moved from ref");
-                NullSelf();
-                break;
-            }
-            UE_UNLIKELY case 2: {
-                if constexpr (WarningLevel >= 3) {
-                    CaseDefaultConstructed("while it is legal to move asign a default constructed object this may indicate an error in the program");
+                switch (reinterpret_cast<uintptr_t>(other.ControlBlock)) {
+                UE_UNLIKELY case 0: {
+                    CaseNull("while it is legal to move asign a null ref it deffinetly is an error in the program");
+                    NullSelf();
+                    break;
                 }
-                UE_FALLTHROUGH;
-            }
-            UE_LIKELY default: {
-                this->ControlBlock = std::exchange(other.ControlBlock, reinterpret_cast<ControlBlock_Base*>(1ULL));
+                UE_UNLIKELY case 1: {
+                    CaseMoved("it is not legal to move asign a moved from ref");
+                    NullSelf();
+                    break;
+                }
+                UE_UNLIKELY case 2: {
+                    if constexpr (WarningLevel >= 3) {
+                        CaseDefaultConstructed("while it is legal to move asign a default constructed object this may indicate an error in the program");
+                    }
+                    this->ControlBlock = std::exchange(other.ControlBlock, reinterpret_cast<ControlBlock_Base*>(1ULL)); //-V566 //-V3546 //-V2571
+                    break;
+                }
+                UE_LIKELY default: {
+                    this->ControlBlock = std::exchange(other.ControlBlock, reinterpret_cast<ControlBlock_Base*>(1ULL)); //-V566 //-V3546 //-V2571
+                    break;
 
-                ///assume all othher values are valid
+                    ///assume all othher values are valid
+                }
+                }
             }
-            }
+
+            return *this;
 
         }
 #pragma endregion
@@ -273,6 +285,7 @@ export namespace UPRISE_ENGINE {
             default: {
                 ///assume that all other values are valid
                 ControlBlock->IncrementWeakRefs();
+                break;
             }
             }
 
@@ -281,9 +294,9 @@ export namespace UPRISE_ENGINE {
         template<
             typename OtherType,
             typename = std::enable_if<
-            std::is_convertible_v<OtherType, Type>>>
+            !std::is_same_v<Type, OtherType>>>
             WeakRef& operator=(const WeakRef<OtherType, true>& other) {
-            if (&other = this) UE_UNLIKELY{
+            if (&other == this) UE_UNLIKELY{
                 CaseSelfAsign("while it is legal to self assing it may be an error in the program or at the very least a performance loss");
             }
                 switch (reinterpret_cast<unsigned long long>(ControlBlock)) {
@@ -359,7 +372,7 @@ export namespace UPRISE_ENGINE {
         template<
             typename OtherType,
             typename = std::enable_if <
-            std::is_convertible_v<OtherType, Type>>>
+            !std::is_same_v<Type, OtherType>>>
             WeakRef& operator=(WeakRef<OtherType, true>&& other)noexcept(RW_USE_CPP_EXCEPTIONS_ == false) {
             if (this == &other)UE_UNLIKELY{
                 CaseSelfAsign("while it is legal to self asign it is very likely an error in the program or at the very least a performance loss");
@@ -480,6 +493,8 @@ export namespace UPRISE_ENGINE {
     template<typename Type>
     class WeakRef<Type, false> :WrapperBase {
         template<typename T, bool NC> friend class WeakRef;
+        template<typename T, bool NC> friend class SharedRef; //friend to the SharedRef
+        template <typename T> friend class OwnedRef;
         friend class CreateRefs;
 
     public:
@@ -516,83 +531,75 @@ export namespace UPRISE_ENGINE {
                 if (reinterpret_cast<uintptr_t>(other.ControlBlock) > 2) {
                     ControlBlock = other.ControlBlock;
                     ControlBlock->IncrementWeakRefs();
-                }//other.ControlBlock>2
+                }
                 else {
                     if (other.ControlBlock == 2) {
                         ControlBlock = other.ControlBlock;
-                    }//other.ControlBlock==2
+                    }
                     else {
                         CaseInvalid("invalid value for Controlblock. this will only show up in debug mode. in release mode it will just crash or leak");
-
-                    }//other.ControlBlock!=2
-                }//other.ControlBlock<=2
-            }//DebugMode==true
+                    }
+                }
+            }
             else {
                 if (reinterpret_cast<uintptr_t>(other.ControlBlock) > 2) {
                     this->ControlBlock = other.ControlBlock;
                     this->ControlBlock->IncrementWeakRefs();
-                }//other.ControlBlock>2
+                }
                 else {
                     this->ControlBlock = other.ControlBlock;
-                }//other.ControlBlock<=2
-            }//DebugMode==false
+                }
+            }
         }
-
         WeakRef& operator=(const WeakRef<Type, false>& other) {
             if constexpr (DebugMode) {
                 if (this->ControlBlock > 2) {
                     this->ControlBlock->DecrementWeakrefs();
-                }//ControlBlock>2<=2
+                }
                 else {
                     if (ControlBlock == 2) {
-                        //do Nothing
-                    }//ControlBlock==2
+                    //2 is the case for a default constructed object wich is a 
+                    }
                     else {
                         CaseInvalid("invalid value for own Controlblock. this will only show up in debug mode. in release mode it will just crash or leak");
-                    }//ControlBlock!=2
-                }//ControBlock
-            }//DebugMode==true
+                    }
+                }
+            }
             else {
-
                 if (ControlBlock > 2) {
                     this->ControlBlock->DecrementWeakrefs();
-                }//ControlBlock>2
-                else {
-                    //Do Nothing
-                }//ControlBlock<=2
-            }//DebugMode==false
-
-            //other Check
+                }
+                else {}
+            }
             if constexpr (DebugMode) {
                 if (other.ControlBlock > 2) {
-
                     this->ControlBlock = other.ControlBlock;
                     this->ControlBlock->IncrementWeakRefs();
-                }//other.ControlBlock>2
+                }
                 else {
                     if (other.ControlBlock == 2) {
                         this->ControlBlock = other.ControlBlock;
-                    }//other.ControlBlock
+                    }
                     else {
                         CaseInvalid("invalid value for other Controlblock. this will only show up in debug mode. in release mode it will just crash or leak");
-                    }//other.ControlBlock!=2
-                }//other.ControlBlock<=2
-            }//DebugMode==true
+                    }
+                }
+            }
             else {
                 if (other.ControlBlock > 2) {
                     this->ControlBlock = other.ControlBlock;
                     this->ControlBlock->IncrementWeakRefs();
-
-                }//other.ControlBlock>2
+                }
                 else {
+                /*
+                * 
+                */
+                }
 
-                    //do Nothing
-                }//other.ControlBlock<=2
-
-            }//DebugMode==false;
+            }
         }//WeakRef& operator=(const WeakRef<Type,false>& other)
 
-        WeakRef(WeakRef<Type, false>&& other) {
+        WeakRef(WeakRef<Type, false>&& other)noexcept(RW_USE_CPP_EXCEPTIONS_ == false) {
 
             if constexpr (DebugMode) {
                 if (reinterpret_cast<uintptr_t>(other.ControlBlock) > 2) {
@@ -623,60 +630,48 @@ export namespace UPRISE_ENGINE {
 
         }//WeakRef(WeakRef<Type,false>&& other)
 
-        WeakRef& operator=(WeakRef<Type, false>&& other) {
+        WeakRef& operator=(WeakRef<Type, false>&& other)noexcept(RW_USE_CPP_EXCEPTIONS_==false) {
             if constexpr (DebugMode) {
                 if (this->ControlBlock > 2) {
                     this->ControlBlock->DecrementWeakrefs();
                 }//ControlBlock>2<=2
                 else {
-                    if (ControlBlock == 2) {
-                        //do Nothing
-                    }//ControlBlock==2
+                    if (ControlBlock == 2) {}
                     else {
                         CaseInvalid("invalid value for own Controlblock. this will only show up in debug mode. in release mode it will just crash or leak");
-                    }//ControlBlock!=2
-                }//ControBlock
-            }//DebugMode==true
+                    }
+                }
+            }
             else {
-
                 if (ControlBlock > 2) {
                     this->ControlBlock->DecrementWeakrefs();
-                }//ControlBlock>2
-                else {
-                    //Do Nothing
-                }//ControlBlock<=2
-            }//DebugMode==false
-
-            //other Check
+                }
+                else {}
+            }
             if constexpr (DebugMode) {
                 if (other.ControlBlock > 2) {
                     ControlBlock = std::exchange(other.ControlBlock, reinterpret_cast<ControlBlock_Base*>(1ULL));
-
                     this->ControlBlock->IncrementWeakRefs();
-                }//other.ControlBlock>2
+                }
                 else {
                     if (other.ControlBlock == 2) {
                         ControlBlock = std::exchange(other.ControlBlock, reinterpret_cast<ControlBlock_Base*>(1ULL));
-
-                    }//other.ControlBlock
+                    }
                     else {
                         CaseInvalid("invalid value for other Controlblock. this will only show up in debug mode. in release mode it will just crash or leak");
-                    }//other.ControlBlock!=2
-                }//other.ControlBlock<=2
-            }//DebugMode==true
+                    }
+                }
+            }
             else {
                 if (other.ControlBlock > 2) {
                     ControlBlock = std::exchange(other.ControlBlock, reinterpret_cast<ControlBlock_Base*>(1ULL));
 
                     this->ControlBlock->IncrementWeakRefs();
 
-                }//other.ControlBlock>2
-                else {
+                }
+                else {}
 
-                    //do Nothing
-                }//other.ControlBlock<=2
-
-            }//DebugMode==false;
+            }
         }
 
         template<
@@ -688,27 +683,26 @@ export namespace UPRISE_ENGINE {
                 if (ControlBlock > 2) {
                     ControlBlock = other.ControlBlock;
                     ControlBlock->IncrementWeakRefs();
-                }//other.ControlBlock>2
+                }
                 else {
                     if (other.ControlBlock == 2) {
                         ControlBlock = other.ControlBlock;
-                    }//other.ControlBlock==2
+                    }
                     else {
                         CaseInvalid("invalid value for Controlblock. this will only show up in debug mode. in release mode it will just crash or leak");
 
-                    }//other.ControlBlock!=2
-                }//other.ControlBlock<=2
-            }//DebugMode==true
+                    }
+                }
+            }
             else {
                 if (ControlBlock > 2) {
                     this->ControlBlock = other.ControlBlock;
                     this->ControlBlock->IncrementWeakRefs();
-                }//other.ControlBlock>2
+                }
                 else {
                     this->ControlBlock = other.ControlBlock;
-                }//other.ControlBlock<=2
-
-            }//DebugMode==false
+                }
+            }
         }//WeakRef(const WeakRef<OtherType,false>& other)
 
         template<
@@ -719,44 +713,41 @@ export namespace UPRISE_ENGINE {
             if constexpr (DebugMode) {
                 if (this->ControlBlock > 2) {
                     this->ControlBlock->DecrementWeakrefs();
-                }//ControlBlock>2<=2
+                }
                 else {
-                    if (ControlBlock == 2) {
-                        //do Nothing
-                    }//ControlBlock==2
+                    if (ControlBlock == 2) {}
                     else {
                         CaseInvalid("invalid value for own Controlblock. this will only show up in debug mode. in release mode it will just crash or leak");
-                    }//ControlBlock!=2
-                }//ControBlock
-            }//DebugMode==true
+                    }
+                }
+            }
             else {
                 if (ControlBlock > 2) {
                     this->ControlBlock->DecrementWeakrefs();
-                }//ControlBlock>2
+                }
                 else {}
-            }//DebugMode==false
-            //other Check
+            }
             if constexpr (DebugMode) {
                 if (other.ControlBlock > 2) {
                     this->ControlBlock = other.ControlBlock;
                     this->ControlBlock->IncrementWeakRefs();
-                }//other.ControlBlock>2
+                }
                 else {
                     if (other.ControlBlock == 2) {
                         this->ControlBlock = other.ControlBlock;
-                    }//other.ControlBlock
+                    }
                     else {
                         CaseInvalid("invalid value for other Controlblock. this will only show up in debug mode. in release mode it will just crash or leak");
-                    }//other.ControlBlock!=2
-                }//other.ControlBlock<=2
-            }//DebugMode==true
+                    }
+                }
+            }
             else {
                 if (other.ControlBlock > 2) {
                     this->ControlBlock = other.ControlBlock;
                     this->ControlBlock->IncrementWeakRefs();
-                }//other.ControlBlock>2
+                }
                 else {}
-            }//DebugMode==false;
+            }
         }//WeakRef& operator=(const WeakRef<OtherType,false>& other)
         template<
             typename OtherType,

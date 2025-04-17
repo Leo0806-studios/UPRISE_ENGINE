@@ -1,3 +1,5 @@
+// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 module;
 
 //#include <GLOBAL/GLINCLUDES.h>
@@ -18,3 +20,12 @@ export import :BEHAVIOUR;
 export import :CONTROL_BASE;
 export import :GC_CONTROLBLOCK;
 export import :OWNED_REF;
+export import :CONCEPT_ALIGN;
+export import :CONCEPT_SIZE;
+export import :CONTROL_BASE;
+export import :OBJECT;
+export import :OWNED_REF;
+export import :SHARED_REF;
+export import :WEAK_REF;
+export import :WRAPPER_BASE;
+export import :__M128_UTILLS;

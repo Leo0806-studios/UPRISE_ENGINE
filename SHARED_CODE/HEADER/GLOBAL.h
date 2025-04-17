@@ -3,18 +3,15 @@
 #pragma once
 #ifndef UE_GLOBAL_
 #define UE_GLOBAL_
-
+#pragma warning (push)
+#pragma warning(disable:4005)
 #pragma region EXPORTIMPORT_DEFINES
 
 
 #ifdef UPRISEENGINECORE_EXPORTS
 
 #define UPRISE_CORE_API __declspec(dllexport)
-
-
-
 #define UPRISE_CORE_API_EXPORTS
-
 #else
 #define UPRISE_CORE_API __declspec(dllimport)
 #define UPRISE_CORE_API_EXPORTS
@@ -120,13 +117,13 @@
 
 #pragma region TestInfrastructure
 
-
+#define TypeMAcroCombiner(...) __VA_ARGS__
 #ifdef UPRISE_TESTS
-#define MockableGlobalVar(Type,Name) __inline Type& Name(){\
+#define MockableGlobalVar(Type,x) __inline Type& x(){\
 static Type InternalMockReplacement{};\
 return InternalMockReplacement;\
 }
-#define MockableStaticVar(Name,...) static __inline __VA_ARGS__& Name(){\
+#define MockableStaticVar(x,...) static __inline __VA_ARGS__& x(){\
 static Type InternalMockReplacement{};\
 return InternalMockReplacement;\
 }
@@ -134,9 +131,9 @@ return InternalMockReplacement;\
 #define AccsesStaticVar(FullName) FullName ()
 #define CallMockableMethod(FullName)  FullName
 #else
-#define MockableGlobalVar(Type,Name)  Type Name ;
+#define MockableGlobalVar(Type,x)  Type x ;
 
-#define MockableStaticVar(Name,...) static __VA_ARGS__ Name ; 
+#define MockableStaticVar(x,Type) static Type x ; 
 #define AccsesGlobalVar(x)  x
 #define AccsesStaticVar(x)  x
 #define CallMockableMethod(FullName) FullName
@@ -326,4 +323,5 @@ constexpr inline bool DebugMode = false;
 #pragma endregion
 //import UPRISE_ENGINE_PROFILER requiret to use this macro
 #define SCOPED_TIME_  UPRISE_ENGINE::PROFILER::TIMERS::SCOPED_TIME scoped_time(__FUNCSIG__,__FILE__,__FUNCTION__,__LINE__);
+#pragma warning(pop)
 #endif // !UE_GLOBAL_

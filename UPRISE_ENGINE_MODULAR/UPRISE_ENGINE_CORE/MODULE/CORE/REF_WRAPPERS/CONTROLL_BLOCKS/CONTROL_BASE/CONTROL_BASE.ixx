@@ -12,11 +12,9 @@ export namespace UPRISE_ENGINE {
     class ControlBlock_Base {
     private:
         template<class T, bool NC > friend class WeakRef;
-        //#ifdef __INTELLISENSE__
-          //  public:
-        //#else
+
     protected:
-        //#endif // __INTELLISENSE__
+
 
         std::atomic<unsigned long long> Refs = 1;
         std::atomic<unsigned long long> WeakRefs = 1;

@@ -162,6 +162,39 @@ export namespace UPRISE_ENGINE {
             }
         }
 
+        template<
+            bool null = true,
+            bool mooved = true,
+            bool defaultConstructed = true,
+            void(*SuccsesFunction)() = nullptr>
+        void  Nullcheck(const char* msgNull, const char* const msgMoved, const char* const msgDefaultConstructed) {
+            switch (reinterpret_cast<unsigned long long>(ControlBlock)) {
+            case 0: {
+                if constexpr (null) {
+                    CaseNull(msgNull);
+                }
+                break;
+            }
+            case 1: {
+                if constexpr (mooved) {
+                    CaseMoved(msgMoved);
+                }
+                break;
+            }
+            case 2: {
+                if constexpr (defaultConstructed) {
+                    if constexpr (WarningLevel >= 3) {
+                        CaseDefaultConstructed(msgDefaultConstructed);
+                    }
+                }
+                break;
+            }
+            default: {
+                SuccsesFunction();
+                break;
+            }
+            }
+        }
 
     };
 }
