@@ -1,6 +1,17 @@
 export module UPRISE_ENGINE_CORE:CONTROL_BASE;
 import <atomic>;
+import <iostream>;
+import <exception>;
+import <string>;
+import <stacktrace>;
+import UPRISE_ENGINE_DEBUG;
 export namespace UPRISE_ENGINE {
+#ifdef RW_USE_CPP_EXCEPTIONS
+    constexpr bool RW_USE_CPP_EXCEPTIONS_ = true;
+#else 
+    constexpr bool RW_USE_CPP_EXCEPTIONS_ = false;
+#endif // RW_USE_CPP_EXCEPTIONS
+
     enum class RefState {
         Null = 0,
         Moved = 1,
@@ -12,12 +23,63 @@ export namespace UPRISE_ENGINE {
     class ControlBlock_Base {
     private:
         template<class T, bool NC > friend class WeakRef;
+        template<class T> friend class OwnedRef;
+        friend class WrapperBase;
 
     protected:
 
+        void CaseMoved(const char* msg) {
+            if constexpr (RW_USE_CPP_EXCEPTIONS_) {
+                std::string out = msg;
+                out += std::move(std::to_string(std::stacktrace::current()));
+                out += '\n';
+                throw std::exception(out.c_str());
+            }
+            else {
+                std::string out = msg;
+                out += std::move(std::to_string(std::stacktrace::current()));
+                out += '\n';
+                std::cout << out;
+                DEBUG::Debug::Log(std::move(out));
+            }
+        }
+        void CaseNull(const char* msg) {
+            if constexpr (RW_USE_CPP_EXCEPTIONS_) {
+                std::string out = msg;
+                out += std::move(std::to_string(std::stacktrace::current()));
+                out += '\n';
+                throw std::exception(out.c_str());
+            }
+            else {
+                std::string out = msg;
+                out += std::move(std::to_string(std::stacktrace::current()));
+                out += '\n';
+                std::cout << out;
+                DEBUG::Debug::Log(std::move(out));
+            }
 
+        }
+        void CaseDeletedManualy(const char* msg) {
+            if constexpr (RW_USE_CPP_EXCEPTIONS_) {
+                std::string out = msg;
+                out += std::move(std::to_string(std::stacktrace::current()));
+                out += '\n';
+                throw std::exception(out.c_str());
+            }
+            else {
+                std::string out = msg;
+                out += std::move(std::to_string(std::stacktrace::current()));
+                out += '\n';
+                std::cout << out;
+                DEBUG::Debug::Log(std::move(out));
+
+            }
+        }
         std::atomic<unsigned long long> Refs = 1;
         std::atomic<unsigned long long> WeakRefs = 1;
+        void Delete()noexcept {
+            delete this;
+        }
         virtual void IncrementRefs()noexcept = 0;
         virtual void IncrementWeakRefs()noexcept = 0;
         virtual void DecrementRefs() noexcept = 0;
@@ -36,30 +98,8 @@ export namespace UPRISE_ENGINE {
     class EmptySizeClass {
         char filler[TypeSize];
     };
-#ifdef RW_USE_CPP_EXCEPTIONS
-    constexpr bool RW_USE_CPP_EXCEPTIONS_ = true;
-#else 
-    constexpr bool RW_USE_CPP_EXCEPTIONS_ = false;
-#endif // RW_USE_CPP_EXCEPTIONS
 
 
-#define NullChkFail(ExceptionText,LogText)\
-                     if constexpr (RW_USE_CPP_EXCEPTIONS_)\
-                    {\
-                    throw std::exception(##ExceptionText);\
-                    }\
-                    else\
-                    {\
-                    std::cout << ##LogText << std::stacktrace::current() << "\n";\
-                    }
-#define TryGetVar(var,OnSuccses,OnFail)\
-                    if(var)\
-                    {\
-                    OnSuccses;\
-                    }\
-                    else\
-                    {\
-                    OnFail;\
-                    }
+
     constexpr inline unsigned long long MaxSpecialPointerVal = 20ULL;
 }

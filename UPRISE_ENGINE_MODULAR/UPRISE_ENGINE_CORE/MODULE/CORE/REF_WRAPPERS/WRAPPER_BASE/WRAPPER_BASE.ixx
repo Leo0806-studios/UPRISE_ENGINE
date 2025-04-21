@@ -5,6 +5,7 @@ import <iostream>;
 import <stacktrace>;
 import UPRISE_ENGINE_DEBUG;
 export namespace UPRISE_ENGINE {
+    
     class WrapperBase {
     private:
 
@@ -108,40 +109,7 @@ export namespace UPRISE_ENGINE {
 
 
 
-        template<bool null = true,
-            bool mooved = true,
-            bool defaultConstructed = true,
-            typename SucsessFunction,
-            typename = std::enable_if<std::is_function_v<SucsessFunction>>>
-        void ControlBlockPreAssignCheck() {
-            switch (reinterpret_cast<unsigned long long>(ControlBlock)) {
-            case 0: {
-                if constexpr (null) {
-                    CaseNull("ControlBlock of \" this\" was null while trying to move assign from other. (function sig: WeakRef& operator=(WeakRef<Type, true>&& other) ");
-                }
-                break;
-            }
-            case 1: {
-                if constexpr (mooved) {
-                    CaseMoved("trying to copy a moved from object (func sig : WeakRef(const WeakRef<Type, true>& other)noexcept )");
-                }
-                break;
-            }
-            case 2: {
-                if constexpr (defaultConstructed) {
-                    if constexpr (WarningLevel >= 3) {
-                        CaseDefaultConstructed("while it is legal to copy construct from a default constructed object this may indicate an error in the program");
-                    }
-                }
-                break;
-            }
-            default: {
-                ///assume that all other values are valid
-                SucsessFunction();
-                break;
-            }
-            }
-        }
+        
         /// <summary>
         /// only fopr use in non nullchecked versions
         /// </summary>
@@ -161,14 +129,13 @@ export namespace UPRISE_ENGINE {
                 DEBUG::Debug::Log(std::move(out));
             }
         }
-
+       /* typedef void(*SuccsesLambda) (ControlBlock_Base* self,ControlBlock_Base* other);
         template<
             bool null = true,
             bool mooved = true,
-            bool defaultConstructed = true,
-            void(*SuccsesFunction)() = nullptr>
-        void  Nullcheck(const char* msgNull, const char* const msgMoved, const char* const msgDefaultConstructed) {
-            switch (reinterpret_cast<unsigned long long>(ControlBlock)) {
+            bool defaultConstructed = true>
+        void  Nullcheck(SuccsesLambda  func,ControlBlock_Base* PtrToCheck,ControlBlock_Base*other,ControlBlock_Base* self,const char* msgNull, const char* const msgMoved, const char* const msgDefaultConstructed) {
+            switch (reinterpret_cast<uintptr_t>(PtrToCheck)) {
             case 0: {
                 if constexpr (null) {
                     CaseNull(msgNull);
@@ -190,11 +157,13 @@ export namespace UPRISE_ENGINE {
                 break;
             }
             default: {
-                SuccsesFunction();
+                func(self,other);
+
                 break;
             }
             }
-        }
+        }*/
 
     };
 }
+
