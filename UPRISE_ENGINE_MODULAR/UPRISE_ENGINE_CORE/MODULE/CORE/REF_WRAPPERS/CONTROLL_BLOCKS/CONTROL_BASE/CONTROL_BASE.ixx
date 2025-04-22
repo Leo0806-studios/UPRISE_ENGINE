@@ -1,3 +1,5 @@
+// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 export module UPRISE_ENGINE_CORE:CONTROL_BASE;
 import <atomic>;
 import <iostream>;
@@ -78,7 +80,7 @@ export namespace UPRISE_ENGINE {
         std::atomic<unsigned long long> Refs = 1;
         std::atomic<unsigned long long> WeakRefs = 1;
         void Delete()noexcept {
-            delete this;
+            delete this; //-V2511
         }
         virtual void IncrementRefs()noexcept = 0;
         virtual void IncrementWeakRefs()noexcept = 0;
@@ -94,10 +96,7 @@ export namespace UPRISE_ENGINE {
         ControlBlock_Base& operator=(ControlBlock_Base&& other) = delete;
         virtual ~ControlBlock_Base() = default;
     };
-    template<size_t TypeSize>
-    class EmptySizeClass {
-        char filler[TypeSize];
-    };
+ 
 
 
 

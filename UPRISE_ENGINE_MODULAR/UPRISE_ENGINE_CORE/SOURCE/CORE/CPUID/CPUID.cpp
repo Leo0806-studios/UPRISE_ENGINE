@@ -1,14 +1,15 @@
 // This is a personal academic project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 import UPRISE_ENGINE_CORE;
-#include <string.h>
-#include <intrin.h>
+import <intrin.h>;
 import std;
 namespace UPRISE_ENGINE {
     namespace CORE {
         std::string CORE::InstructionSet::Vendor(void) { return CPU_Rep.vendor_; }
 
         std::string CORE::InstructionSet::Brand(void) { return CPU_Rep.brand_; }
+
+        inline bool InstructionSet::SSE3(void) { return CPU_Rep.f_1_ECX_[0]; }
 
         bool CORE::InstructionSet::PCLMULQDQ(void) { return CPU_Rep.f_1_ECX_[1]; }
 
@@ -197,7 +198,7 @@ namespace UPRISE_ENGINE {
                 f_81_EDX_ = static_cast<unsigned __int64>(extdata_[1][3]);
                 // Interpret CPU brand string if reported
 
-                memcpy(brand, extdata_[2].data(), sizeof(cpui));
+                std::memcpy(&brand, extdata_[2].data(), sizeof(cpui));
                 memcpy(brand + (sizeof(char) * 16), extdata_[3].data(), sizeof(cpui));
                 memcpy(brand + (sizeof(char) * 32), extdata_[4].data(), sizeof(cpui));
                 brand_ = brand;

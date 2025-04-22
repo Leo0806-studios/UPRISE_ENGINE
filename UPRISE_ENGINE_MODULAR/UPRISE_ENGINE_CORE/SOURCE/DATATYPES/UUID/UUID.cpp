@@ -1,9 +1,9 @@
 // This is a personal academic project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
-import UPRISE_ENGINE_CORE;
-#include <string.h>
-import std;
 #include <Windows.h>
+import UPRISE_ENGINE_CORE; //-V3549
+
+import std; //-V3549
 #pragma comment(lib, "Rpcrt4.lib")
 namespace UPRISE_ENGINE {
     struct UUID_TRANSFER {
@@ -29,13 +29,13 @@ namespace UPRISE_ENGINE {
         uuid->Data1 = uid.Data1;
         uuid->Data2 = uid.Data2;
         uuid->Data3 = uid.Data3;
-        memcpy(uuid->Data4, uid.Data4, sizeof(uid.Data4));
+        (void)std::memcpy(&uuid->Data4, &uid.Data4, sizeof(uid.Data4));
     }
-    UUID::UUID(const UUID& other) noexcept : Data1(other.Data1), Data2(other.Data2), Data3(other.Data3) {
-        memcpy(Data4, other.Data4, sizeof(Data4));
+    UUID::UUID(const UUID& other) noexcept : Data1(other.Data1), Data2(other.Data2), Data3(other.Data3) { //-V835
+        (void)std::memcpy(&Data4, &other.Data4, sizeof(Data4));
     }
     UUID::UUID(UUID&& other) noexcept :Data1(other.Data1), Data2(other.Data2), Data3(other.Data3) {
-        memcpy(Data4, other.Data4, sizeof(Data4));
+        (void)memcpy(&Data4, &other.Data4, sizeof(Data4));
         other.Data1 = 0;
         other.Data2 = 0;
         other.Data3 = 0;
@@ -44,11 +44,11 @@ namespace UPRISE_ENGINE {
         }
     }
 
-    UUID& UUID::operator=(const UUID& other) noexcept {
+    UUID& UUID::operator=(const UUID& other) noexcept { //-V835
         Data1 = other.Data1;
         Data2 = other.Data2;
         Data3 = other.Data3;
-        memcpy(Data4, other.Data4, sizeof(Data4));
+        (void)memcpy(&Data4, &other.Data4, sizeof(Data4));
         return *this;
     }
 
@@ -56,7 +56,7 @@ namespace UPRISE_ENGINE {
         Data1 = other.Data1;
         Data2 = other.Data2;
         Data3 = other.Data3;
-        memmove(Data4, other.Data4, sizeof(Data4));
+        (void)memmove(&Data4, &other.Data4, sizeof(Data4));
         other.Data1 = 0;
         other.Data2 = 0;
         other.Data3 = 0;
@@ -75,15 +75,15 @@ namespace UPRISE_ENGINE {
         Ret.Data1 = Transf.Data1;
         Ret.Data2 = Transf.Data2;
         Ret.Data3 = Transf.Data3;
-        memcpy(Ret.Data4, Transf.Data4, sizeof(Transf.Data4));
+       (void) memcpy(&Ret.Data4, &Transf.Data4, sizeof(Transf.Data4));
         return Ret;
     }
-    bool UUID::operator==(const UUID& other) noexcept
+    bool UUID::operator==(const UUID& other) noexcept //-V835
     {
-        return Data1 == other.Data1 && Data2 == other.Data2 && Data3 == other.Data3 && memcmp(Data4, other.Data4, sizeof(Data4)) == 0;
+        return Data1 == other.Data1 && Data2 == other.Data2 && Data3 == other.Data3 && memcmp(&Data4, &other.Data4, sizeof(Data4)) == 0;
     }
-    bool UUID::operator!=(const UUID& other) noexcept
+    bool UUID::operator!=(const UUID& other) noexcept //-V835
     {
-        return Data1 != other.Data1 || Data2 != other.Data2 || Data3 != other.Data3 || memcmp(Data4, other.Data4, sizeof(Data4)) != 0;
+        return Data1 != other.Data1 || Data2 != other.Data2 || Data3 != other.Data3 || memcmp(&Data4, &other.Data4, sizeof(Data4)) != 0;
     }
 }

@@ -177,11 +177,11 @@ export namespace UPRISE_ENGINE {
                     CaseDefaultConstructed("while it is legal move in a default construted object it may indicate a error in the program");
 
                 }
-                ControlBlock = std::exchange(other.ControlBlock, reinterpret_cast<UPRISE_ENGINE::ControlBlock_Base*>(1ULL)); //-V566 //-V3546 //-V2571
+                ControlBlock = std::exchange(other.ControlBlock, IntegerTypeToPointer<ControlBlock_Base>(1ULL)); 
                 break;
             }
             default: {
-                ControlBlock = std::exchange(other.ControlBlock, reinterpret_cast<UPRISE_ENGINE::ControlBlock_Base*>(1ULL)); //-V566 //-V3546 //-V2571
+                ControlBlock = std::exchange(other.ControlBlock, IntegerTypeToPointer<ControlBlock_Base>(1ULL));
                 break;
             }
             }
@@ -230,11 +230,11 @@ export namespace UPRISE_ENGINE {
                     if constexpr (WarningLevel >= 3) {
                         CaseDefaultConstructed("while it is legal to move asign a default constructed object this may indicate an error in the program");
                     }
-                    this->ControlBlock = std::exchange(other.ControlBlock, reinterpret_cast<ControlBlock_Base*>(1ULL)); //-V566 //-V3546 //-V2571
+                    this->ControlBlock = std::exchange(other.ControlBlock, IntegerTypeToPointer<ControlBlock_Base>(1ULL)); //-V566 //-V3546 //-V2571
                     break;
                 }
                 UE_LIKELY default: {
-                    this->ControlBlock = std::exchange(other.ControlBlock, reinterpret_cast<ControlBlock_Base*>(1ULL)); //-V566 //-V3546 //-V2571
+                    this->ControlBlock = std::exchange(other.ControlBlock, IntegerTypeToPointer<ControlBlock_Base>(1ULL)); //-V566 //-V3546 //-V2571
                     break;
 
                     ///assume all othher values are valid
@@ -314,6 +314,7 @@ export namespace UPRISE_ENGINE {
                 }
                 default: {
                     ControlBlock->DecrementWeakrefs();
+                    break;
                 }
                 }
             ControlBlock = other.ControlBlock;
@@ -337,6 +338,7 @@ export namespace UPRISE_ENGINE {
             }
             default: {
                 ControlBlock->IncrementWeakRefs();
+                break;
             }
             }
         }
@@ -362,7 +364,8 @@ export namespace UPRISE_ENGINE {
                 break;
             }
             default: {
-                ControlBlock = std::exchange(other.ControlBlock, reinterpret_cast<UPRISE_ENGINE::ControlBlock_Base*>(1ULL));
+                ControlBlock = std::exchange(other.ControlBlock, IntegerTypeToPointer<ControlBlock_Base>(1ULL)); //-V2571 //-V566 //-V3546
+                break;
             }
             }
 
@@ -380,6 +383,7 @@ export namespace UPRISE_ENGINE {
                 switch (reinterpret_cast<unsigned long long>(ControlBlock)) {
                 case 0: {
                     CaseNull("controll block of \" this\" was null (0) while trying to move assign from other. (function sig: WeakRef& operator=(WeakRef<Type, true>&& other) ");
+                    break;
                 }
                 case 1: {
                     ///perfectly legal to move asign to moved from object
@@ -410,11 +414,14 @@ export namespace UPRISE_ENGINE {
                 if constexpr (WarningLevel >= 3) {
                     CaseDefaultConstructed("while it is legal to move asign a default constructed object this may indicate an error in the program");
                 }
-                UE_FALLTHROUGH;
+                this->ControlBlock = std::exchange(other.ControlBlock, IntegerTypeToPointer<ControlBlock_Base>(1ULL)); //-V566 //-V2571 //-V3546
+                break;
             }
             default: {
-                this->ControlBlock = std::exchange(other.ControlBlock, reinterpret_cast<ControlBlock_Base*>(1ULL));
+                
+                this->ControlBlock = std::exchange(other.ControlBlock, IntegerTypeToPointer<ControlBlock_Base>(1ULL)); //-V566 //-V2571
                 ///assume all othher values are valid
+                break;
             }
             }
         }
@@ -430,15 +437,22 @@ export namespace UPRISE_ENGINE {
             switch (reinterpret_cast<unsigned long long>(ControlBlock)) {
             case 0: {
                 return RefState::Null;
+                break;
             }
             case 1: {
                 return RefState::Moved;
+                break;
+
             }
             case 2: {
                 return RefState::DefaultConstructed;
+                break;
+
             }
             default: {
                 return RefState::Valid;
+                break;
+
             }
             }
         }
@@ -449,19 +463,27 @@ export namespace UPRISE_ENGINE {
                 CaseNull("ControlBlock of \" this\" was null (0) while trying to get the object");
                 NullSelf();
                 return nullptr;
+                break;
+
             }
             case 1: {
                 CaseMoved("ControlBlock of \" this\" was moved from (1) while trying to get the object");
                 NullSelf();
                 return nullptr;
+                break;
+
             }
             case 2: {
                 CaseDefaultConstructed("it is illegal to deref a never assigned ref");
                 NullSelf();
                 return nullptr;
+                break;
+
             }
             default: {
                 return reinterpret_cast<Type*>(ControlBlock->get());
+                break;
+
             }
 
             }
@@ -472,19 +494,24 @@ export namespace UPRISE_ENGINE {
                 CaseNull("ControlBlock of \" this\" was null (0) while trying to get the object");
                 NullSelf();
                 return nullptr;
+                break;
+
             }
             case 1: {
                 CaseMoved("ControlBlock of \" this\" was moved from (1) while trying to get the object");
                 NullSelf();
                 return nullptr;
+                break;
             }
             case 2: {
                 CaseDefaultConstructed("it is illegal to deref a never assigned ref");
                 NullSelf();
                 return nullptr;
+                break;
             }
             default: {
                 return reinterpret_cast<Type*>(ControlBlock->get());
+                break;
             }
             }
         }
@@ -603,12 +630,12 @@ export namespace UPRISE_ENGINE {
 
             if constexpr (DebugMode) {
                 if (reinterpret_cast<uintptr_t>(other.ControlBlock) > 2) {
-                    ControlBlock = std::exchange(other.ControlBlock, reinterpret_cast<ControlBlock_Base*>(1ULL));
+                    ControlBlock = std::exchange(other.ControlBlock, IntegerTypeToPointer<ControlBlock_Base>(1ULL)); //-V566 //-V2571
                     ControlBlock->IncrementWeakRefs();
                 }//other.ControlBlock>2
                 else {
                     if (other.ControlBlock == 2) {
-                        ControlBlock = std::exchange(other.ControlBlock, reinterpret_cast<ControlBlock_Base*>(1ULL));
+                        ControlBlock = std::exchange(other.ControlBlock, IntegerTypeToPointer<ControlBlock_Base>(1ULL)); //-V566 //-V2571
                     }//other.ControlBlock==2
                     else {
                         CaseInvalid("invalid value for Controlblock. this will only show up in debug mode. in release mode it will just crash or leak");
@@ -618,11 +645,11 @@ export namespace UPRISE_ENGINE {
             }//DebugMode==true
             else {
                 if (reinterpret_cast<uintptr_t>(other.ControlBlock) > 2) {
-                    ControlBlock = std::exchange(other.ControlBlock, reinterpret_cast<ControlBlock_Base*>(1ULL));
+                    ControlBlock = std::exchange(other.ControlBlock, IntegerTypeToPointer<ControlBlock_Base>(1ULL)); //-V566 //-V2571
                     this->ControlBlock->IncrementWeakRefs();
                 }//other.ControlBlock>2
                 else {
-                    ControlBlock = std::exchange(other.ControlBlock, reinterpret_cast<ControlBlock_Base*>(1ULL));
+                    ControlBlock = std::exchange(other.ControlBlock, IntegerTypeToPointer<ControlBlock_Base>(1ULL)); //-V566 //-V2571
 
 
                 }//other.ControlBlock<=2
@@ -650,12 +677,12 @@ export namespace UPRISE_ENGINE {
             }
             if constexpr (DebugMode) {
                 if (other.ControlBlock > 2) {
-                    ControlBlock = std::exchange(other.ControlBlock, reinterpret_cast<ControlBlock_Base*>(1ULL));
+                    ControlBlock = std::exchange(other.ControlBlock, IntegerTypeToPointer<ControlBlock_Base>(1ULL)); //-V566 //-V2571
                     this->ControlBlock->IncrementWeakRefs();
                 }
                 else {
                     if (other.ControlBlock == 2) {
-                        ControlBlock = std::exchange(other.ControlBlock, reinterpret_cast<ControlBlock_Base*>(1ULL));
+                        ControlBlock = std::exchange(other.ControlBlock, IntegerTypeToPointer<ControlBlock_Base>(1ULL)); //-V566 //-V2571
                     }
                     else {
                         CaseInvalid("invalid value for other Controlblock. this will only show up in debug mode. in release mode it will just crash or leak");
@@ -664,7 +691,7 @@ export namespace UPRISE_ENGINE {
             }
             else {
                 if (other.ControlBlock > 2) {
-                    ControlBlock = std::exchange(other.ControlBlock, reinterpret_cast<ControlBlock_Base*>(1ULL));
+                    ControlBlock = std::exchange(other.ControlBlock, IntegerTypeToPointer<ControlBlock_Base>(1ULL)); //-V566 //-V2571
 
                     this->ControlBlock->IncrementWeakRefs();
 
@@ -756,12 +783,12 @@ export namespace UPRISE_ENGINE {
             WeakRef(WeakRef<OtherType, false>&& other) {
             if constexpr (DebugMode) {
                 if (reinterpret_cast<uintptr_t>(other.ControlBlock) > 2) {
-                    ControlBlock = std::exchange(other.ControlBlock, reinterpret_cast<ControlBlock_Base*>(1ULL));
+                    ControlBlock = std::exchange(other.ControlBlock, IntegerTypeToPointer<ControlBlock_Base>(1ULL)); //-V566 //-V2571
                     ControlBlock->IncrementWeakRefs();
                 }//other.ControlBlock>2
                 else {
                     if (other.ControlBlock == 2) {
-                        ControlBlock = std::exchange(other.ControlBlock, reinterpret_cast<ControlBlock_Base*>(1ULL));
+                        ControlBlock = std::exchange(other.ControlBlock, IntegerTypeToPointer<ControlBlock_Base>(1ULL)); //-V566 //-V2571
                     }//other.ControlBlock==2
                     else {
                         CaseInvalid("invalid value for Controlblock. this will only show up in debug mode. in release mode it will just crash or leak");
@@ -770,11 +797,11 @@ export namespace UPRISE_ENGINE {
             }//DebugMode==true
             else {
                 if (reinterpret_cast<uintptr_t>(other.ControlBlock) > 2) {
-                    ControlBlock = std::exchange(other.ControlBlock, reinterpret_cast<ControlBlock_Base*>(1ULL));
+                    ControlBlock = std::exchange(other.ControlBlock, IntegerTypeToPointer<ControlBlock_Base>(1ULL)); //-V566 //-V2571
                     this->ControlBlock->IncrementWeakRefs();
                 }//other.ControlBlock>2
                 else {
-                    ControlBlock = std::exchange(other.ControlBlock, reinterpret_cast<ControlBlock_Base*>(1ULL));
+                    ControlBlock = std::exchange(other.ControlBlock, IntegerTypeToPointer<ControlBlock_Base>(1ULL)); //-V566 //-V2571
                 }//other.ControlBlock<=2
             }//DebugMode==false
         }//WeakRef(WeakRef<Type,false>&& other)
@@ -807,12 +834,12 @@ export namespace UPRISE_ENGINE {
             //other Check
             if constexpr (DebugMode) {
                 if (other.ControlBlock > 2) {
-                    ControlBlock = std::exchange(other.ControlBlock, reinterpret_cast<ControlBlock_Base*>(1ULL));
+                    ControlBlock = std::exchange(other.ControlBlock, IntegerTypeToPointer<ControlBlock_Base>(1ULL)); //-V566 //-V2571
                     this->ControlBlock->IncrementWeakRefs();
                 }//other.ControlBlock>2
                 else {
                     if (other.ControlBlock == 2) {
-                        ControlBlock = std::exchange(other.ControlBlock, reinterpret_cast<ControlBlock_Base*>(1ULL));
+                        ControlBlock = std::exchange(other.ControlBlock, IntegerTypeToPointer<ControlBlock_Base>(1ULL)); //-V566 //-V2571
                     }//other.ControlBlock
                     else {
                         CaseInvalid("invalid value for other Controlblock. this will only show up in debug mode. in release mode it will just crash or leak");
@@ -821,7 +848,7 @@ export namespace UPRISE_ENGINE {
             }//DebugMode==true
             else {
                 if (other.ControlBlock > 2) {
-                    ControlBlock = std::exchange(other.ControlBlock, reinterpret_cast<ControlBlock_Base*>(1ULL));
+                    ControlBlock = std::exchange(other.ControlBlock, IntegerTypeToPointer<ControlBlock_Base>(1ULL)); //-V566 //-V2571
                     this->ControlBlock->IncrementWeakRefs();
                 }//other.ControlBlock>2
                 else {}
@@ -834,15 +861,19 @@ export namespace UPRISE_ENGINE {
             switch (reinterpret_cast<unsigned long long>(ControlBlock)) {
             case 0: {
                 return RefState::Null;
+                break;
             }
             case 1: {
                 return RefState::Moved;
+                break;
             }
             case 2: {
                 return RefState::DefaultConstructed;
+                break;
             }
             default: {
                 return RefState::Valid;
+                break;
             }
             }
         }

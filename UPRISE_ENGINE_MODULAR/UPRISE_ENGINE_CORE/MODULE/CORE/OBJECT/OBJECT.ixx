@@ -1,3 +1,5 @@
+// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 export module UPRISE_ENGINE_CORE:OBJECT;
 import :WEAK_REF;
 import :OWNED_REF;
@@ -20,7 +22,7 @@ export namespace UPRISE_ENGINE {
     public:
         typedef void(*RemoveComponent)(UPRISE_ENGINE::GameObject*, WeakRef<CORE::Object, true> comp);
     private:
-        UPRISE_CORE_API MockableStaticVar(RemoveBehaviourFromGameobject__internal, RemoveComponent)
+        UPRISE_CORE_API MockableStaticVar(RemoveBehaviourFromGameobject__internal, RemoveComponent) //-V3547
     };
     namespace CORE {
         class Behaviour;
@@ -92,7 +94,7 @@ export namespace UPRISE_ENGINE {
                     WeakRef<CORE::Component, true> AsComponent = Obj;
                     destroyComponent(AsComponent);
                 }
-                else if constexpr (std::is_same_v<T, CORE::Object>) {
+                else if constexpr (std::is_same_v<T, CORE::Object>) { //-V2516 //-V3511
                     WeakRef<CORE::Object, true> AsObject = Obj;
                     destroyObject(AsObject);
                 }

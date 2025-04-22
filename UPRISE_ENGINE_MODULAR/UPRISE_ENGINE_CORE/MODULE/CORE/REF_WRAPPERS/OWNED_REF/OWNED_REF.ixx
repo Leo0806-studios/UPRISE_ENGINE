@@ -1,3 +1,5 @@
+// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 export module UPRISE_ENGINE_CORE:OWNED_REF;
 import :WEAK_REF;
 import :WRAPPER_BASE;
@@ -64,7 +66,7 @@ export namespace UPRISE_ENGINE {
                 break;
             }
             default: {
-                this->ControlBlock =  std::exchange(other.ControlBlock, reinterpret_cast<ControlBlock_Base*>(2ull));
+                this->ControlBlock =  std::exchange(other.ControlBlock, IntegerTypeToPointer<ControlBlock_Base>(2ULL));
                 break;
             }
             }
@@ -89,6 +91,7 @@ export namespace UPRISE_ENGINE {
             default: {
                 this->ControlBlock->DecrementWeakrefs();
                 this->ControlBlock->DecrementRefs();
+                break;
 
             }
             }
@@ -108,7 +111,7 @@ export namespace UPRISE_ENGINE {
                 break;
             }
             default: {
-                this->ControlBlock = std::exchange(other.ControlBlock, reinterpret_cast<ControlBlock_Base*>(2ull));
+                this->ControlBlock = std::exchange(other.ControlBlock, IntegerTypeToPointer<ControlBlock_Base>(2ULL));
                 break;
             }
             }
@@ -120,19 +123,23 @@ export namespace UPRISE_ENGINE {
             case 0: {
                 CaseNull(" \"this\" was null (0). this is an error in the program");
                 return nullptr;
+                break;
             }
             case 1: {
                 CaseMoved(" \"this\" was moved (1) from. this is an error in the program");
                 return nullptr;
+                break;
             }
             case 2: {
                 
                     CaseDefaultConstructed(" \"this\" was default constructed (2). this is an error in the programm");
                 
                 return nullptr;
+                break;
             }
-            default: {
+          UE_LIKELY  default: {
                 return static_cast<Type*>(static_cast<UPRISE_ENGINE::OwnedControlBlock<Type>>(this->ControlBlock)->get());
+                break;
             }
             }
         }//get()

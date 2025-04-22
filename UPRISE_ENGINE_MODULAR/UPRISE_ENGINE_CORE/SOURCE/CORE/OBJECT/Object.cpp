@@ -2,9 +2,9 @@
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 import UPRISE_ENGINE_CORE;
 import REF_WRAPPER;
-import std;
+import std; //-V3549
 namespace UPRISE_ENGINE {
-    FunctionTransporter::RemoveComponent FunctionTransporter::RemoveBehaviourFromGameobject__internal = nullptr;
+    FunctionTransporter::RemoveComponent FunctionTransporter::RemoveBehaviourFromGameobject__internal = nullptr; //-V3547
 
     namespace CORE {
 
@@ -13,7 +13,7 @@ namespace UPRISE_ENGINE {
 #ifndef UPRISE_TESTS
         std::vector<WeakRef<CORE::Object, true>> Object::ObjectsToBeDestroyedAtEndOfFrame;
 #endif // !UPRISE_TESTS
-        Object::Object(const Object& other) :
+        Object::Object(const Object& other) : //-V2537 //-V3523
             name(other.name),
             enabled(other.enabled.load()),
             PAD{ DEBUG_PAD_BITS_ZEROED }

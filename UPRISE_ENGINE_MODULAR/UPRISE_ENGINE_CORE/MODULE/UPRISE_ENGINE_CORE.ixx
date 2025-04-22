@@ -16,7 +16,7 @@ export module UPRISE_ENGINE_CORE;
 
 
 
-export import :BEHAVIOUR;
+export import :BEHAVIOUR; //-V3549
 export import :CONTROL_BASE;
 export import :GC_CONTROLBLOCK;
 export import :OWNED_REF;
@@ -29,3 +29,5 @@ export import :SHARED_REF;
 export import :WEAK_REF;
 export import :WRAPPER_BASE;
 export import :__M128_UTILLS;
+export import :UUID;
+export import:CPUID; //-V3549

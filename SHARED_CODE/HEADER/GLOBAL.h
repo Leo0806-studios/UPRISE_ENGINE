@@ -161,11 +161,35 @@ return InternalMockReplacement;\
 #pragma endregion
 
 
+#pragma region RuntimeWarnings
+#ifdef RT_WARNINGS_5
+constexpr inline bool RuntimeWarnings = true; //-V3549
+constexpr inline unsigned char RuntimeWarningsLevel = 5; //-V3549
+#elif RT_WARNINGS_4
+constexpr inline bool RuntimeWarnings = true;
+constexpr inline unsigned char RuntimeWarningsLevel = 4;
+#elif RT_WARNINGS_3
+constexpr inline bool RuntimeWarnings = true;
+constexpr inline unsigned char RuntimeWarningsLevel = 3;
+#elif RT_WARNINGS_2
+constexpr inline bool RuntimeWarnings = true;
+constexpr inline unsigned char RuntimeWarningsLevel = 2;
+#elif RT_WARNINGS_1
+constexpr inline bool RuntimeWarnings = true;
+constexpr inline unsigned char RuntimeWarningsLevel = 1;
+#elif RT_WARNINGS_0
+constexpr inline bool RuntimeWarnings = false;
+constexpr inline unsigned char RuntimeWarningsLevel = 0;
+#else
+#error "RT_WARNINGS_0-5 not defined. tis is an error. set to 0 to disable runtime warnings"
+#endif // RT_WARNINGS_5
+
+#pragma endregion
 
 
 #pragma region GetWarningLevel
 #ifdef EnableAllWarnings
-constexpr inline int WarningLevel = 5;
+constexpr inline int WarningLevel = 5; //-V3549
 #else //notEnableAllWarnings
 #ifdef Level4
 constexpr int WarningLevel = 4
@@ -218,9 +242,9 @@ namespace UPRISE_ENGINE {
 #define UE_FINLINE_VEC_CALL __forceinline __vectorcall
 #define UE_INLINE_VEC_CALL __inline __vectorcall
 #define UE_CONST_NOEXCEPT const noexcept
-#define UE_SIMD_ALIGN__M128 alignas(16)
-#define UE_SIMD_ALIGN__M256 alignas(32)
-#define UE_SIMD_ALIGN__M512 alignas(64)
+#define UE_SIMD_ALIGN__M128 alignas(16) //-V3547
+#define UE_SIMD_ALIGN__M256 alignas(32) //-V3547
+#define UE_SIMD_ALIGN__M512 alignas(64) //-V3547
 #define UE_ALIGN_PTR alignas(alignof(void*))
 #define UE_ALIGN_SHORT alignas(alignof(short))
 #define UE_CONST_PTR(Name,...)  __VA_ARGS__* const Name
@@ -230,7 +254,7 @@ namespace UPRISE_ENGINE {
 #define UE_LIKELY [[likely]]
 #define UE_FALLTHROUGH [[fallthrough]]
 
-void __cdecl __debugbreak(void);
+void __cdecl __debugbreak(void); //-V3549
 #define UE_THROW_NOT_IMPLEMENTED __debugbreak();
 
 #define UE_THROW_NOT_FULLY_IMPLEMENTED __debugbreak();
@@ -287,8 +311,10 @@ if(__loopCounter++ > MaxLoop) { \
 __debugbreak(); \
 } 
 
-constexpr inline bool DebugMode = true;
+constexpr inline bool DebugMode = true; //-V3549
 #define UE_DEBUG_FIND_INFINITE_LOOP_MAX 1000000
+#define UE_ABORT_IF_REACHED_IN_DEBUG_MODE __debugbreak();
+
 #else
 #define DEBUG_PAD_BITS_ZEROED 
 #define TrPr(V,N)    ;
@@ -296,6 +322,7 @@ constexpr inline bool DebugMode = true;
 #define UE_DEBUG_FIND_INFINITE_LOOP(MaxLoop) ;
 #define UE_DEBUG_FIND_INFINITE_LOOP_MAX 1000000
 constexpr inline bool DebugMode = false;
+#define UE_ABORT_IF_REACHED_IN_DEBUG_MODE ;
 #endif // DEBUG
 #pragma endregion
 
@@ -323,5 +350,11 @@ constexpr inline bool DebugMode = false;
 #pragma endregion
 //import UPRISE_ENGINE_PROFILER requiret to use this macro
 #define SCOPED_TIME_  UPRISE_ENGINE::PROFILER::TIMERS::SCOPED_TIME scoped_time(__FUNCSIG__,__FILE__,__FUNCTION__,__LINE__);
+
+
+template<typename T>
+consteval T* IntegerTypeToPointer(unsigned long long input) { //-V3549
+    return reinterpret_cast<T*>(input); //-V3546 //-V2571
+}
 #pragma warning(pop)
 #endif // !UE_GLOBAL_

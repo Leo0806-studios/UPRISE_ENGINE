@@ -1,3 +1,5 @@
+// This is a personal academic project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 module;
 #include <intrin.h>
 export module UPRISE_ENGINE_CORE:__M128_UTILLS;
@@ -182,6 +184,7 @@ export namespace UPRISE_ENGINE {
                 }
                 case 15: {
                     const unsigned int* const __Ptr = reinterpret_cast<const unsigned int* const>(&__Val);
+                    const unsigned int& Arr[3]  = __Ptr;
                     const float __val0 = std::bit_cast<float>(__Ptr[0]);
                     const float __val1 = std::bit_cast<float>(__Ptr[1]);
                     const float __val2 = std::bit_cast<float>(__Ptr[2]);

@@ -7,7 +7,7 @@
 import std; //-V2575 //-V3549
 #pragma warning(push)
 #pragma warning(disable:4100)
-BOOL APIENTRY DllMain( HMODULE hModule, //-V2537 //-V2575 //-V3549
+BOOL APIENTRY DllMain( HMODULE hModule, //-V2537 //-V2575 //-V3549 //-V3523
                        DWORD  ul_reason_for_call,
                        LPVOID lpReserved
                      )
