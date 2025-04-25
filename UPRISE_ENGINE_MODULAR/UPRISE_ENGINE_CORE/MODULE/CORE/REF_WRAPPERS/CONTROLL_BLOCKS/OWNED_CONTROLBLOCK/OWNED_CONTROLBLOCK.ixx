@@ -97,7 +97,7 @@ export namespace UPRISE_ENGINE {
                 break;
             }
             default: {
-                if constexpr (std::is_array_v<T>) {
+                if constexpr (std::is_array_v<Type>) {
                     delete[] Object;
                 }
                 else {

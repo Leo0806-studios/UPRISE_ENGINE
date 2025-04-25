@@ -16,6 +16,7 @@ Environment:
 
 #include "driver.h"
 #include "device.tmh"
+#include "intrin.h"
 
 #ifdef ALLOC_PRAGMA
 #pragma alloc_text (PAGE, UPRISEENGINEPROFLERDRIVERCreateDevice)
@@ -65,6 +66,7 @@ Return Value:
         // run under framework verifier mode.
         //
         deviceContext = DeviceGetContext(device);
+
 
         //
         // Initialize the context.

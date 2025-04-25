@@ -17,12 +17,12 @@ Environment:
 //
 // Define the tracing flags.
 //
-// Tracing GUID - 587fc018-cad1-409c-9307-bc5424f34677
+// Tracing GUID - d375d7af-5c4f-422a-9a17-eb02073a330e
 //
 
 #define WPP_CONTROL_GUIDS                                              \
     WPP_DEFINE_CONTROL_GUID(                                           \
-        UPRISEENGINEPROFLERDRIVERTraceGuid, (587fc018,cad1,409c,9307,bc5424f34677), \
+        UPRISEENGINEPROFLERDRIVERTraceGuid, (d375d7af,5c4f,422a,9a17,eb02073a330e), \
                                                                             \
         WPP_DEFINE_BIT(MYDRIVER_ALL_INFO)                              \
         WPP_DEFINE_BIT(TRACE_DRIVER)                                   \
