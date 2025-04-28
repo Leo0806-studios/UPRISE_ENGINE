@@ -2,7 +2,6 @@
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 //#include "CORE/BEHAVIOUR/BEHAVIOUR.h"
 import UPRISE_ENGINE_CORE;
-import REF_WRAPPER;
 #ifndef UPRISE_TESTS
 import UPRISE_ENGINE_DEBUG;
 #endif
