@@ -1,7 +1,6 @@
 // This is a personal academic project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 import UPRISE_ENGINE_CORE;
-import REF_WRAPPER;
 import std; //-V3549
 namespace UPRISE_ENGINE {
     FunctionTransporter::RemoveComponent FunctionTransporter::RemoveBehaviourFromGameobject__internal = nullptr; //-V3547

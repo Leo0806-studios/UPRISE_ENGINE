@@ -47,7 +47,7 @@ export namespace UPRISE_ENGINE {
         private:
             std::string name;
             std::atomic<bool> enabled;
-            char PAD[7];   //TODO find a better way to align this or find data to put here
+            char PAD[7];   //TODO find a better way to align this or find data to put here //Linter false positive. this is intended padding
             UPRISE_CORE_API  static   void destroyBehaviour(WeakRef<CORE::Behaviour, true> Object);
             UPRISE_CORE_API   static  void destroyComponent(WeakRef<CORE::Component, true> Object);
             UPRISE_CORE_API  static void destroyObject(WeakRef<CORE::Object, true> Object);

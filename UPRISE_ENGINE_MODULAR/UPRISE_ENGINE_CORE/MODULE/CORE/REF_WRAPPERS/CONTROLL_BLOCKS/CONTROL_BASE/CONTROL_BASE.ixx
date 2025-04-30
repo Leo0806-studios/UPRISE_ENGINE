@@ -77,6 +77,27 @@ export namespace UPRISE_ENGINE {
 
             }
         }
+
+
+        /// <summary>
+/// only fopr use in non nullchecked versions
+/// </summary>
+/// <param name="msg"></param>
+        void CaseInvalid(const char* msg) {
+            if constexpr (RW_USE_CPP_EXCEPTIONS_) {
+                std::string out = msg;
+                out += std::move(std::to_string(std::stacktrace::current()));
+                out += '\n';
+                throw std::exception(out.c_str());
+            }
+            else {
+                std::string out = msg;
+                out += std::move(std::to_string(std::stacktrace::current()));
+                out += '\n';
+                std::cout << out;
+                DEBUG::Debug::Log(std::move(out));
+            }
+        }
         std::atomic<unsigned long long> Refs = 1;
         std::atomic<unsigned long long> WeakRefs = 1;
         void Delete()noexcept {

@@ -2,6 +2,7 @@
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 export module UPRISE_ENGINE_CORE:OWNED_CONTROLBLOCK;
 import :CONTROL_BASE;
+import <atomic>;
 export namespace UPRISE_ENGINE {
     /// <summary>
     /// Derived controlBlock for use in owned ref
@@ -66,7 +67,7 @@ export namespace UPRISE_ENGINE {
                 Delete();
             }
         }
-        void* get() override
+        void* get() override//linter false positive as it needs to return a generic poiinter for polymorphic reasons
         {
             switch (reinterpret_cast<uintptr_t>(Object)) {
             case 0: {
@@ -80,7 +81,7 @@ export namespace UPRISE_ENGINE {
                 break;
             }
             default: {
-                return reinterpret_cast<void*>(Object);
+                return static_cast<void*>(Object);
             }
             }
             return nullptr;
@@ -98,11 +99,12 @@ export namespace UPRISE_ENGINE {
             }
             default: {
                 if constexpr (std::is_array_v<Type>) {
-                    delete[] Object;
+                    delete[] Object;//Linter false positive as this is in a smart pointer implementation
                 }
                 else {
-                    delete Object;
+                    delete Object;//Linter false positive as this is a smart pointer implementation
                 }
+                Object = reinterpret_cast<Type*>(1ULL);//Linter False positive. this is an intentional setting to set the pointer to a signal value
             }
             }
         }

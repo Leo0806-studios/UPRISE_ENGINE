@@ -599,7 +599,7 @@ export namespace UPRISE_ENGINE {
         template<
             typename OtherType,
             typename = std::enable_if<
-            std::is_convertible_v<OtherType, Type>>>
+            !std::is_same_v<Type,OtherType>>>
             WeakRef(WeakRef<OtherType, true>&& other)noexcept(RW_USE_CPP_EXCEPTIONS_ == false) {
             switch (reinterpret_cast<unsigned long long>(other.ControlBlock)) {
             case 0: {
@@ -849,7 +849,6 @@ export namespace UPRISE_ENGINE {
                 if (ControlBlock > 2) {
                     this->ControlBlock->DecrementWeakrefs();
                 }
-                else {}
             }
             if constexpr (DebugMode) {
                 if (other.ControlBlock > 2) {
@@ -916,7 +915,8 @@ export namespace UPRISE_ENGINE {
                     this->ControlBlock->DecrementWeakrefs();
                 }//ControlBlock>2<=2
                 else {
-                    if (ControlBlock == 2) {}
+                    if (ControlBlock == 2) {//the empthy version is the wanted one .putting it in the if block might increase performance
+                    }
                     else {
                         CaseInvalid("invalid value for own Controlblock. this will only show up in debug mode. in release mode it will just crash or leak");
                     }
@@ -926,7 +926,6 @@ export namespace UPRISE_ENGINE {
                 if (ControlBlock > 2) {
                     this->ControlBlock->DecrementWeakrefs();
                 }
-                else {}
             }
             if constexpr (DebugMode) {
                 if (other.ControlBlock > 2) {
@@ -949,7 +948,6 @@ export namespace UPRISE_ENGINE {
                     this->ControlBlock->IncrementWeakRefs();
 
                 }
-                else {}
 
             }
         }
@@ -1105,7 +1103,7 @@ export namespace UPRISE_ENGINE {
                     this->ControlBlock->IncrementWeakRefs();
                 }//other.ControlBlock>2
                 else {}
-            }//DebugMode==false;
+            }
         }
         bool isValid()const noexcept {
             return ControlBlock > 2;
@@ -1162,5 +1160,4 @@ export namespace UPRISE_ENGINE {
             }
         }
     };
-    typedef WeakRef<int, true> __DebugWeakRefIntTrue;
 }
