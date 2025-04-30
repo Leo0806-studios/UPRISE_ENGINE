@@ -19,8 +19,14 @@ export namespace UPRISE_ENGINE {
         Moved = 1,
         DefaultConstructed = 2,
         Valid = 3,
-        Invalid = 4 //only used in non nullchecked versions
+        Invalid = 4 //signifies thatthe ref is in some kind of invalid state only used in non nullchecked versions.
 
+    };
+    enum class ObjState {
+        Null = 0,
+        ManualyDeleted=1,
+        Valid = 2,
+        Invalid = 3//signifies that the object pointed to is in some kind of invalid state.mainlyused in non nullchecked version but is used in checked version if controlblock is invalid
     };
     class ControlBlock_Base {
     private:
@@ -101,7 +107,7 @@ export namespace UPRISE_ENGINE {
         std::atomic<unsigned long long> Refs = 1;
         std::atomic<unsigned long long> WeakRefs = 1;
         void Delete()noexcept {
-            delete this; //-V2511
+            delete this; //linter false positive. this is part of a smart pointer implementation //-V2511
         }
         virtual void IncrementRefs()noexcept = 0;
         virtual void IncrementWeakRefs()noexcept = 0;
@@ -109,6 +115,7 @@ export namespace UPRISE_ENGINE {
         virtual void DecrementWeakrefs()noexcept = 0;
         virtual void* get() = 0;
         virtual void DeleteManualy() = 0;
+        virtual ObjState GetObjectState() = 0;
     public:
         ControlBlock_Base()noexcept = default;
         ControlBlock_Base(const ControlBlock_Base& other) = delete;

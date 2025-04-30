@@ -272,12 +272,299 @@ export namespace UPRISE_ENGINE {
             }
             }
         }
+        template<
+            typename OtherType,
+            typename = std::enable_if<
+            !std::is_same_v<Type, OtherType>>>
+            void Nullchecked_MoveAssignFromOtherType(WeakRef<OtherType, true>&& other) {
+            if (this == &other)UE_UNLIKELY{
+               CaseSelfAsign("while it is legal to self asign it is very likely an error in the program or at the very least a performance loss");
+            }
+                switch (reinterpret_cast<unsigned long long>(ControlBlock)) {
+                case 0: {
+                    CaseNull("controll block of \" this\" was null (0) while trying to move assign from other. (function sig: WeakRef& operator=(WeakRef<Type, true>&& other) ");
+                    break;
+                }
+                case 1: {
+                    ///perfectly legal to move asign to moved from object
+                    break;
+                }
+                case 2: {
+                    ///perfectly legal to move asign to default initialized object
+                    break;
+                }
+                default: {
+                    ///assume all other values are valid
+                    this->ControlBlock->DecrementWeakrefs();
+                    break;
+                }
+                }
+            switch (reinterpret_cast<unsigned long long>(other.ControlBlock)) {
+            case 0: {
+                CaseNull("it is not legal to move a null object");
+                NullSelf();
+                break;
+            }
+            case 1: {
+                CaseMoved("it is not legal to move asign a moved from ref");
+                NullSelf();
+                break;
+            }
+            case 2: {
+                if constexpr (WarningLevel >= 3) {
+                    CaseDefaultConstructed("while it is legal to move asign a default constructed object this may indicate an error in the program");
+                }
+                this->ControlBlock = std::exchange(other.ControlBlock, IntegerTypeToPointer<ControlBlock_Base>(1ULL)); //-V566 //-V2571 //-V3546
+                break;
+            }
+            default: {
+
+                this->ControlBlock = std::exchange(other.ControlBlock, IntegerTypeToPointer<ControlBlock_Base>(1ULL)); //-V566 //-V2571
+                ///assume all othher values are valid
+                break;
+            }
+            }
+        }
+
+
+        RefState Nullchecked_GetRefState() {
+            switch (reinterpret_cast<unsigned long long>(ControlBlock)) {
+            case 0: {
+                return RefState::Null;
+                break;
+            }
+            case 1: {
+                return RefState::Moved;
+                break;
+
+            }
+            case 2: {
+                return RefState::DefaultConstructed;
+                break;
+
+            }
+            default: {
+                return RefState::Valid;
+                break;
+
+            }
+            }
+        }
+        Type* Nullchecked_Get() {
+            switch (reinterpret_cast<unsigned long long>(ControlBlock)) {
+            case 0: {
+                CaseNull("ControlBlock of \" this\" was null (0) while trying to get the object");
+                NullSelf();
+                return nullptr;
+                break;
+
+            }
+            case 1: {
+                CaseMoved("ControlBlock of \" this\" was moved from (1) while trying to get the object");
+                NullSelf();
+                return nullptr;
+                break;
+
+            }
+            case 2: {
+                CaseDefaultConstructed("it is illegal to deref a never assigned ref");
+                NullSelf();
+                return nullptr;
+                break;
+
+            }
+            default: {
+                return reinterpret_cast<Type*>(ControlBlock->get());
+                break;
+
+            }
+
+            }
+        }
+        Type* Nullchecked_OpperatorArrow() {
+            switch (reinterpret_cast<unsigned long long>(ControlBlock)) {
+            case 0: {
+                CaseNull("ControlBlock of \" this\" was null (0) while trying to get the object");
+                NullSelf();
+                return nullptr;
+                break;
+
+            }
+            case 1: {
+                CaseMoved("ControlBlock of \" this\" was moved from (1) while trying to get the object");
+                NullSelf();
+                return nullptr;
+                break;
+            }
+            case 2: {
+                CaseDefaultConstructed("it is illegal to deref a never assigned ref");
+                NullSelf();
+                return nullptr;
+                break;
+            }
+            default: {
+                return reinterpret_cast<Type*>(ControlBlock->get());
+                break;
+            }
+            }
+        }
+        ObjState Nullchecked_GetObjectState() {
+            switch (ControlBlock) {
+            case 0: {
+                CaseNull("Controlblock of \"this\" was null while trying to get object state");
+                return ObjState::Invalid;
+                break;
+            }
+            case 1: {
+                CaseMoved("\"this\" was moved from. it is illegal to acces such objects. ( while trying to get object state");
+                return ObjState::Invalid;
+                break;
+
+            }
+            case 2: {
+                CaseDefaultConstructed("\"this\" was default constructed. it has no controll block");
+                return ObjState::Invalid;
+            }
+            default: {
+                return ControlBlock->GetObjectState();
+                break;
+            }
+            }
+        }
+
 #pragma endregion
 #pragma region NON_NULLCHECKED_VERSIONS
+        void NonNullchecked_Destructor() {
+            if constexpr (DebugMode) {
+                if (ControlBlock > 2) {
+                    ControlBlock->DecrementWeakrefs();
+                }
+                else {
+                    if (ControlBlock == 2) {
+                        //nothing to do for default objects 
+                    }
+                    else {
+                        CaseInvalid("invalid value for Controlblock. this will only show up in debug mode. in release mode it will just crash or leak");
+                    }
+                }
+            }
+            else {
+                if (ControlBlock > 2) {
+                    ControlBlock->DecrementWeakrefs();
+                }
+
+            }
+        }
+        void NonNullchecked_CopyConstructorFromSameType(const WeakRef<Type, false>& other) {
+            if constexpr (DebugMode) {
+                if (reinterpret_cast<uintptr_t>(other.ControlBlock) > 2) {
+                    ControlBlock = other.ControlBlock;
+                    ControlBlock->IncrementWeakRefs();
+                }
+                else {
+                    if (other.ControlBlock == 2) {
+                        ControlBlock = other.ControlBlock;
+                    }
+                    else {
+                        CaseInvalid("invalid value for Controlblock. this will only show up in debug mode. in release mode it will just crash or leak");
+                    }
+                }
+            }
+            else {
+                if (reinterpret_cast<uintptr_t>(other.ControlBlock) > 2) {
+                    this->ControlBlock = other.ControlBlock;
+                    this->ControlBlock->IncrementWeakRefs();
+                }
+                else {
+                    this->ControlBlock = other.ControlBlock;
+                }
+            }
+        }
+        void NonNullchecked_CopyAsignFromSameType(const WeakRef<Type, false>& other) {
+            if constexpr (DebugMode) {
+                if (this->ControlBlock > 2) {
+                    this->ControlBlock->DecrementWeakrefs();
+                }
+                else {
+                    if (ControlBlock == 2) {
+                        //2 is the case for a default constructed object wich is a 
+                    }
+                    else {
+                        CaseInvalid("invalid value for own Controlblock. this will only show up in debug mode. in release mode it will just crash or leak");
+                    }
+                }
+            }
+            else {
+                if (ControlBlock > 2) {
+                    this->ControlBlock->DecrementWeakrefs();
+                }
+            }
+            if constexpr (DebugMode) {
+                if (other.ControlBlock > 2) {
+                    this->ControlBlock = other.ControlBlock;
+                    this->ControlBlock->IncrementWeakRefs();
+                }
+                else {
+                    if (other.ControlBlock == 2) {
+                        this->ControlBlock = other.ControlBlock;
+                    }
+                    else {
+                        CaseInvalid("invalid value for other Controlblock. this will only show up in debug mode. in release mode it will just crash or leak");
+                    }
+                }
+            }
+            else {
+                if (other.ControlBlock > 2) {
+                    this->ControlBlock = other.ControlBlock;
+                    this->ControlBlock->IncrementWeakRefs();
+                }
+                else {
+                    /*
+                    *
+                    */
+                }
+
+            }
+        }
+        void NonNullchecked_MoveConstructFromSameType(WeakRef<Type, false>&& other) {
+            if constexpr (DebugMode) {
+                if (reinterpret_cast<uintptr_t>(other.ControlBlock) > 2) {
+                    ControlBlock = std::exchange(other.ControlBlock, IntegerTypeToPointer<ControlBlock_Base>(1ULL)); //-V566 //-V2571
+                    ControlBlock->IncrementWeakRefs();
+                }
+                else {
+                    if (other.ControlBlock == 2) {
+                        ControlBlock = std::exchange(other.ControlBlock, IntegerTypeToPointer<ControlBlock_Base>(1ULL)); //-V566 //-V2571
+                    }
+                    else {
+                        CaseInvalid("invalid value for Controlblock. this will only show up in debug mode. in release mode it will just crash or leak");
+
+                    }
+                }
+            }
+            else {
+                if (reinterpret_cast<uintptr_t>(other.ControlBlock) > 2) {
+                    ControlBlock = std::exchange(other.ControlBlock, IntegerTypeToPointer<ControlBlock_Base>(1ULL)); //-V566 //-V2571
+                    this->ControlBlock->IncrementWeakRefs();
+                }
+                else {
+                    ControlBlock = std::exchange(other.ControlBlock, IntegerTypeToPointer<ControlBlock_Base>(1ULL)); //-V566 //-V2571
 
 
+                }
+            }
+        }
+        void NonNullchecked_MoveAssignFromSameType(WeakRef<Type, false>&& other) {
+
+        }
 
 #pragma endregion
+#pragma region Generic
+        bool Generic_isValid() {
+            return ControlBlock > 2;
+        }
+#pragma endregion
+
 
 
     public:
@@ -599,7 +886,7 @@ export namespace UPRISE_ENGINE {
         template<
             typename OtherType,
             typename = std::enable_if<
-            !std::is_same_v<Type,OtherType>>>
+            !std::is_same_v<Type, OtherType>>>
             WeakRef(WeakRef<OtherType, true>&& other)noexcept(RW_USE_CPP_EXCEPTIONS_ == false) {
             switch (reinterpret_cast<unsigned long long>(other.ControlBlock)) {
             case 0: {
@@ -787,7 +1074,7 @@ export namespace UPRISE_ENGINE {
                 }
                 else {
                     if (ControlBlock == 2) {
-                        //nothing to do for default objects (that have never been used 
+                        //nothing to do for default objects 
                     }
                     else {
                         CaseInvalid("invalid value for Controlblock. this will only show up in debug mode. in release mode it will just crash or leak");
@@ -798,9 +1085,7 @@ export namespace UPRISE_ENGINE {
                 if (ControlBlock > 2) {
                     ControlBlock->DecrementWeakrefs();
                 }
-                else {
-                    //dont do anything
-                }
+
             }
         }//~WeakRef()
 

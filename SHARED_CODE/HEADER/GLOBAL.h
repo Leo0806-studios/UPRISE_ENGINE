@@ -359,6 +359,5 @@ template<typename T>
 consteval T* IntegerTypeToPointer(unsigned long long input) { //-V3549
     return reinterpret_cast<T*>(input); //-V3546 //-V2571
 }
-template<typename
 #pragma warning(pop)
 #endif // !UE_GLOBAL_
