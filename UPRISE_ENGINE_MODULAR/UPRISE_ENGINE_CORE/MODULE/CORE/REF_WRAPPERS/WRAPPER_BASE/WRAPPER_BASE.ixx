@@ -1,5 +1,7 @@
 // This is a personal academic project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
+
+
 export module UPRISE_ENGINE_CORE:WRAPPER_BASE;
 import :CONTROL_BASE;
 import <string>;
@@ -20,10 +22,10 @@ export namespace UPRISE_ENGINE {
 /// </summary>
         ControlBlock_Base* ControlBlock = reinterpret_cast<ControlBlock_Base*>(2ull);
 
-        void NullSelf() {
+        void NullSelf()noexcept {
             this->ControlBlock = nullptr;
         }
-        void CaseMoved(const char* msg) {
+        static   void CaseMoved(const char* msg) {
             if constexpr (RW_USE_CPP_EXCEPTIONS_) {
                 std::string out = msg;
                 out += std::move(std::to_string(std::stacktrace::current()));
@@ -38,7 +40,7 @@ export namespace UPRISE_ENGINE {
                 DEBUG::Debug::Log(std::move(out));
             }
         }
-        void CaseNull(const char* msg) {
+      static  void CaseNull(const char* msg) {
             if constexpr (RW_USE_CPP_EXCEPTIONS_) {
                 std::string out = msg;
                 out += std::move(std::to_string(std::stacktrace::current()));
@@ -54,7 +56,7 @@ export namespace UPRISE_ENGINE {
             }
 
         }
-        void CaseDeletedManualy(const char* msg) {
+      static  void CaseDeletedManualy(const char* msg) {
             if constexpr (RW_USE_CPP_EXCEPTIONS_) {
                 std::string out = msg;
                 out += std::move(std::to_string(std::stacktrace::current()));
@@ -72,7 +74,7 @@ export namespace UPRISE_ENGINE {
 
 
         }
-        void CaseDefaultConstructed(const char* msg) {
+      static   void CaseDefaultConstructed(const char* msg) {
             if constexpr (RW_USE_CPP_EXCEPTIONS_) {
                 std::string out = msg;
                 out += std::move(std::to_string(std::stacktrace::current()));
@@ -92,7 +94,7 @@ export namespace UPRISE_ENGINE {
         /// depending on the value of RW_USE_CPP_EXCEPTIONS it either logs to a file and to the console or throws an exception
         /// </summary>
         /// <param name="msg"></param>
-        void CaseSelfAsign(const char* msg) {
+      static  void CaseSelfAsign(const char* msg) {
             if constexpr (RW_USE_CPP_EXCEPTIONS_) {
                 std::string out = msg;
                 out += std::move(std::to_string(std::stacktrace::current()));
@@ -116,7 +118,7 @@ export namespace UPRISE_ENGINE {
         /// only fopr use in non nullchecked versions
         /// </summary>
         /// <param name="msg"></param>
-        void CaseInvalid(const char* msg) {
+      static  void CaseInvalid(const char* msg) {
             if constexpr (RW_USE_CPP_EXCEPTIONS_) {
                 std::string out = msg;
                 out += std::move(std::to_string(std::stacktrace::current()));

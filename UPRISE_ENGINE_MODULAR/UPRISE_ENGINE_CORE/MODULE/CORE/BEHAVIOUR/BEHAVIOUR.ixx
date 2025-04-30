@@ -1,5 +1,8 @@
 // This is a personal academic project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
+
+
+
 export module UPRISE_ENGINE_CORE:BEHAVIOUR;
 import :WEAK_REF;
 import :OWNED_REF;
@@ -77,7 +80,7 @@ export namespace UPRISE_ENGINE {
             bool operator==(const Object& other) const {
                 const Behaviour& otherBehaviour = static_cast<const  Behaviour&>(other);
                 bool base = Object::operator==(otherBehaviour);
-                return base;//&& this->gameObj == other.gameObj && this->transf == other.transf && this->uuid == other.uuid && this->id == other.id;
+                return base;
             }
 
 #pragma endregion
@@ -189,5 +192,6 @@ export namespace UPRISE_ENGINE {
 
 #pragma endregion
         };
-    }
+
+}
 }

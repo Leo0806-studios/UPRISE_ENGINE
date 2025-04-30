@@ -34,6 +34,7 @@ namespace UPRISE_ENGINE {
         }
         void CORE::Object::destroyBehaviour(WeakRef<CORE::Behaviour, true> Object)
         {
+            
             Object->OnDestroyInt(Object);
 
         }

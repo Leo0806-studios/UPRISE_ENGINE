@@ -3,6 +3,7 @@
 #pragma warning(push)
 #pragma warning(disable: 4100)
 import UPRISE_ENGINE_PROFILER;
+import std;
 import <Windows.h>;
 
 namespace UPRISE_ENGINE {

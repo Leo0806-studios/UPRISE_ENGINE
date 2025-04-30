@@ -1,6 +1,25 @@
 // This is a personal academic project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
+
+
+// ============================================================================  
+// File: WEAK_REF.ixx  
+// Project: UPRISE_ENGINE_CORE  
+// Module: CORE  
+// Description: This file contains the implementation of the WeakRef class,  
+//              which provides weak reference functionality for Owned or Shared  
+//              references. It ensures that the object referred to is not kept  
+//              alive but maintains the control block's lifecycle.  
+//  
+// Author: Sam Stamatelos
+// Created: idk
+// Updated: 2025-4-30
+// Version: 0.1
+//  
+// Copyright (C) 2025 Sam Stamatelos. All rights reserved.  
+// ============================================================================
 export module UPRISE_ENGINE_CORE:WEAK_REF;
+
 import :WRAPPER_BASE;
 import :CONTROL_BASE;
 export namespace UPRISE_ENGINE {
@@ -13,10 +32,260 @@ export namespace UPRISE_ENGINE {
     template<typename Type, bool DoNullCheck>
     class WeakRef :public UPRISE_ENGINE::WrapperBase {
 
+    private:
+#pragma region NULLCHEKCED_VERSIONS
+
+        void Nullchecked_Destructor()noexcept(RW_USE_CPP_EXCEPTIONS_ == false) {
+            switch (reinterpret_cast<unsigned long long>(ControlBlock)) {
+            case 0: {
+                CaseNull("ControlBlock of \" this\" was null (0) while trying to destruct");
+                break;
+            }
+            case 1: {
+                break;
+            }
+            case 2: {
+                break;
+            }
+            default: {
+                ControlBlock->DecrementWeakrefs();
+                break;
+            }
+            }
+        }
+        void Nullchecked_CopyConstructFromSameType(const WeakRef<Type, true>& other) noexcept(RW_USE_CPP_EXCEPTIONS_ == false) {
+            switch (reinterpret_cast<unsigned long long>(other.ControlBlock)) {
+            case 0: {
+                CaseNull("it is not legal to copy a null Ref");
+                NullSelf();
+                break;
+            }
+            case 1: {
+                CaseMoved("it is not legal to copy construct from a moved from ref");
+                NullSelf();
+                break;
+            }
+            case 2: {
+                if constexpr (WarningLevel >= 3) {
+                    CaseDefaultConstructed("while it is legal to copy construct from a default constructed ref this may indicate an error in the program");
+
+                }
+                break;
+            }
+
+            UE_LIKELY default: {
+                ///assume that all other values are valid
+                this->ControlBlock = other.ControlBlock;
+                ControlBlock->IncrementWeakRefs();
+                break;
+
+            }
+            }
+        }
+        void Nullchecked_CopyAssignFromSameType(const WeakRef < Type, true>& other) noexcept(RW_USE_CPP_EXCEPTIONS_ == false) {
+            if (this == &other)UE_UNLIKELY{
+                 CaseSelfAsign("while it is legal to self asign it is very likely an error in the program or at the very least a performance loss");
+            }
+                ///check if ControlBlock contains one of the special signal values or not
+                switch (reinterpret_cast<uintptr_t>(ControlBlock)) {
+                case 0: {
+                    CaseNull("controll block of \" this\" was null (0) while trying to move assign from other. (function sig: WeakRef& operator=(WeakRef<Type, true>&& other) ");
+                    break;
+                }
+                case 1: {
+                    ///perfectly legal to asign to moved from object
+                    break;
+                }
+                case 2: {
+                    ///perfectly legal to asign to default initialized object
+                    break;
+                }
+                default: {
+                    ///assume all other values are valid
+                    this->ControlBlock->DecrementWeakrefs();
+                    break;
+                }
+                }
+
+
+            switch (reinterpret_cast<uintptr_t>(other.ControlBlock)) {
+            case 0: {
+                CaseNull("it is not legal to copy (asign) a null ref");
+                break;
+            }
+            case 1: {
+                CaseMoved("it is not legal to copy a moved from ref");
+                break;
+            }
+            case 2: {
+                if constexpr (WarningLevel >= 3) {
+                    CaseDefaultConstructed("while it is legal to copy a default constructed ref this may indicate an error in the program");
+                    NullSelf();
+                }
+                break;
+            }
+            UE_LIKELY default: {
+                ///assume all other values are valid
+
+                this->ControlBlock = other.ControlBlock;
+                this->ControlBlock->IncrementWeakRefs();
+
+                break;
+
+            }
+            }
+        }
+        void Nullchecked_MoveConstructorFromSameType(WeakRef<Type, true>&& other)noexcept(RW_USE_CPP_EXCEPTIONS_ == false) {
+            switch (reinterpret_cast<uintptr_t>(other.ControlBlock)) {
+
+            case 0: {
+                CaseNull("it is not legal to move (asign) a null ref ");
+                NullSelf();
+                break;
+            }
+            case 1: {
+                CaseMoved("it is not legal move a moved out of ref!");
+                NullSelf();
+
+                break;
+            }
+            case 2: {
+                if constexpr (WarningLevel >= 3) {
+                    CaseDefaultConstructed("while it is legal move in a default construted object it may indicate a error in the program");
+
+                }
+
+                ControlBlock = std::exchange(other.ControlBlock, reinterpret_cast<ControlBlock_Base*>(1ULL));
+                break;
+            }
+            default: {
+                ControlBlock = std::exchange(other.ControlBlock, reinterpret_cast<ControlBlock_Base*>(1ULL));
+                break;
+            }
+            }
+        }
+        template<
+            typename OtherType,
+            typename = std::enable_if <
+            !std::is_same_v<Type, OtherType>>>
+            void Nullchecked_CopyConstructorFromOtherType(const WeakRef<OtherType, true>& other) {
+            switch (reinterpret_cast<unsigned long long>(other.ControlBlock)) {
+            case 0: {
+                CaseNull("ControlBlock of \" other\" was null while trying to copy(func sig :WeakRef(const WeakRef<Type, true>& other)  )");
+                NullSelf();
+                break;
+            }
+            case 1: {
+                CaseMoved("trying to copy a moved from ref (func sig : WeakRef(const WeakRef<Type, true>& other) )");
+                NullSelf();
+                break;
+            }
+            case 2: {
+                if constexpr (WarningLevel >= 3) {
+                    CaseDefaultConstructed("while it is legal to copy construct from a default constructed object this may indicate an error in the program");
+                }
+                break;
+            }
+            default: {
+                ///assume that all other values are valid
+                this->ControlBlock = other.ControlBlock;
+                ControlBlock->IncrementWeakRefs();
+                break;
+            }
+            }
+
+        }
+        template<
+            typename OtherType,
+            typename = std::enable_if <
+            !std::is_same_v<Type, OtherType>>>
+            void Nullchecked_CopyAssignFromOtherType(const WeakRef<OtherType, true>& other) {
+            if (&other == this) UE_UNLIKELY{
+                CaseSelfAsign("while it is legal to self assing it may be an error in the program or at the very least a performance loss");
+            }
+                switch (reinterpret_cast<unsigned long long>(ControlBlock)) {
+                case 0: {
+                    CaseNull("controlblaock of self is null! ");
+                    break;
+                }
+                case 1: {
+                    // its perfectly legal to assign to a moved from object
+                    break;
+                }
+                case 2: {
+                    /// its perfectly legal to assign to a default constructed object
+                    break;
+                }
+                default: {
+                    ControlBlock->DecrementWeakrefs();
+                    break;
+                }
+                }
+            ControlBlock = other.ControlBlock;
+
+            switch (reinterpret_cast<unsigned long long>(other.ControlBlock)) {
+            case 0: {
+                CaseNull("controllblock of other is null");
+                NullSelf();
+                break;
+            }
+            case 1: {
+                CaseMoved("it is not legal to copy (asign) a moved from object!");
+                NullSelf();
+                break;
+            }
+            case 2: {
+                if constexpr (WarningLevel <= 3) {
+                    CaseDefaultConstructed("while it is legal to copy asing a default constructed object tis may indicate a error in the program or at the very least a performance loss");
+                }
+                break;
+            }
+            default: {
+                ControlBlock->IncrementWeakRefs();
+                break;
+            }
+            }
+        }
+        template<
+            typename OtherType,
+            typename = std::enable_if <
+            !std::is_same_v<Type, OtherType>>>
+            void Nullchecked_MoveConstructorFromOtherType(WeakRef<OtherType, true>&& other)noexcept(RW_USE_CPP_EXCEPTIONS_ == false) {
+            switch (reinterpret_cast<unsigned long long>(other.ControlBlock)) {
+            case 0: {
+                CaseNull("Control Block of \"other\" was null (0, nullptr). ");
+                break;
+            }
+            case 1: {
+                CaseMoved("it is not legal move a moved out of object!");
+                break;
+            }
+            case 2: {
+                if constexpr (WarningLevel >= 3) {
+                    CaseDefaultConstructed("while it is legal move in a default construted object it may indicate a error in the program");
+                }
+                break;
+            }
+            default: {
+                ControlBlock = std::exchange(other.ControlBlock, IntegerTypeToPointer<ControlBlock_Base>(1ULL)); //-V2571 //-V566 //-V3546
+                break;
+            }
+            }
+        }
+#pragma endregion
+#pragma region NON_NULLCHECKED_VERSIONS
+
+
+
+#pragma endregion
+
+
+    public:
+        WeakRef()noexcept = default;
 
     };
     template<typename Type>
-    class WeakRef<Type, true> :WrapperBase {
+    class WeakRef<Type, true> :public WrapperBase {
         template<typename T, bool NC> friend class WeakRef;
         friend class WeakRef<Type, true>;
         friend class CreateRefs;
@@ -48,9 +317,9 @@ export namespace UPRISE_ENGINE {
 #pragma region SelfType
 
 
-        WeakRef(const WeakRef<Type, true>& other)noexcept(RW_USE_CPP_EXCEPTIONS_ == false) :ControlBlock(other.ControlBlock) {
+        WeakRef(const WeakRef<Type, true>& other)noexcept(RW_USE_CPP_EXCEPTIONS_ == false) {
 
-            switch (reinterpret_cast<unsigned long long>(ControlBlock)) {
+            switch (reinterpret_cast<unsigned long long>(other.ControlBlock)) {
             case 0: {
                 CaseNull("it is not legal to copy a null Ref");
                 NullSelf();
@@ -71,6 +340,7 @@ export namespace UPRISE_ENGINE {
 
             UE_LIKELY default: {
                 ///assume that all other values are valid
+                this->ControlBlock = other.ControlBlock;
                 ControlBlock->IncrementWeakRefs();
                 break;
 
@@ -138,26 +408,7 @@ export namespace UPRISE_ENGINE {
         /// <param name="other"></param>
         WeakRef(WeakRef<Type, true>&& other)noexcept(RW_USE_CPP_EXCEPTIONS_ == false)
         {
-            switch (reinterpret_cast<uintptr_t>(ControlBlock)) {
-            case 0: {
-                CaseNull("Control Block of \"this\" was null (0, nullptr). ");
-                NullSelf();
-                break;
-            }
-            case 1: {
-                //it is to move into a moved from object
-                break;
-            }
-            case 2: {
-                ///iz is perfectly legal to move into a default constructed object
-                break;
-            }
-            default: {
-                ///assume all other values are valid
-                this->ControlBlock->DecrementWeakrefs();
-                break;
-            }
-            }
+
 
             switch (reinterpret_cast<uintptr_t>(other.ControlBlock)) {
 
@@ -177,16 +428,17 @@ export namespace UPRISE_ENGINE {
                     CaseDefaultConstructed("while it is legal move in a default construted object it may indicate a error in the program");
 
                 }
-                ControlBlock = std::exchange(other.ControlBlock, IntegerTypeToPointer<ControlBlock_Base>(1ULL)); 
+
+                ControlBlock = std::exchange(other.ControlBlock, reinterpret_cast<ControlBlock_Base*>(1ULL));
                 break;
             }
             default: {
-                ControlBlock = std::exchange(other.ControlBlock, IntegerTypeToPointer<ControlBlock_Base>(1ULL));
+                ControlBlock = std::exchange(other.ControlBlock, reinterpret_cast<ControlBlock_Base*>(1ULL));
                 break;
             }
             }
         }
-        WeakRef& operator=(WeakRef<Type, true>&& other)noexcept(RW_USE_CPP_EXCEPTIONS_==false) {
+        WeakRef& operator=(WeakRef<Type, true>&& other)noexcept(RW_USE_CPP_EXCEPTIONS_ == false) {
             if (this == &other) UE_UNLIKELY{
                 CaseSelfAsign("while it is legal to self asign (or in this case self move asign because there are protections aganínst that) it very likely indicates an error in the program or at the very least a performance loss");
             }
@@ -263,9 +515,9 @@ export namespace UPRISE_ENGINE {
             typename OtherType,
             typename = std::enable_if<
             std::is_convertible_v<OtherType, Type>>>
-            WeakRef(const WeakRef<OtherType, true>& other) : ControlBlock(other.ControlBlock) {
+            WeakRef(const WeakRef<OtherType, true>& other) {
 
-            switch (reinterpret_cast<unsigned long long>(ControlBlock)) {
+            switch (reinterpret_cast<unsigned long long>(other.ControlBlock)) {
             case 0: {
                 CaseNull("ControlBlock of \" other\" was null while trying to copy(func sig :WeakRef(const WeakRef<Type, true>& other)  )");
                 NullSelf();
@@ -284,6 +536,7 @@ export namespace UPRISE_ENGINE {
             }
             default: {
                 ///assume that all other values are valid
+                this->ControlBlock = other.ControlBlock;
                 ControlBlock->IncrementWeakRefs();
                 break;
             }
@@ -418,7 +671,7 @@ export namespace UPRISE_ENGINE {
                 break;
             }
             default: {
-                
+
                 this->ControlBlock = std::exchange(other.ControlBlock, IntegerTypeToPointer<ControlBlock_Base>(1ULL)); //-V566 //-V2571
                 ///assume all othher values are valid
                 break;
@@ -457,7 +710,7 @@ export namespace UPRISE_ENGINE {
             }
         }
 
-        Type* get()const noexcept(RW_USE_CPP_EXCEPTIONS_ == false) {
+        Type* get() noexcept(RW_USE_CPP_EXCEPTIONS_ == false) {
             switch (reinterpret_cast<unsigned long long>(ControlBlock)) {
             case 0: {
                 CaseNull("ControlBlock of \" this\" was null (0) while trying to get the object");
@@ -488,7 +741,7 @@ export namespace UPRISE_ENGINE {
 
             }
         }
-        Type* operator->()const noexcept(RW_USE_CPP_EXCEPTIONS_ == false) {
+        Type* operator->() noexcept(RW_USE_CPP_EXCEPTIONS_ == false) {
             switch (reinterpret_cast<unsigned long long>(ControlBlock)) {
             case 0: {
                 CaseNull("ControlBlock of \" this\" was null (0) while trying to get the object");
@@ -585,7 +838,7 @@ export namespace UPRISE_ENGINE {
                 }
                 else {
                     if (ControlBlock == 2) {
-                    //2 is the case for a default constructed object wich is a 
+                        //2 is the case for a default constructed object wich is a 
                     }
                     else {
                         CaseInvalid("invalid value for own Controlblock. this will only show up in debug mode. in release mode it will just crash or leak");
@@ -618,9 +871,9 @@ export namespace UPRISE_ENGINE {
                     this->ControlBlock->IncrementWeakRefs();
                 }
                 else {
-                /*
-                * 
-                */
+                    /*
+                    *
+                    */
                 }
 
             }
@@ -657,7 +910,7 @@ export namespace UPRISE_ENGINE {
 
         }//WeakRef(WeakRef<Type,false>&& other)
 
-        WeakRef& operator=(WeakRef<Type, false>&& other)noexcept(RW_USE_CPP_EXCEPTIONS_==false) {
+        WeakRef& operator=(WeakRef<Type, false>&& other)noexcept(RW_USE_CPP_EXCEPTIONS_ == false) {
             if constexpr (DebugMode) {
                 if (this->ControlBlock > 2) {
                     this->ControlBlock->DecrementWeakrefs();

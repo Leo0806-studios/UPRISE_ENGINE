@@ -5,6 +5,7 @@
 //#include "GLOBAL/GLINCLUDES.h"
 
 import std; //-V2575 //-V3549
+import UPRISE_ENGINE_CORE;
 #pragma warning(push)
 #pragma warning(disable:4100)
 BOOL APIENTRY DllMain( HMODULE hModule, //-V2537 //-V2575 //-V3549 //-V3523
@@ -24,7 +25,7 @@ BOOL APIENTRY DllMain( HMODULE hModule, //-V2537 //-V2575 //-V3549 //-V3523
 }
 #pragma warning(pop)
 int main() {
-   
+    
 
 
 }

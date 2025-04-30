@@ -1,0 +1,4 @@
+#pragma once
+#ifndef UE_CORE_INTELLISENSE_FIX
+
+#endif // !UE_CORE_INTELLISENSE_FIX
