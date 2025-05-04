@@ -136,7 +136,7 @@ return InternalMockReplacement;\
 #else
 #define MockableGlobalVar(Type,x)  Type x ;
 
-#define MockableStaticVar(x,Type) static Type x ; 
+#define MockableStaticVar(x,y) static y x ; 
 #define AccsesGlobalVar(x)  x
 #define AccsesStaticVar(x)  x
 #define CallMockableMethod(FullName) FullName
@@ -360,4 +360,11 @@ consteval T* IntegerTypeToPointer(unsigned long long input) { //-V3549
     return reinterpret_cast<T*>(input); //-V3546 //-V2571
 }
 #pragma warning(pop)
+
+#ifdef RW_USE_CPP_EXCEPTIONS
+constexpr inline RW_USE_CPP_EXCEPTIONS_ = true;
+#else 
+constexpr inline bool RW_USE_CPP_EXCEPTIONS_ = false;
+#endif // RW_USE_CPP_EXCEPTIONS
+
 #endif // !UE_GLOBAL_

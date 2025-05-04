@@ -1,9 +1,10 @@
 // This is a personal academic project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 module;
-#include <intrin.h>
+
 export module UPRISE_ENGINE_CORE:__M128_UTILLS;
-import std;
+import  <intrin.h>;
+import <bit>;
 import :CONCEPT_SIZE;
 export namespace UPRISE_ENGINE {
     namespace CORE {

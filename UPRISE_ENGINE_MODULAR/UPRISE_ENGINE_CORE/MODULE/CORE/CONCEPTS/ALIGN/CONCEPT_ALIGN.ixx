@@ -2,7 +2,6 @@
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 module;
 export module UPRISE_ENGINE_CORE:CONCEPT_ALIGN;
-import std;
 export namespace UPRISE_ENGINE {
     namespace CORE {
         namespace CONCEPTS {

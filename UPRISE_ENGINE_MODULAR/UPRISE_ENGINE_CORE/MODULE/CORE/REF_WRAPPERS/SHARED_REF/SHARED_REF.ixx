@@ -1,9 +1,9 @@
 // This is a personal academic project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 export module UPRISE_ENGINE_CORE:SHARED_REF;
-
-export namespace UPRISE_ENGINE {
-    template<typename T, bool NullChk>
-    class SharedRef{};
-//TODO implement
+import :CONTROL_BASE;
+import :WRAPPER_BASE;
+export {
+#define UE_CORE_BUILD_
+#include "SHARED_REF_INTERNAL.h"
 }

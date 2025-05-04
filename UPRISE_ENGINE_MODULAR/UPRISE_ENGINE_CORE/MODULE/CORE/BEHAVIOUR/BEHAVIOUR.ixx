@@ -9,12 +9,12 @@ import :OWNED_REF;
 import :SHARED_REF;
 import :OBJECT;
 import :UUID;
+import :WEAK_REF;
+
 import <unordered_map>;
 import <intrin.h>;
 export namespace UPRISE_ENGINE {
-    using SR_Behaviour = SharedRef<CORE::Behaviour, true>;
-    using OR_Behaviour = OwnedRef<CORE::Behaviour>;
-    using WR_Behaviour = WeakRef<CORE::Behaviour, true>;
+
     class GameObject;
     class Transform;
     namespace CORE {
@@ -28,7 +28,7 @@ export namespace UPRISE_ENGINE {
                 this->gameObj = other.gameObj;
                 this->uuid = other.uuid;
                 this->id = other.id;
-
+                
                 return *this;
             };
         protected:
@@ -41,6 +41,8 @@ export namespace UPRISE_ENGINE {
 
             int id;
         private:
+            
+
             char PAD[12];   //TODO find a better way to align this or find data to put here //-V112
 #pragma endregion
 #pragma region StaticVars
@@ -48,11 +50,11 @@ export namespace UPRISE_ENGINE {
             MockableStaticVar(behaviours_, TypeMAcroCombiner(std::unordered_map<__m128, std::unordered_map<unsigned long long, WeakRef<CORE::Behaviour, true>>>)) //-V1096
 
 
-                MockableStaticVar(behaviours, std::vector<WR_Behaviour>) //-V1096
-                MockableStaticVar(awakes, std::vector<WR_Behaviour>) //-V1096
-                MockableStaticVar(starts, std::vector<WR_Behaviour>) //-V1096
+                MockableStaticVar(behaviours, TypeMAcroCombiner(std::vector<WeakRef<Behaviour, true>>)) //-V1096
+                MockableStaticVar(awakes, TypeMAcroCombiner(std::vector<WeakRef<Behaviour, true>>)) //-V1096
+                MockableStaticVar(starts, TypeMAcroCombiner(std::vector<WeakRef<Behaviour, true>>)) //-V1096
                 MockableStaticVar(currentUpdate, int) //-V1096
-                MockableStaticVar(toBeRemovedAtEndoOfFrame, std::vector<WR_Behaviour>) //-V1096
+                MockableStaticVar(toBeRemovedAtEndoOfFrame, TypeMAcroCombiner(std::vector<WeakRef<Behaviour,true>>)) //-V1096
 
 #pragma endregion
 
@@ -72,6 +74,8 @@ export namespace UPRISE_ENGINE {
 #pragma region destructor
             virtual ~Behaviour() {
                 SetEnabled(false); //-V2547
+                
+
             }
 #pragma endregion
             //following region contains all functions

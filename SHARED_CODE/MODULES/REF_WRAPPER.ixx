@@ -82,12 +82,12 @@ void operator delete(void* ptr); //-V3549 //-V2575
 #ifdef UPRISE_TESTS
     //#define RW_USE_CPP_EXCEPTIONS
 #endif // UPRISE_TESTING
-#ifdef RW_USE_CPP_EXCEPTIONS
-    constexpr bool RW_USE_CPP_EXCEPTIONS_ = true;
-#else 
-    constexpr bool RW_USE_CPP_EXCEPTIONS_ = false;
-#endif // RW_USE_CPP_EXCEPTIONS
 
+#ifdef RW_USE_CPP_EXCEPTIONS
+constexpr bool RW_USE_CPP_EXCEPTIONS_ = true;
+#else 
+constexpr bool RW_USE_CPP_EXCEPTIONS_ = false;
+#endif // RW_USE_CPP_EXCEPTIONS
 
 #define NullChkFail(ExceptionText,LogText)\
                      if constexpr (RW_USE_CPP_EXCEPTIONS_)\
