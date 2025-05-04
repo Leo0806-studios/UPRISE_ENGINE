@@ -1,0 +1,26 @@
+#pragma once
+#pragma once
+#ifndef UE_CONCEPT_SIZE_INTERNAL_
+#define UE_CONCEPT_SIZE_INTERNAL_
+#ifndef __INTELLISENSE__
+#ifndef UE_CORE_BUILD_
+#error "this file should not be directly included in user code. use import UPRISE_ENGINE_CORE instead"
+#endif
+#endif
+
+namespace UPRISE_ENGINE {
+    namespace CORE {
+        namespace CONCEPTS {
+            template<typename T, size_t MaxSize>
+            concept SizeLeq = requires(T t) {
+                { sizeof(t) <= MaxSize };
+            };
+            template<typename T, size_t MaxSize>
+            concept SizeLess = requires(T t) {
+                { sizeof(t) < MaxSize };
+            };
+        }
+    }
+}
+
+#endif
