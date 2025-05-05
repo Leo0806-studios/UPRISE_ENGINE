@@ -13,7 +13,6 @@ namespace UPRISE_ENGINE {
     namespace CORE {
 
 
-
 #ifndef UPRISE_TESTS
         std::vector<WeakRef<CORE::Object, true>> Object::ObjectsToBeDestroyedAtEndOfFrame;
 #endif // !UPRISE_TESTS

@@ -4,7 +4,6 @@
 
 module;
 
-//#include <GLOBAL/GLINCLUDES.h>
 export module UPRISE_ENGINE_CORE;
 
 
@@ -18,21 +17,29 @@ export module UPRISE_ENGINE_CORE;
 
 
 
-export import :BEHAVIOUR; //-V3549
-export import :CONTROL_BASE;
-export import :GC_CONTROLBLOCK;
-export import :OWNED_REF;
+export import :ARRAY;
+export import :BEHAVIOUR; // will be moved in next step to UPRISE_ENGINE_ECS
+export import :COMPONENT; // will be moved in next step to UPRISE_ENGINE_ECS
 export import :CONCEPT_ALIGN;
 export import :CONCEPT_SIZE;
 export import :CONTROL_BASE;
+export import :CPUID;
+export import :GC_CONTROLBLOCK;
+export import :LAYER;
+export import :MAT4;
 export import :OBJECT;
-export import :OWNED_REF;
-export import :SHARED_REF;
-export import :WEAK_REF;
-export import :WRAPPER_BASE;
-export import :__M128_UTILLS;
-export import :WRAPPER_BASE;
 export import :OWNED_CONTROLBLOCK;
-export import :CONTROL_BASE;
+export import :OWNED_REF;
+export import :QUATERNION;
+export import :SHARED_CONTROL_BLOCK;
+export import :SHARED_REF;
+export import :STRING;
+export import :TAG;
 export import :UUID;
-export import:CPUID; //-V3549
+export import :VECTOR2;
+export import :VECTOR3;
+export import :VECTOR4;
+export import :WEAK_REF;
+export import : WRAPPER_BASE;
+export import :__M128_UTILLS;
+

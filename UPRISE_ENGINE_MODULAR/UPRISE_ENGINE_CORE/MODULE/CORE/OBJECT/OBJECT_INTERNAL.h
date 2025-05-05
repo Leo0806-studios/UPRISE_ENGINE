@@ -16,6 +16,9 @@
 #include <vector>
 #include <atomic>
 #endif
+#ifdef UPRISEENGINECORE_EXPORTS
+#define UPRISE_CORE_API __declspec(dllexport)
+#endif
 
 
 namespace UPRISE_ENGINE {
@@ -30,23 +33,18 @@ namespace UPRISE_ENGINE {
         friend class CORE::Object;
         friend class CORE::Behaviour;
     public:
-        typedef void(*RemoveComponent)(UPRISE_ENGINE::GameObject*, WeakRef<CORE::Object, true> comp);
+        using RemoveComponent = void (*)(UPRISE_ENGINE::GameObject*, WeakRef<CORE::Object, true> comp);
     private:
-        UPRISE_CORE_API MockableStaticVar(RemoveBehaviourFromGameobject__internal, RemoveComponent) //-V3547
+        UPRISE_CORE_API static RemoveComponent RemoveBehaviourFromGameobject__internal; //-V3547
     };
     namespace CORE {
-        class Behaviour;
         class Component;
-        class Object;
         using SR_Object = SharedRef<CORE::Object, true>;
         using OR_Object = OwnedRef<CORE::Object>;
         using WR_Object = WeakRef<CORE::Object, true>;
         class  Object {
         private:
-            /// <summary>
-            /// wss
-            /// </summary>
-            UPRISE_CORE_API  MockableStaticVar(ObjectsToBeDestroyedAtEndOfFrame, TypeMAcroCombiner(std::vector<WeakRef<CORE::Object, true>>))
+            UPRISE_CORE_API  static std::vector<WeakRef<CORE::Object, true>> ObjectsToBeDestroyedAtEndOfFrame;
         protected:
             UPRISE_CORE_API Object(const Object& other);
             UPRISE_CORE_API Object(const Object& other, bool);
@@ -63,7 +61,7 @@ namespace UPRISE_ENGINE {
             UPRISE_CORE_API  static void destroyObject(WeakRef<CORE::Object, true> Object);
         public:
             UPRISE_CORE_API   Object() :name(), enabled(true), PAD{ DEBUG_PAD_BITS_ZEROED } {}
-            UPRISE_CORE_API   virtual ~Object() {}
+            UPRISE_CORE_API   virtual ~Object() = default;
             UPRISE_CORE_API virtual bool operator== (const Object& other) const {
                 return this->enabled == other.enabled && this->name == other.name;
             }
