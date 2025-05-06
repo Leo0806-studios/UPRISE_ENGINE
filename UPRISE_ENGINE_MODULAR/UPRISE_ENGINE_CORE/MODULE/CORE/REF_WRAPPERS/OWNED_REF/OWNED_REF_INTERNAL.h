@@ -22,7 +22,7 @@ namespace UPRISE_ENGINE {
 
     public:
 
-        OwnedRef()noexcept = default;
+        OwnedRef()noexcept {};
         /// <summary>
         /// Detructor for OwnedRef
         /// throws if RW_USE_CPP_EXCEPTIONS_ == true
@@ -40,9 +40,9 @@ namespace UPRISE_ENGINE {
                 break;
             }
             UE_LIKELY default: {
-                ControlBlock->DecrementWeakrefs();
+                DecrementWeakRefs();
 
-                reinterpret_cast<OwnedControlBlock<Type>*>(ControlBlock)->DecrementRefs();
+                DecrementRefs();
                 break;
             }
             }
@@ -76,7 +76,7 @@ namespace UPRISE_ENGINE {
                 break;
             }
             default: {
-                this->ControlBlock = std::exchange(other.ControlBlock, IntegerTypeToPointer<ControlBlock_Base>(2ULL));
+                this->ControlBlock = std::exchange(other.ControlBlock, reinterpret_cast<ControlBlock_Base*>(2ULL));
                 break;
             }
             }
@@ -99,8 +99,8 @@ namespace UPRISE_ENGINE {
                 break;
             }
             default: {
-                this->ControlBlock->DecrementWeakrefs();
-                this->ControlBlock->DecrementRefs();
+                DecrementWeakRefs();
+                DecrementRefs();
                 break;
 
             }
@@ -153,6 +153,40 @@ namespace UPRISE_ENGINE {
             }
             }
         }//get()
+        Type* operator->() {
+            switch (reinterpret_cast<uintptr_t>(this->ControlBlock)) {
+            case 0: {
+                CaseNull(" \"this\" was null (0). this is an error in the program");
+                return nullptr;
+                break;
+            }
+            case 1: {
+                CaseMoved(" \"this\" was moved (1) from. this is an error in the program");
+                return nullptr;
+                break;
+            }
+            case 2: {
+
+                CaseDefaultConstructed(" \"this\" was default constructed (2). this is an error in the programm");
+
+                return nullptr;
+                break;
+            }
+            UE_LIKELY  default: {
+                return static_cast<Type*>(_Get());
+                break;
+            }
+            }
+        }
+
+        template< typename... Args>
+        static OwnedRef<Type> Create(Args&&... args) {
+            OwnedControlBlock<Type>* controlBlock = new OwnedControlBlock<Type>();
+            controlBlock->Object = new Type{ std::forward<Args>(args)... };
+            OwnedRef<Type> ownedRef;
+            ownedRef.ControlBlock = controlBlock; 
+            return ownedRef;
+        }//Create
     };
     typedef OwnedRef<int> UE_DEBUG_INTOWNEDREF;
 }

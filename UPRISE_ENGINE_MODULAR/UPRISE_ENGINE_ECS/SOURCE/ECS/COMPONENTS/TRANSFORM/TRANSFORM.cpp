@@ -1,9 +1,14 @@
 // This is a personal academic project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
-#include "DATATYPES/VECTOR/VECTOR3/FAST/VECTOR3_F.h"
-#include "DATATYPES/QUTERION/QUATERION.h"
-#include  "ECS/COMPONENTS/TRANSFORM/TRANSFORM.h"
+#ifdef __INTELLISENSE__
+#include "UE_CORE_INTELLISENSE_FIX.h"
+#include "UE_ECS_INTELLISENSE_FIX.h"
+#else
+import UPRISE_ENGINE_ECS;
+import UPRISE_ENGINE_CORE;
+#endif // __INTELLISENSE__
 namespace UPRISE_ENGINE {
+    
     Vector3& Transform::Position()
     {
         return this->position;
@@ -55,16 +60,17 @@ namespace UPRISE_ENGINE {
         return  void();
     }
 
-    UPRISE_ECS_API SharedRef<CORE::Object, true> Transform::Copy()
+    UPRISE_ECS_API SharedRef<Object, true> Transform::Copy()
     {
 
-        SharedRef<CORE::Object,true> ret = CreateRefs::CreateSharedRef<Transform, true>((Transform(*this)));
+        SharedRef<Transform,true> ret = SharedRef<Transform,true>::Create();
+        SharedRef<Object, true> ret2 = ret;
         return ret;
     }
 
-    SharedRef<CORE::Object, true> Transform::DeepCopy()
+    SharedRef<Object, true> Transform::DeepCopy()
     {
-        auto ret = CreateRefs::CreateSharedRef<Transform, true>(Transform(*this,true));
+        auto ret = SharedRef<Transform, true>::Create(*this,true);
         return ret;
     }
 

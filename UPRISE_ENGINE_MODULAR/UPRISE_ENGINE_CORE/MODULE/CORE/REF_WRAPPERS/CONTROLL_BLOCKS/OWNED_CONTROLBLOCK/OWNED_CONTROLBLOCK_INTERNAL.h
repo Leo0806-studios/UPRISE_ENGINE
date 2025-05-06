@@ -19,6 +19,7 @@ namespace UPRISE_ENGINE {
     /// <typeparam name="Type"></typeparam>
     template<typename Type>
     class OwnedControlBlock :public ControlBlock_Base {
+        template<class T> friend class OwnedRef;
         /// <summary>
         /// Oject Pointer
         /// possible values
@@ -27,6 +28,10 @@ namespace UPRISE_ENGINE {
         /// everything else is a valid object (asummed if not there is a bug in the program)
         /// </summary>
         Type* Object = nullptr;
+        OwnedControlBlock(const OwnedControlBlock<Type>& other) = delete;
+        OwnedControlBlock& operator=(const OwnedControlBlock<Type>& other) = delete;
+        OwnedControlBlock(OwnedControlBlock<Type>&& other) = delete;
+        OwnedControlBlock& operator=(OwnedControlBlock<Type>&& other) = delete;
         void Destroy()noexcept(RW_USE_CPP_EXCEPTIONS_ == false) {
             switch (reinterpret_cast<uintptr_t>(this->Object)) {
             case 0: {
@@ -93,7 +98,6 @@ namespace UPRISE_ENGINE {
                 return static_cast<void*>(Object);
             }
             }
-            return nullptr;
         }
         void DeleteManualy() override
         {
@@ -117,7 +121,26 @@ namespace UPRISE_ENGINE {
             }
             }
         }
-    };
+
+        // Inherited via ControlBlock_Base
+        ObjState GetObjectState() override
+        {
+            switch (reinterpret_cast<uintptr_t>(Object)) {
+            case 0: {
+                return ObjState::Null;
+            }
+            case 1: {
+                return ObjState::ManualyDeleted;
+            }
+            default: {
+                return ObjState::Valid;
+
+            }
+            }
+        }
+        public:
+            OwnedControlBlock() = default;
+};
 }
 
 #endif

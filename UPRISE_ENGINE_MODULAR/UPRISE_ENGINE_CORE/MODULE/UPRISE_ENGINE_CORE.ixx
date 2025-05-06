@@ -18,8 +18,6 @@ export module UPRISE_ENGINE_CORE;
 
 
 export import :ARRAY;
-export import :BEHAVIOUR; // will be moved in next step to UPRISE_ENGINE_ECS
-export import :COMPONENT; // will be moved in next step to UPRISE_ENGINE_ECS
 export import :CONCEPT_ALIGN;
 export import :CONCEPT_SIZE;
 export import :CONTROL_BASE;
@@ -27,7 +25,6 @@ export import :CPUID;
 export import :GC_CONTROLBLOCK;
 export import :LAYER;
 export import :MAT4;
-export import :OBJECT;
 export import :OWNED_CONTROLBLOCK;
 export import :OWNED_REF;
 export import :QUATERNION;

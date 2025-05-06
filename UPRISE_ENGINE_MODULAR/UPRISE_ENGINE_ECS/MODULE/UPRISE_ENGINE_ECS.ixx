@@ -1,13 +1,16 @@
 export module UPRISE_ENGINE_ECS;
-import REF_WRAPPER;
-import std;
-import UPRISE_ENGINE_CORE;
+
+
 #define ECS_MODULE_BUILD
-export{
-#include "DATATYPES/HEIGHTMAP/HEIGHTMAP.h"
-#include "DATATYPES/TERRAINDATA/TerrainData.h"
-#include "ECS/COMPONENTS/CAMERA/CAMERA.h"
-#include "ECS/COMPONENTS/MESH/MESH.h"
-#include "ECS/COMPONENTS/PHYSICSOBJECT/PHYSICSOBJECT.h"
-#include "ECS/COMPONENTS/TERRAIN/TERRAIN.h"
-}
+
+export import :BEHAVIOUR;
+export import :CAMERA;
+export import :COMPONENT;
+export import :GAMEOBJECT;
+export import :HEIGHTMAP;
+export import :MESH;
+export import :OBJECT;
+export import :PHYSICSOBJECT;
+export import :TERRAIN;
+export import :TERRAINDATA;
+export import :TRANSFORM;

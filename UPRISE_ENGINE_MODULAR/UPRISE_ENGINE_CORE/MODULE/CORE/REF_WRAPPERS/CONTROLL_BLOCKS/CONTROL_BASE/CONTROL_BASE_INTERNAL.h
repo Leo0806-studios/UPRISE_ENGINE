@@ -39,7 +39,9 @@ namespace UPRISE_ENGINE {
     class ControlBlock_Base {
     private:
         template<class T, bool NC > friend class WeakRef;
-        template<class T> friend class OwnedRef;
+        //template<class T, bool NC> friend class SharedRef;
+        //template<class T> friend class OwnedRef;
+        friend class WrapperBase;
         friend class WrapperBase;
 
     protected:

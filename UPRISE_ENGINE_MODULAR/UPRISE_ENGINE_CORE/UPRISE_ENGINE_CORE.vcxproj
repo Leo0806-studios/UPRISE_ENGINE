@@ -133,8 +133,10 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <PublicModuleDirectories>C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_ENGINE_MODULAR\UPRISE_ENGINE_CORE\MODULE;$(PublicModuleDirectories)</PublicModuleDirectories>
+    <PublicModuleDirectories>C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_ENGINE_MODULAR\UPRISE_ENGINE_CORE\MODULE\DATATYPES\ARRAY;$(PublicModuleDirectories)</PublicModuleDirectories>
     <AllProjectBMIsArePublic>true</AllProjectBMIsArePublic>
+    <PublicIncludeDirectories>C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_ENGINE_MODULAR\UPRISE_ENGINE_CORE\MODULE\CORE;C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_ENGINE_MODULAR\UPRISE_ENGINE_CORE\MODULE\DATATYPES;C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_ENGINE_MODULAR\UPRISE_ENGINE_CORE\MODULE;$(PublicIncludeDirectories)</PublicIncludeDirectories>
+    <AllProjectIncludesArePublic>true</AllProjectIncludesArePublic>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Build|x64'" />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -215,6 +217,7 @@
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <OpenMPSupport>false</OpenMPSupport>
       <DisableSpecificWarnings>4005;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <AssemblerOutput>NoListing</AssemblerOutput>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -332,12 +335,9 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="MODULE\CORE\BEHAVIOUR\BEHAVIOUR_INTERNAL.h" />
     <ClInclude Include="MODULE\CORE\CONCEPTS\ALIGN\CONCEPT_ALIGN_INTERNAL.h" />
-    <ClInclude Include="MODULE\CORE\COMPONENT\COMPONENT_INTERNAL.h" />
     <ClInclude Include="MODULE\CORE\CONCEPTS\SIZE\CONCEPT_SIZE_INTERNAL.h" />
     <ClInclude Include="MODULE\CORE\CPUID\CPUID_INTERNAL.h" />
-    <ClInclude Include="MODULE\CORE\OBJECT\OBJECT_INTERNAL.h" />
     <ClInclude Include="MODULE\CORE\REF_WRAPPERS\CONTROLL_BLOCKS\CONTROL_BASE\CONTROL_BASE_INTERNAL.h" />
     <ClInclude Include="MODULE\CORE\REF_WRAPPERS\CONTROLL_BLOCKS\GC_CONTROLBLOCK\GC_CONTROLBLOCK_INTERNAL.h" />
     <ClInclude Include="MODULE\CORE\REF_WRAPPERS\CONTROLL_BLOCKS\OWNED_CONTROLBLOCK\OWNED_CONTROLBLOCK_INTERNAL.h" />
@@ -365,12 +365,9 @@
     <ClCompile Include="..\UPRISE_ENGINE_PROFILER\OPERATORS\PROFILER\OPERATOR_NEW\OPERATOR_NEW.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="MODULE\BUILD_MODULE.cpp" />
-    <ClCompile Include="MODULE\CORE\BEHAVIOUR\BEHAVIOUR.ixx" />
-    <ClCompile Include="MODULE\CORE\COMPONENT\COMPONENT.ixx" />
     <ClCompile Include="MODULE\CORE\CONCEPTS\ALIGN\CONCEPT_ALIGN.ixx" />
     <ClCompile Include="MODULE\CORE\CONCEPTS\SIZE\CONCEPT_SIZE.ixx" />
     <ClCompile Include="MODULE\CORE\CPUID\CPUID.ixx" />
-    <ClCompile Include="MODULE\CORE\OBJECT\OBJECT.ixx" />
     <ClCompile Include="MODULE\CORE\REF_WRAPPERS\CONTROLL_BLOCKS\CONTROL_BASE\CONTROL_BASE.ixx" />
     <ClCompile Include="MODULE\CORE\REF_WRAPPERS\CONTROLL_BLOCKS\GC_CONTROLBLOCK\GC_CONTROLBLOCK.ixx" />
     <ClCompile Include="MODULE\CORE\REF_WRAPPERS\CONTROLL_BLOCKS\OWNED_CONTROLBLOCK\OWNED_CONTROLBLOCK.ixx" />
@@ -401,10 +398,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="SOURCE\CORE\BEHAVIOUR\BEHAVIOUR.cpp" />
-    <ClCompile Include="SOURCE\CORE\COMPONENT\COMPONENT.cpp" />
     <ClCompile Include="SOURCE\CORE\CPUID\CPUID.cpp" />
-    <ClCompile Include="SOURCE\CORE\OBJECT\Object.cpp" />
     <ClCompile Include="SOURCE\DATATYPES\LAYER\LAYER.cpp" />
     <ClCompile Include="SOURCE\DATATYPES\TAG\TAG.cpp" />
     <ClCompile Include="SOURCE\DATATYPES\UUID\UUID.cpp" />

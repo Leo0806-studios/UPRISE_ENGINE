@@ -3,6 +3,7 @@
 export module UPRISE_ENGINE_CORE:SHARED_REF;
 import :CONTROL_BASE;
 import :WRAPPER_BASE;
+import :SHARED_CONTROL_BLOCK;
 export {
 #define UE_CORE_BUILD_
 #include "SHARED_REF_INTERNAL.h"

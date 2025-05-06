@@ -1,9 +1,16 @@
 // This is a personal academic project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
+#ifdef __INTELLISENSE__
+#include "UE_CORE_INTELLISENSE_FIX.h"
 #include <Windows.h>
-import UPRISE_ENGINE_CORE; //-V3549
 
-import std; //-V3549
+#else
+import UPRISE_ENGINE_CORE;
+import <Windows.h>;
+
+
+#endif // __INTELLISENSE__
+
 #pragma comment(lib, "Rpcrt4.lib")
 namespace UPRISE_ENGINE {
     struct UUID_TRANSFER {

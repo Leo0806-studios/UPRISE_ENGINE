@@ -140,41 +140,22 @@ namespace UPRISE_ENGINE {
                 DEBUG::Debug::Log(std::move(out));
             }
         }
-        /* typedef void(*SuccsesLambda) (ControlBlock_Base* self,ControlBlock_Base* other);
-         template<
-             bool null = true,
-             bool mooved = true,
-             bool defaultConstructed = true>
-         void  Nullcheck(SuccsesLambda  func,ControlBlock_Base* PtrToCheck,ControlBlock_Base*other,ControlBlock_Base* self,const char* msgNull, const char* const msgMoved, const char* const msgDefaultConstructed) {
-             switch (reinterpret_cast<uintptr_t>(PtrToCheck)) {
-             case 0: {
-                 if constexpr (null) {
-                     CaseNull(msgNull);
-                 }
-                 break;
-             }
-             case 1: {
-                 if constexpr (mooved) {
-                     CaseMoved(msgMoved);
-                 }
-                 break;
-             }
-             case 2: {
-                 if constexpr (defaultConstructed) {
-                     if constexpr (WarningLevel >= 3) {
-                         CaseDefaultConstructed(msgDefaultConstructed);
-                     }
-                 }
-                 break;
-             }
-             default: {
-                 func(self,other);
+        inline void DecrementRefs()noexcept {
+            ControlBlock->DecrementRefs();
+        }
+        inline void DecrementWeakRefs()noexcept {
+            ControlBlock->DecrementWeakrefs();
+        }
 
-                 break;
-             }
-             }
-         }*/
-
+        inline void IncrementRefs()noexcept {
+            ControlBlock->IncrementRefs();
+        }
+        inline void IncrementWeakRefs()noexcept {
+            ControlBlock->IncrementWeakRefs();
+        }
+        inline void* _Get() {
+            return ControlBlock->get();
+        }
     };
 }
 #endif
