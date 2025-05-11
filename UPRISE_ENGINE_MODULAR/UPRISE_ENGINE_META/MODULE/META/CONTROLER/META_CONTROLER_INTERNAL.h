@@ -60,9 +60,12 @@ namespace UPRISE_ENGINE {
         struct X86_64_FullOpcode
         {
             X86_64_MandatoryPrefix MandatoryPrefix;
+        private:
+            char PAD[5];//TODO find a better way to align this
+        public:
             X86_64_REXPrefix REX;
             struct Type {
-                enum class OpcodeType
+                enum class OpcodeType: unsigned long long
                 {
                     avx,
                     avx2,
@@ -168,7 +171,8 @@ namespace UPRISE_ENGINE {
                 obj->execute();
             }
             static void EmitOpcode(X86_64_instruction Instruction) {
-
+                (void)Instruction;
+                UE_THROW_NOT_IMPLEMENTED;
             }
 
         };

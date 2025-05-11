@@ -1,9 +1,11 @@
 #ifdef __INTELLISENSE__
 #include "UE_META_INTELLISENSE_FIX.h"
 #include <Windows.h>
+#include <cstring>
 #else 
 import UPRISE_ENGINE_META;
-import <Windows.h>
+import <Windows.h>;
+import<cstring>;
 
 #endif // 
 inline UPRISE_ENGINE::META::Meta_Obj::Meta_Obj(size_t init_size) {
@@ -13,7 +15,7 @@ inline UPRISE_ENGINE::META::Meta_Obj::Meta_Obj(size_t init_size) {
 }
 inline bool UPRISE_ENGINE::META::Meta_Obj::relocate(size_t new_size) {
     void* tmp = VirtualAlloc(NULL, new_size, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
-    memccpy(tmp, m_data, new_size, Size);
+    memcpy(tmp, m_data,  Size);
     VirtualFree(m_data, 0, MEM_RELEASE);
     m_data = tmp;
     return true;
