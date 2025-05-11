@@ -16,6 +16,7 @@ namespace UPRISE_ENGINE {
 
     template<typename Type, bool NullChk>
     class SharedRef : public WrapperBase{
+        template<typename, bool> friend class SharedRef;
     private:
         void Nullchecked_Destructor()noexcept(RW_USE_CPP_EXCEPTIONS_ == false) {
             switch (reinterpret_cast<uintptr_t>(ControlBlock)) {
@@ -236,8 +237,8 @@ namespace UPRISE_ENGINE {
             default: {
                 ///assume that all other values are valid
                 this->ControlBlock = other.ControlBlock;
-                ControlBlock->IncrementWeakRefs();
-                ControlBlock->IncrementRefs();
+                IncrementRefs();
+                IncrementWeakRefs();
                 break;
             }
             }
@@ -317,7 +318,7 @@ namespace UPRISE_ENGINE {
                 break;
             }
             default: {
-                ControlBlock = std::exchange(other.ControlBlock, IntegerTypeToPointer<ControlBlock_Base>(1ULL)); //-V2571 //-V566 //-V3546
+                ControlBlock = std::exchange(other.ControlBlock, reinterpret_cast<ControlBlock_Base*>(1ULL)); //-V2571 //-V566 //-V3546
                 break;
             }
             }
@@ -454,7 +455,7 @@ namespace UPRISE_ENGINE {
                 break;
             }
             default: {
-                return reinterpret_cast<Type*>(ControlBlock->get());
+                return reinterpret_cast<Type*>(WrapperBase::_Get());
                 break;
             }
             }
@@ -1034,7 +1035,7 @@ namespace UPRISE_ENGINE {
         template< typename... Args>
         static SharedRef<Type,NullChk> Create(Args&&... args) {
             SharedControlBlock<Type,NullChk>* controlBlock = new SharedControlBlock<Type, NullChk>();
-            controlBlock->Object = new Type(std::forward<Args>(args)...);
+            controlBlock->CreatObject_Internal<Type>(std::forward<Args>(args)...);//= new Type(std::forward<Args>(args)...);
             SharedRef<Type,NullChk> ownedRef;
             ownedRef.ControlBlock = controlBlock;
             return ownedRef;

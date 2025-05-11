@@ -19,11 +19,11 @@ namespace UPRISE_ENGINE {
         class  Component :public Object {
         private:
         public:
-            UPRISE_CORE_API   Component() = default;
-            UPRISE_CORE_API    Component(const Component& other) = delete;
-            UPRISE_CORE_API  Component operator=(const Component& other) = delete;
-            UPRISE_CORE_API  ~Component() {}
-            UPRISE_CORE_API  void OnDestroyInt(WeakRef<Object, true> obj)override {}
+            UPRISE_ECS_API   Component() = default;
+            UPRISE_ECS_API    Component(const Component& other) = delete;
+            UPRISE_ECS_API  Component operator=(const Component& other) = delete;
+            UPRISE_ECS_API  ~Component() {}
+            UPRISE_ECS_API  void OnDestroyInt(WeakRef<Object, true> obj)override {}
         };
 }
 

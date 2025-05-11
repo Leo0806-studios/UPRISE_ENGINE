@@ -1,0 +1,6 @@
+export module UPRISE_ENGINE_META:META_CONTROLER;
+import :X86_64_OPCODES;
+export {
+#define UE_META_BUILD_
+#include "META_CONTROLER_INTERNAL.h"
+}

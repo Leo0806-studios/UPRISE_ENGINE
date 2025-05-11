@@ -37,7 +37,7 @@ namespace UPRISE_ENGINE {
         /// <summary>
         /// default cosntructor
         /// </summary>
-        UPRISE_CORE_API Layer() = default;
+         Layer() = default;
 
         /// <summary>
         /// constructor that accsepts an id and name

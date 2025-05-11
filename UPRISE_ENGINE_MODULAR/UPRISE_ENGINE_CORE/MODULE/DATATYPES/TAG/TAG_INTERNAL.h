@@ -36,7 +36,7 @@ namespace UPRISE_ENGINE {
         /// <summary>
         /// default constructor
         /// </summary>
-        UPRISE_CORE_API Tag() = default;
+         Tag() = default;
         /// <summary>
         /// constructor that takes in the id and name of the tag
         /// </summary>

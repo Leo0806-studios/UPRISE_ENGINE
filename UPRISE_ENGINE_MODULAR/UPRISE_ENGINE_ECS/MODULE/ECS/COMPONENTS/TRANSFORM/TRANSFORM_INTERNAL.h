@@ -62,10 +62,14 @@ namespace UPRISE_ENGINE {
         /// default constructor
         /// </summary>
         Transform() = default;
-
+        Transform(const Transform& other) {
+            (void)other;
+            UE_THROW_NOT_IMPLEMENTED; //TODO rework onwnership in ECS and deal with copy() and moves
+        }
 #pragma endregion
 #pragma region destructor
         ~Transform() {}
+
 
 #pragma endregion
 

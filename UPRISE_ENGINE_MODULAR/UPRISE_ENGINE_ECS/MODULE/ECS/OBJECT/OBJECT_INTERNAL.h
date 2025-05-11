@@ -15,9 +15,6 @@
 #include <atomic>
 #endif
 
-#ifdef UPRISEENGINECORE_EXPORTS
-#define UPRISE_CORE_API __declspec(dllexport)
-#endif
 
 
 namespace UPRISE_ENGINE {
@@ -34,7 +31,7 @@ namespace UPRISE_ENGINE {
     public:
         using RemoveComponent = void (*)(UPRISE_ENGINE::GameObject*, WeakRef<Object, true> comp);
     private:
-        UPRISE_CORE_API static RemoveComponent RemoveBehaviourFromGameobject__internal; //-V3547
+        UPRISE_ECS_API static RemoveComponent RemoveBehaviourFromGameobject__internal; //-V3547
     };
         class Component;
         using SR_Object = SharedRef<Object, true>;
@@ -42,32 +39,32 @@ namespace UPRISE_ENGINE {
         using WR_Object = WeakRef<Object, true>;
         class  Object {
         private:
-            UPRISE_CORE_API  static std::vector<WeakRef<Object, true>> ObjectsToBeDestroyedAtEndOfFrame;
+            UPRISE_ECS_API  static std::vector<WeakRef<Object, true>> ObjectsToBeDestroyedAtEndOfFrame;
         protected:
-            UPRISE_CORE_API Object(const Object& other);
-            UPRISE_CORE_API Object(const Object& other, bool);
-            UPRISE_CORE_API Object& operator=(const Object& other);
-            UPRISE_CORE_API   virtual  void OnDestroyInt(WeakRef<Object, true> obj) = 0;
+            UPRISE_ECS_API Object(const Object& other);
+            UPRISE_ECS_API Object(const Object& other, bool);
+            UPRISE_ECS_API Object& operator=(const Object& other);
+            UPRISE_ECS_API   virtual  void OnDestroyInt(WeakRef<Object, true> obj) = 0;
 
 
         private:
             std::string name;
             std::atomic<bool> enabled;
             char PAD[7];   //TODO find a better way to align this or find data to put here //Linter false positive. this is intended padding
-            UPRISE_CORE_API  static   void destroyBehaviour(WeakRef<Behaviour, true> Object);
-            UPRISE_CORE_API   static  void destroyComponent(WeakRef<Component, true> Object);
-            UPRISE_CORE_API  static void destroyObject(WeakRef<Object, true> Object);
+            UPRISE_ECS_API  static   void destroyBehaviour(WeakRef<Behaviour, true> Object);
+            UPRISE_ECS_API   static  void destroyComponent(WeakRef<Component, true> Object);
+            UPRISE_ECS_API  static void destroyObject(WeakRef<Object, true> Object);
         public:
-            UPRISE_CORE_API   Object() :name(), enabled(true), PAD{ DEBUG_PAD_BITS_ZEROED } {}
-            UPRISE_CORE_API   virtual ~Object() = default;
-            UPRISE_CORE_API virtual bool operator== (const Object& other) const {
+            UPRISE_ECS_API   Object() :name(), enabled(true), PAD{ DEBUG_PAD_BITS_ZEROED } {}
+            UPRISE_ECS_API   virtual ~Object() = default;
+            UPRISE_ECS_API virtual bool operator== (const Object& other) const {
                 return this->enabled == other.enabled && this->name == other.name;
             }
-            UPRISE_CORE_API virtual bool operator!=(const Object& other) const {
+            UPRISE_ECS_API virtual bool operator!=(const Object& other) const {
                 return this->enabled != other.enabled || this->name != other.name;
             }
-            UPRISE_CORE_API    virtual SharedRef<Object, true> Copy() = 0;
-            UPRISE_CORE_API     virtual SharedRef<Object, true> DeepCopy() = 0;
+            UPRISE_ECS_API    virtual SharedRef<Object, true> Copy() = 0;
+            UPRISE_ECS_API     virtual SharedRef<Object, true> DeepCopy() = 0;
             __inline  bool Enabled() const {
                 return enabled;
             }
@@ -85,7 +82,7 @@ namespace UPRISE_ENGINE {
             /// <summary>
             /// Dont Call in user code
             /// </summary>
-            UPRISE_CORE_API static void AfterFrameDestroy();
+            UPRISE_ECS_API static void AfterFrameDestroy();
             template<typename T>
             static void Destroy(WeakRef<T, true> Obj) {
                 if constexpr (std::is_same_v<T, Behaviour> ||

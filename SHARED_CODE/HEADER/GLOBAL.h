@@ -366,5 +366,9 @@ constexpr inline RW_USE_CPP_EXCEPTIONS_ = true;
 #else 
 constexpr inline bool RW_USE_CPP_EXCEPTIONS_ = false;
 #endif // RW_USE_CPP_EXCEPTIONS
+namespace UPRISE_ENGINE {
+    using byte = signed char;
+    using ubyte = unsigned char;
+}
 
 #endif // !UE_GLOBAL_

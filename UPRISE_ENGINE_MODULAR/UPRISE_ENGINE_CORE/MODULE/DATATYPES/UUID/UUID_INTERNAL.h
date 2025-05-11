@@ -48,7 +48,7 @@ namespace UPRISE_ENGINE {
         }
 
 
-        static UUID Create();
+        UPRISE_CORE_API static UUID Create();
     };
 }
 

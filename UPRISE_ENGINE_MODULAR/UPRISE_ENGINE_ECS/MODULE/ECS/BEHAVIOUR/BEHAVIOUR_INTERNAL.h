@@ -20,9 +20,9 @@ namespace UPRISE_ENGINE {
         class Behaviour : public Object {
         private:
         protected:
-            UPRISE_CORE_API explicit Behaviour(const Behaviour& other);
-            UPRISE_CORE_API explicit Behaviour(const Behaviour& other, bool);
-            UPRISE_CORE_API Behaviour& operator=(const Behaviour& other) {
+            UPRISE_ECS_API explicit Behaviour(const Behaviour& other);
+            UPRISE_ECS_API explicit Behaviour(const Behaviour& other, bool);
+            UPRISE_ECS_API Behaviour& operator=(const Behaviour& other) {
                 Object::operator=(other); //-V2547
                 this->gameObj = other.gameObj;
                 this->uuid = other.uuid;
@@ -88,7 +88,7 @@ namespace UPRISE_ENGINE {
 
 #pragma endregion
 
-            UPRISE_CORE_API   void OnDestroyInt(WeakRef<Object, true> obj)  override;
+            UPRISE_ECS_API   void OnDestroyInt(WeakRef<Object, true> obj)  override;
 
 
             //following region contains all virtual member functions
@@ -123,21 +123,21 @@ namespace UPRISE_ENGINE {
             /// internal function to called to remove this obj from updates
             /// </summary>
             /// <returns></returns>
-            UPRISE_CORE_API  bool RemoveFromUpdate();
+            UPRISE_ECS_API  bool RemoveFromUpdate();
             /// <summary>
             /// internal function to call to remove this obj from start 
             /// </summary>
             /// <returns></returns>
-            UPRISE_CORE_API  bool RemoveFromStart();
+            UPRISE_ECS_API  bool RemoveFromStart();
             /// <summary>
             /// internal function to call to remove this obj from awake 
             /// </summary>
             /// <returns></returns>
-            UPRISE_CORE_API   bool RemoveFromAwake();
+            UPRISE_ECS_API   bool RemoveFromAwake();
             /// <summary>
             /// fujction to call when the object is destroyed
             /// </summary>
-            UPRISE_CORE_API     virtual  void OnDestroy();
+            UPRISE_ECS_API     virtual  void OnDestroy() {};
 
 #pragma endregion
             //following region contains all static Member functions
@@ -146,48 +146,48 @@ namespace UPRISE_ENGINE {
         /// loops trough all scripts and calls Update()
         /// </summary>
         /// <returns></returns>
-            UPRISE_CORE_API     static  void UpdateAll();
+            UPRISE_ECS_API     static  void UpdateAll();
             /// <summary>
             /// loops trough all scripts and calls Awake()
             /// removes the script from the vector after call
             /// </summary>
             /// <returns></returns>
-            UPRISE_CORE_API     static  void UpdateAllAWAKE();
+            UPRISE_ECS_API     static  void UpdateAllAWAKE();
             /// <summary>
             /// loops trough scripts and calls Start()
             ///  removes the script from the vector after call
             /// </summary>
             /// <returns></returns>
-            UPRISE_CORE_API     static  void UpdateAllSTART();
+            UPRISE_ECS_API     static  void UpdateAllSTART();
             /// <summary>
             /// calls all update Parralel instances to update the scripts that derive from it
             /// </summary>
             /// <returns></returns>
-            UPRISE_CORE_API     static  void UpdateallParallel();
+            UPRISE_ECS_API     static  void UpdateallParallel();
             /// <summary>
             /// internal function to add script to update loop
             /// </summary>
             /// <param name="behaviour"></param>
             /// <returns></returns>
-            UPRISE_CORE_API   static  bool AddToUpdate(SharedRef<Behaviour, true> behaviour);
+            UPRISE_ECS_API   static  bool AddToUpdate(SharedRef<Behaviour, true> behaviour);
             /// <summary>
             /// internal function to add script to start
             /// </summary>
             /// <param name="behaviour"></param>
             /// <returns></returns>
-            UPRISE_CORE_API   static  bool AddToStart(SharedRef<Behaviour, true> behaviour);
+            UPRISE_ECS_API   static  bool AddToStart(SharedRef<Behaviour, true> behaviour);
             /// <summary>
             /// internal function to add script to Awake 
             /// will be removed later/moved to intended behaviour
             /// </summary>
             /// <param name="behaviour"></param>
             /// <returns></returns>
-            UPRISE_CORE_API static  bool AddToAwake(SharedRef<Behaviour, true> behaviour);
+            UPRISE_ECS_API static  bool AddToAwake(SharedRef<Behaviour, true> behaviour);
 
             /// <summary>
             /// Dont Call in user code
             /// </summary>
-            UPRISE_CORE_API static  void AfterFrameDestroyBehaviours();
+            UPRISE_ECS_API static  void AfterFrameDestroyBehaviours();
 
 
 #pragma endregion

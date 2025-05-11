@@ -20,25 +20,15 @@ namespace UPRISE_ENGINE {
                 throw std::exception("Index out of range");
             }
             UE_THROW_NOT_IMPLEMENTED;
-            //if (!Object::Destroy(behaviours[i - 1])) {
-            //    DEBUG::Debug::Log("Failed to destroy behaviour");
-            //}
+
         }
     }
     
      SharedRef<Object, true> GameObject::Copy()
     {
+         UE_THROW_NOT_IMPLEMENTED;
          SharedRef<GameObject, true> tmp = SharedRef<GameObject,true>::Create();
-         tmp->tag = tag;
-         tmp->layer = layer;
-         tmp->transform = transform->Copy();
-         tmp->mesh = mesh;
-         for (auto& i : behaviours)
-         {
-             auto a = i->Copy();
-             SharedRef<Behaviour, true> b = a;
-             tmp->behaviours.push_back(b);
-         }
+
          return tmp;
     }
      SharedRef<Object, true> GameObject::DeepCopy()
@@ -46,7 +36,7 @@ namespace UPRISE_ENGINE {
          //TODO Finish reimplementation
          return SharedRef<Object, true>();
      }
-    UPRISE_ECS_API SharedRef<GameObject, true> GameObject::Create(Vector3 Position, Quaternion Rotation, SharedRef<Mesh, true> mesh)
+    UPRISE_ECS_API SharedRef<GameObject, true> GameObject::Create(Vector3 Position, Quaterion Rotation, SharedRef<Mesh, true> mesh)
     {
         SharedRef<GameObject, true> tmp = SharedRef<GameObject, true>::Create();
         SharedRef<Transform, true> transf = SharedRef<GameObject, true>::Create();

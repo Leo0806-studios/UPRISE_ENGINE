@@ -70,7 +70,7 @@ namespace UPRISE_ENGINE {
 
     SharedRef<Object, true> Transform::DeepCopy()
     {
-        auto ret = SharedRef<Transform, true>::Create(*this,true);
+        auto ret = SharedRef<Transform, true>::Create(*this);
         return ret;
     }
 

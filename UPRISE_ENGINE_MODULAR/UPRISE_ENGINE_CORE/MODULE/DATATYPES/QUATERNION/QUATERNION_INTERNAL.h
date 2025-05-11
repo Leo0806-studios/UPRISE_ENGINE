@@ -95,7 +95,8 @@ namespace UPRISE_ENGINE {
             );
         }
 
-
+#pragma warning(push)
+#pragma warning (disable:5045)
 
         __inline  Vector3 __vectorcall ToRotationVector() const {
 
@@ -125,7 +126,7 @@ namespace UPRISE_ENGINE {
             }
             return result;
         }
-
+#pragma warning(pop)
         __inline 	Vector3 __vectorcall operator*(Vector3 vec) {
             float num = x() * 2.0F;
             float num2 = y() * 2.0F;

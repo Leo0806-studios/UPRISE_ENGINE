@@ -6,3 +6,5 @@
 #define UE_OutClassBoilerplate(Type) ::UPRISE_ENGINE::UUID Type::uid = UUID::Create();
 #define UE_InClassBoilerplate(API)
 #define UE_IMPORT(Name)
+#define MockableStaticVar(x, __VA_ARGS__) static __inline __VA_ARGS__& x(){static Type InternalMockReplacement{};return InternalMockReplacement;}
+#define MockableStaticVar(x, y)
