@@ -1,12 +1,20 @@
-// This is a personal academic project. Dear PVS-Studio, please check it.
-// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 #pragma once
-#ifndef UE_RENDER_BACKEND_
-#define UE_RENDER_BACKEND_
-//#include "..\WINDOW_BASE\WINDOW_BASE.h"
-import std; //-V2575 //-V3549
+#ifndef UE_RENDER_BACKEND_INTERNAL_
+#define UE_RENDER_BACKEND_INTERNAL_
+#ifndef __INTELLISENSE__
+#ifndef UE_COMMON_COMPS_BUILD_
+#error "this file should not be directly included in user code. use import UPRISE_ENGINE_CORE instead"
+#endif
+#endif
+#ifdef UPRISEENGINECOMMONRENDERCOMPS_EXPORTS
+#define UPRISE_COMMON_RENDER_COMPS_API __declspec(dllexport)
+#endif // UPRISEENGINECOMMONRENDERCOMPS_EXPORTS
 
-import REF_WRAPPER; //-V2575 //-V3549
+#ifdef __INTELLISENSE__
+#include "UE_CORE_INTELLISENSE_FIX.h"
+#include "string"
+#include "filesystem"
+#endif // __INTELLISENSE__
 namespace UPRISE_ENGINE {
     class OPENGL_BACKEND;
     class DIRECTX11_BACKEND;
@@ -30,7 +38,7 @@ namespace UPRISE_ENGINE {
             B_DIRECTX12,
 
         };
-        
+
         class RENDER_BACKEND {
         public:
             RENDER_BACKEND() = default;
@@ -60,7 +68,7 @@ namespace UPRISE_ENGINE {
             UPRISE_COMMON_RENDER_COMPS_API  virtual unsigned  int _internal_Create_Buffer() = 0;
             UPRISE_COMMON_RENDER_COMPS_API  virtual   void _internal_Destroy_Window(WeakRef<RENDER_COMMON::WINDOW_BASE, true> Window) = 0;
             UPRISE_COMMON_RENDER_COMPS_API  virtual  void _internal_DestroyBuffer(const unsigned int Buffer) = 0;
-            UPRISE_COMMON_RENDER_COMPS_API  virtual  void _internal_BindBuffer(unsigned int Buffer, void* _Data, size_t length, size_t Type_Size,unsigned long long  bufferType) = 0;
+            UPRISE_COMMON_RENDER_COMPS_API  virtual  void _internal_BindBuffer(unsigned int Buffer, void* _Data, size_t length, size_t Type_Size, unsigned long long  bufferType) = 0;
             UPRISE_COMMON_RENDER_COMPS_API virtual void _internal_PreFrameWork() = 0;
             UPRISE_COMMON_RENDER_COMPS_API virtual void _internal_PostFrameWork() = 0;
 
@@ -69,8 +77,8 @@ namespace UPRISE_ENGINE {
             UPRISE_COMMON_RENDER_COMPS_API  static OwnedRef<RENDER_BACKEND> CreateBackend();
             UPRISE_COMMON_RENDER_COMPS_API  static void DestroyBackend();
             UPRISE_COMMON_RENDER_COMPS_API  static OwnedRef<WINDOW_BASE> _CreateWindow(int w, int h, const char* Title);
-            UPRISE_COMMON_RENDER_COMPS_API  static const WeakRef<RENDER_BACKEND,true> GetBackend();
-            UPRISE_COMMON_RENDER_COMPS_API static WeakRef<RENDER_COMMON::CONTEXT_BASE,true> CreateContext(WeakRef<RENDER_COMMON::WINDOW_BASE,true> window);
+            UPRISE_COMMON_RENDER_COMPS_API  static const WeakRef<RENDER_BACKEND, true> GetBackend();
+            UPRISE_COMMON_RENDER_COMPS_API static WeakRef<RENDER_COMMON::CONTEXT_BASE, true> CreateContext(WeakRef<RENDER_COMMON::WINDOW_BASE, true> window);
             UPRISE_COMMON_RENDER_COMPS_API  static OwnedRef<SHADER_BASE> CreateShader(const std::string& ShaderCode);
             UPRISE_COMMON_RENDER_COMPS_API  static OwnedRef<SHADER_BASE> CreateShader(const std::filesystem::path& ShaderCode_Path);
             UPRISE_COMMON_RENDER_COMPS_API  static OwnedRef<SHADER_PROGRAM_BASE> CreateShaderProgram(OwnedRef<SHADER_BASE> Shader0);
@@ -85,9 +93,9 @@ namespace UPRISE_ENGINE {
             UPRISE_COMMON_RENDER_COMPS_API static void PreFrameWork();
 
             UPRISE_COMMON_RENDER_COMPS_API RENDER_BACKEND(const RENDER_BACKEND& other) = delete;
-            UPRISE_COMMON_RENDER_COMPS_API RENDER_BACKEND( RENDER_BACKEND&& other);
-            UPRISE_COMMON_RENDER_COMPS_API RENDER_BACKEND& operator=(const RENDER_BACKEND& other)=delete;
-            UPRISE_COMMON_RENDER_COMPS_API RENDER_BACKEND& operator=( RENDER_BACKEND&& other);
+            UPRISE_COMMON_RENDER_COMPS_API RENDER_BACKEND(RENDER_BACKEND&& other);
+            UPRISE_COMMON_RENDER_COMPS_API RENDER_BACKEND& operator=(const RENDER_BACKEND& other) = delete;
+            UPRISE_COMMON_RENDER_COMPS_API RENDER_BACKEND& operator=(RENDER_BACKEND&& other);
 
         };
 
@@ -95,4 +103,7 @@ namespace UPRISE_ENGINE {
 
 }
 
-#endif // !_RENDER_BACKEND_
+
+
+
+#endif

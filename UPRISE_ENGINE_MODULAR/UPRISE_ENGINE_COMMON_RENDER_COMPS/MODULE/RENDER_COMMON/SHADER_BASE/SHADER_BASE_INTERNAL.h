@@ -1,10 +1,22 @@
-// This is a personal academic project. Dear PVS-Studio, please check it.
-// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 #pragma once
-#ifndef _SHADER_BASE_
-#define _SHADER_BASE_
-import std;
-import REF_WRAPPER;
+#ifndef UE_SHADER_BASE_INTERNAL_
+#define UE_SHADER_BASE_INTERNAL_
+#ifndef __INTELLISENSE__
+#ifndef UE_COMMON_COMPS_BUILD_
+#error "this file should not be directly included in user code. use import UPRISE_ENGINE_CORE instead"
+#endif
+#endif
+#ifdef UPRISEENGINECOMMONRENDERCOMPS_EXPORTS
+#define UPRISE_COMMON_RENDER_COMPS_API __declspec(dllexport)
+#endif // UPRISEENGINECOMMONRENDERCOMPS_EXPORTS
+
+#ifdef __INTELLISENSE__
+#include "UE_CORE_INTELLISENSE_FIX.h"
+#include <string>
+#include <filesystem>
+#endif // __INTELLISENSE__
+
+
 namespace UPRISE_ENGINE {
     namespace OPENGL_RENDER {
         class OPENGL_SHADER;
@@ -47,5 +59,4 @@ namespace UPRISE_ENGINE {
     }
 }
 
-
-#endif // !_SHADER_BASE_
+#endif

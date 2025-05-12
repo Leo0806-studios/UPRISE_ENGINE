@@ -121,7 +121,7 @@ namespace UPRISE_ENGINE {
                 break;
             }
             default: {
-                this->ControlBlock = std::exchange(other.ControlBlock, IntegerTypeToPointer<ControlBlock_Base>(2ULL));
+                this->ControlBlock = std::exchange(other.ControlBlock, reinterpret_cast<ControlBlock_Base*>(2ULL));
                 break;
             }
             }
@@ -178,7 +178,10 @@ namespace UPRISE_ENGINE {
             }
             }
         }
-
+        WeakRef<Type, true> GetWeakRef() {
+            UE_THROW_NOT_IMPLEMENTED;
+            return WeakRef<Type, true>();
+        }
         template< typename... Args>
         static OwnedRef<Type> Create(Args&&... args) {
             OwnedControlBlock<Type>* controlBlock = new OwnedControlBlock<Type>();

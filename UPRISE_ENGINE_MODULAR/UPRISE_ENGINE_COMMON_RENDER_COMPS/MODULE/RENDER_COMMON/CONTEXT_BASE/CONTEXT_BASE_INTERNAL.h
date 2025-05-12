@@ -1,9 +1,15 @@
-// This is a personal academic project. Dear PVS-Studio, please check it.
-// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 #pragma once
-#ifndef UE_CONTEXT_BASE_
-#define UE_CONTEXT_BASE_
-import REF_WRAPPER; //-V2575 //-V3549
+#ifndef UE_CONTEXT_BASE_INTERNAL_
+#define UE_CONTEXT_BASE_INTERNAL_
+#ifndef __INTELLISENSE__
+#ifndef UE_COMMON_COMPS_BUILD_
+#error "this file should not be directly included in user code. use import UPRISE_ENGINE_CORE instead"
+#endif
+#endif
+#ifdef __INTELLISENSE__
+#include "UE_CORE_INTELLISENSE_FIX.h"
+#endif // __INTELLISENSE__
+
 namespace UPRISE_ENGINE {
     class OPENGL_CONTEXT;
     class DIRECTX11_CONTEXT;
@@ -26,8 +32,8 @@ namespace UPRISE_ENGINE {
             CONTEXT_BASE(CONTEXT_BASE&&)noexcept = default;
             CONTEXT_BASE& operator=(const CONTEXT_BASE&) = delete;
             CONTEXT_BASE& operator=(CONTEXT_BASE&&)noexcept = default;
-           UPRISE_COMMON_RENDER_COMPS_API virtual ~CONTEXT_BASE();
-           CONTEXT_BASE()noexcept = default;
+            UPRISE_COMMON_RENDER_COMPS_API virtual ~CONTEXT_BASE();
+            CONTEXT_BASE()noexcept = default;
 
 
         };
@@ -35,4 +41,4 @@ namespace UPRISE_ENGINE {
 }
 
 
-#endif // !_CONTEXT_BASE_
+#endif

@@ -313,7 +313,12 @@ if(__loopCounter == InitialValue) {__loopCounter = 0;}\
 if(__loopCounter++ > MaxLoop) { \
 __debugbreak(); \
 } 
-
+/// this replaces the normal for(Type T= something;condition;action){ of a normal for loop note that it also replaces the opening brace as it needs o insert code into the loop body
+#define UE_GUARDED_LOOP_BEGIN(init,condition,action, MaxLoop) static thread_local unsigned long long __loopCounter=0;\
+for(init;condition;action){\
+if((__loopCounter++)>= MaxLoop){__debugbreak();}
+/// this is the closing statement for a guarded loop. it replaces the closing brace as it needs to add code after the loop
+#define UE_GUARDED_LOOP_END }__loopCounter=0;
 constexpr inline bool DebugMode = true; //-V3549
 #define UE_DEBUG_FIND_INFINITE_LOOP_MAX 1000000
 #define UE_ABORT_IF_REACHED_IN_DEBUG_MODE __debugbreak();
@@ -370,5 +375,12 @@ namespace UPRISE_ENGINE {
     using byte = signed char;
     using ubyte = unsigned char;
 }
+#define UE_IMPORT_CORE
+#define UE_IMPORT_ECS
+#define UE_IMPORT_DEBUG
+#define UE_IMPORT_PROFIER
+#define UE_IMPORT_COMMON_RENDER
+#define UE_IMPORT_EE
+#define UE_IMPORT_META
 
 #endif // !UE_GLOBAL_

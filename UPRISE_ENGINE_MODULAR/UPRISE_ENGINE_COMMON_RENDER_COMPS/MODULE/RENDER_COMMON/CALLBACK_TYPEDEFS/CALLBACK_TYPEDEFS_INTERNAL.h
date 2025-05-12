@@ -1,9 +1,15 @@
-// This is a personal academic project. Dear PVS-Studio, please check it.
-// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 #pragma once
-#ifndef UE_CALLBACK_TYPEDEFS_
-#define UE_CALLBACK_TYPEDEFS_
-import REF_WRAPPER; //-V2575 //-V3549
+#ifndef UE_CALLBACK_TYPEDEFS_INTERNAL_
+#define UE_CALLBACK_TYPEDEFS_INTERNAL_
+#ifndef __INTELLISENSE__
+#ifndef UE_COMMON_COMPS_BUILD_
+#error "this file should not be directly included in user code. use import UPRISE_ENGINE_CORE instead"
+#endif
+#endif
+#ifdef __INTELLISENSE__
+#include "UE_CORE_INTELLISENSE_FIX.h"
+#endif // __INTELLISENSE__
+
 namespace UPRISE_ENGINE {
     class WINDOW_BASE;
 
@@ -67,6 +73,4 @@ namespace UPRISE_ENGINE {
     }
 
 }
-
-
-#endif // !_CALLBACK_TYPEDEFS_
+#endif

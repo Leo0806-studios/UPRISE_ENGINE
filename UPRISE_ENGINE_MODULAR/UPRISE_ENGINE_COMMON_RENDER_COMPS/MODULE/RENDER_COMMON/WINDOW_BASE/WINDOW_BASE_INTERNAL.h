@@ -1,15 +1,26 @@
-// This is a personal academic project. Dear PVS-Studio, please check it.
-// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 #pragma once
-#ifndef UE_WINDOW_BASE_
-#define UE_WINDOW_BASE_
-#include "RENDER_COMMON/CALLBACK_TYPEDEFS/CALLBACK_TYPEDEFS.h"
-import REF_WRAPPER; //-V3549 //-V2575
-import std;
+#ifndef UE_WINDOW_BASE_INTERNAL_
+#define UE_WINDOW_BASE_INTERNAL_
+#ifndef __INTELLISENSE__
+#ifndef UE_COMMON_COMPS_BUILD_
+#error "this file should not be directly included in user code. use import UPRISE_ENGINE_CORE instead"
+#endif
+#endif
+#ifdef UPRISEENGINECOMMONRENDERCOMPS_EXPORTS
+#define UPRISE_COMMON_RENDER_COMPS_API __declspec(dllexport)
+#endif // UPRISEENGINECOMMONRENDERCOMPS_EXPORTS
+
+
+#ifdef __INTELLISENSE__
+#include "UE_CORE_INTELLISENSE_FIX.h"
+#include "CALLBACK_TYPEDEFS/CALLBACK_TYPEDEFS_INTERNAL.h"
+#include <string>
+#include <filesystem>
+#endif // __INTELLISENSE__
 namespace UPRISE_ENGINE {
     namespace RENDER_COMMON {
         class CONTEXT_BASE;
-        typedef void* OSWindowHandle ;
+        typedef void* OSWindowHandle;
         class WINDOW_BASE {
         protected:
         private:
@@ -77,6 +88,4 @@ namespace UPRISE_ENGINE {
     }
 }
 
-
-
-#endif // !_WINDOW_BASE_
+#endif

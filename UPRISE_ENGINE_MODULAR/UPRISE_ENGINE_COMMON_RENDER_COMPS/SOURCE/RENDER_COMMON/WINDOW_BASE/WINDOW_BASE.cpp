@@ -1,6 +1,11 @@
 // This is a personal academic project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
-#include "RENDER_COMMON/WINDOW_BASE/WINDOW_BASE.h"
+#ifdef __INTELLISENSE__
+#include "UE_COMMON_COMPS_INTELLISENSE_FIX.h"
+#else
+import UPRISE_ENGINE_COMMON_RENDER_COMPONETS;
+#endif // __INTELLISENSE__
+
 namespace UPRISE_ENGINE {
     namespace RENDER_COMMON {
         WINDOW_BASE::WINDOW_BASE(const WINDOW_BASE& other)
