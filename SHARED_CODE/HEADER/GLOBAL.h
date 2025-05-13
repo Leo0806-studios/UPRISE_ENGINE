@@ -382,5 +382,5 @@ namespace UPRISE_ENGINE {
 #define UE_IMPORT_COMMON_RENDER
 #define UE_IMPORT_EE
 #define UE_IMPORT_META
-
+#define UE_UNUSED_PARAMETER(X) (void)X
 #endif // !UE_GLOBAL_

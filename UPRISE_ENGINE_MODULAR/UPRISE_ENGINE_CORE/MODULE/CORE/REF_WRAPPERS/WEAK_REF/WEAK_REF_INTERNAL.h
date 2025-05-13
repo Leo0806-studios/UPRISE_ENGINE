@@ -1007,7 +1007,7 @@ namespace UPRISE_ENGINE {
     };
 
     //    ddd
-
+    
     typedef WeakRef<int, true> DebugWeakRef;
 }
 

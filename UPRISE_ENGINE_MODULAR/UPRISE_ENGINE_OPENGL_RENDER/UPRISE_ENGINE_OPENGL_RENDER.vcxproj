@@ -204,6 +204,7 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <EnableModules>false</EnableModules>
       <BuildStlModules>true</BuildStlModules>
+      <AdditionalIncludeDirectories>C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_ENGINE_MODULAR\UPRISE_ENGINE_OPENGL_RENDER\MODULE\OPENGL;C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_ENGINE_MODULAR\UPRISE_ENGINE_OPENGL_RENDER\MODULE;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -261,6 +262,15 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="HEADER\OPENGL\WINDOW\OPENGL_WINDOW.h" />
+    <ClInclude Include="MODULE\OPENGL\GLAD\GLAD_CONSTANTS\CONSTANTS_PART_1\GLAD_CONSTANTS_PART_1_INTERNAL.h" />
+    <ClInclude Include="MODULE\OPENGL\GLAD\GLAD_CONSTANTS\CONSTANTS_PART_2\CONSTANTS_PART_2_INTERNAL.h" />
+    <ClInclude Include="MODULE\OPENGL\GLAD\GLAD_CONSTANTS\CONSTANTS_PART_3\GLAD_CONSTANTS_PART3_INTERNAL.h" />
+    <ClInclude Include="MODULE\OPENGL\GLAD\GLAD_CONSTANTS\CONSTANTS_PART_4\GLAD_CONSTANTS_PART_4_INTERNAL.h" />
+    <ClInclude Include="MODULE\OPENGL\GLAD\GLAD_CONSTANTS\CONSTANTS_PART_5\GLAD_CONSTANTS_PART_5_INTERNAL.h" />
+    <ClInclude Include="MODULE\OPENGL\GLAD\GLAD_CONSTANTS\CONSTANTS_PART_6\GLAD_CONSTANTS_PART_5_INTERNAL.h" />
+    <ClInclude Include="MODULE\OPENGL\GLAD\GLAD_GLOBALS\GLAD_GLOBALS_INTERNAL.h" />
+    <ClInclude Include="MODULE\OPENGL\GLAD\STUPIDMACROS\GLAD_MACROS.h" />
+    <ClInclude Include="MODULE\UE_OPENGL_INTELLISENSE_FIX.h" />
     <ClInclude Include="SOURCE\OPENGL\OPENGL_CONTEXT\GL_CONTEXT_WIN32\GL_CONTEXT_WIN32.h" />
     <ClInclude Include="SOURCE\OPENGL\OPENGL_WINDOW\GL_WINDOW_WIN32\GL_WINDOW_WIN32.h" />
   </ItemGroup>
@@ -268,7 +278,14 @@
     <ClCompile Include="..\..\SHARED_CODE\MODULES\REF_WRAPPER.ixx" />
     <ClCompile Include="..\UPRISE_ENGINE_PROFILER\OPERATORS\PROFILER\OPERATOR_NEW\OPERATOR_NEW.cpp" />
     <ClCompile Include="dllmain.cpp" />
-    <ClCompile Include="HEADER\OPENGL\GLAD\GLAD.ixx" />
+    <ClCompile Include="MODULE\OPENGL\GLAD\GLAD.ixx" />
+    <ClCompile Include="MODULE\OPENGL\GLAD\GLAD_CONSTANTS\CONSTANTS_PART_1\GLAD_CONSTANTS_PART_1.ixx" />
+    <ClCompile Include="MODULE\OPENGL\GLAD\GLAD_CONSTANTS\CONSTANTS_PART_2\GLAD_CONSTANTS_PART2.ixx" />
+    <ClCompile Include="MODULE\OPENGL\GLAD\GLAD_CONSTANTS\CONSTANTS_PART_3\GLAD_CONSTANTS_PART3.ixx" />
+    <ClCompile Include="MODULE\OPENGL\GLAD\GLAD_CONSTANTS\CONSTANTS_PART_4\GLAD_CONSTANTS_PART_4.ixx" />
+    <ClCompile Include="MODULE\OPENGL\GLAD\GLAD_CONSTANTS\CONSTANTS_PART_5\GLAD_CONSTANTS_PART_5.ixx" />
+    <ClCompile Include="MODULE\OPENGL\GLAD\GLAD_GLOBALS\GLAD_GLOBALS.ixx" />
+    <ClCompile Include="MODULE\UPRISE_ENGINE_OPEN_GL_RENDER.ixx" />
     <ClCompile Include="SOURCE\OPENGL\OPENGL_CONTEXT\OPENGL_CONTEXT.cpp" />
     <ClCompile Include="SOURCE\OPENGL\GLAD\GLAD.cpp" />
     <ClCompile Include="SOURCE\OPENGL\OPENGL_SHADER\OPENGL_SHADER.cpp" />
@@ -278,6 +295,23 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\UPRISE_ENGINE_COMMON_RENDER_COMPS\UPRISE_ENGINE_COMMON_RENDER_COMPS.vcxproj">
+      <Project>{e34c3335-a8de-4332-9992-ef257773b7d5}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\UPRISE_ENGINE_CORE\UPRISE_ENGINE_CORE.vcxproj">
+      <Project>{939e1cea-0c8c-4af2-9dde-0cd88ddc0025}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\UPRISE_ENGINE_DEBUG\UPRISE_ENGINE_DEBUG.vcxproj">
+      <Project>{ab9ee30b-8226-43bc-8687-b6c8d91fc648}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\UPRISE_ENGINE_EE\UPRISE_ENGINE_EE.vcxproj">
+      <Project>{c884a625-c892-4ee4-89ac-3592f9cac19d}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\UPRISE_ENGINE_PROFILER\UPRISE_ENGINE_PROFILER.vcxproj">
+      <Project>{374b5b71-eb13-4b4b-aba4-cd7a88ca290d}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
