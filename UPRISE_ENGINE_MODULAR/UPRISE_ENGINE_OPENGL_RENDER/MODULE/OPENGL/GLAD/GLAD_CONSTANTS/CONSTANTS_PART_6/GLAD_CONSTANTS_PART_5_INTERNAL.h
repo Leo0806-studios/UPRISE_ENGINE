@@ -1,6 +1,6 @@
 #pragma once
-#ifndef UE_GLAD_CONSTANTS_PART_5_INTERNAL_
-#define UE_GLAD_CONSTANTS_PART_5_INTERNAL_
+#ifndef UE_GLAD_CONSTANTS_PART_6_INTERNAL_
+#define UE_GLAD_CONSTANTS_PART_6_INTERNAL_
 #ifndef __INTELLISENSE__
 #ifndef UE_OPENGL_BUILD_
 #error "this file should not be directly included in user code. use import UPRISE_ENGINE_CORE instead"
