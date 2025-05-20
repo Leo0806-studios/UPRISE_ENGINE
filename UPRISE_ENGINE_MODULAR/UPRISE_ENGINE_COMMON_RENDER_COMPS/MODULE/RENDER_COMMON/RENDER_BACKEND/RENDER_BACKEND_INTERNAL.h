@@ -15,15 +15,20 @@
 #include "string"
 #include "filesystem"
 #endif // __INTELLISENSE__
-namespace UPRISE_ENGINE {
-    class OPENGL_BACKEND;
-    class DIRECTX11_BACKEND;
-    class DIRECTX12_BACKEND;
-    class VULKAN_BACKEND;
-
-    namespace RENDER {
-        class Render;
-    }
+namespace UPRISE_ENGINE::RENDER {
+        namespace OPENGL_RENDER {
+            class OPENGL_BACKEND;
+        }
+        namespace  DIRECTX11_RENDER {
+            class DIRECTX11_BACKEND;
+        }
+        namespace  DIRECTX12_RENDER {
+            class DIRECTX12_BACKEND;
+        }
+        namespace VULKAN_RENDER {
+            class VULKAN_BACKEND;
+        }
+        class Render;  
     namespace RENDER_COMMON
     {
         class WINDOW_BASE;
@@ -47,12 +52,12 @@ namespace UPRISE_ENGINE {
             UPRISE_COMMON_RENDER_COMPS_API  static OwnedRef<RENDER_BACKEND> _internal_backend;
             friend class Render;
             friend class RenderSetup;
-            friend  OPENGL_BACKEND;
-            friend  DIRECTX11_BACKEND;
-            friend DIRECTX12_BACKEND;
-            friend VULKAN_BACKEND;
+            friend  RENDER::OPENGL_RENDER::OPENGL_BACKEND;
+            friend  DIRECTX11_RENDER::DIRECTX11_BACKEND;
+            friend DIRECTX12_RENDER::DIRECTX12_BACKEND;
+            friend VULKAN_RENDER::VULKAN_BACKEND;
             friend RENDER::Render;
-            typedef OwnedRef<RENDER_BACKEND>(*_Create_Backend_FUNC)();
+            using _Create_Backend_FUNC = OwnedRef<RENDER_BACKEND> (*)();
             UPRISE_COMMON_RENDER_COMPS_API  static _Create_Backend_FUNC _Create_Backend; //-V2573 //-V3547
 
             UPRISE_COMMON_RENDER_COMPS_API  virtual void _internal_setup() = 0;
@@ -95,7 +100,7 @@ namespace UPRISE_ENGINE {
             UPRISE_COMMON_RENDER_COMPS_API RENDER_BACKEND(const RENDER_BACKEND& other) = delete;
             UPRISE_COMMON_RENDER_COMPS_API RENDER_BACKEND(RENDER_BACKEND&& other);
             UPRISE_COMMON_RENDER_COMPS_API RENDER_BACKEND& operator=(const RENDER_BACKEND& other) = delete;
-            UPRISE_COMMON_RENDER_COMPS_API RENDER_BACKEND& operator=(RENDER_BACKEND&& other);
+            UPRISE_COMMON_RENDER_COMPS_API RENDER_BACKEND& operator=(RENDER_BACKEND&& other)noexcept;
 
         };
 

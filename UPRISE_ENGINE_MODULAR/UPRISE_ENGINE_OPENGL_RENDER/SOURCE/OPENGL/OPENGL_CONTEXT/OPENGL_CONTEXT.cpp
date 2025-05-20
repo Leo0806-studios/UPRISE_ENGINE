@@ -1,17 +1,32 @@
-import REF_WRAPPER;
-#include "OPENGL/OPENGL_CONTEXT/OPENGL_CONTEXT.h"
-#include "OPENGL/WINDOW/OPENGL_WINDOW.h"
+#ifdef __INTELLISENSE__
+#include "UE_OPENGL_INTELLISENSE_FIX.h"
+#include "UE_COMMON_COMPS_INTELLISENSE_FIX.h"
+#include "UE_CORE_INTELLISENSE_FIX.h"
 #define WIN_32_LEAN_AND_MEAN
 #include "Windows.h"
 #include "gl/GL.h"
-#include <PROFILER/PROFILER_OBJECTS/TIMERS/SCOPED/SCOPED_TIME.h>
+import UPRISE_ENGINE_PROFILER;
+#else
+#define WIN_32_LEAN_AND_MEAN
+#include "Windows.h"
+#include "gl/GL.h"
+import UPRISE_ENGINE_CORE;
+import UPRISE_ENGINE_COMMON_RENDER_COMPONETS;
+import UPRISE_ENGINE_OPEN_GL_RENDER;
+import UPRISE_ENGINE_PROFILER;
+
+#endif // __INTELLISENSE__
+
+
+
+
 
 
 typedef HGLRC(WINAPI* wglCreateContextAttribsARB_t)(HDC, HGLRC, const int*);
 typedef BOOL(WINAPI* wglChoosePixelFormatARB_t)(HDC, const int*, const FLOAT*, UINT, int*, UINT*);
 wglCreateContextAttribsARB_t wglCreateContextAttribsARB = nullptr;
 wglChoosePixelFormatARB_t wglChoosePixelFormatARB = nullptr;
-namespace UPRISE_ENGINE {
+namespace UPRISE_ENGINE::RENDER {
     namespace OPENGL_RENDER {
         OwnedRef<RENDER_COMMON::CONTEXT_BASE> UPRISE_ENGINE::OPENGL_RENDER::OPENGL_CONTEXT::_internal_create_context(WeakRef<RENDER_COMMON::WINDOW_BASE,true> Window)
         {

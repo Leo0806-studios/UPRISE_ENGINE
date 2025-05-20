@@ -22,6 +22,7 @@ namespace UPRISE_ENGINE {
 
     void DEBUG::Debug::LogException(std::exception Exception)
     {
+        UE_UNUSED_PARAMETER(Exception);
         //TODO: implement
     }
      void DEBUG::Debug::LogException(UPRISE_ENGINE::EE::EXCEPTIONS::UPRISE_BASE_EXCEPTION Exception)

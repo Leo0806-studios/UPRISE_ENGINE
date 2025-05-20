@@ -17,8 +17,7 @@
 #include <string>
 #include <filesystem>
 #endif // __INTELLISENSE__
-namespace UPRISE_ENGINE {
-    namespace RENDER_COMMON {
+namespace UPRISE_ENGINE::RENDER:: RENDER_COMMON {
         class CONTEXT_BASE;
         typedef void* OSWindowHandle;
         class WINDOW_BASE {
@@ -86,6 +85,6 @@ namespace UPRISE_ENGINE {
         };
 
     }
-}
+
 
 #endif

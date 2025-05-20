@@ -79,6 +79,8 @@ void close_gl(void) {
         libGL = NULL;
     }
 }
+
+//TODO__SEPERATOR
 #else
 #include <dlfcn.h>
 static void* libGL;
@@ -127,6 +129,8 @@ void close_gl(void) {
     }
 }
 #endif
+//TODO__SEPERATOR
+
 
 static
 void* get_proc(const char *namez) {

@@ -8,7 +8,9 @@
 #endif
 #include "GLAD/STUPIDMACROS/GLAD_MACROS.h"
 #ifdef __INTELLISENSE__
+#ifndef DONT_INCLUDE_GLAD
 #include <glad.h>
+#endif
 #endif // __INTELLISENSE__
 namespace UPRISE_ENGINE {
     namespace RENDER {
@@ -65,6 +67,7 @@ namespace UPRISE_ENGINE {
                 constexpr int _GL_POINT_SIZE = 0x0B11;
                 constexpr int _GL_POINT_SIZE_RANGE = 0x0B12;
                 constexpr int _GL_POINT_SIZE_GRANULARITY = 0x0B13;
+#ifndef DONT_INCLUDE_GLAD
                 consteval void CheckConstantsPart1() {
                     static_assert(_GL_DEPTH_BUFFER_BIT == GL_DEPTH_BUFFER_BIT, "GL_DEPTH_BUFFER_BIT is not equal to _GL_DEPTH_BUFFER_BIT");
                     static_assert(_GL_STENCIL_BUFFER_BIT == GL_STENCIL_BUFFER_BIT, "GL_STENCIL_BUFFER_BIT is not equal to _GL_STENCIL_BUFFER_BIT");
@@ -119,6 +122,7 @@ namespace UPRISE_ENGINE {
                     static_assert(_GL_POINT_SIZE_GRANULARITY == GL_POINT_SIZE_GRANULARITY, "GL_POINT_SIZE_GRANULARITY is not equal to _GL_POINT_SIZE_GRANULARITY");
 
                 }
+#endif
             }
         }
     }

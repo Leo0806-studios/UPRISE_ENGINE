@@ -8,7 +8,9 @@
 #endif
 #include "GLAD/STUPIDMACROS/GLAD_MACROS.h"
 #ifdef __INTELLISENSE__
+#ifndef DONT_INCLUDE_GLAD
 #include <glad.h>
+#endif
 #endif // __INTELLISENSE__
 namespace UPRISE_ENGINE {
     namespace RENDER {
@@ -102,6 +104,7 @@ namespace UPRISE_ENGINE {
                 constexpr int _GL_TEXTURE = 0x1702;
                 constexpr int _GL_COLOR = 0x1800;
                 constexpr int _GL_DEPTH = 0x1801;
+#ifndef DONT_INCLUDE_GLAD
                 consteval void CheckConstantsPart2() {
                     static_assert(_GL_LINE_SMOOTH == GL_LINE_SMOOTH, "GL_LINE_SMOOTH is not equal to _GL_LINE_SMOOTH");
                     static_assert(_GL_LINE_WIDTH == GL_LINE_WIDTH, "GL_LINE_WIDTH is not equal to _GL_LINE_WIDTH");
@@ -193,6 +196,7 @@ namespace UPRISE_ENGINE {
                     static_assert(_GL_DEPTH == GL_DEPTH, "GL_DEPTH is not equal to _GL_DEPTH");
 
                 }
+#endif
             }
         }
     }

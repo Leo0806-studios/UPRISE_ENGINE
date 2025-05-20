@@ -19,7 +19,7 @@
 namespace UPRISE_ENGINE {
     template <typename Type>
     class OwnedRef :public WrapperBase {
-
+        template<class T> friend class OwnedRef;
     public:
 
         OwnedRef()noexcept {};
@@ -47,7 +47,6 @@ namespace UPRISE_ENGINE {
             }
             }
         }//~OwnedRef()
-
         OwnedRef(const OwnedRef<Type>& other) = delete;
         OwnedRef& operator=(const OwnedRef<Type>& other) = delete;
         OwnedRef(OwnedRef<Type>&& other)noexcept(RW_USE_CPP_EXCEPTIONS_ == false) {
@@ -76,7 +75,7 @@ namespace UPRISE_ENGINE {
                 break;
             }
             default: {
-                this->ControlBlock = std::exchange(other.ControlBlock, reinterpret_cast<ControlBlock_Base*>(2ULL));
+                this->ControlBlock = std::exchange(other.ControlBlock, reinterpret_cast<ControlBlock_Base*>(1ULL));
                 break;
             }
             }
@@ -85,7 +84,6 @@ namespace UPRISE_ENGINE {
 
 
         }//OwnedRef(OwnedRef<Type>&& other)noexcept(RW_USE_CPP_EXCEPTIONS_ == false)
-
         OwnedRef& operator=(OwnedRef<Type>&& other)noexcept(RW_USE_CPP_EXCEPTIONS_ == false) {
             switch (reinterpret_cast<uintptr_t>(this->ControlBlock)) {
             case 0: {
@@ -121,11 +119,79 @@ namespace UPRISE_ENGINE {
                 break;
             }
             default: {
-                this->ControlBlock = std::exchange(other.ControlBlock, reinterpret_cast<ControlBlock_Base*>(2ULL));
+                this->ControlBlock = std::exchange(other.ControlBlock, reinterpret_cast<ControlBlock_Base*>(1ULL));
                 break;
             }
             }
             return *this;
+        }//OwnedRef& operator=(OwnedRef<Type>&& other)noexcept(RW_USE_CPP_EXCEPTIONS_==false)
+        template <
+            typename OtherType,
+            typename = std::enable_if<!std::is_same_v<Type,OtherType>>>
+        OwnedRef(OwnedRef<OtherType>&& other)noexcept(RW_USE_CPP_EXCEPTIONS_ == false) {
+
+            switch (reinterpret_cast<uintptr_t>(other.ControlBlock)) {
+            case 0: {
+                CaseNull(" \"other\" was null (0) while trying to move OwnedRef. this is an error in the Program");
+                break;
+            }
+            case 1: {
+                CaseMoved(" \"other\" was moved (1) while trying to move OwnedRef. this is an error in the Program");
+                break;
+            }
+            case 2: {
+                if constexpr (WarningLevel >= 3) {
+                    CaseDefaultConstructed(" \"other\" was default constructed (2) while trying to move OwnedRef. this might be an error in the program");
+                }
+                break;
+            }
+            default: {
+                this->ControlBlock = std::exchange(other.ControlBlock, reinterpret_cast<ControlBlock_Base*>(1ULL));
+                break;
+            }
+            }
+        }//OwnedRef(OwnedRef<Type>&& other)noexcept(RW_USE_CPP_EXCEPTIONS_ == false)
+        template <
+            typename OtherType,
+            typename = std::enable_if<!std::is_same_v<Type, OtherType>>>
+        OwnedRef& operator=(OwnedRef<OtherType>&& other)noexcept(RW_USE_CPP_EXCEPTIONS_ == false) {
+            switch (reinterpret_cast<uintptr_t>(this->ControlBlock)) {
+            case 0: {
+                CaseNull(" \"this\" was null (0). this is an error in the program");
+                break;
+            }
+            case 1: {
+                break;
+            }
+            case 2: {
+                break;
+            }
+            default: {
+                DecrementWeakRefs();
+                DecrementRefs();
+                break;
+            }
+            }
+            switch (reinterpret_cast<uintptr_t>(other.ControlBlock)) {
+            case 0: {
+                CaseNull(" \"other\" was null (0). this is an error in the program");
+                break;
+            }
+            case 1: {
+                CaseMoved(" \"other\" was moved (1) from. this is an error in the program");
+                break;
+            }
+            case 2: {
+                if constexpr (WarningLevel >= 3) {
+                    CaseDefaultConstructed(" \"other\" was default constructed (2). this might be an error in the program");
+                }
+                break;
+            }
+            default: {
+                this->ControlBlock = std::exchange(other.ControlBlock, reinterpret_cast<ControlBlock_Base*>(1ULL));
+                break;
+            }
+            }
         }//OwnedRef& operator=(OwnedRef<Type>&& other)noexcept(RW_USE_CPP_EXCEPTIONS_==false)
 
         Type* get() noexcept(RW_USE_CPP_EXCEPTIONS_ == false) {

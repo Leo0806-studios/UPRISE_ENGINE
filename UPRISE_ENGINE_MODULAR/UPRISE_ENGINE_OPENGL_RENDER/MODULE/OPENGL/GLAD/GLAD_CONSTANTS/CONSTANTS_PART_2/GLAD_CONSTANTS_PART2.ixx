@@ -1,4 +1,4 @@
-export module GLAD:GLAD_CONSTANTS_PART2;
+export module GLAD:GLAD_CONSTANTS_PART_2;
 import <glad.h>;
 export {
 #define UE_OPENGL_BUILD_

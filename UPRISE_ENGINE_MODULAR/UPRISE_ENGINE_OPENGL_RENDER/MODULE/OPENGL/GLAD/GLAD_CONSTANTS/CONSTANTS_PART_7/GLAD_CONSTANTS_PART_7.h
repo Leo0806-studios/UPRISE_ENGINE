@@ -8,7 +8,9 @@
 #endif
 #include "OPENGL/GLAD/STUPIDMACROS/GLAD_MACROS.h"
 #ifdef __INTELLISENSE__
+#ifndef DONT_INCLUDE_GLAD
 #include <glad.h>
+#endif
 #endif // __INTELLISENSE__
 namespace UPRISE_ENGINE {
     namespace RENDER {
@@ -212,6 +214,7 @@ namespace UPRISE_ENGINE {
                     constexpr int _GL_TRANSFORM_FEEDBACK_BUFFER_ACTIVE = 0x8E24;
                     constexpr int _GL_TRANSFORM_FEEDBACK_BINDING = 0x8E25;
                     constexpr int _GL_MAX_TRANSFORM_FEEDBACK_BUFFERS = 0x8E70;
+#ifndef DONT_INCLUDE_GLAD
                     consteval void CheckConstantsPart7() {
                         static_assert(_GL_SIGNED_NORMALIZED == GL_SIGNED_NORMALIZED, "_GL_SIGNED_NORMALIZED is not equal to GL_SIGNED_NORMALIZED");
                         static_assert(_GL_PRIMITIVE_RESTART == GL_PRIMITIVE_RESTART, "_GL_PRIMITIVE_RESTART is not equal to GL_PRIMITIVE_RESTART");
@@ -410,6 +413,7 @@ namespace UPRISE_ENGINE {
                         static_assert(_GL_TRANSFORM_FEEDBACK_BINDING == GL_TRANSFORM_FEEDBACK_BINDING, "_GL_TRANSFORM_FEEDBACK_BINDING is not equal to GL_TRANSFORM_FEEDBACK_BINDING");
                         static_assert(_GL_MAX_TRANSFORM_FEEDBACK_BUFFERS == GL_MAX_TRANSFORM_FEEDBACK_BUFFERS, "_GL_MAX_TRANSFORM_FEEDBACK_BUFFERS is not equal to GL_MAX_TRANSFORM_FEEDBACK_BUFFERS");
                     }
+#endif
                 }
             }
         }

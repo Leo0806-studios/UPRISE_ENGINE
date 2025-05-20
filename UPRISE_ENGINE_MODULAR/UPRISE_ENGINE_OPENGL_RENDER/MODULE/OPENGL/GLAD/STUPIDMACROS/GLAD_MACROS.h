@@ -1,7 +1,8 @@
 #pragma once
 #ifndef UE_GLAD_MACROS_
 #define UE_GLAD_MACROS_
-
+#pragma warning(push)
+#pragma warning(disable : 4005)
 #if defined(_WIN32) && !defined(APIENTRY) && !defined(__CYGWIN__) && !defined(__SCITECH_SNAP__)
 #define APIENTRY __stdcall
 #endif
@@ -104,4 +105,6 @@
 #define KHRONOS_USE_INTPTR_T
 #endif
 #endif
+#define GL_VERSION_3_0
+#pragma warning(pop)
 #endif //UE_GLAD_MACROS_

@@ -8,7 +8,9 @@
 #endif
 #include "OPENGL/GLAD/STUPIDMACROS/GLAD_MACROS.h"
 #ifdef __INTELLISENSE__
+#ifndef DONT_INCLUDE_GLAD
 #include <glad.h>
+#endif
 #endif // __INTELLISENSE__
 namespace UPRISE_ENGINE {
     namespace RENDER {
@@ -173,6 +175,7 @@ namespace UPRISE_ENGINE {
                 constexpr int _GL_DEPTH32F_STENCIL8 = 0x8CAD;
                 constexpr int _GL_FLOAT_32_UNSIGNED_INT_24_8_REV = 0x8DAD;
                 constexpr int _GL_INVALID_FRAMEBUFFER_OPERATION = 0x0506;
+#ifndef DONT_INCLUDE_GLAD
                 consteval void CheckConstantsPart5() {
                     static_assert(_GL_FLOAT_VEC2 == GL_FLOAT_VEC2, "_GL_FLOAT_VEC2 is not equal to GL_FLOAT_VEC2");
                     static_assert(_GL_FLOAT_VEC3 == GL_FLOAT_VEC3, "_GL_FLOAT_VEC3 is not equal to GL_FLOAT_VEC3");
@@ -334,6 +337,7 @@ namespace UPRISE_ENGINE {
                     static_assert(_GL_FLOAT_32_UNSIGNED_INT_24_8_REV == GL_FLOAT_32_UNSIGNED_INT_24_8_REV, "_GL_FLOAT_32_UNSIGNED_INT_24_8_REV is not equal to GL_FLOAT_32_UNSIGNED_INT_24_8_REV");
                     static_assert(_GL_INVALID_FRAMEBUFFER_OPERATION == GL_INVALID_FRAMEBUFFER_OPERATION, "_GL_INVALID_FRAMEBUFFER_OPERATION is not equal to GL_INVALID_FRAMEBUFFER_OPERATION");
                 }
+#endif
             }
         }
     }

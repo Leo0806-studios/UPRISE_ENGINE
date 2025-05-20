@@ -8,7 +8,9 @@
 #endif
 #include "OPENGL/GLAD/STUPIDMACROS/GLAD_MACROS.h"
 #ifdef __INTELLISENSE__
+#ifndef DONT_INCLUDE_GLAD
 #include <glad.h>
+#endif
 #endif // __INTELLISENSE__
 namespace UPRISE_ENGINE {
     namespace RENDER {
@@ -164,6 +166,7 @@ namespace UPRISE_ENGINE {
                 constexpr int _GL_RG16_SNORM = 0x8F99;
                 constexpr int _GL_RGB16_SNORM = 0x8F9A;
                 constexpr int _GL_RGBA16_SNORM = 0x8F9B;
+#ifndef DONT_INCLUDE_GLAD
                 consteval void CheckConstantsPart6() {
                     static_assert(_GL_FRAMEBUFFER_ATTACHMENT_COLOR_ENCODING == GL_FRAMEBUFFER_ATTACHMENT_COLOR_ENCODING, "_GL_FRAMEBUFFER_ATTACHMENT_COLOR_ENCODING is not equal to GL_FRAMEBUFFER_ATTACHMENT_COLOR_ENCODING");
                     static_assert(_GL_FRAMEBUFFER_ATTACHMENT_COMPONENT_TYPE == GL_FRAMEBUFFER_ATTACHMENT_COMPONENT_TYPE, "_GL_FRAMEBUFFER_ATTACHMENT_COMPONENT_TYPE is not equal to GL_FRAMEBUFFER_ATTACHMENT_COMPONENT_TYPE");
@@ -316,6 +319,7 @@ namespace UPRISE_ENGINE {
                     static_assert(_GL_RGB16_SNORM == GL_RGB16_SNORM, "_GL_RGB16_SNORM is not equal to GL_RGB16_SNORM");
                     static_assert(_GL_RGBA16_SNORM == GL_RGBA16_SNORM, "_GL_RGBA16_SNORM is not equal to GL_RGBA16_SNORM");
                 }
+#endif
             }
         }
     }

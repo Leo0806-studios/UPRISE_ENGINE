@@ -8,7 +8,9 @@
 #endif
 #include "OPENGL/GLAD/STUPIDMACROS/GLAD_MACROS.h"
 #ifdef __INTELLISENSE__
+#ifndef DONT_INCLUDE_GLAD
 #include <glad.h>
+#endif
 #endif // __INTELLISENSE__
 namespace UPRISE_ENGINE {
     namespace RENDER {
@@ -169,6 +171,7 @@ namespace UPRISE_ENGINE {
                 constexpr int _GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS = 0x8B4C;
                 constexpr int _GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS = 0x8B4D;
                 constexpr int _GL_SHADER_TYPE = 0x8B4F;
+#ifndef DONT_INCLUDE_GLAD
                 consteval void CheckConstantsPart4() {
                     static_assert(_GL_TEXTURE0 == GL_TEXTURE0, "_GL_TEXTURE0 is not equal to GL_TEXTURE0");
                     static_assert(_GL_TEXTURE1 == GL_TEXTURE1, "_GL_TEXTURE1 is not equal to GL_TEXTURE1");
@@ -326,7 +329,7 @@ namespace UPRISE_ENGINE {
                     static_assert(_GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS == GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, "_GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS is not equal to GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS");
                     static_assert(_GL_SHADER_TYPE == GL_SHADER_TYPE, "_GL_SHADER_TYPE is not equal to GL_SHADER_TYPE");
                 }
-
+#endif
             }
         }
     }

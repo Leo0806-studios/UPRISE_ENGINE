@@ -314,7 +314,7 @@ namespace UPRISE_ENGINE {
                 break;
             }
             default: {
-                ControlBlock = std::exchange(other.ControlBlock, IntegerTypeToPointer<ControlBlock_Base>(1ULL)); //-V2571 //-V566 //-V3546
+                ControlBlock = std::exchange(other.ControlBlock, reinterpret_cast<ControlBlock_Base*>(1ULL)); //-V2571 //-V566 //-V3546
                 break;
             }
             }

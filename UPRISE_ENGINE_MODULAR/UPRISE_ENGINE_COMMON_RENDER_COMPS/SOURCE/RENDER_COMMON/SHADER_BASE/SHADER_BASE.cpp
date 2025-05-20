@@ -8,8 +8,7 @@ import <string>;
 import <filesystem>;
 #endif // __INTELLISENSE__
 
-namespace UPRISE_ENGINE {
-    namespace RENDER_COMMON {
+namespace UPRISE_ENGINE::RENDER::RENDER_COMMON {
         SHADER_BASE::SHADER_BASE(const SHADER_BASE& other):
             Code(other.Code),
             Path(other.Path),
@@ -39,4 +38,3 @@ namespace UPRISE_ENGINE {
             return *this;
         }
     }
-}

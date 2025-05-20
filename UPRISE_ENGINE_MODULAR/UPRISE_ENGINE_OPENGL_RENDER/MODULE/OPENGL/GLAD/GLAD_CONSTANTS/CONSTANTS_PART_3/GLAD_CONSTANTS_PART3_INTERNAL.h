@@ -8,7 +8,9 @@
 #endif
 #include "OPENGL/GLAD/STUPIDMACROS/GLAD_MACROS.h"
 #ifdef __INTELLISENSE__
+#ifndef DONT_INCLUDE_GLAD
 #include "glad.h"
+#endif
 #endif // __INTELLISENSE__
 namespace UPRISE_ENGINE {
     namespace RENDER {
@@ -111,6 +113,7 @@ namespace UPRISE_ENGINE {
                 constexpr int _GL_SMOOTH_LINE_WIDTH_RANGE = 0x0B22;
                 constexpr int _GL_SMOOTH_LINE_WIDTH_GRANULARITY = 0x0B23;
                 constexpr int _GL_ALIASED_LINE_WIDTH_RANGE = 0x846E;
+#ifndef DONT_INCLUDE_GLAD
                 consteval void CheckConstantsPart3() {
                     static_assert(_GL_STENCIL==GL_STENCIL,"_GL_STENCIL is not equal to GL_STENCIL");
                     static_assert(_GL_STENCIL_INDEX == GL_STENCIL_INDEX, "_GL_STENCIL_INDEX is not equal to GL_STENCIL_INDEX");
@@ -210,6 +213,7 @@ namespace UPRISE_ENGINE {
                     static_assert(_GL_SMOOTH_LINE_WIDTH_GRANULARITY == GL_SMOOTH_LINE_WIDTH_GRANULARITY, "_GL_SMOOTH_LINE_WIDTH_GRANULARITY  is not equal to GL_SMOOTH_LINE_WIDTH_GRANULARITY");
                     static_assert(_GL_ALIASED_LINE_WIDTH_RANGE == GL_ALIASED_LINE_WIDTH_RANGE, "_GL_ALIASED_LINE_WIDTH_RANGE  is not equal to GL_ALIASED_LINE_WIDTH_RANGE");
                 }
+#endif
             }
         }
     }

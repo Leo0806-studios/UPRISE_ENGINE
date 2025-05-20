@@ -8,7 +8,9 @@
 #endif
 #include "GLAD/STUPIDMACROS/GLAD_MACROS.h"
 #ifdef __INTELLISENSE__
-#include <glad.h>
+#ifndef DONT_INCLUDE_GLAD
+/#include <glad.h>
+#endif
 #if(defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L) || defined(__GNUC__) || defined(__SCO__) || defined(__USLC__)
 #include <stdint.h>
 #elif defined(__VMS ) || defined(__sgi)
@@ -220,10 +222,11 @@ namespace UPRISE_ENGINE {
              * Dummy value used to pad enum types to 32 bits.
              */
              constexpr int _KHRONOS_MAX_ENUM = 0x7FFFFFFF;
+#ifndef DONT_INCLUDE_GLAD
             consteval void CheckMaxEnum() {
                 static_assert(KHRONOS_MAX_ENUM == _KHRONOS_MAX_ENUM, "_KHRONOS_MAX_ENUM is not equal to KHRONOS_MAX_ENUM");
             }
-
+#endif
 
             /*
  * Enumerated boolean type

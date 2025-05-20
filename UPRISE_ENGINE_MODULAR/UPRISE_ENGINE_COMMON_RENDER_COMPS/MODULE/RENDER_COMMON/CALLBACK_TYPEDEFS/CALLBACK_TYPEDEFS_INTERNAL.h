@@ -10,26 +10,26 @@
 #include "UE_CORE_INTELLISENSE_FIX.h"
 #endif // __INTELLISENSE__
 
-namespace UPRISE_ENGINE {
+namespace UPRISE_ENGINE ::RENDER::RENDER_COMMON{
     class WINDOW_BASE;
 
-    namespace RENDER_COMMON {
+ 
         /// <summary>
     /// 
     /// </summary>
-        typedef int(*KeyInputCallback)(SharedRef<WINDOW_BASE, true> Windopw, int key, int scancode, int action, int mods);
+        using KeyInputCallback = int (*)(SharedRef<WINDOW_BASE, true> Windopw, int key, int scancode, int action, int mods);
         /// <summary>
         /// 
         /// </summary>
-        typedef int(*MouseButtonCallback)(SharedRef<WINDOW_BASE, true> Windopw, int button, int action, int mods);
+        using MouseButtonCallback = int (*)(SharedRef<WINDOW_BASE, true> Windopw, int button, int action, int mods);
         /// <summary>
         /// 
         /// </summary>
-        typedef int(*CursorPosCallback)(SharedRef<WINDOW_BASE, true> Windopw, double xpos, double ypos);
+        using CursorPosCallback = int (*)(SharedRef<WINDOW_BASE, true> Windopw, double xpos, double ypos);
         /// <summary>
         /// 
         /// </summary>
-        typedef int(*ResizeCallback)(SharedRef<WINDOW_BASE, true> Windopw, int width, int height);
+        using ResizeCallback = int (*)(SharedRef<WINDOW_BASE, true> Windopw, int width, int height);
         /// <summary>
         /// 
         /// </summary>
@@ -70,7 +70,7 @@ namespace UPRISE_ENGINE {
         /// 
         /// </summary>
         typedef int(*WindowPosCallback)(SharedRef<WINDOW_BASE, true> Windopw, int xpos, int ypos);
-    }
+    
 
 }
 #endif

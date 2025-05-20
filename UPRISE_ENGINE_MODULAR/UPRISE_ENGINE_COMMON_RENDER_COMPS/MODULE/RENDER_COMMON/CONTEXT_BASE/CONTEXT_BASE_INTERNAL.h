@@ -10,11 +10,20 @@
 #include "UE_CORE_INTELLISENSE_FIX.h"
 #endif // __INTELLISENSE__
 
-namespace UPRISE_ENGINE {
-    class OPENGL_CONTEXT;
-    class DIRECTX11_CONTEXT;
-    class DIRECTX12_CONTEXT;
-    class VULKAN_CONTEXT;
+namespace UPRISE_ENGINE ::RENDER{
+    namespace OPENGL_RENDER {
+        class OPENGL_CONTEXT;
+
+    }
+    namespace DIRECTX11_RENDER {
+        class DIRECTX11_CONTEXT;
+    }
+    namespace DIRECTX12_RENDER {
+        class DIRECTX12_CONTEXT;
+    }
+    namespace VULKAN_RENDER {
+        class VULKAN_CONTEXT;
+    }
 
     namespace RENDER_COMMON {
         class WINDOW_BASE;

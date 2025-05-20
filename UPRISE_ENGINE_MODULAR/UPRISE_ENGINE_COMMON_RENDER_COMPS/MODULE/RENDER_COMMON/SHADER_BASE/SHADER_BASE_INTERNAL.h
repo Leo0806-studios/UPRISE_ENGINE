@@ -17,13 +17,20 @@
 #endif // __INTELLISENSE__
 
 
-namespace UPRISE_ENGINE {
+namespace UPRISE_ENGINE::RENDER {
     namespace OPENGL_RENDER {
         class OPENGL_SHADER;
     }
-    class VULKAN_SHADER;
-    class DIRECTX11_SHADER;
-    class DIRECTX12_SHADER;
+    namespace  DIRECTX11_RENDER {
+        class DIRECTX11_SHADER;
+    }
+    namespace  DIRECTX12_RENDER {
+        class DIRECTX12_SHADER;
+    }
+    namespace VULKAN_RENDER {
+        class VULKAN_SHADER;
+    }
+
     namespace RENDER_COMMON {
         enum class ShaderType {
             S_null,
@@ -35,9 +42,9 @@ namespace UPRISE_ENGINE {
         class SHADER_BASE {
         protected:
             friend OPENGL_RENDER::OPENGL_SHADER;
-            friend VULKAN_SHADER;
-            friend DIRECTX11_SHADER;
-            friend DIRECTX12_SHADER;
+            friend VULKAN_RENDER::VULKAN_SHADER;
+            friend DIRECTX11_RENDER::DIRECTX11_SHADER;
+            friend DIRECTX12_RENDER::DIRECTX12_SHADER;
             std::string Code;
             std::string Path;
             ShaderType shadertype = ShaderType::S_null;

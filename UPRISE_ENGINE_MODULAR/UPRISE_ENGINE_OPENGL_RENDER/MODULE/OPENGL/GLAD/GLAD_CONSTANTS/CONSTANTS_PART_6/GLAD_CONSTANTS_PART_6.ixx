@@ -1,3 +1,6 @@
-export module GLAD_CONSTANTS_PART_6;
-
-export void MyFunc();
+export module GLAD:GLAD_CONSTANTS_PART_6;
+import <glad.h>;
+export {
+#define UE_OPENGL_BUILD_
+#include "GLAD_CONSTANTS_PART_6_INTERNAL.h"
+}

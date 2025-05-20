@@ -11,13 +11,23 @@
 #include <string>
 #include <filesystem>
 #endif // __INTELLISENSE__
-namespace UPRISE_ENGINE {
-    class OPENGL_SHADERPROGRAM;
-    class VULKAN_SHADERPROGRAM;
-    class DIRECTX11_SHADERPROGRAM;
-    class DIRECTX12_SHADERPROGRAM;
-    class SHADER_BASE;
+namespace UPRISE_ENGINE::RENDER {
+    namespace OPENGL_RENDER {
+        class OPENGL_SHADERPROGRAM;
+    }
+    namespace  DIRECTX11_RENDER {
+        class DIRECTX11_SHADERPROGRAM;
+    }
+    namespace  DIRECTX12_RENDER {
+        class DIRECTX12_SHADERPROGRAM;
+    }
+    namespace VULKAN_RENDER {
+        class VULKAN_SHADERPROGRAM;
+    }
+
     namespace RENDER_COMMON {
+        class SHADER_BASE;
+
         class SHADERPROGRAM_BASE {
         private:
             std::string name = "";

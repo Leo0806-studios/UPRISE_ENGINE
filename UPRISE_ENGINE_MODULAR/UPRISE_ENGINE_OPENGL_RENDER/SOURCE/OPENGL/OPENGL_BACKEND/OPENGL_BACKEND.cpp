@@ -1,25 +1,33 @@
 // This is a personal academic project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
-#include "OPENGL/OPENGL_BACKEND/OPENGL_BACKEND.h"
+#ifdef __INTELLISENSE__
+#define DONT_INCLUDE_GLAD
+#include "UE_OPENGL_INTELLISENSE_FIX.h"
 
-#include "OPENGL/WINDOW/OPENGL_WINDOW.h"
-#include "PROFILER/PROFILER_OBJECTS/TIMERS/SCOPED/SCOPED_TIME.h"
-#include "OPENGL/OPENGL_SHADER/OPENGL_SHADER.h"
-#include "OPENGL/OPENGL_CONTEXT/OPENGL_CONTEXT.h"
-import GLAD;
-namespace UPRISE_ENGINE {
-    namespace OPENGL_RENDER {
+#include "UE_COMMON_COMPS_INTELLISENSE_FIX.h"
+import UPRISE_ENGINE_CORE;
+
+import UPRISE_ENGINE_PROFILER;
+#else
+import UPRISE_ENGINE_CORE;
+import UPRISE_ENGINE_COMMON_RENDER_COMPONETS;
+import UPRISE_ENGINE_OPEN_GL_RENDER;
+import UPRISE_ENGINE_PROFILER;
+
+#endif // __INTELLISENSE__
+
+
+namespace UPRISE_ENGINE::RENDER::OPENGL_RENDER {
         class OPENGL_WINDOW;
-
-    }
 #ifndef UPRISE_TESTS
-    OPENGL_BACKEND::ContextList OPENGL_BACKEND::ContextList_;
+   OPENGL_BACKEND::ContextList OPENGL_BACKEND::ContextList_;
+    
 #endif // !UPRISE_TESTS
 
     OwnedRef<RENDER_COMMON::RENDER_BACKEND> OPENGL_BACKEND::GL_Create_Backend()
     {
         SCOPED_TIME_
-            OwnedRef<RENDER_COMMON::RENDER_BACKEND> a = (CreateRefs::CreateOwnedRef<OPENGL_BACKEND>(OPENGL_BACKEND()));
+            OwnedRef<RENDER_COMMON::RENDER_BACKEND> a = (OwnedRef<OPENGL_BACKEND>::Create(OPENGL_BACKEND()));
         return a;
 
     }
@@ -30,25 +38,26 @@ namespace UPRISE_ENGINE {
 
 
 
-    WeakRef<RENDER_COMMON::CONTEXT_BASE,true> UPRISE_ENGINE::OPENGL_BACKEND::_internal_Create_Context(WeakRef<RENDER_COMMON::WINDOW_BASE,true> window)
+    WeakRef<RENDER_COMMON::CONTEXT_BASE,true> OPENGL_BACKEND::_internal_Create_Context(WeakRef<RENDER_COMMON::WINDOW_BASE,true> window)
     {
-        OwnedRef ctx = CreateRefs::CreateOwnedRef<OPENGL_RENDER::OPENGL_CONTEXT>();
+        OwnedRef ctx = OwnedRef<OPENGL_CONTEXT>::Create();
+        
         ctx->_internal_create_context(window);
         ContextList_.push_back(std::move(ctx));
         WeakRef<RENDER_COMMON::CONTEXT_BASE,true> ret = ContextList_.back().GetWeakRef();;
-        static auto galdinit = gladLoadGL();
+        static auto galdinit = GLAD::gladLoadGL();
         return ret;
     }
 
     OwnedRef<RENDER_COMMON::SHADER_BASE> OPENGL_BACKEND::_internal_Create_Shader(const std::string& ShaderCode)
     {
-        auto ret = CreateRefs::CreateOwnedRef<OPENGL_RENDER::OPENGL_SHADER>(OPENGL_RENDER::OPENGL_SHADER(ShaderCode));
+        auto ret = OwnedRef<OPENGL_SHADER>::Create(OPENGL_SHADER(ShaderCode));
         return ret;
     }
 
     OwnedRef<RENDER_COMMON::SHADER_BASE> OPENGL_BACKEND::_internal_Create_Shader(const std::filesystem::path& ShaderCode_Path)
     {
-        auto ret = CreateRefs::CreateOwnedRef<OPENGL_RENDER::OPENGL_SHADER>(OPENGL_RENDER::OPENGL_SHADER(ShaderCode_Path));
+        auto ret = OwnedRef<OPENGL_SHADER>::Create(OPENGL_SHADER(ShaderCode_Path));
         ret->Load();
             return ret;
     }
@@ -75,7 +84,7 @@ namespace UPRISE_ENGINE {
     OwnedRef<RENDER_COMMON::WINDOW_BASE> OPENGL_BACKEND::_internal_CreateWindow(int w, int h, const char* Title)
     {
         SCOPED_TIME_
-        OwnedRef<OPENGL_RENDER::OPENGL_WINDOW> a = CreateRefs::CreateOwnedRef<OPENGL_RENDER::OPENGL_WINDOW>(OPENGL_RENDER::OPENGL_WINDOW());
+        OwnedRef<OPENGL_WINDOW> a = OwnedRef<OPENGL_WINDOW>::Create(OPENGL_WINDOW());
         a->CreateWindow(w, h, Title);
         return a;
     }
@@ -88,7 +97,7 @@ namespace UPRISE_ENGINE {
     {
         SCOPED_TIME_
             unsigned int buffer;
-        glGenBuffers(1, &buffer);
+        GLAD::glGenBuffers(1, &buffer);
         return buffer;
     }
 
@@ -102,7 +111,7 @@ namespace UPRISE_ENGINE {
     void OPENGL_BACKEND::_internal_DestroyBuffer(const unsigned int Buffer)
     {
         SCOPED_TIME_
-        glDeleteBuffers(1, &Buffer);
+        GLAD::glDeleteBuffers(1, &Buffer);
         
     }
 
@@ -112,17 +121,17 @@ namespace UPRISE_ENGINE {
 
         
 
-            if (length * Type_Size > static_cast<size_t>(std::numeric_limits<GLsizeiptr>::max()))
+            if (length * Type_Size > static_cast<size_t>(std::numeric_limits<GLAD::GLsizeiptr>::max()))
             {
                 throw std::runtime_error("Buffer too large");
             }
 
-        if (bufferType >= static_cast<size_t>(std::numeric_limits<GLenum>::max()))
+        if (bufferType >= static_cast<size_t>(std::numeric_limits<GLAD::GLenum>::max()))
         {
             throw std::runtime_error("Buffer type too large");
         }
-        glBindBuffer(static_cast<unsigned int>(bufferType), Buffer);
-        glBufferData(static_cast<unsigned int>(bufferType), static_cast<signed long long>(length * Type_Size), _Data, _GL_STATIC_DRAW);
+       GLAD:: glBindBuffer(static_cast<unsigned int>(bufferType), Buffer);
+        GLAD::glBufferData(static_cast<unsigned int>(bufferType), static_cast<signed long long>(length * Type_Size), _Data, GLAD::CONSTANTS::_GL_STATIC_DRAW);
     }
     void OPENGL_BACKEND::_internal_PreFrameWork()
     {

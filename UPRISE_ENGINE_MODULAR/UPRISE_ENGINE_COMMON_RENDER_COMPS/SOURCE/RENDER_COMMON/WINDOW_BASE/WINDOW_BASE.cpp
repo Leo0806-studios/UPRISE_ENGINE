@@ -6,8 +6,7 @@
 import UPRISE_ENGINE_COMMON_RENDER_COMPONETS;
 #endif // __INTELLISENSE__
 
-namespace UPRISE_ENGINE {
-    namespace RENDER_COMMON {
+namespace UPRISE_ENGINE::RENDER::RENDER_COMMON {
         WINDOW_BASE::WINDOW_BASE(const WINDOW_BASE& other)
         {
             this->Callbacks = other.Callbacks;
@@ -19,4 +18,3 @@ namespace UPRISE_ENGINE {
          }
 
     }
-}

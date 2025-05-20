@@ -8,8 +8,7 @@ import UPRISE_ENGINE_COMMON_RENDER_COMPONETS;
 import UPRISE_ENGINE_CORE;
 #endif // __INTELLISENSE__
 import UPRISE_ENGINE_PROFILER;
-namespace UPRISE_ENGINE {
-    namespace RENDER_COMMON {
+namespace UPRISE_ENGINE::RENDER::RENDER_COMMON {
 
 
         OwnedRef<RENDER_BACKEND> RENDER_BACKEND::_internal_backend;
@@ -37,7 +36,7 @@ namespace UPRISE_ENGINE {
             return _internal_backend.GetWeakRef();
         }
 
-        WeakRef<RENDER_COMMON::CONTEXT_BASE,true> UPRISE_ENGINE::RENDER_COMMON::RENDER_BACKEND::CreateContext(WeakRef<RENDER_COMMON::WINDOW_BASE,true> window)
+        WeakRef<RENDER_COMMON::CONTEXT_BASE,true> UPRISE_ENGINE::RENDER::RENDER_COMMON::RENDER_BACKEND::CreateContext(WeakRef<RENDER_COMMON::WINDOW_BASE,true> window)
         {
             return _internal_backend->_internal_Create_Context(window);
         }
@@ -94,7 +93,7 @@ namespace UPRISE_ENGINE {
              this->_Create_Backend = std::move(other._Create_Backend);
              this->_internal_backend = std::move(other._internal_backend);
          }
-         UPRISE_COMMON_RENDER_COMPS_API RENDER_BACKEND& RENDER_BACKEND::operator=( RENDER_BACKEND&& other)
+         UPRISE_COMMON_RENDER_COMPS_API RENDER_BACKEND& RENDER_BACKEND::operator=( RENDER_BACKEND&& other)noexcept
          {
              this->_Create_Backend = std::move(other._Create_Backend);
              this->_internal_backend = std::move(other._internal_backend);
@@ -114,7 +113,7 @@ namespace UPRISE_ENGINE {
              _internal_backend->_internal_PreFrameWork();
          }
 
-    }
+    
 }
 
 
