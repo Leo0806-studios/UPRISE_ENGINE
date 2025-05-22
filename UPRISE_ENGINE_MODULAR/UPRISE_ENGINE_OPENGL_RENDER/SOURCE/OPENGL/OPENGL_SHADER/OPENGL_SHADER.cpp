@@ -1,9 +1,21 @@
 // This is a personal academic project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
-#include "OPENGL/OPENGL_SHADER/OPENGL_SHADER.h"
-import GLAD;
-namespace UPRISE_ENGINE {
-    namespace OPENGL_RENDER {
+
+#ifdef __INTELLISENSE__
+#include "UE_CORE_INTELLISENSE_FIX.h"
+#include "UE_COMMON_COMPS_INTELLISENSE_FIX.h"
+#include "UE_OPENGL_INTELLISENSE_FIX.h"
+#include "fstream"
+#else
+import UPRISE_ENGINE_OPEN_GL_RENDER;
+import UPRISE_ENGINE_CORE;
+import UPRISE_ENGINE_COMMON_RENDER_COMPONETS;
+import <filesystem>;
+import <iostream>;
+import <fstream>;
+#endif // __INTELLISENSE__
+
+namespace UPRISE_ENGINE::RENDER::OPENGL_RENDER {
         OPENGL_SHADER::OPENGL_SHADER(std::string code) :SHADER_BASE(code)
         {
         }
@@ -46,7 +58,7 @@ namespace UPRISE_ENGINE {
          
         }
         
-    }
+    
 }
 
 

@@ -8,7 +8,7 @@
 import UPRISE_ENGINE_PROFILER;
 #else
 #define WIN_32_LEAN_AND_MEAN
-#include "Windows.h"
+import "Windows.h";
 #include "gl/GL.h"
 import UPRISE_ENGINE_CORE;
 import UPRISE_ENGINE_COMMON_RENDER_COMPONETS;
@@ -28,7 +28,7 @@ wglCreateContextAttribsARB_t wglCreateContextAttribsARB = nullptr;
 wglChoosePixelFormatARB_t wglChoosePixelFormatARB = nullptr;
 namespace UPRISE_ENGINE::RENDER {
     namespace OPENGL_RENDER {
-        OwnedRef<RENDER_COMMON::CONTEXT_BASE> UPRISE_ENGINE::OPENGL_RENDER::OPENGL_CONTEXT::_internal_create_context(WeakRef<RENDER_COMMON::WINDOW_BASE,true> Window)
+        OwnedRef<RENDER_COMMON::CONTEXT_BASE> OPENGL_CONTEXT::_internal_create_context(WeakRef<RENDER_COMMON::WINDOW_BASE,true> Window)
         {
 
            //TODO split into platform specific versions
@@ -103,7 +103,7 @@ namespace UPRISE_ENGINE::RENDER {
             wglDeleteContext(tempContext);
             wglMakeCurrent(hdc, context);
 #endif // Win
-            return CreateRefs::CreateOwnedRef<OPENGL_CONTEXT>();
+            return OwnedRef<OPENGL_CONTEXT>::Create();
         }
         void OPENGL_CONTEXT::_internal_destroy_context()
         {

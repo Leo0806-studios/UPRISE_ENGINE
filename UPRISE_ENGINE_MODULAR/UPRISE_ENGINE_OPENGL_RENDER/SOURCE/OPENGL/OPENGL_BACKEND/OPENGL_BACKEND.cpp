@@ -45,7 +45,7 @@ namespace UPRISE_ENGINE::RENDER::OPENGL_RENDER {
         ctx->_internal_create_context(window);
         ContextList_.push_back(std::move(ctx));
         WeakRef<RENDER_COMMON::CONTEXT_BASE,true> ret = ContextList_.back().GetWeakRef();;
-        static auto galdinit = GLAD::gladLoadGL();
+        static auto galdinit = gladLoadGL();
         return ret;
     }
 

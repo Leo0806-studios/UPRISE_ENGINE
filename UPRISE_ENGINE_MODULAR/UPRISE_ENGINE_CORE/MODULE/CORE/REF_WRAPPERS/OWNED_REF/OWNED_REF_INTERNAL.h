@@ -192,6 +192,7 @@ namespace UPRISE_ENGINE {
                 break;
             }
             }
+            return *this;
         }//OwnedRef& operator=(OwnedRef<Type>&& other)noexcept(RW_USE_CPP_EXCEPTIONS_==false)
 
         Type* get() noexcept(RW_USE_CPP_EXCEPTIONS_ == false) {
@@ -247,6 +248,12 @@ namespace UPRISE_ENGINE {
         WeakRef<Type, true> GetWeakRef() {
             UE_THROW_NOT_IMPLEMENTED;
             return WeakRef<Type, true>();
+        }
+        bool operator ==(const OwnedRef<Type>& other) const {
+            return this->ControlBlock == other.ControlBlock;
+        }
+         operator bool() const noexcept {
+            return this->ControlBlock != nullptr && reinterpret_cast<uintptr_t>(this->ControlBlock) > 2;
         }
         template< typename... Args>
         static OwnedRef<Type> Create(Args&&... args) {

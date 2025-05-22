@@ -1,6 +1,18 @@
+
+#ifdef __INTELLISENSE__
+import UPRISE_ENGINE_PROFILER;
 #include "GL_WINDOW_WIN32.h"
-#include "PROFILER/PROFILER_OBJECTS/TIMERS/SCOPED/SCOPED_TIME.h"
-#include "Windows.h"
+#include <Windows.h>
+#include "stdexcept"
+#include <iostream>
+#else
+import UPRISE_ENGINE_PROFILER;
+#include "GL_WINDOW_WIN32.h"
+import <Windows.h>;
+import <stdexcept>;
+import <iostream>;
+#endif // __INTELLISENSE__
+
 
 
 LRESULT CALLBACK DEFAULT_UE_WINDOW_MSG_CALLBACK(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
@@ -19,8 +31,7 @@ LRESULT CALLBACK DEFAULT_UE_WINDOW_MSG_CALLBACK(HWND hwnd, UINT uMsg, WPARAM wPa
     }
 }
 
-namespace UPRISE_ENGINE {
-    namespace OPENGL_RENDER {
+namespace UPRISE_ENGINE::RENDER::OPENGL_RENDER {
         void WINDOW_Win32::GL_CREATE_WINDOW(int w, int h, const char* name) {
             SCOPED_TIME_
 
@@ -48,7 +59,7 @@ namespace UPRISE_ENGINE {
                 //throw std::exception("Failed to show window");
             }
         }
-        inline void WINDOW_Win32::CLOSE_Window() const {
+        inline void WINDOW_Win32::CLOSE_Window()  {
             SCOPED_TIME_
 
                 auto widwDestroyed = DestroyWindow(reinterpret_cast<HWND>(handle));
@@ -56,12 +67,12 @@ namespace UPRISE_ENGINE {
                 throw std::exception("Failed to close window");
             }
         }
-        void UPRISE_ENGINE::OPENGL_RENDER::WINDOW_Win32::ChangeWindowTitle(const std::string& title) const
+        void WINDOW_Win32::ChangeWindowTitle(const std::string& title) 
         {
             SetWindowTextA(reinterpret_cast<HWND>(this->handle), title.c_str());
         }
     }
-}
+
 
 
 

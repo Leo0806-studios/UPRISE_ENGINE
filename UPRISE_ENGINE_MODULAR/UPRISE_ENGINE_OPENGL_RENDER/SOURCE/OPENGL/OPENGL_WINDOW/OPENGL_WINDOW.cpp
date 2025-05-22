@@ -1,35 +1,46 @@
 // This is a personal academic project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
-#include "OPENGL/WINDOW/OPENGL_WINDOW.h"
-#include "PROFILER/PROFILER_OBJECTS/TIMERS/SCOPED/SCOPED_TIME.h"
-#include "OPENGL/OPENGL_CONTEXT/OPENGL_CONTEXT.h"
-import std; //-V2575 //-V3549
 
 
-#define WINDW_PTR 
+#ifdef __INTELLISENSE__
+#include "UE_OPENGL_INTELLISENSE_FIX.h"
+import UPRISE_ENGINE_PROFILER;
+#include <string>
+#else
+import UPRISE_ENGINE_OPEN_GL_RENDER;
+import UPRISE_ENGINE_CORE;
+import UPRISE_ENGINE_COMMON_RENDER_COMPONETS;
+import UPRISE_ENGINE_PROFILER;
+import <string>;
+#endif // __INTELLISENSE__
+
+
 #ifdef _WIN32
 #include "GL_WINDOW_WIN32/GL_WINDOW_WIN32.h"
-#define WIDW_PTR UPRISE_ENGINE::OPENGL_RENDER::WINDOW_Win32*
+namespace UPRISE_ENGINE::RENDER::OPENGL_RENDER {
+    using WIDW_PTR = UPRISE_ENGINE::RENDER::OPENGL_RENDER::WINDOW_Win32;
+}
 #endif
 
 
 #ifdef __linux__
+namespace UPRISE_ENGINE::RENDE::OPENGL_RENDER {
 #define WIDW_PTR WINDOW_Linux*
+}
 #endif
 
 
 #ifdef __APPLE
+namespace UPRISE_ENGINE::RENDE::OPENGL_RENDER {
 #define WIDW_PTR WINDOW_APPLE*
+}
 #endif
 
-namespace UPRISE_ENGINE {
+
+namespace UPRISE_ENGINE ::RENDER::OPENGL_RENDER {
 
 
 
-
- 
-
-    namespace OPENGL_RENDER {
         inline OPENGL_WINDOW::~OPENGL_WINDOW() { if (window) delete window; }
         OPENGL_WINDOW::OPENGL_WINDOW(const OPENGL_WINDOW& other):
             WINDOW_BASE(other),
@@ -68,7 +79,7 @@ namespace UPRISE_ENGINE {
             }
             return *this;
         }
-        RENDER_COMMON::OSWindowHandle UPRISE_ENGINE::OPENGL_RENDER::OPENGL_WINDOW::OSGetWindowHandle()
+        RENDER_COMMON::OSWindowHandle OPENGL_WINDOW::OSGetWindowHandle()
         {
 #ifdef _WIN32
             return window->handle;
@@ -128,7 +139,6 @@ namespace UPRISE_ENGINE {
          }
 
     }
-}
 
 
 
@@ -136,42 +146,11 @@ namespace UPRISE_ENGINE {
 
 
 
-#ifdef __linux__
-#include "X11/Xlib.h"
-
-#endif
-#ifdef __APPLE__
-#include "Cocoa/Cocoa.h"
-
-#endif
-//namespace UPRISE_ENGIE {
-//
-//    namespace OPENGL_RENDER {
-
-
-
-#ifdef __linux__
-
-        class WINDOW_Linux {
-            ///TODO: Implement Linux window class
-        }
-#endif
-
-#ifdef __APPLE__
-        class WINDOW_APPLE {
-            ///TODO: Implement Apple window class
-        }
-#endif // __APPLE_
-
-
-        
 
 
 
 
-//    
-//    }
-//}
+
 
 
 

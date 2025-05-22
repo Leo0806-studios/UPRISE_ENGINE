@@ -107,35 +107,37 @@ namespace UPRISE_ENGINE::RENDER::GLAD {
 
 
 namespace UPRISE_ENGINE::RENDER::GLAD {
-	static void* get_proc(const char* namez) {
-		void* result = nullptr;
-		if (libGL == nullptr) {
-			return nullptr;
-		}
+    static void* get_proc(const char* namez) {
+        void* result = nullptr;
+        if (libGL == nullptr) {
+            return nullptr;
+        }
 #if !defined(__APPLE__)&&!defined(__HAIKU__)
-		if (gladGetProcAddressPtr != nullptr) {
-			result = gladGetProcAddressPtr(namez);
-		}
+        if (gladGetProcAddressPtr != nullptr) {
+            result = gladGetProcAddressPtr(namez);
+        }
 #endif
-		if (result == nullptr) {
+        if (result == nullptr) {
 #if defined (_WIN32)|| defined (__CYGWIN__)
-			result = static_cast<void*>(GetProcAddress(libGL, namez));
+            result = static_cast<void*>(GetProcAddress(libGL, namez));
 #else
-			result = dlsym(libgl, namez);
+            result = dlsym(libgl, namez);
 #endif
-		}
-		return result;
-	}
-
-	int gladLoadGl(void) {
+        }
+        return result;
+    }
+}
+	int gladLoadGL(void) {
 		int status = 0;
-		if (open_gl()) {
-			status = gladLoadGLLoader(&get_proc);
-			close_gl();
+		if (UPRISE_ENGINE::RENDER::GLAD::open_gl()) {
+			status = UPRISE_ENGINE::RENDER::GLAD::gladLoadGLLoader(&UPRISE_ENGINE::RENDER::GLAD::get_proc);
+            UPRISE_ENGINE::RENDER::GLAD::close_gl();
 		}
 		return status;
 	}
 	
+    namespace UPRISE_ENGINE::RENDER::GLAD {
+
 	struct gladGLversionStruct GLVersion = { 0, 0 };
 #if defined(GL_ES_VERSION_3_0) || defined(GL_VERSION_3_0)
 #   define _GLAD_IS_SOME_NEW_VERSION 1

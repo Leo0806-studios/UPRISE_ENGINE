@@ -1,10 +1,17 @@
 #pragma once
 #ifndef UE_GL_WINDOW_WIN32_
 #define UE_GL_WINDOW_WIN32_
-import std;
-namespace UPRISE_ENGINE {
+#ifdef __INTELLISENSE__
+#include <string>
+#else
+import<string>;
+#endif // __INTELLISENSE__
+#ifdef UPRISEENGINEOPENGLRENDER_EXPORTS
+#define UPRISE_OPENGL_RENDER_API __declspec(dllexport)
 
-    namespace  OPENGL_RENDER {
+#endif // UPRISEENGINEOPENGLRENDER_EXPORTS
+
+namespace UPRISE_ENGINE::RENDER::OPENGL_RENDER {
         typedef void* HWND_VoidPtr;
         typedef void* HINSTANCE_VoidPtr;
         typedef void* HICON_VoidPtr;
@@ -40,11 +47,11 @@ namespace UPRISE_ENGINE {
             {
             }
             UPRISE_OPENGL_RENDER_API  void GL_CREATE_WINDOW(int w, int h, const char* name);
-           UPRISE_OPENGL_RENDER_API void CLOSE_Window() const;
-           void ChangeWindowTitle(const std::string & title) const;
+           UPRISE_OPENGL_RENDER_API void CLOSE_Window() ;
+           void ChangeWindowTitle(const std::string & title) ;
         };
 
-    }
+    
 }
 
 

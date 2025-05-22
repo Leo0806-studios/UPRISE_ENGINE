@@ -24,6 +24,7 @@
 
 #endif
 #endif // __INTELLISENSE__
+extern"C" GLAPI int gladLoadGL(void);
 
 namespace UPRISE_ENGINE {
     namespace RENDER {
@@ -43,7 +44,6 @@ namespace UPRISE_ENGINE {
             /// </summary>
             /// <param name="void"></param>
             /// <returns></returns>
-              GLAPI int gladLoadGL(void);
             /// <summary>
             /// 
             /// </summary>
