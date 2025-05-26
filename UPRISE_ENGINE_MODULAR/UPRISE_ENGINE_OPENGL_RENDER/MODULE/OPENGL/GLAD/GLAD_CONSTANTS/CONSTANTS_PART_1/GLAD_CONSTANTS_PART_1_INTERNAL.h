@@ -9,7 +9,7 @@
 #include "GLAD/STUPIDMACROS/GLAD_MACROS.h"
 #ifdef __INTELLISENSE__
 #ifndef DONT_INCLUDE_GLAD
-#include <glad.h>
+#include <glad/glad.h>
 #endif
 #endif // __INTELLISENSE__
 namespace UPRISE_ENGINE {

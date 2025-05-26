@@ -9,7 +9,7 @@
 #include "GLAD/STUPIDMACROS/GLAD_MACROS.h"
 #ifdef __INTELLISENSE__
 #ifndef DONT_INCLUDE_GLAD
-/#include <glad.h>
+/#include <glad/glad.h>
 #endif
 #if(defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L) || defined(__GNUC__) || defined(__SCO__) || defined(__USLC__)
 #include <stdint.h>
