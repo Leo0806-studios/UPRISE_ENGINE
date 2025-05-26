@@ -1,7 +1,7 @@
 // This is a personal academic project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 // dllmain.cpp : Defines the entry point for the DLL application.
-#include <Windows.h>
+import <Windows.h>;
 
 import UPRISE_ENGINE_DEBUG;
 
