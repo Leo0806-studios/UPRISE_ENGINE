@@ -26,11 +26,11 @@ namespace UPRISE_PROFILER_APPLICATION
         [STAThread]
         static void Main()
         {
-   
-            
+
+
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
-            const string path = "C:\\Users\\leo08\\source\\repos\\UPRISE_ENGINE\\BUILD\\x64\\Debug\\.exe\\UPRISE_EDITOR_APPLICATION";
+            //TODO : reimplement path to avoid leaking folder structure
             {
                 List<string> events = new List<string>();
                 string profilerLog = File.ReadAllText(path + "\\Profiling.txt"); //-V3039
