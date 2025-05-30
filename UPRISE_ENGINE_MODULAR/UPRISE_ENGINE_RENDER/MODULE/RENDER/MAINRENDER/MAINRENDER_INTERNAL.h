@@ -46,14 +46,14 @@ namespace UPRISE_ENGINE {
         public:
             UPRISE_RENDER_API static void DisplayFpsInMainWindowTitle(double Fps);
             Render() = default;
-            ~Render() {}
+            ~Render() = default;
 
             /// <summary>
             /// Set the render camera
             /// </summary>
             /// <param name="cam"></param>
             UPRISE_RENDER_API static void SetRenderCamera(SharedRef<GameObject, true> cam);
-            UPRISE_RENDER_API __inline static  SharedRef<RENDER_COMMON::WINDOW_BASE, true> GetWindow();
+            UPRISE_RENDER_API  static  SharedRef<RENDER_COMMON::WINDOW_BASE, true> GetWindow();
 
             class RenderSetup {
             private:

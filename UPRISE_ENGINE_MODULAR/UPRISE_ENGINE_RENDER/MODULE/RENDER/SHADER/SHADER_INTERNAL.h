@@ -23,7 +23,7 @@ namespace UPRISE_ENGINE {
         public:
         public:
             unsigned int ID = INT_MAX;
-            char PAD[4]{};//TODO find a way to aling this better or put data here //-V112
+            char PAD[4]{};//TODO find a way to aling this better or put data here //-V112 //NOSONAR
 
             std::unordered_map< std::string, GLAD::GLint> VarLocationsU;
             std::unordered_map< std::string, GLAD::GLint> VarLocationsL;
@@ -52,9 +52,9 @@ namespace UPRISE_ENGINE {
             void setVec4(const std::string& name, const Vector4& value) const;
             void setVec4(const std::string& name, float x, float y, float z, float w) const;
             // ------------------------------------------------------------------------
-      // TODO FIX      void setMat2(const std::string& name, const glm::mat2& mat) const;
+      // TODO FIX      void setMat2(const std::string& name, const glm::mat2& mat) const; //NOSONAR
             // ------------------------------------------------------------------------
-        // TODO FIX    void setMat3(const std::string& name, const glm::mat3& mat) const;
+        // TODO FIX    void setMat3(const std::string& name, const glm::mat3& mat) const; //NOSONAR
             // ------------------------------------------------------------------------
             void setMat4(const std::string& name, const Mat4& mat)const;
 

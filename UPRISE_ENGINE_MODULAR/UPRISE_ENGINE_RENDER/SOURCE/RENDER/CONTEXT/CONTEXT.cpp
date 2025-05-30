@@ -8,9 +8,5 @@ import UPRISE_ENGINE_RENDER;
 import UPRISE_ENGINE_COMMON_RENDER_COMPONETS;
 #endif // __INTELLISENSE__
 
-namespace UPRISE_ENGINE {
-    namespace RENDER {
 
-    }
-}
 

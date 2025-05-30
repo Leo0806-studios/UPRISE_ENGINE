@@ -26,7 +26,7 @@ namespace UPRISE_ENGINE {
         private:
         public:
             Model();
-            Model(std::string path);
+            explicit Model(std::string path);
             void Draw(Shader& shader);
             std::vector<SharedRef<RENDER::Mesh, true>> Meshes;
             static SharedRef<Model, true> Empty() { return SharedRef<RENDER::Model, true>::Create(); }

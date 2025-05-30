@@ -19,14 +19,14 @@ namespace UPRISE_ENGINE {
 
         public:
             float FOV;
-            char PAD[4]{};//TODO find a way to aling this better or put data here //-V112
+            char PAD[4]{};//TODO find a way to aling this better or put data here //-V112  //NOSONAR
 
 
             SharedRef<Transform, true> transf;
             RenderCamera();
             static RenderCamera Create(SharedRef<Transform, true> tr);
 
-          UPRISE_RENDER_API __inline Mat4 GetViewMatrix();
+          UPRISE_RENDER_API  Mat4 GetViewMatrix();
 
 
         };

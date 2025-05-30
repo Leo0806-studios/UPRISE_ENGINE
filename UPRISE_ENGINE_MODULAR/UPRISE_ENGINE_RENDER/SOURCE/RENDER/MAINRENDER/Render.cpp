@@ -47,7 +47,7 @@ namespace UPRISE_ENGINE::RENDER {
         {
         case Render_Backend::RB_OPENGL:
             RENDER_COMMON::RENDER_BACKEND::_Create_Backend = UPRISE_ENGINE::RENDER::OPENGL_RENDER::OPENGL_BACKEND::GL_Create_Backend;
-            // RENDER_BACKEND::OPENGL::OpenGLBackend::SetBackend();
+      
             break;
         case Render_Backend::RB_VULKAN:
             RENDER_COMMON::RENDER_BACKEND::_Create_Backend = nullptr;//-V1037
