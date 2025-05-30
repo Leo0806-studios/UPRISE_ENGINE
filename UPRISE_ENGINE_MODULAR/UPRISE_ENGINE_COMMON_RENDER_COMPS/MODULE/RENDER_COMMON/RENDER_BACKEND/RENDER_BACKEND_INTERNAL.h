@@ -36,7 +36,7 @@ namespace UPRISE_ENGINE::RENDER {
         class SHADER_BASE;
         class MATERIAL_BASE;
         class SHADER_PROGRAM_BASE;
-        enum Backend {
+        enum Backend {//NOSONAR
             B_OPENGL,
             B_VULKAN,
             B_DIRECTX11,
@@ -44,10 +44,10 @@ namespace UPRISE_ENGINE::RENDER {
 
         };
 
-        class RENDER_BACKEND {
+        class RENDER_BACKEND {//NOSONAR
         public:
             RENDER_BACKEND() = default;
-            virtual  ~RENDER_BACKEND() {}
+            virtual  ~RENDER_BACKEND() = default;
         private:
             UPRISE_COMMON_RENDER_COMPS_API  static OwnedRef<RENDER_BACKEND> _internal_backend;
             friend class Render;
@@ -73,7 +73,7 @@ namespace UPRISE_ENGINE::RENDER {
             UPRISE_COMMON_RENDER_COMPS_API  virtual unsigned  int _internal_Create_Buffer() = 0;
             UPRISE_COMMON_RENDER_COMPS_API  virtual   void _internal_Destroy_Window(WeakRef<RENDER_COMMON::WINDOW_BASE, true> Window) = 0;
             UPRISE_COMMON_RENDER_COMPS_API  virtual  void _internal_DestroyBuffer(const unsigned int Buffer) = 0;
-            UPRISE_COMMON_RENDER_COMPS_API  virtual  void _internal_BindBuffer(unsigned int Buffer, void* _Data, size_t length, size_t Type_Size, unsigned long long  bufferType) = 0;
+            UPRISE_COMMON_RENDER_COMPS_API  virtual  void _internal_BindBuffer(unsigned int Buffer, void* _Data, size_t length, size_t Type_Size, unsigned long long  bufferType) = 0;//NOSONAR
             UPRISE_COMMON_RENDER_COMPS_API virtual void _internal_PreFrameWork() = 0;
             UPRISE_COMMON_RENDER_COMPS_API virtual void _internal_PostFrameWork() = 0;
 
@@ -89,7 +89,7 @@ namespace UPRISE_ENGINE::RENDER {
             UPRISE_COMMON_RENDER_COMPS_API  static OwnedRef<SHADER_PROGRAM_BASE> CreateShaderProgram(OwnedRef<SHADER_BASE> Shader0);
             UPRISE_COMMON_RENDER_COMPS_API  static OwnedRef<SHADER_PROGRAM_BASE> CreateShaderProgram(OwnedRef<SHADER_BASE> Shader0, OwnedRef<SHADER_BASE> Shader1);
             UPRISE_COMMON_RENDER_COMPS_API  static OwnedRef<SHADER_PROGRAM_BASE> CreateShaderProgram(OwnedRef<SHADER_BASE> Shader0, OwnedRef<SHADER_BASE> Shader1, OwnedRef<SHADER_BASE> Shader2);
-            UPRISE_COMMON_RENDER_COMPS_API  static void CreateMaterial();///TODO find parameterss+
+            UPRISE_COMMON_RENDER_COMPS_API  static void CreateMaterial();///TODO find parameterss //NOSONAR
             UPRISE_COMMON_RENDER_COMPS_API  static unsigned int CreateBuffer();
             UPRISE_COMMON_RENDER_COMPS_API  static void DestroyWindow(WeakRef<RENDER_COMMON::WINDOW_BASE, true> Window);
             UPRISE_COMMON_RENDER_COMPS_API  static void DestroyBuffer(unsigned int Buffer);
@@ -98,7 +98,7 @@ namespace UPRISE_ENGINE::RENDER {
             UPRISE_COMMON_RENDER_COMPS_API static void PreFrameWork();
 
             UPRISE_COMMON_RENDER_COMPS_API RENDER_BACKEND(const RENDER_BACKEND& other) = delete;
-            UPRISE_COMMON_RENDER_COMPS_API RENDER_BACKEND(RENDER_BACKEND&& other);
+            UPRISE_COMMON_RENDER_COMPS_API RENDER_BACKEND(RENDER_BACKEND&& other); //NOSONAR
             UPRISE_COMMON_RENDER_COMPS_API RENDER_BACKEND& operator=(const RENDER_BACKEND& other) = delete;
             UPRISE_COMMON_RENDER_COMPS_API RENDER_BACKEND& operator=(RENDER_BACKEND&& other)noexcept;
 

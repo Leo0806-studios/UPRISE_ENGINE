@@ -33,43 +33,43 @@ namespace UPRISE_ENGINE ::RENDER::RENDER_COMMON{
         /// <summary>
         /// 
         /// </summary>
-        typedef int (*CursorEnterCallback)(SharedRef<WINDOW_BASE, true> Windopw, int entered);
+        using CursorEnterCallback = int (*)(SharedRef<WINDOW_BASE, true> Windopw, int entered);
         /// <summary>
         /// 
         /// </summary>
-        typedef int (*ScrollCallback)(SharedRef<WINDOW_BASE, true> Windopw, double xoffset, double yoffset);
+        using ScrollCallback = int (*)(SharedRef<WINDOW_BASE, true> Windopw, double xoffset, double yoffset);
         /// <summary>
         /// 
         /// </summary>
-        typedef int(*WindowCloseCallback)(SharedRef<WINDOW_BASE, true> Windopw);
+        using WindowCloseCallback = int (*)(SharedRef<WINDOW_BASE, true> Windopw);
         /// <summary>
         /// 
         /// </summary>
-        typedef int(*WindowRefreshCallback)(SharedRef<WINDOW_BASE, true> Windopw);
+        using WindowRefreshCallback = int (*)(SharedRef<WINDOW_BASE, true> Windopw);
         /// <summary>
         /// 
         /// </summary>
-        typedef int(*WindowFocusCallback)(SharedRef<WINDOW_BASE, true> Windopw, int focused);
+        using WindowFocusCallback = int (*)(SharedRef<WINDOW_BASE, true> Windopw, int focused);
         /// <summary>
         /// 
         /// </summary>
-        typedef int(*WindowIconifyCallback)(SharedRef<WINDOW_BASE, true> Windopw, int iconified);
+        using WindowIconifyCallback = int (*)(SharedRef<WINDOW_BASE, true> Windopw, int iconified);
         /// <summary>
         /// 
         /// </summary>
-        typedef int(*FramebufferSizeCallback)(SharedRef<WINDOW_BASE, true> Windopw, int width, int height);
+        using FramebufferSizeCallback = int (*)(SharedRef<WINDOW_BASE, true> Windopw, int width, int height);
         /// <summary>
         /// 
         /// </summary>
-        typedef int(*WindowMaximizeCallback)(SharedRef<WINDOW_BASE, true> Windopw, int maximized);
+        using WindowMaximizeCallback = int (*)(SharedRef<WINDOW_BASE, true> Windopw, int maximized);
         /// <summary>
         /// 
         /// </summary>
-        typedef int(*WindowContentScaleCallback)(SharedRef<WINDOW_BASE, true> Windopw, float xscale, float yscale);
+        using WindowContentScaleCallback = int (*)(SharedRef<WINDOW_BASE, true> Windopw, float xscale, float yscale);
         /// <summary>
         /// 
         /// </summary>
-        typedef int(*WindowPosCallback)(SharedRef<WINDOW_BASE, true> Windopw, int xpos, int ypos);
+        using WindowPosCallback = int (*)(SharedRef<WINDOW_BASE, true> Windopw, int xpos, int ypos);
     
 
 }

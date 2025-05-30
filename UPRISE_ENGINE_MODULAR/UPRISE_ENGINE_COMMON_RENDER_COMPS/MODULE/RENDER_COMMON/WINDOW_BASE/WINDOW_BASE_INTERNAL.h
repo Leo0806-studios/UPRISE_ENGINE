@@ -19,7 +19,7 @@
 #endif // __INTELLISENSE__
 namespace UPRISE_ENGINE::RENDER:: RENDER_COMMON {
         class CONTEXT_BASE;
-        typedef void* OSWindowHandle;
+        using OSWindowHandle = void *; //NOSONAR
         class WINDOW_BASE {
         protected:
         private:

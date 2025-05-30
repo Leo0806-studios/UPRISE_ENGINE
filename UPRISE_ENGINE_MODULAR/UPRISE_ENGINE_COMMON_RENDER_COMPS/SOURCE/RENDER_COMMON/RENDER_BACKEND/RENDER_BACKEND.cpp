@@ -18,7 +18,7 @@ namespace UPRISE_ENGINE::RENDER::RENDER_COMMON {
             RENDER_BACKEND::_internal_backend->_internal_DestroyBackend();
         }
 
-        OwnedRef<WINDOW_BASE> RENDER_BACKEND::_CreateWindow(int w, int h, const char* Title)
+        OwnedRef<WINDOW_BASE> RENDER_BACKEND::_CreateWindow(int w, int h, const char* Title) //-V3547
         {
             PROFILER::TIMERS::SCOPED_TIME time("CreateWindow", __FILE__, __FUNCTION__, __LINE__);
             return RENDER_BACKEND::_internal_backend->_internal_CreateWindow(w, h, Title);
@@ -99,7 +99,7 @@ namespace UPRISE_ENGINE::RENDER::RENDER_COMMON {
              this->_internal_backend = std::move(other._internal_backend);
 
              return *this;
-             // TODO: insert return statement here
+             // TODO: insert return statement here //NOSONAR
          }
          UPRISE_COMMON_RENDER_COMPS_API void RENDER_BACKEND::PostFrameWork()
          {

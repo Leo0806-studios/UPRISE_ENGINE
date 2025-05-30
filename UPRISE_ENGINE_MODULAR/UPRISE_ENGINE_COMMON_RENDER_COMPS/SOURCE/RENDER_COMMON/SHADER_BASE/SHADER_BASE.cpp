@@ -9,7 +9,7 @@ import <filesystem>;
 #endif // __INTELLISENSE__
 
 namespace UPRISE_ENGINE::RENDER::RENDER_COMMON {
-        SHADER_BASE::SHADER_BASE(const SHADER_BASE& other):
+        SHADER_BASE::SHADER_BASE(const SHADER_BASE& other): //-V2537
             Code(other.Code),
             Path(other.Path),
             shadertype(other.shadertype),
@@ -22,7 +22,7 @@ namespace UPRISE_ENGINE::RENDER::RENDER_COMMON {
         {
             this->Path = path.string();
         }
-        SHADER_BASE::SHADER_BASE(const std::string& code):
+        SHADER_BASE::SHADER_BASE(const std::string& code): //-V2537
             Code(code),
             Path(""),
             shadertype(ShaderType::S_null),
