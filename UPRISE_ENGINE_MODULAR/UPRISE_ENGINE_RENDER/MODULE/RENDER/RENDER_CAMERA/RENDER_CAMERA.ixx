@@ -1,0 +1,7 @@
+export module UPRISE_ENGINE_RENDER:RENDER_CAMERA;
+import UPRISE_ENGINE_CORE;
+
+export {
+#define UE_RENDER_BUILD_
+#include "RENDER_CAMERA_INTERNAL.h"
+}

@@ -6,7 +6,16 @@
 #error "this file should not be directly included in user code. use import UPRISE_ENGINE_CORE instead"
 #endif
 #endif
-
+namespace UPRISE_ENGINE {
+    namespace RENDER {
+        class Material {
+        private:
+        public:
+            Material() = default;
+            ~Material() {}
+        };
+    }
+}
 
 
 #endif

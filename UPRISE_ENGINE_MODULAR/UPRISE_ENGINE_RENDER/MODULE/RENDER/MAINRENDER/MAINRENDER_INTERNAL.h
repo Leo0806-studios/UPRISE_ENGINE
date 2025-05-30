@@ -11,6 +11,9 @@
 #include <string>
 #include "UE_CORE_INTELLISENSE_FIX.h"
 #endif // __INTELLISENSE__
+#ifdef UPRISEENGINERENDER_EXPORTS
+#define UPRISE_RENDER_API __declspec(dllexport)
+#endif // UPRISEENGINERENDER_EXPORTS
 
 namespace UPRISE_ENGINE {
 

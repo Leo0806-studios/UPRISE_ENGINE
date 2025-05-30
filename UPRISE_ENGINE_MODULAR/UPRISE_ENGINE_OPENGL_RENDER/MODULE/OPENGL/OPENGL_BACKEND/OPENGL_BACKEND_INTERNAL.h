@@ -19,7 +19,7 @@ namespace UPRISE_ENGINE {
 
             class OPENGL_BACKEND : public RENDER_COMMON::RENDER_BACKEND {
             private:
-                friend class RENDER::Render;
+                friend class UPRISE_ENGINE::RENDER::Render;
                 using ContextList = std::vector<OwnedRef<OPENGL_CONTEXT>>;
                 UPRISE_OPENGL_RENDER_API MockableStaticVar(ContextList_, ContextList)
                     UPRISE_OPENGL_RENDER_API  static  OwnedRef<RENDER_COMMON::RENDER_BACKEND>GL_Create_Backend();

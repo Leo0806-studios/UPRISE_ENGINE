@@ -258,7 +258,7 @@ namespace UPRISE_ENGINE {
 #define UE_FALLTHROUGH [[fallthrough]]
 
 void __cdecl __debugbreak(void); //-V3549
-#define UE_THROW_NOT_IMPLEMENTED __debugbreak();
+#define UE_THROW_NOT_IMPLEMENTED __debugbreak(); __pragma(message("function " __FUNCSIG__ " in file "  __FILE__  " is not implemented. will call debugbreak if called"));
 
 #define UE_THROW_NOT_FULLY_IMPLEMENTED __debugbreak();
 #define UE_InClassBoilerplate(API) API MockableStaticVar(uid,UUID);
@@ -382,5 +382,5 @@ namespace UPRISE_ENGINE {
 #define UE_IMPORT_COMMON_RENDER
 #define UE_IMPORT_EE
 #define UE_IMPORT_META
-#define UE_UNUSED_PARAMETER(X) (void)X
+#define UE_UNUSED_PARAMETER(X) (void)X __pragma(message("ignoring parameter " #X " in function " __FUNCSIG__ " in file "  __FILE__));
 #endif // !UE_GLOBAL_

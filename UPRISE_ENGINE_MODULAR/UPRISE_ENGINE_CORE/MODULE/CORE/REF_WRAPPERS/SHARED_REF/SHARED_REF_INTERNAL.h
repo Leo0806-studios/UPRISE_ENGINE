@@ -60,8 +60,8 @@ namespace UPRISE_ENGINE {
             UE_LIKELY default: {
                 ///assume that all other values are valid
                 this->ControlBlock = other.ControlBlock;
-                ControlBlock->IncrementWeakRefs();
-                ControlBlock->IncrementRefs();
+                IncrementRefs();
+                IncrementWeakRefs();
                 break;
 
             }

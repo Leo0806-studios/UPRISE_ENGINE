@@ -1,153 +1,37 @@
 // This is a personal academic project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
-#include "SHADER/SHADER.h"
+#ifdef __INTELLISENSE__
+#define DONT_INCLUDE_GLAD
+#include "UE_RENDER_INTELLISENSE_FIX.h"
+#include "fstream"
+#include "UE_OPENGL_INTELLISENSE_FIX.h"
+#include "map"
+#else
+import UPRISE_ENGINE_RENDER;
+import UPRISE_ENGINE_OPEN_GL_RENDER;
+import std;
+#endif // __INTELLISENSE__
 
 namespace UPRISE_ENGINE {
     namespace RENDER {
         Shader::Shader(const char* vertexPath, const char* fragmentPath)
         {
-            // 1. retrieve the vertex/fragment source code from filePath
-            std::string vertexCode;
-            std::string fragmentCode;
-            std::ifstream vShaderFile;
-            std::ifstream fShaderFile;
-            // ensure ifstream objects can throw exceptions:
-            vShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
-            fShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
-            try
-            {
-                // open files
-                vShaderFile.open(vertexPath);
-                fShaderFile.open(fragmentPath);
-                std::stringstream vShaderStream, fShaderStream;
-                // read file's buffer contents into streams
-                vShaderStream << vShaderFile.rdbuf();
-                fShaderStream << fShaderFile.rdbuf();
-                // close file handlers
-                vShaderFile.close();
-                fShaderFile.close();
-                // convert stream into string
-                vertexCode = vShaderStream.str();
-                fragmentCode = fShaderStream.str();
-            }
-            catch (std::ifstream::failure& e)
-            {
-                std::cout << "ERROR::SHADER::FILE_NOT_SUCCESSFULLY_READ: " << e.what() << std::endl;
-            }
-            const char* vShaderCode = vertexCode.c_str();
-            const char* fShaderCode = fragmentCode.c_str();
-            // 2. compile shaders
-            unsigned int vertex, fragment;
-            // vertex shader
-            vertex = glCreateShader(GL_VERTEX_SHADER);
-            glShaderSource(vertex, 1, &vShaderCode, NULL);
-            glCompileShader(vertex);
-            checkCompileErrors(vertex, "VERTEX");
-            // fragment Shader
-            fragment = glCreateShader(GL_FRAGMENT_SHADER);
-            glShaderSource(fragment, 1, &fShaderCode, NULL);
-            glCompileShader(fragment);
-            checkCompileErrors(fragment, "FRAGMENT");
-            // shader Program
-            ID = glCreateProgram();
-            glAttachShader(ID, vertex);
-            glAttachShader(ID, fragment);
-            glLinkProgram(ID);
-            checkCompileErrors(ID, "PROGRAM");
-            // delete the shaders as they're linked into our program now and no longer necessary
-            glDeleteShader(vertex);
-            glDeleteShader(fragment);
+            UE_UNUSED_PARAMETER(vertexPath)
+                UE_UNUSED_PARAMETER(fragmentPath)
+            UE_THROW_NOT_IMPLEMENTED
+
 
         }
 
-        //Shader::Shader(SharedRef<VertexShader,true> vertexshader, SharedRef<FragmentShader,true> frgmentshader)
-        //{
-           // const char* vShaderCode = vertexshader->ShaderCode.c_str();
-           // const char* fShaderCode = frgmentshader->ShaderCode.c_str();
-           // // 2. compile shaders
-           // unsigned int vertex, fragment;
-           // // vertex shader
-           // vertex = glCreateShader(GL_VERTEX_SHADER);
-           // glShaderSource(vertex, 1, &vShaderCode, NULL);
-           // glCompileShader(vertex);
-           // checkCompileErrors(vertex, "VERTEX");
-           // // fragment Shader
-           // fragment = glCreateShader(GL_FRAGMENT_SHADER);
-           // glShaderSource(fragment, 1, &fShaderCode, NULL);
-           // glCompileShader(fragment);
-           // checkCompileErrors(fragment, "FRAGMENT");
-           // // shader Program
-           // ID = glCreateProgram();
-           // glAttachShader(ID, vertex);
-           // glAttachShader(ID, fragment);
-           // glLinkProgram(ID);
-           // checkCompileErrors(ID, "PROGRAM");
-           // //Get ShaderVar Locations: Fragment 
-           //  {
-           //	  for (auto& pair : vertexshader->VarLocsU) {
 
-           //		  for (auto& scnd : pair.second) {
-           //			  this->VarLocationsU[scnd] = glGetUniformLocation(ID, scnd.c_str());
-           //		  }
-           //		  //this->VarLocationsU[pair.second] = glGetUniformLocation(ID, pair.second.c_str());
-           //	  }
-           //  }
-           //  //Get ShaderVar Locations: Vertex 
-           //  {
-           //	  for (auto& pair : frgmentshader->VarLocsU) {
-
-           //		  for (auto& scnd : pair.second) {
-           //			  this->VarLocationsU[scnd] = glGetUniformLocation(ID, scnd.c_str());
-           //		  }
-           //		  //this->VarLocationsU[pair.second] = glGetUniformLocation(ID, pair.second.c_str());
-           //	  }
-           //  }
-           //  // delete the shaders as they're linked into our program now and no longer necessary
-           //  glDeleteShader(vertex);
-           //  glDeleteShader(fragment);
-        // }
-
-        // Shader::Shader(VertexShader vertexshader, FragmentShader frgmentshader, GeometryShader geometryshader)
-        // {
-           //  const char* vShaderCode = vertexshader.ShaderCode.c_str();
-           //  const char* fShaderCode = frgmentshader.ShaderCode.c_str();
-           //  const char* gshderCode = geometryshader.ShaderCode.c_str();
-           //  // 2. compile shaders
-           //  unsigned int vertex, fragment,geometry;
-           //  // vertex shader
-           //  vertex = glCreateShader(GL_VERTEX_SHADER);
-           //  glShaderSource(vertex, 1, &vShaderCode, NULL);
-           //  glCompileShader(vertex);
-           //  checkCompileErrors(vertex, "VERTEX");
-           //  // fragment Shader
-           //  fragment = glCreateShader(GL_FRAGMENT_SHADER);
-           //  glShaderSource(fragment, 1, &fShaderCode, NULL);
-           //  glCompileShader(fragment);
-           //  checkCompileErrors(fragment, "FRAGMENT");
-           //  //geometry Shder
-           //  geometry = glCreateShader(GL_GEOMETRY_SHADER);
-           //  glShaderSource(geometry, 1, &gshderCode, NULL);
-           //  glCompileShader(geometry);
-           //  checkCompileErrors(geometry, "GEOMETRY");
-           //  // shader Program
-           //  ID = glCreateProgram();
-           //  glAttachShader(ID, vertex);
-           //  glAttachShader(ID, fragment);
-           //  glAttachShader(ID, geometry);
-           //  glLinkProgram(ID);
-           //  checkCompileErrors(ID, "PROGRAM");
-           //  // delete the shaders as they're linked into our program now and no longer necessary
-           //  glDeleteShader(vertex);
-           //  glDeleteShader(fragment);
-           //  glDeleteShader(geometry);
-        // }
 
         // activate the shader
         // ------------------------------------------------------------------------
 
         void Shader::use() const
         {
-            glUseProgram(ID);
+            UE_THROW_NOT_IMPLEMENTED
+
         }
 
         // utility uniform functions
@@ -155,127 +39,115 @@ namespace UPRISE_ENGINE {
 
         void Shader::setBool(const std::string& name, bool value) const
         {
-            glUniform1i(glGetUniformLocation(ID, name.c_str()), static_cast<int>(value));
-            glUniform1i(glGetUniformLocation(ID, name.c_str()), static_cast<int>(value));
+            UE_UNUSED_PARAMETER(name);
+            UE_UNUSED_PARAMETER(value);
+
+            UE_THROW_NOT_IMPLEMENTED
+
         }
 
         // ------------------------------------------------------------------------
 
         void Shader::setInt(const std::string& name, int value) const
         {
-            glUniform1i(glGetUniformLocation(ID, name.c_str()), value);
+            UE_UNUSED_PARAMETER(name);
+            UE_UNUSED_PARAMETER(value);
+            UE_THROW_NOT_IMPLEMENTED
+
         }
 
         // ------------------------------------------------------------------------
 
         void Shader::setFloat(const std::string& name, float value) const
         {
-            glUniform1f(glGetUniformLocation(ID, name.c_str()), value);
+            UE_UNUSED_PARAMETER(name);
+            UE_UNUSED_PARAMETER(value);
+            UE_THROW_NOT_IMPLEMENTED
+
         }
 
         // ------------------------------------------------------------------------
 
-        void Shader::setVec2(const std::string& name, const glm::vec2& value) const
+        void Shader::setVec2(const std::string& name, const Vector2& value) const
         {
-            glUniform2fv(glGetUniformLocation(ID, name.c_str()), 1, &value[0]);
+            UE_UNUSED_PARAMETER(name);
+            UE_UNUSED_PARAMETER(value);
+            UE_THROW_NOT_IMPLEMENTED
+
         }
 
         void Shader::setVec2(const std::string& name, float x, float y) const
         {
-            glUniform2f(glGetUniformLocation(ID, name.c_str()), x, y);
+            UE_UNUSED_PARAMETER(name);
+            UE_UNUSED_PARAMETER(x);
+            UE_UNUSED_PARAMETER(y);
+            UE_THROW_NOT_IMPLEMENTED
+
         }
 
         // ------------------------------------------------------------------------
 
-        void Shader::setVec3(const std::string& name, const glm::vec3& value) const
+        void Shader::setVec3(const std::string& name, const Vector3& value) const
         {
-            glUniform3fv(glGetUniformLocation(ID, name.c_str()), 1, &value[0]);
+            UE_UNUSED_PARAMETER(name);
+            UE_UNUSED_PARAMETER(value);
+            UE_THROW_NOT_IMPLEMENTED
+
         }
 
         void Shader::setVec3(const std::string& name, float x, float y, float z) const
         {
-            glUniform3f(glGetUniformLocation(ID, name.c_str()), x, y, z);
+            UE_UNUSED_PARAMETER(name);
+            UE_UNUSED_PARAMETER(x);
+            UE_UNUSED_PARAMETER(y);
+            UE_UNUSED_PARAMETER(z);
+            UE_THROW_NOT_IMPLEMENTED
+
         }
 
         // ------------------------------------------------------------------------
 
-        void Shader::setVec4(const std::string& name, const glm::vec4& value) const
+        void Shader::setVec4(const std::string& name, const Vector4& value) const
         {
-            glUniform4fv(glGetUniformLocation(ID, name.c_str()), 1, &value[0]);
+            UE_UNUSED_PARAMETER(name);
+            UE_UNUSED_PARAMETER(value);
+            UE_THROW_NOT_IMPLEMENTED
+
         }
 
         void Shader::setVec4(const std::string& name, float x, float y, float z, float w) const
         {
-            glUniform4f(glGetUniformLocation(ID, name.c_str()), x, y, z, w);
+            UE_UNUSED_PARAMETER(name);
+            UE_UNUSED_PARAMETER(x);
+            UE_UNUSED_PARAMETER(y);
+            UE_UNUSED_PARAMETER(z);
+            UE_UNUSED_PARAMETER(w);
+            UE_THROW_NOT_IMPLEMENTED
+
         }
 
         // ------------------------------------------------------------------------
 
-        void Shader::setMat2(const std::string& name, const glm::mat2& mat) const
-        {
-            static std::map< std::string, GLint> VarLocations;
-            if (!VarLocations.contains((char*)name.data())) {
-
-                VarLocations[name] = glGetUniformLocation(ID, name.c_str());
-            }
-            glUniformMatrix3fv(VarLocations[name], 1, GL_FALSE, &mat[0][0]);
-            //glUniformMatrix2fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, &mat[0][0]);
-        }
 
         // ------------------------------------------------------------------------
 
-        void Shader::setMat3(const std::string& name, const glm::mat3& mat) const
+        void Shader::setMat4(const std::string& name, const Mat4& mat) const
         {
-            static std::map< std::string, GLint> VarLocations;
-            if (!VarLocations.contains(name)) {
+            UE_UNUSED_PARAMETER(name);
+            UE_UNUSED_PARAMETER(mat);
+            UE_THROW_NOT_IMPLEMENTED
 
-                VarLocations[name] = glGetUniformLocation(ID, name.c_str());
-            }
-            glUniformMatrix3fv(VarLocations[name], 1, GL_FALSE, &mat[0][0]);
-        }
-
-        // ------------------------------------------------------------------------
-
-        void Shader::setMat4(const std::string& name, const glm::mat4& mat) const
-        {
-            //ZoneScoped;
-            //static std::map< std::string, GLint> VarLocations;
-            //if (!VarLocations[name]) {
-
-               // VarLocations[name] = glGetUniformLocation(ID, name.c_str());
-            //}
-            //glUniformMatrix3fv(VarLocations[name], 1, GL_FALSE, &mat[0][0]);
-           //glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, &mat[0][0]);
-           // auto pos = glGetUniformLocation(ID, name.c_str());
-           //GLint loc = VarLocationsU.at(name);
-            glUniformMatrix4fv(VarLocationsU.at(name), 1, GL_FALSE, &mat[0][0]);
         }
 
         // utility function for checking shader compilation/linking errors.
         // ------------------------------------------------------------------------
 
-        void Shader::checkCompileErrors(GLuint shader, std::string type)
+        void Shader::checkCompileErrors(GLAD::GLuint shader, std::string type)
         {
-            GLint success;
-            GLchar infoLog[1024];
-            if (type != "PROGRAM")
-            {
-                glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
-                if (!static_cast<bool>(success))
-                {
-                    glGetShaderInfoLog(shader, 1024, NULL, infoLog);
-                    std::cout << "ERROR::SHADER_COMPILATION_ERROR of type: " << type << "\n" << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
-                }
-            }
-            else
-            {
-                glGetProgramiv(shader, GL_LINK_STATUS, &success);
-                if (!static_cast<bool>(success))
-                {
-                    glGetProgramInfoLog(shader, 1024, NULL, infoLog);
-                    std::cout << "ERROR::PROGRAM_LINKING_ERROR of type: " << type << "\n" << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
-                }
-            }
+            UE_UNUSED_PARAMETER(shader);
+            UE_UNUSED_PARAMETER(type);
+           
+            UE_THROW_NOT_IMPLEMENTED
         }
     }
 }

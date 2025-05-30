@@ -245,23 +245,28 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="framework.h" />
-    <ClInclude Include="pch.h" />
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="..\UPRISE_ENGINE_PROFILER\OPERATORS\PROFILER\OPERATOR_NEW\OPERATOR_NEW.cpp" />
     <ClCompile Include="dllmain.cpp" />
-    <ClCompile Include="pch.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Build|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Build|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\UPRISE_ENGINE_COMMON_RENDER_COMPS\UPRISE_ENGINE_COMMON_RENDER_COMPS.vcxproj">
+      <Project>{e34c3335-a8de-4332-9992-ef257773b7d5}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\UPRISE_ENGINE_CORE\UPRISE_ENGINE_CORE.vcxproj">
+      <Project>{939e1cea-0c8c-4af2-9dde-0cd88ddc0025}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\UPRISE_ENGINE_DEBUG\UPRISE_ENGINE_DEBUG.vcxproj">
+      <Project>{ab9ee30b-8226-43bc-8687-b6c8d91fc648}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\UPRISE_ENGINE_EE\UPRISE_ENGINE_EE.vcxproj">
+      <Project>{c884a625-c892-4ee4-89ac-3592f9cac19d}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\UPRISE_ENGINE_PROFILER\UPRISE_ENGINE_PROFILER.vcxproj">
+      <Project>{374b5b71-eb13-4b4b-aba4-cd7a88ca290d}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
