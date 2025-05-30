@@ -8,9 +8,7 @@
 #endif
 #endif
 
-namespace UPRISE_ENGINE {
-    namespace CORE {
-        namespace CONCEPTS {
+namespace UPRISE_ENGINE:: CORE ::CONCEPTS {
             template<typename T, size_t MaxSize>
             concept SizeLeq = requires(T t) {
                 { sizeof(t) <= MaxSize };
@@ -20,7 +18,6 @@ namespace UPRISE_ENGINE {
                 { sizeof(t) < MaxSize };
             };
         }
-    }
-}
+    
 
 #endif

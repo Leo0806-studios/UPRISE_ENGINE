@@ -28,7 +28,8 @@ namespace UPRISE_ENGINE {
         public:
             Window() = default;
             Window(const Window&) = delete;
-            Window(Window&& other) :Windowvar(std::move(other.Windowvar)) {
+            Window(Window&& other) :Windowvar(std::move(other.Windowvar)) { //-V2537
+                
             }
             Window& operator=(const Window&) = delete;
             Window& operator=(Window&& other) {

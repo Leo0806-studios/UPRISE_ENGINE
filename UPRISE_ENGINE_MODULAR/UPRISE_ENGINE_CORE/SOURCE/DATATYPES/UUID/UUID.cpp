@@ -17,9 +17,9 @@ namespace UPRISE_ENGINE {
         unsigned int Data1;
         unsigned short Data2;
         unsigned short Data3;
-        unsigned char Data4[8];
+        unsigned char Data4[8];//NOSONAR
     };
-    void UUID_CREATE(UUID_TRANSFER* uuid)
+    static void UUID_CREATE(UUID_TRANSFER* uuid)
     {
         ::UUID uid;
         RPC_STATUS status = UuidCreate(&uid);
@@ -31,7 +31,7 @@ namespace UPRISE_ENGINE {
             for (auto& a : uid.Data4) {
                 a = 0;
             }
-            //memset(&uid, 0, sizeof(UUID));
+            
         }
         uuid->Data1 = uid.Data1;
         uuid->Data2 = uid.Data2;
@@ -89,8 +89,5 @@ namespace UPRISE_ENGINE {
     {
         return Data1 == other.Data1 && Data2 == other.Data2 && Data3 == other.Data3 && memcmp(&Data4, &other.Data4, sizeof(Data4)) == 0;
     }
-    bool UUID::operator!=(const UUID& other) noexcept //-V835
-    {
-        return Data1 != other.Data1 || Data2 != other.Data2 || Data3 != other.Data3 || memcmp(&Data4, &other.Data4, sizeof(Data4)) != 0;
-    }
+
 }

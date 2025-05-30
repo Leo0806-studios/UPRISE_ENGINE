@@ -50,7 +50,7 @@ namespace UPRISE_ENGINE::RENDER {
             // RENDER_BACKEND::OPENGL::OpenGLBackend::SetBackend();
             break;
         case Render_Backend::RB_VULKAN:
-            RENDER_COMMON::RENDER_BACKEND::_Create_Backend = nullptr;
+            RENDER_COMMON::RENDER_BACKEND::_Create_Backend = nullptr;//-V1037
             break;
         case Render_Backend::RB_DIRECTX11:
             RENDER_COMMON::RENDER_BACKEND::_Create_Backend = nullptr;
@@ -87,7 +87,7 @@ namespace UPRISE_ENGINE::RENDER {
         RENDER::Render::RenderSetup::SetRenderBackend(backend);
         RENDER::Render::RenderSetup::CreateBackend();
         OwnedRef<RENDER_COMMON::WINDOW_BASE> window = RENDER::Render::RenderSetup::Window(w, h, Title);
-        OwnedRef<RENDER::Window> windowvar__ = OwnedRef<RENDER::Window>::Create();
+        OwnedRef<RENDER::Window> windowvar__ = OwnedRef<RENDER::Window>::Create(); //-V3547
         windowvar__->SetWindow(std::move(window));
         RENDER::Render::Windows[std::string(Title)] = std::move(windowvar__);
         CreateContext(Windows[std::string(Title)]->GetInternalWeakRef());

@@ -15,11 +15,11 @@
 namespace UPRISE_ENGINE {
 
     template<typename Type, bool NullChk>
-    class SharedRef : public WrapperBase{
+    class SharedRef : public WrapperBase{ //NOSONAR
         template<typename, bool> friend class SharedRef;
     private:
         void Nullchecked_Destructor()noexcept(RW_USE_CPP_EXCEPTIONS_ == false) {
-            switch (reinterpret_cast<uintptr_t>(ControlBlock)) {
+            switch (PointerToIntegerType(ControlBlock)) {
             case 0: {
                 CaseNull("ControlBlock of \" this\" was null (0) while trying to destruct");
                 break;
@@ -38,7 +38,7 @@ namespace UPRISE_ENGINE {
             }
         }
         void Nullchecked_CopyConstructFromSameType(const SharedRef<Type, true>& other) noexcept(RW_USE_CPP_EXCEPTIONS_ == false) {
-            switch (reinterpret_cast<uintptr_t>(other.ControlBlock)) {
+            switch (PointerToIntegerType(other.ControlBlock)) {
             case 0: {
                 CaseNull("it is not legal to copy a null Ref");
                 NullSelf();
@@ -72,7 +72,7 @@ namespace UPRISE_ENGINE {
                  CaseSelfAsign("while it is legal to self asign it is very likely an error in the program or at the very least a performance loss");
             }
                 ///check if ControlBlock contains one of the special signal values or not
-                switch (reinterpret_cast<uintptr_t>(ControlBlock)) {
+                switch (PointerToIntegerType(ControlBlock)) {
                 case 0: {
                     CaseNull("controll block of \" this\" was null (0) while trying to move assign from other. (function sig: SharedRef& operator=(SharedRef<Type, true>&& other) ");
                     break;
@@ -96,7 +96,7 @@ namespace UPRISE_ENGINE {
                 }
 
 
-            switch (reinterpret_cast<uintptr_t>(other.ControlBlock)) {
+            switch (PointerToIntegerType(other.ControlBlock)) {
             case 0: {
                 CaseNull("it is not legal to copy (asign) a null ref");
                 break;
@@ -127,7 +127,7 @@ namespace UPRISE_ENGINE {
             }
         }
         void Nullchecked_MoveConstructorFromSameType(SharedRef<Type, true>&& other)noexcept(RW_USE_CPP_EXCEPTIONS_ == false) {
-            switch (reinterpret_cast<uintptr_t>(other.ControlBlock)) {
+            switch (PointerToIntegerType(other.ControlBlock)) {
 
             case 0: {
                 CaseNull("it is not legal to move (asign) a null ref ");
@@ -161,7 +161,7 @@ namespace UPRISE_ENGINE {
             }
             else {
                 ///check if ControlBlock contains one of the special signal values or not
-                switch (reinterpret_cast<uintptr_t>(ControlBlock)) {
+                switch (PointerToIntegerType(ControlBlock)) {
                 case 0: {
                     CaseNull("controll block of \" this\" was null (0) while trying to move assign from other. (function sig: SharedRef& operator=(SharedRef<Type, true>&& other) ");
                     break;
@@ -185,7 +185,7 @@ namespace UPRISE_ENGINE {
                 }
                 }
 
-                switch (reinterpret_cast<uintptr_t>(other.ControlBlock)) {
+                switch (PointerToIntegerType(other.ControlBlock)) {
                 UE_UNLIKELY case 0: {
                     CaseNull("while it is legal to move asign a null ref it deffinetly is an error in the program");
                     NullSelf();
@@ -217,7 +217,7 @@ namespace UPRISE_ENGINE {
             typename = std::enable_if <
             !std::is_same_v<Type, OtherType>>>
             void Nullchecked_CopyConstructorFromOtherType(const SharedRef<OtherType, true>& other) {
-            switch (reinterpret_cast<unsigned long long>(other.ControlBlock)) {
+            switch (PointerToIntegerType(other.ControlBlock)) {
             case 0: {
                 CaseNull("ControlBlock of \" other\" was null while trying to copy(func sig :SharedRef(const SharedRef<Type, true>& other)  )");
                 NullSelf();
@@ -273,7 +273,7 @@ namespace UPRISE_ENGINE {
                 }
             ControlBlock = other.ControlBlock;
 
-            switch (reinterpret_cast<unsigned long long>(other.ControlBlock)) {
+            switch (PointerToIntegerType(other.ControlBlock)) {
             case 0: {
                 CaseNull("controllblock of other is null");
                 NullSelf();
@@ -302,7 +302,7 @@ namespace UPRISE_ENGINE {
             typename = std::enable_if <
             !std::is_same_v<Type, OtherType>>>
             void Nullchecked_MoveConstructorFromOtherType(SharedRef<OtherType, true>&& other)noexcept(RW_USE_CPP_EXCEPTIONS_ == false) {
-            switch (reinterpret_cast<unsigned long long>(other.ControlBlock)) {
+            switch (PointerToIntegerType(other.ControlBlock)) {
             case 0: {
                 CaseNull("Control Block of \"other\" was null (0, nullptr). ");
                 break;
@@ -331,7 +331,7 @@ namespace UPRISE_ENGINE {
             if (this == &other)UE_UNLIKELY{
                CaseSelfAsign("while it is legal to self asign it is very likely an error in the program or at the very least a performance loss");
             }
-                switch (reinterpret_cast<unsigned long long>(ControlBlock)) {
+                switch (PointerToIntegerType(ControlBlock)) {
                 case 0: {
                     CaseNull("controll block of \" this\" was null (0) while trying to move assign from other. (function sig: SharedRef& operator=(SharedRef<Type, true>&& other) ");
                     break;
@@ -351,7 +351,7 @@ namespace UPRISE_ENGINE {
                     break;
                 }
                 }
-            switch (reinterpret_cast<unsigned long long>(other.ControlBlock)) {
+            switch (PointerToIntegerType(other.ControlBlock)) {
             case 0: {
                 CaseNull("it is not legal to move a null object");
                 NullSelf();
@@ -461,7 +461,7 @@ namespace UPRISE_ENGINE {
             }
         }
         ObjState Nullchecked_GetObjectState() {
-            switch (reinterpret_cast<uintptr_t>(ControlBlock)) {
+            switch (PointerToIntegerType(ControlBlock)) {
             case 0: {
                 CaseNull("Controlblock of \"this\" was null while trying to get object state");
                 return ObjState::Invalid;
@@ -488,12 +488,12 @@ namespace UPRISE_ENGINE {
 
         void NonNullchecked_Destructor() {
             if constexpr (DebugMode) {
-                if (reinterpret_cast<uintptr_t>(ControlBlock) > 2) {
+                if (PointerToIntegerType(ControlBlock) > 2) {
                     ControlBlock->DecrementWeakrefs();
                     ControlBlock->DecrementRefs();
                 }
                 else {
-                    if (reinterpret_cast<uintptr_t>(ControlBlock) == 2) {
+                    if (PointerToIntegerType(ControlBlock) == 2) {
                         //nothing to do for default objects 
                     }
                     else {
@@ -502,7 +502,7 @@ namespace UPRISE_ENGINE {
                 }
             }
             else {
-                if (reinterpret_cast<uintptr_t>(ControlBlock) > 2) {
+                if (PointerToIntegerType(ControlBlock) > 2) {
                     ControlBlock->DecrementWeakrefs();
                     ControlBlock->DecrementRefs();
                 }
@@ -511,13 +511,13 @@ namespace UPRISE_ENGINE {
         }
         void NonNullchecked_CopyConstructorFromSameType(const SharedRef<Type, false>& other) {
             if constexpr (DebugMode) {
-                if (reinterpret_cast<uintptr_t>(other.ControlBlock) > 2) {
+                if (PointerToIntegerType(other.ControlBlock) > 2) {
                     ControlBlock = other.ControlBlock;
                     ControlBlock->IncrementWeakRefs();
                     ControlBlock->IncrementRefs();
                 }
                 else {
-                    if (reinterpret_cast<uintptr_t>(other.ControlBlock) == 2) {
+                    if (PointerToIntegerType(other.ControlBlock) == 2) {
                         ControlBlock = other.ControlBlock;
                     }
                     else {
@@ -526,7 +526,7 @@ namespace UPRISE_ENGINE {
                 }
             }
             else {
-                if (reinterpret_cast<uintptr_t>(other.ControlBlock) > 2) {
+                if (PointerToIntegerType(other.ControlBlock) > 2) {
                     this->ControlBlock = other.ControlBlock;
                     this->ControlBlock->IncrementWeakRefs();
                     this->ControlBlock->IncrementRefs();
@@ -538,12 +538,12 @@ namespace UPRISE_ENGINE {
         }
         void NonNullchecked_CopyAsignFromSameType(const SharedRef<Type, false>& other) {
             if constexpr (DebugMode) {
-                if (reinterpret_cast<uintptr_t>(ControlBlock) > 2) {
+                if (PointerToIntegerType(ControlBlock) > 2) {
                     this->ControlBlock->DecrementWeakrefs();
                     this->ControlBlock->DecrementRefs();
                 }
                 else {
-                    if (reinterpret_cast<uintptr_t>(ControlBlock) == 2) {
+                    if (PointerToIntegerType(ControlBlock) == 2) {
                         //2 is the case for a default constructed object wich is a 
                     }
                     else {
@@ -552,19 +552,19 @@ namespace UPRISE_ENGINE {
                 }
             }
             else {
-                if (reinterpret_cast<uintptr_t>(ControlBlock) > 2) {
+                if (PointerToIntegerType(ControlBlock) > 2) {
                     this->ControlBlock->DecrementWeakrefs();
                     this->ControlBlock->DecrementRefs();
                 }
             }
             if constexpr (DebugMode) {
-                if (reinterpret_cast<uintptr_t>(other.ControlBlock) > 2) {
+                if (PointerToIntegerType(other.ControlBlock) > 2) {
                     this->ControlBlock = other.ControlBlock;
                     this->ControlBlock->IncrementWeakRefs();
                     this->ControlBlock->IncrementRefs();
                 }
                 else {
-                    if (reinterpret_cast<uintptr_t>(other.ControlBlock) == 2) {
+                    if (PointerToIntegerType(other.ControlBlock) == 2) {
                         this->ControlBlock = other.ControlBlock;
                     }
                     else {
@@ -573,7 +573,7 @@ namespace UPRISE_ENGINE {
                 }
             }
             else {
-                if (reinterpret_cast<uintptr_t>(other.ControlBlock) > 2) {
+                if (PointerToIntegerType(other.ControlBlock) > 2) {
                     this->ControlBlock = other.ControlBlock;
                     this->ControlBlock->IncrementWeakRefs();
                     this->ControlBlock->IncrementRefs();
@@ -588,13 +588,13 @@ namespace UPRISE_ENGINE {
         }
         void NonNullchecked_MoveConstructFromSameType(SharedRef<Type, false>&& other) {
             if constexpr (DebugMode) {
-                if (reinterpret_cast<uintptr_t>(other.ControlBlock) > 2) {
+                if (PointerToIntegerType(other.ControlBlock) > 2) {
                     ControlBlock = std::exchange(other.ControlBlock, reinterpret_cast<ControlBlock_Base*>(1ULL)); //-V566 //-V2571
                     ControlBlock->IncrementWeakRefs();
                     ControlBlock->IncrementRefs();
                 }
                 else {
-                    if (reinterpret_cast<uintptr_t>(other.ControlBlock) == 2) {
+                    if (PointerToIntegerType(other.ControlBlock) == 2) {
                         ControlBlock = std::exchange(other.ControlBlock, reinterpret_cast<ControlBlock_Base*>(1ULL)); //-V566 //-V2571
                     }
                     else {
@@ -604,7 +604,7 @@ namespace UPRISE_ENGINE {
                 }
             }
             else {
-                if (reinterpret_cast<uintptr_t>(other.ControlBlock) > 2) {
+                if (PointerToIntegerType(other.ControlBlock) > 2) {
                     ControlBlock = std::exchange(other.ControlBlock, reinterpret_cast<ControlBlock_Base*>(1ULL)); //-V566 //-V2571
                     this->ControlBlock->IncrementWeakRefs();
                     this->ControlBlock->IncrementRefs();
@@ -618,12 +618,12 @@ namespace UPRISE_ENGINE {
         }
         void NonNullchecked_MoveAssignFromSameType(SharedRef<Type, false>&& other) {
             if constexpr (DebugMode) {
-                if (reinterpret_cast<uintptr_t>(ControlBlock) > 2) {
+                if (PointerToIntegerType(ControlBlock) > 2) {
                     this->ControlBlock->DecrementWeakrefs();
                     this->ControlBlock->DecrementRefs();
                 }//ControlBlock>2<=2
                 else {
-                    if (reinterpret_cast<uintptr_t>(ControlBlock) == 2) {//the empthy version is the wanted one .putting it in the if block might increase performance
+                    if (PointerToIntegerType(ControlBlock) == 2) {//the empthy version is the wanted one .putting it in the if block might increase performance
                     }
                     else {
                         CaseInvalid("invalid value for own Controlblock. this will only show up in debug mode. in release mode it will just crash or leak");
@@ -631,19 +631,19 @@ namespace UPRISE_ENGINE {
                 }
             }
             else {
-                if (reinterpret_cast<uintptr_t>(ControlBlock) > 2) {
+                if (PointerToIntegerType(ControlBlock) > 2) {
                     this->ControlBlock->DecrementWeakrefs();
                     this->ControlBlock->DecrementRefs();
                 }
             }
             if constexpr (DebugMode) {
-                if (reinterpret_cast<uintptr_t>(other.ControlBlock) > 2) {
+                if (PointerToIntegerType(other.ControlBlock) > 2) {
                     ControlBlock = std::exchange(other.ControlBlock, reinterpret_cast<ControlBlock_Base*>(1ULL)); //-V566 //-V2571
                     this->ControlBlock->IncrementWeakRefs();
                     this->ControlBlock->IncrementRefs();
                 }
                 else {
-                    if (reinterpret_cast<uintptr_t>(other.ControlBlock) == 2) {
+                    if (PointerToIntegerType(other.ControlBlock) == 2) {
                         ControlBlock = std::exchange(other.ControlBlock, reinterpret_cast<ControlBlock_Base*>(1ULL)); //-V566 //-V2571
                     }
                     else {
@@ -652,7 +652,7 @@ namespace UPRISE_ENGINE {
                 }
             }
             else {
-                if (reinterpret_cast<uintptr_t>(other.ControlBlock) > 2) {
+                if (PointerToIntegerType(other.ControlBlock) > 2) {
                     ControlBlock = std::exchange(other.ControlBlock, reinterpret_cast<ControlBlock_Base*>(1ULL)); //-V566 //-V2571
 
                     this->ControlBlock->IncrementWeakRefs();
@@ -705,10 +705,11 @@ namespace UPRISE_ENGINE {
                     this->ControlBlock->DecrementRefs();
                 }
                 else {
-                    if (ControlBlock == 2) {}
-                    else {
+                    if (ControlBlock != 2) {
                         CaseInvalid("invalid value for own Controlblock. this will only show up in debug mode. in release mode it will just crash or leak");
+
                     }
+
                 }
             }
             else {
@@ -716,7 +717,6 @@ namespace UPRISE_ENGINE {
                     this->ControlBlock->DecrementWeakrefs();
                     this->ControlBlock->DecrementRefs();
                 }
-                else {}
             }
             if constexpr (DebugMode) {
                 if (other.ControlBlock > 2) {
@@ -739,7 +739,6 @@ namespace UPRISE_ENGINE {
                     this->ControlBlock->IncrementWeakRefs();
                     this->ControlBlock->IncrementRefs();
                 }
-                else {}
             }
         }
         template<
@@ -748,7 +747,7 @@ namespace UPRISE_ENGINE {
             !std::is_same_v<Type, OtherType>>>
             void NonNullchecked_MoveConstructorFromOtherType(SharedRef<OtherType, false>&& other) {
             if constexpr (DebugMode) {
-                if (reinterpret_cast<uintptr_t>(other.ControlBlock) > 2) {
+                if (PointerToIntegerType(other.ControlBlock) > 2) {
                     ControlBlock = std::exchange(other.ControlBlock, IntegerTypeToPointer<ControlBlock_Base>(1ULL)); //-V566 //-V2571
                     ControlBlock->IncrementWeakRefs();
                     ControlBlock->IncrementRefs();
@@ -763,7 +762,7 @@ namespace UPRISE_ENGINE {
                 }//other.ControlBlock<=2
             }//DebugMode==true
             else {
-                if (reinterpret_cast<uintptr_t>(other.ControlBlock) > 2) {
+                if (PointerToIntegerType(other.ControlBlock) > 2) {
                     ControlBlock = std::exchange(other.ControlBlock, IntegerTypeToPointer<ControlBlock_Base>(1ULL)); //-V566 //-V2571
                     this->ControlBlock->IncrementWeakRefs();
                     this->ControlBlock->IncrementRefs();
@@ -823,7 +822,7 @@ namespace UPRISE_ENGINE {
                     this->ControlBlock->IncrementWeakRefs();
                     this->ControlBlock->IncrementRefs();
                 }//other.ControlBlock>2
-                else {}
+                
             }
         }
 
@@ -849,7 +848,7 @@ namespace UPRISE_ENGINE {
         }
         Type* NonNullchecked_get() {
             if constexpr (DebugMode) {
-                if (reinterpret_cast<uintptr_t>(ControlBlock) > 2) {
+                if (PointerToIntegerType(ControlBlock) > 2) {
                     return reinterpret_cast<Type*>(ControlBlock->get());
                 }
                 else {
@@ -865,7 +864,7 @@ namespace UPRISE_ENGINE {
         }
         Type* NonNullchecked_OperatorArrow() {
             if constexpr (DebugMode) {
-                if (reinterpret_cast<uintptr_t>(ControlBlock) > 2) {
+                if (PointerToIntegerType(ControlBlock) > 2) {
                     return reinterpret_cast<Type*>(ControlBlock->get());
                 }
                 else {
@@ -881,7 +880,7 @@ namespace UPRISE_ENGINE {
         }
         ObjState NonNullchecked_GetObjectState() {
             if constexpr (DebugMode) {
-                if (reinterpret_cast<uintptr_t>(ControlBlock) > 2) {
+                if (PointerToIntegerType(ControlBlock) > 2) {
                     return ControlBlock->GetObjectState();
                 }
                 else {
@@ -898,7 +897,7 @@ namespace UPRISE_ENGINE {
 
 
         bool Generic_isValid() {
-            return reinterpret_cast<uintptr_t>(ControlBlock) > static_cast<uintptr_t>(2);
+            return PointerToIntegerType(ControlBlock) > static_cast<size_t>(2);
         }
     public:
 
@@ -920,7 +919,7 @@ namespace UPRISE_ENGINE {
             }
             return *this;
         }
-        SharedRef(SharedRef&& other)noexcept(RW_USE_CPP_EXCEPTIONS_ == false) {
+        SharedRef(SharedRef&& other)noexcept(RW_USE_CPP_EXCEPTIONS_ == false) { //NOSONAR
             if constexpr (NullChk) {
                 Nullchecked_MoveConstructorFromSameType(std::move(other));
             }
@@ -928,7 +927,7 @@ namespace UPRISE_ENGINE {
                 NonNullchecked_MoveConstructFromSameType(std::move(other));
             }
         }
-        SharedRef& operator=(SharedRef&& other)noexcept(RW_USE_CPP_EXCEPTIONS_ == false) {
+        SharedRef& operator=(SharedRef&& other)noexcept(RW_USE_CPP_EXCEPTIONS_ == false) { //NOSONAR
             if constexpr (NullChk) {
                 Nullchecked_MoveAssignFromSameType(std::move(other));
             }
@@ -941,7 +940,7 @@ namespace UPRISE_ENGINE {
             typename OtherType,
             typename = std::enable_if<
             !std::is_same_v<Type, OtherType>>>
-            SharedRef(const SharedRef<OtherType, NullChk>& other)noexcept(RW_USE_CPP_EXCEPTIONS_ == false) {
+            SharedRef(const SharedRef<OtherType, NullChk>& other)noexcept(RW_USE_CPP_EXCEPTIONS_ == false) {//NOSONAR
             if constexpr (NullChk) {
                 Nullchecked_CopyConstructorFromOtherType(other);
             }
@@ -966,7 +965,7 @@ namespace UPRISE_ENGINE {
             typename OtherType,
             typename = std::enable_if<
             !std::is_same_v<Type, OtherType>>>
-            SharedRef(SharedRef<OtherType, NullChk>&& other)noexcept(RW_USE_CPP_EXCEPTIONS_ == false) {
+            SharedRef(SharedRef<OtherType, NullChk>&& other)noexcept(RW_USE_CPP_EXCEPTIONS_ == false) {//NOSONAR
             if constexpr (NullChk) {
                 Nullchecked_MoveConstructorFromOtherType(std::move(other));
             }
@@ -1034,7 +1033,7 @@ namespace UPRISE_ENGINE {
 
         template< typename... Args>
         static SharedRef<Type,NullChk> Create(Args&&... args) {
-            SharedControlBlock<Type,NullChk>* controlBlock = new SharedControlBlock<Type, NullChk>();
+            SharedControlBlock<Type,NullChk>* controlBlock = ::New< SharedControlBlock<Type, NullChk>>();
             controlBlock->CreatObject_Internal<Type>(std::forward<Args>(args)...);//= new Type(std::forward<Args>(args)...);
             SharedRef<Type,NullChk> ownedRef;
             ownedRef.ControlBlock = controlBlock;
@@ -1044,7 +1043,6 @@ namespace UPRISE_ENGINE {
     };
 
 
-    //TODO implement
-   // template<typename Type,bool NullCheck> using SharedRef = SharedRef_<Type,NullCheck>
+
 }
 #endif

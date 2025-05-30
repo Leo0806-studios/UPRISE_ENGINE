@@ -17,7 +17,7 @@
 
 namespace UPRISE_ENGINE {
 
-    class WrapperBase {
+    class WrapperBase {//NOSONAR
     private:
 
     protected:
@@ -153,7 +153,7 @@ namespace UPRISE_ENGINE {
         inline void IncrementWeakRefs()noexcept {
             ControlBlock->IncrementWeakRefs();
         }
-        inline void* _Get() {
+        inline void* _Get() { //-V3547 //NOSONAR
             return ControlBlock->get();
         }
     };

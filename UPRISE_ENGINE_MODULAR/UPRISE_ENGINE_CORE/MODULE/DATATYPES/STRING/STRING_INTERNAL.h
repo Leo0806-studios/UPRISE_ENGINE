@@ -32,7 +32,7 @@ namespace UPRISE_ENGINE {
         friend class String;
 
 
-        union STRING_IMPLEMANTATION {
+        union STRING_IMPLEMANTATION { //-V2514 //-V3509
 #pragma pack(push)
 
 #pragma pack(1)
@@ -43,21 +43,22 @@ namespace UPRISE_ENGINE {
                 char* Data;
                 SizeType Capacity;
 
-            } _Impl;
+            } _Impl; //-V3547 //NOSONAR
             struct ImplSSO
             {
-                char Data[SSO_Capacity];
-            }_ImplSSO;
+                
+                char Data[SSO_Capacity]; //-V2504 //-V3502 //NOSONAR
+            }_ImplSSO; //-V3547 //NOSONAR
 #pragma pack(pop)
 
-        }_Implementation;
+        }_Implementation; //-V3547 //NOSONAR
 
 
         SizeType Length;
         bool _fitsSSO(const SizeType __input)const noexcept {
             return __input <= SSO_Capacity;
         }
-        inline constexpr  bool _fitsSSOSelf()const noexcept {
+         constexpr  bool _fitsSSOSelf()const noexcept {
             return Length <= SSO_Capacity;
         }
         /// <summary>
@@ -88,10 +89,10 @@ namespace UPRISE_ENGINE {
         /// <param name="other"></param>
         /// <param name="otherLength"></param>
         inline void concatSelfOther(const char* other, size_t otherLength) {
+            UE_UNUSED_PARAMETER(other);
             const bool concatfitsSSO = this->Length + otherLength - 1 <= SSO_Capacity;
-            const bool SelfSSO = this->_fitsSSOSelf();
-            //TODO: finish implementing
-            UE_THROW_NOT_IMPLEMENTED;
+            const bool SelfSSO = this->_fitsSSOSelf();//NOSONAR
+            UE_THROW_NOT_IMPLEMENTED
 
         }
     public:
@@ -106,7 +107,7 @@ namespace UPRISE_ENGINE {
         /// if the string is to large for the SSO buffer it will call new (might also throw)
         /// </summary>
         /// <param name="String">const char input from either a litteral or a pointer</param>
-        String(const char* const String) {
+        explicit String(const char* const String) {
             const auto EX_Length = External_length(String);
             if (EX_Length > std::numeric_limits<SizeType>::max()) UE_UNLIKELY{
                 throw std::runtime_error("String too Long when trying to convert from const char*!");
@@ -119,7 +120,7 @@ namespace UPRISE_ENGINE {
             }
             else {
                 Length = static_cast<SizeType>(EX_Length);
-                this->_Implementation._Impl.Data = new char[EX_Length];
+                this->_Implementation._Impl.Data = ::NewArray<char>(EX_Length);
                 memcpy(this->_Implementation._Impl.Data, String, EX_Length);
                 this->_Implementation._Impl.Capacity = static_cast<SizeType>(EX_Length);
             }
@@ -130,7 +131,7 @@ namespace UPRISE_ENGINE {
         /// if the string is to large for the SSO buffer it will call new (might also throw)
         /// </summary>
         /// <param name="other"></param>
-        String(const std::string& other) {
+        explicit(false) String(const std::string& other) {
             const size_t ExLength = other.length() + 1;
             const bool isSSO = _fitsSSO(ExLength);
             const char* otherData = other.data();
@@ -143,7 +144,7 @@ namespace UPRISE_ENGINE {
             }
             else {
                 Length = ExLength;
-                this->_Implementation._Impl.Data = new char[ExLength];
+                this->_Implementation._Impl.Data = ::New<char>(ExLength);
                 memcpy(this->_Implementation._Impl.Data, otherData, ExLength);
                 this->_Implementation._Impl.Capacity = ExLength;
             }
@@ -809,7 +810,7 @@ namespace UPRISE_ENGINE {
             const bool isSSO = _fitsSSOSelf();
             size_t exLength = External_length(other);
             //TODO: finish implementing
-            UE_THROW_NOT_IMPLEMENTED;
+            UE_THROW_NOT_IMPLEMENTED
 
             if constexpr (std::is_same_v<SizeType, size_t>) {
                 const size_t dif = std::numeric_limits<size_t>::max() - this->Length;
@@ -828,11 +829,11 @@ namespace UPRISE_ENGINE {
 
 
     };
-    typedef String<size_t, sizeof(size_t) * 2> BigString;
-    typedef  String<unsigned int, sizeof(size_t) + sizeof(unsigned int)>  SmallString;
-    typedef String<unsigned short, sizeof(size_t) + sizeof(unsigned short)> ShortString;
-    typedef String <unsigned char, sizeof(size_t) + sizeof(unsigned char)> TinyString;
-    typedef BigString UE_String;
+    using BigString= String<size_t, sizeof(size_t) * 2> ;
+    using SmallString =  String<unsigned int, sizeof(size_t) + sizeof(unsigned int)>  ;
+    using ShortString =String<unsigned short, sizeof(size_t) + sizeof(unsigned short)> ;
+    using TinyString= String <unsigned char, sizeof(size_t) + sizeof(unsigned char)> ;
+    using UE_String = BigString;
 
 }
 #endif

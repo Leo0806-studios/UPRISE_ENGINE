@@ -133,7 +133,7 @@ namespace UPRISE_ENGINE {
             isIntel_{ false },
             isAMD_{ false }
         {
-            //int cpuInfo[4] = {-1};
+           
             std::array<int, 4> cpui{}; // cpui[0] is EAX, cpui[1] is EBX, etc.
 
             // Calling __cpuid with 0x0 as the function_id argument

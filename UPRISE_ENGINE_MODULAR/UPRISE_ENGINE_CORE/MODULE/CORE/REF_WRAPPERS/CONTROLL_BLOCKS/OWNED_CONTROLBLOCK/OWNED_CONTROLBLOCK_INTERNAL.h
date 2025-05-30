@@ -46,11 +46,11 @@ namespace UPRISE_ENGINE {
             }
             UE_LIKELY default: {
                 if constexpr (std::is_array_v<Type>) {
-                    delete[] this->Object;//Linter warning is false positive as this is a smart pointer implementation //-V2511
+                    ::DeleteArray( this->Object);
                     this->Object = nullptr;
                 }
                 else {
-                    delete this->Object;// Linter warning is false positive as this is a smart pointer implementation //-V2511
+                    ::Delete( this->Object);
                     this->Object = nullptr;
                 }
                 break;
@@ -67,7 +67,7 @@ namespace UPRISE_ENGINE {
         {
             WeakRefs.fetch_add(1, std::memory_order_relaxed);
         }
-        void DecrementRefs() noexcept override
+        void DecrementRefs() noexcept(noexcept(Destroy())) override
         {
             if (Refs.fetch_sub(1, std::memory_order_acquire) == 1)
             {
@@ -81,9 +81,9 @@ namespace UPRISE_ENGINE {
                 Delete();
             }
         }
-        void* get() override//linter false positive as it needs to return a generic poiinter for polymorphic reasons
+        void* get() override//linter false positive as it needs to return a generic poiinter for polymorphic reasons //NOSONAR
         {
-            switch (reinterpret_cast<uintptr_t>(Object)) {
+            switch (PointerToIntegerType<uintptr_t>(Object)) {
             case 0: {
                 CaseNull("Object Wass null while trying to get");
                 return nullptr;
@@ -96,12 +96,13 @@ namespace UPRISE_ENGINE {
             }
             default: {
                 return static_cast<void*>(Object);
+                break;
             }
             }
         }
         void DeleteManualy() override
         {
-            switch (reinterpret_cast<uintptr_t>(Object)) {
+            switch (PointerToIntegerType<uintptr_t>(Object)) {
             case 0: {
                 CaseNull("the object was null while trying to delete manualy");
                 break;
@@ -112,12 +113,13 @@ namespace UPRISE_ENGINE {
             }
             default: {
                 if constexpr (std::is_array_v<Type>) {
-                    delete[] Object;//Linter false positive as this is in a smart pointer implementation
+                    ::DeleteArray( Object);//Linter false positive as this is in a smart pointer implementation
                 }
                 else {
-                    delete Object;//Linter false positive as this is a smart pointer implementation
+                    ::Delete( Object);//Linter false positive as this is a smart pointer implementation
                 }
-                Object = reinterpret_cast<Type*>(1ULL);//Linter False positive. this is an intentional setting to set the pointer to a signal value
+                Object = IntegerTypeToPointer<Type>(1ULL);;//Linter False positive. this is an intentional setting to set the pointer to a signal value
+                break;
             }
             }
         }
@@ -125,15 +127,18 @@ namespace UPRISE_ENGINE {
         // Inherited via ControlBlock_Base
         ObjState GetObjectState() override
         {
-            switch (reinterpret_cast<uintptr_t>(Object)) {
+            switch (PointerToIntegerType<uintptr_t>(Object)) {
             case 0: {
                 return ObjState::Null;
+                break;
             }
             case 1: {
                 return ObjState::ManualyDeleted;
+                break;
             }
             default: {
                 return ObjState::Valid;
+                break;
 
             }
             }

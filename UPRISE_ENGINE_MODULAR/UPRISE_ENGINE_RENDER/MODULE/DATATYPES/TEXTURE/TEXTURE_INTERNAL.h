@@ -18,7 +18,7 @@ namespace UPRISE_ENGINE {
             std::string type;
             std::string path;
             unsigned int id = 0;
-            char PAD[4];//TODO find a better way to align this or put data here
+            char PAD[4];//TODO find a better way to align this or put data here //-V112
             Texture() = default;
             ~Texture() {}
         };

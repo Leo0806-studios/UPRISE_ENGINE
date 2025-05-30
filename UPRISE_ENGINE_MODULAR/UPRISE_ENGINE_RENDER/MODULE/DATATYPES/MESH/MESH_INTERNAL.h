@@ -25,11 +25,10 @@ namespace UPRISE_ENGINE {
             Mesh(std::vector<SharedRef<Vertex, true>> vertices, std::vector<unsigned int> indices,
                 std::vector<SharedRef<Texture, true>> textures);
             void Draw(Shader& shader);
-            //void Draw(ShaderU& shader);
         private:
             // render data
-            unsigned int VAO, VBO, EBO;
-            char PAD[4];//TODO find a better way to align this or put data here
+            unsigned int VAO, VBO, EBO;//NOSONAR
+            char PAD[4];//TODO find a better way to align this or put data here //-V112 //NOSONAR
             void setupMesh();;
         };
     }

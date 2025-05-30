@@ -40,11 +40,11 @@ namespace UPRISE_ENGINE {
             }
             UE_LIKELY default: {
                 if constexpr (std::is_array_v<Type>) {
-                    delete[] this->Object;//Linter warning is false positive as this is a smart pointer implementation //-V2511
+                    ::DeleteArray( this->Object);
                     this->Object = nullptr;
                 }
                 else {
-                    delete this->Object;// Linter warning is false positive as this is a smart pointer implementation //-V2511
+                    ::Delete( this->Object);
                     this->Object = nullptr;
                 }
                 break;
@@ -53,7 +53,7 @@ namespace UPRISE_ENGINE {
             }
         }
 
-        void* Nullchecked_Get() {
+        void* Nullchecked_Get() {//NOSONAR
             switch (reinterpret_cast<uintptr_t>(Object)) {
             case 0: {
                 CaseNull("Object Wass null while trying to get");
@@ -67,6 +67,7 @@ namespace UPRISE_ENGINE {
             }
             default: {
                 return static_cast<void*>(Object);
+                break;
             }
             }
             
@@ -84,12 +85,13 @@ namespace UPRISE_ENGINE {
             }
             default: {
                 if constexpr (std::is_array_v<Type>) {
-                    delete[] Object;//Linter false positive as this is in a smart pointer implementation
+                    ::DeleteArray( Object);
                 }
                 else {
-                    delete Object;//Linter false positive as this is a smart pointer implementation
+                    ::Delete( Object);
                 }
-                Object = reinterpret_cast<Type*>(1ULL);
+                Object = IntegerTypeToPointer<Type>(1ULL);
+                break;
             }
             }
         }
@@ -101,11 +103,11 @@ namespace UPRISE_ENGINE {
             if constexpr (DebugMode) {
                 if (reinterpret_cast<uintptr_t>(Object) > 1) {
                     if constexpr (std::is_array_v<Type>) {
-                        delete[] Object; //linter false positive. this is part of a smar pointer implementaton
+                        ::DeleteArray( Object); 
                         Object = nullptr;
                     }
                     else {
-                        delete Object;//linter false positive. this is part of a smart pointer implementation
+                        ::Delete( Object);
                         Object = nullptr;
                     }
                 }
@@ -116,11 +118,11 @@ namespace UPRISE_ENGINE {
             else {
                 if (Object) {
                     if constexpr (std::is_array_v<Type>) {
-                        delete[] Object;//linter false positive. this is part of a smart pointer implementation
+                        ::DeleteArray( Object);//linter false positive. this is part of a smart pointer implementation //-V2511
                         Object == nullptr;
                     }
                     else {
-                        delete Object;//linter false positive. this is part of a smart ponter implementation
+                        ::Delete( Object);//linter false positive. this is part of a smart ponter implementation
                         Object = nullptr;
                     }
 
@@ -129,7 +131,7 @@ namespace UPRISE_ENGINE {
 
             }
         }
-        void* NonNullchecked_Get() {
+        void* NonNullchecked_Get() {//NOSONAR
             if constexpr (DebugMode) {
                 if (reinterpret_cast<uintptr_t>(Object) > 1) {
                     return static_cast<void*>(Object);
@@ -154,12 +156,12 @@ namespace UPRISE_ENGINE {
             if constexpr (DebugMode) {
                 if (reinterpret_cast<uintptr_t>(Object) > 1) {
                     if constexpr (std::is_array_v<Type>) {
-                        delete[] Object; //linter false positive. this is part of a smar pointer implementaton
-                        Object = reinterpret_cast<Type*>(1ULL);
+                      ::DeleteArray( Object); //linter false positive. this is part of a smar pointer implementaton
+                        Object = IntegerTypeToPointer<Type>(1ULL);
                     }
                     else {
-                        delete Object;//linter false positive. this is part of a smart pointer implementation
-                        Object = reinterpret_cast<Type*>(1ULL);
+                        ::Delete (Object);//linter false positive. this is part of a smart pointer implementation
+                        Object = IntegerTypeToPointer<Type>(1ULL);
 
                     }
                 }
@@ -170,13 +172,12 @@ namespace UPRISE_ENGINE {
             else {
                 if (Object) {
                     if constexpr (std::is_array_v<Type>) {
-                        delete[] Object;//linter false positive. this is part of a smart pointer implementation
-                        Object = reinterpret_cast<Type*>(1ULL);
-
+                        ::DeleteArray(Object); //linter false positive. this is part of a smar pointer implementaton
+                        Object = IntegerTypeToPointer<Type>(1ULL);
                     }
                     else {
-                        delete Object;//linter false positive. this is part of a smart ponter implementation
-                        Object = reinterpret_cast<Type*>(1ULL);
+                        ::Delete(Object);//linter false positive. this is part of a smart pointer implementation
+                        Object = IntegerTypeToPointer<Type>(1ULL);
 
                     }
 
@@ -203,7 +204,7 @@ namespace UPRISE_ENGINE {
             WeakRefs.fetch_add(1, std::memory_order_relaxed);
         }
 
-        void DecrementRefs() noexcept override
+        void DecrementRefs() noexcept(noexcept(NullChecked_Destroy())) override
         {
             if (Refs.fetch_sub(1, std::memory_order_acquire) == 1) {
                 if (Nullcheck) {
@@ -223,7 +224,7 @@ namespace UPRISE_ENGINE {
             }
         }
 
-        void* get() override
+        void* get() override //NOSONAR
         {
             if constexpr (Nullcheck) {
                 return Nullchecked_Get();
@@ -266,7 +267,7 @@ namespace UPRISE_ENGINE {
             SharedControlBlock() = default;
             template<typename Type, typename... Args>
             void CreatObject_Internal(Args&&... args) {
-                Object = new Type(std::forward<Args>(args)...);
+                Object = ::New<Type>( std::forward<Args>(args)...);
             }
             //template<typename Type, typename... Args>
             //SharedControlBlock(Args&&... args): Object(new Type(std::forward<Args>(args)...)) {

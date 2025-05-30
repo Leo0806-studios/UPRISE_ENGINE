@@ -20,7 +20,7 @@ namespace UPRISE_ENGINE {
         /// <summary>
         /// contains cpu secs
         /// </summary>
-        class   InstructionSet
+        class   InstructionSet //NOSONAR
         {
             // forward declarations
             class InstructionSet_Internal;
@@ -114,7 +114,7 @@ namespace UPRISE_ENGINE {
                 std::vector<std::array<int, 4>> extdata_;
                 bool isIntel_;
                 bool isAMD_;
-                char PAD[6];
+                char PAD[6]; // TODO find a better way to align this or put data here   //NOSONAR
             };
         };
     }

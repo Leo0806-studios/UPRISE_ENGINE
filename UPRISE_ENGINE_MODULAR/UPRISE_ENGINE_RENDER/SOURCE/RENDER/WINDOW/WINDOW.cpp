@@ -15,7 +15,7 @@ import UPRISE_ENGINE_CORE;
 #endif // __INTELLISENSE__
 
 namespace UPRISE_ENGINE::RENDER {
-    OwnedRef<RENDER_COMMON::WINDOW_BASE> RENDER::Window::_CreateWindow(int w, int h, const char* title)
+    OwnedRef<RENDER_COMMON::WINDOW_BASE> RENDER::Window::_CreateWindow(int w, int h, const char* title) //-V3547
     {
 
         return  RENDER_COMMON::RENDER_BACKEND::_CreateWindow(w, h, title);

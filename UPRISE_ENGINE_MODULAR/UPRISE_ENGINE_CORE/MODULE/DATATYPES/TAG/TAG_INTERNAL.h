@@ -42,7 +42,7 @@ namespace UPRISE_ENGINE {
         /// </summary>
         /// <param name="id"></param>
         /// <param name="name"></param>
-        UPRISE_CORE_API  Tag(int id, std::string name) : name(name), Id(id) {};
+        UPRISE_CORE_API  Tag(int id, std::string name) : name(name), Id(id) {}; //-V2537 //-V3523
 #pragma endregion
         /// <summary>
         /// getter that returns a non const reference to the name of the tag

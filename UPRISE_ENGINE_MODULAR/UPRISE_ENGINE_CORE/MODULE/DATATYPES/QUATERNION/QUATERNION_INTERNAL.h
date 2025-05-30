@@ -86,7 +86,7 @@ namespace UPRISE_ENGINE {
 
             return Quaterion(vals);
         }
-        __inline Quaterion __vectorcall operator*(const Quaterion& other) const {
+        __inline Quaterion __vectorcall operator*(const Quaterion& other) const {//NOSONAR
             return Quaterion(
                 wC() * other.wC() - xC() * other.xC() - yC() * other.yC() - zC() * other.zC(),
                 wC() * other.xC() + xC() * other.wC() + yC() * other.zC() - zC() * other.yC(),
@@ -127,7 +127,7 @@ namespace UPRISE_ENGINE {
             return result;
         }
 #pragma warning(pop)
-        __inline 	Vector3 __vectorcall operator*(Vector3 vec) {
+        __inline 	Vector3 __vectorcall operator*(Vector3 vec) {//NOSONAR
             float num = x() * 2.0F;
             float num2 = y() * 2.0F;
             float num3 = z() * 2.0F;
@@ -144,10 +144,7 @@ namespace UPRISE_ENGINE {
                  (num7 + num12) * vec.x() + (1.0F - (num4 + num6)) * vec.y() + (num9 - num10) * vec.z() ,
              (num8 - num11) * vec.x() + (num9 + num10) * vec.y() + (1.0F - (num4 + num5)) * vec.z()
             };
-            //result.x() = (1 - (num5 + num6)) * vec.x() + (num7 - num12) * vec.y() + (num8 + num11) * vec.z();
-            //result.y() = (num7 + num12) * vec.x() + (1 - (num4 + num6)) * vec.y() + (num9 - num10) * vec.z();
-            //result.z() = (num8 - num11) * vec.x() + (num9 + num10) * vec.y() + (1 - (num4 + num5)) * vec.z();
-            //return result;
+
         }
 
 

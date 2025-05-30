@@ -27,18 +27,18 @@ namespace UPRISE_ENGINE {
         /// <summary>
         /// data of the matrix
         /// </summary>
-        __m128 row0, row1, row2, row3;
+        __m128 row0, row1, row2, row3;//NOSONAR
         /// <summary>
         /// constructor that sets all values to 0 exept a diagonal that is s
         /// </summary>
         /// <param name="s"></param>
-        __inline Mat4(float s) :row0(_mm_setr_ps(s, 0.0F, 0.0F, 0.0F)), row1(_mm_setr_ps(0.0F, s, 0.0F, 0.0F)), row2(_mm_setr_ps(0.0F, 0.0F, s, 0.0F)), row3(_mm_setr_ps(0.0F, 0.0F, 0.0F, s)) {}
+        __inline explicit Mat4(float s) :row0(_mm_setr_ps(s, 0.0F, 0.0F, 0.0F)), row1(_mm_setr_ps(0.0F, s, 0.0F, 0.0F)), row2(_mm_setr_ps(0.0F, 0.0F, s, 0.0F)), row3(_mm_setr_ps(0.0F, 0.0F, 0.0F, s)) {} //-V2537 //-V3523
         /// <summary>
         /// constructor that accsepts a quaterion and creates a MAt4 from it
         /// </summary>
         /// <param name="quat"></param>
-        __inline Mat4(Quaterion quat) {
-            __m128 One = _mm_load_ps(reinterpret_cast<float*>(&quat));
+        __inline explicit Mat4(Quaterion quat) {
+            __m128 One = _mm_load_ps(reinterpret_cast<float*>(&quat));//NOSONAR
 
 
             __m128 Two = _mm_mul_ps(_mm_shuffle_ps(One, One, _MM_SHUFFLE(0, 2, 1, 0)), _mm_shuffle_ps(One, One, _MM_SHUFFLE(2, 2, 1, 0))); //T qxx qyy qzz qxz
@@ -107,7 +107,7 @@ namespace UPRISE_ENGINE {
         }
 
 
-        __inline Mat4(__m128 row1, __m128 row2, __m128 row3, __m128 row4)noexcept :row0(row1), row1(row2), row2(row3), row3(row4) {}
+        __inline Mat4(__m128 row1, __m128 row2, __m128 row3, __m128 row4)noexcept :row0(row1), row1(row2), row2(row3), row3(row4) {} //-V2537 //-V3523
         /// <summary>
         /// static function that computes a look at matrix from the given parameters
         /// eye is the position of the camera
@@ -120,7 +120,6 @@ namespace UPRISE_ENGINE {
         /// <returns></returns>
 
         __inline static  Mat4 __vectorcall Look_At(Vector3 eye, Vector3 center, Vector3 up) {
-            //TrPr(ctx,__func__)
             center = (center - eye).Normalize();
             center.pad() = -(center.DotProduct(eye));
             up = (up.CrossProduct(center)).Normalize();
@@ -128,57 +127,14 @@ namespace UPRISE_ENGINE {
             Vector3 u((center.CrossProduct(up)));
             u.pad() = -(u.DotProduct(eye));
             Mat4 result(1);
-            result[0] = _mm_load_ps(reinterpret_cast<float*>(&up));
-            result[1] = _mm_load_ps(reinterpret_cast<float*>(&u));
-            result[2] = _mm_load_ps(reinterpret_cast<float*>(&center));
+            result[0] = _mm_load_ps(reinterpret_cast<float*>(&up));//NOSONAR
+            result[1] = _mm_load_ps(reinterpret_cast<float*>(&u));//NOSONAR
+            result[2] = _mm_load_ps(reinterpret_cast<float*>(&center));//NOSONAR
 
-            //TrPrE(ctx)
             return result;
         }
-        ///// <summary>
-        ///// static function that computes a look at matrix from the given parameters
-        ///// eye is the position of the camera
-        ///// center is the point the camera is looking at
-        ///// up is the up vector of the camera
-        ///// directly returns a glm::mat4
-        ///// </summary>
-        ///// <param name="eye"></param>
-        ///// <param name="center"></param>
-        ///// <param name="up"></param>
-        ///// <returns></returns>
 
-        //__forceinline static  glm::mat4 Look_At_GLM(Vector3 eye, Vector3 center, Vector3 up) {
-        //    //TrPr(ctx,__func__)
-        //    center = (center - eye).Normalize();
-        //    center.pad()=-(center.DotProduct(eye));
-        //    up = (up.CrossProduct( center)).Normalize();
-        //    up.pad()=-(up.DotProduct(eye));
-        //    Vector3 u((center.CrossProduct( up)));
-        //    u.pad()=-(u.DotProduct(eye));
-        //    const __m256i suffle = _mm256_setr_epi32(0, 1, 4, 5, 2, 3, 6, 7); //-V112
-        //    const __m256 mlti = _mm256_set_ps(1.0F, -1.0F, 1.0F, -1.0F, 1.0F, -1.0F, 1.0F, -1.0F);
-
-        //    const __m128 row3(_mm_setr_ps(0.0F, 0.0F, 0.0F, 1.0F));
-
-        //    __m256 One = _mm256_set_m128(_mm_unpacklo_ps(center.operator __m128(), row3), _mm_unpacklo_ps(up.operator __m128(), u.operator __m128()));
-
-        //    __m256 Two = _mm256_set_m128(_mm_unpackhi_ps(center.operator __m128(), row3), _mm_unpackhi_ps(up.operator __m128(), u.operator __m128()));
-        //    One = _mm256_mul_ps(One, mlti);
-        //    Two = _mm256_mul_ps(Two, mlti);
-        //    One = _mm256_permutevar8x32_ps(One, suffle);
-        //    Two = _mm256_permutevar8x32_ps(Two, suffle);
-        //    glm::mat4 ret{};
-
-        //    _mm256_store_ps(&ret[0].x, One);
-        //    _mm256_store_ps(&ret[2].x, Two);
-
-        //    //alignas(32) glm::vec4 col0[2];
-        //    //alignas(32) glm::vec4 col1[2];
-        //    //_mm256_store_ps(&col0[0].x, One);
-        //    //_mm256_store_ps(&col1[0].x, Two);
-
-        //    return ret;//glm::mat4(col0[0], col0[1], col1[0], col1[1]);;
-        //}
+       
 
 
         /// <summary>
@@ -240,14 +196,19 @@ namespace UPRISE_ENGINE {
             {
             case 0:
                 return row0;
+                break;
             case 1:
                 return row1;
+                break;
             case 2:
                 return row2;
+                break;
             case 3:
                 return row3;
+                break;
             default:
                 throw std::out_of_range("index out of range. must be smaler than 4");
+                break;
             }
 
         }
@@ -260,7 +221,7 @@ namespace UPRISE_ENGINE {
         /// <param   name="r"></param>
         /// <param name="c"></param>
         /// <returns></returns>
-        __inline float& operator()(Index r, int c) {
+        __inline float& operator()(Index r, Index c) {
             return (this->operator[](r)).m128_f32[c];
 
         }

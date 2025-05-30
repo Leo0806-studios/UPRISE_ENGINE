@@ -6,6 +6,15 @@
 #error "this file should not be directly included in user code. use import UPRISE_ENGINE_CORE instead"
 #endif
 #endif
+#define UE_DEFINE_BIDIRECTIONAL_CONVERSION(From, To) \
+    template<> \
+    struct IsConvertibleOverride<From, To> { \
+        static constexpr bool value = true; \
+    }; \
+    template<> \
+    struct IsConvertibleOverride<To, From> { \
+        static constexpr bool value = true; \
+    };
 
 namespace UPRISE_ENGINE{
     class Object;
@@ -22,30 +31,10 @@ namespace UPRISE_ENGINE{
     struct IsConvertibleOverride {
         static constexpr bool value = false;
     };
-    template<>
-    struct IsConvertibleOverride<Object, Behaviour> {
-        static constexpr bool value = true;
-    };
-    template<>
-    struct IsConvertibleOverride<Behaviour, Object> {
-        static constexpr bool value = true;
-    };
-    template<>
-    struct IsConvertibleOverride<Object, Component> {
-        static constexpr bool value = true;
-    };
-    template<>
-    struct IsConvertibleOverride<Component, Object> {
-        static constexpr bool value = true;
-    };
-    template<>
-    struct IsConvertibleOverride<Object, GameObject> {
-        static constexpr bool value = true;
-    };
-    template<>
-    struct IsConvertibleOverride<GameObject, Object> {
-        static constexpr bool value = true;
-    };
+    UE_DEFINE_BIDIRECTIONAL_CONVERSION(Object, Behaviour)
+    UE_DEFINE_BIDIRECTIONAL_CONVERSION(Object, Component)
+    UE_DEFINE_BIDIRECTIONAL_CONVERSION(Object, GameObject)
+
     
 } // namespace UPRISE_ENGINE::TYPE_TRAITS
 }

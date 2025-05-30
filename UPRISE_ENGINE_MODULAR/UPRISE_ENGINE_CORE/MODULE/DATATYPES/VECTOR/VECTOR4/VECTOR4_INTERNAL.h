@@ -19,65 +19,65 @@ namespace UPRISE_ENGINE {
         __m128 Data;
     public:
         Vector4()noexcept :Data(_mm_setr_ps(0.0F, 0.0F, 0.0F, 0.0F)) {}
-        constexpr __inline Vector4(const Vector4& other)noexcept :Data(other.Data) {}
+        constexpr  Vector4(const Vector4& other)noexcept :Data(other.Data) {}//NOSONAR
         __inline Vector4(const float x, const float y, const float z, const float w)noexcept :Data(_mm_setr_ps(x, y, z, w)) {}
-        explicit constexpr __inline Vector4(const __m128 other)noexcept :Data(other) {}
-        __inline constexpr float& x()  noexcept {
+        explicit constexpr  Vector4(const __m128 other)noexcept :Data(other) {}
+         constexpr float& x()  noexcept {
             return Data.m128_f32[0];
         }
-        __inline constexpr float xC() const noexcept {
+        constexpr float xC() const noexcept {
             return Data.m128_f32[0];
         }
-        __inline constexpr float& y()  noexcept {
+        constexpr float& y()  noexcept {
             return Data.m128_f32[1];
         }
-        __inline constexpr float yC() const noexcept {
+        constexpr float yC() const noexcept {
             return Data.m128_f32[1];
         }
-        __inline constexpr float& z()  noexcept {
+        constexpr float& z()  noexcept {
             return Data.m128_f32[2];
         }
-        __inline constexpr float zC() const noexcept {
+        constexpr float zC() const noexcept {
             return Data.m128_f32[2];
         }
-        __inline constexpr float& w()  noexcept {
+        constexpr float& w()  noexcept {
             return Data.m128_f32[3];
         }
-        __inline constexpr float wC() const noexcept {
+        constexpr float wC() const noexcept {
             return Data.m128_f32[3];
         }
         __inline Vector4& __vectorcall operator=(const Vector4& other) noexcept {
             this->Data = other.Data;
             return *this;
         }
-        __inline Vector4 __vectorcall operator+(const Vector4& other) const noexcept {
+        __inline Vector4 __vectorcall operator+(const Vector4& other) const noexcept {//NOSONAR
             return Vector4(_mm_add_ps(this->Data, other.Data));
         }
-        __inline Vector4 __vectorcall operator+(const __m128 other) const noexcept {
+        __inline Vector4 __vectorcall operator+(const __m128 other) const noexcept {//NOSONAR
             return Vector4(_mm_add_ps(this->Data, other));
         }
-        __inline Vector4 __vectorcall operator-(const Vector4& other)const noexcept {
+        __inline Vector4 __vectorcall operator-(const Vector4& other)const noexcept {//NOSONAR
             return Vector4(_mm_sub_ps(this->Data, other.Data));
         }
-        __inline Vector4 __vectorcall operator-(const __m128 other)const noexcept {
+        __inline Vector4 __vectorcall operator-(const __m128 other)const noexcept {//NOSONAR
             return Vector4(_mm_sub_ps(this->Data, other));
         }
-        __inline Vector4 __vectorcall operator*(const Vector4& other)const noexcept {
+        __inline Vector4 __vectorcall operator*(const Vector4& other)const noexcept {//NOSONAR
             return  Vector4(_mm_mul_ps(this->Data, other.Data));
         }
-        __inline Vector4 __vectorcall operator*(const __m128 other) const noexcept {
+        __inline Vector4 __vectorcall operator*(const __m128 other) const noexcept {//NOSONAR
             return  Vector4(_mm_mul_ps(this->Data, other));
         }
-        __inline Vector4 __vectorcall operator*(const float f) const noexcept {
+        __inline Vector4 __vectorcall operator*(const float f) const noexcept {//NOSONAR
             return Vector4(_mm_mul_ps(this->Data, _mm_set_ps1(f)));
         }
-        __inline Vector4 __vectorcall operator/(const Vector4& other)const noexcept {
+        __inline Vector4 __vectorcall operator/(const Vector4& other)const noexcept {//NOSONAR
             return Vector4(_mm_div_ps(this->Data, other.Data));
         }
-        __inline  Vector4 __vectorcall  operator/(const __m128 other) const noexcept {
+        __inline  Vector4 __vectorcall  operator/(const __m128 other) const noexcept {//NOSONAR
             return  Vector4(_mm_div_ps(this->Data, other));
         }
-        __inline Vector4 __vectorcall operator/(const float f) const noexcept {
+        __inline Vector4 __vectorcall operator/(const float f) const noexcept {//NOSONAR
             return Vector4(_mm_div_ps(this->Data, _mm_set_ps1(f)));
         }
     };

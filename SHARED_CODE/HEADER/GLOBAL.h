@@ -360,9 +360,88 @@ constexpr inline bool DebugMode = false;
 #define SCOPED_TIME_  UPRISE_ENGINE::PROFILER::TIMERS::SCOPED_TIME scoped_time(__FUNCSIG__,__FILE__,__FUNCTION__,__LINE__);
 
 
+
+namespace UPRISE_ENGINE::GLOBAL_UTILLS {
+    template<typename T> struct my_remove_reference { using type = T; };
+    template<typename T> struct my_remove_reference<T&> { using type = T; };
+    template<typename T> struct my_remove_reference<T&&> { using type = T; };
+    template<typename T>
+    constexpr T&& my_forward(typename my_remove_reference<T>::type& t) noexcept {
+        return static_cast<T&&>(t);
+    }
+    template<typename T1, typename T2>
+    struct my_is_same {
+        static constexpr bool value = false;
+    };
+    template <typename T>
+    struct my_is_same<T, T> {
+        static constexpr bool value = true;
+    };
+
+}
+
+
+/// <summary>
+/// function to make a cast from integer to pointer explicit and collect all linter/static analyzer warnings in one place
+/// </summary>
+/// <typeparam name="T"></typeparam>
+/// <param name="input"></param>
+/// <returns></returns>
 template<typename T>
-consteval T* IntegerTypeToPointer(unsigned long long input) { //-V3549
+
+T* IntegerTypeToPointer(unsigned long long input) { //-V3549
     return reinterpret_cast<T*>(input); //-V3546 //-V2571
+}
+
+
+/// <summary>
+/// function to make  cast from pointer to integer explicit and collect all linter/static analyzer warnings in one place
+/// </summary>
+/// <typeparam name="Pointer"></typeparam>
+/// <param name="ptr"></param>
+/// <returns></returns>
+template <typename Pointer>
+
+inline size_t PointerToIntegerType(Pointer ptr) {
+
+    return reinterpret_cast<size_t>(ptr);  //-V2571
+}
+template <typename IntegerType>
+inline IntegerType PointerToIntegerType(auto ptr) requires requires { ptr == nullptr; } {
+    
+    return reinterpret_cast<IntegerType>(ptr); //-V2571
+    }
+
+
+
+/// <summary>
+/// delete function to catch all linter and static analysis warnings about delete
+/// </summary>
+/// <typeparam name="Type"></typeparam>
+/// <param name="ptr"></param>
+template<typename Type>
+inline void Delete(Type ptr) {
+
+    delete ptr; //-V2511
+}
+
+template <typename Type>
+inline void DeleteArray(Type* ptr) {
+    delete[] ptr; //-V2511
+    
+}
+/// <summary>
+/// new function to catch all linter and stsatic analysis warnings about new
+/// </summary>
+/// <typeparam name="Type"></typeparam>
+/// <param name="args"></param>
+template<typename Type, typename... Args>
+inline Type* New(Args&&... args) {
+    return new Type(UPRISE_ENGINE::GLOBAL_UTILLS::my_forward<Args>(args)...); //-V2511
+}
+template <typename Type>
+inline Type* NewArray(size_t size) {
+    return new Type[size]; //-V2511
 }
 #pragma warning(pop)
 

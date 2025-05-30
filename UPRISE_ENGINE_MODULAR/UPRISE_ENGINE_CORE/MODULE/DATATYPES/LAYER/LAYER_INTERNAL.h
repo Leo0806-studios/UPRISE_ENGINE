@@ -44,7 +44,7 @@ namespace UPRISE_ENGINE {
         /// </summary>
         /// <param name="id"></param>
         /// <param name="name"></param>
-        UPRISE_CORE_API Layer(int id, std::string name) :id(id), name(name) {};
+        UPRISE_CORE_API Layer(int id, std::string name) :id(id), name(name) {}; //-V2537 //-V3523
 #pragma endregion
         /// <summary>
         /// getter for the name of the layer

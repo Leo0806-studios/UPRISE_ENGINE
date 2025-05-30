@@ -18,10 +18,10 @@ namespace UPRISE_ENGINE {
         /// </summary>
         __m128 Data;
     public:
-        Vector2() noexcept :Data() {}
+        Vector2() noexcept :Data() {}//NOSONAR
         Vector2(float x, float y) noexcept :Data(_mm_setr_ps(x, y, x, y)) {}
         explicit Vector2(const __m128& other) noexcept :Data(other) {}
-        Vector2(const Vector2& other) noexcept :Data(other.Data) {}
+        Vector2(const Vector2& other) noexcept :Data(other.Data) {}//NOSONAR
         __inline float& x() noexcept {
             return Data.m128_f32[0];
         }
@@ -46,38 +46,38 @@ namespace UPRISE_ENGINE {
         __inline float yyC() const noexcept {
             return Data.m128_f32[3];
         }
-        __inline Vector2 operator=(const Vector2& other) {
+        __inline  Vector2& __vectorcall operator=(const Vector2 other) {
             this->Data = other.Data;
             return *this;
         }
-        __inline Vector2 __vectorcall operator+(const Vector2 other) const noexcept {
+        __inline Vector2 __vectorcall operator+(const Vector2 other) const noexcept {//NOSONAR
             return Vector2(_mm_add_ps(this->Data, other.Data));
         }
-        __inline Vector2 __vectorcall  operator+(const __m128 other) const noexcept {
+        __inline Vector2 __vectorcall  operator+(const __m128 other) const noexcept {//NOSONAR
             return Vector2(_mm_add_ps(this->Data, other));
         }
-        __inline Vector2 __vectorcall operator-(const Vector2 other) const noexcept {
+        __inline Vector2 __vectorcall operator-(const Vector2 other) const noexcept {//NOSONAR
             return Vector2(_mm_sub_ps(this->Data, other.Data));
         }
-        __inline Vector2 __vectorcall operator-(const __m128 other) const noexcept {
+        __inline Vector2 __vectorcall operator-(const __m128 other) const noexcept {//NOSONAR
             return Vector2(_mm_sub_ps(this->Data, other));
         }
-        __inline Vector2 __vectorcall operator*(const Vector2 other) const noexcept {
+        __inline Vector2 __vectorcall operator*(const Vector2 other) const noexcept {//NOSONAR
             return Vector2(_mm_mul_ps(this->Data, other.Data));
         }
-        __inline Vector2 __vectorcall operator*(const __m128 other) const noexcept {
+        __inline Vector2 __vectorcall operator*(const __m128 other) const noexcept {//NOSONAR
             return Vector2(_mm_mul_ps(this->Data, other));
         }
-        __inline Vector2 __vectorcall operator*(const float f) const noexcept {
+        __inline Vector2 __vectorcall operator*(const float f) const noexcept {//NOSONAR
             return Vector2(_mm_mul_ps(this->Data, _mm_set_ps1(f)));
         }
-        __inline Vector2 __vectorcall operator/(const Vector2 other) const noexcept {
+        __inline Vector2 __vectorcall operator/(const Vector2 other) const noexcept {//NOSONAR
             return Vector2(_mm_div_ps(this->Data, other.Data));
         }
-        __inline Vector2 __vectorcall operator/(const __m128 other) const noexcept {
+        __inline Vector2 __vectorcall operator/(const __m128 other) const noexcept {//NOSONAR
             return Vector2(_mm_div_ps(this->Data, other));
         }
-        __inline Vector2 __vectorcall operator/(const float f) const noexcept {
+        __inline Vector2 __vectorcall operator/(const float f) const noexcept {//NOSONAR
             return Vector2(_mm_div_ps(this->Data, _mm_set_ps1(f)));
         }
         __inline Vector2 __vectorcall CrossProduct(const Vector2 b) const noexcept {

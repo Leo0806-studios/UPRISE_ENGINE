@@ -25,7 +25,7 @@ namespace UPRISE_ENGINE {
                 __m128 __Result;
                 switch (__Size) {
                 case 1: {
-                    const unsigned int* const __Ptr = reinterpret_cast<const unsigned int* const>(&__Val);
+                    const unsigned int* const __Ptr =       reinterpret_cast<const unsigned int* const>(&__Val);
                     const char* const _Ptr_to_0 = reinterpret_cast<const char* const>(&__Ptr[0]);
                     const char __val0_real = _Ptr_to_0[0];
                     const unsigned int __val0_int = static_cast<unsigned int>(__val0_real);

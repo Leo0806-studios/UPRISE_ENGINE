@@ -6,8 +6,3 @@
 import UPRISE_ENGINE_CORE;
 #endif // __INTELLISENSE__
 
-namespace UPRISE_ENGINE {
-    namespace CORE {
-
-    }
-}

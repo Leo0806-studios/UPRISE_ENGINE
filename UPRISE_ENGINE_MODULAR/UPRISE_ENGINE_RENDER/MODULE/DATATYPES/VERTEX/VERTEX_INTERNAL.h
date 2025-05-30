@@ -19,7 +19,7 @@ namespace UPRISE_ENGINE {
 
         public:
             Vertex() = default;
-            ~Vertex() {}
+            ~Vertex() = default;
             Vector3 position;
             Vector3 normal;
             Vector2 texcoords;

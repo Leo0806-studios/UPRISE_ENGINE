@@ -36,11 +36,9 @@ namespace UPRISE_ENGINE {
         Valid = 2,
         Invalid = 3//signifies that the object pointed to is in some kind of invalid state.mainlyused in non nullchecked version but is used in checked version if controlblock is invalid
     };
-    class ControlBlock_Base {
+    class ControlBlock_Base {//NOSONAR
     private:
         template<class T, bool NC > friend class WeakRef;
-        //template<class T, bool NC> friend class SharedRef;
-        //template<class T> friend class OwnedRef;
         friend class WrapperBase;
         friend class WrapperBase;
 
@@ -117,13 +115,13 @@ namespace UPRISE_ENGINE {
         std::atomic<unsigned long long> Refs = 1;
         std::atomic<unsigned long long> WeakRefs = 1;
         void Delete()noexcept {
-            delete this; //linter false positive. this is part of a smart pointer implementation //-V2511
+            ::Delete( this); //linter false positive. this is part of a smart pointer implementation //-V2511
         }
         virtual void IncrementRefs()noexcept = 0;
         virtual void IncrementWeakRefs()noexcept = 0;
         virtual void DecrementRefs() noexcept = 0;
         virtual void DecrementWeakrefs()noexcept = 0;
-        virtual void* get() = 0;
+        virtual void* get() = 0;//NOSONAR
         virtual void DeleteManualy() = 0;
         virtual ObjState GetObjectState() = 0;
     public:
