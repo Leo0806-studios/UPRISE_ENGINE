@@ -19,4 +19,13 @@ namespace UPRISE_ENGINE {
         throw std::exception("THIS METHOD IS NOT IMPLEMENTED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
        // return f;
     }
+    void Camera::Awake()
+    {
+    }
+    void Camera::Update()
+    {
+    }
+    void Camera::Start()
+    {
+    }
 }

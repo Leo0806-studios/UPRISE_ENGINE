@@ -50,6 +50,7 @@ namespace UPRISE_ENGINE::RENDER {
             virtual  ~RENDER_BACKEND() = default;
         private:
             UPRISE_COMMON_RENDER_COMPS_API  static OwnedRef<RENDER_BACKEND> _internal_backend;
+            UPRISE_COMMON_RENDER_COMPS_API static Backend _internal_backend_type;
             friend class Render;
             friend class RenderSetup;
             friend  RENDER::OPENGL_RENDER::OPENGL_BACKEND;
@@ -94,8 +95,17 @@ namespace UPRISE_ENGINE::RENDER {
             UPRISE_COMMON_RENDER_COMPS_API  static void DestroyWindow(WeakRef<RENDER_COMMON::WINDOW_BASE, true> Window);
             UPRISE_COMMON_RENDER_COMPS_API  static void DestroyBuffer(unsigned int Buffer);
             UPRISE_COMMON_RENDER_COMPS_API  static void BindBuffer(unsigned int Buffer, void* _Data, size_t length, size_t Type_size, unsigned long long bufferType);
-            UPRISE_COMMON_RENDER_COMPS_API static void PostFrameWork();
-            UPRISE_COMMON_RENDER_COMPS_API static void PreFrameWork();
+          inline   static void PostFrameWork()
+            {
+                // SCOPED_TIME_
+
+                _internal_backend->_internal_PostFrameWork();
+            }
+         inline    static void PreFrameWork()
+             {
+
+                _internal_backend->_internal_PreFrameWork();
+            }
 
             UPRISE_COMMON_RENDER_COMPS_API RENDER_BACKEND(const RENDER_BACKEND& other) = delete;
             UPRISE_COMMON_RENDER_COMPS_API RENDER_BACKEND(RENDER_BACKEND&& other); //NOSONAR

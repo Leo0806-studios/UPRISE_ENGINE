@@ -66,9 +66,14 @@ namespace UPRISE_ENGINE {
             (void)other;
             UE_THROW_NOT_IMPLEMENTED; //TODO rework onwnership in ECS and deal with copy() and moves
         }
+        Transform& operator=(const Transform& other) {
+            (void)other;
+            UE_THROW_NOT_IMPLEMENTED; //TODO rework onwnership in ECS and deal with copy() and moves
+            return *this;
+        }
 #pragma endregion
 #pragma region destructor
-        ~Transform() {}
+        ~Transform() = default;
 
 
 #pragma endregion

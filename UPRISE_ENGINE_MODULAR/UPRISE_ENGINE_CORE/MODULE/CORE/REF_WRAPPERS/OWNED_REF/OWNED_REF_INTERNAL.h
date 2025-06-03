@@ -40,9 +40,10 @@ namespace UPRISE_ENGINE {
                 break;
             }
             UE_LIKELY default: {
+                DecrementRefs();
+
                 DecrementWeakRefs();
 
-                DecrementRefs();
                 break;
             }
             }
@@ -239,8 +240,10 @@ namespace UPRISE_ENGINE {
             }
         }
         WeakRef<Type, true> GetWeakRef() {
-            UE_THROW_NOT_IMPLEMENTED
-            return WeakRef<Type, true>();
+            WeakRef<Type, true> weakRef;
+            weakRef.ControlBlock = this->ControlBlock;
+            IncrementWeakRefs();
+            return weakRef;
         }
         bool operator ==(const OwnedRef<Type>& other) const {
             return this->ControlBlock == other.ControlBlock;

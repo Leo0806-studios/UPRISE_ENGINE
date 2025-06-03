@@ -23,7 +23,7 @@ namespace UPRISE_ENGINE {
         alignas(alignof(unsigned int)) unsigned char Data4[8]; //NOSONAR
     public:
 
-        UUID()noexcept :Data1(0), Data2(0), Data3(0) {
+       inline UUID()noexcept :Data1(0), Data2(0), Data3(0) {
             for (auto& a : Data4) {
                 a = 0;
             }

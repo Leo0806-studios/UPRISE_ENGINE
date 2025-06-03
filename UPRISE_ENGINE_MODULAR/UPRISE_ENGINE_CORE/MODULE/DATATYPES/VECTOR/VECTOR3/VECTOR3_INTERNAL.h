@@ -20,12 +20,12 @@ namespace UPRISE_ENGINE {
         /// <summary>
         /// Data
         /// </summary>
-        __m128 Data;
+        __m128 Data= _mm_setr_ps(0.0F, 0.0F, 0.0F, 0.0F);
 
     public:
-        Vector3()noexcept :Data(_mm_setr_ps(0.0F, 0.0F, 0.0F, 0.0F)) {}
+        Vector3()noexcept = default;
         constexpr Vector3(const Vector3& other)noexcept :Data(other.Data) {}//NOSONAR
-        Vector3(const float x, const float y, const float z)noexcept :Data(_mm_setr_ps(x, y, z, 0.0F)) {}
+       inline explicit Vector3(const float x, const float y, const float z)noexcept :Data(_mm_setr_ps(x, y, z, 0.0F)) {}
         explicit constexpr Vector3(const __m128 other)noexcept :Data(other) {}
 
          constexpr float& x()  noexcept {

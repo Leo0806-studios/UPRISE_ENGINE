@@ -12,14 +12,16 @@ import UPRISE_ENGINE_CORE;
 #endif // __INTELLISENSE__
 
 namespace UPRISE_ENGINE {
-    UPRISE_ECS_API void GameObject::OnDestroyInt(WeakRef<Object, true> obj)
+    UPRISE_ECS_API void GameObject::OnDestroyInt(WeakRef<Object, true> obj) //-V2537
     {
+        UE_UNUSED_PARAMETER(obj);
+        UE_THROW_NOT_IMPLEMENTED;
+
         for (Index i =behaviours.size() ; i > 0; i--)
         {
             if (static_cast<long long>(i-1) < 0) {
                 throw std::exception("Index out of range");
             }
-            UE_THROW_NOT_IMPLEMENTED;
 
         }
     }

@@ -3,27 +3,32 @@
 // UPRISE_EDITOR_APPLICATION.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
-import REF_WRAPPER;
-#include <iostream>
-#include "RENDER/MAINRENDER/Render.h"
-#include "DEBUG/LOG/LOG.h"
-#include "RENDER_COMMON/RENDER_BACKEND/RENDER_BACKEND.h"
-#include "RENDER/WINDOW/WINDOW.h"
-#include "PROFILER/PROFILER/PROFILER.h"
-#include <Windows.h>
-#include "PROFILER/PROFILER_OBJECTS/ALLOC/ALLOC_OBJECT.h"
-#include <PROFILER/PROFILER_OBJECTS/TIMERS/SCOPED/SCOPED_TIME.h>
-#include <Windows.h>
-#pragma comment(lib, "UPRISE_ENGINE_PROFILER.lib")
-#pragma comment(lib, "UPRISE_ENGINE_DEBUG.lib")
-#pragma comment(lib, "UPRISE_ENGINE_ECS.lib")
-#pragma comment(lib, "UPRISE_ENGINE_CORE.lib")
-#pragma comment(lib, "UPRISE_ENGINE_RENDER.lib")
-#pragma comment(lib, "UPRISE_ENGINE_OPENGL_RENDER.lib")
-#pragma comment(lib, "UPRISE_ENGINE_COMMON_RENDER_COMPS.lib")
-#pragma comment(lib, "UPRISE_ENGINE_DX11_RENDER.lib")
-#pragma comment(lib, "UPRISE_ENGINE_VULKAN_RENDER.lib")
-#pragma comment(lib, "UPRISE_ENGINE_DX12_RENDER.lib")
+#ifdef __INTELLISENSE__
+#include "UE_COMMON_COMPS_INTELLISENSE_FIX.h"
+#include "UE_CORE_INTELLISENSE_FIX.h"
+#include "UE_RENDER_INTELLISENSE_FIX.h"
+import UPRISE_ENGINE_DEBUG;
+import UPRISE_ENGINE_PROFILER;
+import <Windows.h>;
+#else
+
+import<iostream>;
+import <Windows.h>;
+import <chrono>;
+import <deque>;
+import <numeric>;
+import <string>;
+import <algorithm>;
+
+import UPRISE_ENGINE_PROFILER;
+import UPRISE_ENGINE_CORE;
+import UPRISE_ENGINE_DEBUG;
+import UPRISE_ENGINE_ECS;
+import UPRISE_ENGINE_RENDER;
+import UPRISE_ENGINE_COMMON_RENDER_COMPONETS;
+#endif // __INTELLISENSE__
+
+
 class FrameTimer {
 public:
     FrameTimer(size_t bufferSize = 100) : maxSamples(bufferSize) {}
@@ -68,39 +73,24 @@ private:
 
 void Frame() {
     SCOPED_TIME_
-    UPRISE_ENGINE::RENDER_COMMON::RENDER_BACKEND::PreFrameWork();
-    UPRISE_ENGINE::RENDER_COMMON::RENDER_BACKEND::PostFrameWork();
+    UPRISE_ENGINE::RENDER::RENDER_COMMON::RENDER_BACKEND::PreFrameWork();
+    UPRISE_ENGINE::RENDER::RENDER_COMMON::RENDER_BACKEND::PostFrameWork();
 }
 int main()
 {
-    //auto now = std::chrono::system_clock::now();
-    //auto timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(
-    //    now.time_since_epoch()).count();
-    //std::cout << timestamp << std::endl;
-    //std::time_t timeInSeconds = timestamp / 1000;
- 
-    //std::tm localTime;
-    //localtime_s(&localTime, &timeInSeconds);
-
-    ////std::cout << "Local time: " << std::asctime(localTime) << std::endl;
-    //char buffer[100];
-    //std::strftime(buffer, sizeof(buffer), "%Y-%m-%d %H:%M:%S",& localTime);
-    //std::cout << "Formatted time: " << buffer << std::endl;
-    //InstallHeapCallback();
     UPRISE_ENGINE::PROFILER::PROFILER::Start_Profiler();
     UPRISE_ENGINE::PROFILER::TIMERS::SCOPED_TIME a(__FUNCSIG__, __FILE__, __FUNCTION__, __LINE__);
 
 
     UPRISE_ENGINE::DEBUG::Debug::Log("rjghaijfoaifjiogdjiuvioiijijijjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj");
-    UPRISE_ENGINE::DEBUG::Log << "Editor Application startup";
-    UPRISE_ENGINE::DEBUG::Log << "difiwreugjoeifjerowgewriofuoidiogjuopergksporefkiwrop5fikw9vtiaeopceriojoöerfjtrugwopgujoqwfujq49fujot";
-    UPRISE_ENGINE::DEBUG::Log << "Editor Application startup";
+    UPRISE_ENGINE::DEBUG::Debug::Log ( "Editor Application startup");
+    UPRISE_ENGINE::DEBUG::Debug::Log( "difiwreugjoeifjerowgewriofuoidiogjuopergksporefkiwrop5fikw9vtiaeopceriojoöerfjtrugwopgujoqwfujq49fujot");
+    UPRISE_ENGINE::DEBUG::Debug::Log ( "Editor Application startup");
 
     UPRISE_ENGINE::RENDER::Render::RenderSetup::Setup(800, 600, "UPRISE_EDITOR", UPRISE_ENGINE::RENDER::Render_Backend::RB_OPENGL);
     FrameTimer frameTimer(10000);
 
     std::string s;
-    int conter = 0;
     MSG msg = { 0 };
     while (msg.message != WM_QUIT) {
         frameTimer.recordFrame();
@@ -114,13 +104,8 @@ int main()
 
     }
     std::cin >> s; 
-  /*  OwnedRef<UPRISE_ENGINE::RENDER::Window>wind = CreateRefs::CreateOwnedRef<UPRISE_ENGINE::RENDER::Window>();
-    WeakRef<UPRISE_ENGINE::RENDER::Window, true> weakwind = wind.GetWeakRef();*/
-
-    /*wind->SetWindow(std::move(window));*/
     
     std::cout << "destroying window";
-   /* UPRISE_ENGINE::RENDER::Window::DestroyWindow(std::move(wind));*/
 
     UPRISE_ENGINE::RENDER::Render::RenderShutdown::Shutdown();
 

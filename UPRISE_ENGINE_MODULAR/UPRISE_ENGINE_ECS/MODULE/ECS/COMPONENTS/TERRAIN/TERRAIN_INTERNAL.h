@@ -33,7 +33,7 @@ namespace UPRISE_ENGINE {
             /// default constructor
             /// </summary>
             Terrain() = default;
-        ~Terrain() {}
+        ~Terrain() = default;
 #pragma region Funcs
         void Update()override;
         void Awake()override;

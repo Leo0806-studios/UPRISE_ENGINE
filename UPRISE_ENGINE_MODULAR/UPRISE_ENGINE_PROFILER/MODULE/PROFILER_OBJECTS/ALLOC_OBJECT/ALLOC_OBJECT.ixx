@@ -8,7 +8,7 @@ export namespace UPRISE_ENGINE {
             ALLOC_OBJECT() = default;
             UPRISE_PROFILER_API  ALLOC_OBJECT(size_t size, void* ptr, const char* Type, const char* File, int Line, const char* message);
 
-            ~ALLOC_OBJECT() {}
+            ~ALLOC_OBJECT() = default;
         };
     }
 }

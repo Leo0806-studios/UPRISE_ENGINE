@@ -13,6 +13,11 @@ namespace UPRISE_ENGINE {
 #endif // !UPRISE_TESTS
     }
 
+     void DEBUG::Debug::FlushStream()
+    {
+         AccsesStaticVar(_internal_Stream).Flush();
+    }
+
     void DEBUG::Debug::Log(std::string message)
     {
         std::time_t a = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());

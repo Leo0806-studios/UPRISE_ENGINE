@@ -2,6 +2,7 @@
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
 
 export module UPRISE_ENGINE_ECS:OBJECT;
+#ifndef __INTELLISENSE__
 import std;
 
 import UPRISE_ENGINE_CORE;
@@ -14,3 +15,4 @@ export {
 #define UE_ECS_BUILD_
 #include "OBJECT_INTERNAL.h"
 }
+#endif

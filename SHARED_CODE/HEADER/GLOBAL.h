@@ -112,8 +112,13 @@
 #define UPRISE_ENGINE_EE_API __declspec(dllimport)
 #define UPRISE_ENGINE_EE_API_EXPORTS
 #endif // UPRISEENGINEEE_EXPORTS
-
-
+#ifdef UPRISEENGINEMETA_EXPORTS
+#define UPRISE_META_API __declspec(dllexport)
+#define UPRISE_META_API_EXPORTS export
+#else
+#define UPRISE_META_API __declspec(dllimport)
+#define UPRISE_META_API_EXPORTS
+#endif
 #pragma endregion
 
 
@@ -191,6 +196,7 @@ constexpr inline unsigned char RuntimeWarningsLevel = 0;
 
 
 #pragma region GetWarningLevel
+
 #ifdef EnableAllWarnings
 constexpr inline int WarningLevel = 5; //-V3549
 #else //notEnableAllWarnings
@@ -322,7 +328,7 @@ if((__loopCounter++)>= MaxLoop){__debugbreak();}
 constexpr inline bool DebugMode = true; //-V3549
 #define UE_DEBUG_FIND_INFINITE_LOOP_MAX 1000000
 #define UE_ABORT_IF_REACHED_IN_DEBUG_MODE __debugbreak();
-
+#define Break_Or_Exit __debugbreak(); 
 #else
 #define DEBUG_PAD_BITS_ZEROED 
 #define TrPr(V,N)    ;
@@ -331,6 +337,7 @@ constexpr inline bool DebugMode = true; //-V3549
 #define UE_DEBUG_FIND_INFINITE_LOOP_MAX 1000000
 constexpr inline bool DebugMode = false;
 #define UE_ABORT_IF_REACHED_IN_DEBUG_MODE ;
+#define Break_Or_Exit exit(-1);
 #endif // DEBUG
 #pragma endregion
 

@@ -36,7 +36,7 @@ namespace UPRISE_ENGINE {
             typedef void* HDC_VoidPtr;
             typedef void* HMODULE_VoidPtr;
 
-            class OPENGL_CONTEXT : public RENDER_COMMON::CONTEXT_BASE {
+            class OPENGL_CONTEXT final: public RENDER_COMMON::CONTEXT_BASE {
             private:
                 OwnedRef<GL_CONTEXT_PLATFORM> _platform;
                 unsigned long long PixelForatDescriptorHash = 0;
@@ -58,7 +58,7 @@ namespace UPRISE_ENGINE {
                 }
 
                 OPENGL_CONTEXT() noexcept :RENDER_COMMON::CONTEXT_BASE(), _platform{} {};
-                ~OPENGL_CONTEXT() {}
+                ~OPENGL_CONTEXT() = default;
 
                 // Inherited via CONTEXT_BASE
                 OwnedRef<CONTEXT_BASE> _internal_create_context(WeakRef<RENDER_COMMON::WINDOW_BASE, true> Window) override;

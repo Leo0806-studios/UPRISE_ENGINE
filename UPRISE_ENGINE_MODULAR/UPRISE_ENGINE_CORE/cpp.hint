@@ -21,3 +21,8 @@
 #define UE_PTR_TO_CONST(Name,...)  const __VA_ARGS__* Name#define UE_IMPORT(Name)
 #define UE_LIKELY [[likely]]
 #define UE_DEFINE_BIDIRECTIONAL_CONVERSION(From, To) template<> struct IsConvertibleOverride<From, To> { static constexpr bool value = true; }; template<> struct IsConvertibleOverride<To, From> { static constexpr bool value = true; };
+// Hint files help the Visual Studio IDE interpret Visual C++ identifiers
+// such as names of functions and macros.
+// For more information see https://go.microsoft.com/fwlink/?linkid=865984
+#define _NODISCARD [[nodiscard]]
+#define _NODISCARD

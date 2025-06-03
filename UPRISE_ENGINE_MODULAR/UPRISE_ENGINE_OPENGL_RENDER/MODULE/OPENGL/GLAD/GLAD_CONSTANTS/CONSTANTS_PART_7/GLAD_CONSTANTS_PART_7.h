@@ -55,7 +55,7 @@ namespace UPRISE_ENGINE {
                     constexpr int _GL_UNIFORM_BLOCK_REFERENCED_BY_VERTEX_SHADER = 0x8A44;
                     constexpr int _GL_UNIFORM_BLOCK_REFERENCED_BY_GEOMETRY_SHADER = 0x8A45;
                     constexpr int _GL_UNIFORM_BLOCK_REFERENCED_BY_FRAGMENT_SHADER = 0x8A46;
-                    constexpr int _GL_INVALID_INDEX = 0xFFFFFFFF;
+                    constexpr int _GL_INVALID_INDEX = 0xFFFFFFFF; //-V112 false positive as this is part of glad and needed
                     constexpr int _GL_CONTEXT_CORE_PROFILE_BIT = 0x00000001;
                     constexpr int _GL_CONTEXT_COMPATIBILITY_PROFILE_BIT = 0x00000002;
                     constexpr int _GL_LINES_ADJACENCY = 0x000A;

@@ -43,7 +43,7 @@ namespace UPRISE_ENGINE {
 /// max height of the terrain
 /// </summary>
         float Maxheight;
-        char PAD[4];//TODO find a better way to align this or put data here //-V112
+        char PAD[4];//TODO find a better way to align this or put data here //-V112 //NOSONAR
     public:
         /// <summary>
         /// default constructor
@@ -52,7 +52,8 @@ namespace UPRISE_ENGINE {
         ~TerrainData() = default;
         UPRISE_ECS_API TerrainData(const TerrainData& other) = delete;
         UPRISE_ECS_API TerrainData& operator=(const TerrainData& other) = delete;
-        UPRISE_ECS_API TerrainData(TerrainData&& other);
+        UPRISE_ECS_API TerrainData(TerrainData&& other)noexcept (RW_USE_CPP_EXCEPTIONS_==false);//NOSONAR
+        UPRISE_ECS_API TerrainData& operator=(TerrainData&& other)noexcept(RW_USE_CPP_EXCEPTIONS_ == false);//NOSONAR
         /// <summary>
         /// load heightmap
         /// uses a call to c# to load the heightmap

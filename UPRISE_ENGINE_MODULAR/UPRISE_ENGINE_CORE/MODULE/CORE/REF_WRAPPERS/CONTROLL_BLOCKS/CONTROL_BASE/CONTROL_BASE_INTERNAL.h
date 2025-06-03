@@ -44,7 +44,7 @@ namespace UPRISE_ENGINE {
 
     protected:
 
-        void CaseMoved(const char* msg) {
+      inline  void CaseMoved(const char* msg) {
             if constexpr (RW_USE_CPP_EXCEPTIONS_) {
                 std::string out = msg;
                 out += std::move(std::to_string(std::stacktrace::current()));
@@ -59,7 +59,7 @@ namespace UPRISE_ENGINE {
                 DEBUG::Debug::Log(std::move(out));
             }
         }
-        void CaseNull(const char* msg) {
+      inline  void CaseNull(const char* msg) {
             if constexpr (RW_USE_CPP_EXCEPTIONS_) {
                 std::string out = msg;
                 out += std::move(std::to_string(std::stacktrace::current()));
@@ -75,7 +75,7 @@ namespace UPRISE_ENGINE {
             }
 
         }
-        void CaseDeletedManualy(const char* msg) {
+       inline void CaseDeletedManualy(const char* msg) {
             if constexpr (RW_USE_CPP_EXCEPTIONS_) {
                 std::string out = msg;
                 out += std::move(std::to_string(std::stacktrace::current()));
@@ -97,7 +97,7 @@ namespace UPRISE_ENGINE {
 /// only fopr use in non nullchecked versions
 /// </summary>
 /// <param name="msg"></param>
-        void CaseInvalid(const char* msg) {
+     inline   void CaseInvalid(const char* msg) {
             if constexpr (RW_USE_CPP_EXCEPTIONS_) {
                 std::string out = msg;
                 out += std::move(std::to_string(std::stacktrace::current()));
@@ -114,7 +114,7 @@ namespace UPRISE_ENGINE {
         }
         std::atomic<unsigned long long> Refs = 1;
         std::atomic<unsigned long long> WeakRefs = 1;
-        void Delete()noexcept {
+        inline void Delete()noexcept {
             ::Delete( this); //linter false positive. this is part of a smart pointer implementation //-V2511
         }
         virtual void IncrementRefs()noexcept = 0;

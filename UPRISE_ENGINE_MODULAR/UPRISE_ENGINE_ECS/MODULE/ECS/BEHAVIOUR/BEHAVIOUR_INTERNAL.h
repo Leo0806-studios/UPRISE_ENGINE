@@ -17,7 +17,7 @@ namespace UPRISE_ENGINE {
 
     class GameObject;
     class Transform;
-        class Behaviour : public Object {
+        class Behaviour : public Object {//NOSONAR
         private:
         protected:
             UPRISE_ECS_API explicit Behaviour(const Behaviour& other);
@@ -42,7 +42,7 @@ namespace UPRISE_ENGINE {
         private:
 
 
-            char PAD[12];   //TODO find a better way to align this or find data to put here //-V112
+            char PAD[12];   //TODO find a better way to align this or find data to put here //-V112 //NOSONAR
 #pragma endregion
 #pragma region StaticVars
 
@@ -81,7 +81,7 @@ namespace UPRISE_ENGINE {
 #pragma region funcs
 #pragma region OPREATORS
             bool operator==(const Object& other) const {
-                const Behaviour& otherBehaviour = static_cast<const  Behaviour&>(other);
+                const Behaviour& otherBehaviour = static_cast<const  Behaviour&>(other);  //NOSONAR
                 bool base = Object::operator==(otherBehaviour);
                 return base;
             }

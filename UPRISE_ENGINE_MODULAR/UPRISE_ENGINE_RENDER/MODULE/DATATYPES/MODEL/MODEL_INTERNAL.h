@@ -25,7 +25,7 @@ namespace UPRISE_ENGINE {
         class Model {
         private:
         public:
-            Model();
+         inline   Model() { UE_THROW_NOT_IMPLEMENTED; }
             explicit Model(std::string path);
             void Draw(Shader& shader);
             std::vector<SharedRef<RENDER::Mesh, true>> Meshes;

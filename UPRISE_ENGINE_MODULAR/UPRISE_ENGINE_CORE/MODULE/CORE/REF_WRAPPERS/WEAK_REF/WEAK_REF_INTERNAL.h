@@ -24,6 +24,7 @@ namespace UPRISE_ENGINE {
     template<typename Type, bool DoNullCheck>
     class WeakRef :public UPRISE_ENGINE::WrapperBase {//NOSONAR
         template <typename, bool> friend class WeakRef;
+        template <typename> friend class OwnedRef;
     private:
         //
         void Nullchecked_Destructor()noexcept(RW_USE_CPP_EXCEPTIONS_ == false) {

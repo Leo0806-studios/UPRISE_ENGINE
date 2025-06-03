@@ -135,8 +135,10 @@ namespace UPRISE_ENGINE {
                     return Opcode.Opcode.X87;
                     break;
                 }
+                default: {
+                    __assume(false); // This should never happen, but just in case
                 }
-
+                }
             }
         };
         struct X86_64_instruction {
@@ -147,7 +149,7 @@ namespace UPRISE_ENGINE {
             void* m_data=nullptr;
             size_t Size;
             friend class Meta;
-            Meta_Obj(size_t init_size);
+           UPRISE_META_API Meta_Obj(size_t init_size);
             bool relocate(size_t new_size);
             void execute() {
                 _internal_Meta_Execute(m_data);

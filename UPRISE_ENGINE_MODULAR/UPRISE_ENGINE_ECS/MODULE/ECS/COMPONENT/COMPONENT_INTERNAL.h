@@ -22,8 +22,8 @@ namespace UPRISE_ENGINE {
             UPRISE_ECS_API   Component() = default;
             UPRISE_ECS_API    Component(const Component& other) = delete;
             UPRISE_ECS_API  Component operator=(const Component& other) = delete;
-            UPRISE_ECS_API  ~Component() {}
-            UPRISE_ECS_API  void OnDestroyInt(WeakRef<Object, true> obj)override {}
+            UPRISE_ECS_API  ~Component() = default;
+            UPRISE_ECS_API  void OnDestroyInt(WeakRef<Object, true> obj)override { UE_THROW_NOT_IMPLEMENTED; UE_UNUSED_PARAMETER(obj); }
         };
 }
 

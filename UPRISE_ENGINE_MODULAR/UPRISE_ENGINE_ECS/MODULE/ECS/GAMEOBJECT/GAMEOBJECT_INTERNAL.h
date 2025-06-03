@@ -93,7 +93,7 @@ namespace UPRISE_ENGINE {
 
 #pragma endregion
 #pragma region  Destructors
-        ~GameObject() {}
+        ~GameObject() = default;
 
 #pragma endregion
 #pragma region Funcs

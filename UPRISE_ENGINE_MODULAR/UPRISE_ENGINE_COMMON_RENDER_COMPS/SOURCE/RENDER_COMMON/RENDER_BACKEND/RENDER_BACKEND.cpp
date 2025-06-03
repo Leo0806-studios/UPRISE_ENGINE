@@ -12,6 +12,7 @@ namespace UPRISE_ENGINE::RENDER::RENDER_COMMON {
 
 
         OwnedRef<RENDER_BACKEND> RENDER_BACKEND::_internal_backend;
+        Backend RENDER_BACKEND::_internal_backend_type;
         RENDER_BACKEND::_Create_Backend_FUNC RENDER_BACKEND::_Create_Backend = nullptr; //-V2573 //-V3547
         void RENDER_BACKEND::DestroyBackend()
         {
@@ -101,19 +102,6 @@ namespace UPRISE_ENGINE::RENDER::RENDER_COMMON {
              return *this;
              // TODO: insert return statement here //NOSONAR
          }
-         UPRISE_COMMON_RENDER_COMPS_API void RENDER_BACKEND::PostFrameWork()
-         {
-            // SCOPED_TIME_
-
-             _internal_backend->_internal_PostFrameWork();
-         }
-         UPRISE_COMMON_RENDER_COMPS_API void RENDER_BACKEND::PreFrameWork()
-         {
-            // SCOPED_TIME_
-             _internal_backend->_internal_PreFrameWork();
-         }
-
-    
-}
+          }
 
 

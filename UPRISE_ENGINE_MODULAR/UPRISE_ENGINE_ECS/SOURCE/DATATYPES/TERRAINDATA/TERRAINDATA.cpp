@@ -17,8 +17,21 @@ namespace UPRISE_ENGINE {
     }
     inline UPRISE_ECS_API float TerrainData::SetHeight(size_t x, size_t y, float height) { return Heightmap->SetHeight(x, y, height); }
 
+    TerrainData& UPRISE_ENGINE::TerrainData::operator=(TerrainData&& other)noexcept(RW_USE_CPP_EXCEPTIONS_ == false) //NOSONAR
+    {
+        witdh = other.witdh;
+        depth = other.depth;
+        Heightmap = std::move(other.Heightmap);
+        data = std::move(other.data);
+        Maxheight = other.Maxheight;
+        other.witdh = 0;
+        other.depth = 0;
+        other.Maxheight = 0.0F;
 
-    TerrainData::TerrainData(TerrainData&& other) :
+        return *this;
+        
+    }
+    TerrainData::TerrainData(TerrainData&& other)noexcept(RW_USE_CPP_EXCEPTIONS_==false) : //-V2537
         witdh(other.witdh),
         depth(other.depth),
         Heightmap(std::move(other.Heightmap)),
@@ -32,7 +45,7 @@ namespace UPRISE_ENGINE {
     {
         (void)filename;
         UE_THROW_NOT_IMPLEMENTED;
-        //stbi_image_free(data);
+
         return true;
     }
 
@@ -43,7 +56,9 @@ namespace UPRISE_ENGINE {
         tmp->depth = d;
         tmp->witdh = w;
         tmp->LoadHeightmap(path);
-        //TODO tmp->data = RENDER::TerrainModel(&tmp, w, d, mh, shader);
+        UE_THROW_NOT_IMPLEMENTED;
+        UE_UNUSED_PARAMETER(shader);
+        //TODO tmp->data = RENDER::TerrainModel(&tmp, w, d, mh, shader);//NOSONAR
 
         return tmp;
     }

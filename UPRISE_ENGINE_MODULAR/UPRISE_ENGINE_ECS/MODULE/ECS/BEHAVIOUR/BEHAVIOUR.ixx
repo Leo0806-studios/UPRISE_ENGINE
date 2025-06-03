@@ -6,6 +6,7 @@ module;
 
 //#include "unordered_map"
 export module UPRISE_ENGINE_ECS:BEHAVIOUR;
+#ifndef __INTELLISENSE__
 import UPRISE_ENGINE_CORE;
 import :OBJECT;
 import std;
@@ -14,3 +15,4 @@ export {
 #define UE_ECS_BUILD_
 #include "BEHAVIOUR_INTERNAL.h"
 }
+#endif

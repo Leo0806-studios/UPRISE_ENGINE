@@ -3,9 +3,9 @@
 
 
 #ifdef __INTELLISENSE__
+#define DONT_INCLUDE_GLAD
 #include "UE_OPENGL_INTELLISENSE_FIX.h"
 import UPRISE_ENGINE_PROFILER;
-#include <string>
 #else
 import UPRISE_ENGINE_OPEN_GL_RENDER;
 import UPRISE_ENGINE_CORE;
@@ -47,15 +47,11 @@ namespace UPRISE_ENGINE ::RENDER::OPENGL_RENDER {
             window(other.window)
         {
             for (Index i = sizeof(keys); i > 0; i--) {
-                //if ((i-1) >= 256) {
-                //    throw std::runtime_error("array out of bounds");
-                //}
+
                 this->keys[i - 1] = other.keys[i - 1];
             }
             for (Index i = sizeof(MouseButtons); i > 0; i--) {
-                //if (i >= 9) {
-                //    throw std::runtime_error("array out of bounds");
-                //}
+
                 this->MouseButtons[i - 1] = other.MouseButtons[i - 1];
 
             }
@@ -65,15 +61,11 @@ namespace UPRISE_ENGINE ::RENDER::OPENGL_RENDER {
         {
             static_cast<void>(RENDER_COMMON::WINDOW_BASE::operator=(other));
             for (Index i = sizeof(keys); i > 0; i--) {
-                //if ((i-1) >= 256) {
-                //    throw std::runtime_error("array out of bounds");
-                //}
+
                 this->keys[i-1] = other.keys[i-1];
             }
             for (Index i = sizeof(MouseButtons) ; i > 0; i--) {
-                //if (i >= 9) {
-                //    throw std::runtime_error("array out of bounds");
-                //}
+
                 this->MouseButtons[i-1] = other.MouseButtons[i-1];
          
             }

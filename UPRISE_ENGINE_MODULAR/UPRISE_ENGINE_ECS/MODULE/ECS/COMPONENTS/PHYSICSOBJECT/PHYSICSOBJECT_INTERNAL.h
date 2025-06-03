@@ -31,7 +31,7 @@ namespace UPRISE_ENGINE {
         bool hasCollision;
         bool isStatic;
         bool hasMoved;
-        char PAD[4]; //TODO find a way to better allign or but data here
+        char PAD[4]; //TODO find a way to better allign or but data here //-V112
     public:
         /// <summary>
         /// default constructor
