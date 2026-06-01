@@ -1,0 +1,11 @@
+#pragma once
+#define NODISCARD [[nodiscard]]
+#define NODISCARD_MSG(msg) [[nodiscard(msg)]]
+#define FALLTROUGH [[fallthrough]]
+#define MAYBE_UNUSED [[maybe_unused]]
+#define DEPRECATED [[deprecated]]
+#define DEPRECATED_MSG(msg) [[deprecated(msg)]]
+#define LIKELY [[likely]]
+#define UNLIKELY [[unlikely]]
+#define NORETURN [[noreturn]]
+#define NU_UNIQUE_ADDRESS [[no_unique_address]]
