@@ -49,6 +49,20 @@
     <AllProjectBMIsArePublic>true</AllProjectBMIsArePublic>
     <PublicIncludeDirectories>C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_ENGINE_MODULAR\UPRISE_ENGINE_CORE\MODULE\CORE;C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_ENGINE_MODULAR\UPRISE_ENGINE_CORE\MODULE\DATATYPES;C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_ENGINE_MODULAR\UPRISE_ENGINE_CORE\MODULE;$(PublicIncludeDirectories)</PublicIncludeDirectories>
     <AllProjectIncludesArePublic>true</AllProjectIncludesArePublic>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <EnableClangTidyCodeAnalysis>true</EnableClangTidyCodeAnalysis>
+    <CodeAnalysisRuleSet>..\..\..\X86_64_EMU_SOFT\X86_64_EMU_SOFT\very_strict.ruleset</CodeAnalysisRuleSet>
+    <MaxNumberOfProcesses>8</MaxNumberOfProcesses>
+    <ClangTidyExtraArgs>
+    </ClangTidyExtraArgs>
+    <ClangTidyPrependExtraArgs>
+    </ClangTidyPrependExtraArgs>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <EnableClangTidyCodeAnalysis>true</EnableClangTidyCodeAnalysis>
+    <CodeAnalysisRuleSet>..\..\..\X86_64_EMU_SOFT\X86_64_EMU_SOFT\very_strict.ruleset</CodeAnalysisRuleSet>
+    <MaxNumberOfProcesses>8</MaxNumberOfProcesses>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -60,7 +74,7 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <EnableModules>false</EnableModules>
       <BuildStlModules>false</BuildStlModules>
-      <AdditionalIncludeDirectories>C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_ENGINE_MODULAR\UPRISE_ENGINE_CORE\MODULE;C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_ENGINE_MODULAR\UPRISE_ENGINE_CORE\MODULE\DATATYPES;C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_ENGINE_MODULAR\UPRISE_ENGINE_CORE\MODULE\CORE;C:\Users\leo08\source\repos\UPRISE_ENGINE\SHARED_CODE\HEADER;C:\Users\leo08\source\repos\UPRISE_ENGINE\adhed;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\leo08\source\repos\UPRISE_ENGINE\adhed;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <AdditionalBMIDirectories>C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_ENGINE_MODULAR\UPRISE_ENGINE_CORE\HEADER;C:\Users\leo08\source\repos\UPRISE_ENGINE\SHARED_CODE\HEADER;C:\Users\leo08\source\repos\UPRISE_ENGINE\SHARED_CODE;C:\Users\leo08\source\repos\UPRISE_ENGINE\SHARED_CODE\MODULES;%(AdditionalBMIDirectories)</AdditionalBMIDirectories>
@@ -135,6 +149,7 @@
     <ClCompile Include="UUID.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\.clang-tidy" />
     <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>
