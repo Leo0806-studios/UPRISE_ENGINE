@@ -133,19 +133,19 @@ namespace UPRISE_ENGINE {
             float num11 = w() * num2;
             float num12 = w() * num3;
             using enum DATATYPES::Vector3Index;
-            return DATATYPES::Vector3{ (1.0F - (num5 + num6)) * vec.at(0) + (num7 - num12) * vec.at(1) + (num8 + num11) * vec.z() ,
-                 (num7 + num12) * vec.x() + (1.0F - (num4 + num6)) * vec.y() + (num9 - num10) * vec.z() ,
-             (num8 - num11) * vec.x() + (num9 + num10) * vec.y() + (1.0F - (num4 + num5)) * vec.z()
+            return DATATYPES::Vector3{ (1.0F - (num5 + num6)) * vec.at(0) + (num7 - num12) * vec.at(1) + (num8 + num11) * vec.at(2) ,
+                 (num7 + num12) * vec.at(0) + (1.0F - (num4 + num6)) * vec.at(1) + (num9 - num10) * vec.at(2) ,
+             (num8 - num11) * vec.at(0) + (num9 + num10) * vec.at(1) + (1.0F - (num4 + num5)) * vec.at(2)
             };
 
         }
 
 
         __inline  DATATYPES::Vector3 __vectorcall Rotate(const DATATYPES::Vector3& v) const {
-            Quaterion qv(0, v.xC(), v.yC(), v.zC());
+            Quaterion qv(0, v.at(0), v.at(1), v.at(2));
             Quaterion qconj(wC(), -xC(), -yC(), -zC());
             Quaterion result = (*this) * qv * qconj;
-            auto a = Vector3(result.x(), result.y(), result.z());
+            auto a = DATATYPES::Vector3(result.x(), result.y(), result.z());
             return a;
         }
     };

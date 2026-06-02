@@ -8,6 +8,7 @@
 #include <cstring>
 #include <cstdint>
 #include "UTILITIES.h"
+#include <MACROS.h>
 namespace UPRISE_ENGINE::DATATYPES {
     /// <summary>
     /// UUID struct for the UPRISE ENGINE

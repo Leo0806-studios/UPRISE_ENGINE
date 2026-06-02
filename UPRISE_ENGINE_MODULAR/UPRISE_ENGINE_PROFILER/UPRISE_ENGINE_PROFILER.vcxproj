@@ -35,6 +35,7 @@
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
   <ImportGroup Label="Shared">
+    <Import Project="..\..\UPRISE_ENGINE_COMMON_CODE\UPRISE_ENGINE_COMMON_CODE.vcxitems" Label="Shared" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -53,15 +54,16 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <ForcedIncludeFiles>$(SolutionDir)SHARED_CODE\HEADER\GLOBAL.h</ForcedIncludeFiles>
-      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <WholeProgramOptimization>true</WholeProgramOptimization>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <TranslateIncludes>false</TranslateIncludes>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <DisableSpecificWarnings>5045;4514;4710;4711;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <WarningLevel>EnableAllWarnings</WarningLevel>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <TreatAngleIncludeAsExternal>true</TreatAngleIncludeAsExternal>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
+      <DisableAnalyzeExternal>true</DisableAnalyzeExternal>
+      <DisableSpecificWarnings>4514;5045</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -73,14 +75,20 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>EnableAllWarnings</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;UPRISEENGINEPROFILER_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <TreatAngleIncludeAsExternal>true</TreatAngleIncludeAsExternal>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
+      <DisableAnalyzeExternal>true</DisableAnalyzeExternal>
+      <DisableSpecificWarnings>4514;5045</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -91,82 +99,59 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="HEADER\PROFILER\EVENT_QEUE\EVENT_QEUE.h">
+    <ClInclude Include="OPERATOR_DELETE.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="HEADER\PROFILER\PROFILER\PROFILER.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="HEADER\PROFILER\PROFILER_INIT\PROFILER_INIT.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="HEADER\PROFILER\PROFILER_OBJECTS\ALLOC\ALLOC_OBJECT.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="HEADER\PROFILER\PROFILER_OBJECTS\DEALLOC\DEALLOC_OBJECT.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="HEADER\PROFILER\PROFILER_OBJECTS\TIMERS\SCOPED\SCOPED_TIME.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="HEADER\PROFILER\PROFILE_EVENTS\ALLOC\ALLOC.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="HEADER\PROFILER\PROFILE_EVENTS\DEALLOC\DEALLOC.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="HEADER\PROFILER\PROFILE_EVENTS\PROF_EVENT\PROF_EVENT.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="HEADER\PROFILER\PROFILE_EVENTS\TIMERS\SCOPED\SCOPED_TIME_EVENT.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="HEADER\PROFILER\PROFILE_STREAM\PROFILE_STREAM.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="OPERATORS\PROFILER\OPERATOR_DELETE\OPERATOR_DELETE.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="OPERATORS\PROFILER\OPERATOR_NEW\OPERATOR_NEW.h">
+    <ClInclude Include="OPERATOR_NEW.h">
       <SubType>
       </SubType>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />
-    <ClCompile Include="MODULE\EVENT_QEUE\EVENT_QEUE.ixx" />
-    <ClCompile Include="MODULE\PROFILER\PROFILER.ixx" />
-    <ClCompile Include="MODULE\PROFILER_INIT\PROFILER_INIT.ixx" />
-    <ClCompile Include="MODULE\PROFILER_OBJECTS\ALLOC_OBJECT\ALLOC_OBJECT.ixx" />
-    <ClCompile Include="MODULE\PROFILER_OBJECTS\DEALLOC_OBJECT\DEALLOC_OBJECT.ixx" />
-    <ClCompile Include="MODULE\PROFILER_OBJECTS\TIMER_OBJECTS\SCOPED\SCOPED_TIMER_OBJECT\SCOPED_TIMER_OBJECT.ixx" />
-    <ClCompile Include="MODULE\PROFILE_EVENTS\ALLOC\ALLOC.ixx" />
-    <ClCompile Include="MODULE\PROFILE_EVENTS\DEALLOC\DEALLOC.ixx" />
-    <ClCompile Include="MODULE\PROFILE_EVENTS\EVENT_BASE\EVENT_BASE.ixx" />
-    <ClCompile Include="MODULE\PROFILE_EVENTS\TIMERS\SCOPED\SCOPED_TIME_EVENT.ixx" />
-    <ClCompile Include="MODULE\PROFILE_STREAM\PROFILE_STREAM.ixx" />
-    <ClCompile Include="MODULE\UPRISE_ENGINE_PROFILER.ixx" />
-    <ClCompile Include="SOURCE\PROFILER\PROFILER\PROFILER.cpp" />
-    <ClCompile Include="SOURCE\PROFILER\PROFILER_INIT\PROFILER_INIT.cpp" />
-    <ClCompile Include="SOURCE\PROFILER\PROFILER_OBJECTS\ALLOC\ALLOC_OBJECT.cpp" />
-    <ClCompile Include="SOURCE\PROFILER\PROFILER_OBJECTS\DEALLOC\DEALLOC_OBJECT.cpp" />
-    <ClCompile Include="SOURCE\PROFILER\PROFILER_OBJECTS\TIMERS\SCOPED\SCOPED_TIME.cpp" />
-    <ClCompile Include="SOURCE\PROFILER\PROFILE_EVENTS\PROF_EVENT\PROF_EVENT.cpp" />
-    <ClCompile Include="SOURCE\PROFILER\PROFILE_EVENTS\TIMERS\SCOPED\SCOPED_TIME_EVENT.cpp" />
-    <ClCompile Include="SOURCE\PROFILER\PROFILE_STREAM\PROFILE_STREAM.cpp" />
-    <ClCompile Include="SOURCE\PROFILER\EVENT_QEUE\EVENT_QEUE.cpp" />
+    <ClInclude Include="EVENT_QEUE.h">
+      <FileType>Document</FileType>
+    </ClInclude>
+    <ClInclude Include="PROFILER.h">
+      <FileType>Document</FileType>
+    </ClInclude>
+    <ClInclude Include="PROFILER_INIT.h">
+      <FileType>Document</FileType>
+    </ClInclude>
+    <ClInclude Include="ALLOC_OBJECT.h">
+      <FileType>Document</FileType>
+    </ClInclude>
+    <ClInclude Include="DEALLOC_OBJECT.h">
+      <FileType>Document</FileType>
+    </ClInclude>
+    <ClInclude Include="SCOPED_TIMER_OBJECT.h">
+      <FileType>Document</FileType>
+    </ClInclude>
+    <ClInclude Include="ALLOC.h">
+      <FileType>Document</FileType>
+    </ClInclude>
+    <ClInclude Include="DEALLOC.h">
+      <FileType>Document</FileType>
+    </ClInclude>
+    <ClInclude Include="EVENT_BASE.h">
+      <FileType>Document</FileType>
+    </ClInclude>
+    <ClInclude Include="SCOPED_TIME_EVENT.h">
+      <FileType>Document</FileType>
+    </ClInclude>
+    <ClInclude Include="PROFILE_STREAM.h">
+      <FileType>Document</FileType>
+    </ClInclude>
+    <ClCompile Include="PROFILER.cpp" />
+    <ClCompile Include="PROFILER_INIT.cpp" />
+    <ClCompile Include="ALLOC_OBJECT.cpp" />
+    <ClCompile Include="DEALLOC_OBJECT.cpp" />
+    <ClCompile Include="SCOPED_TIME.cpp" />
+    <ClCompile Include="PROF_EVENT.cpp" />
+    <ClCompile Include="SCOPED_TIME_EVENT.cpp" />
+    <ClCompile Include="PROFILE_STREAM.cpp" />
+    <ClCompile Include="EVENT_QEUE.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

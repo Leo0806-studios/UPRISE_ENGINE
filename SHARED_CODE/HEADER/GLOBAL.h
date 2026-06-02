@@ -169,30 +169,30 @@ return InternalMockReplacement;\
 #pragma endregion
 
 
-#pragma region RuntimeWarnings
-#ifdef RT_WARNINGS_5
-constexpr inline bool RuntimeWarnings = true; //-V3549
-constexpr inline unsigned char RuntimeWarningsLevel = 5; //-V3549
-#elif RT_WARNINGS_4
-constexpr inline bool RuntimeWarnings = true;
-constexpr inline unsigned char RuntimeWarningsLevel = 4;
-#elif RT_WARNINGS_3
-constexpr inline bool RuntimeWarnings = true;
-constexpr inline unsigned char RuntimeWarningsLevel = 3;
-#elif RT_WARNINGS_2
-constexpr inline bool RuntimeWarnings = true;
-constexpr inline unsigned char RuntimeWarningsLevel = 2;
-#elif RT_WARNINGS_1
-constexpr inline bool RuntimeWarnings = true;
-constexpr inline unsigned char RuntimeWarningsLevel = 1;
-#elif RT_WARNINGS_0
-constexpr inline bool RuntimeWarnings = false;
-constexpr inline unsigned char RuntimeWarningsLevel = 0;
-#else
-#error "RT_WARNINGS_0-5 not defined. tis is an error. set to 0 to disable runtime warnings"
-#endif // RT_WARNINGS_5
-
-#pragma endregion
+//#pragma region RuntimeWarnings
+//#ifdef RT_WARNINGS_5
+//constexpr inline bool RuntimeWarnings = true; //-V3549
+//constexpr inline unsigned char RuntimeWarningsLevel = 5; //-V3549
+//#elif RT_WARNINGS_4
+//constexpr inline bool RuntimeWarnings = true;
+//constexpr inline unsigned char RuntimeWarningsLevel = 4;
+//#elif RT_WARNINGS_3
+//constexpr inline bool RuntimeWarnings = true;
+//constexpr inline unsigned char RuntimeWarningsLevel = 3;
+//#elif RT_WARNINGS_2
+//constexpr inline bool RuntimeWarnings = true;
+//constexpr inline unsigned char RuntimeWarningsLevel = 2;
+//#elif RT_WARNINGS_1
+//constexpr inline bool RuntimeWarnings = true;
+//constexpr inline unsigned char RuntimeWarningsLevel = 1;
+//#elif RT_WARNINGS_0
+//constexpr inline bool RuntimeWarnings = false;
+//constexpr inline unsigned char RuntimeWarningsLevel = 0;
+//#else
+//#error "RT_WARNINGS_0-5 not defined. tis is an error. set to 0 to disable runtime warnings"
+//#endif // RT_WARNINGS_5
+//
+//#pragma endregion
 
 
 #pragma region GetWarningLevel

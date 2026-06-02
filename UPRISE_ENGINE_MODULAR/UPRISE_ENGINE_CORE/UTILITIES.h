@@ -14,9 +14,4 @@ namespace UPRISE_ENGINE {
 
 
 }
-namespace std {
-    template<typename T>
-    string to_string(const T& value) {
-        return std::format("Type: {}, Address {:#X} ",typeid(T).name(),&value );
-    }
-}
+
