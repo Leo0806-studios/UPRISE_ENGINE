@@ -4,7 +4,7 @@
 #include <array>
 #include <intrin.h>
 #include <string>
-
+// fuck this shit. im turning of warnings for the file
 
 
 namespace UPRISE_ENGINE:: CORE {
@@ -251,6 +251,7 @@ namespace UPRISE_ENGINE:: CORE {
             for (int i = 0; i <= nIds_; ++i)
             {
                 __cpuidex(cpui.data(), i, 0);
+#pragma warning(suppress:26487)
                 data_.push_back(cpui);
             }
 
@@ -259,9 +260,12 @@ namespace UPRISE_ENGINE:: CORE {
             std::array<int, 0x20/sizeof(int)> vendor_cpui{};
             
             memset(vendor_cpui.data(), 0, sizeof(vendor_cpui)); //-V2547
+#pragma warning(push)
+#pragma warning(disable :26823)
             vendor_cpui[0] = data_[0][1]; // EBX
             vendor_cpui[1] = data_[0][3]; // EDX
             vendor_cpui[2] = data_[0][2]; // ECX
+#pragma warning(pop)
             vendor = std::bit_cast<std::array<char, 0x20>>(vendor_cpui);
             vendor_ = vendor.data();
             if (vendor_ == "GenuineIntel") 
@@ -280,15 +284,21 @@ namespace UPRISE_ENGINE:: CORE {
             // load bitset with flags for function 0x00000001
             if (nIds_ >= 1)
             {
+#pragma warning(push)
+#pragma warning(disable :26823)
                 f_1_ECX_ = static_cast<unsigned __int64>(data_[1][2]);
                 f_1_EDX_ = static_cast<unsigned __int64>(data_[1][3]);
+#pragma warning(pop)
             }
 
             // load bitset with flags for function 0x00000007
             if (nIds_ >= 7)
             {
+#pragma warning(push)
+#pragma warning(disable :26823)
                 f_7_EBX_ = static_cast<unsigned __int64>(data_[7][1]);
                 f_7_ECX_ = static_cast<unsigned __int64>(data_[7][2]);
+#pragma warning(pop)
             }
             constexpr unsigned int intmax = 0x80000000U; //-V112
 
@@ -298,11 +308,12 @@ namespace UPRISE_ENGINE:: CORE {
             nExIds_ = cpui[0];
 
             char brand[0x40]{};
-            char* const _brand = brand;
+            char* const _brand = &brand[0];
             memset(_brand, 0, sizeof(brand)); //-V2547
             for (int i = intmax; i <= nExIds_; ++i)
             {
                 __cpuidex(cpui.data(), i, 0);
+#pragma warning(suppress:26487)
                 extdata_.push_back(cpui);
             }
 
@@ -313,10 +324,10 @@ namespace UPRISE_ENGINE:: CORE {
                 f_81_EDX_ = static_cast<unsigned __int64>(extdata_[1][3]);
                 // Interpret CPU brand string if reported
 
-                std::memcpy(&brand, extdata_[2].data(), sizeof(cpui));
+                std::memcpy(&brand[0], extdata_[2].data(), sizeof(cpui));
                 memcpy(&brand[16], extdata_[3].data(), sizeof(cpui));
                 memcpy(&brand[32], extdata_[4].data(), sizeof(cpui));
-                brand_ = brand;
+                brand_ = &brand[0];
             }
 #pragma warning(pop)
 

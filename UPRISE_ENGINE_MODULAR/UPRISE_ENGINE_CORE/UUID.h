@@ -47,9 +47,12 @@ namespace std {
     };
 
     std::string to_string(UPRISE_ENGINE::DATATYPES::UUID _Val) {
+#pragma warning(push)
+#pragma warning(disable :26823)
         return std::format("UUID: {:08X}-{:04X}-{:04X}-{:02X}{:02X}-{:02X}{:02X}{:02X}{:02X}{:02X}{:02X}",
             _Val.Data1, _Val.Data2, _Val.Data3,
             _Val.Data4[0], _Val.Data4[1], _Val.Data4[2], _Val.Data4[3], _Val.Data4[4], _Val.Data4[5], _Val.Data4[6], _Val.Data4[7]);
+#pragma warning(pop)
     }
 }
 
