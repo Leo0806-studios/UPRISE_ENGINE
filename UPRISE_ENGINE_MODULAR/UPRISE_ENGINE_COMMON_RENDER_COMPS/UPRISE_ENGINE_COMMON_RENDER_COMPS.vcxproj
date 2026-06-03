@@ -35,6 +35,7 @@
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
   <ImportGroup Label="Shared">
+    <Import Project="..\..\UPRISE_ENGINE_COMMON_CODE\UPRISE_ENGINE_COMMON_CODE.vcxitems" Label="Shared" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -57,11 +58,13 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <EnableModules>false</EnableModules>
       <BuildStlModules>false</BuildStlModules>
-      <AdditionalBMIDirectories>C:\Users\leo08\source\repos\UPRISE_ENGINE\SHARED_CODE\MODULES;$(SolutionDir)SHARED_CODE\MODULES;%(AdditionalBMIDirectories)</AdditionalBMIDirectories>
       <ScanSourceForModuleDependencies>true</ScanSourceForModuleDependencies>
       <AdditionalIncludeDirectories>C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_ENGINE_MODULAR\UPRISE_ENGINE_COMMON_RENDER_COMPS\MODULE\RENDER_COMMON;C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_ENGINE_MODULAR\UPRISE_ENGINE_COMMON_RENDER_COMPS\MODULE;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>MaxSpeed</Optimization>
       <WholeProgramOptimization>true</WholeProgramOptimization>
+      <TreatAngleIncludeAsExternal>true</TreatAngleIncludeAsExternal>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
+      <DisableAnalyzeExternal>true</DisableAnalyzeExternal>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -82,6 +85,9 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpplatest</LanguageStandard>
+      <TreatAngleIncludeAsExternal>true</TreatAngleIncludeAsExternal>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
+      <DisableAnalyzeExternal>true</DisableAnalyzeExternal>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -92,29 +98,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="MODULE\RENDER_COMMON\CALLBACK_TYPEDEFS\CALLBACK_TYPEDEFS_INTERNAL.h" />
-    <ClInclude Include="MODULE\RENDER_COMMON\CONTEXT_BASE\CONTEXT_BASE_INTERNAL.h" />
-    <ClInclude Include="MODULE\RENDER_COMMON\RENDER_BACKEND\RENDER_BACKEND_INTERNAL.h" />
-    <ClInclude Include="MODULE\RENDER_COMMON\SHADER_BASE\SHADER_BASE_INTERNAL.h" />
-    <ClInclude Include="MODULE\RENDER_COMMON\SHADER_PROGRAM_BASE\SHADER_PROGRAM_BASE_INTERNAL.h" />
-    <ClInclude Include="MODULE\RENDER_COMMON\WINDOW_BASE\WINDOW_BASE_INTERNAL.h" />
-    <ClInclude Include="MODULE\UE_COMMON_COMPS_INTELLISENSE_FIX.h" />
+    <ClInclude Include="CALLBACK_TYPEDEFS.h" />
+    <ClInclude Include="CONTEXT_BASE.h" />
+    <ClInclude Include="RENDER_BACKEND.h" />
+    <ClInclude Include="SHADER_BASE.h" />
+    <ClInclude Include="SHADER_PROGRAM_BASE.h" />
+    <ClInclude Include="WINDOW_BASE.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\SHARED_CODE\MODULES\REF_WRAPPER.ixx" />
-    <ClCompile Include="..\UPRISE_ENGINE_PROFILER\OPERATORS\PROFILER\OPERATOR_NEW\OPERATOR_NEW.cpp" />
     <ClCompile Include="dllmain.cpp" />
-    <ClCompile Include="MODULE\RENDER_COMMON\CALLBACK_TYPEDEFS\CALLBACK_TYPEDEFS.ixx" />
-    <ClCompile Include="MODULE\RENDER_COMMON\CONTEXT_BASE\CONTEXT_BASE.ixx" />
-    <ClCompile Include="MODULE\RENDER_COMMON\RENDER_BACKEND\RENDER_BACKEND.ixx" />
-    <ClCompile Include="MODULE\RENDER_COMMON\SHADER_BASE\SHADER_BASE.ixx" />
-    <ClCompile Include="MODULE\RENDER_COMMON\SHADER_PROGRAM_BASE\SHADER_PROGRAM_BASE.ixx" />
-    <ClCompile Include="MODULE\RENDER_COMMON\WINDOW_BASE\WINDOW_BASE.ixx" />
-    <ClCompile Include="MODULE\UPRISE_ENGINE_COMMON_RENDER_COMPONETS.ixx" />
-    <ClCompile Include="SOURCE\RENDER_COMMON\CONTEXT_BASE\CONTEXT_BASE.cpp" />
-    <ClCompile Include="SOURCE\RENDER_COMMON\RENDER_BACKEND\RENDER_BACKEND.cpp" />
-    <ClCompile Include="SOURCE\RENDER_COMMON\SHADER_BASE\SHADER_BASE.cpp" />
-    <ClCompile Include="SOURCE\RENDER_COMMON\WINDOW_BASE\WINDOW_BASE.cpp" />
+    <ClCompile Include="CONTEXT_BASE.cpp" />
+    <ClCompile Include="RENDER_BACKEND.cpp" />
+    <ClCompile Include="SHADER_BASE.cpp" />
+    <ClCompile Include="WINDOW_BASE.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />

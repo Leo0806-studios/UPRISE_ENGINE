@@ -50,7 +50,7 @@
     <PublicIncludeDirectories>C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_ENGINE_MODULAR\UPRISE_ENGINE_CORE\MODULE\CORE;C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_ENGINE_MODULAR\UPRISE_ENGINE_CORE\MODULE\DATATYPES;C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_ENGINE_MODULAR\UPRISE_ENGINE_CORE\MODULE;$(PublicIncludeDirectories)</PublicIncludeDirectories>
     <AllProjectIncludesArePublic>true</AllProjectIncludesArePublic>
     <RunCodeAnalysis>true</RunCodeAnalysis>
-    <EnableClangTidyCodeAnalysis>true</EnableClangTidyCodeAnalysis>
+    <EnableClangTidyCodeAnalysis>false</EnableClangTidyCodeAnalysis>
     <CodeAnalysisRuleSet>..\..\..\X86_64_EMU_SOFT\X86_64_EMU_SOFT\very_strict.ruleset</CodeAnalysisRuleSet>
     <MaxNumberOfProcesses>8</MaxNumberOfProcesses>
     <ClangTidyExtraArgs>
@@ -60,9 +60,12 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <RunCodeAnalysis>true</RunCodeAnalysis>
-    <EnableClangTidyCodeAnalysis>true</EnableClangTidyCodeAnalysis>
+    <EnableClangTidyCodeAnalysis>false</EnableClangTidyCodeAnalysis>
     <CodeAnalysisRuleSet>..\..\..\X86_64_EMU_SOFT\X86_64_EMU_SOFT\very_strict.ruleset</CodeAnalysisRuleSet>
     <MaxNumberOfProcesses>8</MaxNumberOfProcesses>
+  </PropertyGroup>
+  <PropertyGroup Label="Vcpkg">
+    <VcpkgEnabled>false</VcpkgEnabled>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -77,13 +80,12 @@
       <AdditionalIncludeDirectories>C:\Users\leo08\source\repos\UPRISE_ENGINE\adhed;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalBMIDirectories>C:\Users\leo08\source\repos\UPRISE_ENGINE\UPRISE_ENGINE_MODULAR\UPRISE_ENGINE_CORE\HEADER;C:\Users\leo08\source\repos\UPRISE_ENGINE\SHARED_CODE\HEADER;C:\Users\leo08\source\repos\UPRISE_ENGINE\SHARED_CODE;C:\Users\leo08\source\repos\UPRISE_ENGINE\SHARED_CODE\MODULES;%(AdditionalBMIDirectories)</AdditionalBMIDirectories>
       <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <OpenMPSupport>true</OpenMPSupport>
-      <DisableSpecificWarnings>4005;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4005;5045;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <AssemblerOutput>NoListing</AssemblerOutput>
       <WarningLevel>EnableAllWarnings</WarningLevel>
       <TreatWarningAsError>true</TreatWarningAsError>

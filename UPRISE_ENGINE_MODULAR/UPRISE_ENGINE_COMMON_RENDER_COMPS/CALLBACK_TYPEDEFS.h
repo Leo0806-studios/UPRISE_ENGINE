@@ -1,14 +1,5 @@
 #pragma once
-#ifndef UE_CALLBACK_TYPEDEFS_INTERNAL_
-#define UE_CALLBACK_TYPEDEFS_INTERNAL_
-#ifndef __INTELLISENSE__
-#ifndef UE_COMMON_COMPS_BUILD_
-#error "this file should not be directly included in user code. use import UPRISE_ENGINE_CORE instead"
-#endif
-#endif
-#ifdef __INTELLISENSE__
-#include "UE_CORE_INTELLISENSE_FIX.h"
-#endif // __INTELLISENSE__
+#include <memory>
 
 namespace UPRISE_ENGINE ::RENDER::RENDER_COMMON{
     class WINDOW_BASE;
@@ -17,11 +8,11 @@ namespace UPRISE_ENGINE ::RENDER::RENDER_COMMON{
         /// <summary>
     /// 
     /// </summary>
-        using KeyInputCallback = int (*)(SharedRef<WINDOW_BASE, true> Windopw, int key, int scancode, int action, int mods);
+        using KeyInputCallback = int (*)(std::weak_ptr<WINDOW_BASE> Windopw, int key, int scancode, int action, int mods);
         /// <summary>
         /// 
         /// </summary>
-        using MouseButtonCallback = int (*)(SharedRef<WINDOW_BASE, true> Windopw, int button, int action, int mods);
+        using MouseButtonCallback = int (*)(std::weak_ptr<WINDOW_BASE> Windopw, int button, int action, int mods);
         /// <summary>
         /// 
         /// </summary>
@@ -73,4 +64,3 @@ namespace UPRISE_ENGINE ::RENDER::RENDER_COMMON{
     
 
 }
-#endif

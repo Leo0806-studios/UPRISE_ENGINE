@@ -23,7 +23,7 @@ namespace UPRISE_ENGINE::DATATYPES {
         alignas(alignof(unsigned int)) std::array<uint8_t,8> Data4; //NOSONAR
 
 
-        UPRISE_CORE_API static UUID Create();
+        UPRISE_CORE_API static UUID Create()noexcept;
     };
 }
 
@@ -32,13 +32,13 @@ namespace std {
     template <>
     struct hash<UPRISE_ENGINE::DATATYPES::UUID>
     {
-        std::size_t operator()(const UPRISE_ENGINE::DATATYPES::UUID& uuid) const
+        std::size_t operator()(const UPRISE_ENGINE::DATATYPES::UUID& uuid) const noexcept
         {
             uint64_t hash = 0;
             hash = UPRISE_ENGINE::HashCombine(hash, std::hash<unsigned int>{}(uuid.Data1));
             hash = UPRISE_ENGINE::HashCombine(hash, std::hash<unsigned short>{}(uuid.Data2));
             hash = UPRISE_ENGINE::HashCombine(hash, std::hash<unsigned short>{}(uuid.Data3));
-            for (uint8_t val : uuid.Data4) {
+            for (const uint8_t val : uuid.Data4) {
                 hash = UPRISE_ENGINE::HashCombine(hash, std::hash<uint8_t>{}(val));
             }
             return hash;

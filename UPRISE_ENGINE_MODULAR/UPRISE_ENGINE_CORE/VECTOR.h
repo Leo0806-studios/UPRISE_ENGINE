@@ -2,6 +2,7 @@
 #include <cassert>
 #include "UTILITIES.h"
 #include <array>
+#include <MACROS.h>
 namespace UPRISE_ENGINE::DATATYPES {
 
     template <typename T,size_t dims>

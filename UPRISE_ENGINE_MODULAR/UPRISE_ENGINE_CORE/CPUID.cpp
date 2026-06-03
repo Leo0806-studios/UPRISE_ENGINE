@@ -7,8 +7,7 @@
 
 
 
-namespace UPRISE_ENGINE {
-    namespace CORE {
+namespace UPRISE_ENGINE:: CORE {
         std::string CORE::InstructionSet::Vendor() noexcept {
             return CPU_Rep.vendor_;
         }
@@ -224,6 +223,8 @@ namespace UPRISE_ENGINE {
         bool CORE::InstructionSet::_3DNOW()noexcept {
             return CPU_Rep.isAMD_ && CPU_Rep.f_81_EDX_[31];
         }
+#pragma warning(push)
+#pragma warning(disable:26486)
         CORE::InstructionSet::InstructionSet_Internal::InstructionSet_Internal()noexcept : nIds_{ 0 },
             nExIds_{ 0 },
 
@@ -313,11 +314,11 @@ namespace UPRISE_ENGINE {
                 // Interpret CPU brand string if reported
 
                 std::memcpy(&brand, extdata_[2].data(), sizeof(cpui));
-                memcpy(brand + (sizeof(char) * 16), extdata_[3].data(), sizeof(cpui));
-                memcpy(brand + (sizeof(char) * 32), extdata_[4].data(), sizeof(cpui));
+                memcpy(&brand[16], extdata_[3].data(), sizeof(cpui));
+                memcpy(&brand[32], extdata_[4].data(), sizeof(cpui));
                 brand_ = brand;
             }
-
+#pragma warning(pop)
 
         };
 
@@ -327,4 +328,5 @@ namespace UPRISE_ENGINE {
 #endif // !UPRISE_TESTS
 
     }
-}
+
+     

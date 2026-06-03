@@ -1,15 +1,7 @@
 #pragma once
-#ifndef UE_CONTEXT_BASE_INTERNAL_
-#define UE_CONTEXT_BASE_INTERNAL_
-#ifndef __INTELLISENSE__
-#ifndef UE_COMMON_COMPS_BUILD_
-#error "this file should not be directly included in user code. use import UPRISE_ENGINE_CORE instead"
-#endif
-#endif
-#ifdef __INTELLISENSE__
-#include "UE_CORE_INTELLISENSE_FIX.h"
-#endif // __INTELLISENSE__
 
+#include <memory>
+#include <MACROS.h>
 namespace UPRISE_ENGINE ::RENDER{
     namespace OPENGL_RENDER {
         class OPENGL_CONTEXT;
@@ -34,7 +26,7 @@ namespace UPRISE_ENGINE ::RENDER{
             friend class DIRECTX12_CONTEXT;
             friend class DIRECTX11_CONTEXT;
             friend class VULKAN_CONTEXT;
-            virtual OwnedRef<CONTEXT_BASE> _internal_create_context(WeakRef<RENDER_COMMON::WINDOW_BASE, true> Window) = 0;
+            virtual std::unique_ptr<CONTEXT_BASE> _internal_create_context(std::weak_ptr<RENDER_COMMON::WINDOW_BASE> Window) = 0;
             UPRISE_COMMON_RENDER_COMPS_API virtual void _internal_destroy_context() = 0;
         public:
             CONTEXT_BASE(const CONTEXT_BASE&) = delete;
@@ -50,4 +42,3 @@ namespace UPRISE_ENGINE ::RENDER{
 }
 
 
-#endif
