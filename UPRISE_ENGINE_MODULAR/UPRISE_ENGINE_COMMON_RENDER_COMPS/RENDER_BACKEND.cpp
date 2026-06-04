@@ -1,13 +1,7 @@
 // This is a personal academic project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: https://pvs-studio.com
-#ifdef __INTELLISENSE__
-#include "UE_COMMON_COMPS_INTELLISENSE_FIX.h"
-#include "UE_CORE_INTELLISENSE_FIX.h"
-#else
-import UPRISE_ENGINE_COMMON_RENDER_COMPONETS;
-import UPRISE_ENGINE_CORE;
-#endif // __INTELLISENSE__
-import UPRISE_ENGINE_PROFILER;
+#include "RENDER_BACKEND.h"
+#include <memory>
 namespace UPRISE_ENGINE::RENDER::RENDER_COMMON {
 
 
