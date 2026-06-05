@@ -1,27 +1,18 @@
 #pragma once
-#ifndef UE_WINDOW_BASE_INTERNAL_
-#define UE_WINDOW_BASE_INTERNAL_
-#ifndef __INTELLISENSE__
-#ifndef UE_COMMON_COMPS_BUILD_
-#error "this file should not be directly included in user code. use import UPRISE_ENGINE_CORE instead"
-#endif
-#endif
-#ifdef UPRISEENGINECOMMONRENDERCOMPS_EXPORTS
-#define UPRISE_COMMON_RENDER_COMPS_API __declspec(dllexport)
-#endif // UPRISEENGINECOMMONRENDERCOMPS_EXPORTS
-
-
-#ifdef __INTELLISENSE__
-#include "UE_CORE_INTELLISENSE_FIX.h"
-#include "CALLBACK_TYPEDEFS/CALLBACK_TYPEDEFS_INTERNAL.h"
+#include "CALLBACK_TYPEDEFS.h"
+#include <IMPORT_DEFS.h>
+#include <memory>
 #include <string>
 #include <filesystem>
-#endif // __INTELLISENSE__
+#include <unordered_map>
+#include "RENDER_BACKEND.h"
 namespace UPRISE_ENGINE::RENDER:: RENDER_COMMON {
+
         class CONTEXT_BASE;
         using OSWindowHandle = void *; //NOSONAR
         class WINDOW_BASE {
-        protected:
+        public:
+            using CreatorFunk = std::unique_ptr<WINDOW_BASE>(*)(std::string Title, int Width, int Height);
         private:
             struct {
                 RENDER_COMMON::KeyInputCallback keyinput = nullptr;
@@ -38,8 +29,7 @@ namespace UPRISE_ENGINE::RENDER:: RENDER_COMMON {
                 RENDER_COMMON::WindowMaximizeCallback window_maximize = nullptr;
                 RENDER_COMMON::WindowContentScaleCallback window_content_scale = nullptr;
             } Callbacks;
-        protected:
-
+        
         public:
             WINDOW_BASE() = default;
             virtual ~WINDOW_BASE() = default;
@@ -64,27 +54,30 @@ namespace UPRISE_ENGINE::RENDER:: RENDER_COMMON {
             void SetFramebufferSizeCallback(FramebufferSizeCallback callback) { Callbacks.framebuffer_size = callback; }
             void SetWindowMaximizeCallback(WindowMaximizeCallback callback) { Callbacks.window_maximize = callback; }
             void SetWindowContentScaleCallback(WindowContentScaleCallback callback) { Callbacks.window_content_scale = callback; }
-            /// <summary>
-            /// Sets the attatchet context for this window to context
-            /// will throw if a context is already attached
-            /// <exception cref="std::runtime_error"></exception>
-            /// </summary>
-            /// <param name="Context"></param>
-            /// 
-            /// <returns></returns>
-            UPRISE_COMMON_RENDER_COMPS_API virtual void SetContext(OwnedRef<CONTEXT_BASE> Context) = 0;
-            /// <summary>
-            /// After this call The Context will be moved to a global Context pool
-            /// or destroyed depending on the value of ShouldDestroyContext
-            /// </summary>
-            /// <returns></returns>
-            UPRISE_COMMON_RENDER_COMPS_API virtual void UnsetContext(bool ShouldDestroyContext) = 0;
+
             UPRISE_COMMON_RENDER_COMPS_API virtual void DisplayFpsInWindowTitle(double Fps, std::string BaseName) = 0;
+            UPRISE_COMMON_RENDER_COMPS_API static std::weak_ptr<WINDOW_BASE> CreateWindow(std::string Title, int Width, int Height);
+            static void RegisterWindowClass(Backend backend, CreatorFunk Creator);
+
 #pragma endregion
         private:
         };
 
+
+        template <typename T, Backend backend>
+            requires std::derived_from<T, WINDOW_BASE>&& requires (std::string Title, int Width, int Height) {
+                {
+                    T::CreateWindow(Title, Width, Height)
+                } -> std::same_as<std::unique_ptr<WINDOW_BASE>>;
+        }
+        struct WindowClassRegistry {
+        public:
+            WindowClassRegistry() {
+                WINDOW_BASE::RegisterWindowClass(backend, [](std::string Title, int Width, int Height) -> std::unique_ptr<WINDOW_BASE> {
+                    return T::CreateWindow(Title, Width, Height);
+                });
+            }
+        };
     }
 
 
-#endif

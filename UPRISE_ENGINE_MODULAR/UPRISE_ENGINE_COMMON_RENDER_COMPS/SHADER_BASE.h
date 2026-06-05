@@ -1,20 +1,7 @@
 #pragma once
-#ifndef UE_SHADER_BASE_INTERNAL_
-#define UE_SHADER_BASE_INTERNAL_
-#ifndef __INTELLISENSE__
-#ifndef UE_COMMON_COMPS_BUILD_
-#error "this file should not be directly included in user code. use import UPRISE_ENGINE_CORE instead"
-#endif
-#endif
-#ifdef UPRISEENGINECOMMONRENDERCOMPS_EXPORTS
-#define UPRISE_COMMON_RENDER_COMPS_API __declspec(dllexport)
-#endif // UPRISEENGINECOMMONRENDERCOMPS_EXPORTS
-
-#ifdef __INTELLISENSE__
-#include "UE_CORE_INTELLISENSE_FIX.h"
+#include <IMPORT_DEFS.h>
 #include <string>
 #include <filesystem>
-#endif // __INTELLISENSE__
 
 
 namespace UPRISE_ENGINE::RENDER {
@@ -37,6 +24,9 @@ namespace UPRISE_ENGINE::RENDER {
             S_Vertex,
             S_Fragment,
             S_Geometry,
+            S_Hull,
+            S_Domain,
+            S_Mesh,
             S_Compute
         };
         class SHADER_BASE {//NOSONAR
@@ -66,4 +56,3 @@ namespace UPRISE_ENGINE::RENDER {
     }
 }
 
-#endif

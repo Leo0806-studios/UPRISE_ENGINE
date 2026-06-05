@@ -1,16 +1,10 @@
 #pragma once
-#ifndef UE_SHADER_PROGRAM_BASE_INTERNAL_
-#define UE_SADER_PROGRAM_BASE_INTERNAL_
-#ifndef __INTELLISENSE__
-#ifndef UE_COMMON_COMPS_BUILD_
-#error "this file should not be directly included in user code. use import UPRISE_ENGINE_CORE instead"
-#endif
-#endif
-#ifdef __INTELLISENSE__
-#include "UE_CORE_INTELLISENSE_FIX.h"
+
 #include <string>
 #include <filesystem>
-#endif // __INTELLISENSE__
+#include <memory>
+#include <IMPORT_DEFS.h>
+
 namespace UPRISE_ENGINE::RENDER {
     namespace OPENGL_RENDER {
         class OPENGL_SHADERPROGRAM;
@@ -33,7 +27,7 @@ namespace UPRISE_ENGINE::RENDER {
             std::string name = "";
         public:
 
-            UPRISE_COMMON_RENDER_COMPS_API  virtual  void* Create(const std::vector<SharedRef<SHADER_BASE, true>>& Shaders) = 0;
+            UPRISE_COMMON_RENDER_COMPS_API  virtual  void* Create(const std::vector<std::weak_ptr<SHADER_BASE>>& Shaders) = 0;
             UPRISE_COMMON_RENDER_COMPS_API  virtual void Use() = 0;
             UPRISE_COMMON_RENDER_COMPS_API  virtual void Delete() = 0;
             virtual ~SHADERPROGRAM_BASE(){}
@@ -43,4 +37,3 @@ namespace UPRISE_ENGINE::RENDER {
 
 
 
-#endif

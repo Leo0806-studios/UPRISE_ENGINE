@@ -33,11 +33,12 @@ namespace UPRISE_ENGINE ::RENDER{
             CONTEXT_BASE(CONTEXT_BASE&&)noexcept = default;
             CONTEXT_BASE& operator=(const CONTEXT_BASE&) = delete;
             CONTEXT_BASE& operator=(CONTEXT_BASE&&)noexcept = default;
-            UPRISE_COMMON_RENDER_COMPS_API virtual ~CONTEXT_BASE();
+            UPRISE_COMMON_RENDER_COMPS_API virtual ~CONTEXT_BASE() = 0;
             CONTEXT_BASE()noexcept = default;
 
 
         };
+
     }
 }
 
