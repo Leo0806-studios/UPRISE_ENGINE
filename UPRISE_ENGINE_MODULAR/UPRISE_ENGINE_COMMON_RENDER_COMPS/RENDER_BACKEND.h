@@ -82,3 +82,15 @@ namespace UPRISE_ENGINE::RENDER {
 
 
 
+namespace std {
+    std::string to_string(UPRISE_ENGINE::RENDER::RENDER_COMMON::Backend _Val) {
+        switch (_Val) {
+            using enum UPRISE_ENGINE::RENDER::RENDER_COMMON::Backend;
+            case B_OPENGL: return "OPENGL";
+            case B_DIRECTX11:return "DIRECTX11";
+            case B_DIRECTX12:return "DIRECTX12";
+            case B_VULKAN: return "VULKAN";
+            default: return "unknown";
+        }
+    }
+}
