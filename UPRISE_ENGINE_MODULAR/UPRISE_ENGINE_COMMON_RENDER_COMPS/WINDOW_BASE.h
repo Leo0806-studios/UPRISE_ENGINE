@@ -29,7 +29,7 @@ namespace UPRISE_ENGINE::RENDER:: RENDER_COMMON {
                 RENDER_COMMON::WindowMaximizeCallback window_maximize = nullptr;
                 RENDER_COMMON::WindowContentScaleCallback window_content_scale = nullptr;
             } Callbacks;
-        
+            UPRISE_COMMON_RENDER_COMPS_API static std::unordered_map<Backend, CreatorFunk> RegisteredWindowTypes;
         public:
             WINDOW_BASE() = default;
             virtual ~WINDOW_BASE() = default;

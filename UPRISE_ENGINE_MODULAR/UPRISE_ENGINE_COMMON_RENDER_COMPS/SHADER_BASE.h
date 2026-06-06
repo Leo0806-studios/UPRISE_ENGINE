@@ -51,7 +51,7 @@ namespace UPRISE_ENGINE::RENDER {
             virtual ~SHADER_BASE() =default;
             UPRISE_COMMON_RENDER_COMPS_API SHADER_BASE& operator=(const SHADER_BASE& other);
 
-
+            UPRISE_COMMON_RENDER_COMPS_API static std::unique_ptr<SHADER_BASE> CreateShader(const std::string& code);
         };
     }
 }
