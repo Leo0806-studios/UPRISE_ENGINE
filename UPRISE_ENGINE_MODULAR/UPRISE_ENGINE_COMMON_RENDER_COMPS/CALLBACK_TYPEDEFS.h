@@ -2,65 +2,65 @@
 #include <memory>
 
 namespace UPRISE_ENGINE ::RENDER::RENDER_COMMON{
-    class WINDOW_BASE;
+    class Window;
 
  
         /// <summary>
     /// 
     /// </summary>
-        using KeyInputCallback = int (*)(std::weak_ptr<WINDOW_BASE> Windopw, int key, int scancode, int action, int mods);
+        using KeyInputCallback = int (*)(std::weak_ptr<Window> Windopw, int key, int scancode, int action, int mods);
         /// <summary>
         /// 
         /// </summary>
-        using MouseButtonCallback = int (*)(std::weak_ptr<WINDOW_BASE> Windopw, int button, int action, int mods);
+        using MouseButtonCallback = int (*)(std::weak_ptr<Window> Windopw, int button, int action, int mods);
         /// <summary>
         /// 
         /// </summary>
-        using CursorPosCallback = int (*)(std::weak_ptr<WINDOW_BASE> Windopw, double xpos, double ypos);
+        using CursorPosCallback = int (*)(std::weak_ptr<Window> Windopw, double xpos, double ypos);
         /// <summary>
         /// 
         /// </summary>
-        using ResizeCallback = int (*)(std::weak_ptr<WINDOW_BASE> Windopw, int width, int height);
+        using ResizeCallback = int (*)(std::weak_ptr<Window> Windopw, int width, int height);
         /// <summary>
         /// 
         /// </summary>
-        using CursorEnterCallback = int (*)(std::weak_ptr<WINDOW_BASE> Windopw, int entered);
+        using CursorEnterCallback = int (*)(std::weak_ptr<Window> Windopw, int entered);
         /// <summary>
         /// 
         /// </summary>
-        using ScrollCallback = int (*)(std::weak_ptr<WINDOW_BASE> Windopw, double xoffset, double yoffset);
+        using ScrollCallback = int (*)(std::weak_ptr<Window> Windopw, double xoffset, double yoffset);
         /// <summary>
         /// 
         /// </summary>
-        using WindowCloseCallback = int (*)(std::weak_ptr<WINDOW_BASE> Windopw);
+        using WindowCloseCallback = int (*)(std::weak_ptr<Window> Windopw);
         /// <summary>
         /// 
         /// </summary>
-        using WindowRefreshCallback = int (*)(std::weak_ptr<WINDOW_BASE> Windopw);
+        using WindowRefreshCallback = int (*)(std::weak_ptr<Window> Windopw);
         /// <summary>
         /// 
         /// </summary>
-        using WindowFocusCallback = int (*)(std::weak_ptr<WINDOW_BASE> Windopw, int focused);
+        using WindowFocusCallback = int (*)(std::weak_ptr<Window> Windopw, int focused);
         /// <summary>
         /// 
         /// </summary>
-        using WindowIconifyCallback = int (*)(std::weak_ptr<WINDOW_BASE> Windopw, int iconified);
+        using WindowIconifyCallback = int (*)(std::weak_ptr<Window> Windopw, int iconified);
         /// <summary>
         /// 
         /// </summary>
-        using FramebufferSizeCallback = int (*)(std::weak_ptr<WINDOW_BASE> Windopw, int width, int height);
+        using FramebufferSizeCallback = int (*)(std::weak_ptr<Window> Windopw, int width, int height);
         /// <summary>
         /// 
         /// </summary>
-        using WindowMaximizeCallback = int (*)(std::weak_ptr<WINDOW_BASE> Windopw, int maximized);
+        using WindowMaximizeCallback = int (*)(std::weak_ptr<Window> Windopw, int maximized);
         /// <summary>
         /// 
         /// </summary>
-        using WindowContentScaleCallback = int (*)(std::weak_ptr<WINDOW_BASE> Windopw, float xscale, float yscale);
+        using WindowContentScaleCallback = int (*)(std::weak_ptr<Window> Windopw, float xscale, float yscale);
         /// <summary>
         /// 
         /// </summary>
-        using WindowPosCallback = int (*)(std::weak_ptr<WINDOW_BASE> Windopw, int xpos, int ypos);
+        using WindowPosCallback = int (*)(std::weak_ptr<Window> Windopw, int xpos, int ypos);
     
 
 }

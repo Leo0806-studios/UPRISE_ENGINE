@@ -4,7 +4,7 @@
 #include <MACROS.h>
 namespace UPRISE_ENGINE ::RENDER{
     namespace OPENGL_RENDER {
-        class OPENGL_CONTEXT;
+        class OpenGlContext;
 
     }
     namespace DIRECTX11_RENDER {
@@ -22,7 +22,7 @@ namespace UPRISE_ENGINE ::RENDER{
         class CONTEXT_BASE {
         private:
 
-            friend class OPENGL_CONTEXT;
+            friend class OpenGlContext;
             friend class DIRECTX12_CONTEXT;
             friend class DIRECTX11_CONTEXT;
             friend class VULKAN_CONTEXT;

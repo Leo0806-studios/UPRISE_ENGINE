@@ -6,8 +6,8 @@
 namespace UPRISE_ENGINE::RENDER::RENDER_COMMON {
 
 
-    std::shared_ptr<RENDER_BACKEND> RENDER_BACKEND::_internal_backend;
-    Backend RENDER_BACKEND::_internal_backend_type;
+    std::shared_ptr<RenderBackend> RenderBackend::_internal_backend;
+    Backend RenderBackend::_internal_backend_type;
 
 }
 

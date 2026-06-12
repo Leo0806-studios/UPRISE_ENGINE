@@ -6,7 +6,7 @@
 
 namespace UPRISE_ENGINE::RENDER {
         namespace OPENGL_RENDER {
-            class OPENGL_BACKEND;
+            class OpenGlBackend;
         }
         namespace  DIRECTX11_RENDER {
             class DIRECTX11_BACKEND;
@@ -20,7 +20,7 @@ namespace UPRISE_ENGINE::RENDER {
         class Render;  
     namespace RENDER_COMMON
     {
-        class WINDOW_BASE;
+        class Window;
         class CONTEXT_BASE;
         class SHADER_BASE;
         class MATERIAL_BASE;
@@ -33,14 +33,16 @@ namespace UPRISE_ENGINE::RENDER {
 
         };
 
-        class RENDER_BACKEND {//NOSONAR
+        class RenderBackend {//NOSONAR
         public:
-            RENDER_BACKEND() = default;
-            virtual  ~RENDER_BACKEND() = default;
+            using CreatorFunk = std::unique_ptr<RenderBackend>(*)(std::string Title, int Width, int Height);
+
+            RenderBackend() = default;
+            virtual  ~RenderBackend() = default;
         private:
-            UPRISE_COMMON_RENDER_COMPS_API  static std::shared_ptr<RENDER_BACKEND> _internal_backend;
+            UPRISE_COMMON_RENDER_COMPS_API  static std::shared_ptr<RenderBackend> _internal_backend;
             UPRISE_COMMON_RENDER_COMPS_API static Backend _internal_backend_type;
-            using _Create_Backend_FUNC = std::shared_ptr<RENDER_BACKEND> (*)();
+            using _Create_Backend_FUNC = std::shared_ptr<RenderBackend> (*)();
             UPRISE_COMMON_RENDER_COMPS_API  static _Create_Backend_FUNC _Create_Backend; //-V2573 //-V3547
             UPRISE_COMMON_RENDER_COMPS_API static Backend backendType;
 
@@ -53,7 +55,9 @@ namespace UPRISE_ENGINE::RENDER {
         public:
             UPRISE_COMMON_RENDER_COMPS_API  static bool CreateBackend();
             UPRISE_COMMON_RENDER_COMPS_API  static bool DestroyBackend();
-            UPRISE_COMMON_RENDER_COMPS_API  static const std::weak_ptr<RENDER_BACKEND> GetBackend();
+            UPRISE_COMMON_RENDER_COMPS_API  static const std::weak_ptr<RenderBackend> GetBackend();
+            UPRISE_COMMON_RENDER_COMPS_API static bool RegisterWindow(std::shared_ptr<Window> window);
+            UPRISE_COMMON_RENDER_COMPS_API static std::shared_ptr<Window> UnregisterWindow(std::weak_ptr<Window> window);
              static void PostFrameWork()
             {
                 // SCOPED_TIME_
@@ -68,10 +72,10 @@ namespace UPRISE_ENGINE::RENDER {
              UPRISE_COMMON_RENDER_COMPS_API  static Backend GetBackendType() {
                  return backendType;
              }
-            UPRISE_COMMON_RENDER_COMPS_API RENDER_BACKEND(const RENDER_BACKEND& other) = delete;
-            UPRISE_COMMON_RENDER_COMPS_API RENDER_BACKEND(RENDER_BACKEND&& other); //NOSONAR
-            UPRISE_COMMON_RENDER_COMPS_API RENDER_BACKEND& operator=(const RENDER_BACKEND& other) = delete;
-            UPRISE_COMMON_RENDER_COMPS_API RENDER_BACKEND& operator=(RENDER_BACKEND&& other)noexcept;
+            UPRISE_COMMON_RENDER_COMPS_API RenderBackend(const RenderBackend& other) = delete;
+            UPRISE_COMMON_RENDER_COMPS_API RenderBackend(RenderBackend&& other); //NOSONAR
+            UPRISE_COMMON_RENDER_COMPS_API RenderBackend& operator=(const RenderBackend& other) = delete;
+            UPRISE_COMMON_RENDER_COMPS_API RenderBackend& operator=(RenderBackend&& other)noexcept;
 
         };
 

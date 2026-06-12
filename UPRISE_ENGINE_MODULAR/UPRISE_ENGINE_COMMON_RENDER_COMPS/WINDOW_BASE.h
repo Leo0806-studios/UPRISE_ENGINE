@@ -1,18 +1,25 @@
 #pragma once
-#include "CALLBACK_TYPEDEFS.h"
-#include <IMPORT_DEFS.h>
 #include <memory>
 #include <string>
 #include <filesystem>
 #include <unordered_map>
+#include <IMPORT_DEFS.h>
+#include <UUID.h>
+#include "CALLBACK_TYPEDEFS.h"
 #include "RENDER_BACKEND.h"
+#undef CreateWindow
+#pragma message("Undef of Windows.h macro: CreateWindow . Use CreateWindowW or CreateWindowEX instead")
+
+#pragma warning (push)
+#pragma warning(disable:4324)
+#pragma warning (disable: 4820)
 namespace UPRISE_ENGINE::RENDER:: RENDER_COMMON {
 
         class CONTEXT_BASE;
         using OSWindowHandle = void *; //NOSONAR
-        class WINDOW_BASE {
+        class Window {
         public:
-            using CreatorFunk = std::unique_ptr<WINDOW_BASE>(*)(std::string Title, int Width, int Height);
+            using CreatorFunk = std::unique_ptr<Window>(*)(std::string Title, int Width, int Height);
         private:
             struct {
                 RENDER_COMMON::KeyInputCallback keyinput = nullptr;
@@ -29,16 +36,16 @@ namespace UPRISE_ENGINE::RENDER:: RENDER_COMMON {
                 RENDER_COMMON::WindowMaximizeCallback window_maximize = nullptr;
                 RENDER_COMMON::WindowContentScaleCallback window_content_scale = nullptr;
             } Callbacks;
+            DATATYPES::UUID windowUUID = DATATYPES::UUID::Create();
             UPRISE_COMMON_RENDER_COMPS_API static std::unordered_map<Backend, CreatorFunk> RegisteredWindowTypes;
         public:
-            WINDOW_BASE() = default;
-            virtual ~WINDOW_BASE() = default;
-            UPRISE_COMMON_RENDER_COMPS_API WINDOW_BASE(const WINDOW_BASE& other);
-            UPRISE_COMMON_RENDER_COMPS_API WINDOW_BASE& operator=(const WINDOW_BASE& other);
+            Window() = default;
+            virtual ~Window() = default;
+            UPRISE_COMMON_RENDER_COMPS_API Window(const Window& other);
+            UPRISE_COMMON_RENDER_COMPS_API Window& operator=(const Window& other);
 #pragma region Virtual funcs
 
-            UPRISE_COMMON_RENDER_COMPS_API  virtual void CreateWindow(int w, int h, const char* Title) = 0;
-            UPRISE_COMMON_RENDER_COMPS_API  virtual void DestroyWindow() = 0;
+
             UPRISE_COMMON_RENDER_COMPS_API  virtual void SetWindowShouldClose() = 0;
             virtual RENDER_COMMON::OSWindowHandle OSGetWindowHandle() = 0;
             void SetKeyInputCallback(KeyInputCallback callback) { Callbacks.keyinput = callback; }
@@ -56,7 +63,7 @@ namespace UPRISE_ENGINE::RENDER:: RENDER_COMMON {
             void SetWindowContentScaleCallback(WindowContentScaleCallback callback) { Callbacks.window_content_scale = callback; }
 
             UPRISE_COMMON_RENDER_COMPS_API virtual void DisplayFpsInWindowTitle(double Fps, std::string BaseName) = 0;
-            UPRISE_COMMON_RENDER_COMPS_API static std::weak_ptr<WINDOW_BASE> CreateWindow(std::string Title, int Width, int Height);
+            UPRISE_COMMON_RENDER_COMPS_API static std::weak_ptr<Window> CreateWindow(std::string Title, int Width, int Height);
             static void RegisterWindowClass(Backend backend, CreatorFunk Creator);
 
 #pragma endregion
@@ -65,15 +72,15 @@ namespace UPRISE_ENGINE::RENDER:: RENDER_COMMON {
 
 
         template <typename T, Backend backend>
-            requires std::derived_from<T, WINDOW_BASE>&& requires (std::string Title, int Width, int Height) {
+            requires std::derived_from<T, Window>&& requires (std::string Title, int Width, int Height) {
                 {
                     T::CreateWindow(Title, Width, Height)
-                } -> std::same_as<std::unique_ptr<WINDOW_BASE>>;
+                } -> std::same_as<std::unique_ptr<Window>>;
         }
         struct WindowClassRegistry {
         public:
             WindowClassRegistry() {
-                WINDOW_BASE::RegisterWindowClass(backend, [](std::string Title, int Width, int Height) -> std::unique_ptr<WINDOW_BASE> {
+                Window::RegisterWindowClass(backend, [](std::string Title, int Width, int Height) -> std::unique_ptr<Window> {
                     return T::CreateWindow(Title, Width, Height);
                 });
             }
@@ -81,3 +88,4 @@ namespace UPRISE_ENGINE::RENDER:: RENDER_COMMON {
     }
 
 
+#pragma warning (pop)

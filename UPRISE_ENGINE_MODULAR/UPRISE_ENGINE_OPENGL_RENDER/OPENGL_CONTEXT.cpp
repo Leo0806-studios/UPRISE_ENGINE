@@ -33,7 +33,7 @@ import UPRISE_ENGINE_PROFILER;
 //wglChoosePixelFormatARB_t wglChoosePixelFormatARB = nullptr;
 namespace UPRISE_ENGINE::RENDER {
     namespace OPENGL_RENDER {
-        OwnedRef<RENDER_COMMON::CONTEXT_BASE> OPENGL_CONTEXT::_internal_create_context(WeakRef<RENDER_COMMON::WINDOW_BASE,true> Window)
+        OwnedRef<RENDER_COMMON::CONTEXT_BASE> OpenGlContext::_internal_create_context(WeakRef<RENDER_COMMON::WINDOW_BASE,true> Window)
         {
 //
 //           //TODO split into platform specific versions
@@ -111,20 +111,20 @@ namespace UPRISE_ENGINE::RENDER {
 
 
 
-          auto ctx=  OwnedRef<OPENGL_CONTEXT>::Create();
+          auto ctx=  OwnedRef<OpenGlContext>::Create();
           ctx->_platform = OwnedRef<CONTEXT_GL_WIN32>::Create(Window);
           return ctx;
         }
-        void OPENGL_CONTEXT::_internal_destroy_context()
+        void OpenGlContext::_internal_destroy_context()
         {
         }
-        void OPENGL_CONTEXT::PostFrameWork() const
+        void OpenGlContext::PostFrameWork() const
         {
             //SCOPED_TIME_
 
             SwapBuffers(reinterpret_cast<HDC>(this->HDC_ptr));
         }
-        void OPENGL_CONTEXT::PreFrameWork()
+        void OpenGlContext::PreFrameWork()
         {
             //SCOPED_TIME_
 

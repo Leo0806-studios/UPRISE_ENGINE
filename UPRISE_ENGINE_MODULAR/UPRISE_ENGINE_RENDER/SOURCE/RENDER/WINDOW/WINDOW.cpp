@@ -18,14 +18,14 @@ namespace UPRISE_ENGINE::RENDER {
     OwnedRef<RENDER_COMMON::WINDOW_BASE> RENDER::Window::_CreateWindow(int w, int h, const char* title) //-V3547
     {
 
-        return  RENDER_COMMON::RENDER_BACKEND::_CreateWindow(w, h, title);
+        return  RENDER_COMMON::RenderBackend::_CreateWindow(w, h, title);
     }
 
     void RENDER::Window::DestroyWindow(WeakRef<Window,true> window)
     {
         SCOPED_TIME_
 
-        RENDER_COMMON::RENDER_BACKEND::DestroyWindow(window->Windowvar.GetWeakRef());
+        RENDER_COMMON::RenderBackend::DestroyWindow(window->Windowvar.GetWeakRef());
     }
  void UPRISE_ENGINE::RENDER::Window::DisplayFpsInWindowTitle(double Fps, std::string BaseTitle)
     {

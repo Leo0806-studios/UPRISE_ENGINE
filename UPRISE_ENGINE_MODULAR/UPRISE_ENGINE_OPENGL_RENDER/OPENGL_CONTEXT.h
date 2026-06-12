@@ -1,16 +1,8 @@
 #pragma once
-#ifndef UE_OPENGL_CONTEXT_INTERNAL_
-#define UE_OPENGL_CONTEXT_INTERNAL_
-#ifndef __INTELLISENSE__
-#ifndef UE_OPENGL_BUILD_
-#error "this file should not be directly included in user code. use import UPRISE_ENGINE_CORE instead"
-#endif
-#endif
-#ifdef __INTELLISENSE__
-#include "UE_CORE_INTELLISENSE_FIX.h"
-#include "UE_COMMON_COMPS_INTELLISENSE_FIX.h"
-
-#endif 
+#include <memory>
+#include <MACROS.h>
+#include <Windows.h>
+#include <CONTEXT_BASE.h>
 
 namespace UPRISE_ENGINE {
     namespace RENDER {
@@ -36,9 +28,9 @@ namespace UPRISE_ENGINE {
             typedef void* HDC_VoidPtr;
             typedef void* HMODULE_VoidPtr;
 
-            class OPENGL_CONTEXT final: public RENDER_COMMON::CONTEXT_BASE {
+            class OpenGlContext final : public RENDER_COMMON::CONTEXT_BASE {
             private:
-                OwnedRef<GL_CONTEXT_PLATFORM> _platform;
+                std::shared_ptr<GL_CONTEXT_PLATFORM> _platform;
                 unsigned long long PixelForatDescriptorHash = 0;
                 HGLRC_VoidPtr HGLRC_ptr = nullptr;
                 HDC_VoidPtr HDC_ptr = nullptr;
@@ -46,10 +38,10 @@ namespace UPRISE_ENGINE {
 
 
             public:
-                OPENGL_CONTEXT(const OPENGL_CONTEXT& other) = delete;
-                OPENGL_CONTEXT& operator=(const OPENGL_CONTEXT& other) = delete;
-                OPENGL_CONTEXT(OPENGL_CONTEXT&& other) :RENDER_COMMON::CONTEXT_BASE(std::move(other)), _platform(std::move(other._platform)) {}
-                OPENGL_CONTEXT& operator=(OPENGL_CONTEXT&& other) {
+                OpenGlContext(const OpenGlContext& other) = delete;
+                OpenGlContext& operator=(const OpenGlContext& other) = delete;
+                OpenGlContext(OpenGlContext&& other) :RENDER_COMMON::CONTEXT_BASE(std::move(other)), _platform(std::move(other._platform)) {}
+                OpenGlContext& operator=(OpenGlContext&& other) {
                     if (this != &other) {
                         RENDER_COMMON::CONTEXT_BASE::operator=(std::move(other));
                         _platform = std::move(other._platform);
@@ -57,11 +49,11 @@ namespace UPRISE_ENGINE {
                     return *this;
                 }
 
-                OPENGL_CONTEXT() noexcept :RENDER_COMMON::CONTEXT_BASE(), _platform{} {};
-                ~OPENGL_CONTEXT() = default;
+                OpenGlContext() noexcept :RENDER_COMMON::CONTEXT_BASE(), _platform{} {};
+                ~OpenGlContext();
 
                 // Inherited via CONTEXT_BASE
-                OwnedRef<CONTEXT_BASE> _internal_create_context(WeakRef<RENDER_COMMON::WINDOW_BASE, true> Window) override;
+                std::unique_ptr<CONTEXT_BASE> _internal_create_context(std::weak_ptr<RENDER_COMMON::WINDOW_BASE> Window) override;
                 UPRISE_OPENGL_RENDER_API void _internal_destroy_context() override;
                 UPRISE_OPENGL_RENDER_API void PostFrameWork() const;
                 UPRISE_OPENGL_RENDER_API void PreFrameWork();
@@ -72,7 +64,7 @@ namespace UPRISE_ENGINE {
 }
 
 
-#endif
+
 
 
 

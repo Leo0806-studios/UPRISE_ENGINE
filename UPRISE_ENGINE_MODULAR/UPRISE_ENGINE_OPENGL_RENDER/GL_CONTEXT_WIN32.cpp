@@ -1,19 +1,16 @@
-#ifdef __INTELLISENSE__
 #include "GL_CONTEXT_WIN32.h"
-#include "gl/GL.h"
-import UPRISE_ENGINE_DEBUG;
-#else
-#include "GL_CONTEXT_WIN32.h"
-import UPRISE_ENGINE_DEBUG;
-#endif // __INTELLISENSE__
+#include <WINDOW_BASE.h>
+#include "OPENGL_WINDOW.h"
+#include <MACROS.h>
 using wglCreateContextAttribsARB_t= HGLRC(WINAPI* )(HDC, HGLRC, const int*);
 using wglChoosePixelFormatARB_t= BOOL(WINAPI* )(HDC, const int*, const FLOAT*, UINT, int*, UINT*);
 wglCreateContextAttribsARB_t wglCreateContextAttribsARB = nullptr;
 wglChoosePixelFormatARB_t wglChoosePixelFormatARB = nullptr;
 namespace UPRISE_ENGINE::RENDER::OPENGL_RENDER {
-    CONTEXT_GL_WIN32::CONTEXT_GL_WIN32(WeakRef<RENDER_COMMON::WINDOW_BASE, true> Window)
+    ContextGlWin32::ContextGlWin32(std::weak_ptr<RENDER_COMMON::Window> Window)
     {
-        WeakRef<OPENGL_WINDOW, true> OpenGLWindow = (Window);
+  
+        std::weak_ptr<OpenGlWindow> OpenGLWindow = std::static_pointer_cast<OpenGlWindow>(Window);
         _window = OpenGLWindow;
         HWND hwnd = static_cast<HWND>(OpenGLWindow->OSGetWindowHandle());
         HDC hdc = GetDC(hwnd);
@@ -101,7 +98,7 @@ namespace UPRISE_ENGINE::RENDER::OPENGL_RENDER {
         wglMakeCurrent(hdc, context);
     }
 
-    CONTEXT_GL_WIN32::~CONTEXT_GL_WIN32()
+    ContextGlWin32::~ContextGlWin32()
     {
         if (HGLRC_ptr) {
             wglMakeCurrent(HDC_ptr, nullptr);

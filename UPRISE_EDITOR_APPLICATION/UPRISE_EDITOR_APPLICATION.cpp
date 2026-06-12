@@ -73,8 +73,8 @@ private:
 
 void Frame() {
     SCOPED_TIME_
-    UPRISE_ENGINE::RENDER::RENDER_COMMON::RENDER_BACKEND::PreFrameWork();
-    UPRISE_ENGINE::RENDER::RENDER_COMMON::RENDER_BACKEND::PostFrameWork();
+    UPRISE_ENGINE::RENDER::RENDER_COMMON::RenderBackend::PreFrameWork();
+    UPRISE_ENGINE::RENDER::RENDER_COMMON::RenderBackend::PostFrameWork();
 }
 int main()
 {

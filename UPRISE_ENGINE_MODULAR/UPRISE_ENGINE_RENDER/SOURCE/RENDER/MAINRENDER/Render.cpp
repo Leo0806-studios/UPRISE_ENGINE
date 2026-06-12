@@ -46,17 +46,17 @@ namespace UPRISE_ENGINE::RENDER {
         switch (backend)
         {
         case Render_Backend::RB_OPENGL:
-            RENDER_COMMON::RENDER_BACKEND::_Create_Backend = UPRISE_ENGINE::RENDER::OPENGL_RENDER::OPENGL_BACKEND::GL_Create_Backend;
+            RENDER_COMMON::RenderBackend::_Create_Backend = UPRISE_ENGINE::RENDER::OPENGL_RENDER::OPENGL_BACKEND::GL_Create_Backend;
       
             break;
         case Render_Backend::RB_VULKAN:
-            RENDER_COMMON::RENDER_BACKEND::_Create_Backend = nullptr;//-V1037
+            RENDER_COMMON::RenderBackend::_Create_Backend = nullptr;//-V1037
             break;
         case Render_Backend::RB_DIRECTX11:
-            RENDER_COMMON::RENDER_BACKEND::_Create_Backend = nullptr;
+            RENDER_COMMON::RenderBackend::_Create_Backend = nullptr;
             break;
         case Render_Backend::RB_DIRECTX12:
-            RENDER_COMMON::RENDER_BACKEND::_Create_Backend = nullptr;
+            RENDER_COMMON::RenderBackend::_Create_Backend = nullptr;
             break;
         default:
             throw std::exception("Backend not supported");
@@ -66,18 +66,18 @@ namespace UPRISE_ENGINE::RENDER {
     void RENDER::Render::RenderSetup::CreateBackend()
     {
         PROFILER::TIMERS::SCOPED_TIME time("CreateBackend", __FILE__, __FUNCTION__, __LINE__);
-        RENDER_COMMON::RENDER_BACKEND::_internal_backend = RENDER_COMMON::RENDER_BACKEND::CreateBackend();
+        RENDER_COMMON::RenderBackend::_internal_backend = RENDER_COMMON::RenderBackend::CreateBackend();
     }
     WeakRef<RENDER_COMMON::CONTEXT_BASE, true> RENDER::Render::RenderSetup::CreateContext(WeakRef<RENDER_COMMON::WINDOW_BASE, true> window)
     {
         PROFILER::TIMERS::SCOPED_TIME time("CreateContext", __FILE__, __FUNCTION__, __LINE__);
 
-        return RENDER_COMMON::RENDER_BACKEND::CreateContext(window);
+        return RENDER_COMMON::RenderBackend::CreateContext(window);
     }
     UPRISE_RENDER_API OwnedRef<RENDER_COMMON::WINDOW_BASE> UPRISE_ENGINE::RENDER::Render::RenderSetup::Window(int w, int h, std::string Title)
     {
         PROFILER::TIMERS::SCOPED_TIME time("Window", __FILE__, __FUNCTION__, __LINE__);
-        OwnedRef<RENDER_COMMON::WINDOW_BASE>windw = RENDER_COMMON::RENDER_BACKEND::_CreateWindow(w, h, Title.c_str());
+        OwnedRef<RENDER_COMMON::WINDOW_BASE>windw = RENDER_COMMON::RenderBackend::_CreateWindow(w, h, Title.c_str());
         return  windw;
     }
     UPRISE_RENDER_API void UPRISE_ENGINE::RENDER::Render::RenderSetup::Setup(int w, int h, const char* Title, UPRISE_ENGINE::RENDER::Render_Backend backend)
