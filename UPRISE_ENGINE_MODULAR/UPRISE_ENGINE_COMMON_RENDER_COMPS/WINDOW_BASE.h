@@ -8,7 +8,7 @@
 #include "CALLBACK_TYPEDEFS.h"
 #include "RENDER_BACKEND.h"
 #undef CreateWindow
-#pragma message("Undef of Windows.h macro: CreateWindow . Use CreateWindowW or CreateWindowEX instead")
+#pragma message(__FILE__ "  Undef of Windows.h macro: CreateWindow . Use CreateWindowW or CreateWindowEX instead")
 
 #pragma warning (push)
 #pragma warning(disable:4324)

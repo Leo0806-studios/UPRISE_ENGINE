@@ -1,6 +1,6 @@
 #pragma once
-#include "string"
-#include "filesystem"
+#include <string>
+#include <unordered_map>
 #include <memory>
 #include <MACROS.h>
 
@@ -40,6 +40,7 @@ namespace UPRISE_ENGINE::RENDER {
             RenderBackend() = default;
             virtual  ~RenderBackend() = default;
         private:
+            std::unordered_map<Backend, CreatorFunk> BackendRegistry;
             UPRISE_COMMON_RENDER_COMPS_API  static std::shared_ptr<RenderBackend> _internal_backend;
             UPRISE_COMMON_RENDER_COMPS_API static Backend _internal_backend_type;
             using _Create_Backend_FUNC = std::shared_ptr<RenderBackend> (*)();
@@ -76,9 +77,22 @@ namespace UPRISE_ENGINE::RENDER {
             UPRISE_COMMON_RENDER_COMPS_API RenderBackend(RenderBackend&& other); //NOSONAR
             UPRISE_COMMON_RENDER_COMPS_API RenderBackend& operator=(const RenderBackend& other) = delete;
             UPRISE_COMMON_RENDER_COMPS_API RenderBackend& operator=(RenderBackend&& other)noexcept;
-
+            UPRISE_COMMON_RENDER_COMPS_API static void RegisterBackend(Backend backend, CreatorFunk functor);
         };
-
+        template <typename T, Backend backend>
+            requires std::derived_from<T, RenderBackend>&& requires () {
+                {
+                    T::CreateBackend()
+                } -> std::same_as<std::unique_ptr<Window>>;
+        }
+        struct BackendClassRegistry {
+        public:
+            BackendClassRegistry() {
+                RenderBackend::RegisterBackend(backend, []() -> std::unique_ptr<RenderBackend> {
+                    return T::CreateBackend();
+                });
+            }
+        };
     }
 
 }
@@ -87,7 +101,7 @@ namespace UPRISE_ENGINE::RENDER {
 
 
 namespace std {
-    std::string to_string(UPRISE_ENGINE::RENDER::RENDER_COMMON::Backend _Val) {
+    inline std::string to_string(UPRISE_ENGINE::RENDER::RENDER_COMMON::Backend _Val) {
         switch (_Val) {
             using enum UPRISE_ENGINE::RENDER::RENDER_COMMON::Backend;
             case B_OPENGL: return "OPENGL";

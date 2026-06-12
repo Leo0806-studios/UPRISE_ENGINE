@@ -13,7 +13,6 @@ namespace UPRISE_ENGINE {
             private:
                 friend class UPRISE_ENGINE::RENDER::Render;
 
-                    UPRISE_OPENGL_RENDER_API  static  std::shared_ptr<RENDER_COMMON::RenderBackend>GL_Create_Backend();
 
                 // Inherited via RenderBackend
                 void _internal_setup() override;
@@ -25,14 +24,13 @@ namespace UPRISE_ENGINE {
                 OpenGlBackend()noexcept = default;
                 ~OpenGlBackend()override = default;
                 OpenGlBackend(const OpenGlBackend& other) = delete;
-                OpenGlBackend(OpenGlBackend&& other)noexcept :RenderBackend(std::move(other)) {
-
-                }
                 OpenGlBackend& operator=(const OpenGlBackend& other) = delete;
-                OpenGlBackend& operator=(OpenGlBackend&& other)noexcept(std::is_nothrow_move_assignable_v< RENDER_COMMON::RenderBackend>) {
+                OpenGlBackend(OpenGlBackend&& other)noexcept :RenderBackend(std::move(other)) {}
+                OpenGlBackend& operator=(OpenGlBackend&& other)noexcept {
                     RENDER_COMMON::RenderBackend::operator=(std::move(other));
                     return *this;
                 }
+                UPRISE_OPENGL_RENDER_API static std::unique_ptr<RenderBackend> CreateBackend();
 
             };
             
