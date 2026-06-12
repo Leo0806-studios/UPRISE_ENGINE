@@ -1,11 +1,15 @@
 module;
 #include <MACROS.h>
+#include <cstdint>
+#include <memory>
+#include <string>
+#include <unordered_map>
 export module UE_SERIALISATION:SERIALIZED_TYPE_INFO;
 import std;
 
 
 export namespace UPRISE_ENGINE::SERIALISATION {
-    enum class TypeClass {
+    enum class TypeClass:uint8_t {
         Primitive,
         Class,
         Struct,
@@ -15,16 +19,18 @@ export namespace UPRISE_ENGINE::SERIALISATION {
         Reference,
         Function,
         Lambda,
-        Template
+        Template,
+        Undefined=255 
     };
-    enum class TypeCategory {
+    enum class TypeCategory:uint8_t {
         InbuildIntegral,
         InbuildFloatingPoint,
         InbuildVoid,
         InbuildBool,
         InbuildChar,
         InbuildNullptr,
-        UserDefinedClass
+        UserDefinedClass,
+        Undefined = 255
 
     };
     enum class AccesebilityModifiers {
@@ -40,11 +46,14 @@ export namespace UPRISE_ENGINE::SERIALISATION {
         AccesebilityModifiers AccessModifier;
     };
     struct SerializedTypeInfo {
-        std::string Name;
-        TypeClass Class;
-        TypeCategory Category;
-        size_t Alligment;
-        size_t Size;
+        std::string Name="Unknown";
+        TypeClass Class=TypeClass::Undefined;
+        TypeCategory Category=TypeCategory::Undefined;
+        size_t Alligment=0;
+        size_t Size=0;
         std::unordered_map<std::string, MemberInfo> Members;
+        bool isDefault() const {
+            return Name == "Unknown" && Class == TypeClass::Undefined && Category == TypeCategory::Undefined && Alligment == 0 && Size == 0 && Members.empty();
+        }
     };
 }
