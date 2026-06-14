@@ -30,6 +30,7 @@ export namespace UPRISE_ENGINE::SERIALISATION {
         InbuildChar,
         InbuildNullptr,
         UserDefinedClass,
+        InbuildEnum,
         Undefined = 255
 
     };
@@ -38,6 +39,14 @@ export namespace UPRISE_ENGINE::SERIALISATION {
         Protected,
         Private
     };
+    enum class CallingConvention {
+        StdCall,
+        Cdecl,
+        FastCall,
+        VectorCall,
+        ThisCall
+    };
+    
     struct SerializedTypeInfo;
     struct MemberInfo {
         std::string name;
@@ -45,13 +54,28 @@ export namespace UPRISE_ENGINE::SERIALISATION {
         std::weak_ptr<SerializedTypeInfo> typeInfo;
         AccesebilityModifiers AccessModifier;
     };
+    struct FunctionMemberInfo {
+        std::string name;
+        void(*Invoker)(void* obj, void**, void* out );
+        std::weak_ptr<SerializedTypeInfo> ReturnType;
+        std::vector< std::weak_ptr<SerializedTypeInfo>> Parameters;
+        bool Const;
+        bool Noexcept;
+        CallingConvention Convention;
+    };
     struct SerializedTypeInfo {
+        friend class RTTIStrorage;
+        template <typename T>
+        friend class TypeRegistrar;
         std::string Name="Unknown";
         TypeClass Class=TypeClass::Undefined;
         TypeCategory Category=TypeCategory::Undefined;
         size_t Alligment=0;
         size_t Size=0;
         std::unordered_map<std::string, MemberInfo> Members;
+        bool operator==(const SerializedTypeInfo& other) const noexcept {
+            return this == &other;//Serialized Type info are globaly unique and only one of each can exist;
+        }
         bool isDefault() const {
             return Name == "Unknown" && Class == TypeClass::Undefined && Category == TypeCategory::Undefined && Alligment == 0 && Size == 0 && Members.empty();
         }
