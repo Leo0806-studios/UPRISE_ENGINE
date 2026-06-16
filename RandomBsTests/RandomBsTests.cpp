@@ -4,45 +4,58 @@
 import UE_SERIALISATION; 
 import std;
 
-struct FOO {
+struct FOO:public UPRISE_ENGINE::SERIALISATION::IReflectable<FOO> {
     int a;
     float b;
+    float* ptr;
+    std::string* strPtr;
+    std::vector<std::unordered_map<std::string, std::list<std::vector<int>>>>* complexContainerPTR;
     std::string c;
-    std::string Bar(const std::string& inStr,int& Inttt,float FFFF,char CCCC) {
+    std::string Bar(const std::string& inStr, int& Inttt, float FFFF, char CCCC) {
         Inttt = 80085;
-        return inStr+" MEOW MEOW MEOW";
+        return inStr + " MEOW MEOW MEOW";
     }
 };
 template<typename T>
 struct TypeProxy {
     using type = T;
 };
-UPRISE_ENGINE::SERIALISATION::TypeRegistrar<FOO> fooRegistrar{
+UPRISE_ENGINE::SERIALISATION::TypeRegistrar<FOO> fooRegistrar(
+    {
+
     UPRISE_ENGINE::SERIALISATION::CreateMemberInfo<FOO>("a", &FOO::a, UPRISE_ENGINE::SERIALISATION::AccesebilityModifiers::Public),
     UPRISE_ENGINE::SERIALISATION::CreateMemberInfo<FOO>("b", &FOO::b, UPRISE_ENGINE::SERIALISATION::AccesebilityModifiers::Public),
-    UPRISE_ENGINE::SERIALISATION::CreateMemberInfo<FOO>("c", &FOO::c, UPRISE_ENGINE::SERIALISATION::AccesebilityModifiers::Public)
-};
+    UPRISE_ENGINE::SERIALISATION::CreateMemberInfo<FOO>("c", &FOO::c, UPRISE_ENGINE::SERIALISATION::AccesebilityModifiers::Public),
+    UPRISE_ENGINE::SERIALISATION::CreateMemberInfo<FOO>("ptr", &FOO::ptr, UPRISE_ENGINE::SERIALISATION::AccesebilityModifiers::Public),
+    UPRISE_ENGINE::SERIALISATION::CreateMemberInfo<FOO>("strPtr", &FOO::strPtr, UPRISE_ENGINE::SERIALISATION::AccesebilityModifiers::Public),    
+    UPRISE_ENGINE::SERIALISATION::CreateMemberInfo<FOO>("complexContainerPTR", &FOO::complexContainerPTR, UPRISE_ENGINE::SERIALISATION::AccesebilityModifiers::Public)
+},
+{
+    UPRISE_ENGINE::SERIALISATION::CreateFunctionMemberInfo<std::string, &FOO::Bar>("Bar"),
+    UPRISE_ENGINE::SERIALISATION::CreateFunctionMemberInfo<FOO, &FOO::CopyAssign>("")
+ }
+);
 UPRISE_ENGINE::SERIALISATION::TypeRegistrar<int> intRegistrar;
 UPRISE_ENGINE::SERIALISATION::TypeRegistrar<float> floatRegistrar;
-UPRISE_ENGINE::SERIALISATION::TypeRegistrar<std::string> stringRegistrar;
-int main()
+UPRISE_ENGINE::SERIALISATION::TypeRegistrar<std::string> stringRegistrar{
+    {
+
+},
 {
 
-    auto funcinfo = UPRISE_ENGINE::SERIALISATION::CreateFunctionMemberInfo<std::string,&FOO::Bar>("Bar", UPRISE_ENGINE::SERIALISATION::CallingConvention::Cdecl);
-    for (auto& param : funcinfo.Parameters) {
-        std::cout << param.lock()->Name << std::endl;
-    }
+ UPRISE_ENGINE::SERIALISATION::CreateFunctionMemberInfo<const char*, &std::string::c_str>("substr")
+ }
+};
+
+int main()
+{
+    auto bar = UPRISE_ENGINE::SERIALISATION::RTTIStorage::TryGetTypeInfo(typeid(FOO).name())->FunctionMembers.at("Bar");
+    std::string inStr = "Hello";
+    int    ii = 0;
     FOO fooInstance;
-    std::string arg1 = "test";
-    int arg2 = 1;
-    float arg3 = 0.0f;
-    char arg4 = 'w';
-    std::string result;
-    void* params[] = { &arg1,&arg2,&arg3,&arg4 };
-    funcinfo.Invoker(&fooInstance, params, &result);
-    std::cout << "Result of invoking Bar: " << result << std::endl; 
-    std::cout << std::to_string(arg2) << std::endl;
-    auto typeInfo = UPRISE_ENGINE::SERIALISATION::RTTIStorage::TryGetTypeInfo(typeid(FOO).name()).lock();
+    std::string result = bar.Invoke<std::string>(&fooInstance, inStr, ii, 3.14f, 'A');
+    std::cout << "Result: " << result << std::endl;
+    auto typeInfo = UPRISE_ENGINE::SERIALISATION::RTTIStorage::TryGetTypeInfo(typeid(FOO).name());
     if (typeInfo) {
         std::cout << "Type Name: " << typeInfo->Name << std::endl;
         std::cout << "Type Class: " << std::to_string(typeInfo->Class) << std::endl;
@@ -52,7 +65,7 @@ int main()
         for (const auto& [memberName, memberInfo] : typeInfo->Members) {
             std::cout << "Member Name: " << memberName << ", Offset: " << memberInfo.offset
                 << ", Access Modifier: " << static_cast<int>(memberInfo.AccessModifier) << std::endl;
-            auto memberTypeInfo = memberInfo.typeInfo.lock();
+            auto memberTypeInfo = memberInfo.typeInfo;
             if (memberTypeInfo) {
                 std::cout << "\tMember Type Name: " << memberTypeInfo->Name << std::endl;
                 std::cout << "\tMember Type Class: " << std::to_string(memberTypeInfo->Class) << std::endl;
@@ -69,7 +82,7 @@ int main()
         std::cout << "Type info for FOO not found" << std::endl;
     }
 
-    auto typeinfoMember = UPRISE_ENGINE::SERIALISATION::RTTIStorage::TryGetTypeInfo(typeid(UPRISE_ENGINE::SERIALISATION::MemberInfo).name()).lock();
+    auto typeinfoMember = UPRISE_ENGINE::SERIALISATION::RTTIStorage::TryGetTypeInfo(typeid(UPRISE_ENGINE::SERIALISATION::MemberInfo).name());
     if (typeinfoMember) {
         std::cout << "Type Name: " << typeinfoMember->Name << std::endl;
         std::cout << "Type Class: " << std::to_string(typeinfoMember->Class) << std::endl;
@@ -79,7 +92,7 @@ int main()
         for (const auto& [memberName, memberInfo] : typeinfoMember->Members) {
             std::cout << "Member Name: " << memberName << ", Offset: " << memberInfo.offset
                 << ", Access Modifier: " << static_cast<int>(memberInfo.AccessModifier) << std::endl;
-            auto memberTypeInfo = memberInfo.typeInfo.lock();
+            auto memberTypeInfo = memberInfo.typeInfo;
             if (memberTypeInfo) {
                 std::cout << "\tMember Type Name: " << memberTypeInfo->Name << std::endl;
                 std::cout << "\tMember Type Class: " << std::to_string(memberTypeInfo->Class) << std::endl;

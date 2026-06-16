@@ -3,8 +3,10 @@ module;
 export module UE_SERIALISATION:RTTI_STORAGE;
 import std;
 import :SERIALIZED_TYPE_INFO;
+import :TYPE_TRAITS;
 namespace UPRISE_ENGINE::SERIALISATION {
     namespace {
+
         template<typename T>
         consteval TypeCategory GetTypeCategory() {
             if constexpr (std::is_integral_v<T>) {
@@ -30,6 +32,9 @@ namespace UPRISE_ENGINE::SERIALISATION {
             }
             else if constexpr (std::is_enum_v<T>) {
                 return TypeCategory::InbuildEnum;
+            }
+            else if constexpr (std::is_pointer_v<T>) {
+                return TypeCategory::InbuildPointer;
             }
             else {
                 static_assert(false, "Unsupported type");
@@ -87,29 +92,6 @@ namespace UPRISE_ENGINE::SERIALISATION {
         }
 
     }
-    template<typename T>
-    struct function_traits {
-
-    };
-    template<typename R, typename... Args>
-    struct function_traits<R(*)(Args...)>
-    {
-        using return_type = R;
-        using args_tuple = std::tuple<Args...>;
-        static constexpr size_t arity = sizeof...(Args);
-        template<size_t N>
-        using arg = std::tuple_element_t<N, std::tuple<Args...>>;
-    };
-    template<typename R, typename T, typename... Args>
-    struct function_traits<R(T::*)(Args...)>
-    {
-        using return_type = R;
-        using class_type = T;
-        using args_tuple = std::tuple<Args...>;
-        static constexpr size_t arity = sizeof...(Args);
-        template<size_t N>
-        using arg = std::tuple_element_t<N, std::tuple<Args...>>;
-    };
 
     template<auto Method, size_t... I>
     void ThunkImpl(
@@ -118,7 +100,7 @@ namespace UPRISE_ENGINE::SERIALISATION {
         void* out,
         std::index_sequence<I...>)noexcept(noexcept((std::declval<typename function_traits<decltype(Method)>::class_type>().*Method)(*reinterpret_cast<std::remove_cvref_t<typename function_traits<decltype(Method)>::template arg<I>>*>(params[I])...)))
     {
-        using Traits=function_traits<decltype(Method)>;
+        using Traits = UPRISE_ENGINE::SERIALISATION::function_traits<decltype(Method)>;
 
         using Class = typename Traits::class_type;
         using Return = typename Traits::return_type;
@@ -154,7 +136,7 @@ namespace UPRISE_ENGINE::SERIALISATION {
         void** params,
         void* out)
     {
-        using Traits =function_traits<decltype(Method)>;
+        using Traits = function_traits<decltype(Method)>;
 
         ThunkImpl<Method>(
             obj,
@@ -162,12 +144,13 @@ namespace UPRISE_ENGINE::SERIALISATION {
             out,
             std::make_index_sequence<Traits::arity>{});
     }
+
 }
 export  namespace UPRISE_ENGINE::SERIALISATION {
 
     class RTTIStorage {
-        inline static  std::unordered_map<std::string, std::shared_ptr<SerializedTypeInfo>>& RegisteredTypes() {
-            static std::unordered_map<std::string, std::shared_ptr<SerializedTypeInfo>> registeredTypes;
+        inline static  std::unordered_map<std::string, SerializedTypeInfo*>& RegisteredTypes() {
+            static std::unordered_map<std::string, SerializedTypeInfo*> registeredTypes;
             return registeredTypes;
         }
         inline static std::unordered_map<std::string, std::string>& RawTypeNameToRegisteredTypeNameMap() {
@@ -175,8 +158,8 @@ export  namespace UPRISE_ENGINE::SERIALISATION {
             return rawTypeNameToRegisteredTypeNameMap;
         }
     public:
-        UPRISE_SERIALISATION_API static bool RegisterType(const SerializedTypeInfo& typeInfo, std::string name, std::string rawName);
-        UPRISE_SERIALISATION_API static std::weak_ptr<SerializedTypeInfo> TryGetTypeInfo(const std::string& name);
+        UPRISE_SERIALISATION_API static bool RegisterType(SerializedTypeInfo typeInfo, std::string name, std::string rawName);
+        UPRISE_SERIALISATION_API static const SerializedTypeInfo* TryGetTypeInfo(const std::string& name);
         UPRISE_SERIALISATION_API static void PrintAll();
     };
     template <typename T, typename MemberPtr>
@@ -187,6 +170,16 @@ export  namespace UPRISE_ENGINE::SERIALISATION {
         memberInfo.offset = reinterpret_cast<size_t>(&(reinterpret_cast<T*>(0)->*memberPtr));
         using MemberType = typename std::remove_cv_t<std::remove_reference_t<decltype(std::declval<T>().*memberPtr)>>;
         memberInfo.typeInfo = RTTIStorage::TryGetTypeInfo(typeid(MemberType).name());
+        if constexpr (std::is_pointer_v<MemberType>) {
+            SerializedTypeInfo ptrInfo;
+            ptrInfo.Name = typeid(MemberType).name();
+            ptrInfo.Class = GetTypeClass<MemberType>();
+            ptrInfo.Category = GetTypeCategory<MemberType>();
+            ptrInfo.Alligment = alignof(MemberType);
+            ptrInfo.Size = sizeof(MemberType);
+
+            RTTIStorage::RegisterType(std::move(ptrInfo), typeid(MemberType).name(), typeid(MemberType).raw_name());
+        }
         memberInfo.AccessModifier = accessModifier;
 
         return memberInfo;
@@ -197,7 +190,7 @@ export  namespace UPRISE_ENGINE::SERIALISATION {
     {
         using Traits = function_traits<Fn>;
 
-        return std::vector<std::weak_ptr<SerializedTypeInfo>>
+        return std::vector<const SerializedTypeInfo*>
         {
             RTTIStorage::TryGetTypeInfo(
                 typeid(
@@ -218,38 +211,83 @@ export  namespace UPRISE_ENGINE::SERIALISATION {
     template<typename ReturnType, auto MemberPtr>
         requires std::is_member_function_pointer_v<decltype(MemberPtr)>
     FunctionMemberInfo CreateFunctionMemberInfo(
-        std::string name,
-        CallingConvention callingConvention)
+        std::string name
+    )
     {
-        FunctionMemberInfo functionInfo;
+        using Traits = function_traits<decltype(MemberPtr)>;
 
+        FunctionMemberInfo functionInfo;
+        functionInfo.Noexcept = Traits::is_noexcept;
+        functionInfo.Const = Traits::is_const;
         functionInfo.name = name;
-        functionInfo.Convention = callingConvention;
+        functionInfo.Convention = Traits::calling_convention;
         functionInfo.ReturnType =
             RTTIStorage::TryGetTypeInfo(typeid(ReturnType).name());
-        std::vector<std::weak_ptr<SerializedTypeInfo>> params;
+        std::vector<const SerializedTypeInfo*> params;
         functionInfo.Parameters = GetFunctionParameterTypes<decltype(MemberPtr)>();
-        
+
         functionInfo.Invoker = &Thunk<MemberPtr>;
 
         return functionInfo;
     }
+    struct MemberInfoAggregat {
+        std::vector<MemberInfo> members;
+        template <typename... MemberInfos>
+            requires (std::is_same_v<MemberInfos, MemberInfo>&&...)
+        MemberInfoAggregat(MemberInfos... infos) : members{ infos... } {}
+    };
+    struct FunctionMemberInfoAggregat {
+        std::vector<FunctionMemberInfo> members;
+        template <typename... MemberInfos>
+            requires (std::is_same_v<MemberInfos, FunctionMemberInfo>&&...)
+        FunctionMemberInfoAggregat(MemberInfos... infos) : members{ infos... } {}
+    };
     template <typename T>
 
     class TypeRegistrar {
     public:
 
-        template <typename... MemberInfos>
-            requires (std::is_same_v<MemberInfos, MemberInfo>&&...)
-        TypeRegistrar(MemberInfos... infos) {
+        //        template <typename... MemberInfos>
+        //            requires (std::is_same_v<MemberInfos, MemberInfo>&&...)
+        //        TypeRegistrar(MemberInfos... infos) {
+        //            SerializedTypeInfo typeInfo;
+        //            typeInfo.Name = typeid(T).name();
+        //            typeInfo.Class = GetTypeClass<T>();
+        //            std::vector<MemberInfo> tmpVector{ infos... };
+        //            for (const MemberInfo& member : tmpVector) {
+        //                const auto& [it, succsess] = typeInfo.Members.try_emplace(member.name, member);
+        //                if (!succsess) {
+        //                    throw std::runtime_error("Duplicate member name: " + member.name);
+        //                }
+        //            }
+        //            if constexpr (std::is_same_v<T, void>) {
+        //                typeInfo.Alligment = 0;
+        //                typeInfo.Size = 0;
+        //            }
+        //            else {
+        //                typeInfo.Alligment = alignof(T);
+        //                typeInfo.Size = sizeof(T);
+        //
+        //            }
+        //            typeInfo.Category = GetTypeCategory<T>();
+        //            RTTIStorage::RegisterType(std::move(typeInfo), typeid(T).name(), typeid(T).raw_name());
+        //        }
+
+        TypeRegistrar(MemberInfoAggregat memberInfos = {}, FunctionMemberInfoAggregat functionMemberInfos = {}) {
             SerializedTypeInfo typeInfo;
             typeInfo.Name = typeid(T).name();
             typeInfo.Class = GetTypeClass<T>();
-            std::vector<MemberInfo> tmpVector{ infos... };
-            for (const MemberInfo& member : tmpVector) {
+            for (const MemberInfo& member : memberInfos.members) {
                 const auto& [it, succsess] = typeInfo.Members.try_emplace(member.name, member);
                 if (!succsess) {
                     throw std::runtime_error("Duplicate member name: " + member.name);
+                }
+            }
+
+            for (const FunctionMemberInfo& functionMember : functionMemberInfos.members) {
+                const auto& [it, succsess] = typeInfo.FunctionMembers.try_emplace(functionMember.name, functionMember);
+                if (!succsess) {
+                    throw std::runtime_error("Duplicate function member name: " + functionMember.name);
                 }
             }
             if constexpr (std::is_same_v<T, void>) {
@@ -259,10 +297,9 @@ export  namespace UPRISE_ENGINE::SERIALISATION {
             else {
                 typeInfo.Alligment = alignof(T);
                 typeInfo.Size = sizeof(T);
-
             }
             typeInfo.Category = GetTypeCategory<T>();
-            RTTIStorage::RegisterType(typeInfo, typeid(T).name(), typeid(T).raw_name());
+            RTTIStorage::RegisterType(std::move(typeInfo), typeid(T).name(), typeid(T).raw_name());
         }
     };
 }
@@ -315,6 +352,14 @@ export namespace std {
                 return "UserDefinedClass";
             case UPRISE_ENGINE::SERIALISATION::TypeCategory::InbuildEnum:
                 return "InbuildEnum";
+            case UPRISE_ENGINE::SERIALISATION::TypeCategory::InbuildPointer:
+                return "InbuildPointer";
+            case UPRISE_ENGINE::SERIALISATION::TypeCategory::InbuildMemberPointer:
+                return "InbuildMemberPointer";
+            case UPRISE_ENGINE::SERIALISATION::TypeCategory::InbuildFunctionMemberPointer:
+                return "InbuildFunctionMemberPointer";
+            case UPRISE_ENGINE::SERIALISATION::TypeCategory::InbuildFunctionPointer:
+                return "InbuildFunctionPointer";
             case UPRISE_ENGINE::SERIALISATION::TypeCategory::Undefined:
 
             default:
