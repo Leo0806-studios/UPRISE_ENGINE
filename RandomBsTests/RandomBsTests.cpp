@@ -4,13 +4,17 @@
 import UE_SERIALISATION; 
 import std;
 
-struct FOO:public UPRISE_ENGINE::SERIALISATION::IReflectable<FOO> {
+struct FOO {
     int a;
     float b;
     float* ptr;
     std::string* strPtr;
     std::vector<std::unordered_map<std::string, std::list<std::vector<int>>>>* complexContainerPTR;
     std::string c;
+    FOO() : a(0), b(0.0f), ptr(nullptr), strPtr(nullptr), complexContainerPTR(nullptr), c("Hello") {}
+    FOO(int a, float b, float* ptr, std::string* strPtr, std::vector<std::unordered_map<std::string, std::list<std::vector<int>>>>* complexContainerPTR, std::string c)
+        : a(a), b(b), ptr(ptr), strPtr(strPtr), complexContainerPTR(complexContainerPTR), c(c) {}
+
     std::string Bar(const std::string& inStr, int& Inttt, float FFFF, char CCCC) {
         Inttt = 80085;
         return inStr + " MEOW MEOW MEOW";
@@ -32,24 +36,24 @@ UPRISE_ENGINE::SERIALISATION::TypeRegistrar<FOO> fooRegistrar(
 },
 {
     UPRISE_ENGINE::SERIALISATION::CreateFunctionMemberInfo<std::string, &FOO::Bar>("Bar"),
-    UPRISE_ENGINE::SERIALISATION::CreateFunctionMemberInfo<FOO, &FOO::CopyAssign>("")
- }
+ },
+    {
+        UPRISE_ENGINE::SERIALISATION::CreateConstructorInfo<FOO>(),
+        UPRISE_ENGINE::SERIALISATION::CreateConstructorInfo<FOO, int, float, float*, std::string*, std::vector<std::unordered_map<std::string, std::list<std::vector<int>>>>*, std::string>("Constructor(int, float, float*, std::string*, std::vector<std::unordered_map<std::string, std::list<std::vector<int>>>>*, std::string)"),
+        UPRISE_ENGINE::SERIALISATION::CreateConstructorInfo<FOO, const FOO&>("Constructor(const FOO&)"),
+        UPRISE_ENGINE::SERIALISATION::CreateConstructorInfo<FOO, FOO&&>("Constructor(FOO&&)"),
+    }
 );
 UPRISE_ENGINE::SERIALISATION::TypeRegistrar<int> intRegistrar;
 UPRISE_ENGINE::SERIALISATION::TypeRegistrar<float> floatRegistrar;
-UPRISE_ENGINE::SERIALISATION::TypeRegistrar<std::string> stringRegistrar{
-    {
 
-},
-{
-
- UPRISE_ENGINE::SERIALISATION::CreateFunctionMemberInfo<const char*, &std::string::c_str>("substr")
- }
-};
 
 int main()
 {
-    auto bar = UPRISE_ENGINE::SERIALISATION::RTTIStorage::TryGetTypeInfo(typeid(FOO).name())->FunctionMembers.at("Bar");
+    auto FooInfo = UPRISE_ENGINE::SERIALISATION::RTTIStorage::TryGetTypeInfo(typeid(FOO).name());
+    FOO fooInstance2 = FooInfo->Constructors.at("Constructor").Invoke<FOO>();
+    std::cout << "FOO instance created using constructor invoker: a=" << fooInstance2.a << ", b=" << fooInstance2.b << ", c=" << fooInstance2.c << std::endl;
+    auto bar = FooInfo->FunctionMembers.at("Bar");
     std::string inStr = "Hello";
     int    ii = 0;
     FOO fooInstance;
@@ -76,6 +80,9 @@ int main()
             else {
                 std::cout << "\tMember Type Info not found" << std::endl;
             }
+        }
+        for (const auto& Constructor : typeInfo->Constructors) {
+
         }
     }
     else {

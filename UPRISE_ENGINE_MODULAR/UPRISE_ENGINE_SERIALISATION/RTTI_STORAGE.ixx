@@ -92,6 +92,27 @@ namespace UPRISE_ENGINE::SERIALISATION {
         }
 
     }
+    template<typename T, auto method, size_t ... I>
+    void ThunkImplConstructor(
+        void* obj,
+        void** params,
+        std::index_sequence<I...>)noexcept(noexcept( T(std::declval<typename function_traits<decltype(method)>::template arg<I>>()...)))
+    {
+        using Traits = UPRISE_ENGINE::SERIALISATION::function_traits<decltype(method)>;
+        using Class = T;
+        new (obj) Class((*reinterpret_cast<std::remove_cvref_t<typename Traits::template arg<I>>*>(params[I]))...);
+    }
+    template<typename T, auto method>
+    void ThunkConstructor(
+        void* obj,
+        void** params)
+    {
+        using Traits = function_traits<decltype(method)>;
+        ThunkImplConstructor<T, method>(
+            obj,
+            params,
+            std::make_index_sequence<Traits::arity>{});
+    }
 
     template<auto Method, size_t... I>
     void ThunkImpl(
@@ -119,6 +140,16 @@ namespace UPRISE_ENGINE::SERIALISATION {
         }
         else
         {
+            if constexpr (std::is_reference_v<Return>) {
+                *reinterpret_cast<std::remove_reference_t<Return>*>(out) = std::move((self->*Method)(
+                    (*reinterpret_cast<
+                     std::remove_cvref_t<
+                     typename Traits::template arg<I>
+                     >*
+                    >(params[I]))...
+                    ));
+            }
+            else
             new (out) Return(
                 (self->*Method)(
                     (*reinterpret_cast<
@@ -230,6 +261,19 @@ export  namespace UPRISE_ENGINE::SERIALISATION {
 
         return functionInfo;
     }
+    template <typename T, typename ...Args>
+        requires std::is_constructible_v<T, Args...>
+    ConstructorInfo CreateConstructorInfo(std::string name = "Constructor") {
+        ConstructorInfo constructorInfo;
+        constructorInfo.name = name;
+        constructorInfo.isNoexcept = std::is_nothrow_constructible_v<T, Args...>;
+        constructorInfo.Parameters = { RTTIStorage::TryGetTypeInfo(typeid(Args).name())... };
+       constexpr auto lambda = +[](Args... args) -> T {
+            return T(std::forward<Args>(args)...);
+            };
+        constructorInfo.Invoker = &ThunkConstructor<T,lambda>;
+        return constructorInfo;
+    }
     struct MemberInfoAggregat {
         std::vector<MemberInfo> members;
         template <typename... MemberInfos>
@@ -241,6 +285,12 @@ export  namespace UPRISE_ENGINE::SERIALISATION {
         template <typename... MemberInfos>
             requires (std::is_same_v<MemberInfos, FunctionMemberInfo>&&...)
         FunctionMemberInfoAggregat(MemberInfos... infos) : members{ infos... } {}
+    };
+    struct ConstructorInfoAggregat {
+        std::vector<ConstructorInfo> members;
+        template <typename... MemberInfos>
+            requires (std::is_same_v<MemberInfos, ConstructorInfo>&&...)
+        ConstructorInfoAggregat(MemberInfos... infos) : members{ infos... } {}
     };
     template <typename T>
 
@@ -273,7 +323,7 @@ export  namespace UPRISE_ENGINE::SERIALISATION {
         //            RTTIStorage::RegisterType(std::move(typeInfo), typeid(T).name(), typeid(T).raw_name());
         //        }
 
-        TypeRegistrar(MemberInfoAggregat memberInfos = {}, FunctionMemberInfoAggregat functionMemberInfos = {}) {
+        TypeRegistrar(MemberInfoAggregat memberInfos = {}, FunctionMemberInfoAggregat functionMemberInfos = {}, ConstructorInfoAggregat constructorInfos = {}) {
             SerializedTypeInfo typeInfo;
             typeInfo.Name = typeid(T).name();
             typeInfo.Class = GetTypeClass<T>();
@@ -288,6 +338,12 @@ export  namespace UPRISE_ENGINE::SERIALISATION {
                 const auto& [it, succsess] = typeInfo.FunctionMembers.try_emplace(functionMember.name, functionMember);
                 if (!succsess) {
                     throw std::runtime_error("Duplicate function member name: " + functionMember.name);
+                }
+            }
+            for (const ConstructorInfo& constructorInfo : constructorInfos.members) {
+                const auto& [it, succsess] = typeInfo.Constructors.try_emplace(constructorInfo.name, constructorInfo);
+                if (!succsess) {
+                    throw std::runtime_error("Duplicate constructor name: " + constructorInfo.name);
                 }
             }
             if constexpr (std::is_same_v<T, void>) {

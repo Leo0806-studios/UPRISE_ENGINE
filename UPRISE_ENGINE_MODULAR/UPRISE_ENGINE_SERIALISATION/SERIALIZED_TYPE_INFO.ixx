@@ -55,22 +55,28 @@ export namespace UPRISE_ENGINE::SERIALISATION {
     };
     struct ConstructorInfo {
     private:
-        UPRISE_SERIALISATION_API bool CheckTypes(std::vector<std::string> params);
+        UPRISE_SERIALISATION_API bool CheckTypes(std::vector<std::string> params)const;
         public:
         std::string name;
         void (*Invoker)(void* obj, void** params);
         std::vector<const SerializedTypeInfo*> Parameters;
         bool isNoexcept;
         template<typename R, typename ...Args>
-        R Invoke(Args... args) {
+        R Invoke(Args... args)const {
             if (!CheckTypes({ typeid(Args).name()... })) {
                 throw std::runtime_error("Invalid argument types");
             }
             alignas(alignof(R)) std::array<uint8_t, sizeof(R)> obj{};
+            if constexpr (sizeof...(Args) == 0) {
+                Invoker(obj.data(), nullptr);
+            }
+            else {
             void* argArray[] = { &args... };
-            Invoker(&obj, argArray, );
+            Invoker(&obj, argArray );
+
+            }
             
-            return *std::launder(reinterpret_cast<R*>(obj.data()));
+            return *(reinterpret_cast<R*>(obj.data()));
         }
     };
     struct FunctionMemberInfo {
@@ -106,6 +112,7 @@ export namespace UPRISE_ENGINE::SERIALISATION {
         size_t Size = 0;
         std::unordered_map<std::string, MemberInfo> Members;
         std::unordered_map<std::string, FunctionMemberInfo> FunctionMembers;
+        std::unordered_map<std::string, ConstructorInfo> Constructors;
         bool operator==(const SerializedTypeInfo& other) const noexcept {
             return this == &other;//Serialized Type info are globaly unique and only one of each can exist;
         }
@@ -122,6 +129,7 @@ export namespace UPRISE_ENGINE::SERIALISATION {
                 Size = other.Size;
                 Members = std::move(other.Members);
                 FunctionMembers = std::move(other.FunctionMembers);
+                Constructors = std::move(other.Constructors);
             }
             return *this;
         }
@@ -131,7 +139,8 @@ export namespace UPRISE_ENGINE::SERIALISATION {
             Alligment(other.Alligment),
             Size(other.Size),
             Members(std::move(other.Members)),
-            FunctionMembers(std::move(other.FunctionMembers))
+            FunctionMembers(std::move(other.FunctionMembers)),
+            Constructors(std::move(other.Constructors))
         {}
     private:
         SerializedTypeInfo(const SerializedTypeInfo& other) = delete;
