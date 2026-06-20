@@ -26,16 +26,19 @@ Registrar<std::string> strRegistrar{
 
 };
 
-Registrar<std::unordered_map<std::string, UPRISE_ENGINE::SERIALISATION::SerializedTypeInfo>> mapRegistrar{
-    {
-    },
-    {
-        CreateFunctionMemberInfo<size_t, &std::unordered_map<std::string,SerializedTypeInfo>::size>("size"),
-        CreateFunctionMemberInfo<bool, &std::unordered_map<std::string, SerializedTypeInfo>::empty>("empty"),
-        CreateFunctionMemberInfo<void, &std::unordered_map<std::string, SerializedTypeInfo>::clear>("clear"),
-        CreateFunctionMemberInfo< SerializedTypeInfo,static_cast<SerializedTypeInfo& (std::unordered_map<std::string, SerializedTypeInfo>::*)(const std::string&)>(&std::unordered_map<std::string, SerializedTypeInfo>::operator[])>("operator[]")
-    },
-    {
-        CreateConstructorInfo<std::unordered_map<std::string, UPRISE_ENGINE::SERIALISATION::SerializedTypeInfo>>()
-    }
-};
+VectorRegistrar<char> vectorCharRegistrar;
+VectorRegistrar<unsigned char> vectorUnsignedCharRegistrar;
+VectorRegistrar<wchar_t> vectorWCharRegistrar;
+VectorRegistrar<bool> vectorBoolRegistrar;
+VectorRegistrar<short> vectorShortRegistrar;
+VectorRegistrar<unsigned short> vectorUnsignedShortRegistrar;
+VectorRegistrar<int> vectorIntRegistrar;
+VectorRegistrar<unsigned int> vectorUnsignedIntRegistrar;
+VectorRegistrar<long> vectorLongRegistrar;
+VectorRegistrar<unsigned long> vectorUnsignedLongRegistrar;
+VectorRegistrar<long long> vectorLongLongRegistrar;
+VectorRegistrar<unsigned long long> vectorUnsignedLongLongRegistrar;
+VectorRegistrar<float> vectorFloatRegistrar;
+VectorRegistrar<double> vectorDoubleRegistrar;
+VectorRegistrar<long double> vectorLongDoubleRegistrar;
+VectorRegistrar<std::string> vectorStringRegistrar;

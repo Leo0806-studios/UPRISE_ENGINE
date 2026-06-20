@@ -4,3 +4,6 @@ export import :RTTI_STORAGE;
 export import :SERIALIZED_OBJECT;
 export import :SERIALIZED_TYPE_INFO;
 export import :INTERFACES;
+export import :SERIALIZER;
+export import :SERIALIZED_PTR;
+export import :TYPE_REGISTRAR_PARTIAL_STD_SPEC;

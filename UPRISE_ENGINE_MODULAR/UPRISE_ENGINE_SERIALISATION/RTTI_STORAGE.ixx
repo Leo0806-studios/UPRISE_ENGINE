@@ -92,6 +92,10 @@ namespace UPRISE_ENGINE::SERIALISATION {
         }
 
     }
+    template <typename T>
+    void DestructorThunk(void* obj) {
+        static_cast<T*>(obj)->~T();
+    }
     template<typename T, auto method, size_t ... I>
     void ThunkImplConstructor(
         void* obj,
@@ -239,6 +243,15 @@ export  namespace UPRISE_ENGINE::SERIALISATION {
             std::make_index_sequence<Traits::arity>{}
         );
     }
+    template<typename T>
+    DestructorInfo CreateDestructorInfo(std::string name = "Destructor") {
+        DestructorInfo destructorInfo;
+        destructorInfo.name = name;
+        destructorInfo.isNoexcept = std::is_nothrow_destructible_v<T>;
+        destructorInfo.Invoker = &DestructorThunk<T>;
+        return destructorInfo;
+    }
+
     template<typename ReturnType, auto MemberPtr>
         requires std::is_member_function_pointer_v<decltype(MemberPtr)>
     FunctionMemberInfo CreateFunctionMemberInfo(
@@ -323,7 +336,7 @@ export  namespace UPRISE_ENGINE::SERIALISATION {
         //            RTTIStorage::RegisterType(std::move(typeInfo), typeid(T).name(), typeid(T).raw_name());
         //        }
 
-        TypeRegistrar(MemberInfoAggregat memberInfos = {}, FunctionMemberInfoAggregat functionMemberInfos = {}, ConstructorInfoAggregat constructorInfos = {}) {
+        TypeRegistrar(MemberInfoAggregat memberInfos = {}, FunctionMemberInfoAggregat functionMemberInfos = {}, ConstructorInfoAggregat constructorInfos = {}, DestructorInfo destructorInfo = {}) {
             SerializedTypeInfo typeInfo;
             typeInfo.Name = typeid(T).name();
             typeInfo.Class = GetTypeClass<T>();
@@ -355,6 +368,14 @@ export  namespace UPRISE_ENGINE::SERIALISATION {
                 typeInfo.Size = sizeof(T);
             }
             typeInfo.Category = GetTypeCategory<T>();
+            if (destructorInfo.Invoker) {
+                typeInfo.Destructor = destructorInfo;
+            }
+            typeInfo.isCopyAssignable = std::is_copy_assignable_v<T>;
+            typeInfo.isMoveAssignable = std::is_move_assignable_v<T>;
+            typeInfo.isCopyConstructible = std::is_copy_constructible_v<T>;
+            typeInfo.isMoveConstructible = std::is_move_constructible_v<T>;
+            typeInfo.isTriviallyCopyable = std::is_trivially_copyable_v<T>;
             RTTIStorage::RegisterType(std::move(typeInfo), typeid(T).name(), typeid(T).raw_name());
         }
     };

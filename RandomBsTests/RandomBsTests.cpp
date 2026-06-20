@@ -19,6 +19,9 @@ struct FOO {
         Inttt = 80085;
         return inStr + " MEOW MEOW MEOW";
     }
+    ~FOO() {
+        std::cout << "FOO destructor called for instance with a=" << a << ", b=" << b << ", c=" << c << std::endl;
+    }
 };
 template<typename T>
 struct TypeProxy {
@@ -42,6 +45,9 @@ UPRISE_ENGINE::SERIALISATION::TypeRegistrar<FOO> fooRegistrar(
         UPRISE_ENGINE::SERIALISATION::CreateConstructorInfo<FOO, int, float, float*, std::string*, std::vector<std::unordered_map<std::string, std::list<std::vector<int>>>>*, std::string>("Constructor(int, float, float*, std::string*, std::vector<std::unordered_map<std::string, std::list<std::vector<int>>>>*, std::string)"),
         UPRISE_ENGINE::SERIALISATION::CreateConstructorInfo<FOO, const FOO&>("Constructor(const FOO&)"),
         UPRISE_ENGINE::SERIALISATION::CreateConstructorInfo<FOO, FOO&&>("Constructor(FOO&&)"),
+    },
+    {
+        UPRISE_ENGINE::SERIALISATION::CreateDestructorInfo<FOO>()
     }
 );
 UPRISE_ENGINE::SERIALISATION::TypeRegistrar<int> intRegistrar;
@@ -53,7 +59,18 @@ int main()
     auto FooInfo = UPRISE_ENGINE::SERIALISATION::RTTIStorage::TryGetTypeInfo(typeid(FOO).name());
     FOO fooInstance2 = FooInfo->Constructors.at("Constructor").Invoke<FOO>();
     std::cout << "FOO instance created using constructor invoker: a=" << fooInstance2.a << ", b=" << fooInstance2.b << ", c=" << fooInstance2.c << std::endl;
-    auto bar = FooInfo->FunctionMembers.at("Bar");
+    auto& bar = FooInfo->FunctionMembers.at("Bar");
+    std::cout << "value before setting through MemberInfo: " << fooInstance2.a << std::endl;
+    auto& Ainfo = FooInfo->Members.at("a");
+    Ainfo.Set(&fooInstance2, 42);
+    std::cout << "Value of a after setting through MemberInfo: " << fooInstance2.a << std::endl;
+    std::cout << " value trough getter: " << Ainfo.Get<int>(&fooInstance2) << std::endl;
+    auto& cinfo = FooInfo->Members.at("c");
+    cinfo.Set(&fooInstance2, std::string("New Value"));
+    std::cout << "Value of c after setting through MemberInfo: " << fooInstance2.c << std::endl;
+    std::cout << " value trough getter: " << cinfo.Get<std::string>(&fooInstance2) << std::endl;
+    auto Destructor = FooInfo->Destructor;
+    Destructor.Invoker(&fooInstance2);
     std::string inStr = "Hello";
     int    ii = 0;
     FOO fooInstance;
@@ -120,13 +137,4 @@ int main()
 
 }
 
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
 
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
