@@ -56,7 +56,7 @@ UPRISE_ENGINE::SERIALISATION::TypeRegistrar<float> floatRegistrar;
 
 int main()
 {
-    auto FooInfo = UPRISE_ENGINE::SERIALISATION::RTTIStorage::TryGetTypeInfo(typeid(FOO).name());
+    auto FooInfo = UPRISE_ENGINE::SERIALISATION::RTTIStorage::internalGetTypeOrPlaceholder(typeid(FOO).name());
     FOO fooInstance2 = FooInfo->Constructors.at("Constructor").Invoke<FOO>();
     std::cout << "FOO instance created using constructor invoker: a=" << fooInstance2.a << ", b=" << fooInstance2.b << ", c=" << fooInstance2.c << std::endl;
     auto& bar = FooInfo->FunctionMembers.at("Bar");
@@ -76,7 +76,7 @@ int main()
     FOO fooInstance;
     std::string result = bar.Invoke<std::string>(&fooInstance, inStr, ii, 3.14f, 'A');
     std::cout << "Result: " << result << std::endl;
-    auto typeInfo = UPRISE_ENGINE::SERIALISATION::RTTIStorage::TryGetTypeInfo(typeid(FOO).name());
+    auto typeInfo = UPRISE_ENGINE::SERIALISATION::RTTIStorage::internalGetTypeOrPlaceholder(typeid(FOO).name());
     if (typeInfo) {
         std::cout << "Type Name: " << typeInfo->Name << std::endl;
         std::cout << "Type Class: " << std::to_string(typeInfo->Class) << std::endl;
@@ -106,7 +106,7 @@ int main()
         std::cout << "Type info for FOO not found" << std::endl;
     }
 
-    auto typeinfoMember = UPRISE_ENGINE::SERIALISATION::RTTIStorage::TryGetTypeInfo(typeid(UPRISE_ENGINE::SERIALISATION::MemberInfo).name());
+    auto typeinfoMember = UPRISE_ENGINE::SERIALISATION::RTTIStorage::internalGetTypeOrPlaceholder(typeid(UPRISE_ENGINE::SERIALISATION::MemberInfo).name());
     if (typeinfoMember) {
         std::cout << "Type Name: " << typeinfoMember->Name << std::endl;
         std::cout << "Type Class: " << std::to_string(typeinfoMember->Class) << std::endl;

@@ -100,7 +100,7 @@ namespace UPRISE_ENGINE::SERIALISATION {
     void ThunkImplConstructor(
         void* obj,
         void** params,
-        std::index_sequence<I...>)noexcept(noexcept( T(std::declval<typename function_traits<decltype(method)>::template arg<I>>()...)))
+        std::index_sequence<I...>)noexcept(noexcept(T(std::declval<typename function_traits<decltype(method)>::template arg<I>>()...)))
     {
         using Traits = UPRISE_ENGINE::SERIALISATION::function_traits<decltype(method)>;
         using Class = T;
@@ -154,15 +154,15 @@ namespace UPRISE_ENGINE::SERIALISATION {
                     ));
             }
             else
-            new (out) Return(
-                (self->*Method)(
-                    (*reinterpret_cast<
-                     std::remove_cvref_t<
-                     typename Traits::template arg<I>
-                     >*
-                    >(params[I]))...
-                    )
-            );
+                new (out) Return(
+                    (self->*Method)(
+                        (*reinterpret_cast<
+                         std::remove_cvref_t<
+                         typename Traits::template arg<I>
+                         >*
+                        >(params[I]))...
+                        )
+                );
         }
     }
     template<auto Method>
@@ -184,8 +184,10 @@ namespace UPRISE_ENGINE::SERIALISATION {
 export  namespace UPRISE_ENGINE::SERIALISATION {
 
     class RTTIStorage {
-        inline static  std::unordered_map<std::string, SerializedTypeInfo*>& RegisteredTypes() {
-            static std::unordered_map<std::string, SerializedTypeInfo*> registeredTypes;
+
+
+        inline static  std::unordered_map<std::string, SerializedTypeInfo**>& RegisteredTypes() {
+            static std::unordered_map<std::string, SerializedTypeInfo**> registeredTypes;
             return registeredTypes;
         }
         inline static std::unordered_map<std::string, std::string>& RawTypeNameToRegisteredTypeNameMap() {
@@ -193,9 +195,41 @@ export  namespace UPRISE_ENGINE::SERIALISATION {
             return rawTypeNameToRegisteredTypeNameMap;
         }
     public:
+
+        UPRISE_SERIALISATION_API static const SerializedTypeInfo* internalGetTypeOrPlaceholder(const std::string& name);
         UPRISE_SERIALISATION_API static bool RegisterType(SerializedTypeInfo typeInfo, std::string name, std::string rawName);
-        UPRISE_SERIALISATION_API static const SerializedTypeInfo* TryGetTypeInfo(const std::string& name);
+        UPRISE_SERIALISATION_API static const SerializedTypeInfo* Get(const std::string& name);
         UPRISE_SERIALISATION_API static void PrintAll();
+    };
+    struct PrivateAccesRTTI {
+        template<typename T, typename MemberPtr>
+            requires  std::is_member_object_pointer_v<MemberPtr>
+        static MemberInfo CreateMemberInfo(const std::string& name, MemberPtr memberPtr, AccesebilityModifiers accessModifier) {
+            MemberInfo memberInfo;
+            memberInfo.name = name;
+            memberInfo.offset = reinterpret_cast<size_t>(&(reinterpret_cast<T*>(0)->*memberPtr));
+            using MemberType = typename std::remove_cv_t<std::remove_reference_t<decltype(std::declval<T>().*memberPtr)>>;
+            memberInfo.typeInfo = RTTIStorage::internalGetTypeOrPlaceholder(typeid(MemberType).name());
+            if constexpr (std::is_pointer_v<MemberType>) {
+                SerializedTypeInfo ptrInfo(
+                    typeid(MemberType).name(),
+                    GetTypeClass<MemberType>(),
+                    GetTypeCategory<MemberType>(),
+                    alignof(MemberType),
+                    sizeof(MemberType),
+                    std::is_move_constructible_v<MemberType>,
+                    std::is_copy_constructible_v<MemberType>,
+                    std::is_default_constructible_v<MemberType>,
+                    std::is_trivially_copyable_v<MemberType>,
+                    std::is_copy_assignable_v<MemberType>,
+                    std::is_move_assignable_v<MemberType>,
+                    nullptr
+                );
+
+            RTTIStorage::RegisterType(std::move(ptrInfo), typeid(MemberType).name(), typeid(MemberType).raw_name());
+            }
+            
+        }
     };
     template <typename T, typename MemberPtr>
         requires  std::is_member_object_pointer_v<MemberPtr>
@@ -204,14 +238,24 @@ export  namespace UPRISE_ENGINE::SERIALISATION {
         memberInfo.name = name;
         memberInfo.offset = reinterpret_cast<size_t>(&(reinterpret_cast<T*>(0)->*memberPtr));
         using MemberType = typename std::remove_cv_t<std::remove_reference_t<decltype(std::declval<T>().*memberPtr)>>;
-        memberInfo.typeInfo = RTTIStorage::TryGetTypeInfo(typeid(MemberType).name());
+        memberInfo.typeInfo = RTTIStorage::internalGetTypeOrPlaceholder(typeid(MemberType).name());
         if constexpr (std::is_pointer_v<MemberType>) {
-            SerializedTypeInfo ptrInfo;
-            ptrInfo.Name = typeid(MemberType).name();
-            ptrInfo.Class = GetTypeClass<MemberType>();
-            ptrInfo.Category = GetTypeCategory<MemberType>();
-            ptrInfo.Alligment = alignof(MemberType);
-            ptrInfo.Size = sizeof(MemberType);
+            SerializedTypeInfo ptrInfo(
+                typeid(MemberType).name(),
+                GetTypeClass<MemberType>(),
+                GetTypeCategory<MemberType>(),
+                alignof(MemberType),
+                sizeof(MemberType), 
+                std::is_move_constructible_v<MemberType>,
+                std::is_copy_constructible_v<MemberType>,
+                std::is_default_constructible_v<MemberType>,
+                std::is_trivially_copyable_v<MemberType>,
+                std::is_copy_assignable_v<MemberType>,
+                std::is_move_assignable_v<MemberType>,
+                nullptr
+
+            );
+
 
             RTTIStorage::RegisterType(std::move(ptrInfo), typeid(MemberType).name(), typeid(MemberType).raw_name());
         }
@@ -227,7 +271,7 @@ export  namespace UPRISE_ENGINE::SERIALISATION {
 
         return std::vector<const SerializedTypeInfo*>
         {
-            RTTIStorage::TryGetTypeInfo(
+            RTTIStorage::internalGetTypeOrPlaceholder(
                 typeid(
                     typename Traits::template arg<I>
                     ).name()
@@ -245,11 +289,11 @@ export  namespace UPRISE_ENGINE::SERIALISATION {
     }
     template<typename T>
     DestructorInfo CreateDestructorInfo(std::string name = "Destructor") {
-        DestructorInfo destructorInfo;
-        destructorInfo.name = name;
-        destructorInfo.isNoexcept = std::is_nothrow_destructible_v<T>;
-        destructorInfo.Invoker = &DestructorThunk<T>;
-        return destructorInfo;
+        return DestructorInfo(
+                name,
+                &DestructorThunk<T>,
+                std::is_nothrow_destructible_v<T>
+        );
     }
 
     template<typename ReturnType, auto MemberPtr>
@@ -259,33 +303,33 @@ export  namespace UPRISE_ENGINE::SERIALISATION {
     )
     {
         using Traits = function_traits<decltype(MemberPtr)>;
+        return FunctionMemberInfo(
+            name,
+            &Thunk<MemberPtr>,
+            RTTIStorage::internalGetTypeOrPlaceholder(typeid(ReturnType).name()),
+            GetFunctionParameterTypes<decltype(MemberPtr)>(),
+            RTTIStorage::internalGetTypeOrPlaceholder(typeid(typename Traits::class_type).name()),
+            Traits::is_const,
+            Traits::is_noexcept,
+            Traits::calling_convention
 
-        FunctionMemberInfo functionInfo;
-        functionInfo.Noexcept = Traits::is_noexcept;
-        functionInfo.Const = Traits::is_const;
-        functionInfo.name = name;
-        functionInfo.Convention = Traits::calling_convention;
-        functionInfo.ReturnType =
-            RTTIStorage::TryGetTypeInfo(typeid(ReturnType).name());
-        std::vector<const SerializedTypeInfo*> params;
-        functionInfo.Parameters = GetFunctionParameterTypes<decltype(MemberPtr)>();
+        );
 
-        functionInfo.Invoker = &Thunk<MemberPtr>;
-
-        return functionInfo;
     }
     template <typename T, typename ...Args>
         requires std::is_constructible_v<T, Args...>
     ConstructorInfo CreateConstructorInfo(std::string name = "Constructor") {
-        ConstructorInfo constructorInfo;
-        constructorInfo.name = name;
-        constructorInfo.isNoexcept = std::is_nothrow_constructible_v<T, Args...>;
-        constructorInfo.Parameters = { RTTIStorage::TryGetTypeInfo(typeid(Args).name())... };
-       constexpr auto lambda = +[](Args... args) -> T {
+        constexpr auto lambda = +[](Args... args) -> T {
             return T(std::forward<Args>(args)...);
             };
-        constructorInfo.Invoker = &ThunkConstructor<T,lambda>;
-        return constructorInfo;
+        return  ConstructorInfo(
+                  name,
+                   &ThunkConstructor<T, lambda>,
+                  std::vector<const SerializedTypeInfo*>(),
+                  std::is_nothrow_constructible_v<T, Args...>,
+                  RTTIStorage::internalGetTypeOrPlaceholder(typeid(T).name())
+        );
+
     }
     struct MemberInfoAggregat {
         std::vector<MemberInfo> members;
@@ -310,72 +354,53 @@ export  namespace UPRISE_ENGINE::SERIALISATION {
     class TypeRegistrar {
     public:
 
-        //        template <typename... MemberInfos>
-        //            requires (std::is_same_v<MemberInfos, MemberInfo>&&...)
-        //        TypeRegistrar(MemberInfos... infos) {
-        //            SerializedTypeInfo typeInfo;
-        //            typeInfo.Name = typeid(T).name();
-        //            typeInfo.Class = GetTypeClass<T>();
-        //            std::vector<MemberInfo> tmpVector{ infos... };
-        //            for (const MemberInfo& member : tmpVector) {
-        //                const auto& [it, succsess] = typeInfo.Members.try_emplace(member.name, member);
-        //                if (!succsess) {
-        //                    throw std::runtime_error("Duplicate member name: " + member.name);
-        //                }
-        //            }
-        //            if constexpr (std::is_same_v<T, void>) {
-        //                typeInfo.Alligment = 0;
-        //                typeInfo.Size = 0;
-        //            }
-        //            else {
-        //                typeInfo.Alligment = alignof(T);
-        //                typeInfo.Size = sizeof(T);
-        //
-        //            }
-        //            typeInfo.Category = GetTypeCategory<T>();
-        //            RTTIStorage::RegisterType(std::move(typeInfo), typeid(T).name(), typeid(T).raw_name());
-        //        }
+
 
         TypeRegistrar(MemberInfoAggregat memberInfos = {}, FunctionMemberInfoAggregat functionMemberInfos = {}, ConstructorInfoAggregat constructorInfos = {}, DestructorInfo destructorInfo = {}) {
-            SerializedTypeInfo typeInfo;
-            typeInfo.Name = typeid(T).name();
-            typeInfo.Class = GetTypeClass<T>();
-            for (const MemberInfo& member : memberInfos.members) {
-                const auto& [it, succsess] = typeInfo.Members.try_emplace(member.name, member);
-                if (!succsess) {
-                    throw std::runtime_error("Duplicate member name: " + member.name);
-                }
-            }
 
-            for (const FunctionMemberInfo& functionMember : functionMemberInfos.members) {
-                const auto& [it, succsess] = typeInfo.FunctionMembers.try_emplace(functionMember.name, functionMember);
-                if (!succsess) {
-                    throw std::runtime_error("Duplicate function member name: " + functionMember.name);
-                }
-            }
-            for (const ConstructorInfo& constructorInfo : constructorInfos.members) {
-                const auto& [it, succsess] = typeInfo.Constructors.try_emplace(constructorInfo.name, constructorInfo);
-                if (!succsess) {
-                    throw std::runtime_error("Duplicate constructor name: " + constructorInfo.name);
-                }
-            }
-            if constexpr (std::is_same_v<T, void>) {
-                typeInfo.Alligment = 0;
-                typeInfo.Size = 0;
-            }
-            else {
-                typeInfo.Alligment = alignof(T);
-                typeInfo.Size = sizeof(T);
-            }
-            typeInfo.Category = GetTypeCategory<T>();
-            if (destructorInfo.Invoker) {
-                typeInfo.Destructor = destructorInfo;
-            }
-            typeInfo.isCopyAssignable = std::is_copy_assignable_v<T>;
-            typeInfo.isMoveAssignable = std::is_move_assignable_v<T>;
-            typeInfo.isCopyConstructible = std::is_copy_constructible_v<T>;
-            typeInfo.isMoveConstructible = std::is_move_constructible_v<T>;
-            typeInfo.isTriviallyCopyable = std::is_trivially_copyable_v<T>;
+            SerializedTypeInfo typeInfo(
+            typeid(T).name(),
+            GetTypeClass<T>(),
+            GetTypeCategory<T>(),
+                std::is_same_v<T, void> ? 0 : alignof(T),
+                std::is_same_v<T, void> ? 0 : sizeof(T),
+                std::is_move_constructible_v<T>,
+                std::is_copy_constructible_v<T>,
+                std::is_default_constructible_v<T>,
+                std::is_trivially_copyable_v<T>,
+                std::is_copy_assignable_v<T>,
+                std::is_move_assignable_v<T>,
+                [&]()->std::unordered_map<std::string, std::unique_ptr<MemberInfo>> {
+                    std::unordered_map<std::string, std::unique_ptr<MemberInfo>> members;
+                    for (const MemberInfo& member : memberInfos.members) {
+                        if (!members.emplace(member.name, std::make_unique<MemberInfo>(member)).second) {
+                            throw std::runtime_error("Duplicate member name: " + member.name);
+                        }
+                    }
+                    return members;
+                }(),
+                    [&]()->std::unordered_map<std::string, std::unique_ptr<FunctionMemberInfo>> {
+                    std::unordered_map<std::string, std::unique_ptr<FunctionMemberInfo>> functionMembers;
+                    for (const FunctionMemberInfo& functionMember : functionMemberInfos.members) {
+                        if (!functionMembers.emplace(functionMember.name, std::make_unique<FunctionMemberInfo>(functionMember)).second) {
+                            throw std::runtime_error("Duplicate function member name: " + functionMember.name);
+                        }
+                    }
+                    return functionMembers;
+                    }(),
+                        [&]()->std::unordered_map<std::string, std::unique_ptr<ConstructorInfo>> {
+                        std::unordered_map<std::string, std::unique_ptr<ConstructorInfo>> constructors;
+                        for (const ConstructorInfo& constructorInfo : constructorInfos.members) {
+                            if (!constructors.emplace(constructorInfo.name, std::make_unique<ConstructorInfo>(constructorInfo)).second) {
+                                throw std::runtime_error("Duplicate constructor name: " + constructorInfo.name);
+                            }
+                        }
+                        return constructors;
+                        }(),
+                            destructorInfo.hasInvoker() ? std::make_unique<DestructorInfo>(destructorInfo) : nullptr
+                            );
+
+
             RTTIStorage::RegisterType(std::move(typeInfo), typeid(T).name(), typeid(T).raw_name());
         }
     };
