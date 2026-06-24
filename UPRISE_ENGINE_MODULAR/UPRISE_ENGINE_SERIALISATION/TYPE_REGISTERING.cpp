@@ -6,10 +6,11 @@ namespace UPRISE_ENGINE::SERIALISATION {
     TypeRegistrar<MemberInfo> memberInfoRegistrar{
         {
 
-        CreateMemberInfo<MemberInfo>(std::string("name"), &MemberInfo::name, AccesebilityModifiers::Public),
-        CreateMemberInfo<MemberInfo>("offset", &MemberInfo::offset, AccesebilityModifiers::Public),
-        CreateMemberInfo<MemberInfo>("typeInfo", &MemberInfo::typeInfo, AccesebilityModifiers::Public),
-        CreateMemberInfo<MemberInfo>("AccessModifier", &MemberInfo::AccessModifier, AccesebilityModifiers::Public),
+
+},
+        {
+            //CreateFunctionMemberInfo<const std::string&, &MemberInfo::Name>("Name"),//TODO: implemment Const refs and overhaul the parameter/return system to accpet r and l value refs
+            //CreateFunctionMemberInfo<const SerializedTypeInfo*, &MemberInfo::TypeInfo>("TypeInfo"),
 }
     };
     TypeRegistrar<AccesebilityModifiers> accessModifierRegistrar;

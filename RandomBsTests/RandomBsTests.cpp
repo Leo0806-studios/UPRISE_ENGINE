@@ -55,74 +55,84 @@ UPRISE_ENGINE::SERIALISATION::TypeRegistrar<float> floatRegistrar;
 
 
 int main()
-{
-    auto FooInfo = UPRISE_ENGINE::SERIALISATION::RTTIStorage::internalGetTypeOrPlaceholder(typeid(FOO).name());
-    FOO fooInstance2 = FooInfo->Constructors.at("Constructor").Invoke<FOO>();
+{ 
+    std::ios::sync_with_stdio(false);
+
+    auto FooInfo = UPRISE_ENGINE::SERIALISATION::RTTIStorage::Get(typeid(FOO).name());
+    FOO fooInstance2 = FooInfo->GetConstructor("Constructor")->Invoke<FOO>();
     std::cout << "FOO instance created using constructor invoker: a=" << fooInstance2.a << ", b=" << fooInstance2.b << ", c=" << fooInstance2.c << std::endl;
-    auto& bar = FooInfo->FunctionMembers.at("Bar");
+    const auto* bar = FooInfo->GetFunctionMember("Bar");
     std::cout << "value before setting through MemberInfo: " << fooInstance2.a << std::endl;
-    auto& Ainfo = FooInfo->Members.at("a");
-    Ainfo.Set(&fooInstance2, 42);
+    const auto* Ainfo = FooInfo->GetMember("a");
+    Ainfo->Set(&fooInstance2, 42);
     std::cout << "Value of a after setting through MemberInfo: " << fooInstance2.a << std::endl;
-    std::cout << " value trough getter: " << Ainfo.Get<int>(&fooInstance2) << std::endl;
-    auto& cinfo = FooInfo->Members.at("c");
-    cinfo.Set(&fooInstance2, std::string("New Value"));
+    std::cout << " value trough getter: " << Ainfo->Get<int>(&fooInstance2) << std::endl;
+    auto* cinfo = FooInfo->GetMember("c");
+    cinfo->Set(&fooInstance2, std::string("New Value"));
     std::cout << "Value of c after setting through MemberInfo: " << fooInstance2.c << std::endl;
-    std::cout << " value trough getter: " << cinfo.Get<std::string>(&fooInstance2) << std::endl;
-    auto Destructor = FooInfo->Destructor;
-    Destructor.Invoker(&fooInstance2);
+    std::cout << " value trough getter: " << cinfo->Get<std::string>(&fooInstance2) << std::endl;
+    auto Destructor = FooInfo->GetDestructor();
+    Destructor->Invoke(&fooInstance2);
     std::string inStr = "Hello";
     int    ii = 0;
     FOO fooInstance;
-    std::string result = bar.Invoke<std::string>(&fooInstance, inStr, ii, 3.14f, 'A');
+    std::string result = bar->Invoke<std::string>(&fooInstance, inStr, ii, 3.14f, 'A');
     std::cout << "Result: " << result << std::endl;
-    auto typeInfo = UPRISE_ENGINE::SERIALISATION::RTTIStorage::internalGetTypeOrPlaceholder(typeid(FOO).name());
+    auto typeInfo = UPRISE_ENGINE::SERIALISATION::RTTIStorage::Get(typeid(FOO).name());
     if (typeInfo) {
-        std::cout << "Type Name: " << typeInfo->Name << std::endl;
-        std::cout << "Type Class: " << std::to_string(typeInfo->Class) << std::endl;
-        std::cout << "Type Category: " << std::to_string(typeInfo->Category) << std::endl;
-        std::cout << "Alignment: " << typeInfo->Alligment << std::endl;
-        std::cout << "Size: " << typeInfo->Size << std::endl;
-        for (const auto& [memberName, memberInfo] : typeInfo->Members) {
-            std::cout << "Member Name: " << memberName << ", Offset: " << memberInfo.offset
-                << ", Access Modifier: " << static_cast<int>(memberInfo.AccessModifier) << std::endl;
-            auto memberTypeInfo = memberInfo.typeInfo;
+        std::cout << "Type Name: " << typeInfo->Name() << std::endl;
+        std::cout << "Type Class: " << std::to_string(typeInfo->Class()) << std::endl;
+        std::cout << "Type Category: " << std::to_string(typeInfo->Category()) << std::endl;
+        std::cout << "Alignment: " << typeInfo->Alignment() << std::endl;
+        std::cout << "Size: " << typeInfo->Size() << std::endl;
+        for (const auto& [memberName, memberInfo] : typeInfo->Members()) {
+            std::cout << "Member Name: " << memberName << ", Offset: " << memberInfo->Offset()
+                << ", Access Modifier: " << static_cast<int>(memberInfo->AccessModifier()) << std::endl;
+            auto memberTypeInfo = memberInfo->TypeInfo();
             if (memberTypeInfo) {
-                std::cout << "\tMember Type Name: " << memberTypeInfo->Name << std::endl;
-                std::cout << "\tMember Type Class: " << std::to_string(memberTypeInfo->Class) << std::endl;
-                std::cout << "\tMember Type Category: " << std::to_string(memberTypeInfo->Category) << std::endl;
-                std::cout << "\tMember Type Alignment: " << memberTypeInfo->Alligment << std::endl;
-                std::cout << "\tMember Type Size: " << memberTypeInfo->Size << std::endl;
+                std::cout << "\tMember Type Name: " << memberTypeInfo->Name() << std::endl;
+                std::cout << "\tMember Type Class: " << std::to_string(memberTypeInfo->Class()) << std::endl;
+                std::cout << "\tMember Type Category: " << std::to_string(memberTypeInfo->Category()) << std::endl;
+                std::cout << "\tMember Type Alignment: " << memberTypeInfo->Alignment() << std::endl;
+                std::cout << "\tMember Type Size: " << memberTypeInfo->Size() << std::endl;
             }
             else {
                 std::cout << "\tMember Type Info not found" << std::endl;
             }
         }
-        for (const auto& Constructor : typeInfo->Constructors) {
-
+        for (const auto& Constructor : typeInfo->GetConstructors()) {
+            std::cout << "Constructor Name: " << Constructor.first << std::endl;
+            auto constructorInfo = Constructor.second.get();
+            for (auto& param : constructorInfo->GetParameters()) {
+                std::cout << "\tParameter Type Name: " << param->Name() << std::endl;
+                std::cout << "\tParameter Type Class: " << std::to_string(param->Class()) << std::endl;
+                std::cout << "\tParameter Type Category: " << std::to_string(param->Category()) << std::endl;
+                std::cout << "\tParameter Type Alignment: " << param->Alignment() << std::endl;
+                std::cout << "\tParameter Type Size: " << param->Size() << std::endl;
+            }
         }
     }
     else {
         std::cout << "Type info for FOO not found" << std::endl;
     }
 
-    auto typeinfoMember = UPRISE_ENGINE::SERIALISATION::RTTIStorage::internalGetTypeOrPlaceholder(typeid(UPRISE_ENGINE::SERIALISATION::MemberInfo).name());
+    auto typeinfoMember = UPRISE_ENGINE::SERIALISATION::RTTIStorage::Get(typeid(UPRISE_ENGINE::SERIALISATION::MemberInfo).name());
     if (typeinfoMember) {
-        std::cout << "Type Name: " << typeinfoMember->Name << std::endl;
-        std::cout << "Type Class: " << std::to_string(typeinfoMember->Class) << std::endl;
-        std::cout << "Type Category: " << std::to_string(typeinfoMember->Category) << std::endl;
-        std::cout << "Alignment: " << typeinfoMember->Alligment << std::endl;
-        std::cout << "Size: " << typeinfoMember->Size << std::endl;
-        for (const auto& [memberName, memberInfo] : typeinfoMember->Members) {
-            std::cout << "Member Name: " << memberName << ", Offset: " << memberInfo.offset
-                << ", Access Modifier: " << static_cast<int>(memberInfo.AccessModifier) << std::endl;
-            auto memberTypeInfo = memberInfo.typeInfo;
+        std::cout << "Type Name: " << typeinfoMember->Name() << std::endl;
+        std::cout << "Type Class: " << std::to_string(typeinfoMember->Class()) << std::endl;
+        std::cout << "Type Category: " << std::to_string(typeinfoMember->Category()) << std::endl;
+        std::cout << "Alignment: " << typeinfoMember->Alignment() << std::endl;
+        std::cout << "Size: " << typeinfoMember->Size() << std::endl;
+        for (const auto& [memberName, memberInfo] : typeinfoMember->Members()) {
+            std::cout << "Member Name: " << memberName << ", Offset: " << memberInfo->Offset()
+                << ", Access Modifier: " << static_cast<int>(memberInfo->AccessModifier()) << std::endl;
+            auto memberTypeInfo = memberInfo->TypeInfo();
             if (memberTypeInfo) {
-                std::cout << "\tMember Type Name: " << memberTypeInfo->Name << std::endl;
-                std::cout << "\tMember Type Class: " << std::to_string(memberTypeInfo->Class) << std::endl;
-                std::cout << "\tMember Type Category: " << std::to_string(memberTypeInfo->Category) << std::endl;
-                std::cout << "\tMember Type Alignment: " << memberTypeInfo->Alligment << std::endl;
-                std::cout << "\tMember Type Size: " << memberTypeInfo->Size << std::endl;
+                std::cout << "\tMember Type Name: " << memberTypeInfo->Name() << std::endl;
+                std::cout << "\tMember Type Class: " << std::to_string(memberTypeInfo->Class()) << std::endl;
+                std::cout << "\tMember Type Category: " << std::to_string(memberTypeInfo->Category()) << std::endl;
+                std::cout << "\tMember Type Alignment: " << memberTypeInfo->Alignment() << std::endl;
+                std::cout << "\tMember Type Size: " << memberTypeInfo->Size() << std::endl;
             }
             else {
                 std::cout << "\tMember Type Info not found" << std::endl;

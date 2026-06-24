@@ -76,19 +76,19 @@ export namespace UPRISE_ENGINE::SERIALISATION {
         std::unordered_map<std::string, std::unique_ptr<FunctionMemberInfo>> functionMembers;
         std::unordered_map<std::string, std::unique_ptr<ConstructorInfo>> constructors;
         std::unique_ptr<DestructorInfo> destructor;
-        TypeInfoState state = TypeInfoState::Default;
+        TypeInfoState state = TypeInfoState::Placeholder;
 
     public:
-        const std::unordered_map<std::string, std::unique_ptr<MemberInfo>>& Members() const noexcept {
+        UPRISE_SERIALISATION_API const std::unordered_map<std::string, std::unique_ptr<MemberInfo>>& Members() const noexcept {
             return members;
         }
-        const std::unordered_map<std::string, std::unique_ptr<FunctionMemberInfo>>& FunctionMembers() const noexcept {
+        UPRISE_SERIALISATION_API const std::unordered_map<std::string, std::unique_ptr<FunctionMemberInfo>>& FunctionMembers() const noexcept {
             return functionMembers;
         }
-        const std::unordered_map<std::string, std::unique_ptr<ConstructorInfo>>& GetConstructors() const noexcept {
+        UPRISE_SERIALISATION_API  const std::unordered_map<std::string, std::unique_ptr<ConstructorInfo>>& GetConstructors() const noexcept {
             return constructors;
         }
-        const DestructorInfo* GetDestructor() const noexcept {
+        UPRISE_SERIALISATION_API const DestructorInfo* GetDestructor() const noexcept {
             if (!destructor) {
                 return nullptr;
             }
@@ -96,73 +96,74 @@ export namespace UPRISE_ENGINE::SERIALISATION {
 
         }
 
-        const std::string& Name() const noexcept {
+        UPRISE_SERIALISATION_API const std::string& Name() const noexcept {
             return name;
         }
-        TypeCategory Category() const noexcept {
+        UPRISE_SERIALISATION_API TypeCategory Category() const noexcept {
             return category;
         }
-        TypeClass Class() const noexcept {
+
+        UPRISE_SERIALISATION_API TypeClass Class() const noexcept {
             return class_;
         }
-        size_t Alignment() const noexcept {
+        UPRISE_SERIALISATION_API size_t Alignment() const noexcept {
             return alligment;
         }
-        size_t Size() const noexcept {
+        UPRISE_SERIALISATION_API size_t Size() const noexcept {
             return size;
         }
-        bool IsMoveConstructible() const noexcept {
+        UPRISE_SERIALISATION_API bool IsMoveConstructible() const noexcept {
             return isMoveConstructible;
         }
-        bool IsCopyConstructible() const noexcept {
+        UPRISE_SERIALISATION_API bool IsCopyConstructible() const noexcept {
             return isCopyConstructible;
         }
 
-        bool IsDefaultConstructible() const noexcept {
+        UPRISE_SERIALISATION_API bool IsDefaultConstructible() const noexcept {
             return isDefaultConstructible;
         }
-        bool IsCopyAssignable() const noexcept {
+        UPRISE_SERIALISATION_API bool IsCopyAssignable() const noexcept {
             return isCopyAssignable;
         }
-        bool IsMoveAssignable() const noexcept {
+        UPRISE_SERIALISATION_API bool IsMoveAssignable() const noexcept {
             return isMoveAssignable;
         }
-        bool IsTriviallyCopyable() const noexcept {
+        UPRISE_SERIALISATION_API bool IsTriviallyCopyable() const noexcept {
             return isTriviallyCopyable;
         }
-        const ConstructorInfo* GetConstructor(const std::string& key) const {
+        UPRISE_SERIALISATION_API const ConstructorInfo* GetConstructor(const std::string& key) const {
             if (auto it = constructors.find(key); it != constructors.end()) {
                 return it->second.get();
             }
             return nullptr;
         }
-        const MemberInfo* GetMember(const std::string& key) const {
+        UPRISE_SERIALISATION_API const MemberInfo* GetMember(const std::string& key) const {
             auto it = members.find(key);
             if (it != members.end()) {
                 return it->second.get();
             }
             return nullptr;
         }
-        const FunctionMemberInfo* GetFunctionMember(const std::string& key) const {
+        UPRISE_SERIALISATION_API const FunctionMemberInfo* GetFunctionMember(const std::string& key) const {
             auto it = functionMembers.find(key);
             if (it != functionMembers.end()) {
                 return it->second.get();
             }
             return nullptr;
         }
-        bool operator==(const SerializedTypeInfo& other) const noexcept {
+        UPRISE_SERIALISATION_API  bool operator==(const SerializedTypeInfo& other) const noexcept {
             return this == &other;//Serialized Type info are globally unique and only one of each can exist;
         }
-        TypeInfoState State() const noexcept {
+        UPRISE_SERIALISATION_API TypeInfoState State() const noexcept {
             return state;
         }
         UPRISE_SERIALISATION_API bool InsertConstructor(std::unique_ptr<ConstructorInfo> constructorInfo);
         UPRISE_SERIALISATION_API bool InsertMember(std::unique_ptr<MemberInfo> memberInfo);
         UPRISE_SERIALISATION_API bool InsertFunctionMember(std::unique_ptr<FunctionMemberInfo> functionMemberInfo);
         UPRISE_SERIALISATION_API SerializedTypeInfo() = default;
-        SerializedTypeInfo& operator=(SerializedTypeInfo&& other) noexcept = default;
+        UPRISE_SERIALISATION_API SerializedTypeInfo& operator=(SerializedTypeInfo&& other) noexcept = default;
         UPRISE_SERIALISATION_API SerializedTypeInfo(SerializedTypeInfo&& other)noexcept = default;
-        SerializedTypeInfo(const std::string& name,
+        UPRISE_SERIALISATION_API SerializedTypeInfo(const std::string& name,
                            TypeClass class_,
                            TypeCategory category,
                            size_t alligment,
@@ -191,52 +192,54 @@ export namespace UPRISE_ENGINE::SERIALISATION {
             members(std::move(members)),
             functionMembers(std::move(functionMembers)),
             constructors(std::move(constructors)),
-            destructor(std::move(destructor)) {}
+            destructor(std::move(destructor)),
+        state(TypeInfoState::Registered){}
     private:
         SerializedTypeInfo(const SerializedTypeInfo& other) = delete;
         SerializedTypeInfo& operator=(const SerializedTypeInfo& other) = delete;
     };
     class MemberInfo {
         UPRISE_SERIALISATION_API bool CheckType(std::string type) const;
+        UPRISE_SERIALISATION_API bool CheckClassType(std::string type) const;
 
         std::string name;
         size_t offset;
         const SerializedTypeInfo* typeInfo;
-        AccesebilityModifiers AccessModifier;
+        AccesebilityModifiers accessModifier;
         const SerializedTypeInfo* classType;
     public:
-        MemberInfo() = default;
-        MemberInfo(const std::string& name, size_t offset, const SerializedTypeInfo* typeInfo, AccesebilityModifiers accessModifier, const SerializedTypeInfo* classType) noexcept
-            : name(name), offset(offset), typeInfo(typeInfo), AccessModifier(accessModifier), classType(classType) {}
-        const std::string& Name() const noexcept {
+        UPRISE_SERIALISATION_API MemberInfo() = default;
+        UPRISE_SERIALISATION_API MemberInfo(const std::string& name, size_t offset, const SerializedTypeInfo* typeInfo, AccesebilityModifiers accessModifier, const SerializedTypeInfo* classType) noexcept
+            : name(name), offset(offset), typeInfo(typeInfo), accessModifier(accessModifier), classType(classType) {}
+        UPRISE_SERIALISATION_API const std::string& Name() const noexcept {
             return name;
         }
-        const SerializedTypeInfo* TypeInfo() const noexcept {
+        UPRISE_SERIALISATION_API const SerializedTypeInfo* TypeInfo() const noexcept {
             return typeInfo;
         }
-        const SerializedTypeInfo* ClassType() const noexcept {
+        UPRISE_SERIALISATION_API const SerializedTypeInfo* ClassType() const noexcept {
             return classType;
         }
-        size_t Offset() const noexcept {
+        UPRISE_SERIALISATION_API size_t Offset() const noexcept {
             return offset;
         }
-        AccesebilityModifiers GetAccessModifier() const noexcept {
-            return AccessModifier;
+        UPRISE_SERIALISATION_API AccesebilityModifiers AccessModifier() const noexcept {
+            return accessModifier;
         }
         UPRISE_SERIALISATION_API void SetRaw(void* obj, void* value, bool assign) const;
         UPRISE_SERIALISATION_API void GetRaw(void* obj, void* out, bool assign) const;
-        void* GetPtrRaw(void* obj) const {
+        UPRISE_SERIALISATION_API void* GetPtrRaw(void* obj) const {
             if (reinterpret_cast<uintptr_t>(obj) % classType->Alignment()) {
                 throw AlignmentException("Object buffer is not properly aligned");
             }
             return reinterpret_cast<void*>(reinterpret_cast<uint8_t*>(obj) + offset);
         }
         template <typename U, typename T>
-        T* GetPtr(U* obj) const {
+        UPRISE_SERIALISATION_API  T* GetPtr(U* obj) const {
             if (!CheckType(typeid(T).name())) {
                 throw MismatchedTypeException("Invalid type");
             }
-            if (!CheckType(typeid(U).name())) {
+            if (!CheckClassType(typeid(U).name())) {
                 throw MismatchedTypeException("Invalid object type");
             }
             if (reinterpret_cast<uintptr_t>(obj) % classType->Alignment()) {
@@ -245,21 +248,21 @@ export namespace UPRISE_ENGINE::SERIALISATION {
             return reinterpret_cast<T*>(reinterpret_cast<uint8_t*>(obj) + offset);
         }
         template <typename T, typename U>
-        T Get(U* obj) const {
+        UPRISE_SERIALISATION_API  T Get(U* obj) const {
             if (!CheckType(typeid(T).name())) {
                 throw MismatchedTypeException("Invalid type");
             }
-            if (!CheckType(typeid(U).name())) {
+            if (!CheckClassType(typeid(U).name())) {
                 throw MismatchedTypeException("Invalid object type");
             }
             return *reinterpret_cast<T*>(reinterpret_cast<uint8_t*>(obj) + offset);
         }
         template <typename T, typename U>
-        void Set(U* obj, T value) const {
+        UPRISE_SERIALISATION_API void Set(U* obj, T value) const {
             if (!CheckType(typeid(T).name())) {
                 throw MismatchedTypeException("Invalid type");
             }
-            if (!CheckType(typeid(U).name())) {
+            if (!CheckClassType(typeid(U).name())) {
                 throw MismatchedTypeException("Invalid object type");
             }
             *reinterpret_cast<T*>(reinterpret_cast<uint8_t*>(obj) + offset) = value;
@@ -273,8 +276,8 @@ export namespace UPRISE_ENGINE::SERIALISATION {
         bool isNoexcept;
         const SerializedTypeInfo* classType;
     public:
-        ConstructorInfo() = default;
-        ConstructorInfo(const std::string& name,
+        UPRISE_SERIALISATION_API ConstructorInfo() = default;
+        UPRISE_SERIALISATION_API ConstructorInfo(const std::string& name,
                         void(*Invoker)(void* obj, void** params),
                         std::vector<const SerializedTypeInfo*> Parameters,
                         bool isNoexcept,
@@ -284,22 +287,22 @@ export namespace UPRISE_ENGINE::SERIALISATION {
             Parameters(std::move(Parameters)),
             isNoexcept(isNoexcept),
             classType(classType) {}
-        const std::string& Name() const noexcept {
+        UPRISE_SERIALISATION_API const std::string& Name() const noexcept {
             return name;
         }
-        const SerializedTypeInfo* ClassType() const noexcept {
+        UPRISE_SERIALISATION_API const SerializedTypeInfo* ClassType() const noexcept {
             return classType;
         }
-        bool Noexcept() const noexcept {
+        UPRISE_SERIALISATION_API bool Noexcept() const noexcept {
             return isNoexcept;
         }
-        bool hasInvoker() const noexcept {
+        UPRISE_SERIALISATION_API bool hasInvoker() const noexcept {
             return Invoker != nullptr;
         }
-        std::span<const SerializedTypeInfo* const> GetParameters() const noexcept {
+        UPRISE_SERIALISATION_API std::span<const SerializedTypeInfo* const> GetParameters() const noexcept {
             return std::span<const SerializedTypeInfo* const>(Parameters.data(), Parameters.size());
         }
-        void InvokeRaw(void* obj, void** params) const {
+        UPRISE_SERIALISATION_API  void InvokeRaw(void* obj, void** params) const {
             if (reinterpret_cast<uintptr_t>(obj) % classType->Alignment()) {
                 throw AlignmentException("Object buffer is not properly aligned");
             }
@@ -311,7 +314,7 @@ export namespace UPRISE_ENGINE::SERIALISATION {
             Invoker(obj, params);
         }
         template<typename R, typename ...Args>
-        R Invoke(Args... args)const {
+        UPRISE_SERIALISATION_API  R Invoke(Args... args)const {
             if (!CheckTypes({ typeid(Args).name()... })) {
                 throw MismatchedTypeException("Invalid argument types");
             }
@@ -335,22 +338,22 @@ export namespace UPRISE_ENGINE::SERIALISATION {
         bool isNoexcept;
         UPRISE_SERIALISATION_API bool CheckClassType(std::string params)const;
     public:
-        DestructorInfo() = default;
-        DestructorInfo(const std::string& name, void(*invoker)(void* obj), bool isNoexcept) noexcept
-            : name(name), invoker(invoker), isNoexcept(isNoexcept) {}
-        const std::string& Name() const noexcept {
+        UPRISE_SERIALISATION_API DestructorInfo() = default;
+        UPRISE_SERIALISATION_API  DestructorInfo(const std::string& name, void(*invoker)(void* obj), bool isNoexcept,const SerializedTypeInfo* classType_) noexcept
+            : name(name), invoker(invoker),classType(classType_), isNoexcept(isNoexcept) {}
+        UPRISE_SERIALISATION_API const std::string& Name() const noexcept {
             return name;
         }
-        const SerializedTypeInfo* ClassType() const noexcept {
+        UPRISE_SERIALISATION_API const SerializedTypeInfo* ClassType() const noexcept {
             return classType;
         }
-        bool Noexcept() const noexcept {
+        UPRISE_SERIALISATION_API  bool Noexcept() const noexcept {
             return isNoexcept;
         }
-        bool hasInvoker() const noexcept {
+        UPRISE_SERIALISATION_API  bool hasInvoker() const noexcept {
             return invoker != nullptr;
         }
-        void InvokeRaw(void* obj) const {
+        UPRISE_SERIALISATION_API  void InvokeRaw(void* obj) const {
             if (reinterpret_cast<uintptr_t>(obj) % classType->Alignment()) {
                 throw AlignmentException("Object buffer is not properly aligned");
             }
@@ -360,7 +363,7 @@ export namespace UPRISE_ENGINE::SERIALISATION {
             invoker(obj);
         }
         template <typename T>
-        void Invoke(T* obj) const {
+        UPRISE_SERIALISATION_API  void Invoke(T* obj) const {
             if (!obj) {
                 throw std::runtime_error("Object pointer is null");
             }
@@ -386,8 +389,8 @@ export namespace UPRISE_ENGINE::SERIALISATION {
         bool noexcept_;
         UPRISE_ENGINE::SERIALISATION::CallingConvention convention;
     public:
-        FunctionMemberInfo() = default;
-        FunctionMemberInfo(const std::string& name,
+        UPRISE_SERIALISATION_API   FunctionMemberInfo() = default;
+        UPRISE_SERIALISATION_API   FunctionMemberInfo(const std::string& name,
                          void(*invoker)(void* obj, void**, void* out),
                          const SerializedTypeInfo* returnType,
                          std::vector<const SerializedTypeInfo*> parameters,
@@ -403,30 +406,30 @@ export namespace UPRISE_ENGINE::SERIALISATION {
             const_(const_),
             noexcept_(noexcept_),
             convention(convention) {}
-        std::string Name() const noexcept {
+        UPRISE_SERIALISATION_API   std::string Name() const noexcept {
 
             return name;
         }
-        const SerializedTypeInfo* ReturnType() const noexcept {
+        UPRISE_SERIALISATION_API  const SerializedTypeInfo* ReturnType() const noexcept {
             return returnType;
         }
-        const std::vector<const SerializedTypeInfo*>& Parameters() const noexcept {
+        UPRISE_SERIALISATION_API  const std::vector<const SerializedTypeInfo*>& Parameters() const noexcept {
             return parameters;
         }
-        CallingConvention CallingConvention() const noexcept {
+        UPRISE_SERIALISATION_API   CallingConvention CallingConvention() const noexcept {
             return convention;
         }
-        bool Const() const noexcept {
+        UPRISE_SERIALISATION_API  bool Const() const noexcept {
             return const_;
         }
-        bool Noexcept() const noexcept {
+        UPRISE_SERIALISATION_API  bool Noexcept() const noexcept {
             return noexcept_;
         }
-        const SerializedTypeInfo* ClassType() const noexcept {
+        UPRISE_SERIALISATION_API   const SerializedTypeInfo* ClassType() const noexcept {
             return classType;
         }
-        template<typename T, typename R, typename ... Args>
-        R Invoke(T* obj, Args... args) const {
+        template<typename R, typename T, typename ... Args>
+        UPRISE_SERIALISATION_API    R Invoke(T* obj, Args... args) const {
             if (!invoker) {
                 throw std::runtime_error("Invalid function invoker");
             }
@@ -444,7 +447,7 @@ export namespace UPRISE_ENGINE::SERIALISATION {
             invoker(obj, argArray, &returnValue);
             return *reinterpret_cast<R*>(returnValue.data());
         }
-        void InvokeRaw(void* obj, void** args, void* out) const {
+        UPRISE_SERIALISATION_API   void InvokeRaw(void* obj, void** args, void* out) const {
             if (!obj) {
                 throw std::runtime_error("Object pointer is null");
             }
@@ -466,4 +469,21 @@ export namespace UPRISE_ENGINE::SERIALISATION {
         }
     };
 
+}
+
+export namespace std{
+    std::string to_string(UPRISE_ENGINE::SERIALISATION::TypeInfoState state) {
+        switch (state) {
+            case UPRISE_ENGINE::SERIALISATION::TypeInfoState::Default:
+                return "Default";
+            case UPRISE_ENGINE::SERIALISATION::TypeInfoState::Registered:
+                return "Registered";
+            case UPRISE_ENGINE::SERIALISATION::TypeInfoState::Placeholder:
+                return "Placeholder";
+            case UPRISE_ENGINE::SERIALISATION::TypeInfoState::Generated:
+                return "Generated";
+            default:
+                return "Unknown";
+        }
+    }
 }

@@ -186,8 +186,8 @@ export  namespace UPRISE_ENGINE::SERIALISATION {
     class RTTIStorage {
 
 
-        inline static  std::unordered_map<std::string, SerializedTypeInfo**>& RegisteredTypes() {
-            static std::unordered_map<std::string, SerializedTypeInfo**> registeredTypes;
+        inline static  std::unordered_map<std::string, std::unique_ptr<SerializedTypeInfo*>>& RegisteredTypes() {
+            static std::unordered_map<std::string, std::unique_ptr<SerializedTypeInfo*>> registeredTypes;
             return registeredTypes;
         }
         inline static std::unordered_map<std::string, std::string>& RawTypeNameToRegisteredTypeNameMap() {
@@ -201,7 +201,7 @@ export  namespace UPRISE_ENGINE::SERIALISATION {
         UPRISE_SERIALISATION_API static const SerializedTypeInfo* Get(const std::string& name);
         UPRISE_SERIALISATION_API static void PrintAll();
     };
-    struct PrivateAccesRTTI {
+    struct PrivateAccessRTTI {
         template<typename T, typename MemberPtr>
             requires  std::is_member_object_pointer_v<MemberPtr>
         static MemberInfo CreateMemberInfo(const std::string& name, MemberPtr memberPtr, AccesebilityModifiers accessModifier) {
@@ -226,42 +226,43 @@ export  namespace UPRISE_ENGINE::SERIALISATION {
                     nullptr
                 );
 
-            RTTIStorage::RegisterType(std::move(ptrInfo), typeid(MemberType).name(), typeid(MemberType).raw_name());
+                RTTIStorage::RegisterType(std::move(ptrInfo), typeid(MemberType).name(), typeid(MemberType).raw_name());
             }
-            
+
         }
     };
     template <typename T, typename MemberPtr>
         requires  std::is_member_object_pointer_v<MemberPtr>
     MemberInfo CreateMemberInfo(const std::string& name, MemberPtr memberPtr, AccesebilityModifiers accessModifier) {
-        MemberInfo memberInfo;
-        memberInfo.name = name;
-        memberInfo.offset = reinterpret_cast<size_t>(&(reinterpret_cast<T*>(0)->*memberPtr));
         using MemberType = typename std::remove_cv_t<std::remove_reference_t<decltype(std::declval<T>().*memberPtr)>>;
-        memberInfo.typeInfo = RTTIStorage::internalGetTypeOrPlaceholder(typeid(MemberType).name());
+
         if constexpr (std::is_pointer_v<MemberType>) {
             SerializedTypeInfo ptrInfo(
                 typeid(MemberType).name(),
                 GetTypeClass<MemberType>(),
                 GetTypeCategory<MemberType>(),
                 alignof(MemberType),
-                sizeof(MemberType), 
+                sizeof(MemberType),
                 std::is_move_constructible_v<MemberType>,
                 std::is_copy_constructible_v<MemberType>,
                 std::is_default_constructible_v<MemberType>,
                 std::is_trivially_copyable_v<MemberType>,
                 std::is_copy_assignable_v<MemberType>,
-                std::is_move_assignable_v<MemberType>,
-                nullptr
+                std::is_move_assignable_v<MemberType>, {}, {}, {}, nullptr
+               
 
             );
 
 
             RTTIStorage::RegisterType(std::move(ptrInfo), typeid(MemberType).name(), typeid(MemberType).raw_name());
         }
-        memberInfo.AccessModifier = accessModifier;
-
-        return memberInfo;
+        return MemberInfo(
+            name,
+            reinterpret_cast<size_t>(&(reinterpret_cast<T*>(0)->*memberPtr)),
+            RTTIStorage::internalGetTypeOrPlaceholder(typeid(MemberType).name()),
+            accessModifier,
+            RTTIStorage::internalGetTypeOrPlaceholder(typeid(T).name())
+        );
     }
 
     template<typename Fn, size_t... I>
@@ -292,7 +293,8 @@ export  namespace UPRISE_ENGINE::SERIALISATION {
         return DestructorInfo(
                 name,
                 &DestructorThunk<T>,
-                std::is_nothrow_destructible_v<T>
+                std::is_nothrow_destructible_v<T>,
+                RTTIStorage::internalGetTypeOrPlaceholder(typeid(T).name())
         );
     }
 
@@ -362,8 +364,18 @@ export  namespace UPRISE_ENGINE::SERIALISATION {
             typeid(T).name(),
             GetTypeClass<T>(),
             GetTypeCategory<T>(),
-                std::is_same_v<T, void> ? 0 : alignof(T),
-                std::is_same_v<T, void> ? 0 : sizeof(T),
+                []() {if constexpr (std::is_same_v<T, void>) {
+                return 0ULL;
+            }
+                else {
+                return alignof(T);
+            }}(),
+                []() {if constexpr (std::is_same_v<T, void>) {
+                return 0ULL;
+            }
+                else {
+                return sizeof(T);
+            }}(),
                 std::is_move_constructible_v<T>,
                 std::is_copy_constructible_v<T>,
                 std::is_default_constructible_v<T>,
@@ -371,19 +383,19 @@ export  namespace UPRISE_ENGINE::SERIALISATION {
                 std::is_copy_assignable_v<T>,
                 std::is_move_assignable_v<T>,
                 [&]()->std::unordered_map<std::string, std::unique_ptr<MemberInfo>> {
-                    std::unordered_map<std::string, std::unique_ptr<MemberInfo>> members;
-                    for (const MemberInfo& member : memberInfos.members) {
-                        if (!members.emplace(member.name, std::make_unique<MemberInfo>(member)).second) {
-                            throw std::runtime_error("Duplicate member name: " + member.name);
-                        }
+                std::unordered_map<std::string, std::unique_ptr<MemberInfo>> members;
+                for (const MemberInfo& member : memberInfos.members) {
+                    if (!members.emplace(member.Name(), std::make_unique<MemberInfo>(member)).second) {
+                        throw std::runtime_error("Duplicate member name: " + member.Name());
                     }
-                    return members;
+                }
+                return members;
                 }(),
                     [&]()->std::unordered_map<std::string, std::unique_ptr<FunctionMemberInfo>> {
                     std::unordered_map<std::string, std::unique_ptr<FunctionMemberInfo>> functionMembers;
                     for (const FunctionMemberInfo& functionMember : functionMemberInfos.members) {
-                        if (!functionMembers.emplace(functionMember.name, std::make_unique<FunctionMemberInfo>(functionMember)).second) {
-                            throw std::runtime_error("Duplicate function member name: " + functionMember.name);
+                        if (!functionMembers.emplace(functionMember.Name(), std::make_unique<FunctionMemberInfo>(functionMember)).second) {
+                            throw std::runtime_error("Duplicate function member name: " + functionMember.Name());
                         }
                     }
                     return functionMembers;
@@ -391,8 +403,8 @@ export  namespace UPRISE_ENGINE::SERIALISATION {
                         [&]()->std::unordered_map<std::string, std::unique_ptr<ConstructorInfo>> {
                         std::unordered_map<std::string, std::unique_ptr<ConstructorInfo>> constructors;
                         for (const ConstructorInfo& constructorInfo : constructorInfos.members) {
-                            if (!constructors.emplace(constructorInfo.name, std::make_unique<ConstructorInfo>(constructorInfo)).second) {
-                                throw std::runtime_error("Duplicate constructor name: " + constructorInfo.name);
+                            if (!constructors.emplace(constructorInfo.Name(), std::make_unique<ConstructorInfo>(constructorInfo)).second) {
+                                throw std::runtime_error("Duplicate constructor name: " + constructorInfo.Name());
                             }
                         }
                         return constructors;

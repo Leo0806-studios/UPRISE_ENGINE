@@ -44,6 +44,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v145</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
+    <EnableASAN>true</EnableASAN>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -162,6 +163,8 @@
       <DisableAnalyzeExternal>true</DisableAnalyzeExternal>
       <ScanSourceForModuleDependencies>true</ScanSourceForModuleDependencies>
       <DisableSpecificWarnings>4820;5045;4868;4686;4710;4711</DisableSpecificWarnings>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -175,6 +178,8 @@
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="INTERFACES.ixx" />
+    <ClCompile Include="JSON.cpp" />
+    <ClCompile Include="JSON.ixx" />
     <ClCompile Include="REFLECTION_EXCEPTIONS.ixx" />
     <ClCompile Include="RTTI_STORAGE.cpp" />
     <ClCompile Include="RTTI_STORAGE.ixx" />

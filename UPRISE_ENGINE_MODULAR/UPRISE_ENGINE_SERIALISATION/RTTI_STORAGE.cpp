@@ -6,7 +6,7 @@ namespace UPRISE_ENGINE::SERIALISATION {
         auto itt = registeredTypes.find(name);
         if (itt == registeredTypes.end()) {
             auto* obj = new SerializedTypeInfo(std::move(typeInfo));
-           registeredTypes.emplace(name,new SerializedTypeInfo*(obj) );
+            registeredTypes.emplace(name, std::make_unique<SerializedTypeInfo*>(obj));
         }
         else {
             **(*itt).second = std::move(typeInfo);
@@ -35,8 +35,9 @@ namespace UPRISE_ENGINE::SERIALISATION {
         const auto it = lst.find(name);
         if (it == lst.end())
         {
-
-            return(*(RegisteredTypes()[name]) = new SerializedTypeInfo());
+            auto newInfo = new SerializedTypeInfo();
+            
+            return*(RegisteredTypes()[name] = std::make_unique<SerializedTypeInfo*>(newInfo));
         }
         return *it->second;
 
@@ -51,7 +52,7 @@ namespace UPRISE_ENGINE::SERIALISATION {
             std::cout << "Size: " << (*typeInfo)->Size() << std::endl;
             for (const auto& [memberName, memberInfo] : (*typeInfo)->Members()) {
                 std::cout << "\tMember Name: " << memberName << ", Offset: " << memberInfo->Name()
-                    << ", Access Modifier: " << static_cast<int>(memberInfo->GetAccessModifier()) << std::endl;
+                    << ", Access Modifier: " << static_cast<int>(memberInfo->AccessModifier()) << std::endl;
                 auto memberTypeInfo = memberInfo->TypeInfo();
                 if (memberTypeInfo) {
                     std::cout << "\t\tMember Type Name: " << memberTypeInfo->Name() << std::endl;
@@ -80,6 +81,22 @@ namespace UPRISE_ENGINE::SERIALISATION {
                     std::cout << "\t\tReturn Type Info not found" << std::endl;
                 }
                 for (const auto& paramTypeWeakPtr : functionMemberInfo->Parameters()) {
+                    auto paramTypeInfo = paramTypeWeakPtr;
+                    if (paramTypeInfo) {
+                        std::cout << "\t\tParameter Type Name: " << paramTypeInfo->Name() << std::endl;
+                        std::cout << "\t\tParameter Type Class: " << std::to_string(paramTypeInfo->Class()) << std::endl;
+                        std::cout << "\t\tParameter Type Category: " << std::to_string(paramTypeInfo->Category()) << std::endl;
+                        std::cout << "\t\tParameter Type Alignment: " << paramTypeInfo->Alignment() << std::endl;
+                        std::cout << "\t\tParameter Type Size: " << paramTypeInfo->Size() << std::endl;
+                    }
+                    else {
+                        std::cout << "\t\tParameter Type Info not found" << std::endl;
+                    }
+                }
+            }
+            for (const auto& [constructorName, constructorInfo] : (*typeInfo)->GetConstructors()) {
+                std::cout << "\tConstructor Name: " << constructorName << std::endl;
+                for (const auto& paramTypeWeakPtr : constructorInfo->GetParameters()) {
                     auto paramTypeInfo = paramTypeWeakPtr;
                     if (paramTypeInfo) {
                         std::cout << "\t\tParameter Type Name: " << paramTypeInfo->Name() << std::endl;
