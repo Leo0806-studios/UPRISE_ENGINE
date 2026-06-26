@@ -57,6 +57,27 @@ export namespace UPRISE_ENGINE::SERIALISATION {
     class ConstructorInfo;
     class FunctionMemberInfo;
     class DestructorInfo;
+    class SerializedTypeInfo;
+    class RawType {
+        SerializedTypeInfo* typeInfo;
+        unsigned char* rawPtr;
+    public:
+        RawType() : typeInfo(nullptr), rawPtr(nullptr) {}
+        RawType(void* rawPtr_, SerializedTypeInfo* typeInfo) : typeInfo(typeInfo), rawPtr(static_cast<unsigned char*>(rawPtr)) {}
+        ~RawType() {
+            operator delete[](rawPtr, std::align_val_t(typeInfo->Alignment()));
+        }
+        void* data() const noexcept {
+            return rawPtr;
+        }
+        SerializedTypeInfo* type() const noexcept {
+            return typeInfo;
+        }
+
+        explicit(false) operator bool()const noexcept {
+            return rawPtr != nullptr && typeInfo != nullptr;
+        }
+    };
     class SerializedTypeInfo {
         friend class RTTIStrorage;
         template <typename T>

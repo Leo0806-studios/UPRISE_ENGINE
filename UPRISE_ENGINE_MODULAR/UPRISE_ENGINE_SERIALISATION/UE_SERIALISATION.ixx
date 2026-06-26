@@ -8,4 +8,5 @@ export import :SERIALIZER;
 export import :SERIALIZED_PTR;
 export import :TYPE_REGISTRAR_PARTIAL_STD_SPEC;
 export import :REFLECTION_EXCEPTIONS;
+export import :JSON_EXCEPTIONS;
 export import :JSON;

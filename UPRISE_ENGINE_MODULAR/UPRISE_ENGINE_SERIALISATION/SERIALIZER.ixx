@@ -2,6 +2,7 @@ export module UE_SERIALISATION:SERIALIZER;
 import std;
 import :RTTI_STORAGE;
 import:SERIALIZED_TYPE_INFO;
+import :JSON;
 //export namespace UPRISE_ENGINE::SERIALISATION {
 //    template<typename T,bool UseReflection>
 //    struct JsonSerializer {
@@ -26,7 +27,35 @@ import:SERIALIZED_TYPE_INFO;
 
 export namespace UPRISE_ENGINE::SERIALISATION {
     struct JsonSerializer {
-        
-};
+        template <typename T>
+        Json Serialize(const T& obj) {
+            const SerializedTypeInfo* typeInfo = RTTIStorage::Get(typeid(T).name());
+            if (!typeInfo) {
+                throw std::runtime_error("Type not registered for serialization");
+            }
+            // Implement serialization logic based on typeInfo
+        }
+        Json Serialize(const void* obj, const SerializedTypeInfo* typeInfo) {
+            if (!typeInfo) {
+                throw std::runtime_error("Type not registered for serialization");
+            }
+            // Implement serialization logic based on typeInfo
+        }
+        template <typename T>
+        T Deserialize(const Json& json) {
+            const SerializedTypeInfo* typeInfo = RTTIStorage::Get(typeid(T).name());
+            if (!typeInfo) {
+                throw std::runtime_error("Type not registered for deserialization");
+            }
+            // Implement deserialization logic based on typeInfo
+        }
+        void Deserialize(const Json& json, void* objOut, const SerializedTypeInfo* typeInfo) {
+            if (!typeInfo) {
+                throw std::runtime_error("Type not registered for deserialization");
+            }
+            // Implement deserialization logic based on typeInfo
+        }
+    
+    };
 
- }
+}
