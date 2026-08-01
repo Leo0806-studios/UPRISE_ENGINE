@@ -151,4 +151,8 @@ namespace UPRISE_ENGINE::SERIALISATION {
         }
         return false;
     }
+     RawType::~RawType() {
+        operator delete[](rawPtr, std::align_val_t(typeInfo->Alignment()));
+    }
+
 }

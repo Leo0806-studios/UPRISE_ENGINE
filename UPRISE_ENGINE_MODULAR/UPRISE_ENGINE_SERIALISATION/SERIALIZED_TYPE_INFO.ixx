@@ -63,10 +63,8 @@ export namespace UPRISE_ENGINE::SERIALISATION {
         unsigned char* rawPtr;
     public:
         RawType() : typeInfo(nullptr), rawPtr(nullptr) {}
-        RawType(void* rawPtr_, SerializedTypeInfo* typeInfo) : typeInfo(typeInfo), rawPtr(static_cast<unsigned char*>(rawPtr)) {}
-        ~RawType() {
-            operator delete[](rawPtr, std::align_val_t(typeInfo->Alignment()));
-        }
+        RawType(void* rawPtr_, SerializedTypeInfo* typeInfo) : typeInfo(typeInfo), rawPtr(static_cast<unsigned char*>(rawPtr_)) {}
+        ~RawType();
         void* data() const noexcept {
             return rawPtr;
         }
@@ -490,6 +488,7 @@ export namespace UPRISE_ENGINE::SERIALISATION {
         }
     };
 
+    
 }
 
 export namespace std{
