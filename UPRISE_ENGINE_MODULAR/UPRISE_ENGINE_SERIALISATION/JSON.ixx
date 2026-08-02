@@ -43,6 +43,7 @@ export namespace UPRISE_ENGINE::SERIALISATION {
             return std::get<T>(value);
         };
         void Traverse(const std::function<void(const Json&)>& func) const;
+        void Emplace(const std::string& key, Json&& value);
         
     };
     class JsonParse {

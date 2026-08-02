@@ -3,6 +3,7 @@ import std;
 import :RTTI_STORAGE;
 import:SERIALIZED_TYPE_INFO;
 import :JSON;
+import :REFLECTION_EXCEPTIONS;
 //export namespace UPRISE_ENGINE::SERIALISATION {
 //    template<typename T,bool UseReflection>
 //    struct JsonSerializer {
@@ -23,21 +24,38 @@ import :JSON;
 //    };
 //}
 //
+namespace {
+    UPRISE_ENGINE::SERIALISATION::Json SerializePrimitive(void* obj, const UPRISE_ENGINE::SERIALISATION::SerializedTypeInfo* typeInfo) {
+        using namespace UPRISE_ENGINE::SERIALISATION;
+        if (*typeInfo == *RTTIStorage::Get(typeid(int).name()) {
 
-
+        }
+    }
+}
 export namespace UPRISE_ENGINE::SERIALISATION {
     struct JsonSerializer {
         template <typename T>
         Json Serialize(const T& obj) {
             const SerializedTypeInfo* typeInfo = RTTIStorage::Get(typeid(T).name());
             if (!typeInfo) {
-                throw std::runtime_error("Type not registered for serialization");
+                throw std::runtime_error("Type not registered");
             }
-            // Implement serialization logic based on typeInfo
+            auto sserialize = typeInfo->GetFunctionMember("Serialize");
+            if (sserialize) {
+                return sserialize->Invoke<Json>(&obj);
+            }
+            auto& members = typeInfo->Members();
+            for (const auto& [memberName, memberInfo] : members) {
+
+            }
+
         }
         Json Serialize(const void* obj, const SerializedTypeInfo* typeInfo) {
             if (!typeInfo) {
-                throw std::runtime_error("Type not registered for serialization");
+                throw std::runtime_error("Invalid Type Info");
+            }
+            if (std::bit_cast<uint64_t>(obj) % typeInfo->Alignment()) {
+                throw AlignmentException("Object buffer is not properly aligned");
             }
             // Implement serialization logic based on typeInfo
         }
@@ -45,17 +63,28 @@ export namespace UPRISE_ENGINE::SERIALISATION {
         T Deserialize(const Json& json) {
             const SerializedTypeInfo* typeInfo = RTTIStorage::Get(typeid(T).name());
             if (!typeInfo) {
-                throw std::runtime_error("Type not registered for deserialization");
+                throw std::runtime_error("Type not registered");
+
             }
             // Implement deserialization logic based on typeInfo
         }
         void Deserialize(const Json& json, void* objOut, const SerializedTypeInfo* typeInfo) {
             if (!typeInfo) {
-                throw std::runtime_error("Type not registered for deserialization");
+                throw std::runtime_error("Invalid Type Info");
+
+            }
+            if (std::bit_cast<uint64_t>(objOut) % typeInfo->Alignment()) {
+                throw AlignmentException("Output buffer is not properly aligned");
+            }
+            auto deserialize = typeInfo->GetFunctionMember("Deserialize");
+            if (deserialize) {
+                void* args[] = { const_cast<Json*>(&json) };
+                deserialize->InvokeRaw(objOut, args, nullptr);
+                return;
             }
             // Implement deserialization logic based on typeInfo
         }
-    
+
     };
 
 }

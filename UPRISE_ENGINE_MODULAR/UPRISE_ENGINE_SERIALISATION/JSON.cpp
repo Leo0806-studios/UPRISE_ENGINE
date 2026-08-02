@@ -68,6 +68,10 @@ namespace UPRISE_ENGINE::SERIALISATION {
         auto lambda = [](auto&&) {};
         std::visit(lambda, value);
     }
+    void Json::Emplace(const std::string& key, Json&& value)
+    {
+    
+    }
     Json JsonParse::parseObject() {
         getChar(); // {
 
