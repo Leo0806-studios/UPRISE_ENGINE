@@ -152,7 +152,18 @@ namespace UPRISE_ENGINE::SERIALISATION {
         return false;
     }
      RawType::~RawType() {
+         if (!rawPtr || !typeInfo) {
+             return;
+         }
+         if (typeInfo->IsArray()) {
+             typeInfo->GetDestructor()->InvokeRaw(rawPtr);
         operator delete[](rawPtr, std::align_val_t(typeInfo->Alignment()));
+
+         }
+         else {
+             typeInfo->GetDestructor()->InvokeRaw(rawPtr);
+             operator delete(rawPtr, std::align_val_t(typeInfo->Alignment()));
+         }
     }
 
 }

@@ -10,6 +10,9 @@ namespace UPRISE_ENGINE::SERIALISATION {
         template<typename T>
         consteval TypeCategory GetTypeCategory() {
             if constexpr (std::is_integral_v<T>) {
+                if constexpr (std::is_unsigned_v<T>) {
+                    return TypeCategory::InbuildUnsignedIntegral;
+                }
                 return TypeCategory::InbuildIntegral;
             }
             else if constexpr (std::is_floating_point_v<T>) {
@@ -235,9 +238,9 @@ export  namespace UPRISE_ENGINE::SERIALISATION {
         requires  std::is_member_object_pointer_v<MemberPtr>
     MemberInfo CreateMemberInfo(const std::string& name, MemberPtr memberPtr, AccesebilityModifiers accessModifier) {
         using MemberType = typename std::remove_cv_t<std::remove_reference_t<decltype(std::declval<T>().*memberPtr)>>;
-
-        if constexpr (std::is_pointer_v<MemberType>) {
-            SerializedTypeInfo ptrInfo(
+        if constexpr (std::is_array_v<MemberType>) {
+            std::string nameofElementType = typeid(std::remove_extent_t<MemberType>).name();
+            SerializedTypeInfo arrayInfo(
                 typeid(MemberType).name(),
                 GetTypeClass<MemberType>(),
                 GetTypeCategory<MemberType>(),
@@ -249,6 +252,22 @@ export  namespace UPRISE_ENGINE::SERIALISATION {
                 std::is_trivially_copyable_v<MemberType>,
                 std::is_copy_assignable_v<MemberType>,
                 std::is_move_assignable_v<MemberType>, {}, {}, {}, nullptr
+            );
+        }
+        if constexpr (std::is_pointer_v<MemberType>) {
+            std::string nameOfPointedToType = typeid(std::remove_pointer_t<MemberType>).name();
+            SerializedTypeInfo ptrInfo(
+                typeid(MemberType).name(),
+                GetTypeClass<MemberType>(),
+                GetTypeCategory<MemberType>(),
+                alignof(MemberType),
+                sizeof(MemberType),
+                std::is_move_constructible_v<MemberType>,
+                std::is_copy_constructible_v<MemberType>,
+                std::is_default_constructible_v<MemberType>,
+                std::is_trivially_copyable_v<MemberType>,
+                std::is_copy_assignable_v<MemberType>,
+                std::is_move_assignable_v<MemberType>,RTTIStorage::internalGetTypeOrPlaceholder(nameOfPointedToType),{}, {}, {}, {}, nullptr
                
 
             );
@@ -452,6 +471,8 @@ export namespace std {
         switch (typeCategory) {
             case UPRISE_ENGINE::SERIALISATION::TypeCategory::InbuildIntegral:
                 return "InbuildIntegral";
+            case UPRISE_ENGINE::SERIALISATION::TypeCategory::InbuildUnsignedIntegral:
+                return "InbuildUnsignedIntegral";
             case UPRISE_ENGINE::SERIALISATION::TypeCategory::InbuildFloatingPoint:
                 return "InbuildFloatingPoint";
             case UPRISE_ENGINE::SERIALISATION::TypeCategory::InbuildVoid:

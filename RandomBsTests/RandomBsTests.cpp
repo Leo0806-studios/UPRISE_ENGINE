@@ -11,6 +11,7 @@ struct FOO {
     std::string* strPtr;
     std::vector<std::unordered_map<std::string, std::list<std::vector<int>>>>* complexContainerPTR;
     std::string c;
+    int arr[5];
     FOO() : a(0), b(0.0f), ptr(nullptr), strPtr(nullptr), complexContainerPTR(nullptr), c("Hello") {}
     FOO(int a, float b, float* ptr, std::string* strPtr, std::vector<std::unordered_map<std::string, std::list<std::vector<int>>>>* complexContainerPTR, std::string c)
         : a(a), b(b), ptr(ptr), strPtr(strPtr), complexContainerPTR(complexContainerPTR), c(c) {}
@@ -33,6 +34,7 @@ UPRISE_ENGINE::SERIALISATION::TypeRegistrar<FOO> fooRegistrar(
     UPRISE_ENGINE::SERIALISATION::CreateMemberInfo<FOO>("a", &FOO::a, UPRISE_ENGINE::SERIALISATION::AccesebilityModifiers::Public),
     UPRISE_ENGINE::SERIALISATION::CreateMemberInfo<FOO>("b", &FOO::b, UPRISE_ENGINE::SERIALISATION::AccesebilityModifiers::Public),
     UPRISE_ENGINE::SERIALISATION::CreateMemberInfo<FOO>("c", &FOO::c, UPRISE_ENGINE::SERIALISATION::AccesebilityModifiers::Public),
+    UPRISE_ENGINE::SERIALISATION::CreateMemberInfo<FOO>("arr", &FOO::arr, UPRISE_ENGINE::SERIALISATION::AccesebilityModifiers::Public),
     UPRISE_ENGINE::SERIALISATION::CreateMemberInfo<FOO>("ptr", &FOO::ptr, UPRISE_ENGINE::SERIALISATION::AccesebilityModifiers::Public),
     UPRISE_ENGINE::SERIALISATION::CreateMemberInfo<FOO>("strPtr", &FOO::strPtr, UPRISE_ENGINE::SERIALISATION::AccesebilityModifiers::Public),    
     UPRISE_ENGINE::SERIALISATION::CreateMemberInfo<FOO>("complexContainerPTR", &FOO::complexContainerPTR, UPRISE_ENGINE::SERIALISATION::AccesebilityModifiers::Public)
@@ -57,7 +59,7 @@ UPRISE_ENGINE::SERIALISATION::TypeRegistrar<float> floatRegistrar;
 int main()
 { 
     std::ios::sync_with_stdio(false);
-
+ 
     auto FooInfo = UPRISE_ENGINE::SERIALISATION::RTTIStorage::Get(typeid(FOO).name());
     FOO fooInstance2 = FooInfo->GetConstructor("Constructor")->Invoke<FOO>();
     std::cout << "FOO instance created using constructor invoker: a=" << fooInstance2.a << ", b=" << fooInstance2.b << ", c=" << fooInstance2.c << std::endl;
@@ -73,6 +75,8 @@ int main()
     std::cout << " value trough getter: " << cinfo->Get<std::string>(&fooInstance2) << std::endl;
     auto Destructor = FooInfo->GetDestructor();
     Destructor->Invoke(&fooInstance2);
+    //recreate fooinstance2 so the later destructor is not called on a destroyed object
+    fooInstance2 = FooInfo->GetConstructor("Constructor")->Invoke<FOO>();
     std::string inStr = "Hello";
     int    ii = 0;
     FOO fooInstance;

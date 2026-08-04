@@ -27,8 +27,10 @@ import :REFLECTION_EXCEPTIONS;
 namespace {
     UPRISE_ENGINE::SERIALISATION::Json SerializePrimitive(void* obj, const UPRISE_ENGINE::SERIALISATION::SerializedTypeInfo* typeInfo) {
         using namespace UPRISE_ENGINE::SERIALISATION;
-        if (*typeInfo == *RTTIStorage::Get(typeid(int).name()) {
-
+        auto category = typeInfo->Category();
+        auto type = typeInfo->Class();
+        if ((type ==TypeClass::Primitive)&& (category== TypeCategory::InbuildIntegral )) {
+            return Json(*reinterpret_cast<int64_t*>(obj));
         }
     }
 }
@@ -46,7 +48,14 @@ export namespace UPRISE_ENGINE::SERIALISATION {
             }
             auto& members = typeInfo->Members();
             for (const auto& [memberName, memberInfo] : members) {
-
+                if (memberInfo->TypeInfo()->Class() == TypeClass::Primitive) {
+                    void* memberPtr = reinterpret_cast<unsigned char*>(const_cast<T*>(&obj)) + memberInfo->Offset();
+                    Json memberJson = SerializePrimitive(memberPtr, memberInfo->TypeInfo());
+                    // Store or process memberJson as needed
+                }
+                else {
+                    // Handle non-primitive members (e.g., nested objects)
+                }
             }
 
         }
@@ -58,6 +67,7 @@ export namespace UPRISE_ENGINE::SERIALISATION {
                 throw AlignmentException("Object buffer is not properly aligned");
             }
             // Implement serialization logic based on typeInfo
+            return Json(false);
         }
         template <typename T>
         T Deserialize(const Json& json) {

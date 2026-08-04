@@ -26,6 +26,7 @@ export namespace UPRISE_ENGINE::SERIALISATION {
     };
     enum class TypeCategory :uint8_t {
         InbuildIntegral,
+        InbuildUnsignedIntegral,
         InbuildFloatingPoint,
         InbuildVoid,
         InbuildBool,
@@ -37,6 +38,7 @@ export namespace UPRISE_ENGINE::SERIALISATION {
         InbuildMemberPointer,
         InbuildFunctionMemberPointer,
         InbuildFunctionPointer,
+        TypeAggregate,//C style arrays
         Undefined = 255
 
     };
@@ -62,11 +64,19 @@ export namespace UPRISE_ENGINE::SERIALISATION {
         SerializedTypeInfo* typeInfo;
         unsigned char* rawPtr;
     public:
+        RawType(const RawType&) = delete;
+        RawType& operator=(const RawType&) = delete;
+
+        RawType(RawType&&) noexcept = default;
+        RawType& operator=(RawType&&) noexcept = default;
         RawType() : typeInfo(nullptr), rawPtr(nullptr) {}
-        RawType(void* rawPtr_, SerializedTypeInfo* typeInfo) : typeInfo(typeInfo), rawPtr(static_cast<unsigned char*>(rawPtr_)) {}
+        RawType(void*&& rawPtr_, SerializedTypeInfo* typeInfo) : typeInfo(typeInfo), rawPtr(static_cast<unsigned char*>(std::exchange(rawPtr_, nullptr))) {}
         ~RawType();
         void* data() const noexcept {
             return rawPtr;
+        }
+        void* release() noexcept {
+            return std::exchange(rawPtr, nullptr);
         }
         SerializedTypeInfo* type() const noexcept {
             return typeInfo;
@@ -77,6 +87,12 @@ export namespace UPRISE_ENGINE::SERIALISATION {
         }
     };
     class SerializedTypeInfo {
+    public:
+        struct ArrayInfo {
+            SerializedTypeInfo* elementType;
+            size_t elementCount;
+        };
+    private:
         friend class RTTIStrorage;
         template <typename T>
         friend class TypeRegistrar;
@@ -91,6 +107,9 @@ export namespace UPRISE_ENGINE::SERIALISATION {
         bool isTriviallyCopyable = false;
         bool isCopyAssignable = false;
         bool isMoveAssignable = false;
+
+        std::optional<ArrayInfo> arrayInfo;
+        std::optional<SerializedTypeInfo*> pointerTo;
         std::unordered_map<std::string, std::unique_ptr<MemberInfo>> members;
         std::unordered_map<std::string, std::unique_ptr<FunctionMemberInfo>> functionMembers;
         std::unordered_map<std::string, std::unique_ptr<ConstructorInfo>> constructors;
@@ -114,7 +133,24 @@ export namespace UPRISE_ENGINE::SERIALISATION {
             return destructor.get();
 
         }
-
+        UPRISE_SERIALISATION_API bool IsArray() const noexcept {
+            return arrayInfo.has_value();
+        }
+        UPRISE_SERIALISATION_API const ArrayInfo& GetArrayInfo() const  {
+            if (!arrayInfo) {
+                throw std::runtime_error("Type is not an array");
+            }
+            return *arrayInfo;
+        }
+        UPRISE_SERIALISATION_API bool IsPointer() const noexcept {
+            return pointerTo.has_value();
+        }
+        UPRISE_SERIALISATION_API const SerializedTypeInfo* GetPointerTo() const  {
+            if (!pointerTo) {
+                throw std::runtime_error("Type is not a pointer");
+            }
+            return *pointerTo;
+        }
         UPRISE_SERIALISATION_API const std::string& Name() const noexcept {
             return name;
         }
@@ -193,6 +229,8 @@ export namespace UPRISE_ENGINE::SERIALISATION {
                            bool isTriviallyCopyable,
                            bool isCopyAssignable,
                            bool isMoveAssignable,
+                           std::optional<SerializedTypeInfo*> pointerTo = std::nullopt,
+                           std::optional<ArrayInfo> arrayInfo = std::nullopt,
                            std::unordered_map<std::string, std::unique_ptr<MemberInfo>> members = {},
                            std::unordered_map<std::string, std::unique_ptr<FunctionMemberInfo>> functionMembers = {},
                            std::unordered_map<std::string, std::unique_ptr<ConstructorInfo>> constructors = {},
@@ -208,11 +246,13 @@ export namespace UPRISE_ENGINE::SERIALISATION {
             isTriviallyCopyable(isTriviallyCopyable),
             isCopyAssignable(isCopyAssignable),
             isMoveAssignable(isMoveAssignable),
+            arrayInfo(arrayInfo),
+            pointerTo(pointerTo),
             members(std::move(members)),
             functionMembers(std::move(functionMembers)),
             constructors(std::move(constructors)),
             destructor(std::move(destructor)),
-        state(TypeInfoState::Registered){}
+            state(TypeInfoState::Registered) {}
     private:
         SerializedTypeInfo(const SerializedTypeInfo& other) = delete;
         SerializedTypeInfo& operator=(const SerializedTypeInfo& other) = delete;
@@ -358,8 +398,8 @@ export namespace UPRISE_ENGINE::SERIALISATION {
         UPRISE_SERIALISATION_API bool CheckClassType(std::string params)const;
     public:
         UPRISE_SERIALISATION_API DestructorInfo() = default;
-        UPRISE_SERIALISATION_API  DestructorInfo(const std::string& name, void(*invoker)(void* obj), bool isNoexcept,const SerializedTypeInfo* classType_) noexcept
-            : name(name), invoker(invoker),classType(classType_), isNoexcept(isNoexcept) {}
+        UPRISE_SERIALISATION_API  DestructorInfo(const std::string& name, void(*invoker)(void* obj), bool isNoexcept, const SerializedTypeInfo* classType_) noexcept
+            : name(name), invoker(invoker), classType(classType_), isNoexcept(isNoexcept) {}
         UPRISE_SERIALISATION_API const std::string& Name() const noexcept {
             return name;
         }
@@ -488,10 +528,10 @@ export namespace UPRISE_ENGINE::SERIALISATION {
         }
     };
 
-    
+
 }
 
-export namespace std{
+export namespace std {
     std::string to_string(UPRISE_ENGINE::SERIALISATION::TypeInfoState state) {
         switch (state) {
             case UPRISE_ENGINE::SERIALISATION::TypeInfoState::Default:
