@@ -1,43 +1,47 @@
 #pragma once
 
 #include <memory>
+#include <unordered_map>
 #include <MACROS.h>
+#include "RENDER_BACKEND.h"
 namespace UPRISE_ENGINE ::RENDER{
-    namespace OPENGL_RENDER {
-        class OpenGlContext;
 
-    }
-    namespace DIRECTX11_RENDER {
-        class DIRECTX11_CONTEXT;
-    }
-    namespace DIRECTX12_RENDER {
-        class DIRECTX12_CONTEXT;
-    }
-    namespace VULKAN_RENDER {
-        class VULKAN_CONTEXT;
-    }
 
     namespace RENDER_COMMON {
-        class WINDOW_BASE;
-        class CONTEXT_BASE {
-        private:
-
-            friend class OpenGlContext;
-            friend class DIRECTX12_CONTEXT;
-            friend class DIRECTX11_CONTEXT;
-            friend class VULKAN_CONTEXT;
-            virtual std::unique_ptr<CONTEXT_BASE> _internal_create_context(std::weak_ptr<RENDER_COMMON::WINDOW_BASE> Window) = 0;
-            UPRISE_COMMON_RENDER_COMPS_API virtual void _internal_destroy_context() = 0;
+        class Window;
+        class Context {
         public:
-            CONTEXT_BASE(const CONTEXT_BASE&) = delete;
-            CONTEXT_BASE(CONTEXT_BASE&&)noexcept = default;
-            CONTEXT_BASE& operator=(const CONTEXT_BASE&) = delete;
-            CONTEXT_BASE& operator=(CONTEXT_BASE&&)noexcept = default;
-            UPRISE_COMMON_RENDER_COMPS_API virtual ~CONTEXT_BASE() = 0;
-            CONTEXT_BASE()noexcept = default;
+            using CreatorFunk = std::unique_ptr<Context>(*)(std::weak_ptr<Window>);
+        private:
+            UPRISE_COMMON_RENDER_COMPS_API static std::unordered_map<Backend, CreatorFunk> RegisteredWindowTypes;
+
+
+
 
 
         };
+
+
+    template <typename T>
+    concept hasContextCreateFunc = requires (std::weak_ptr<Window> window) {
+        {
+            T::CreateContext(window)
+        } -> std::same_as<std::unique_ptr<Context>>;
+    };
+    template <typename T>
+    concept isContextClass = std::derived_from<T, Context>;
+
+    template <typename T, RENDER_COMMON::Backend backend>
+        requires isContextClass<T>&& hasContextCreateFunc<T>
+
+    struct ContextClassRegistry {
+    public:
+        ContextClassRegistry() {
+            Window::RegisterWindowClass(backend, [](std::weak_ptr<Window> window) -> std::unique_ptr<Context> {
+                return T::CreateContext(window);
+            });
+        }
+    };
 
     }
 }

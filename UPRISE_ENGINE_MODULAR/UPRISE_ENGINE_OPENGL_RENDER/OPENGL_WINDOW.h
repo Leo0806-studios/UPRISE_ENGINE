@@ -17,10 +17,13 @@ namespace UPRISE_ENGINE {
             using WINDOWW_PLATFORM = WindowGlWin32;
 #elif __linux__
             using WINDOWW_PLATFORM = WINDOW_Linux;
+#error "Unsupported platform for OpenGL window. Please implement the appropriate window class for your platform."
 #elif __APPLE__
             using WINDOWW_PLATFORM = WINDOW_APPLE;
+#error "Unsupported platform for OpenGL window. Please implement the appropriate window class for your platform."
 #elif __unix__
             using WINDOWW_PLATFORM = WINDOW_UNIX;
+#error "Unsupported platform for OpenGL window. Please implement the appropriate window class for your platform."
 #endif // __unix__
 
             class OpenGlWindow :public RENDER_COMMON::Window {
@@ -39,11 +42,11 @@ namespace UPRISE_ENGINE {
                 // Allow move operations
                 OpenGlWindow(OpenGlWindow&&) = default;
                 OpenGlWindow& operator=(OpenGlWindow&&) = default;
-
+                UPRISE_OPENGL_RENDER_API void SetWindowShouldClose() override;
                 UPRISE_OPENGL_RENDER_API RENDER_COMMON::OSWindowHandle OSGetWindowHandle() override;
                 UPRISE_OPENGL_RENDER_API ~OpenGlWindow();
                 UPRISE_OPENGL_RENDER_API void DisplayFpsInWindowTitle(double Fps, std::string BaseTitle) override;
-                static std::unique_ptr<OpenGlWindow> CreateWindow(int w, int h, const char* Title);
+                static std::unique_ptr<RENDER_COMMON::Window> CreateWindow(std::string Title, int Width, int Height);
             };
             inline RENDER_COMMON::WindowClassRegistry<OpenGlWindow, RENDER_COMMON::Backend::B_OPENGL> OPENGLWindowRegistry;
         }

@@ -69,14 +69,19 @@ namespace UPRISE_ENGINE::RENDER:: RENDER_COMMON {
 #pragma endregion
         private:
         };
+        template <typename T>
+        concept hasWindowCreateFunc = requires (std::string Title, int Width, int Height) {
+            {
+                T::CreateWindow(Title, Width, Height)
+            } -> std::same_as<std::unique_ptr<Window>>;
+        };
+        template <typename T>
+        concept isWindowClass = std::derived_from<T, Window>;
 
 
-        template <typename T, Backend backend>
-            requires std::derived_from<T, Window>&& requires (std::string Title, int Width, int Height) {
-                {
-                    T::CreateWindow(Title, Width, Height)
-                } -> std::same_as<std::unique_ptr<Window>>;
-        }
+        template <typename T, RENDER_COMMON::Backend backend>
+            requires isWindowClass<T>&&hasWindowCreateFunc<T>
+        
         struct WindowClassRegistry {
         public:
             WindowClassRegistry() {

@@ -8,7 +8,11 @@
 
 namespace UPRISE_ENGINE::RENDER::OPENGL_RENDER {
     OpenGlWindow::~OpenGlWindow() {
-        // RAII cleanup - unique_ptr handles window destruction automatically
+    }
+
+    void OpenGlWindow::SetWindowShouldClose()
+    {
+        UE_THROW_NOT_IMPLEMENTED;
     }
 
     RENDER_COMMON::OSWindowHandle OpenGlWindow::OSGetWindowHandle() {
@@ -17,19 +21,20 @@ namespace UPRISE_ENGINE::RENDER::OPENGL_RENDER {
         }
 #ifdef _WIN32
         return window->GetHandle();
+#else
+        return nullptr; // TODO: Implement for other platforms
 #endif
-        return nullptr;
     }
 
-    std::unique_ptr<OpenGlWindow> OpenGlWindow::CreateWindow(int w, int h, const char* Title) {
+    std::unique_ptr<RENDER_COMMON::Window> OpenGlWindow::CreateWindow(std::string Title, int Width, int Height) {
         std::unique_ptr<OpenGlWindow> ret = std::make_unique<OpenGlWindow>();
 
 #ifdef _WIN32
         try {
-            ret->window = std::make_unique<WindowGlWin32>(w, h, Title);
+            ret->window = std::make_unique<WindowGlWin32>(Width, Height, Title);
         }
         catch (const std::exception& e) {
-            // Log error if needed
+            std::ignore = e; 
             return nullptr;
         }
 #endif

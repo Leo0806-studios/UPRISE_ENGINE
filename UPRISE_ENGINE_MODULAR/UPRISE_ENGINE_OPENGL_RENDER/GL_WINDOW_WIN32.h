@@ -24,25 +24,19 @@ namespace UPRISE_ENGINE::RENDER::OPENGL_RENDER {
             bool transparent;
             bool bordersVisible;
 
-            // Helper method to register window class
             static void RegisterWindowClass(const std::wstring& className);
 
         public:
-            // RAII - Constructor creates window, Destructor destroys it
             UPRISE_OPENGL_RENDER_API WindowGlWin32(int w, int h, const std::string& name);
 
-            // Destructor - cleanup
             UPRISE_OPENGL_RENDER_API ~WindowGlWin32() noexcept;
 
-            // Delete copy operations - window handles are not copyable
             WindowGlWin32(const WindowGlWin32&) = delete;
             WindowGlWin32& operator=(const WindowGlWin32&) = delete;
 
-            // Allow move operations
             UPRISE_OPENGL_RENDER_API WindowGlWin32(WindowGlWin32&& other) noexcept;
             UPRISE_OPENGL_RENDER_API WindowGlWin32& operator=(WindowGlWin32&& other) noexcept;
 
-            // Window property accessors
             UPRISE_OPENGL_RENDER_API HWND_VoidPtr GetHandle() const noexcept { return handle; }
             UPRISE_OPENGL_RENDER_API int GetWidth() const noexcept { return width; }
             UPRISE_OPENGL_RENDER_API int GetHeight() const noexcept { return height; }
@@ -50,7 +44,6 @@ namespace UPRISE_ENGINE::RENDER::OPENGL_RENDER {
             UPRISE_OPENGL_RENDER_API bool IsMaximized() const noexcept { return maximized; }
             UPRISE_OPENGL_RENDER_API bool IsTransparent() const noexcept { return transparent; }
 
-            // Window manipulation methods
             UPRISE_OPENGL_RENDER_API void SetTitle(const std::string& title) const;
             UPRISE_OPENGL_RENDER_API void SetDimensions(int w, int h);
             UPRISE_OPENGL_RENDER_API void SetPosition(int x, int y) const;
