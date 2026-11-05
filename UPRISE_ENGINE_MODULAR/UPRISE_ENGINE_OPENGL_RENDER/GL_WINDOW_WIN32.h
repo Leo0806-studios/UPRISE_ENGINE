@@ -11,9 +11,7 @@ namespace UPRISE_ENGINE::RENDER::OPENGL_RENDER {
         typedef void* HINSTANCE_VoidPtr;
         typedef void* HICON_VoidPtr;
 
-        /// RAII wrapper for Win32 window management
-        /// Automatically creates window on construction and destroys on destruction
-        /// Inherits from WindowBase<WindowGlWin32> for CRTP-based interface
+
         class WindowGlWin32 : public WindowBase<WindowGlWin32> { //-V2575 //-V3549
         private:
             HWND_VoidPtr handle;

@@ -41,8 +41,10 @@ namespace UPRISE_ENGINE::RENDER:: RENDER_COMMON {
         public:
             Window() = default;
             virtual ~Window() = default;
-            UPRISE_COMMON_RENDER_COMPS_API Window(const Window& other);
-            UPRISE_COMMON_RENDER_COMPS_API Window& operator=(const Window& other);
+            UPRISE_COMMON_RENDER_COMPS_API Window(const Window& other)=delete;
+            UPRISE_COMMON_RENDER_COMPS_API Window& operator=(const Window& other)=delete;
+            UPRISE_COMMON_RENDER_COMPS_API Window(Window&& other) noexcept;
+            UPRISE_COMMON_RENDER_COMPS_API Window& operator=(Window&& other) noexcept;
 #pragma region Virtual funcs
 
 

@@ -1,35 +1,47 @@
 #pragma once
+#include <MACROS.h>
+#include <memory>
 #include <string>
 #include <unordered_map>
-#include <memory>
-#include <MACROS.h>
 
 namespace UPRISE_ENGINE::RENDER {
-        namespace OPENGL_RENDER {
-            class OpenGlBackend;
-        }
-        namespace  DIRECTX11_RENDER {
-            class DIRECTX11_BACKEND;
-        }
-        namespace  DIRECTX12_RENDER {
-            class DIRECTX12_BACKEND;
-        }
-        namespace VULKAN_RENDER {
-            class VULKAN_BACKEND;
-        }
-        class Render;  
+    namespace OPENGL_RENDER {
+        class OpenGlBackend;
+    }
+    namespace  DIRECTX11_RENDER {
+        class DIRECTX11_BACKEND;
+    }
+    namespace  DIRECTX12_RENDER {
+        class DIRECTX12_BACKEND;
+    }
+    namespace VULKAN_RENDER {
+        class VULKAN_BACKEND;
+    }
+    class Render;
     namespace RENDER_COMMON
     {
+
+
+        class Key {
+            uint64_t key;
+        public:
+            explicit Key(uint64_t key) : key(key) {}
+            explicit Key(const std::string& key) : key(std::hash<std::string>{}(key)) {}
+            uint64_t get() const {
+                return key;
+            }
+            uint64_t operator()() const {
+                return key;
+            }
+        };
         class Window;
-        class CONTEXT_BASE;
-        class SHADER_BASE;
-        class MATERIAL_BASE;
-        class SHADER_PROGRAM_BASE;
+        class Context;
+        class Buffer;
         enum Backend {//NOSONAR
-            B_OPENGL,
-            B_VULKAN,
-            B_DIRECTX11,
-            B_DIRECTX12,
+            B_OPENGL = 0,
+            B_VULKAN = 1,
+            B_DIRECTX11 = 2,
+            B_DIRECTX12 = 3,
 
         };
 
@@ -40,45 +52,56 @@ namespace UPRISE_ENGINE::RENDER {
             RenderBackend() = default;
             virtual  ~RenderBackend() = default;
         private:
-            std::unordered_map<Backend, CreatorFunk> BackendRegistry;
-            UPRISE_COMMON_RENDER_COMPS_API  static std::shared_ptr<RenderBackend> _internal_backend;
-            UPRISE_COMMON_RENDER_COMPS_API static Backend _internal_backend_type;
-            using _Create_Backend_FUNC = std::shared_ptr<RenderBackend> (*)();
-            UPRISE_COMMON_RENDER_COMPS_API  static _Create_Backend_FUNC _Create_Backend; //-V2573 //-V3547
+            UPRISE_COMMON_RENDER_COMPS_API  static  std::array<CreatorFunk, 4> backendCreators;
+            UPRISE_COMMON_RENDER_COMPS_API  static std::shared_ptr<RenderBackend> internal_backend;
             UPRISE_COMMON_RENDER_COMPS_API static Backend backendType;
-
-            UPRISE_COMMON_RENDER_COMPS_API  virtual void _internal_setup() = 0;
-            UPRISE_COMMON_RENDER_COMPS_API  virtual   void _internal_DestroyBackend() = 0;
-            UPRISE_COMMON_RENDER_COMPS_API virtual void _internal_PreFrameWork() = 0;
-            UPRISE_COMMON_RENDER_COMPS_API virtual void _internal_PostFrameWork() = 0;
+            UPRISE_COMMON_RENDER_COMPS_API  static std::unordered_map<Key, std::shared_ptr<Window>> windows;
+            UPRISE_COMMON_RENDER_COMPS_API  static std::unordered_map<Key, std::shared_ptr<Buffer>> buffers;
+            UPRISE_COMMON_RENDER_COMPS_API  static std::unordered_map<Key, std::shared_ptr<Context>> contexts;
 
 
+
+            UPRISE_COMMON_RENDER_COMPS_API virtual void internalUpdateDrawFrame() = 0;
+            UPRISE_COMMON_RENDER_COMPS_API virtual Key internalRegisterWindow(std::unique_ptr<Window> window);
         public:
-            UPRISE_COMMON_RENDER_COMPS_API  static bool CreateBackend();
-            UPRISE_COMMON_RENDER_COMPS_API  static bool DestroyBackend();
-            UPRISE_COMMON_RENDER_COMPS_API  static const std::weak_ptr<RenderBackend> GetBackend();
-            UPRISE_COMMON_RENDER_COMPS_API static bool RegisterWindow(std::shared_ptr<Window> window);
-            UPRISE_COMMON_RENDER_COMPS_API static std::shared_ptr<Window> UnregisterWindow(std::weak_ptr<Window> window);
-             static void PostFrameWork()
-            {
-                // SCOPED_TIME_
+            UPRISE_COMMON_RENDER_COMPS_API static void CreateBackend(Backend backend);
 
-                _internal_backend->_internal_PostFrameWork();
-            }
-             static void PreFrameWork()
-             {
+            UPRISE_COMMON_RENDER_COMPS_API static std::weak_ptr<RenderBackend> GetBackend(); 
+            UPRISE_COMMON_RENDER_COMPS_API static Backend GetBackendType();
 
-                _internal_backend->_internal_PreFrameWork();
-            }
-             UPRISE_COMMON_RENDER_COMPS_API  static Backend GetBackendType() {
-                 return backendType;
-             }
-            UPRISE_COMMON_RENDER_COMPS_API RenderBackend(const RenderBackend& other) = delete;
-            UPRISE_COMMON_RENDER_COMPS_API RenderBackend(RenderBackend&& other); //NOSONAR
-            UPRISE_COMMON_RENDER_COMPS_API RenderBackend& operator=(const RenderBackend& other) = delete;
-            UPRISE_COMMON_RENDER_COMPS_API RenderBackend& operator=(RenderBackend&& other)noexcept;
+
+            UPRISE_COMMON_RENDER_COMPS_API static Key RegisterWindow(std::unique_ptr<Window> window);
+            UPRISE_COMMON_RENDER_COMPS_API static std::weak_ptr<Window> GetWindow(Key key);
+            UPRISE_COMMON_RENDER_COMPS_API static void DestroyWindow(Key key);
+            UPRISE_COMMON_RENDER_COMPS_API static void DestroyAllWindows();
+
+            UPRISE_COMMON_RENDER_COMPS_API static Key RegisterBuffer(std::unique_ptr<Buffer> buffer);
+            UPRISE_COMMON_RENDER_COMPS_API static std::weak_ptr<Buffer> GetBuffer(Key key);
+            UPRISE_COMMON_RENDER_COMPS_API static void DestroyBuffer(Key key);
+            UPRISE_COMMON_RENDER_COMPS_API static void DestroyAllBuffers();
+
+            UPRISE_COMMON_RENDER_COMPS_API static Key RegisterContext(std::unique_ptr<Context> context);
+            UPRISE_COMMON_RENDER_COMPS_API static std::weak_ptr<Context> GetContext(Key key);
+            UPRISE_COMMON_RENDER_COMPS_API static void DestroyContext(Key key);
+            UPRISE_COMMON_RENDER_COMPS_API static void DestroyAllContexts();
+
+
+
+
+            UPRISE_COMMON_RENDER_COMPS_API static void UpdateDrawFrame();
+
+
             UPRISE_COMMON_RENDER_COMPS_API static void RegisterBackend(Backend backend, CreatorFunk functor);
         };
+
+
+
+
+
+
+
+
+
         template <typename T, Backend backend>
             requires std::derived_from<T, RenderBackend>&& requires () {
                 {

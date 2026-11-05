@@ -14,11 +14,7 @@ namespace UPRISE_ENGINE {
                 friend class UPRISE_ENGINE::RENDER::Render;
 
 
-                // Inherited via RenderBackend
-                void _internal_setup() override;
-                void _internal_DestroyBackend() override;
-                void _internal_PreFrameWork() override;
-                void _internal_PostFrameWork() override;
+
             public:
             public:
                 OpenGlBackend()noexcept = default;

@@ -6,7 +6,6 @@
 #include "OPENGL_WINDOW.h"
 #include "GL_CONTEXT_BASE.h"
 namespace UPRISE_ENGINE::RENDER::OPENGL_RENDER {
-    // CRTP-style context class matching WindowBase pattern (WindowGlWin32)
     class ContextGlWin32 : public ContextBase<ContextGlWin32> {
     private:
         using Context = ContextGlWin32;

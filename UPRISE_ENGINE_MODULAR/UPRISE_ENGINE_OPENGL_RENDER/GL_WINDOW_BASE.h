@@ -2,21 +2,18 @@
 #include <string>
 
 namespace UPRISE_ENGINE::RENDER::OPENGL_RENDER {
-    // Forward declarations
+
     typedef void* HWND_VoidPtr;
     typedef void* HINSTANCE_VoidPtr;
     typedef void* HICON_VoidPtr;
 
-    /// CRTP Base class for window management
-    /// Derived classes should inherit as: class ConcreteWindow : public WindowBase<ConcreteWindow>
-    /// This provides zero-cost abstraction with compile-time polymorphism
+
     template<typename Derived>
     class WindowBase {
     protected:
         WindowBase() = default;
         ~WindowBase() = default;
 
-        // Helper method to get derived class instance
         Derived* GetDerived() noexcept {
             return static_cast<Derived*>(this);
         }
@@ -26,7 +23,6 @@ namespace UPRISE_ENGINE::RENDER::OPENGL_RENDER {
         }
 
     public:
-        // Window property accessors - interface documentation
         HWND_VoidPtr GetHandle() const noexcept {
             return GetDerived()->GetHandle();
         }
