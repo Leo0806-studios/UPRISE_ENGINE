@@ -8,6 +8,8 @@
 #define UE_DEPRECATED [[deprecated]]
 #define UE_DEPRECATED_MSG(msg) [[deprecated(msg)]]
 #define UE_NORETURN [[noreturn]]
+#define UE_UNLIKELY [[unlikely]]
+#define UE_LIKELY [[likely]]
 #define UE_NO_UNIQUE_ADDRESS [[no_unique_address]]
 #ifdef __clang__
 
@@ -18,3 +20,4 @@
 #endif // __clang__
 
 
+using Succsess = bool;

@@ -1,8 +1,12 @@
 #pragma once
 #include <MACROS.h>
 #include <memory>
+#include <array> 
 #include <string>
 #include <unordered_map>
+#include "CONTEXT.h"
+#include "BUFFER.h"
+#include "WINDOW.h"
 
 namespace UPRISE_ENGINE::RENDER {
     namespace OPENGL_RENDER {
@@ -23,15 +27,27 @@ namespace UPRISE_ENGINE::RENDER {
 
 
         class Key {
+            bool isNull = false;
             uint64_t key;
         public:
+            ///explicit null Key
+            explicit Key(std::nullptr_t) :isNull(true), key(0) {}
             explicit Key(uint64_t key) : key(key) {}
-            explicit Key(const std::string& key) : key(std::hash<std::string>{}(key)) {}
+            explicit Key(const std::string& key) : key(std::hash<std::string>{}(key)) {
+            
+            
+            }
             uint64_t get() const {
                 return key;
             }
             uint64_t operator()() const {
                 return key;
+            }
+            bool isValid() const {
+                return !isNull;
+            }
+            bool operator==(const Key& other) const {
+                return key == other.key;
             }
         };
         class Window;
@@ -47,22 +63,34 @@ namespace UPRISE_ENGINE::RENDER {
 
         class RenderBackend {//NOSONAR
         public:
-            using CreatorFunk = std::unique_ptr<RenderBackend>(*)(std::string Title, int Width, int Height);
+            using CreatorFunk = std::unique_ptr<RenderBackend>(*)();
 
             RenderBackend() = default;
             virtual  ~RenderBackend() = default;
-        private:
-            UPRISE_COMMON_RENDER_COMPS_API  static  std::array<CreatorFunk, 4> backendCreators;
-            UPRISE_COMMON_RENDER_COMPS_API  static std::shared_ptr<RenderBackend> internal_backend;
+        protected:
             UPRISE_COMMON_RENDER_COMPS_API static Backend backendType;
             UPRISE_COMMON_RENDER_COMPS_API  static std::unordered_map<Key, std::shared_ptr<Window>> windows;
             UPRISE_COMMON_RENDER_COMPS_API  static std::unordered_map<Key, std::shared_ptr<Buffer>> buffers;
             UPRISE_COMMON_RENDER_COMPS_API  static std::unordered_map<Key, std::shared_ptr<Context>> contexts;
+        private:
+            UPRISE_COMMON_RENDER_COMPS_API  static std::shared_ptr<RenderBackend> internalBackend;
+            UPRISE_COMMON_RENDER_COMPS_API  static  std::array<CreatorFunk, 4> backendCreators;
 
 
 
             UPRISE_COMMON_RENDER_COMPS_API virtual void internalUpdateDrawFrame() = 0;
+
             UPRISE_COMMON_RENDER_COMPS_API virtual Key internalRegisterWindow(std::unique_ptr<Window> window);
+            UPRISE_COMMON_RENDER_COMPS_API virtual std::weak_ptr<Window> internalGetWindow(Key key);
+            UPRISE_COMMON_RENDER_COMPS_API virtual void internalDestroyWindow(Key key);
+
+            UPRISE_COMMON_RENDER_COMPS_API virtual Key internalRegisterBuffer(std::unique_ptr<Buffer> buffer);
+            UPRISE_COMMON_RENDER_COMPS_API virtual std::weak_ptr<Buffer> internalGetBuffer(Key key);
+            UPRISE_COMMON_RENDER_COMPS_API virtual void internalDestroyBuffer(Key key);
+
+            UPRISE_COMMON_RENDER_COMPS_API virtual Key internalRegisterContext(std::unique_ptr<Context> context);
+            UPRISE_COMMON_RENDER_COMPS_API virtual std::weak_ptr<Context> internalGetContext(Key key);
+            UPRISE_COMMON_RENDER_COMPS_API virtual void internalDestroyContext(Key key);
         public:
             UPRISE_COMMON_RENDER_COMPS_API static void CreateBackend(Backend backend);
 
@@ -72,17 +100,17 @@ namespace UPRISE_ENGINE::RENDER {
 
             UPRISE_COMMON_RENDER_COMPS_API static Key RegisterWindow(std::unique_ptr<Window> window);
             UPRISE_COMMON_RENDER_COMPS_API static std::weak_ptr<Window> GetWindow(Key key);
-            UPRISE_COMMON_RENDER_COMPS_API static void DestroyWindow(Key key);
+            UPRISE_COMMON_RENDER_COMPS_API static Succsess DestroyWindow(Key key);
             UPRISE_COMMON_RENDER_COMPS_API static void DestroyAllWindows();
 
             UPRISE_COMMON_RENDER_COMPS_API static Key RegisterBuffer(std::unique_ptr<Buffer> buffer);
             UPRISE_COMMON_RENDER_COMPS_API static std::weak_ptr<Buffer> GetBuffer(Key key);
-            UPRISE_COMMON_RENDER_COMPS_API static void DestroyBuffer(Key key);
+            UPRISE_COMMON_RENDER_COMPS_API static Succsess DestroyBuffer(Key key);
             UPRISE_COMMON_RENDER_COMPS_API static void DestroyAllBuffers();
 
             UPRISE_COMMON_RENDER_COMPS_API static Key RegisterContext(std::unique_ptr<Context> context);
             UPRISE_COMMON_RENDER_COMPS_API static std::weak_ptr<Context> GetContext(Key key);
-            UPRISE_COMMON_RENDER_COMPS_API static void DestroyContext(Key key);
+            UPRISE_COMMON_RENDER_COMPS_API static Succsess DestroyContext(Key key);
             UPRISE_COMMON_RENDER_COMPS_API static void DestroyAllContexts();
 
 
@@ -106,7 +134,7 @@ namespace UPRISE_ENGINE::RENDER {
             requires std::derived_from<T, RenderBackend>&& requires () {
                 {
                     T::CreateBackend()
-                } -> std::same_as<std::unique_ptr<Window>>;
+                } -> std::same_as<std::unique_ptr<RenderBackend>>;
         }
         struct BackendClassRegistry {
         public:
@@ -134,4 +162,11 @@ namespace std {
             default: return "unknown";
         }
     }
+    template <>
+    struct hash<UPRISE_ENGINE::RENDER::RENDER_COMMON::Key> {
+        size_t operator()(
+            const UPRISE_ENGINE::RENDER::RENDER_COMMON::Key& value) const noexcept {
+            return std::hash<uint64_t>{}(value.get());
+        }
+    };
 }

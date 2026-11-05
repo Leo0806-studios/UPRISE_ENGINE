@@ -24,10 +24,11 @@ namespace UPRISE_ENGINE {
 
     void DEBUG::Debug::LogException(std::exception Exception)
     {
-        UE_UNUSED_PARAMETER(Exception);
-        //TODO: implement
+        std::time_t a = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+        std::string s = std::to_string(a);
+        _internal_Stream << "[" << s << "]" << Exception.what() << "\n";
     }
-     void DEBUG::Debug::LogException(UPRISE_ENGINE::EE::EXCEPTIONS::UPRISE_BASE_EXCEPTION Exception)
+     void DEBUG::Debug::LogException(UPRISE_ENGINE::EE::EXCEPTIONS::UpriseBaseException Exception)
     {
          std::time_t a = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
          std::string s = std::to_string(a);

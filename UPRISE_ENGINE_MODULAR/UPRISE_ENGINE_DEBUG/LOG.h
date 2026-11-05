@@ -12,7 +12,7 @@ namespace UPRISE_ENGINE {
             UPRISE_DEBUG_API static void FlushStream();
             UPRISE_DEBUG_API static void Log(std::string message);
             UPRISE_DEBUG_API static void LogException(std::exception Exception);
-            UPRISE_DEBUG_API static void LogException(UPRISE_ENGINE::EE::EXCEPTIONS::UPRISE_BASE_EXCEPTION Exception);
+            UPRISE_DEBUG_API static void LogException(UPRISE_ENGINE::EE::EXCEPTIONS::UpriseBaseException Exception);
         };
     }
 }
